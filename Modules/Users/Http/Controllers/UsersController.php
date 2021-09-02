@@ -215,7 +215,13 @@ class UsersController extends Controller
 
 			$getJob = MyHelper::get('setting/be/jobs_list');
 			if($getJob['status'] == 'success') $data['job'] = $getJob['result']; else $data['job'] = null;
-			
+
+			$getJobLevel = MyHelper::post('job-level',$request->all())['result'] ?? [];
+			$data['job_level'] = MyHelper::simpleTree($getJobLevel, 'job_level');
+
+			$getDepartment = MyHelper::post('users/department',$request->all())['result'] ?? [];
+			$data['department'] = MyHelper::simpleTree($getDepartment, 'department');
+
 			return view('users::create', $data);
 		}
 	}
