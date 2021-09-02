@@ -53,6 +53,37 @@
 						</a>
 					</li>
 					@endif
+					@if(MyHelper::hasAccess([323,324,325,326,327], $grantedFeature))
+						<li class="nav-item {{($submenu_active == 'job-level') ? 'active open' : ''}}">
+							<a href="javascript:;" class="nav-link nav-toggle">
+								<span class="title">Job Levels</span>
+								<span class="arrow"></span>
+							</a>
+							<ul class="sub-menu">
+								@if(MyHelper::hasAccess([324], $grantedFeature))
+									<li class="nav-item {{(isset($child_active) && $child_active == 'job-level-new') ? 'active open' : ''}}">
+										<a href="{{url('job-level/create')}}" class="nav-link ">
+											<span class="title">New Job Level</span>
+										</a>
+									</li>
+								@endif
+								@if(MyHelper::hasAccess([323,325,326,327], $grantedFeature))
+									<li class="nav-item {{(isset($child_active) && $child_active == 'job-level-list') ? 'active open' : ''}}">
+										<a href="{{url('job-level')}}" class="nav-link ">
+											<span class="title">Job Level List</span>
+										</a>
+									</li>
+								@endif
+								@if(MyHelper::hasAccess([323,326], $grantedFeature))
+									<li class="nav-item {{(isset($child_active) && $child_active == 'job-level-position') ? 'active open' : ''}}">
+										<a href="{{url('job-level/position')}}" class="nav-link ">
+											<span class="title">Job Level Position</span>
+										</a>
+									</li>
+								@endif
+							</ul>
+						</li>
+					@endif
 					@if(MyHelper::hasAccess([7], $grantedFeature))
 					<li class="nav-item {{($submenu_active == 'user-log') ? 'active open' : ''}}">
 						<a href="{{url('user/activity')}}" class="nav-link ">
