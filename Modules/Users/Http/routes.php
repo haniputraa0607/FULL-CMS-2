@@ -19,6 +19,17 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'user', '
         Route::post('import/save', 'UsersFranchiseController@importSave');
     });
 
+	/* department */
+	Route::group(['prefix' => 'department'], function()
+	{
+		Route::get('/', ['middleware' => 'feature_control:328', 'uses' => 'DepartmentController@index']);
+		Route::get('create', ['middleware' => 'feature_control:329', 'uses' => 'DepartmentController@create']);
+	   	Route::post('store', ['middleware' => 'feature_control:329', 'uses' => 'DepartmentController@store']);
+	    Route::get('edit/{id}', ['middleware' => 'feature_control:330', 'uses' => 'DepartmentController@edit']);
+	   	Route::post('update/{id}', ['middleware' => 'feature_control:331', 'uses' => 'DepartmentController@update']);
+	    Route::any('delete/{id}', ['middleware' => 'feature_control:332', 'uses' => 'DepartmentController@destroy']);
+	});
+
 	Route::get('ajax/phone', 'UsersController@listPhoneUser');
 	Route::get('ajax/email', 'UsersController@listEmailUser');
 	Route::get('ajax/name', 'UsersController@listNameUser');

@@ -60,6 +60,25 @@
 						</a>
 					</li>
 					@endif
+
+					@if(MyHelper::hasAccess([328,329,330,331,332], $grantedFeature))
+						@if(MyHelper::hasAccess([329], $grantedFeature))
+						<li class="nav-item {{($submenu_active == 'user-department-new') ? 'active open' : ''}}">
+							<a href="{{url('user/department/create')}}" class="nav-link ">
+								<span class="title">New Department</span>
+							</a>
+						</li>
+						@endif
+
+						@if(MyHelper::hasAccess([328,330,331,332], $grantedFeature))
+						<li class="nav-item {{($submenu_active == 'user-department-list') ? 'active open' : ''}}">
+							<a href="{{url('user/department')}}" class="nav-link ">
+								<span class="title">Department List</span>
+							</a>
+						</li>
+						@endif
+					@endif
+
 					@if(MyHelper::hasAccess([40], $configs))
 						@if(MyHelper::hasAccess([91], $grantedFeature))
 							@if(MyHelper::hasAccess([41], $configs))
