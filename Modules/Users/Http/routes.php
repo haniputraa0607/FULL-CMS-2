@@ -1,6 +1,16 @@
 <?php
 
-
+Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'job-level', 'namespace' => 'Modules\Users\Http\Controllers'], function()
+{
+    Route::get('/', ['middleware' => 'feature_control:323', 'uses' => 'JobLevelsController@index']);
+    Route::get('position', ['middleware' => 'feature_control:323', 'uses' => 'JobLevelsController@position']);
+    Route::post('position', ['middleware' => 'feature_control:326', 'uses' => 'JobLevelsController@position']);
+    Route::get('create', ['middleware' => 'feature_control:324', 'uses' => 'JobLevelsController@create']);
+    Route::post('store', ['middleware' => 'feature_control:324', 'uses' => 'JobLevelsController@store']);
+    Route::get('edit/{id}', ['middleware' => 'feature_control:325,326', 'uses' => 'JobLevelsController@edit']);
+    Route::post('update/{id}', ['middleware' => 'feature_control:326', 'uses' => 'JobLevelsController@update']);
+    Route::any('delete/{id}', ['middleware' => 'feature_control:327', 'uses' => 'JobLevelsController@destroy']);
+});
 
 Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'user', 'namespace' => 'Modules\Users\Http\Controllers'], function()
 {
