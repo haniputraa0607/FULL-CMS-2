@@ -12,6 +12,16 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'job-leve
     Route::any('delete/{id}', ['middleware' => 'feature_control:327', 'uses' => 'JobLevelsController@destroy']);
 });
 
+Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'role', 'namespace' => 'Modules\Users\Http\Controllers'], function()
+{
+    Route::any('/', ['middleware' => 'feature_control:333', 'uses' => 'RolesController@index']);
+    Route::get('create', ['middleware' => 'feature_control:334', 'uses' => 'RolesController@create']);
+    Route::post('store', ['middleware' => 'feature_control:334', 'uses' => 'RolesController@store']);
+    Route::get('edit/{id}', ['middleware' => 'feature_control:335,336', 'uses' => 'RolesController@edit']);
+    Route::post('update/{id}', ['middleware' => 'feature_control:336', 'uses' => 'RolesController@update']);
+    Route::any('delete/{id}', ['middleware' => 'feature_control:337', 'uses' => 'RolesController@destroy']);
+});
+
 Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'user', 'namespace' => 'Modules\Users\Http\Controllers'], function()
 {
     //user franchise

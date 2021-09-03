@@ -84,6 +84,30 @@
 							</ul>
 						</li>
 					@endif
+					@if(MyHelper::hasAccess([333,334,335,336,337], $grantedFeature))
+						<li class="nav-item {{($submenu_active == 'role') ? 'active open' : ''}}">
+							<a href="javascript:;" class="nav-link nav-toggle">
+								<span class="title">Role</span>
+								<span class="arrow"></span>
+							</a>
+							<ul class="sub-menu">
+								@if(MyHelper::hasAccess([334], $grantedFeature))
+									<li class="nav-item {{(isset($child_active) && $child_active == 'role-new') ? 'active open' : ''}}">
+										<a href="{{url('role/create')}}" class="nav-link ">
+											<span class="title">New Role</span>
+										</a>
+									</li>
+								@endif
+								@if(MyHelper::hasAccess([333,335,336,337], $grantedFeature))
+									<li class="nav-item {{(isset($child_active) && $child_active == 'role-list') ? 'active open' : ''}}">
+										<a href="{{url('role')}}" class="nav-link ">
+											<span class="title">Role List</span>
+										</a>
+									</li>
+								@endif
+							</ul>
+						</li>
+					@endif
 					@if(MyHelper::hasAccess([7], $grantedFeature))
 					<li class="nav-item {{($submenu_active == 'user-log') ? 'active open' : ''}}">
 						<a href="{{url('user/activity')}}" class="nav-link ">
