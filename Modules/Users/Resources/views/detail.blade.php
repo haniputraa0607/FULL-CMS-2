@@ -1332,34 +1332,26 @@
 											@if ($profile['level'] != 'Customer')
 												<div class="form-group" id="select_department">
 													<label class="control-label">Department</label>
-													<select name="id_department" class="form-control input-sm select2" placeholder="Search Department">
+													<select name="id_department" class="form-control input-sm select2" data-placeholder="Search Department">
                                                     	<option value=""></option>
 									                    @foreach($department as $key => $val)
-									                        <optgroup label="{{$key}}">
-									                            @foreach($val as $child)
-									                            	@php
-									                            		$selected = ($child['id_department'] == $profile['id_department']) ? 'selected' : null;
-									                            	@endphp
-									                                <option value="{{ $child['id_department'] }}" {{ $selected }}>{{ $child['department_name'] }}</option>
-									                            @endforeach
-									                        </optgroup>
+							                            	@php
+							                            		$selected = ($val['id_department'] == $profile['id_department']) ? 'selected' : null;
+							                            	@endphp
+							                                <option value="{{ $val['id_department'] }}" {{ $selected }}>{{ $val['department_name'] }}</option>
 									                    @endforeach
 									                </select>
 												</div>
 
 												<div class="form-group" id="select_job_level">
 													<label class="control-label">Job Level</label>
-													<select name="id_job_level" class="form-control input-sm select2" placeholder="Search Job Level">
+													<select name="id_job_level" class="form-control input-sm select2" data-placeholder="Search Job Level">
                                                     	<option value=""></option>
 									                    @foreach($job_level as $key => $val)
-									                        <optgroup label="{{$key}}">
-									                            @foreach($val as $child)
-									                            	@php
-									                            		$selected = ($child['id_job_level'] == $profile['id_job_level']) ? 'selected' : null;
-									                            	@endphp
-									                                <option value="{{ $child['id_job_level'] }}" {{ $selected }}>{{ $child['job_level_name'] }}</option>
-									                            @endforeach
-									                        </optgroup>
+							                            	@php
+							                            		$selected = ($val['id_job_level'] == $profile['id_job_level']) ? 'selected' : null;
+							                            	@endphp
+							                                <option value="{{ $val['id_job_level'] }}" {{ $selected }}>{{ $val['job_level_name'] }}</option>
 									                    @endforeach
 									                </select>
 												</div>

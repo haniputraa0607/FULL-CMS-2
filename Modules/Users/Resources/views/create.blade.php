@@ -294,13 +294,10 @@
 							    </label>
 							</div>
 							<div class="col-md-9">
-								<select name="id_department" class="form-control input-sm select2">
+								<select name="id_department" class="form-control input-sm select2" data-placeholder="Search Department" required>
+									<option value=""></option>
 				                    @foreach($department as $key => $val)
-				                        <optgroup label="{{$key}}">
-				                            @foreach($val as $child)
-				                                <option value="{{ $child['id_department'] }}">{{ $child['department_name'] }}</option>
-				                            @endforeach
-				                        </optgroup>
+		                                <option value="{{ $val['id_department'] }}">{{ $val['department_name'] }}</option>
 				                    @endforeach
 				                </select>
 							</div>
@@ -314,13 +311,10 @@
 							    </label>
 							</div>
 							<div class="col-md-9">
-								<select name="id_job_level" class="form-control input-sm select2">
+								<select name="id_job_level" class="form-control input-sm select2" data-placeholder="Search Job Level" required>
+									<option value=""></option>
 				                    @foreach($job_level as $key => $val)
-				                        <optgroup label="{{$key}}">
-				                            @foreach($val as $child)
-				                                <option value="{{ $child['id_job_level'] }}">{{ $child['job_level_name'] }}</option>
-				                            @endforeach
-				                        </optgroup>
+		                                <option value="{{ $val['id_job_level'] }}">{{ $val['job_level_name'] }}</option>
 				                    @endforeach
 				                </select>
 							</div>
