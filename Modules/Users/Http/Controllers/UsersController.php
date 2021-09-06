@@ -215,7 +215,13 @@ class UsersController extends Controller
 
 			$getJob = MyHelper::get('setting/be/jobs_list');
 			if($getJob['status'] == 'success') $data['job'] = $getJob['result']; else $data['job'] = null;
-			
+
+			$data['job_level'] = MyHelper::post('job-level',$request->all())['result'] ?? [];
+			// $data['job_level'] = MyHelper::simpleTree($data['job_level'], 'job_level');
+
+			$data['department'] = MyHelper::post('users/department',$request->all())['result'] ?? [];
+			// $data['department'] = MyHelper::simpleTree($data['department'], 'department');
+
 			return view('users::create', $data);
 		}
 	}
@@ -662,8 +668,9 @@ class UsersController extends Controller
 		$data['featuresall'] = null;
 		$data['featuresmodule'] = null;
 		$data['voucher'] = null;
-		$data['celebrates'] = MyHelper::get('setting/be/celebrate_list ')['result']??[];
-		$data['jobs'] = MyHelper::get('setting/be/jobs_list')['result']??[];
+		$data['celebrates'] = MyHelper::get('setting/be/celebrate_list ')['result'] ?? [];
+		$data['jobs'] = MyHelper::get('setting/be/jobs_list')['result'] ?? [];
+
 		if(isset($getUser['result'])){
 			$data['profile'] = $getUser['result'];
 // 			$data['trx'] = $getUser['trx'];
@@ -685,6 +692,12 @@ class UsersController extends Controller
 		
 		$getCourier = MyHelper::get('courier/list?log_save=0');
 		if($getCourier['status'] == 'success') $data['couriers'] = $getCourier['result']; else $data['couriers'] = null;
+
+		$data['job_level'] = MyHelper::post('job-level',$request->all())['result'] ?? [];
+		// $data['job_level'] = MyHelper::simpleTree($data['job_level'], 'job_level');
+
+		$data['department'] = MyHelper::post('users/department',$request->all())['result'] ?? [];
+		// $data['department'] = MyHelper::simpleTree($data['department'], 'department');
 
         if (empty(Session::get('secure')) || Session::get('secure_last_activity') < (time() - 900)) {
             $data = [ 'title'             => 'User',

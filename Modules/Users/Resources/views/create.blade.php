@@ -33,6 +33,26 @@
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/components-multi-select.min.js') }}" type="text/javascript"></script>
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/components-date-time-pickers.min.js') }}" type="text/javascript"></script>
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/ui-confirmations.min.js') }}" type="text/javascript"></script>
+	<script type="text/javascript">
+		function changeTrigger() {
+			let userLevel = $('select[name=level] option:selected').val();
+			$('#select_department, #select_job_level').hide().find('select').prop('disabled', true);
+
+			if (userLevel == 'Admin') {
+				$('#select_department, #select_job_level').show().find('select').prop('disabled', false);
+			} else {
+				$('#select_department, #select_job_level').hide().find('select').prop('disabled', true);
+			}
+
+		}
+
+		$(document).ready(function(){
+			changeTrigger();
+			$('select[name=level]').on('change',function(){
+				changeTrigger();
+			});
+		});
+	</script>
 @endsection
 
 @section('content')
@@ -263,6 +283,40 @@
 									<option value="Admin">Admin</option>
 									<option value="Customer" selected>Customer</option>
 								</select>
+							</div>
+						</div>
+						<div class="form-group" id="select_department">
+							<div class="input-icon right">
+							    <label class="col-md-3 control-label">
+							    Department
+							    <span class="required" aria-required="true"> * </span>
+							    <i class="fa fa-question-circle tooltips" data-original-title="Department" data-container="body"></i>
+							    </label>
+							</div>
+							<div class="col-md-9">
+								<select name="id_department" class="form-control input-sm select2" data-placeholder="Search Department" required>
+									<option value=""></option>
+				                    @foreach($department as $key => $val)
+		                                <option value="{{ $val['id_department'] }}">{{ $val['department_name'] }}</option>
+				                    @endforeach
+				                </select>
+							</div>
+						</div>
+						<div class="form-group" id="select_job_level">
+							<div class="input-icon right">
+							    <label class="col-md-3 control-label">
+							    Job Level
+							    <span class="required" aria-required="true"> * </span>
+							    <i class="fa fa-question-circle tooltips" data-original-title="Job Level" data-container="body"></i>
+							    </label>
+							</div>
+							<div class="col-md-9">
+								<select name="id_job_level" class="form-control input-sm select2" data-placeholder="Search Job Level" required>
+									<option value=""></option>
+				                    @foreach($job_level as $key => $val)
+		                                <option value="{{ $val['id_job_level'] }}">{{ $val['job_level_name'] }}</option>
+				                    @endforeach
+				                </select>
 							</div>
 						</div>
 						<div class="form-group">

@@ -1328,6 +1328,35 @@
 													</label>
 												</div>
 											</div>
+
+											@if ($profile['level'] != 'Customer')
+												<div class="form-group" id="select_department">
+													<label class="control-label">Department</label>
+													<select name="id_department" class="form-control input-sm select2" data-placeholder="Search Department">
+                                                    	<option value=""></option>
+									                    @foreach($department as $key => $val)
+							                            	@php
+							                            		$selected = ($val['id_department'] == $profile['id_department']) ? 'selected' : null;
+							                            	@endphp
+							                                <option value="{{ $val['id_department'] }}" {{ $selected }}>{{ $val['department_name'] }}</option>
+									                    @endforeach
+									                </select>
+												</div>
+
+												<div class="form-group" id="select_job_level">
+													<label class="control-label">Job Level</label>
+													<select name="id_job_level" class="form-control input-sm select2" data-placeholder="Search Job Level">
+                                                    	<option value=""></option>
+									                    @foreach($job_level as $key => $val)
+							                            	@php
+							                            		$selected = ($val['id_job_level'] == $profile['id_job_level']) ? 'selected' : null;
+							                            	@endphp
+							                                <option value="{{ $val['id_job_level'] }}" {{ $selected }}>{{ $val['job_level_name'] }}</option>
+									                    @endforeach
+									                </select>
+												</div>
+											@endif
+
                                             <div class="form-group">
                                                 <label class="control-label">OTP Request Status</label>
                                                 <select name="otp_request_status" class="form-control input-sm select2" placeholder="Search Status">
@@ -1485,83 +1514,6 @@
 								</form>
 							</div>
 							@endif
-
-@if($profile['level'] == 'Admin')
-	<div class="col-md-12" style="margin-top:30px">
-		<div class="portlet light bordered">
-			<div class="portlet-title">
-				<div class="caption">
-					<span class="caption-subject font-dark sbold uppercase font-blue">Admin Access Permission</span>
-				</div>
-			</div>
-			<div class="portlet-body form">
-				<form action="{{url('user/detail')}}/{{$profile['phone']}}" role="form" method="POST" class="form-horizontal" style="text-align:center;">
-				{{ csrf_field() }}
-					<div class="form-body">
-						<?php
-						$arrmodule = [];
-						foreach($featuresall as $all){
-							array_push($arrmodule, $all['feature_module']);
-						}
-						$arrmodule = array_unique($arrmodule);
-						?>
-						@foreach($arrmodule as $key => $module)
-						<div class="form-group">
-							<label class="col-md-3 control-label"  style="margin-top: 10px;">{{$module}}</label>
-							<div class="md-checkbox-inline col-md-9" style="text-align:left">
-								<?php $x = 1; $y=0?>
-								@foreach($featuresall as $key2 => $feature)
-									@if($feature['feature_module'] == $module)
-										<?php
-										$stat = false;
-										foreach($features as $userfeature){
-											if($feature['id_feature'] == $userfeature){
-												$stat = true;
-												$y++;
-											}
-										}
-										?>
-										<div class="md-checkbox">
-											<input type="checkbox" id="{{str_replace('&','_',str_replace(' ','-', strtolower($module)))}}_{{$x}}" name="module[]" value="{{$feature['id_feature']}}" class="md-check checkbox{{str_replace('&','_',str_replace(' ','-', strtolower($module)))}}" onChange="checkSingle('{{str_replace('&','_',str_replace(' ','-', strtolower($module)))}}','{{$x}}')" @if($stat==true) checked @endif>
-											<label for="{{str_replace('&','_',str_replace(' ','-', strtolower($module)))}}_{{$x}}">
-												<span></span>
-												<span class="check" style="margin-top: 10px;"></span>
-												<span class="box" style="margin-top: 10px;"></span> {{$feature['feature_type']}}
-											</label>
-										</div>
-										<?php $x++;?>
-									@endif
-								@endforeach
-								<div class="md-checkbox">
-									<input type="checkbox" class="md-check" onChange="checkAll('{{str_replace('&','_',str_replace(' ','-', strtolower($module)))}}','{{$x-1}}')" id="module_{{str_replace('&','_',str_replace(' ','-', strtolower($module)))}}" @if($y==$x-1) checked @endif>
-									<label for="module_{{str_replace('&','_',str_replace(' ','-', strtolower($module)))}}">
-										<span></span>
-										<span class="check" style="margin-top: 10px;" onChange="checkAll('{{str_replace('&','_',str_replace(' ','-', strtolower($module)))}}','{{$x-1}}')"></span>
-										<span class="box" style="margin-top: 10px;"></span> All {{$module}}
-									</label>
-								</div>
-							</div>
-						</div>
-						@endforeach
-						<div class="form-group">
-							<label class="col-md-3 control-label">Your Password</label>
-							<div class="col-md-4">
-								<input type="password" class="form-control" width="30%" name="password_permission" placeholder="Enter Your current PIN" required style="width: 91.3%;">
-							</div>
-						</div>
-						<div class="form-actions">
-							<div class="row">
-								<div class="col-md-offset-4 col-md-5">
-									<button class="btn btn-lg blue btn-block"> Change Permission <i class="fa fa-check-circle "></i> </button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-@endif
 						</div>
 					</div>
 				</div>
