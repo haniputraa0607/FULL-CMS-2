@@ -192,7 +192,6 @@ class Controller extends BaseController
 			else{
 				$data['dashboard'] = "";
 			}
-
             return view('home', $data);
         }
     }

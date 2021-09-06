@@ -11,6 +11,18 @@
 |
 */
 
-Route::prefix('businessdevelopment')->group(function() {
+Route::prefix('BusinessDevelopment')->group(function() {
     Route::get('/', 'BusinessDevelopmentController@index');
+});
+Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'businessdev'], function()
+{
+    //partners
+    Route::group(['prefix' => 'partners'], function()
+    {
+        Route::any('/', 'PartnersController@index');
+        Route::get('detail/{user_id}', 'PartnersController@detail');
+        Route::post('update/{user_id}', 'PartnersController@update');
+        
+    });
+    
 });

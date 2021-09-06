@@ -84,7 +84,6 @@ class UsersFranchiseController extends Controller
         if($post){
             Session::put('filter-list-user-franchise',$post);
         }
-
         return view('users::user_franchise.list', $data);
     }
 
