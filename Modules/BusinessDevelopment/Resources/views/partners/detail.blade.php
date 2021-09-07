@@ -161,7 +161,7 @@
                         <label for="example-search-input" class="control-label col-md-4">Coopertaion Scheme<span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih Coopertaion Scheme" data-container="body"></i></label>
                         <div class="col-md-6">
-                            <select name="coopertaion_scheme" class="form-control input-sm select2" placeholder="Coopertaion Scheme">
+                            <select name="cooperation_scheme" class="form-control input-sm select2" placeholder="Coopertaion Scheme">
                               <option value="Profit Sharing" @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Profit Sharing') selected @endif @endif>Profit Sharing</option>
                               <option value="Management Fee" @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Management Fee') selected @endif @endif>Management Fee</option>
                             </select>
@@ -169,12 +169,23 @@
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Bank Account<span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih Banck Account" data-container="body"></i></label>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih Bank Account" data-container="body"></i></label>
                         <div class="col-md-6">
-                            <select name="coopertaion_scheme" class="form-control input-sm select2" placeholder="Coopertaion Scheme">
+                            <select name="id_bank_account" class="form-control input-sm select2" placeholder="Bank Account">
                             @foreach($bank as $b)
                                 <option value="{{$b['id_bank_account']}}" @if($result['id_bank_account'] == $b['id_bank_account']) selected @endif>{{$b['id_bank_account']}} - {{$b['beneficiary_name']}}</option>
                             @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="example-search-input" class="control-label col-md-4">Status<span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih status partner" data-container="body"></i></label>
+                        <div class="col-md-6">
+                            <select name="status" class="form-control input-sm select2" placeholder="Status partner">
+                              <option value="Active" @if(isset($result['status'])) @if($result['status'] == 'Active') selected @endif @endif>Active</option>
+                              <option value="Inactive" @if(isset($result['status'])) @if($result['status'] == 'Inactive') selected @endif @endif>Inactive</option>
+                              <option value="Candidate" @if(isset($result['status'])) @if($result['status'] == 'Candidate') selected @endif @endif>Candidate</option>
                             </select>
                         </div>
                     </div>
@@ -189,9 +200,10 @@
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Location name {{$loop->iteration}} <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Lokasi Outlet Partner" data-container="body"></i></label>
-                        <div class="col-md-6">
-                            <input class="form-control" type="text" id="input-name_location" name="name_location" value="{{$location['name']}}" placeholder="Enter phone here"/>
+                        <div class="col-md-4">
+                            <input class="form-control" type="text" id="input-name_location" name="name_location" value="{{$location['name']}}" placeholder="Enter phone here"/>  
                         </div>
+                        <a href="..." class="btn btn-primary"></i>Detail</a>  
                     </div>
                     @endforeach
                 </div>

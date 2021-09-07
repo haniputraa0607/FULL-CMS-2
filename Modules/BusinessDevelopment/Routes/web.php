@@ -22,6 +22,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'business
         Route::any('/', 'PartnersController@index');
         Route::get('detail/{user_id}', 'PartnersController@detail');
         Route::post('update/{user_id}', 'PartnersController@update');
+        Route::post('delete/{user_id}', 'PartnersController@destroy');
         
     });
     

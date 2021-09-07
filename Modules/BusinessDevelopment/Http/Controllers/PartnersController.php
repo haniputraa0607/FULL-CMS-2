@@ -143,7 +143,28 @@ class PartnersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request);
+        if(isset($request["ownership_status"]) && $request["ownership_status"] == 'on'){
+            $ownership_status = 'Central';
+        } else {
+            $ownership_status = 'Partner';
+        }
+        $post = [
+            "id_partner" => $id,
+            "name" => $request["name"],
+            "phone" => $request["phone"],
+            "email" => $request["email"],
+            "address" => $request["address"],
+            "ownership_status" => $ownership_status,
+            "cooperation_scheme" => $request["cooperation_scheme"],
+            "id_bank_account" => $request["id_bank_account"],
+            "status" => $request["status"],
+        ];
+        $result = MyHelper::post('partners/update', $post);
+        if(isset($result['status']) && $result['status'] == 'success'){
+            return redirect('businessdev/partners/detail/'.$id)->withSuccess(['Success update user mitra']);
+        }else{
+            return redirect('businessdev/partners/detail/'.$id)->withErrors($result['messages'] ?? ['Failed update detail user mitra']);
+        }
     }
 
     /**
@@ -153,6 +174,7 @@ class PartnersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $result = MyHelper::post("partners/delete", ['id_partner' => $id]);
+        return $result;
     }
 }

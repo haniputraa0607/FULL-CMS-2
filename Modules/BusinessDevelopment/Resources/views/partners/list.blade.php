@@ -42,7 +42,7 @@
                         let name    = $(this).data('name');
                         $(this).click(function() {
                             swal({
-                                    title: name+"\n\nAre you sure want to delete this user?",
+                                    title: name+"\n\nAre you sure want to delete this partner?",
                                     text: "Your will not be able to recover this data!",
                                     type: "warning",
                                     showCancelButton: true,
@@ -53,21 +53,21 @@
                                 function(){
                                     $.ajax({
                                         type : "POST",
-                                        url : "{{url('user/user-franchise/delete')}}/"+id,
+                                        url : "{{url('businessdev/partners/delete')}}/"+id,
                                         data : {
                                             '_token' : '{{csrf_token()}}'
                                         },
                                         success : function(response) {
                                             if (response.status == 'success') {
-                                                swal("Deleted!", "User Mitra has been deleted.", "success")
+                                                swal("Deleted!", "Partner has been deleted.", "success")
                                                 SweetAlert.init()
-                                                location.href = "{{url('user/user-franchise')}}";
+                                                location.href = "{{url('businessdev/partners')}}";
                                             }
                                             else if(response.status == "fail"){
-                                                swal("Error!", "Failed to delete user mitra.", "error")
+                                                swal("Error!", "Failed to delete partner.", "error")
                                             }
                                             else {
-                                                swal("Error!", "Something went wrong. Failed to delete user mitra.", "error")
+                                                swal("Error!", "Something went wrong. Failed to delete partner.", "error")
                                             }
                                         }
                                     });
@@ -172,10 +172,10 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if(MyHelper::hasAccess([300,302], $grantedFeature))
+                                    @if(MyHelper::hasAccess([339,340], $grantedFeature))
                                     <a href="{{ url('businessdev/partners/detail/'.$dt['id_partner']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
                                     @endif
-                                    @if(MyHelper::hasAccess([303], $grantedFeature))
+                                    @if(MyHelper::hasAccess([341], $grantedFeature))
                                     <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $dt['id_partner'] }}" data-name="{{ $dt['name'] }}"><i class="fa fa-trash-o"></i> Delete</a>
                                     @endif
                                 </td>
