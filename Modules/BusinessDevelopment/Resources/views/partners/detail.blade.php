@@ -194,6 +194,7 @@
                             <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Mulai menjadi Partner" data-container="body"></i></label>
                         <div class="col-md-6">
                             @if($title=='Candidate Partners')
+                            <input type="text">
                             @else
                             <input class="form-control" type="text" id="input-start-date" name="start_date" value="{{date('d F Y H:i', strtotime($result['start_date']))}}" readonly/>
                             @endif

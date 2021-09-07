@@ -151,7 +151,6 @@ class PartnersController extends Controller
                 'child_active'   => 'list-partners'
             ];
         }
-
         if(isset($result['status']) && $result['status'] == 'success'){
             $data['result'] = $result['result']['partner'];
             $data['bank'] = MyHelper::get('disburse/setting/list-bank-account')['result']['list_bank']??[];
