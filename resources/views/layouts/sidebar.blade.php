@@ -365,7 +365,7 @@
 								@endif
 								@if(MyHelper::hasAccess([338,339,340,341], $grantedFeature))
 									<li class="nav-item {{(isset($child_active) && $child_active == 'list-candidate-partners') ? 'active open' : ''}}">
-										<a href="..." class="nav-link ">
+										<a href="{{url('businessdev/candidatepartners')}}" class="nav-link ">
 											<span class="title">List Candidate Partners</span>
 										</a>
 									</li>

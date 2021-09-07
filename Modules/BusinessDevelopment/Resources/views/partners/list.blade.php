@@ -147,7 +147,9 @@
                         <th class="text-nowrap">Phone</th>
                         <th class="text-nowrap">Email</th>
                         <th class="text-nowrap">Addres</th>
+                        @if($title=='Candidate Partners')
                         <th class="text-nowrap">Status</th>
+                        @endif
                         @if(MyHelper::hasAccess([339,340,341], $grantedFeature))
                         <th>Action</th>
                         @endif
@@ -162,6 +164,7 @@
                                 <td>{{$dt['phone']}}</td>
                                 <td>{{$dt['email']}}</td>
                                 <td>{{$dt['address']}}</td>
+                                @if($title=='Candidate Partners')
                                 <td>
                                     @if($dt['status'] == 'Active')
                                         <span class="badge" style="background-color: #26C281; color: #ffffff">{{$dt['status']}}</span>
@@ -171,6 +174,7 @@
                                         <span class="badge" style="background-color: #EF1E31; color: #ffffff">{{$dt['status']}}</span>
                                     @endif
                                 </td>
+                                @endif
                                 <td>
                                     @if(MyHelper::hasAccess([339,340], $grantedFeature))
                                     <a href="{{ url('businessdev/partners/detail/'.$dt['id_partner']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>

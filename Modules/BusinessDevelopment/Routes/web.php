@@ -16,6 +16,8 @@ Route::prefix('BusinessDevelopment')->group(function() {
 });
 Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'businessdev'], function()
 {
+    //candidate
+    Route::any('candidatepartners', 'PartnersController@Index');
     //partners
     Route::group(['prefix' => 'partners'], function()
     {

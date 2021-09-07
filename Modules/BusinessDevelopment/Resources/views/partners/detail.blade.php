@@ -154,7 +154,7 @@
                         <label for="example-search-input" class="control-label col-md-4">Ownership Status <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih Ownership Status" data-container="body"></i></label>
                         <div class="col-md-6">
-                              <input data-switch="true" type="checkbox" name="ownership_status" data-on-text="Central" data-off-text="Partner" {{$result['ownership_status'] ==  'Central' ? 'checked' : ''}}/>
+                            <input data-switch="true" type="checkbox" name="ownership_status" data-on-text="Central" data-off-text="Partner" {{$result['ownership_status'] ==  'Central' ? 'checked' : ''}}/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -182,18 +182,21 @@
                         <label for="example-search-input" class="control-label col-md-4">Status<span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih status partner" data-container="body"></i></label>
                         <div class="col-md-6">
-                            <select name="status" class="form-control input-sm select2" placeholder="Status partner">
-                              <option value="Active" @if(isset($result['status'])) @if($result['status'] == 'Active') selected @endif @endif>Active</option>
-                              <option value="Inactive" @if(isset($result['status'])) @if($result['status'] == 'Inactive') selected @endif @endif>Inactive</option>
-                              <option value="Candidate" @if(isset($result['status'])) @if($result['status'] == 'Candidate') selected @endif @endif>Candidate</option>
-                            </select>
+                            @if($title=='Candidate Partners')
+                            <input data-switch="true" type="checkbox" name="status" data-on-text="Active" data-off-text="Candidate" {{$result['status'] ==  'Active' ? 'checked' : ''}}/>
+                            @else
+                            <input data-switch="true" type="checkbox" name="status" data-on-text="Active" data-off-text="Inactive" {{$result['status'] ==  'Active' ? 'checked' : ''}}/>
+                            @endif
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Start Date <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Mulai menjadi Partner" data-container="body"></i></label>
                         <div class="col-md-6">
+                            @if($title=='Candidate Partners')
+                            @else
                             <input class="form-control" type="text" id="input-start-date" name="start_date" value="{{date('d F Y H:i', strtotime($result['start_date']))}}" readonly/>
+                            @endif
                         </div>
                     </div>
                     @foreach($result['partner_locations'] as $location)

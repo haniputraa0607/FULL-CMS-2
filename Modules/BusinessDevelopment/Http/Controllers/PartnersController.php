@@ -21,13 +21,27 @@ class PartnersController extends Controller
     public function index(Request $request)
     {
         $post = $request->all();
-        $data = [
-            'title'          => 'Partners',
-            'sub_title'      => 'Partners List',
-            'menu_active'    => 'business-development',
-            'submenu_active' => 'partners',
-            'child_active'   => 'list-partners'
-        ];
+        $url = $request->url();
+        if($url=='http://ixobox-cust-view.test/businessdev/partners'){
+            $data = [
+                'title'          => 'Partners',
+                'sub_title'      => 'Partners List',
+                'menu_active'    => 'business-development',
+                'submenu_active' => 'partners',
+                'child_active'   => 'list-partners'
+            ];
+            $data['status'] = '';
+        } else {
+            $data = [
+                'title'          => 'Candidate Partners',
+                'sub_title'      => 'Candidate Partners List',
+                'menu_active'    => 'Candidate business-development',
+                'submenu_active' => 'Candidate partners',
+                'child_active'   => 'Candidate list-partners'
+            ];
+            $data['status'] = 'Candidate';
+        }
+        
         $order = 'created_at';
         $orderType = 'desc';
         $sorting = 0;
@@ -59,6 +73,8 @@ class PartnersController extends Controller
         $data['order_type'] = $orderType;
         $post['order'] = $order;
         $post['order_type'] = $orderType;
+        $post['status'] = $data['status'];
+
         $list = MyHelper::post('partners'.$page, $post);
         
         if(($list['status']??'')=='success'){
@@ -117,14 +133,24 @@ class PartnersController extends Controller
      */
     public function detail($user_id)
     {
-        $data = [
-            'title'          => 'Partners',
-            'sub_title'      => 'Partners List',
-            'menu_active'    => 'business-development',
-            'submenu_active' => 'partners',
-            'child_active'   => 'list-partners'
-        ];
         $result = MyHelper::post('partners/edit', ['id_partner' => $user_id]);
+        if($result['result']['partner']['status']=='Candidate'){
+            $data = [
+                'title'          => 'Candidate Partners',
+                'sub_title'      => 'Candidate Partners List',
+                'menu_active'    => 'Candidate business-development',
+                'submenu_active' => 'Candidate partners',
+                'child_active'   => 'Candidate list-partners'
+            ];
+        } else {
+            $data = [
+                'title'          => 'Partners',
+                'sub_title'      => 'Partners List',
+                'menu_active'    => 'business-development',
+                'submenu_active' => 'partners',
+                'child_active'   => 'list-partners'
+            ];
+        }
 
         if(isset($result['status']) && $result['status'] == 'success'){
             $data['result'] = $result['result']['partner'];
