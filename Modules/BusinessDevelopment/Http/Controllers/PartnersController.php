@@ -11,6 +11,7 @@ use App\Lib\MyHelper;
 use Session;
 use Excel;
 use App\Imports\FirstSheetOnlyImport;
+use Illuminate\Support\Facades\Hash;
 
 class PartnersController extends Controller
 {
@@ -167,11 +168,18 @@ class PartnersController extends Controller
      * @return Response
      */
     public function update(Request $request, $id)
-    {
-        if(isset($request["ownership_status"]) && $request["ownership_status"] == 'on'){
-            $ownership_status = 'Central';
-        } else {
-            $ownership_status = 'Partner';
+    {   
+        $request->validate([
+            "name" => "required",
+            "email" => "required",
+        ]);
+        if(isset($request["status"]) && $request["status"] == 'on'){
+            $post['status'] = 'Active';
+            $request->validate([
+                "password" => "required",
+                "start_date" => "required",
+                "end_date" => "required",
+            ]);
         }
         $post = [
             "id_partner" => $id,
@@ -179,14 +187,30 @@ class PartnersController extends Controller
             "phone" => $request["phone"],
             "email" => $request["email"],
             "address" => $request["address"],
-            "ownership_status" => $ownership_status,
-            "cooperation_scheme" => $request["cooperation_scheme"],
-            "id_bank_account" => $request["id_bank_account"],
-            "status" => $request["status"],
         ];
+        if (isset($request['ownership_status'])){
+            $post['ownership_status'] = $request['ownership_status'];
+        } 
+        if (isset($request['cooperation_scheme'])){
+            $post['cooperation_scheme'] = $request['cooperation_scheme'];
+        } 
+        if (isset($request['id_bank_account'])){
+            $post['id_bank_account'] = $request['id_bank_account'];
+        }
+        if ($request['start_date']!=null && $request["status"] == 'on'){
+            $post['start_date'] = date('Y-m-d', strtotime($request['start_date']));
+        } 
+        if ($request['end_date']!=null && $request["status"] == 'on'){
+            $post['end_date'] = $request['end_date'];
+        } 
+        if(isset($request["password"]) && $request["status"] == 'on'){
+            $post['password'] = Hash::make($request["password"]);
+        }
         $result = MyHelper::post('partners/update', $post);
-        if(isset($result['status']) && $result['status'] == 'success'){
-            return redirect('businessdev/partners/detail/'.$id)->withSuccess(['Success update user mitra']);
+        if(isset($result['status']) && $result['status'] == 'success' && isset($request["status"])){
+            return redirect('businessdev/partners/detail/'.$id)->withSuccess(['Success update candidate partner to partner']);
+        }elseif(isset($result['status']) && $result['status'] == 'success'){
+            return redirect('businessdev/partners/detail/'.$id)->withSuccess(['Success update candidate partner']);
         }else{
             return redirect('businessdev/partners/detail/'.$id)->withErrors($result['messages'] ?? ['Failed update detail user mitra']);
         }

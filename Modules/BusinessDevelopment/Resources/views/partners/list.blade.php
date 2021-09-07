@@ -142,16 +142,16 @@
                 <table class="table table-striped table-bordered table-hover" id="kt_datatable">
                     <thead>
                     <tr>
-                        <th class="text-nowrap">Created At</th>
-                        <th class="text-nowrap">Name</th>
-                        <th class="text-nowrap">Phone</th>
-                        <th class="text-nowrap">Email</th>
-                        <th class="text-nowrap">Addres</th>
+                        <th class="text-nowrap text-center">Created At</th>
+                        <th class="text-nowrap text-center">Name</th>
+                        <th class="text-nowrap text-center">Phone</th>
+                        <th class="text-nowrap text-center">Email</th>
+                        <th class="text-nowrap text-center">Addres</th>
                         @if($title=='Candidate Partners')
-                        <th class="text-nowrap">Status</th>
+                        <th class="text-nowrap text-center">Status</th>
                         @endif
                         @if(MyHelper::hasAccess([339,340,341], $grantedFeature))
-                        <th>Action</th>
+                        <th class="text-nowrap text-center">Action</th>
                         @endif
                     </tr>
                     </thead>
