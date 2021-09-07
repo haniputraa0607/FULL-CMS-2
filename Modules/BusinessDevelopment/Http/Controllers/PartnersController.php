@@ -176,6 +176,8 @@ class PartnersController extends Controller
         if(isset($request["status"]) && $request["status"] == 'on'){
             $post['status'] = 'Active';
             $request->validate([
+                "ownership_status" => "required",
+                "cooperation_scheme" => "required",
                 "password" => "required",
                 "start_date" => "required",
                 "end_date" => "required",
@@ -201,8 +203,11 @@ class PartnersController extends Controller
             $post['start_date'] = date('Y-m-d', strtotime($request['start_date']));
         } 
         if ($request['end_date']!=null && $request["status"] == 'on'){
-            $post['end_date'] = $request['end_date'];
+            $post['end_date'] = date('Y-m-d', strtotime($request['end_date']));
         } 
+        if(isset($request["status"]) && $request["status"] == 'on'){
+            $post['status'] = 'Active';
+        }
         if(isset($request["password"]) && $request["status"] == 'on'){
             $post['password'] = Hash::make($request["password"]);
         }

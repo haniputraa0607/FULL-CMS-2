@@ -1,3 +1,7 @@
+<?php
+    use App\Lib\MyHelper;
+    $grantedFeature     = session('granted_features');
+ ?>
 @extends('layouts.main')
 
 @section('page-style')
@@ -31,13 +35,24 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/jquery-repeater/jquery.repeater.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/form-repeater.js') }}" type="text/javascript"></script>
     <script>
+        $('#modalPartner').click(function(){
+            let nama = $('#input-name').val();
+            let phone = $('#input-phone').val();
+            let email = $('#input-email').val();
+            let address = $('#input-address').val();
+            $("#nameModal").val(nama);
+            $("#phoneModal").val(phone);
+            $("#emailModal").val(email);
+            $("#addressModal").val(address);
+
+        });
         $('.datepicker').datepicker({
             'format' : 'dd MM yyyy',
             'todayHighlight' : true,
             'autoclose' : true
         });
+        $('.select2').select2();
         $(document).ready(function() {
-            $('.select2').select2();
             $('[data-switch=true]').bootstrapSwitch();
             $('#btn-submit').on('click', function(event) {
                 if(document.getElementById('auto_generate_pin').checked == false){
@@ -126,143 +141,281 @@
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">Partner Detail</span>
+                <span class="caption-subject sbold uppercase font-blue">@if($title=='Candidate Partners') Candidate Partner Detail @else Partner Detail @endif</span>
             </div>
         </div>
-        <div class="portlet-body form">
-            <form class="form-horizontal" role="form" action="{{url('businessdev/partners/update')}}/{{$result['id_partner']}}" method="post" enctype="multipart/form-data">
-                <div class="form-body">
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Name <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nama" data-container="body"></i></label>
-                        <div class="col-md-5">
-                            <input class="form-control" type="text" id="input-name" name="name" value="{{$result['name']}}" placeholder="Enter name here"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Phone <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Masukkan phone" data-container="body"></i></label>
-                        <div class="col-md-5">
-                            <input class="form-control" type="text" id="input-phone" name="phone" value="{{$result['phone']}}" placeholder="Enter phone here"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Email <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Masukkan email" data-container="body"></i></label>
-                        <div class="col-md-5">
-                            <input class="form-control" type="email" id="input-email" name="email" value="{{$result['email']}}" placeholder="Enter email here"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Address <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Masukkan address" data-container="body"></i></label>
-                        <div class="col-md-5">
-                            <input class="form-control" type="text" id="input-address" name="address" value="{{$result['address']}}" placeholder="Enter address here"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Ownership Status <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih Ownership Status" data-container="body"></i></label>
-                        <div class="col-md-5">
-                            <select name="ownership_status" class="form-control input-sm select2" placeholder="Ownership Status">
-                                <option value="" selected disabled>Select Ownership Status</option>
-                                <option value="Central" @if(isset($result['ownership_status'])) @if($result['ownership_status'] == 'Central') selected @endif @endif>Central</option>
-                                <option value="Partner" @if(isset($result['ownership_status'])) @if($result['ownership_status'] == 'Partner') selected @endif @endif>Partner</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Coopertaion Scheme<span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih Coopertaion Scheme" data-container="body"></i></label>
-                        <div class="col-md-5">
-                            <select name="cooperation_scheme" class="form-control input-sm select2" placeholder="Coopertaion Scheme">
-                                <option value="" selected disabled>Select Cooperation Scheme</option>
-                                <option value="Profit Sharing" @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Profit Sharing') selected @endif @endif>Profit Sharing</option>
-                                <option value="Management Fee" @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Management Fee') selected @endif @endif>Management Fee</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Bank Account<span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih Bank Account" data-container="body"></i></label>
-                        <div class="col-md-5">
-                            <select name="id_bank_account" class="form-control input-sm select2" placeholder="Bank Account">
-                                <option value="" selected disabled>Select Bank Account</option>
-                                @foreach($bank as $b)
-                                <option value="{{$b['id_bank_account']}}" @if($result['id_bank_account'] == $b['id_bank_account']) selected @endif>{{$b['id_bank_account']}} - {{$b['beneficiary_name']}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Status<span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih status partner" data-container="body"></i></label>
-                        <div class="col-md-5">
-                            @if($title=='Candidate Partners')
-                            <input data-switch="true" type="checkbox" name="status" data-on-text="Active" data-off-text="Candidate" {{$result['status'] ==  'Active' ? 'checked' : ''}}/>
-                            @else
-                            <input data-switch="true" type="checkbox" name="status" data-on-text="Active" data-off-text="Inactive" {{$result['status'] ==  'Active' ? 'checked' : ''}}/>
+        @if($title=='Partners') <div class="tabbable-line tabbable-full-width">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#overview" data-toggle="tab"> Partner Overview </a>
+            </li>
+            @if(MyHelper::hasAccess([342], $grantedFeature))
+            <li>
+                <a href="#locations" data-toggle="tab"> Partner Locations </a>
+            </li>
+            @endif
+        </ul>
+        @endif
+        <div class="tab-content">
+            <div class="tab-pane active" id="overview">
+                <div class="portlet-body form">
+                    <form class="form-horizontal" role="form" action="{{url('businessdev/partners/update')}}/{{$result['id_partner']}}" method="post" enctype="multipart/form-data">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Name <span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nama" data-container="body"></i></label>
+                                <div class="col-md-5">
+                                    <input class="form-control" type="text" id="input-name" name="name" value="{{$result['name']}}" placeholder="Enter name here"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Phone <span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Masukkan phone" data-container="body"></i></label>
+                                <div class="col-md-5">
+                                    <input class="form-control" type="text" id="input-phone" name="phone" value="{{$result['phone']}}" placeholder="Enter phone here"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Email <span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Masukkan email" data-container="body"></i></label>
+                                <div class="col-md-5">
+                                    <input class="form-control" type="email" id="input-email" name="email" value="{{$result['email']}}" placeholder="Enter email here"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Address <span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Masukkan address" data-container="body"></i></label>
+                                <div class="col-md-5">
+                                    <input class="form-control" type="text" id="input-address" name="address" value="{{$result['address']}}" placeholder="Enter address here"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">@if($title=='Candidate Partners') Approve Candidate @else Status @endif<span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Pilih status partner" data-container="body"></i></label>
+                                <div class="col-md-5">
+                                    @if($title=='Candidate Partners')
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#candidatePartnerModal" id="modalPartner">
+                                        Insert Data Partner
+                                    </button>
+                                    @else
+                                    <input data-switch="true" type="checkbox" name="status" data-on-text="Active" data-off-text="Inactive" {{$result['status'] ==  'Active' ? 'checked' : ''}}/>
+                                    @endif
+                                </div>
+                            </div>
+                            @if($title=='Partners')
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Ownership Status <span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Pilih Ownership Status" data-container="body"></i></label>
+                                <div class="col-md-5">
+                                    <select name="ownership_status" class="form-control input-sm select2" placeholder="Ownership Status">
+                                        <option value="" selected disabled>Select Ownership Status</option>
+                                        <option value="Central" @if(isset($result['ownership_status'])) @if($result['ownership_status'] == 'Central') selected @endif @endif>Central</option>
+                                        <option value="Partner" @if(isset($result['ownership_status'])) @if($result['ownership_status'] == 'Partner') selected @endif @endif>Partner</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Coopertaion Scheme<span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Pilih Coopertaion Scheme" data-container="body"></i></label>
+                                <div class="col-md-5">
+                                    <select name="cooperation_scheme" class="form-control input-sm select2" placeholder="Coopertaion Scheme">
+                                        <option value="" selected disabled>Select Cooperation Scheme</option>
+                                        <option value="Profit Sharing" @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Profit Sharing') selected @endif @endif>Profit Sharing</option>
+                                        <option value="Management Fee" @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Management Fee') selected @endif @endif>Management Fee</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Start Date <span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Mulai menjadi Partner" data-container="body"></i></label>
+                                <div class="col-md-5">
+                                    <div class="input-group">
+                                        <input type="text" id="start_date" class="@if($title=='Candidate Partners') datepicker @endif form-control" name="start_date" value="{{ (!empty($result['start_date']) ? date('d F Y', strtotime($result['start_date'])) : '')}}" @if($title=='Partners') readonly @endif>
+                                        <span class="input-group-btn">
+                                            <button class="btn default" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">End Date <span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Berakhir menjadi Partner" data-container="body"></i></label>
+                                <div class="col-md-5">
+                                    <div class="input-group">
+                                        <input type="text" id="end_date" class="@if($title=='Candidate Partners') datepicker @endif form-control" name="end_date" value="{{ (!empty($result['end_date']) ? date('d F Y', strtotime($result['end_date'])) : '')}}" @if($title=='Partners') readonly @endif>
+                                        <span class="input-group-btn">
+                                            <button class="btn default" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Password <span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Masukkan Password" data-container="body"></i></label>
+                                <div class="col-md-5">
+                                    <input class="form-control" type="password" id="input-password" name="password" value="" placeholder="Enter password here"/>
+                                </div>
+                            </div>
                             @endif
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Start Date <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Mulai menjadi Partner" data-container="body"></i></label>
-                        <div class="col-md-5">
-                            <div class="input-group">
-                                <input type="text" id="start_date" class="datepicker form-control" name="start_date" style="background-color:#fff" autocomplete="off">
-                                <span class="input-group-btn">
-                                    <button class="btn default" type="button">
-                                        <i class="fa fa-calendar"></i>
-                                    </button>
-                                </span>
+                        <div class="form-actions">
+                            {{ csrf_field() }}
+                            <div class="row">
+                                <div class="col-md-offset-4 col-md-8">
+                                    <button type="submit" class="btn blue">Submit</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">End Data <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Berakhir menjadi Partner" data-container="body"></i></label>
-                        <div class="col-md-5">
-                            <div class="input-group">
-                                <input type="text" id="end_date" class="datepicker form-control" name="end_date" style="background-color:#fff" autocomplete="off">
-                                <span class="input-group-btn">
-                                    <button class="btn default" type="button">
-                                        <i class="fa fa-calendar"></i>
-                                    </button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Password <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Masukkan Password" data-container="body"></i></label>
-                        <div class="col-md-5">
-                            <input class="form-control" type="password" id="input-password" name="password" value="" placeholder="Enter password here"/>
-                        </div>
-                    </div>
-                    @if($title=='Partners')
-                    @foreach($result['partner_locations'] as $location)
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Location name {{$loop->iteration}} <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Lokasi Outlet Partner" data-container="body"></i></label>
-                        <div class="col-md-4">
-                            <input class="form-control" type="text" id="input-name_location" name="name_location" value="{{$location['name']}}" placeholder="Enter phone here"/>  
-                        </div>
-                        <a href="..." class="btn btn-primary"></i>Detail</a>  
-                    </div>
-                    @endforeach
-                    @endif
+                    </form>
                 </div>
-                <div class="form-actions">
-                    {{ csrf_field() }}
-                    <div class="row">
-                        <div class="col-md-offset-4 col-md-8">
-                            <button type="submit" class="btn blue">Submit</button>
+            </div>
+        {{-- tab 2 --}}
+            <div class="tab-pane" id="locations">
+                    <div style="white-space: nowrap;">
+                        <table class="table table-striped table-bordered table-hover" id="kt_datatable">
+                            <thead>
+                            <tr>
+                                <th class="text-nowrap text-center">Created At</th>
+                                <th class="text-nowrap text-center">Name Location</th>
+                                <th class="text-nowrap text-center">Address</th>
+                                <th class="text-nowrap text-center">Status</th>
+                                @if(MyHelper::hasAccess([343,344,345], $grantedFeature))
+                                <th class="text-nowrap text-center">Action</th>
+                                @endif
+                            </tr>
+                            </thead>
+                            <tbody>
+                                @if(!empty($result['partner_locations']))
+                                    @foreach($result['partner_locations'] as $location)
+                                        <tr data-id="{{ $location['id_location'] }}">
+                                            <td>{{date('d F Y H:i', strtotime($location['created_at']))}}</td>
+                                            <td>{{$location['name']}}</td>
+                                            <td>{{$location['address']}}</td>
+                                            <td>{{$location['status']}}</td>
+                                            <td>
+                                                @if(MyHelper::hasAccess([343,344], $grantedFeature))
+                                                <a href=".." class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
+                                                @endif
+                                                @if(MyHelper::hasAccess([345], $grantedFeature))
+                                                <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $location['id_location'] }}" data-name="{{ $location['name'] }}"><i class="fa fa-trash-o"></i> Delete</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="10" style="text-align: center">Data Not Available</td>
+                                    </tr>
+                                @endif
+                                </tbody>
+                        </table>
+                    </div>
+            </div>
+        </div>
+        @if($title=='Partners') </div> @endif
+    </div>
+
+    <div class="modal fade" id="candidatePartnerModal" tabindex="-1" role="dialog" aria-labelledby="candidatePartnerModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="candidatePartnerModalLabel">Insert Data Partner</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" action="{{url('businessdev/partners/update')}}/{{$result['id_partner']}}" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name='status' value="on">
+                    <input type="hidden" name='name' id="nameModal" value="">
+                    <input type="hidden" name='phone' id="phoneModal" value="">
+                    <input type="hidden" name='email' id="emailModal" value="">
+                    <input type="hidden" name='address' id="addressModal" value="">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label for="example-search-input" class="control-label col-md-5">Ownership Status <span class="required" aria-required="true">*</span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Pilih Ownership Status" data-container="body"></i></label>
+                            <div class="col-md-5">
+                                <select name="ownership_status" class="form-control input-sm select2" placeholder="Ownership Status">
+                                    <option value="" selected disabled>Select Ownership Status</option>
+                                    <option value="Central" @if(isset($result['ownership_status'])) @if($result['ownership_status'] == 'Central') selected @endif @endif>Central</option>
+                                    <option value="Partner" @if(isset($result['ownership_status'])) @if($result['ownership_status'] == 'Partner') selected @endif @endif>Partner</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="example-search-input" class="control-label col-md-5">Coopertaion Scheme<span class="required" aria-required="true">*</span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Pilih Coopertaion Scheme" data-container="body"></i></label>
+                            <div class="col-md-5">
+                                <select name="cooperation_scheme" class="form-control input-sm select2" placeholder="Coopertaion Scheme">
+                                    <option value="" selected disabled>Select Cooperation Scheme</option>
+                                    <option value="Profit Sharing" @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Profit Sharing') selected @endif @endif>Profit Sharing</option>
+                                    <option value="Management Fee" @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Management Fee') selected @endif @endif>Management Fee</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="example-search-input" class="control-label col-md-5">Bank Account<span class="required" aria-required="true">*</span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Pilih Bank Account" data-container="body"></i></label>
+                            <div class="col-md-5">
+                                <select name="id_bank_account" class="form-control input-sm select2" placeholder="Bank Account">
+                                    <option value="" selected disabled>Select Bank Account</option>
+                                    @foreach($bank as $b)
+                                    <option value="{{$b['id_bank_account']}}" @if($result['id_bank_account'] == $b['id_bank_account']) selected @endif>{{$b['id_bank_account']}} - {{$b['beneficiary_name']}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="example-search-input" class="control-label col-md-5">Start Date <span class="required" aria-required="true">*</span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Mulai menjadi Partner" data-container="body"></i></label>
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                    <input type="text" id="start_date" class="datepicker form-control" name="start_date" value="{{ (!empty($result['start_date']) ? date('d F Y', strtotime($result['start_date'])) : '')}}">
+                                    <span class="input-group-btn">
+                                        <button class="btn default" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="example-search-input" class="control-label col-md-5">End Date <span class="required" aria-required="true">*</span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Berakhir menjadi Partner" data-container="body"></i></label>
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                    <input type="text" id="end_date" class="datepicker form-control" name="end_date" value="{{ (!empty($result['end_date']) ? date('d F Y', strtotime($result['end_date'])) : '')}}">
+                                    <span class="input-group-btn">
+                                        <button class="btn default" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="example-search-input" class="control-label col-md-5">Password <span class="required" aria-required="true">*</span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Masukkan Password" data-container="body"></i></label>
+                            <div class="col-md-5">
+                                <input class="form-control" type="password" id="input-password" name="password" value="" placeholder="Enter password here"/>
+                            </div>
                         </div>
                     </div>
+                    
+                </div>
+                <div class="modal-footer form-actions">
+                    {{ csrf_field() }}
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn blue">Submit</button>
                 </div>
             </form>
+          </div>
         </div>
-    </div>
+      </div>
 
 @endsection
