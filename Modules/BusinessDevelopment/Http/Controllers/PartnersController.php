@@ -138,7 +138,7 @@ class PartnersController extends Controller
         if($result['result']['partner']['status']=='Candidate'){
             $data = [
                 'title'          => 'Candidate Partners',
-                'sub_title'      => 'Candidate Partners List',
+                'sub_title'      => 'Detail Candidate Partners',
                 'menu_active'    => 'Candidate business-development',
                 'submenu_active' => 'Candidate partners',
                 'child_active'   => 'Candidate list-partners'
@@ -146,7 +146,7 @@ class PartnersController extends Controller
         } else {
             $data = [
                 'title'          => 'Partners',
-                'sub_title'      => 'Partners List',
+                'sub_title'      => 'Detail Partners',
                 'menu_active'    => 'business-development',
                 'submenu_active' => 'partners',
                 'child_active'   => 'list-partners'
@@ -155,6 +155,7 @@ class PartnersController extends Controller
         if(isset($result['status']) && $result['status'] == 'success'){
             $data['result'] = $result['result']['partner'];
             $data['bank'] = MyHelper::get('disburse/setting/list-bank-account')['result']['list_bank']??[];
+            $data['cities'] = MyHelper::get('city/list')['result']??[];
             return view('businessdevelopment::partners.detail', $data);
         }else{
             return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
@@ -169,6 +170,7 @@ class PartnersController extends Controller
      */
     public function update(Request $request, $id)
     {   
+        // dd($request->all());
         $request->validate([
             "name" => "required",
             "email" => "required",
@@ -178,9 +180,26 @@ class PartnersController extends Controller
             $request->validate([
                 "ownership_status" => "required",
                 "cooperation_scheme" => "required",
+                "start_date" => "required",
+                "end_date" => "required",
+            ]);
+        }if(isset($request["status"]) && $request["status"] == 'Active'){
+            $post['status'] = $request["status"];
+            $request->validate([
+                "ownership_status" => "required",
+                "cooperation_scheme" => "required",
                 "password" => "required",
                 "start_date" => "required",
                 "end_date" => "required",
+            ]);
+        }
+        if(isset($request["id_location"]) && $request["id_location"] != null){
+            $request->validate([
+                "nameLocation" => "required",
+                "addressLocation" => "required",
+                "latitudeLocation" => "required",
+                "longitudeLocation" => "required",
+                "id_cityLocation" => "required",
             ]);
         }
         $post = [
@@ -211,13 +230,30 @@ class PartnersController extends Controller
         if(isset($request["password"]) && $request["status"] == 'on'){
             $post['password'] = Hash::make($request["password"]);
         }
+        if(isset($request["id_location"]) && $request["id_location"] != null){
+            $postLocation = [
+                "id_location" => $request["id_location"],
+                "id_partner" => $id,
+                "name" => $request["nameLocation"],
+                "address" => $request["addressLocation"],
+                "latitude" => $request["latitudeLocation"],
+                "longitude" => $request["longitudeLocation"],
+                "id_city" => $request["id_cityLocation"],
+            ];
+        }
+        // dd($postLocation);
         $result = MyHelper::post('partners/update', $post);
+        if (isset($result['status']) && $result['status'] == 'success') {
+            if(isset($postLocation)){
+                $result = MyHelper::post('partners/locations/update', $postLocation);
+            }
+        }
         if(isset($result['status']) && $result['status'] == 'success' && isset($request["status"])){
             return redirect('businessdev/partners/detail/'.$id)->withSuccess(['Success update candidate partner to partner']);
         }elseif(isset($result['status']) && $result['status'] == 'success'){
             return redirect('businessdev/partners/detail/'.$id)->withSuccess(['Success update candidate partner']);
         }else{
-            return redirect('businessdev/partners/detail/'.$id)->withErrors($result['messages'] ?? ['Failed update detail user mitra']);
+            return redirect('businessdev/partners/detail/'.$id)->withErrors($result['messages'] ?? ['Failed update detail candidate partner']);
         }
     }
 

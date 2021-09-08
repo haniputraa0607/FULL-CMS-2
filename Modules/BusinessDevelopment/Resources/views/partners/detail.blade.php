@@ -40,10 +40,34 @@
             let phone = $('#input-phone').val();
             let email = $('#input-email').val();
             let address = $('#input-address').val();
+            let id_location = $('#input-id_location').val();
+            let nameLocation = $('#input-name-location').val();
+            let addressLocation = $('#input-address-location').val();
+            let latitudeLocation = $('#input-latitude-location').val();
+            let longitudeLocation = $('#input-longitude-location').val();
+            let id_cityLocation = $('#id_cityLocation').val();
             $("#nameModal").val(nama);
             $("#phoneModal").val(phone);
             $("#emailModal").val(email);
             $("#addressModal").val(address);
+            if(id_location != undefined){
+                $("#id_locationModal").val(id_location);
+            }
+            if(nameLocation != undefined){
+                $("#nameLocationModal").val(nameLocation);
+            }
+            if(addressLocation != undefined){
+                $("#addressLocationModal").val(addressLocation);
+            }
+            if(latitudeLocation != undefined){
+                $("#latitudeLocationModal").val(latitudeLocation);
+            }
+            if(longitudeLocation != undefined){
+                $("#longitudeLocationModal").val(longitudeLocation);
+            }
+            if(id_cityLocation != undefined){
+                $("#id_cityLocationModal").val(id_cityLocation);
+            }
 
         });
         $('.datepicker').datepicker({
@@ -186,22 +210,90 @@
                                 <label for="example-search-input" class="control-label col-md-4">Address <span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Masukkan address" data-container="body"></i></label>
                                 <div class="col-md-5">
-                                    <input class="form-control" type="text" id="input-address" name="address" value="{{$result['address']}}" placeholder="Enter address here"/>
+                                    <textarea name="address" id="input-address" class="form-control" placeholder="Enter address here">{{$result['address']}}</textarea>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="example-search-input" class="control-label col-md-4">@if($title=='Candidate Partners') Approve Candidate @else Status @endif<span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Pilih status partner" data-container="body"></i></label>
-                                <div class="col-md-5">
-                                    @if($title=='Candidate Partners')
-                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#candidatePartnerModal" id="modalPartner">
-                                        Insert Data Partner
-                                    </button>
-                                    @else
-                                    <input data-switch="true" type="checkbox" name="status" data-on-text="Active" data-off-text="Inactive" {{$result['status'] ==  'Active' ? 'checked' : ''}}/>
+                            @if ($title=='Candidate Partners' && !empty($result['partner_locations']))
+                            <div class="portlet light" style="margin-bottom: 0; padding-bottom: 0">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        <span class="caption-subject sbold uppercase font-black">Candidate Location</span>
+                                    </div>
+                                </div>
+                                <div class="portlet-body form">
+                                    <div class="form-body">
+                                        <input type="hidden" value="{{$result['partner_locations'][0]['id_location']}}" name="id_location" id="input-id_location">
+                                        <div class="form-group">
+                                            <label for="example-search-input" class="control-label col-md-4">Location Name <span class="required" aria-required="true">*</span>
+                                                <i class="fa fa-question-circle tooltips" data-original-title="Nama Calon Lokasi" data-container="body"></i></label>
+                                            <div class="col-md-5">
+                                                <input class="form-control" type="text" id="input-name-location" name="nameLocation" value="{{$result['partner_locations'][0]['name']}}" placeholder="Enter location name here"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="example-search-input" class="control-label col-md-4">Location Address <span class="required" aria-required="true">*</span>
+                                                <i class="fa fa-question-circle tooltips" data-original-title="Address Calon Lokasi" data-container="body"></i></label>
+                                            <div class="col-md-5">
+                                                <textarea name="addressLocation" id="input-address-location" class="form-control" placeholder="Enter location name here">{{$result['partner_locations'][0]['address']}}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="example-search-input" class="control-label col-md-4">Location Latitude <span class="required" aria-required="true">*</span>
+                                                <i class="fa fa-question-circle tooltips" data-original-title="Latitude Calon Lokasi" data-container="body"></i></label>
+                                            <div class="col-md-5">
+                                                <input class="form-control" type="text" id="input-latitude-location" name="latitudeLocation" value="{{$result['partner_locations'][0]['latitude']}}" placeholder="Enter location name here"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="example-search-input" class="control-label col-md-4">Location Longitude <span class="required" aria-required="true">*</span>
+                                                <i class="fa fa-question-circle tooltips" data-original-title="Longitude Calon Lokasi" data-container="body"></i></label>
+                                            <div class="col-md-5">
+                                                <input class="form-control" type="text" id="input-longitude-location" name="longitudeLocation" value="{{$result['partner_locations'][0]['longitude']}}" placeholder="Enter location name here"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="example-search-input" class="control-label col-md-4">Location City <span class="required" aria-required="true">*</span>
+                                                <i class="fa fa-question-circle tooltips" data-original-title="Kota Calon Lokasi" data-container="body"></i></label>
+                                            <div class="col-md-5">
+                                                <select class="form-control select2" name="id_cityLocation" id="id_cityLocation" required>
+                                                    <option value="" selected disabled>Search Outlet</option>
+                                                    @foreach($cities as $city)
+                                                        <option value="{{$city['id_city']}}" @if($result['partner_locations'][0]['id_city'] == $city['id_city']) selected @endif>{{$city['city_name']}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>    
+                            </div>
+                            @endif
+                            @if ($title=='Candidate Partners')
+                            <div class="portlet light" style="margin-bottom: 0; padding-top: 0">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        <span class="caption-subject sbold uppercase font-black">Status Candidate</span>
+                                    </div>
+                                </div>
+                                <div class="portlet-body form">
                                     @endif
+                                    <div class="form-group">
+                                        <label for="example-search-input" class="control-label col-md-4">@if($title=='Candidate Partners') Approve Candidate @else Status @endif<span class="required" aria-required="true">*</span>
+                                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih status partner" data-container="body"></i></label>
+                                        <div class="col-md-5">
+                                            @if($title=='Candidate Partners')
+                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#candidatePartnerModal" id="modalPartner">
+                                                Insert Data Partner
+                                            </button>
+                                            @else
+                                            <input data-switch="true" type="checkbox" name="status" data-on-text="Active" data-off-text="Inactive" {{$result['status'] ==  'Active' ? 'checked' : ''}}/>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    @if ($title=='Candidate Partners')
                                 </div>
                             </div>
+                            @endif
+                            
                             @if($title=='Partners')
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Ownership Status <span class="required" aria-required="true">*</span>
@@ -251,13 +343,6 @@
                                             </button>
                                         </span>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="example-search-input" class="control-label col-md-4">Password <span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Masukkan Password" data-container="body"></i></label>
-                                <div class="col-md-5">
-                                    <input class="form-control" type="password" id="input-password" name="password" value="" placeholder="Enter password here"/>
                                 </div>
                             </div>
                             @endif
@@ -330,11 +415,17 @@
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form" action="{{url('businessdev/partners/update')}}/{{$result['id_partner']}}" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name='status' value="on">
+                    <input type="hidden" name='status' value="Active">
                     <input type="hidden" name='name' id="nameModal" value="">
                     <input type="hidden" name='phone' id="phoneModal" value="">
                     <input type="hidden" name='email' id="emailModal" value="">
                     <input type="hidden" name='address' id="addressModal" value="">
+                    <input type="hidden" name='id_location' id="id_locationModal" value="">
+                    <input type="hidden" name='nameLocation' id="nameLocationModal" value="">
+                    <input type="hidden" name='addressLocation' id="addressLocationModal" value="">
+                    <input type="hidden" name='latitudeLocation' id="latitudeLocationModal" value="">
+                    <input type="hidden" name='longitudeLocation' id="longitudeLocationModal" value="">
+                    <input type="hidden" name='id_cityLocation' id="id_cityLocationModal" value="">
                     <div class="form-body">
                         <div class="form-group">
                             <label for="example-search-input" class="control-label col-md-5">Ownership Status <span class="required" aria-required="true">*</span>
