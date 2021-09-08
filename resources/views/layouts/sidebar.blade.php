@@ -142,6 +142,11 @@
 										<span class="title">[Response] Pin Sent</span>
 									</a>
 								</li>
+									<li class="nav-item {{($submenu_active == 'user-autoresponse-pin-sent-whatsapp') ? 'active open' : ''}}">
+										<a href="{{url('user/autoresponse/pin-sent-whatsapp')}}" class="nav-link ">
+											<span class="title">[Response] Pin Sent WhatsApp</span>
+										</a>
+									</li>
 								<li class="nav-item {{($submenu_active == 'user-autoresponse-pin-create') ? 'active open' : ''}}">
 									<a href="{{url('user/autoresponse/pin-create')}}" class="nav-link ">
 										<span class="title">[Response] Pin Create</span>
