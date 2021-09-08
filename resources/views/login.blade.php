@@ -57,7 +57,7 @@
             <!-- BEGIN LOGIN FORM -->
             <form class="login-form" action="{{url('login')}}" method="post">
 			{{csrf_field()}}
-                <h3 class="form-title">Sign In</h3>
+                <h3 class="form-title" style="color: #3C3424">Sign In</h3>
 				@include('layouts.notifications')
                 <div class="alert alert-danger display-hide">
                     <button class="close" data-close="alert"></button>
@@ -95,7 +95,7 @@
             <!-- END LOGIN FORM -->
 
         </div>
-        <div class="copyright" style="color: #fff"> Copyright © 2019 Technopartner Indonesia</div>
+        <div class="copyright" style="color: #fff"> Copyright © 2021 Technopartner Indonesia</div>
         <!--[if lt IE 9]>
 <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/respond.min.js')}}"></script>
 <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/excanvas.min.js')}}"></script>
