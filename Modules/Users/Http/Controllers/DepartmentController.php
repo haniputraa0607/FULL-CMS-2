@@ -19,11 +19,12 @@ class DepartmentController extends Controller
      */
     public function index(Request $request)
     {
-        $data = [
-            'title'          => 'Department',
+    	$data = [
+            'title'          => 'Roles',
             'sub_title'      => 'Department List',
             'menu_active'    => 'user',
-            'submenu_active' => 'user-department-list',
+            'submenu_active' => 'role',
+            'child_active' 	 => 'user-department-list'
         ];
 
         $data['get_department'] = MyHelper::post('users/department',$request->all())['result']??[];
@@ -92,10 +93,11 @@ class DepartmentController extends Controller
     public function edit($id)
     {
         $data = [
-            'title'          => 'Department',
-            'sub_title'      => 'Update Department',
+            'title'          => 'Roles',
+            'sub_title'      => 'Department List',
             'menu_active'    => 'user',
-            'submenu_active' => 'user-department-list',
+            'submenu_active' => 'role',
+            'child_active' 	 => 'user-department-list'
         ];
 
         $post['id_department'] = $id;

@@ -67,6 +67,30 @@
 										</a>
 									</li>
 								@endif
+								@if(MyHelper::hasAccess([323,326], $grantedFeature))
+									<li class="nav-item {{(isset($child_active) && $child_active == 'job-level-position') ? 'active open' : ''}}">
+										<a href="{{url('job-level/position')}}" class="nav-link ">
+											<span class="title">Job Level Position</span>
+										</a>
+									</li>
+								@endif
+							</ul>
+						</li>
+					@endif
+					@if(MyHelper::hasAccess([328,329,330,331,332,333,334,335,336,337], $grantedFeature))
+						<li class="nav-item {{($submenu_active == 'role') ? 'active open' : ''}}">
+							<a href="javascript:;" class="nav-link nav-toggle">
+								<span class="title">Role</span>
+								<span class="arrow"></span>
+							</a>
+							<ul class="sub-menu">
+								@if(MyHelper::hasAccess([328,329,330,331,332], $grantedFeature))
+									<li class="nav-item {{(isset($child_active) && $child_active == 'user-department-list') ? 'active open' : ''}}">
+										<a href="{{url('user/department')}}" class="nav-link ">
+											<span class="title">Department List</span>
+										</a>
+									</li>
+								@endif
 								@if(MyHelper::hasAccess([334], $grantedFeature))
 									<li class="nav-item {{(isset($child_active) && $child_active == 'role-new') ? 'active open' : ''}}">
 										<a href="{{url('role/create')}}" class="nav-link ">
@@ -90,24 +114,6 @@
 							<span class="title">Log Activity</span>
 						</a>
 					</li>
-					@endif
-
-					@if(MyHelper::hasAccess([328,329,330,331,332], $grantedFeature))
-						@if(MyHelper::hasAccess([329], $grantedFeature))
-						<li class="nav-item {{($submenu_active == 'user-department-new') ? 'active open' : ''}}">
-							<a href="{{url('user/department/create')}}" class="nav-link ">
-								<span class="title">New Department</span>
-							</a>
-						</li>
-						@endif
-
-						@if(MyHelper::hasAccess([328,330,331,332], $grantedFeature))
-						<li class="nav-item {{($submenu_active == 'user-department-list') ? 'active open' : ''}}">
-							<a href="{{url('user/department')}}" class="nav-link ">
-								<span class="title">Department List</span>
-							</a>
-						</li>
-						@endif
 					@endif
 
 					@if(MyHelper::hasAccess([40], $configs))
