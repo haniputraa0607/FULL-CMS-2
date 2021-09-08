@@ -35,6 +35,9 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/jquery-repeater/jquery.repeater.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/form-repeater.js') }}" type="text/javascript"></script>
     <script>
+        var table;
+        table = $('#kt_datatable').DataTable({searching: false, "paging":   false, ordering: false});
+
         $('#modalPartner').click(function(){
             let nama = $('#input-name').val();
             let phone = $('#input-phone').val();
@@ -361,43 +364,45 @@
         {{-- tab 2 --}}
             <div class="tab-pane" id="locations">
                     <div style="white-space: nowrap;">
-                        <table class="table table-striped table-bordered table-hover" id="kt_datatable">
-                            <thead>
-                            <tr>
-                                <th class="text-nowrap text-center">Created At</th>
-                                <th class="text-nowrap text-center">Name Location</th>
-                                <th class="text-nowrap text-center">Address</th>
-                                <th class="text-nowrap text-center">Status</th>
-                                @if(MyHelper::hasAccess([343,344,345], $grantedFeature))
-                                <th class="text-nowrap text-center">Action</th>
-                                @endif
-                            </tr>
-                            </thead>
-                            <tbody>
-                                @if(!empty($result['partner_locations']))
-                                    @foreach($result['partner_locations'] as $location)
-                                        <tr data-id="{{ $location['id_location'] }}">
-                                            <td>{{date('d F Y H:i', strtotime($location['created_at']))}}</td>
-                                            <td>{{$location['name']}}</td>
-                                            <td>{{$location['address']}}</td>
-                                            <td>{{$location['status']}}</td>
-                                            <td>
-                                                @if(MyHelper::hasAccess([343,344], $grantedFeature))
-                                                <a href=".." class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
-                                                @endif
-                                                @if(MyHelper::hasAccess([345], $grantedFeature))
-                                                <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $location['id_location'] }}" data-name="{{ $location['name'] }}"><i class="fa fa-trash-o"></i> Delete</a>
-                                                @endif
-                                            </td>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" id="kt_datatable">
+                                <thead>
+                                <tr>
+                                    <th class="text-nowrap text-center">Created At</th>
+                                    <th class="text-nowrap text-center">Name Location</th>
+                                    <th class="text-nowrap text-center">Address</th>
+                                    <th class="text-nowrap text-center">Status</th>
+                                    @if(MyHelper::hasAccess([343,344,345], $grantedFeature))
+                                    <th class="text-nowrap text-center">Action</th>
+                                    @endif
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    @if(!empty($result['partner_locations']))
+                                        @foreach($result['partner_locations'] as $location)
+                                            <tr data-id="{{ $location['id_location'] }}">
+                                                <td>{{date('d F Y H:i', strtotime($location['created_at']))}}</td>
+                                                <td>{{$location['name']}}</td>
+                                                <td>{{$location['address']}}</td>
+                                                <td>{{$location['status']}}</td>
+                                                <td>
+                                                    @if(MyHelper::hasAccess([343,344], $grantedFeature))
+                                                    <a href=".." class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
+                                                    @endif
+                                                    @if(MyHelper::hasAccess([345], $grantedFeature))
+                                                    <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $location['id_location'] }}" data-name="{{ $location['name'] }}"><i class="fa fa-trash-o"></i> Delete</a>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="10" style="text-align: center">Data Not Available</td>
                                         </tr>
-                                    @endforeach
-                                @else
-                                    <tr>
-                                        <td colspan="10" style="text-align: center">Data Not Available</td>
-                                    </tr>
-                                @endif
-                                </tbody>
-                        </table>
+                                    @endif
+                                    </tbody>
+                            </table>
+                        </div>
                     </div>
             </div>
         </div>

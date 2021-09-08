@@ -77,7 +77,6 @@ class PartnersController extends Controller
         $post['status'] = $data['status'];
 
         $list = MyHelper::post('partners'.$page, $post);
-        
         if(($list['status']??'')=='success'){
             $data['data']          = $list['result']['data'];
             $data['data_total']     = $list['result']['total'];
