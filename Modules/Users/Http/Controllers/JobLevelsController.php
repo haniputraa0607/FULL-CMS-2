@@ -23,7 +23,7 @@ class JobLevelsController extends Controller
             'title'          => 'Job Levels',
             'sub_title'      => 'Job Level List',
             'menu_active'    => 'user',
-            'submenu_active' => 'job-level',
+            'submenu_active' => 'role',
             'child_active' => 'job-level-list',
         ];
 
@@ -43,7 +43,7 @@ class JobLevelsController extends Controller
             'title'          => 'Job Levels',
             'sub_title'      => 'Job Level Position',
             'menu_active'    => 'user',
-            'submenu_active'    => 'job-level',
+            'submenu_active'    => 'role',
             'child_active' => 'job-level-position',
         ];
 
@@ -91,7 +91,7 @@ class JobLevelsController extends Controller
             'title'          => 'Job Levels',
             'sub_title'      => 'New Job Level',
             'menu_active'    => 'user',
-            'submenu_active'    => 'job-level',
+            'submenu_active'    => 'role',
             'child_active'  => 'job-level-new',
         ];
         return view('users::job_levels.create', $data);
@@ -135,7 +135,7 @@ class JobLevelsController extends Controller
             'title'          => 'Job Levels',
             'sub_title'      => 'Update Job Level',
             'menu_active'    => 'user',
-            'submenu_active'    => 'job-level',
+            'submenu_active'    => 'role',
             'child_active' => 'job-level-list',
         ];
 
