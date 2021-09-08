@@ -221,7 +221,7 @@ class UsersController extends Controller
 			$getJob = MyHelper::get('setting/be/jobs_list');
 			if($getJob['status'] == 'success') $data['job'] = $getJob['result']; else $data['job'] = null;
 
-			$data['job_level'] = MyHelper::post('job-level',$request->all())['result'] ?? [];
+			$data['job_level'] = MyHelper::post('users/job-level',$request->all())['result'] ?? [];
 			// $data['job_level'] = MyHelper::simpleTree($data['job_level'], 'job_level');
 
 			$data['department'] = MyHelper::post('users/department',$request->all())['result'] ?? [];
@@ -698,7 +698,7 @@ class UsersController extends Controller
 		$getCourier = MyHelper::get('courier/list?log_save=0');
 		if($getCourier['status'] == 'success') $data['couriers'] = $getCourier['result']; else $data['couriers'] = null;
 
-		$data['job_level'] = MyHelper::post('job-level',$request->all())['result'] ?? [];
+		$data['job_level'] = MyHelper::post('users/job-level',$request->all())['result'] ?? [];
 		// $data['job_level'] = MyHelper::simpleTree($data['job_level'], 'job_level');
 
 		$data['department'] = MyHelper::post('users/department',$request->all())['result'] ?? [];

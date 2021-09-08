@@ -44,11 +44,11 @@
                 '<div class="col-md-4">' +
                 '<input class="form-control" type="text" maxlength="200" id="job_level_name_'+i+'" name="child['+i+'][job_level_name]" required placeholder="Enter job level name"/>' +
                 '</div>' +
-                '<div class="col-md-3">' +
-                '<input data-switch="true" type="checkbox" name="child['+i+'][job_level_visibility]" data-on-text="Visible" data-off-text="Hidden" checked/>' +
+                // '<div class="col-md-3">' +
+                // '<input data-switch="true" type="checkbox" name="child['+i+'][job_level_visibility]" data-on-text="Visible" data-off-text="Hidden" checked/>' +
                 '<input type="hidden" name="child['+i+'][id_job_level]" value="0">'+
-                '</div>' +
-                '<div class="col-md-3" style="margin-left: -4%">' +
+                // '</div>' +
+                '<div class="col-md-3">' +
                 '<a class="btn btn-danger btn" style="margin-left: 2%" onclick="deleteForm('+i+')">&nbsp;<i class="fa fa-trash"></i> </a>' +
                 '</div>' +
                 '</div>' +
@@ -105,10 +105,10 @@
                         <div class="col-md-4">
                             <input class="form-control" type="text" maxlength="200" name="job_level_name" value="{{$job_level['job_level_name']}}" required placeholder="Enter job level name here"/>
                         </div>
+{{--                        <div class="col-md-3">--}}
+{{--                            <input data-switch="true" type="checkbox" name="job_level_visibility" data-on-text="Visible" data-off-text="Hidden" @if($job_level['job_level_visibility'] == 'Visible') checked @endif/>--}}
+{{--                        </div>--}}
                         <div class="col-md-3">
-                            <input data-switch="true" type="checkbox" name="job_level_visibility" data-on-text="Visible" data-off-text="Hidden" @if($job_level['job_level_visibility'] == 'Visible') checked @endif/>
-                        </div>
-                        <div class="col-md-3" style="margin-left: -4%">
                             <a class="btn btn-primary btn" style="margin-bottom: 4%;" onclick="addChild()">&nbsp;<i class="fa fa-plus-circle"></i> Add Child </a>
                         </div>
                     </div>
@@ -121,9 +121,9 @@
                                     <div class="col-md-4">
                                         <input class="form-control" type="text" maxlength="200" name="child[{{$i}}][job_level_name]" value="{{$child['job_level_name']}}" required placeholder="Enter job level name here"/>
                                     </div>
-                                    <div class="col-md-3">
-                                        <input data-switch="true" type="checkbox" name="child[{{$i}}][job_level_visibility]" data-on-text="Visible" data-off-text="Hidden" @if($child['job_level_visibility'] == 'Visible') checked @endif/>
-                                    </div>
+{{--                                    <div class="col-md-3">--}}
+{{--                                        <input data-switch="true" type="checkbox" name="child[{{$i}}][job_level_visibility]" data-on-text="Visible" data-off-text="Hidden" @if($child['job_level_visibility'] == 'Visible') checked @endif/>--}}
+{{--                                    </div>--}}
                                     <input type="hidden" name="child[{{$i}}][id_job_level]" value="{{$child['id_job_level']}}">
                                 </div>
                             </div>

@@ -33,8 +33,9 @@ $grantedFeature     = session('granted_features');
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/jquery-nestable/jquery.nestable.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
     <script>
-
+        var i = 1;
         $(document).ready(function() {
+            $('[data-switch=true]').bootstrapSwitch();
             var obj = {!! $job_levels !!};
             var output = '';
             var output_action = '';
@@ -115,6 +116,38 @@ $grantedFeature     = session('granted_features');
                     });
                 });
         }
+
+        function addChild(number) {
+            var name = $('#job_level_name_'+number).val();
+            if(name === ''){
+                toastr.warning("Please input job level name.");
+            }else{
+                var html = '<div id="div_parent_'+i+'">' +
+                    '<div class="form-group">' +
+                    '<label class="col-md-2 control-label">'+name+' <span class="text-danger">*</span></label>' +
+                    '<div class="col-md-4">' +
+                    '<input class="form-control" type="text" maxlength="200" id="job_level_name_'+i+'" name="data[child]['+i+'][job_level_name]" required placeholder="Enter job level name"/>' +
+                    '<input class="form-control" type="hidden" name="data[child]['+i+'][parent]" value="'+number+'"/>' +
+                    '</div>' +
+                    // '<div class="col-md-3">' +
+                    // '<input data-switch="true" type="checkbox" name="data[child]['+i+'][job_level_visibility]" data-on-text="Visible" data-off-text="Hidden" checked/>' +
+                    // '</div>' +
+                    '<div class="col-md-3">' +
+                    '<a class="btn btn-primary btn" onclick="addChild('+i+')">&nbsp;<i class="fa fa-plus-circle"></i> Child </a>' +
+                    '<a class="btn btn-danger btn" style="margin-left: 2%" onclick="deleteForm('+i+')">&nbsp;<i class="fa fa-trash"></i></a>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>';
+
+                $("#div_parent_"+number).append(html);
+                $('[data-switch=true]').bootstrapSwitch();
+                i++;
+            }
+        }
+
+        function deleteForm(number) {
+            $('#div_parent_'+number).empty();
+        }
     </script>
 @endsection
 
@@ -140,6 +173,45 @@ $grantedFeature     = session('granted_features');
     </div><br>
 
     @include('layouts.notifications')
+
+    @if(MyHelper::hasAccess([324], $grantedFeature))
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject sbold uppercase font-blue">New Job Level</span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form class="form-horizontal" role="form" id="form_create_table" action="{{url('job-level/store')}}" method="POST">
+                    {{ csrf_field() }}
+                    <div class="form-body">
+                        <div id="div_parent_0">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Job Level Name Parent <span class="text-danger">*</span></label>
+                                <div class="col-md-4">
+                                    <input class="form-control" type="text" maxlength="200" id="job_level_name_0" name="data[0][job_level_name]" required placeholder="Enter job level name"/>
+                                </div>
+{{--                                <div class="col-md-3">--}}
+{{--                                    <input data-switch="true" type="checkbox" name="data[0][job_level_visibility]" data-on-text="Visible" data-off-text="Hidden" checked/>--}}
+{{--                                </div>--}}
+                                <div class="col-md-3">
+                                    <a class="btn btn-primary" onclick="addChild(0)">&nbsp;<i class="fa fa-plus-circle"></i> Child </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        {{ csrf_field() }}
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn green"><i class="fa fa-check"></i> Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    @endif
 
     <div class="portlet light bordered">
         <div class="portlet-title">
