@@ -23,11 +23,11 @@ class JobLevelsController extends Controller
             'title'          => 'Job Levels',
             'sub_title'      => 'Job Level List',
             'menu_active'    => 'user',
-            'submenu_active' => 'job-level',
+            'submenu_active' => 'role',
             'child_active' => 'job-level-list',
         ];
 
-        $data['get_job_level'] = MyHelper::post('job-level',$request->all())['result']??[];
+        $data['get_job_level'] = MyHelper::post('users/job-level',$request->all())['result']??[];
 
         $data['job_levels'] = json_encode([]);
         if(!empty($data['get_job_level'])){
@@ -43,12 +43,12 @@ class JobLevelsController extends Controller
             'title'          => 'Job Levels',
             'sub_title'      => 'Job Level Position',
             'menu_active'    => 'user',
-            'submenu_active'    => 'job-level',
+            'submenu_active'    => 'role',
             'child_active' => 'job-level-position',
         ];
 
         if(empty($post)){
-            $data['get_job_level'] = MyHelper::post('job-level',$request->all())['result']??[];
+            $data['get_job_level'] = MyHelper::post('users/job-level',$request->all())['result']??[];
 
             $data['job_levels'] = json_encode([]);
             if(!empty($data['get_job_level'])){
@@ -56,7 +56,7 @@ class JobLevelsController extends Controller
             }
             return view('users::job_levels.position', $data);
         }else{
-            $update_potition = MyHelper::post('job-level/position', $post);
+            $update_potition = MyHelper::post('users/job-level/position', $post);
             if(($update_potition['status']??'')=='success'){
                 return redirect('job-level/position')->with('success', ['Update position success']);
             }else{
@@ -91,7 +91,7 @@ class JobLevelsController extends Controller
             'title'          => 'Job Levels',
             'sub_title'      => 'New Job Level',
             'menu_active'    => 'user',
-            'submenu_active'    => 'job-level',
+            'submenu_active'    => 'role',
             'child_active'  => 'job-level-new',
         ];
         return view('users::job_levels.create', $data);
@@ -105,7 +105,7 @@ class JobLevelsController extends Controller
     public function store(Request $request)
     {
         $post = $request->all();
-        $store = MyHelper::post('job-level/store', $post);
+        $store = MyHelper::post('users/job-level/store', $post);
 
         if(($store['status']??'')=='success'){
             return redirect('job-level')->with('success',['Create job level Success']);
@@ -135,12 +135,12 @@ class JobLevelsController extends Controller
             'title'          => 'Job Levels',
             'sub_title'      => 'Update Job Level',
             'menu_active'    => 'user',
-            'submenu_active'    => 'job-level',
+            'submenu_active'    => 'role',
             'child_active' => 'job-level-list',
         ];
 
         $post['id_job_level'] = $id;
-        $get_data = MyHelper::post('job-level/edit', $post);
+        $get_data = MyHelper::post('users/job-level/edit', $post);
 
         $data['all_parent'] = [];
         $data['job_level'] = [];
@@ -170,7 +170,7 @@ class JobLevelsController extends Controller
             $post['job_level_visibility'] = 'Hidden';
         }
 
-        $update = MyHelper::post('job-level/update', $post);
+        $update = MyHelper::post('users/job-level/update', $post);
 
         if(($update['status']??'')=='success'){
             return redirect('job-level/edit/'.$id)->with('success',['Updated job level Success']);
@@ -186,7 +186,7 @@ class JobLevelsController extends Controller
      */
     public function destroy($id)
     {
-        $result = MyHelper::post('job-level/delete', ['id_job_level' => $id]);
+        $result = MyHelper::post('users/job-level/delete', ['id_job_level' => $id]);
         return $result;
     }
 }

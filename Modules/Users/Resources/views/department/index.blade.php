@@ -86,34 +86,65 @@ $grantedFeature     = session('granted_features');
 
             $('#departments').html(output);
             $('#departments_action').html(output_action);
+	        $('[data-switch=true]').bootstrapSwitch();
         });
+
+        var i = 1;
+        function addChild(number) {
+            var name = $('#department_name_'+number).val();
+            if(name === ''){
+                toastr.warning("Please input department name.");
+            }else{
+                var html = '<div id="div_parent_'+i+'">' +
+                    '<div class="form-group">' +
+                    '<label class="col-md-3 control-label">'+name+' <span class="text-danger">*</span></label>' +
+                    '<div class="col-md-5">' +
+                    '<input class="form-control" type="text" maxlength="200" id="department_name_'+i+'" name="data[child]['+i+'][department_name]" required placeholder="Enter department name"/>' +
+                    '<input class="form-control" type="hidden" name="data[child]['+i+'][parent]" value="'+number+'"/>' +
+                    '</div>' +
+                    '<div class="col-md-4">' +
+                    '<a class="btn btn-primary btn" onclick="addChild('+i+')">&nbsp;<i class="fa fa-plus-circle"></i> Child </a>' +
+                    '<a class="btn btn-danger btn" style="margin-left: 2%" onclick="deleteForm('+i+')">&nbsp;<i class="fa fa-trash"></i></a>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>';
+
+                $("#div_parent_"+number).append(html);
+                $('[data-switch=true]').bootstrapSwitch();
+                i++;
+            }
+        }
+
+        function deleteForm(number) {
+            $('#div_parent_'+number).empty();
+        }
 
         function deleteDepartment(id_department, department_name) {
             swal({
-                    title: "Are you sure want to delete department \n" + department_name + " ?",
-                    text: "",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonClass: "btn-danger",
-                    confirmButtonText: "Yes, delete!",
-                    closeOnConfirm: false
-                },
-                function () {
-                    var token  	= "{{ csrf_token() }}";
-                    $.ajax({
-                        type: "POST",
-                        url: "{{ url('user/department/delete') }}/"+id_department,
-                        data: "_token=" + token + "&id_department" + id_department,
-                        success: function (result) {
-                            if (result.status == "success") {
-                                swal("Success!", "Deleted department.", "success")
-                                location.reload();
-                            } else {
-                                swal("Error!", "Failed to delete department", "error")
-                            }
+                title: "Are you sure want to delete department \n" + department_name + " ?",
+                text: "",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes, delete!",
+                closeOnConfirm: false
+            },
+            function () {
+                var token  	= "{{ csrf_token() }}";
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url('user/department/delete') }}/"+id_department,
+                    data: "_token=" + token + "&id_department" + id_department,
+                    success: function (result) {
+                        if (result.status == "success") {
+                            swal("Success!", "Deleted department.", "success")
+                            location.reload();
+                        } else {
+                            swal("Error!", "Failed to delete department", "error")
                         }
-                    });
+                    }
                 });
+            });
         }
     </script>
 @endsection
@@ -140,6 +171,40 @@ $grantedFeature     = session('granted_features');
     </div><br>
 
     @include('layouts.notifications')
+
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <span class="caption-subject sbold uppercase font-blue">New Department</span>
+            </div>
+        </div>
+        <div class="portlet-body form">
+            <form class="form-horizontal" role="form" id="form_create_table" action="{{url('user/department/store')}}" method="POST">
+                {{ csrf_field() }}
+                <div class="form-body">
+                    <div id="div_parent_0">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Department Name Parent <span class="text-danger">*</span></label>
+                            <div class="col-md-5">
+                                <input class="form-control" type="text" maxlength="200" id="department_name_0" name="data[0][department_name]" required placeholder="Enter department name"/>
+                            </div>
+                            <div class="col-md-4">
+                                <a class="btn btn-primary" onclick="addChild(0)">&nbsp;<i class="fa fa-plus-circle"></i> Child </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    {{ csrf_field() }}
+                    <div class="row">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button type="submit" class="btn green"><i class="fa fa-check"></i> Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <div class="portlet light bordered">
         <div class="portlet-title">
