@@ -91,6 +91,13 @@
 								<span class="arrow"></span>
 							</a>
 							<ul class="sub-menu">
+								@if(MyHelper::hasAccess([328,329,330,331,332], $grantedFeature))
+									<li class="nav-item {{(isset($child_active) && $child_active == 'user-department-list') ? 'active open' : ''}}">
+										<a href="{{url('user/department')}}" class="nav-link ">
+											<span class="title">Department List</span>
+										</a>
+									</li>
+								@endif
 								@if(MyHelper::hasAccess([334], $grantedFeature))
 									<li class="nav-item {{(isset($child_active) && $child_active == 'role-new') ? 'active open' : ''}}">
 										<a href="{{url('role/create')}}" class="nav-link ">
@@ -102,13 +109,6 @@
 									<li class="nav-item {{(isset($child_active) && $child_active == 'role-list') ? 'active open' : ''}}">
 										<a href="{{url('role')}}" class="nav-link ">
 											<span class="title">Role List</span>
-										</a>
-									</li>
-								@endif
-								@if(MyHelper::hasAccess([328,329,330,331,332], $grantedFeature))
-									<li class="nav-item {{(isset($child_active) && $child_active == 'user-department-list') ? 'active open' : ''}}">
-										<a href="{{url('user/department')}}" class="nav-link ">
-											<span class="title">Department List</span>
 										</a>
 									</li>
 								@endif
