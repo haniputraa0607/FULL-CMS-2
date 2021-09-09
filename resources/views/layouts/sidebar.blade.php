@@ -341,65 +341,64 @@
 				</ul>
 			</li>
 		@endif
+
 		@if(MyHelper::hasAccess([338,339,340,341,342,343,344,345], $grantedFeature))
-			<li class="nav-item {{($menu_active == 'business-development') ? 'active open' : ''}}">
-				<a href="javascript:;" class="nav-link nav-toggle">
-					<i class="fa fa-users"></i>
-					<span class="title">Business Development</span>
-					<span class="arrow {{($menu_active == 'business-development') ? 'open' : ''}}"></span>
-				</a>
-				<ul class="sub-menu">
-					@if(MyHelper::hasAccess([338,339,340,341], $grantedFeature))
-						<li class="nav-item {{($submenu_active == 'partners') ? 'active open' : ''}}">
-							<a href="javascript:;" class="nav-link nav-toggle">
-								<span class="title">Partner</span>
-								<span class="arrow"></span>
-							</a>
-							<ul class="sub-menu">
-								@if(MyHelper::hasAccess([338,339,340,341], $grantedFeature))
-									<li class="nav-item {{(isset($child_active) && $child_active == 'list-partners') ? 'active open' : ''}}">
-										<a href="{{url('businessdev/partners')}}" class="nav-link ">
-											<span class="title">List Partners</span>
-										</a>
-									</li>
-								@endif
-								@if(MyHelper::hasAccess([338,339,340,341], $grantedFeature))
-									<li class="nav-item {{(isset($child_active) && $child_active == 'list-candidate-partners') ? 'active open' : ''}}">
-										<a href="{{url('businessdev/candidatepartners')}}" class="nav-link ">
-											<span class="title">List Candidate Partners</span>
-										</a>
-									</li>
-								@endif
-							</ul>
-						</li>
-					@endif
-					@if(MyHelper::hasAccess([342,343,344,345], $grantedFeature))
-						<li class="nav-item {{($submenu_active == 'locations') ? 'active open' : ''}}">
-							<a href="javascript:;" class="nav-link nav-toggle">
-								<span class="title">Locations</span>
-								<span class="arrow"></span>
-							</a>
-							<ul class="sub-menu">
-								@if(MyHelper::hasAccess([342,343,344,345], $grantedFeature))
-									<li class="nav-item {{(isset($child_active) && $child_active == 'list-locations') ? 'active open' : ''}}">
-										<a href="..." class="nav-link ">
-											<span class="title">List Locations</span>
-										</a>
-									</li>
-								@endif
-								@if(MyHelper::hasAccess([342,343,344,345], $grantedFeature))
-									<li class="nav-item {{(isset($child_active) && $child_active == 'list-candidate-locations') ? 'active open' : ''}}">
-										<a href="..." class="nav-link ">
-											<span class="title">List Candidate Locations</span>
-										</a>
-									</li>
-								@endif
-							</ul>
-						</li>
-					@endif
-				</ul>
-			</li>
+		<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
+			<h3 class="uppercase" style="color: #0F444C;font-weight: 600;">Business Development</h3>
+		</li>
+		@if(MyHelper::hasAccess([338,339,340,341], $grantedFeature))
+		<li class="nav-item {{($menu_active == 'partners') ? 'active open' : ''}}">
+			<a href="javascript:;" class="nav-link nav-toggle">
+				<i class="fa fa-users"></i>
+				<span class="title">Partners</span>
+				<span class="arrow {{($menu_active == 'partners') ? 'open' : ''}}"></span>
+			</a>
+			<ul class="sub-menu">
+				@if(MyHelper::hasAccess([338], $grantedFeature))
+				<li class="nav-item {{($submenu_active == 'list-partners') ? 'active open' : ''}}">
+					<a href="{{url('businessdev/partners')}}" class="nav-link ">
+						<span class="title">List Partner</span>
+					</a>
+				</li>
+				@endif
+				@if(MyHelper::hasAccess([338], $grantedFeature))
+				<li class="nav-item {{($submenu_active == 'list-candidate-partners') ? 'active open' : ''}}">
+					<a href="{{url('businessdev/candidatepartners')}}" class="nav-link ">
+						<span class="title">List Candidate Partner</span>
+					</a>
+				</li>
+				@endif
+			</ul>
+		</li>
 		@endif
+		@if(MyHelper::hasAccess([342,343,344,345], $grantedFeature))
+		<li class="nav-item {{($menu_active == 'locations') ? 'active open' : ''}}">
+			<a href="javascript:;" class="nav-link nav-toggle">
+				<i class="fa fa-institution"></i>
+				<span class="title">Locations</span>
+				<span class="arrow {{($menu_active == 'locations') ? 'open' : ''}}"></span>
+			</a>
+			<ul class="sub-menu">
+				@if(MyHelper::hasAccess([342], $grantedFeature))
+				<li class="nav-item {{($submenu_active == 'list-locations') ? 'active open' : ''}}">
+					<a href="{{url('businessdev/locations')}}" class="nav-link ">
+						<span class="title">List Locations</span>
+					</a>
+				</li>
+				@endif
+				@if(MyHelper::hasAccess([342], $grantedFeature))
+				<li class="nav-item {{($submenu_active == 'list-candidate-locations') ? 'active open' : ''}}">
+					<a href="{{url('businessdev/candidatelocations')}}" class="nav-link ">
+						<span class="title">List Candidate Locations</span>
+					</a>
+				</li>
+				@endif
+			</ul>
+		</li>
+		@endif
+		@endif
+
+
 
 		@if(MyHelper::hasAccess([19,21,24,26,32,33,34,43,45,48,50,56,57,164,165,166,167], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">

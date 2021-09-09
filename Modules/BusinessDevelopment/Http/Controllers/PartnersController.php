@@ -26,19 +26,17 @@ class PartnersController extends Controller
         if($url=='http://ixobox-cust-view.test/businessdev/partners'){
             $data = [
                 'title'          => 'Partners',
-                'sub_title'      => 'Partners List',
-                'menu_active'    => 'business-development',
-                'submenu_active' => 'partners',
-                'child_active'   => 'list-partners'
+                'sub_title'      => 'List Partners',
+                'menu_active'    => 'partners',
+                'submenu_active' => 'list-partners',
             ];
             $data['status'] = '';
         } else {
             $data = [
                 'title'          => 'Candidate Partners',
-                'sub_title'      => 'Candidate Partners List',
-                'menu_active'    => 'Candidate business-development',
-                'submenu_active' => 'Candidate partners',
-                'child_active'   => 'Candidate list-partners'
+                'sub_title'      => 'List Candidate Partners',
+                'menu_active'    => 'partners',
+                'submenu_active' => 'list-candidate-partners',
             ];
             $data['status'] = 'Candidate';
         }
@@ -136,19 +134,17 @@ class PartnersController extends Controller
         $result = MyHelper::post('partners/edit', ['id_partner' => $user_id]);
         if($result['result']['partner']['status']=='Candidate'){
             $data = [
-                'title'          => 'Candidate Partners',
-                'sub_title'      => 'Detail Candidate Partners',
-                'menu_active'    => 'Candidate business-development',
-                'submenu_active' => 'Candidate partners',
-                'child_active'   => 'Candidate list-partners'
+                'title'          => 'Candidate Partner',
+                'sub_title'      => 'Detail Candidate Partner',
+                'menu_active'    => 'partners',
+                'submenu_active' => 'list-candidate-partners',
             ];
         } else {
             $data = [
-                'title'          => 'Partners',
-                'sub_title'      => 'Detail Partners',
-                'menu_active'    => 'business-development',
-                'submenu_active' => 'partners',
-                'child_active'   => 'list-partners'
+                'title'          => 'Partner',
+                'sub_title'      => 'Detail Partner',
+                'menu_active'    => 'partners',
+                'submenu_active' => 'list-partners',
             ];
         }
         if(isset($result['status']) && $result['status'] == 'success'){

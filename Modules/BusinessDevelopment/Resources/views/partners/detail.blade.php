@@ -15,11 +15,17 @@
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-select/css/bootstrap-select.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <style>
         .datepicker{
             padding: 6px 12px;
            }
     </style>
+@endsection
+
+@section('page-plugin')
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/jquery-repeater/jquery.repeater.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('page-script')
@@ -34,9 +40,55 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js')}}"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/jquery-repeater/jquery.repeater.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/form-repeater.js') }}" type="text/javascript"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
     <script>
-        var table;
-        table = $('#kt_datatable').DataTable({searching: false, "paging":   false, ordering: false});
+        var SweetAlert = function() {
+            return {
+                init: function() {
+                    $(".sweetalert-delete").each(function() {
+                        var token  	= "{{ csrf_token() }}";
+                        var pathname = window.location.pathname;
+                        let column 	= $(this).parents('tr');
+                        let id     	= $(this).data('id');
+                        let id_partner     	= $(this).data('partner');
+                        let name    = $(this).data('name');
+                        $(this).click(function() {
+                            swal({
+                                    title: name+"\n\nAre you sure want to delete this locations?",
+                                    text: "Your will not be able to recover this data!",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonClass: "btn-danger",
+                                    confirmButtonText: "Yes, delete it!",
+                                    closeOnConfirm: false
+                                },
+                                function(){
+                                    $.ajax({
+                                        type : "POST",
+                                        url : "{{url('businessdev/locations/delete')}}/"+id,
+                                        data : {
+                                            '_token' : '{{csrf_token()}}'
+                                        },
+                                        success : function(response) {
+                                            if (response.status == 'success') {
+                                                swal("Deleted!", "User Mitra has been deleted.", "success")
+                                                SweetAlert.init()
+                                                location.href = "{{url('businessdev/partners/detail')}}/"+id_partner;
+                                            }
+                                            else if(response.status == "fail"){
+                                                swal("Error!", "Failed to delete locations.", "error")
+                                            }
+                                            else {
+                                                swal("Error!", "Something went wrong. Failed to delete locations.", "error")
+                                            }
+                                        }
+                                    });
+                                });
+                        })
+                    })
+                }
+            }
+        }();
 
         $('#modalPartner').click(function(){
             let nama = $('#input-name').val();
@@ -80,6 +132,7 @@
         });
         $('.select2').select2();
         $(document).ready(function() {
+            SweetAlert.init();
             $('[data-switch=true]').bootstrapSwitch();
             $('#btn-submit').on('click', function(event) {
                 if(document.getElementById('auto_generate_pin').checked == false){
@@ -168,10 +221,10 @@
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">@if($title=='Candidate Partners') Candidate Partner Detail @else Partner Detail @endif</span>
+                <span class="caption-subject sbold uppercase font-blue">@if($title=='Candidate Partner') Candidate Partner Detail @else Partner Detail @endif</span>
             </div>
         </div>
-        @if($title=='Partners') <div class="tabbable-line tabbable-full-width">
+        @if($title=='Partner') <div class="tabbable-line tabbable-full-width">
         <ul class="nav nav-tabs">
             <li class="active">
                 <a href="#overview" data-toggle="tab"> Partner Overview </a>
@@ -216,7 +269,7 @@
                                     <textarea name="address" id="input-address" class="form-control" placeholder="Enter address here">{{$result['address']}}</textarea>
                                 </div>
                             </div>
-                            @if ($title=='Candidate Partners' && !empty($result['partner_locations']))
+                            @if ($title=='Candidate Partner' && !empty($result['partner_locations']))
                             <div class="portlet light" style="margin-bottom: 0; padding-bottom: 0">
                                 <div class="portlet-title">
                                     <div class="caption">
@@ -259,7 +312,7 @@
                                                 <i class="fa fa-question-circle tooltips" data-original-title="Kota Calon Lokasi" data-container="body"></i></label>
                                             <div class="col-md-5">
                                                 <select class="form-control select2" name="id_cityLocation" id="id_cityLocation" required>
-                                                    <option value="" selected disabled>Search Outlet</option>
+                                                    <option value="" selected disabled>Select City</option>
                                                     @foreach($cities as $city)
                                                         <option value="{{$city['id_city']}}" @if($result['partner_locations'][0]['id_city'] == $city['id_city']) selected @endif>{{$city['city_name']}}</option>
                                                     @endforeach
@@ -270,7 +323,7 @@
                                 </div>    
                             </div>
                             @endif
-                            @if ($title=='Candidate Partners')
+                            @if ($title=='Candidate Partner')
                             <div class="portlet light" style="margin-bottom: 0; padding-top: 0">
                                 <div class="portlet-title">
                                     <div class="caption">
@@ -280,10 +333,10 @@
                                 <div class="portlet-body form">
                                     @endif
                                     <div class="form-group">
-                                        <label for="example-search-input" class="control-label col-md-4">@if($title=='Candidate Partners') Approve Candidate @else Status @endif<span class="required" aria-required="true">*</span>
+                                        <label for="example-search-input" class="control-label col-md-4">@if($title=='Candidate Partner') Approve Candidate @else Status @endif<span class="required" aria-required="true">*</span>
                                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih status partner" data-container="body"></i></label>
                                         <div class="col-md-5">
-                                            @if($title=='Candidate Partners')
+                                            @if($title=='Candidate Partner')
                                             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#candidatePartnerModal" id="modalPartner">
                                                 Insert Data Partner
                                             </button>
@@ -292,12 +345,12 @@
                                             @endif
                                         </div>
                                     </div>
-                                    @if ($title=='Candidate Partners')
+                                    @if ($title=='Candidate Partner')
                                 </div>
                             </div>
                             @endif
                             
-                            @if($title=='Partners')
+                            @if($title=='Partner')
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Ownership Status <span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Pilih Ownership Status" data-container="body"></i></label>
@@ -325,7 +378,7 @@
                                     <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Mulai menjadi Partner" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <div class="input-group">
-                                        <input type="text" id="start_date" class="@if($title=='Candidate Partners') datepicker @endif form-control" name="start_date" value="{{ (!empty($result['start_date']) ? date('d F Y', strtotime($result['start_date'])) : '')}}" @if($title=='Partners') readonly @endif>
+                                        <input type="text" id="start_date" class="@if($title=='Candidate Partner') datepicker @endif form-control" name="start_date" value="{{ (!empty($result['start_date']) ? date('d F Y', strtotime($result['start_date'])) : '')}}" @if($title=='Partner') readonly @endif>
                                         <span class="input-group-btn">
                                             <button class="btn default" type="button">
                                                 <i class="fa fa-calendar"></i>
@@ -339,7 +392,7 @@
                                     <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Berakhir menjadi Partner" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <div class="input-group">
-                                        <input type="text" id="end_date" class="@if($title=='Candidate Partners') datepicker @endif form-control" name="end_date" value="{{ (!empty($result['end_date']) ? date('d F Y', strtotime($result['end_date'])) : '')}}" @if($title=='Partners') readonly @endif>
+                                        <input type="text" id="end_date" class="@if($title=='Candidate Partner') datepicker @endif form-control" name="end_date" value="{{ (!empty($result['end_date']) ? date('d F Y', strtotime($result['end_date'])) : '')}}" @if($title=='Partner') readonly @endif>
                                         <span class="input-group-btn">
                                             <button class="btn default" type="button">
                                                 <i class="fa fa-calendar"></i>
@@ -384,13 +437,21 @@
                                                 <td>{{date('d F Y H:i', strtotime($location['created_at']))}}</td>
                                                 <td>{{$location['name']}}</td>
                                                 <td>{{$location['address']}}</td>
-                                                <td>{{$location['status']}}</td>
+                                                <td>
+                                                    @if($location['status'] == 'Active')
+                                                        <span class="badge" style="background-color: #26C281; color: #ffffff">{{$location['status']}}</span>
+                                                    @elseif($location['status'] == 'Candidate')
+                                                        <span class="badge" style="background-color: #e1e445; color: #ffffff">{{$location['status']}}</span>
+                                                    @else
+                                                        <span class="badge" style="background-color: #EF1E31; color: #ffffff">{{$location['status']}}</span>
+                                                    @endif
+                                                </td>
                                                 <td>
                                                     @if(MyHelper::hasAccess([343,344], $grantedFeature))
-                                                    <a href=".." class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
+                                                    <a href="{{ url('businessdev/locations/detail/'.$location['id_location']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
                                                     @endif
                                                     @if(MyHelper::hasAccess([345], $grantedFeature))
-                                                    <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $location['id_location'] }}" data-name="{{ $location['name'] }}"><i class="fa fa-trash-o"></i> Delete</a>
+                                                    <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $location['id_location'] }}" data-name="{{ $location['name'] }}" data-partner="{{ $location['id_partner'] }}"><i class="fa fa-trash-o"></i> Delete</a>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -406,7 +467,7 @@
                     </div>
             </div>
         </div>
-        @if($title=='Partners') </div> @endif
+        @if($title=='Partner') </div> @endif
     </div>
 
     <div class="modal fade" id="candidatePartnerModal" tabindex="-1" role="dialog" aria-labelledby="candidatePartnerModalLabel" aria-hidden="true">
