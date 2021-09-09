@@ -1178,11 +1178,13 @@
 							<span class="title">[Response] Cron Transaction</span>
 						</a>
 					</li>
+					@if(MyHelper::hasAccess([99], $configs))
 					<li class="nav-item {{($submenu_active == 'transaction-point-achievement') ? 'active' : ''}}">
 						<a href="{{url('transaction/autoresponse/transaction-point-achievement')}}" class="nav-link nav-toggle">
 							<span class="title">[Response] Transaction Point Achievement</span>
 						</a>
 					</li>
+					@endif
 					<li class="nav-item {{($submenu_active == 'transaction-failed-point-refund') ? 'active' : ''}}">
 						<a href="{{url('transaction/autoresponse/transaction-failed-point-refund')}}" class="nav-link nav-toggle">
 							<span class="title">[Response] Transaction Failed Point Refund</span>

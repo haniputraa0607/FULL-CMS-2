@@ -481,7 +481,7 @@
 							<option value="value" @if(isset($value) && $value == 'value') selected @endif>By Total Transaction Value </option>
 							<option value="count"@if(isset($value) && $value == 'count') selected @endif>By Total Visit </option>
 							<option value="balance"@if(isset($value) && $value == 'balance') selected @endif>By {{env('POINT_NAME', 'Points')}} Received </option>
-							<option value="achievement"@if(isset($value) && $value == 'achievement') selected @endif>By Achievement Reward </option>
+{{--							<option value="achievement"@if(isset($value) && $value == 'achievement') selected @endif>By Achievement Reward </option>--}}
 						</select>
 					</div>
 				</div>
@@ -679,9 +679,9 @@
 												<span class="input-group-btn levelReqBalance" @if($value != 'balance') style="display:none;" @endif>
 													<button class="btn blue" type="button" >{{env('POINT_NAME', 'Points')}}</button>
 												</span>
-												<span class="input-group-btn levelAchievement" @if($value != 'achievement') style="display:none;" @endif>
-													<button class="btn blue" type="button" >Total Achievement</button>
-												</span>
+{{--												<span class="input-group-btn levelAchievement" @if($value != 'achievement') style="display:none;" @endif>--}}
+{{--													<button class="btn blue" type="button" >Total Achievement</button>--}}
+{{--												</span>--}}
 												<input class="form-control price" type="text" name="min_value" @if($value == 'value') value="{{$membership['min_total_value']}}" @elseif($value == 'count') value="{{$membership['min_total_count']}}"  @elseif($value == 'balance') value="{{$membership['min_total_balance']}}" @elseif($value == 'achievement') value="{{$membership['min_total_achievement']}}" @endif placeholder="Level Requirement">
 												<span class="input-group-btn levelReqX" @if($value != 'count') style="display:none;" @endif>
 													<button class="btn yellow" type="button" >X trx</button>
@@ -1134,7 +1134,7 @@
 													<textarea class="form-control" name="benefit_promo_id"  placeholder="Promo ID Received"> @if(empty($membership['benefit_promo_id']))  @else {{$membership['benefit_promo_id']}} @endif</textarea>
 												</div> -->
 												<div class="inner-repeater">
-          											<div data-repeater-list="benefit_text">\
+          											<div data-repeater-list="benefit_text">
 														<div data-repeater-item="" class="row" style="margin-bottom:15px">
 															<div class="col-md-10">
 																<textarea type="text" name="benefit_text[]" class="form-control" placeholder="Benefit text"></textarea>
@@ -1148,7 +1148,7 @@
 													</div>
 													<hr>
 													<a href="javascript:;" data-repeater-create="" class="btn btn-info mt-repeater-add">
-														<i class="fa fa-plus"></i> Add Promo ID</a>
+														<i class="fa fa-plus"></i> Add Benefit</a>
 													<br>
 												</div>
 												<br>
