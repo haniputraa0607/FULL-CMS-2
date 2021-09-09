@@ -746,6 +746,28 @@ class MyHelper
   public static function getNameFromNumber($num) {
       return \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($num);
   }
+
+ /**
+ * get simple tree format of data with parent-child structure, like product variant, department, job level, etc.
+ * @param  array $elements      module data with parent and child
+ * @param  String $moduleName 	name of module in database, (ex = 'product_variant', will be used to create id_product_variant)
+ * @return array             		simple tree format of id_module and module_name
+ */
+  public static  function simpleTree(array $elements, string $moduleName)
+  {
+  	$res = [];
+  	foreach($elements as $key => $val){
+          if(!empty($val[$moduleName.'_parent']) && empty($val[$moduleName.'_child'])){
+              $res[$val[$moduleName.'_parent'][$moduleName.'_name']][] = [
+                  'id_parent' => $val['id_parent'],
+                  'id_'.$moduleName => $val['id_'.$moduleName],
+                  $moduleName.'_name' => $val[$moduleName.'_name']
+              ];
+          }
+      }
+
+      return $res;
+  }
 }
 
 ?>
