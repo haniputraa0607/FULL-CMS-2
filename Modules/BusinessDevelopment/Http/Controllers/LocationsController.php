@@ -164,7 +164,44 @@ class LocationsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request->all());
+        // dd($request->all());
+        $request->validate([
+            "name" => "required",
+            "address" => "required",
+            "latitude" => "required",
+            "longitude" => "required",
+            "id_city" => "required",
+        ]);
+        $post = [
+            "id_location" => $id,
+            "name" => $request["name"],
+            "address" => $request["address"],
+            "latitude" => $request["latitude"],
+            "longitude" => $request["longitude"],
+            "id_city" => $request["id_city"],
+            "id_partner" => $request["id_partner"],
+        ];
+        if (isset($request['pic_name']) && $request["pic_name"] != null){
+            $post['pic_name'] = $request['pic_name'];
+        } else {
+            $post['pic_name'] = '';
+        }
+        if (isset($request['pic_contact']) && $request["pic_contact"] != null){
+            $post['pic_contact'] = $request['pic_contact'];
+        } else {
+            $post['pic_contact'] = '';
+        }
+        if (isset($request['status']) && $request["status"] == 'on'){
+            $post['status'] = 'Active';
+        }
+        $result = MyHelper::post('partners/locations/update', $post);
+        if(isset($result['status']) && $result['status'] == 'success' && $request["status"] == 'on'){
+            return redirect('businessdev/locations/detail/'.$id)->withSuccess(['Success update candidate location to location']);
+        }elseif(isset($result['status']) && $result['status'] == 'success'){
+            return redirect('businessdev/locations/detail/'.$id)->withSuccess(['Success update candidate location']);
+        }else{
+            return redirect('businessdev/locations/detail/'.$id)->withErrors($result['messages'] ?? ['Failed update detail candidate location']);
+        }
     }
 
     /**

@@ -91,39 +91,25 @@
         }();
 
         $('#modalPartner').click(function(){
+            let namaPartner = $('#input-name-partner').val();
             let nama = $('#input-name').val();
-            let phone = $('#input-phone').val();
-            let email = $('#input-email').val();
             let address = $('#input-address').val();
-            let id_location = $('#input-id_location').val();
-            let nameLocation = $('#input-name-location').val();
-            let addressLocation = $('#input-address-location').val();
-            let latitudeLocation = $('#input-latitude-location').val();
-            let longitudeLocation = $('#input-longitude-location').val();
-            let id_cityLocation = $('#id_cityLocation').val();
-            $("#nameModal").val(nama);
-            $("#phoneModal").val(phone);
-            $("#emailModal").val(email);
-            $("#addressModal").val(address);
-            if(id_location != undefined){
-                $("#id_locationModal").val(id_location);
-            }
-            if(nameLocation != undefined){
-                $("#nameLocationModal").val(nameLocation);
-            }
-            if(addressLocation != undefined){
-                $("#addressLocationModal").val(addressLocation);
-            }
-            if(latitudeLocation != undefined){
-                $("#latitudeLocationModal").val(latitudeLocation);
-            }
-            if(longitudeLocation != undefined){
-                $("#longitudeLocationModal").val(longitudeLocation);
-            }
-            if(id_cityLocation != undefined){
-                $("#id_cityLocationModal").val(id_cityLocation);
-            }
-
+            let latitude = $('#input-latitude').val();
+            let longitude = $('#input-longitude').val();
+            let pic_name = $('#input-pic_name').val();
+            let pic_contact = $('#input-pic_contact').val();
+            let id_city = $('#input-id_city').val();
+            let city_name = $('#input-id_city option:selected').text();
+            city_name = city_name.replace('Select City','');
+            $("#namePartner-modal").val(namaPartner);
+            $("#name-modal").val(nama);
+            $("#address-modal").val(address);
+            $("#latitude-modal").val(latitude);
+            $("#longitude-modal").val(longitude);
+            $("#pic_name-modal").val(pic_name);
+            $("#pic_contact-modal").val(pic_contact);
+            $("#id_city-modal").val(id_city);
+            $("#city_name-modal").val(city_name);
         });
         $('.datepicker').datepicker({
             'format' : 'dd MM yyyy',
@@ -239,49 +225,49 @@
                         <label for="example-search-input" class="control-label col-md-4">Name Location <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nama lokasi" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <input class="form-control" type="text" id="input-name" name="name" value="{{$result['name']}}" placeholder="Enter name loocation here"/>
+                            <input class="form-control" type="text" id="input-name" name="name" value="{{$result['name']}}" placeholder="Enter name location here"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Address Location <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Masukkan alamat lokasi" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <input class="form-control" type="text" id="input-address" name="address" value="{{$result['address']}}" placeholder="Enter address loocation here"/>
+                            <textarea name="address" id="input-address" class="form-control" placeholder="Enter address location here">{{$result['address']}}</textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Latitude Location <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Masukkan latitude lokasi" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <input class="form-control" type="text" id="input-latitude" name="latitude" value="{{$result['latitude']}}" placeholder="Enter latitude loocation here"/>
+                            <input class="form-control" type="text" id="input-latitude" name="latitude" value="{{$result['latitude']}}" placeholder="Enter latitude location here"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Longitude Location <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Masukkan longitude lokasi" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <input class="form-control" type="text" id="input-longitude" name="longitude" value="{{$result['longitude']}}" placeholder="Enter longitude loocation here"/>
+                            <input class="form-control" type="text" id="input-longitude" name="longitude" value="{{$result['longitude']}}" placeholder="Enter longitude location here"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">PIC Name Location <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nama pic lokasi" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <input class="form-control" type="text" id="input-pic_name" name="pic_name" value="{{$result['pic_name']}}" placeholder="Enter pic_name loocation here"/>
+                            <input class="form-control" type="text" id="input-pic_name" name="pic_name" value="{{$result['pic_name']}}" placeholder="Enter pic_name location here"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">PIC Contact Location <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Masukkan kontak pic lokasi" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <input class="form-control" type="text" id="input-pic_contact" name="pic_contact" value="{{$result['pic_contact']}}" placeholder="Enter pic_contact loocation here"/>
+                            <input class="form-control" type="text" id="input-pic_contact" name="pic_contact" value="{{$result['pic_contact']}}" placeholder="Enter pic_contact location here"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">City Location <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Masukkan kota lokasi" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <select class="form-control select2" name="id_city" id="id_city" required>
+                            <select class="form-control select2" name="id_city" id="input-id_city" required>
                                 <option value="" selected disabled>Select City</option>
                                 @foreach($cities as $city)
                                     <option value="{{$city['id_city']}}" @if($result['id_city'] == $city['id_city']) selected @endif>{{$city['city_name']}}</option>
@@ -290,11 +276,13 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">@if($title=='Candidate Location') Approve Location @else Status @endif<span class="required" aria-required="true">*</span>
+                        <label for="example-search-input" class="control-label col-md-4">Status <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih status lokasi" data-container="body"></i></label>
                         <div class="col-md-5">
                             @if($title=='Candidate Location')
-                            <input data-switch="true" type="checkbox" name="status" data-on-text="Active" data-off-text="Candidate" {{$result['status'] ==  'Active' ? 'checked' : ''}}/>
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#candidatePartnerModal" id="modalPartner">
+                                Approve Candidate
+                            </button>
                             @else
                             <input data-switch="true" type="checkbox" name="status" data-on-text="Active" data-off-text="Inactive" {{$result['status'] ==  'Active' ? 'checked' : ''}}/>
                             @endif
@@ -311,6 +299,88 @@
                 </div>
             </form>
         </div>
-      </div>
+    </div>
+    <div class="modal fade" id="candidatePartnerModal" tabindex="-1" role="dialog" aria-labelledby="candidatePartnerModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="candidatePartnerModalLabel">Approve Candidate Location</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" action="{{url('businessdev/locations/update')}}/{{$result['id_location']}}" method="post" enctype="multipart/form-data">
+                    <div class="form-body">
+                        <input type="hidden" name='status' value="on">
+                        <input class="form-control" type="hidden" id="id_partner" name="id_partner" value="{{$result['id_partner']}}"/>
+                        <div class="form-group">
+                            <label for="example-search-input" class="control-label col-md-5">Nama Partner <span class="required" aria-required="true">*</span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Masukkan Password" data-container="body"></i></label>
+                            <div class="col-md-5">
+                                <input class="form-control" type="text" id="namePartner-modal" name="namePartner" value="" readonly/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="example-search-input" class="control-label col-md-5">Name Location <span class="required" aria-required="true">*</span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nama lokasi" data-container="body"></i></label>
+                            <div class="col-md-5">
+                                <input class="form-control" type="text" id="name-modal" name="name" value="" readonly/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="example-search-input" class="control-label col-md-5">Address Location <span class="required" aria-required="true">*</span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Masukkan alamat lokasi" data-container="body"></i></label>
+                            <div class="col-md-5">
+                                <textarea name="address" id="address-modal" class="form-control" readonly></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="example-search-input" class="control-label col-md-5">Latitude Location <span class="required" aria-required="true">*</span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Masukkan latitude lokasi" data-container="body"></i></label>
+                            <div class="col-md-5">
+                                <input class="form-control" type="text" id="latitude-modal" name="latitude" value="" readonly/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="example-search-input" class="control-label col-md-5">Longitude Location <span class="required" aria-required="true">*</span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Masukkan longitude lokasi" data-container="body"></i></label>
+                            <div class="col-md-5">
+                                <input class="form-control" type="text" id="longitude-modal" name="longitude" value="" readonly/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="example-search-input" class="control-label col-md-5">PIC Name Location <span class="required" aria-required="true">*</span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nama pic lokasi" data-container="body"></i></label>
+                            <div class="col-md-5">
+                                <input class="form-control" type="text" id="pic_name-modal" name="pic_name" value="" readonly/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="example-search-input" class="control-label col-md-5">PIC Contact Location <span class="required" aria-required="true">*</span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Masukkan kontak pic lokasi" data-container="body"></i></label>
+                            <div class="col-md-5">
+                                <input class="form-control" type="text" id="pic_contact-modal" name="pic_contact" value="" readonly/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="example-search-input" class="control-label col-md-5">City Location <span class="required" aria-required="true">*</span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Masukkan kota lokasi" data-container="body"></i></label>
+                            <div class="col-md-5">
+                                <input class="form-control" type="hidden" id="id_city-modal" name="id_city" value="" readonly/>
+                                <input class="form-control" type="text" id="city_name-modal" value="" readonly/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer form-actions">
+                    {{ csrf_field() }}
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn blue">Submit</button>
+                </div>
+            </form>
+          </div>
+        </div>
+    </div>
 
 @endsection

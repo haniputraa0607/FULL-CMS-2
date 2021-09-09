@@ -165,7 +165,6 @@ class PartnersController extends Controller
      */
     public function update(Request $request, $id)
     {   
-        // dd($request->all());
         $request->validate([
             "name" => "required",
             "email" => "required",
@@ -178,6 +177,7 @@ class PartnersController extends Controller
                 "start_date" => "required",
                 "end_date" => "required",
             ]);
+            $status = 'on';
         }if(isset($request["status"]) && $request["status"] == 'Active'){
             $post['status'] = $request["status"];
             $request->validate([
@@ -187,6 +187,7 @@ class PartnersController extends Controller
                 "start_date" => "required",
                 "end_date" => "required",
             ]);
+            $status = 'on';
         }
         if(isset($request["id_location"]) && $request["id_location"] != null){
             $request->validate([
@@ -204,25 +205,25 @@ class PartnersController extends Controller
             "email" => $request["email"],
             "address" => $request["address"],
         ];
-        if (isset($request['ownership_status'])){
+        if (isset($request['ownership_status']) && $status == 'on'){
             $post['ownership_status'] = $request['ownership_status'];
         } 
-        if (isset($request['cooperation_scheme'])){
+        if (isset($request['cooperation_scheme']) && $status == 'on'){
             $post['cooperation_scheme'] = $request['cooperation_scheme'];
         } 
-        if (isset($request['id_bank_account'])){
+        if (isset($request['id_bank_account']) && $status == 'on'){
             $post['id_bank_account'] = $request['id_bank_account'];
         }
-        if ($request['start_date']!=null && $request["status"] == 'on'){
+        if ($request['start_date']!=null && $status == 'on'){
             $post['start_date'] = date('Y-m-d', strtotime($request['start_date']));
         } 
-        if ($request['end_date']!=null && $request["status"] == 'on'){
+        if ($request['end_date']!=null && $status == 'on'){
             $post['end_date'] = date('Y-m-d', strtotime($request['end_date']));
         } 
-        if(isset($request["status"]) && $request["status"] == 'on'){
+        if(isset($request["status"]) && $status == 'on'){
             $post['status'] = 'Active';
         }
-        if(isset($request["password"]) && $request["status"] == 'on'){
+        if(isset($request["password"]) && $status == 'on'){
             $post['password'] = Hash::make($request["password"]);
         }
         if(isset($request["id_location"]) && $request["id_location"] != null){
@@ -236,7 +237,6 @@ class PartnersController extends Controller
                 "id_city" => $request["id_cityLocation"],
             ];
         }
-        // dd($postLocation);
         $result = MyHelper::post('partners/update', $post);
         if (isset($result['status']) && $result['status'] == 'success') {
             if(isset($postLocation)){
