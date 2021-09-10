@@ -43,7 +43,7 @@
                         let name    = $(this).data('name');
                         $(this).click(function() {
                             swal({
-                                    title: name+"\n\nAre you sure want to delete this partner?",
+                                    title: name+"\n\nAre you sure want to delete this locations?",
                                     text: "Your will not be able to recover this data!",
                                     type: "warning",
                                     showCancelButton: true,
@@ -54,25 +54,25 @@
                                 function(){
                                     $.ajax({
                                         type : "POST",
-                                        url : "{{url('businessdev/partners/delete')}}/"+id,
+                                        url : "{{url('businessdev/locations/delete')}}/"+id,
                                         data : {
                                             '_token' : '{{csrf_token()}}'
                                         },
                                         success : function(response) {
                                             if (response.status == 'success') {
-                                                swal("Deleted!", "Partner has been deleted.", "success")
+                                                swal("Deleted!", "Locations has been deleted.", "success")
                                                 SweetAlert.init()
-                                                if(pathname=='/businessdev/candidatepartners'){
-                                                    location.href = "{{url('businessdev/candidatepartners')}}";
-                                                  } else {
-                                                    location.href = "{{url('businessdev/partners')}}";
-                                                  }
+                                                if(pathname=='/businessdev/candidatelocations'){
+                                                  location.href = "{{url('businessdev/candidatelocations')}}";
+                                                } else {
+                                                  location.href = "{{url('businessdev/locations')}}";
+                                                }
                                             }
                                             else if(response.status == "fail"){
-                                                swal("Error!", "Failed to delete partner.", "error")
+                                                swal("Error!", "Failed to delete locations.", "error")
                                             }
                                             else {
-                                                swal("Error!", "Something went wrong. Failed to delete partner.", "error")
+                                                swal("Error!", "Something went wrong. Failed to delete locations.", "error")
                                             }
                                         }
                                     });
@@ -116,7 +116,7 @@
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject font-blue sbold uppercase">@if($title=='Candidate Partners') List Candidate Partner @else List Partner @endif</span>
+                <span class="caption-subject font-blue sbold uppercase">@if($title=='Candidate Partners') List Candidate Locations @else List Location @endif</span>
             </div>
         </div>
         <div class="portlet-body form">
@@ -144,60 +144,52 @@
             <br>
             <br>
             <div style="white-space: nowrap;">
-                <table class="table table-striped table-bordered table-hover" id="kt_datatable">
-                    <thead>
-                    <tr>
-                        <th class="text-nowrap text-center">Created At</th>
-                        <th class="text-nowrap text-center">Name</th>
-                        <th class="text-nowrap text-center">Phone</th>
-                        <th class="text-nowrap text-center">Email</th>
-                        <th class="text-nowrap text-center">Addres</th>
-                        @if($title=='Candidate Partners')
-                        <th class="text-nowrap text-center">Status</th>
-                        @endif
-                        @if(MyHelper::hasAccess([339,340,341], $grantedFeature))
-                        <th class="text-nowrap text-center">Action</th>
-                        @endif
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @if(!empty($data))
-                        @foreach($data as $dt)
-                            <tr data-id="{{ $dt['id_partner'] }}">
-                                <td>{{date('d F Y H:i', strtotime($dt['created_at']))}}</td>
-                                <td>{{$dt['name']}}</td>
-                                <td>{{$dt['phone']}}</td>
-                                <td>{{$dt['email']}}</td>
-                                <td>{{$dt['address']}}</td>
-                                @if($title=='Candidate Partners')
-                                <td>
-                                    @if($dt['status'] == 'Active')
-                                        <span class="badge" style="background-color: #26C281; color: #ffffff">{{$dt['status']}}</span>
-                                    @elseif($dt['status'] == 'Inactive')
-                                        <span class="badge" style="background-color: #EF1E31; color: #ffffff">{{$dt['status']}}</span>
-                                    @else
-                                        <span class="badge" style="background-color: #e1e445; color: #ffffff">{{$dt['status']}}</span>
-                                    @endif
-                                </td>
-                                @endif
-                                <td>
-                                    @if(MyHelper::hasAccess([339,340], $grantedFeature))
-                                    <a href="{{ url('businessdev/partners/detail/'.$dt['id_partner']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
-                                    @endif
-                                    @if(MyHelper::hasAccess([341], $grantedFeature))
-                                    <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $dt['id_partner'] }}" data-name="{{ $dt['name'] }}"><i class="fa fa-trash-o"></i> Delete</a>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                    @else
-                        <tr>
-                            <td colspan="10" style="text-align: center">Data Not Available</td>
-                        </tr>
-                    @endif
-                    </tbody>
-                </table>
-            </div>
+                  <table class="table table-striped table-bordered table-hover" id="kt_datatable">
+                      <thead>
+                      <tr>
+                          <th class="text-nowrap text-center">Created At</th>
+                          <th class="text-nowrap text-center">Name Location</th>
+                          <th class="text-nowrap text-center">Address</th>
+                          <th class="text-nowrap text-center">Status</th>
+                          @if(MyHelper::hasAccess([343,344,345], $grantedFeature))
+                          <th class="text-nowrap text-center">Action</th>
+                          @endif
+                      </tr>
+                      </thead>
+                      <tbody>
+                          @if(!empty($data))
+                              @foreach($data as $location)
+                                  <tr data-id="{{ $location['id_location'] }}">
+                                      <td>{{date('d F Y H:i', strtotime($location['created_at']))}}</td>
+                                      <td>{{$location['name']}}</td>
+                                      <td>{{$location['address']}}</td>
+                                      <td>
+                                          @if($location['status'] == 'Active')
+                                              <span class="badge" style="background-color: #26C281; color: #ffffff">{{$location['status']}}</span>
+                                          @elseif($location['status'] == 'Candidate')
+                                              <span class="badge" style="background-color: #e1e445; color: #ffffff">{{$location['status']}}</span>
+                                          @else
+                                              <span class="badge" style="background-color: #EF1E31; color: #ffffff">{{$location['status']}}</span>
+                                          @endif
+                                      </td>
+                                      <td>
+                                          @if(MyHelper::hasAccess([343,344], $grantedFeature))
+                                          <a href="{{ url('businessdev/locations/detail/'.$location['id_location']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
+                                          @endif
+                                          @if(MyHelper::hasAccess([345], $grantedFeature))
+                                          <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $location['id_location'] }}" data-name="{{ $location['name'] }}"><i class="fa fa-trash-o"></i> Delete</a>
+                                          @endif
+                                      </td>
+                                  </tr>
+                              @endforeach
+                          @else
+                              <tr>
+                                  <td colspan="10" style="text-align: center">Data Not Available</td>
+                              </tr>
+                          @endif
+                          </tbody>
+                  </table>
+          </div>
         </div>
     </div>
     </form>
