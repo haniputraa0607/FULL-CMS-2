@@ -26,19 +26,17 @@ class PartnersController extends Controller
         if($url=='http://ixobox-cust-view.test/businessdev/partners'){
             $data = [
                 'title'          => 'Partners',
-                'sub_title'      => 'Partners List',
-                'menu_active'    => 'business-development',
-                'submenu_active' => 'partners',
-                'child_active'   => 'list-partners'
+                'sub_title'      => 'List Partners',
+                'menu_active'    => 'partners',
+                'submenu_active' => 'list-partners',
             ];
             $data['status'] = '';
         } else {
             $data = [
                 'title'          => 'Candidate Partners',
-                'sub_title'      => 'Candidate Partners List',
-                'menu_active'    => 'Candidate business-development',
-                'submenu_active' => 'Candidate partners',
-                'child_active'   => 'Candidate list-partners'
+                'sub_title'      => 'List Candidate Partners',
+                'menu_active'    => 'partners',
+                'submenu_active' => 'list-candidate-partners',
             ];
             $data['status'] = 'Candidate';
         }
@@ -136,19 +134,17 @@ class PartnersController extends Controller
         $result = MyHelper::post('partners/edit', ['id_partner' => $user_id]);
         if($result['result']['partner']['status']=='Candidate'){
             $data = [
-                'title'          => 'Candidate Partners',
-                'sub_title'      => 'Detail Candidate Partners',
-                'menu_active'    => 'Candidate business-development',
-                'submenu_active' => 'Candidate partners',
-                'child_active'   => 'Candidate list-partners'
+                'title'          => 'Candidate Partner',
+                'sub_title'      => 'Detail Candidate Partner',
+                'menu_active'    => 'partners',
+                'submenu_active' => 'list-candidate-partners',
             ];
         } else {
             $data = [
-                'title'          => 'Partners',
-                'sub_title'      => 'Detail Partners',
-                'menu_active'    => 'business-development',
-                'submenu_active' => 'partners',
-                'child_active'   => 'list-partners'
+                'title'          => 'Partner',
+                'sub_title'      => 'Detail Partner',
+                'menu_active'    => 'partners',
+                'submenu_active' => 'list-partners',
             ];
         }
         if(isset($result['status']) && $result['status'] == 'success'){
@@ -169,7 +165,6 @@ class PartnersController extends Controller
      */
     public function update(Request $request, $id)
     {   
-        // dd($request->all());
         $request->validate([
             "name" => "required",
             "email" => "required",
@@ -182,6 +177,7 @@ class PartnersController extends Controller
                 "start_date" => "required",
                 "end_date" => "required",
             ]);
+            $status = 'on';
         }if(isset($request["status"]) && $request["status"] == 'Active'){
             $post['status'] = $request["status"];
             $request->validate([
@@ -191,6 +187,7 @@ class PartnersController extends Controller
                 "start_date" => "required",
                 "end_date" => "required",
             ]);
+            $status = 'on';
         }
         if(isset($request["id_location"]) && $request["id_location"] != null){
             $request->validate([
@@ -208,25 +205,25 @@ class PartnersController extends Controller
             "email" => $request["email"],
             "address" => $request["address"],
         ];
-        if (isset($request['ownership_status'])){
+        if (isset($request['ownership_status']) && $status == 'on'){
             $post['ownership_status'] = $request['ownership_status'];
         } 
-        if (isset($request['cooperation_scheme'])){
+        if (isset($request['cooperation_scheme']) && $status == 'on'){
             $post['cooperation_scheme'] = $request['cooperation_scheme'];
         } 
-        if (isset($request['id_bank_account'])){
+        if (isset($request['id_bank_account']) && $status == 'on'){
             $post['id_bank_account'] = $request['id_bank_account'];
         }
-        if ($request['start_date']!=null && $request["status"] == 'on'){
+        if ($request['start_date']!=null && $status == 'on'){
             $post['start_date'] = date('Y-m-d', strtotime($request['start_date']));
         } 
-        if ($request['end_date']!=null && $request["status"] == 'on'){
+        if ($request['end_date']!=null && $status == 'on'){
             $post['end_date'] = date('Y-m-d', strtotime($request['end_date']));
         } 
-        if(isset($request["status"]) && $request["status"] == 'on'){
+        if(isset($request["status"]) && $status == 'on'){
             $post['status'] = 'Active';
         }
-        if(isset($request["password"]) && $request["status"] == 'on'){
+        if(isset($request["password"]) && $status == 'on'){
             $post['password'] = Hash::make($request["password"]);
         }
         if(isset($request["id_location"]) && $request["id_location"] != null){
@@ -240,7 +237,6 @@ class PartnersController extends Controller
                 "id_city" => $request["id_cityLocation"],
             ];
         }
-        // dd($postLocation);
         $result = MyHelper::post('partners/update', $post);
         if (isset($result['status']) && $result['status'] == 'success') {
             if(isset($postLocation)){
