@@ -2729,7 +2729,7 @@
 
 		@if(MyHelper::hasAccess([346], $grantedFeature))
 			<li class="nav-item {{($menu_active == 'setting-mitra-apps') ? 'active' : ''}}">
-				<a href="{{url('setting/mitraapp')}}" class="nav-link">
+				<a href="{{url('setting/mitra-apps')}}" class="nav-link">
 					<i class="fa fa-tablet"></i>
 					<span class="title">Setting Mitra Apps</span>
 				</a>
