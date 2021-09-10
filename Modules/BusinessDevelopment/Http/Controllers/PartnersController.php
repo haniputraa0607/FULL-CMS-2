@@ -271,6 +271,7 @@ class PartnersController extends Controller
             "beneficiary_account" => "required",
         ]);
         $post = [
+            "id_bank_account" => $id_bank_account,
             "id_bank_name" => $request["id_bank_name"],
             "beneficiary_name" => $request["beneficiary_name"],
             "beneficiary_account" => $request["beneficiary_account"],
@@ -280,6 +281,22 @@ class PartnersController extends Controller
         if (isset($request['send_email_to']) && !empty($request['send_email_to'])){
             $post['send_email_to'] = $request['send_email_to'];
         }
+        dd($post);
+        $result = MyHelper::post('partners/locations/update', $post);
+        if(isset($result['status']) && $result['status'] == 'success'){
+            return redirect('businessdev/partners/detail/'.$id)->withSuccess(['Success update bank account']);
+        }else{
+            return redirect('businessdev/partners/detail/'.$id)->withErrors($result['messages'] ?? ['Failed update detail bank account']);
+        }
+
+    }
+
+    public function createBankAccount(Request $request){
+        $request->validate([
+            "beneficiary_name" => "required",
+            "beneficiary_account" => "required",
+        ]);
+        dd($request->all());
         $result = MyHelper::post('partners/locations/update', $post);
         if(isset($result['status']) && $result['status'] == 'success'){
             return redirect('businessdev/partners/detail/'.$id)->withSuccess(['Success update bank account']);
