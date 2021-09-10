@@ -19,11 +19,11 @@ class PartnersController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function index(Request $request)
+    public function index(Request $request,$type = null)
     {
         $post = $request->all();
         $url = $request->url();
-        if($url=='http://ixobox-cust-view.test/businessdev/partners'){
+        if($type!='candidate'){
             $data = [
                 'title'          => 'Partners',
                 'sub_title'      => 'List Partners',
