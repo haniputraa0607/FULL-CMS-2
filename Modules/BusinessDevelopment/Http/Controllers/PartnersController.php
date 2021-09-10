@@ -151,6 +151,8 @@ class PartnersController extends Controller
             $data['result'] = $result['result']['partner'];
             $data['bank'] = MyHelper::get('disburse/setting/list-bank-account')['result']['list_bank']??[];
             $data['cities'] = MyHelper::get('city/list')['result']??[];
+            $data['bankName'] = MyHelper::get('disburse/bank')['result']??[];
+            // dd($data['bankName']);
             return view('businessdevelopment::partners.detail', $data);
         }else{
             return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
@@ -261,5 +263,29 @@ class PartnersController extends Controller
     {
         $result = MyHelper::post("partners/delete", ['id_partner' => $id]);
         return $result;
+    }
+
+    public function updateBankAccount(Request $request,$id_bank_account){
+        $request->validate([
+            "beneficiary_name" => "required",
+            "beneficiary_account" => "required",
+        ]);
+        $post = [
+            "id_bank_name" => $request["id_bank_name"],
+            "beneficiary_name" => $request["beneficiary_name"],
+            "beneficiary_account" => $request["beneficiary_account"],
+            "beneficiary_alias" => $request["beneficiary_alias"],
+            "beneficiary_email" => $request["beneficiary_email"]
+        ];
+        if (isset($request['send_email_to']) && !empty($request['send_email_to'])){
+            $post['send_email_to'] = $request['send_email_to'];
+        }
+        $result = MyHelper::post('partners/locations/update', $post);
+        if(isset($result['status']) && $result['status'] == 'success'){
+            return redirect('businessdev/partners/detail/'.$id)->withSuccess(['Success update bank account']);
+        }else{
+            return redirect('businessdev/partners/detail/'.$id)->withErrors($result['messages'] ?? ['Failed update detail bank account']);
+        }
+
     }
 }

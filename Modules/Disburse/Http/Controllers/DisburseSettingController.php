@@ -93,6 +93,7 @@ class DisburseSettingController extends Controller
         if($post){
             Session::put('filter-disburse-list-outlet',$post);
         }
+        dd($data);
         return view('disburse::setting_bank_account.edit', $data);
     }
 

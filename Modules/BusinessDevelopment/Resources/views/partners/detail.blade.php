@@ -234,7 +234,7 @@
                 <a href="#locations" data-toggle="tab"> Partner Locations </a>
             </li>
             @endif
-            @if(MyHelper::hasAccess([342], $grantedFeature))
+            @if(MyHelper::hasAccess([351,352], $grantedFeature))
             <li>
                 <a href="#bank" data-toggle="tab"> Partner Bank Account </a>
             </li>
@@ -477,11 +477,63 @@
             {{-- tab 3 --}}
             <div class="tab-pane" id="bank">
                 <div style="white-space: nowrap;">
+                    @if ($result['id_bank_account'])
                     <div class="portlet-body form">
-                        <form class="form-horizontal" role="form" action="{{url('businessdev/partners/update')}}/{{$result['id_partner']}}" method="post" enctype="multipart/form-data">
+                        <form class="form-horizontal" role="form" action="{{url('businessdev/partners/update-bank')}}/{{$result['id_bank_account']}}" method="post" enctype="multipart/form-data">
                             <div class="form-body">
-                                
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Bank Name <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Pilih Bank" data-container="body"></i></label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" name="id_bank_name" id="id_bank_name" required>
+                                            <option value="" selected disabled>Select Bank Name</option>
+                                            @foreach($bankName as $b)
+                                                <option value="{{$b['id_bank_name']}}" @if($result['partner_bank_account']['id_bank_name'] == $b['id_bank_name']) selected @endif>{{$b['bank_name']}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Beneficiary Name <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nama penerima" data-container="body"></i></label>
+                                    <div class="col-md-6">
+                                        <input class="form-control" type="text" id="input-beneficiary_name" name="beneficiary_name" value="{{$result['partner_bank_account']['beneficiary_name']}}" placeholder="Enter beneficiary name"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Beneficiary Account <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukkan akun penerima" data-container="body"></i></label>
+                                    <div class="col-md-6">
+                                        <input class="form-control" type="text" id="input-beneficiary_account" name="beneficiary_account" value="{{$result['partner_bank_account']['beneficiary_account']}}" placeholder="Enter beneficiary name"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Beneficiary Alias <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nama alias penerima" data-container="body"></i></label>
+                                    <div class="col-md-6">
+                                        <input class="form-control" type="text" id="input-beneficiary_alias" name="beneficiary_alias" value="{{$result['partner_bank_account']['beneficiary_alias']}}" placeholder="Enter beneficiary alias"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Beneficiary Email <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukkan email penerima" data-container="body"></i></label>
+                                    <div class="col-md-6">
+                                        <input class="form-control" type="text" id="input-beneficiary_email" name="beneficiary_email" value="{{$result['partner_bank_account']['beneficiary_email']}}" placeholder="Enter beneficiary email"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Send Email to <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Pilih metode kirim email" data-container="body"></i></label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" name="send_email_to" id="send_email_to" >
+                                            <option value="">Select Email</option>
+                                            <option value="Email Outlet" @if($result['partner_bank_account']['send_email_to'] == 'Email Outlet') selected @endif>Email Outlet</option>
+                                            <option value="Email Bank" @if($result['partner_bank_account']['send_email_to'] == 'Email Bank') selected @endif>Email Bank</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
+                            @if(MyHelper::hasAccess([352], $grantedFeature))
                             <div class="form-actions">
                                 {{ csrf_field() }}
                                 <div class="row">
@@ -490,8 +542,16 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
                         </form>
-                    </div>
+                    </div>   
+                    @else
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr><th colspan="10" style="text-align: center">Data Not Available</th></tr>
+                        </thead>
+                    </table>
+                    @endif
                 </div>
             </div>
         </div>
