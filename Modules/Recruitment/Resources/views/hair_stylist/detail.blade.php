@@ -128,6 +128,18 @@ $grantedFeature     = session('granted_features');
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Bank Account</label>
+                            <div class="col-md-6" style="margin-top: 1%">
+                                @if(empty($detail['beneficiary_account']))
+                                    -
+                                @else
+                                    {{$detail['bank_name']}}<br>
+                                    {{$detail['beneficiary_name']}}<br>
+                                    {{$detail['beneficiary_account']}}
+                                @endif
+                            </div>
+                        </div>
                     @endif
                     <div class="form-group">
                         <label class="col-md-3 control-label">Nickname <span class="required" aria-required="true"> * </span>
