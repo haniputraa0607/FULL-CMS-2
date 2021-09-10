@@ -234,6 +234,11 @@
                 <a href="#locations" data-toggle="tab"> Partner Locations </a>
             </li>
             @endif
+            @if(MyHelper::hasAccess([342], $grantedFeature))
+            <li>
+                <a href="#bank" data-toggle="tab"> Partner Bank Account </a>
+            </li>
+            @endif
         </ul>
         @endif
         <div class="tab-content">
@@ -323,6 +328,7 @@
                                 </div>    
                             </div>
                             @endif
+
                             @if ($title=='Candidate Partner')
                             <div class="portlet light" style="margin-bottom: 0; padding-top: 0">
                                 <div class="portlet-title">
@@ -414,6 +420,7 @@
                     </form>
                 </div>
             </div>
+
         {{-- tab 2 --}}
             <div class="tab-pane" id="locations">
                     <div style="white-space: nowrap;">
@@ -466,10 +473,31 @@
                         </div>
                     </div>
             </div>
+
+            {{-- tab 3 --}}
+            <div class="tab-pane" id="bank">
+                <div style="white-space: nowrap;">
+                    <div class="portlet-body form">
+                        <form class="form-horizontal" role="form" action="{{url('businessdev/partners/update')}}/{{$result['id_partner']}}" method="post" enctype="multipart/form-data">
+                            <div class="form-body">
+                                
+                            </div>
+                            <div class="form-actions">
+                                {{ csrf_field() }}
+                                <div class="row">
+                                    <div class="col-md-offset-4 col-md-8">
+                                        <button type="submit" class="btn blue">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
         @if($title=='Partner') </div> @endif
     </div>
-
+    
     <div class="modal fade" id="candidatePartnerModal" tabindex="-1" role="dialog" aria-labelledby="candidatePartnerModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">

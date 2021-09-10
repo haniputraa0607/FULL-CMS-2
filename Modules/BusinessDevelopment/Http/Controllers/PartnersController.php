@@ -30,7 +30,7 @@ class PartnersController extends Controller
                 'menu_active'    => 'partners',
                 'submenu_active' => 'list-partners',
             ];
-            $data['status'] = '';
+            $data['status'] = 'Active';
         } else {
             $data = [
                 'title'          => 'Candidate Partners',
@@ -73,7 +73,7 @@ class PartnersController extends Controller
         $post['order'] = $order;
         $post['order_type'] = $orderType;
         $post['status'] = $data['status'];
-
+        // dd($data['status']);
         $list = MyHelper::post('partners'.$page, $post);
         if(($list['status']??'')=='success'){
             $data['data']          = $list['result']['data'];

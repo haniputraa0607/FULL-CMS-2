@@ -30,7 +30,7 @@ class LocationsController extends Controller
                 'menu_active'    => 'locations',
                 'submenu_active' => 'list-locations',
             ];
-            $data['status'] = '';
+            $data['status'] = 'Active';
         } else {
             $data = [
                 'title'          => 'Candidate Locations',
