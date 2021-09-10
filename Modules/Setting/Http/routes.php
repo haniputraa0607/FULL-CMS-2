@@ -48,6 +48,9 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'setting'
     Route::any('outletapp', 'SettingController@outletAppSetting');
     Route::post('outletapp/splash-screen', 'SettingController@splashScreenOutletApps');
 
+	Route::any('mitra-apps', 'SettingController@mitraAppsSetting');
+    Route::post('mitra-apps/splash-screen', 'SettingController@splashScreenMitraApps');    
+
     Route::any('home', 'SettingController@homeSetting');
 	Route::any('date', 'SettingController@dateSetting');
     Route::get('{key}', 'SettingController@settingList');

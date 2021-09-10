@@ -1444,4 +1444,37 @@ class SettingController extends Controller
         $result = MyHelper::post('setting/outletapp/splash-screen', $post);
         return parent::redirect($result, 'Splash Screen has been updated.');
     }
+
+    public function mitraAppsSetting(Request $request){
+        $post = $request->except('_token');
+        $data = [
+            'title'   		=> 'Mitra Apps Setting',
+            'menu_active'    => 'setting-mitra-apps',
+            'submenu_active' => 'setting-mitra-apps'
+        ];
+
+        $get = MyHelper::get('setting/mitra-apps/splash-screen');
+        $data['result_splash_screen'] = [];
+        if(isset($get['status']) &&  $get['status']=='success'){
+            $data['result_splash_screen'] = $get['result'];
+        }
+
+        return view('setting::mitra-apps', $data);
+    }
+
+    public function splashScreenMitraApps(Request $request){
+        $post = $request->except('_token');
+        if(isset($post['default_splash_screen_mitra_apps'])){
+            $post['default_splash_screen_mitra_apps'] = MyHelper::encodeImage($post['default_splash_screen_mitra_apps']);
+        }
+
+        if(isset($post['default_splash_screen_mitra_apps_duration'])){
+            if($post['default_splash_screen_mitra_apps_duration']<1){
+                $post['default_splash_screen_mitra_apps_duration']=1;
+            }
+        }
+
+        $result = MyHelper::post('setting/mitra-apps/splash-screen', $post);
+        return parent::redirect($result, 'Splash Screen has been updated.');
+    }
 }
