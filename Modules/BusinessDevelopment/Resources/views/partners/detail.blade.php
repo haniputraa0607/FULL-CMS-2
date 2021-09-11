@@ -239,6 +239,11 @@
                 <a href="#bank" data-toggle="tab"> Partner Bank Account </a>
             </li>
             @endif
+            @if(MyHelper::hasAccess([351,352], $grantedFeature))
+            <li>
+                <a href="#resetpass" data-toggle="tab"> Reset Password </a>
+            </li>
+            @endif
         </ul>
         @endif
         <div class="tab-content">
@@ -484,6 +489,7 @@
                         <form class="form-horizontal" role="form" action="{{url('businessdev/partners/create-bank')}}" method="post" enctype="multipart/form-data">
                         @endif
                             <div class="form-body">
+                                <input type="hidden" name="id_partner" id="id_partner" value="{{$result['id_partner']}}">
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Bank Name <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Pilih Bank" data-container="body"></i></label>

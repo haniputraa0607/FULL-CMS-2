@@ -265,8 +265,9 @@ class PartnersController extends Controller
         return $result;
     }
 
-    public function updateBankAccount(Request $request,$id_bank_account){
+    public function updateBankAccount(Request $request, $id_bank_account){
         $request->validate([
+            "id_bank_name" => "required",
             "beneficiary_name" => "required",
             "beneficiary_account" => "required",
         ]);
@@ -275,33 +276,35 @@ class PartnersController extends Controller
             "id_bank_name" => $request["id_bank_name"],
             "beneficiary_name" => $request["beneficiary_name"],
             "beneficiary_account" => $request["beneficiary_account"],
-            "beneficiary_alias" => $request["beneficiary_alias"],
-            "beneficiary_email" => $request["beneficiary_email"]
         ];
-        if (isset($request['send_email_to']) && !empty($request['send_email_to'])){
-            $post['send_email_to'] = $request['send_email_to'];
-        }
-        dd($post);
-        $result = MyHelper::post('partners/locations/update', $post);
+        $result = MyHelper::post('partners/bankaccount/update', $post);
         if(isset($result['status']) && $result['status'] == 'success'){
-            return redirect('businessdev/partners/detail/'.$id)->withSuccess(['Success update bank account']);
+            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success update bank account']);
         }else{
-            return redirect('businessdev/partners/detail/'.$id)->withErrors($result['messages'] ?? ['Failed update detail bank account']);
+            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed update detail bank account']);
         }
 
     }
 
     public function createBankAccount(Request $request){
         $request->validate([
+            "id_bank_name" => "required",
             "beneficiary_name" => "required",
             "beneficiary_account" => "required",
         ]);
-        dd($request->all());
-        $result = MyHelper::post('partners/locations/update', $post);
+        $post = $request->all();
+        $result = MyHelper::post('partners/bankaccount/create', $post);
+        if($result){
+            $update_partner = [
+                "id_partner" => $post['id_partner'],
+                "id_bank_account" => $result['result']['id_bank_account'],
+            ];
+            $partner = MyHelper::post('partners/update', $update_partner);
+        } 
         if(isset($result['status']) && $result['status'] == 'success'){
-            return redirect('businessdev/partners/detail/'.$id)->withSuccess(['Success update bank account']);
+            return redirect('businessdev/partners/detail/'.$post['id_partner'])->withSuccess(['Success create bank account']);
         }else{
-            return redirect('businessdev/partners/detail/'.$id)->withErrors($result['messages'] ?? ['Failed update detail bank account']);
+            return redirect('businessdev/partners/detail/'.$post['id_partner'])->withErrors($result['messages'] ?? ['Failed create bank account']);
         }
 
     }
