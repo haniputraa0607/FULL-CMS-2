@@ -28,6 +28,32 @@
 		</li>
 		@endif
 
+		@if(MyHelper::hasAccess([347,348,349,350], $grantedFeature))
+			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
+				<h3 class="uppercase" style="color: #3C3424;font-weight: 600;">Recruitment</h3>
+			</li>
+		@endif
+		@if(MyHelper::hasAccess([347,348,349,350], $grantedFeature))
+		<li class="nav-item {{($menu_active == 'hair-stylist') ? 'active open' : ''}}">
+			<a href="javascript:;" class="nav-link nav-toggle">
+				<i class="fa fa-cut"></i>
+				<span class="title">Hair Stylist</span>
+				<span class="arrow {{($menu_active == 'hair-stylist') ? 'open' : ''}}"></span>
+			</a>
+			<ul class="sub-menu">
+				<li class="nav-item {{($submenu_active == 'hair-stylist-candidate') ? 'active open' : ''}}">
+					<a href="{{url('recruitment/hair-stylist/candidate')}}" class="nav-link ">
+						<span class="title">Candidate List</span>
+					</a>
+				</li>
+				<li class="nav-item {{($submenu_active == 'hair-stylist-list') ? 'active open' : ''}}">
+					<a href="{{url('recruitment/hair-stylist')}}" class="nav-link ">
+						<span class="title">Hair Stylist List</span>
+					</a>
+				</li>
+			</ul>
+		@endif
+
 		@if(MyHelper::hasAccess([2,4,7,9,148], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
 				<h3 class="uppercase" style="color: #000;font-weight: 600;">Accounts</h3>
