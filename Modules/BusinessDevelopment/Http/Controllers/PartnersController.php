@@ -185,7 +185,7 @@ class PartnersController extends Controller
             $request->validate([
                 "ownership_status" => "required",
                 "cooperation_scheme" => "required",
-                "password" => "required",
+                "pin" => "required|min:6",
                 "start_date" => "required",
                 "end_date" => "required",
             ]);
@@ -307,5 +307,31 @@ class PartnersController extends Controller
             return redirect('businessdev/partners/detail/'.$post['id_partner'])->withErrors($result['messages'] ?? ['Failed create bank account']);
         }
 
+    }
+    public function resetPin(Request $request, $id_partner){
+        // dd($request->all());
+        $request->validate([
+            "new-pin" => "required|min:6",
+            "confirm-pin" => "required|min:6|same:new-pin",
+            "your-pin" => "required|min:6",
+        ]);
+        $post = $request->all();
+        if(isset($post['your-pin'])){
+			$checkpin = MyHelper::post('users/pin/check-backend', array('phone' => Session::get('phone'), 'pin' => $post['your-pin'], 'admin_panel' => 1));
+			if($checkpin['status'] != "success")
+				return back()->withErrors(['invalid_credentials' => 'Invalid PIN']);
+			else
+                $updatePassword = [
+                    "id_partner" => $id_partner,
+                    "password" => Hash::make($post["new-pin"]),
+                ];
+                $result = MyHelper::post('partners/update', $updatePassword);
+                if(isset($result['status']) && $result['status'] == 'success'){
+                    return redirect('businessdev/partners/detail/'.$id_partner)->withSuccess(['Success reset PIN']);
+                }else{
+                    return redirect('businessdev/partners/detail/'.$id_partner)->withErrors($result['messages'] ?? ['Failed reset PIN']);
+                }
+		}
+        redirect('businessdev/partners/detail/'.$id_partner);
     }
 }

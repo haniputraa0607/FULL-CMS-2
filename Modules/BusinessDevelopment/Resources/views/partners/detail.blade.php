@@ -239,11 +239,9 @@
                 <a href="#bank" data-toggle="tab"> Partner Bank Account </a>
             </li>
             @endif
-            @if(MyHelper::hasAccess([351,352], $grantedFeature))
             <li>
-                <a href="#resetpass" data-toggle="tab"> Reset Password </a>
+                <a href="#resetpass" data-toggle="tab"> Reset PIN </a>
             </li>
-            @endif
         </ul>
         @endif
         <div class="tab-content">
@@ -531,6 +529,49 @@
                     </div>   
                 </div>
             </div>
+
+            {{-- tab 4 --}}
+            <div class="tab-pane" id="resetpass">
+                <div style="white-space: nowrap;">
+                    <div class="portlet-body form">
+                        <form class="form-horizontal" role="form" action="{{url('businessdev/partners/reset-pin')}}/{{$result['id_partner']}}" method="post" enctype="multipart/form-data">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">New PIN <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukkan pin baru" data-container="body"></i></label>
+                                    <div class="col-md-6">
+                                        <input class="form-control" type="password" id="input-new-pin" name="new-pin"  placeholder="Enter new pin"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Confirm PIN <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Ulangi pin baru" data-container="body"></i></label>
+                                    <div class="col-md-6">
+                                        <input class="form-control" type="password" id="input-confirm-pin" name="confirm-pin"  placeholder="Reenter new pin"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Your PIN <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukkan pin anda" data-container="body"></i></label>
+                                    <div class="col-md-6">
+                                        <input class="form-control" type="password" id="input-your-pin" name="your-pin"  placeholder="Enter your pin"/>
+                                    </div>
+                                </div>
+                            </div>
+                            @if(MyHelper::hasAccess([342], $grantedFeature))
+                            <div class="form-actions">
+                                {{ csrf_field() }}
+                                <div class="row">
+                                    <div class="col-md-offset-4 col-md-8">
+                                        <button type="submit" class="btn blue">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+                        </form>
+                    </div>   
+                </div>
+            </div>
         </div>
         @if($title=='Partner') </div> @endif
     </div>
@@ -621,10 +662,10 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="example-search-input" class="control-label col-md-5">Password <span class="required" aria-required="true">*</span>
-                                <i class="fa fa-question-circle tooltips" data-original-title="Masukkan Password" data-container="body"></i></label>
+                            <label for="example-search-input" class="control-label col-md-5">PIN <span class="required" aria-required="true">*</span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Masukkan pin" data-container="body"></i></label>
                             <div class="col-md-5">
-                                <input class="form-control" type="password" id="input-password" name="password" value="" placeholder="Enter password here"/>
+                                <input class="form-control" type="password" id="input-pin" name="pin" value="" placeholder="Enter pin here"/>
                             </div>
                         </div>
                     </div>
