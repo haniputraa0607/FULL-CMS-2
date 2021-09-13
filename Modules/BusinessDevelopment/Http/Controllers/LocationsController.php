@@ -19,11 +19,11 @@ class LocationsController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function index(Request $request)
+    public function index(Request $request, $type = null)
     {
         $post = $request->all();
         $url = $request->url();
-        if($url=='http://ixobox-cust-view.test/businessdev/locations'){
+        if($type!='candidate'){
             $data = [
                 'title'          => 'Locations',
                 'sub_title'      => 'Locations List',

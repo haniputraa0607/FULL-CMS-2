@@ -357,7 +357,7 @@
 				@endif
 				@if(MyHelper::hasAccess([338], $grantedFeature))
 				<li class="nav-item {{($submenu_active == 'list-candidate-partners') ? 'active open' : ''}}">
-					<a href="{{url('businessdev/candidatepartners')}}" class="nav-link ">
+					<a href="{{url('businessdev/partners/candidate')}}" class="nav-link ">
 						<span class="title">List Candidate Partner</span>
 					</a>
 				</li>
@@ -382,7 +382,7 @@
 				@endif
 				@if(MyHelper::hasAccess([342], $grantedFeature))
 				<li class="nav-item {{($submenu_active == 'list-candidate-locations') ? 'active open' : ''}}">
-					<a href="{{url('businessdev/candidatelocations')}}" class="nav-link ">
+					<a href="{{url('businessdev/locations/candidate')}}" class="nav-link ">
 						<span class="title">List Candidate Locations</span>
 					</a>
 				</li>

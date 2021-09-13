@@ -234,9 +234,14 @@
                 <a href="#locations" data-toggle="tab"> Partner Locations </a>
             </li>
             @endif
-            @if(MyHelper::hasAccess([342], $grantedFeature))
+            @if(MyHelper::hasAccess([351,352], $grantedFeature))
             <li>
                 <a href="#bank" data-toggle="tab"> Partner Bank Account </a>
+            </li>
+            @endif
+            @if(MyHelper::hasAccess([351,352], $grantedFeature))
+            <li>
+                <a href="#resetpass" data-toggle="tab"> Reset Password </a>
             </li>
             @endif
         </ul>
@@ -478,10 +483,41 @@
             <div class="tab-pane" id="bank">
                 <div style="white-space: nowrap;">
                     <div class="portlet-body form">
-                        <form class="form-horizontal" role="form" action="{{url('businessdev/partners/update')}}/{{$result['id_partner']}}" method="post" enctype="multipart/form-data">
+                        @if ($result['id_bank_account'])
+                        <form class="form-horizontal" role="form" action="{{url('businessdev/partners/update-bank')}}/{{$result['id_bank_account']}}" method="post" enctype="multipart/form-data">
+                        @else
+                        <form class="form-horizontal" role="form" action="{{url('businessdev/partners/create-bank')}}" method="post" enctype="multipart/form-data">
+                        @endif
                             <div class="form-body">
-                                
+                                <input type="hidden" name="id_partner" id="id_partner" value="{{$result['id_partner']}}">
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Bank Name <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Pilih Bank" data-container="body"></i></label>
+                                    <div class="col-md-6">
+                                        <select class="form-control select2" name="id_bank_name" id="id_bank_name" required>
+                                            <option value="" selected disabled>Select Bank Name</option>
+                                            @foreach($bankName as $b)
+                                                <option value="{{$b['id_bank_name']}}" @if($result['partner_bank_account']['id_bank_name'] == $b['id_bank_name']) selected @endif>{{$b['bank_name']}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Beneficiary Name <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nama penerima" data-container="body"></i></label>
+                                    <div class="col-md-6">
+                                        <input class="form-control" type="text" id="input-beneficiary_name" name="beneficiary_name" value="{{$result['partner_bank_account']['beneficiary_name']}}" placeholder="Enter beneficiary name"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Beneficiary Account <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukkan akun penerima" data-container="body"></i></label>
+                                    <div class="col-md-6">
+                                        <input class="form-control" type="text" id="input-beneficiary_account" name="beneficiary_account" value="{{$result['partner_bank_account']['beneficiary_account']}}" placeholder="Enter beneficiary name"/>
+                                    </div>
+                                </div>
                             </div>
+                            @if(MyHelper::hasAccess([352], $grantedFeature))
                             <div class="form-actions">
                                 {{ csrf_field() }}
                                 <div class="row">
@@ -490,8 +526,9 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
                         </form>
-                    </div>
+                    </div>   
                 </div>
             </div>
         </div>

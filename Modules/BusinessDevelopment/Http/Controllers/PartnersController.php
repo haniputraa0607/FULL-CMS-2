@@ -19,11 +19,11 @@ class PartnersController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function index(Request $request)
+    public function index(Request $request,$type = null)
     {
         $post = $request->all();
         $url = $request->url();
-        if($url=='http://ixobox-cust-view.test/businessdev/partners'){
+        if($type!='candidate'){
             $data = [
                 'title'          => 'Partners',
                 'sub_title'      => 'List Partners',
@@ -151,6 +151,8 @@ class PartnersController extends Controller
             $data['result'] = $result['result']['partner'];
             $data['bank'] = MyHelper::get('disburse/setting/list-bank-account')['result']['list_bank']??[];
             $data['cities'] = MyHelper::get('city/list')['result']??[];
+            $data['bankName'] = MyHelper::get('disburse/bank')['result']??[];
+            // dd($data['bankName']);
             return view('businessdevelopment::partners.detail', $data);
         }else{
             return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
@@ -261,5 +263,49 @@ class PartnersController extends Controller
     {
         $result = MyHelper::post("partners/delete", ['id_partner' => $id]);
         return $result;
+    }
+
+    public function updateBankAccount(Request $request, $id_bank_account){
+        $request->validate([
+            "id_bank_name" => "required",
+            "beneficiary_name" => "required",
+            "beneficiary_account" => "required",
+        ]);
+        $post = [
+            "id_bank_account" => $id_bank_account,
+            "id_bank_name" => $request["id_bank_name"],
+            "beneficiary_name" => $request["beneficiary_name"],
+            "beneficiary_account" => $request["beneficiary_account"],
+        ];
+        $result = MyHelper::post('partners/bankaccount/update', $post);
+        if(isset($result['status']) && $result['status'] == 'success'){
+            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success update bank account']);
+        }else{
+            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed update detail bank account']);
+        }
+
+    }
+
+    public function createBankAccount(Request $request){
+        $request->validate([
+            "id_bank_name" => "required",
+            "beneficiary_name" => "required",
+            "beneficiary_account" => "required",
+        ]);
+        $post = $request->all();
+        $result = MyHelper::post('partners/bankaccount/create', $post);
+        if($result){
+            $update_partner = [
+                "id_partner" => $post['id_partner'],
+                "id_bank_account" => $result['result']['id_bank_account'],
+            ];
+            $partner = MyHelper::post('partners/update', $update_partner);
+        } 
+        if(isset($result['status']) && $result['status'] == 'success'){
+            return redirect('businessdev/partners/detail/'.$post['id_partner'])->withSuccess(['Success create bank account']);
+        }else{
+            return redirect('businessdev/partners/detail/'.$post['id_partner'])->withErrors($result['messages'] ?? ['Failed create bank account']);
+        }
+
     }
 }
