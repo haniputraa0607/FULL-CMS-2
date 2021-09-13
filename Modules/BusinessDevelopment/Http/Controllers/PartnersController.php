@@ -225,8 +225,8 @@ class PartnersController extends Controller
         if(isset($request["status"]) && $status == 'on'){
             $post['status'] = 'Active';
         }
-        if(isset($request["password"]) && $status == 'on'){
-            $post['password'] = Hash::make($request["password"]);
+        if(isset($request["pin"]) && $status == 'on'){
+            $post['password'] = Hash::make($request["pin"]);
         }
         if(isset($request["id_location"]) && $request["id_location"] != null){
             $postLocation = [
