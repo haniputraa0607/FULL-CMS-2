@@ -6,12 +6,16 @@ $configs     		= session('configs');
 @extends('layouts.main')
 
 @section('page-style')
+	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2-bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
 	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css" />
 	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/clockface/css/clockface.css') }}" rel="stylesheet" type="text/css" />
 	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}" rel="stylesheet" type="text/css" />
 	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/css/profile-2.min.css') }}" rel="stylesheet" type="text/css" />
 	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-summernote/summernote.css')}}" rel="stylesheet" type="text/css" />
+	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-colorpicker/css/colorpicker.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/jquery-minicolors/jquery.minicolors.css') }}" rel="stylesheet" type="text/css" />
 	<style>
 		.zoom-in {
 			cursor: zoom-in;
@@ -20,6 +24,7 @@ $configs     		= session('configs');
 @endsection
 
 @section('page-plugin')
+	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/moment.min.js') }}" type="text/javascript"></script>
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/clockface/js/clockface.js') }}" type="text/javascript"></script>
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-confirmation/bootstrap-confirmation.min.js') }}" type="text/javascript"></script>
@@ -28,11 +33,21 @@ $configs     		= session('configs');
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/jquery-multi-select/js/jquery.multi-select.js') }}" type="text/javascript"></script>
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-toastr/toastr.min.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-summernote/summernote.min.js') }}" type="text/javascript"></script>
+	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js') }}" type="text/javascript"></script>
+	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/jquery-minicolors/jquery.minicolors.min.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('page-script')
+	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/components-select2.min.js') }}" type="text/javascript"></script>
+	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/components-color-pickers.min.js') }}" type="text/javascript"></script>
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/ui-confirmations.min.js') }}" type="text/javascript"></script>
 	<script>
+		$(document).ready(function () {
+			$('.colorpicker').minicolors({
+				format: 'hex',
+				theme: 'bootstrap'
+			})
+		});
 		$(".file").change(function(e) {
 			var type      = $(this).data('type');
 			var widthImg  = 0;
@@ -53,7 +68,7 @@ $configs     		= session('configs');
 						toastr.warning("Please check dimension of your photo. The maximum height and width 100px.");
 						$("#removeImage_"+type).trigger( "click" );
 					}
-					if (size > 5) {
+					if (size > 10) {
 						toastr.warning("The maximum size is 10 KB");
 						$("#removeImage_"+type).trigger( "click" );
 					}
@@ -84,6 +99,9 @@ $configs     		= session('configs');
 				<li class=" @if(!isset($tipe)) active @endif">
 					<a href="#main_menu" data-toggle="tab"> Main Menu </a>
 				</li>
+				<li class=" @if(isset($tipe) && $tipe == 'home_menu') active @endif">
+					<a href="#home_menu" data-toggle="tab"> Home Menu </a>
+				</li>
 				<li class=" @if(isset($tipe) && $tipe == 'other_menu') active @endif">
 					<a href="#other_menu" data-toggle="tab"> Other Menu </a>
 				</li>
@@ -100,7 +118,7 @@ $configs     		= session('configs');
 						</div>
 					</div>
 					<div class="portlet-body">
-						<p>Menu ini digunakan untuk mengatur tulisan menu dan tulisan header pada menu utama aplikasi.</p>
+						<p>Menu ini digunakan untuk mengatur tulisan menu dan tulisan header pada menu navbar aplikasi.</p>
 						<ul>
 							<li>Gambar (a) adalah urutan menu.</li>
 							<li>Gambar (b) adalah contoh tampilan untuk "Text Menu".</li>
@@ -171,12 +189,20 @@ $configs     		= session('configs');
 																	<input class="form-control" type="text" name="{{$key}}_text_menu" value="{{$value['text_menu']}}" maxlength="10" required>
 																</div>
 															</div>
-															<div class="row">
+															<div class="row" style="margin-bottom: 3%;">
 																<div class="col-md-4">
 																	<p style="margin-top:2%;margin-bottom:1%;"> Text Header <span class="required" aria-required="true"> * </span></p>
 																</div>
 																<div class="col-md-8">
 																	<input class="form-control" type="text" name="{{$key}}_text_header" value="{{$value['text_header']}}" maxlength="20" required>
+																</div>
+															</div>
+															<div class="row">
+																<div class="col-md-4">
+																	<p style="margin-top:2%;margin-bottom:1%;"> Text Color <span class="required" aria-required="true"> * </span></p>
+																</div>
+																<div class="col-md-8">
+																	<input class="form-control colorpicker" type="text" name="{{$key}}_text_color" value="{{$value['text_color']}}"  data-color-format="rgb"required>
 																</div>
 															</div>
 															@if($config_main_menu['is_active'] == 1)
@@ -186,7 +212,7 @@ $configs     		= session('configs');
 																		<div style="color: #e02222;font-size: 12px;margin-top: 4%;">
 																			- PNG Only <br>
 																			- max dimension 100 x 100 <br>
-																			- max size 5 KB <br>
+																			- max size 10 kb <br>
 																		</div>
 																	</div>
 																	<div class="col-md-4">
@@ -232,6 +258,160 @@ $configs     		= session('configs');
 												</div>
 												<?php
 													$countNumberMain++
+												?>
+											@endforeach
+										</div>
+									@endforeach
+								</div>
+								<div class="form-actions" style="text-align:center">
+									{{ csrf_field() }}
+									<button type="submit" class="btn blue">Submit</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				@endif
+			</div>
+
+			<div class="tab-pane @if(isset($tipe) && $tipe == 'home_menu') active @endif" id="home_menu">
+				<div class="portlet box green">
+					<div class="portlet-title">
+						<div class="caption">
+							<i class="fa fa-gear"></i>Home Menu Setting</div>
+						<div class="tools">
+							<a href="javascript:;" class="collapse"> </a>
+						</div>
+					</div>
+					<div class="portlet-body">
+						<p>Menu ini digunakan untuk mengatur tulisan menu pada halaman utaman aplikasi.</p>
+						<ul>
+							<li>Gambar (a) adalah urutan menu.</li>
+							<li>Gambar (b) adalah contoh tampilan untuk "Text Menu".</li>
+							<li>Gambar (c) adalah contoh tampilan untuk "Icon".</li>
+							<li>Gambar (d) adalah contoh tampilan untuk "Container".</li>
+						</ul>
+
+						<div class="row" style="margin-top: 2%;">
+							<div class="col-md-4">
+								<img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/text_menu/home_menu_1.png" height="150px" onclick="window.open(this.src)"/>
+								<p style="text-align: center">(a)</p>
+							</div>
+							<div class="col-md-4">
+								<img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/text_menu/home_menu_2.png" height="150px" onclick="window.open(this.src)"/>
+								<p style="text-align: center">(b)</p>
+							</div>
+							<div class="col-md-4">
+								<img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/text_menu/home_menu_3.png" height="150px" onclick="window.open(this.src)"/>
+								<p style="text-align: center">(c)</p>
+							</div>
+							<div class="col-md-4">
+								<img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/text_menu/home_menu_4.png" height="150px" onclick="window.open(this.src)"/>
+								<p style="text-align: center">(d)</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				@if(count($menu_list['home_menu']) > 0)
+					<div class="portlet-body">
+						<form role="form" class="form-horizontal" action="{{url('setting/text_menu/update','home-menu')}}" method="POST" enctype="multipart/form-data">
+							<div class="form-body">
+								<?php
+								//========= start setting column and row =========//
+								$countHomeMenu = count($menu_list['home_menu']);
+								$totalRow = $countHomeMenu / 2;
+								$countNumberHome = 1;
+
+								if(is_float($totalRow) === true){
+									$totalRow = (int)$totalRow + 1;
+								}
+
+								$dataMenuHomeColumn1 = array_slice($menu_list['home_menu'], 0, $totalRow);
+								$dataMenuHomeColumn2 = array_slice($menu_list['home_menu'], $totalRow, $totalRow);
+								$allDataMenu = [$dataMenuHomeColumn1, $dataMenuHomeColumn2];
+								//========= end setting =========//
+								?>
+
+								<div class="form-group col-md-12">
+									@foreach($allDataMenu as $data)
+										<div class="col-md-6">
+											@foreach($data as $key => $value)
+
+												<div class="portlet light bordered">
+													<div class="portlet-title">
+														<div class="caption">
+															<span class="caption-subject font-dark sbold uppercase">Menu {{$countNumberHome}}</span>
+														</div>
+													</div>
+													<div class="portlet-body form">
+														<div class="row" style="margin-left: 1%;margin-right: 1%;">
+															<div class="row" style="margin-bottom: 3%;">
+																<div class="col-md-4">
+																	<p style="margin-top:2%;margin-bottom:1%;"> Text Menu <span class="required" aria-required="true"> * </span></p>
+																</div>
+																<div class="col-md-8">
+																	<input class="form-control" type="text" name="{{$key}}_text_menu" value="{{$value['text_menu']}}" maxlength="10" required>
+																</div>
+															</div>
+															<div class="row" style="margin-bottom: 3%;">
+																<div class="col-md-4">
+																	<p style="margin-top:2%;margin-bottom:1%;"> Text Color <span class="required" aria-required="true"> * </span></p>
+																</div>
+																<div class="col-md-8">
+																	<input class="form-control colorpicker" type="text" name="{{$key}}_text_color" value="{{$value['text_color']}}"  data-color-format="rgb"required>
+																</div>
+															</div>
+															<div class="row">
+																<div class="col-md-4">
+																	<p style="margin-top:2%;margin-bottom:1%;"> Container Type <span class="required" aria-required="true"> * </span></p>
+																</div>
+																<div class="col-md-8">
+																	<select class="select2" name="{{$key}}_container_type">
+																		<option value="Circle" {{ $value['container_type']=='Circle' ? 'selected' : '' }}>Circle</option>
+																		<option value="square" {{ $value['container_type']=='square' ? 'selected' : '' }}>Square</option>
+																	</select>
+																</div>
+															</div>
+															<div class="row">
+																<div class="col-md-4">
+																	<p style="margin-top:2%;margin-bottom:1%;"> Container Color <span class="required" aria-required="true"> * </span></p>
+																</div>
+																<div class="col-md-8">
+																	<input class="form-control colorpicker" type="text" name="{{$key}}_container_color" value="{{$value['container_color']}}"  data-color-format="rgb"required>
+																</div>
+															</div>
+															<div class="row" style="margin-top: 4%;">
+																<div class="col-md-4">
+																	<p style="margin-top:2%;margin-bottom:1%;"> Icon <span class="required" aria-required="true"> * </span></p>
+																	<div style="color: #e02222;font-size: 12px;margin-top: 4%;">
+																		- PNG Only <br>
+																		- max dimension 100 x 100 <br>
+																		- max size 10 kb <br>
+																	</div>
+																</div>
+																<div class="col-md-4">
+																	<div class="fileinput fileinput-new" data-provides="fileinput" style="margin-top: 2%;">
+																		<div class="fileinput-new thumbnail" style="width: 40px; height: 40px;">
+																			@if(isset($value['icon']) && $value['icon'] != "")
+																				<img src="{{$value['icon']}}" id="preview_icon_home{{$key}}" />
+																			@endif
+																		</div>
+
+																		<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 40px; max-height: 40px;"> </div>
+																		<div>
+																		<span class="btn default btn-file">
+																		<span class="fileinput-new" style="font-size: 12px"> Select icon</span>
+																		<span class="fileinput-exists"> Change </span>
+																		<input type="file" accept="image/png" name="images[icon_home{{$key}}]" class="file" data-type="{{'home'.$key}}"> </span>
+																			<a href="javascript:;" id="removeImage_home{{$key}}" class="btn red default fileinput-exists" data-dismiss="fileinput"> Remove </a>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<?php
+												$countNumberHome++
 												?>
 											@endforeach
 										</div>
@@ -330,12 +510,20 @@ $configs     		= session('configs');
 																	<input class="form-control" type="text" name="{{$key}}_text_menu" value="{{$value['text_menu']}}" maxlength="20" required>
 																</div>
 															</div>
-															<div class="row">
+															<div class="row" style="margin-bottom: 3%;">
 																<div class="col-md-4">
 																	<p style="margin-top:2%;margin-bottom:1%;"> Text Header <span class="required" aria-required="true"> * </span></p>
 																</div>
 																<div class="col-md-8">
 																	<input class="form-control" type="text" name="{{$key}}_text_header" value="{{$value['text_header']}}" maxlength="20" required>
+																</div>
+															</div>
+															<div class="row">
+																<div class="col-md-4">
+																	<p style="margin-top:2%;margin-bottom:1%;"> Text Color <span class="required" aria-required="true"> * </span></p>
+																</div>
+																<div class="col-md-8">
+																	<input class="form-control colorpicker" type="text" name="{{$key}}_text_color" value="{{$value['text_color']}}"  data-color-format="rgb"required>
 																</div>
 															</div>
 															@if($config_other_menu['is_active'] == 1)
