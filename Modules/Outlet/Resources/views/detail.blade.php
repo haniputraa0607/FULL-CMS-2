@@ -169,6 +169,8 @@
     <script type="text/javascript">
 
         $(document).ready(function(){
+            $('[data-switch=true]').bootstrapSwitch();
+
             /* MAPS */
             longNow = "{{ $outlet[0]['outlet_longitude'] }}";
             latNow = "{{ $outlet[0]['outlet_latitude'] }}";
@@ -518,6 +520,47 @@
             return false;
         return true;
     }
+
+    var count_outlet_box = {{(empty($outlet[0]['outlet_box']) ? 1: count($outlet[0]['outlet_box']))}}
+    function addOutletBox() {
+        var html = '<div id="div_outlet_box_parent_'+count_outlet_box+'">'+
+                    '<div class="form-group">'+
+                    '<div class="col-md-1"></div>'+
+                    '<div class="col-md-3">'+
+                    '<input class="form-control" type="text" maxlength="200" id="outlet_box_code_'+count_outlet_box+'" name="outlet_box_data['+count_outlet_box+'][outlet_box_code]" required placeholder="Enter outlet box code"/>'+
+                    '</div>'+
+                    '<div class="col-md-3">'+
+                    '<input class="form-control" type="text" maxlength="200" id="outlet_box_name_'+count_outlet_box+'" name="outlet_box_data['+count_outlet_box+'][outlet_box_name]" required placeholder="Enter outlet box name"/>'+
+                    '</div>'+
+                    '<div class="col-md-3">'+
+                    '<input data-switch="true" type="checkbox" name="outlet_box_data['+count_outlet_box+'][outlet_box_status]" data-on-text="Active" data-off-text="Inactive" checked/>'+
+                    '</div>'+
+                    '<div class="col-md-2" style="margin-left: -4%">'+
+                    '<a class="btn btn-danger btn" onclick="deleteOutletBox('+count_outlet_box+')">&nbsp;<i class="fa fa-trash"></i></a>'+
+                    '</div>'+
+                    '</div>'+
+                    '</div>';
+
+        $("#div_outlet_box_parent").append(html);
+        $('[data-switch=true]').bootstrapSwitch();
+        count_outlet_box++;
+    }
+
+    function deleteOutletBox(number){
+        $('#div_outlet_box_parent_'+number).empty();
+    }
+    
+    function outletBoxSubmit() {
+        var data = $('#form-outlet-box').serialize();
+
+        if(data.indexOf("outlet_box_data") < 0){
+            toastr.warning("Data can not be empty");
+        }else if (!$('form#form-outlet-box')[0].checkValidity()) {
+            toastr.warning("Incompleted Data. Please fill blank input.");
+        }else{
+            $('form#form-outlet-box').submit();
+        }
+    }
   </script>
 @endsection
 
@@ -564,6 +607,9 @@
                         <a href="#photo" data-toggle="tab"> Photo </a>
                     </li>
                 @endif
+                <li>
+                    <a href="#box" data-toggle="tab"> Box </a>
+                </li>
                 @if(MyHelper::hasAccess([4], $configs))
                     @if(MyHelper::hasAccess([34], $grantedFeature))
                         <li>
@@ -598,6 +644,9 @@
                 </div>
                 <div class="tab-pane" id="photo">
                     @include('outlet::photo')
+                </div>
+                <div class="tab-pane" id="box">
+                    @include('outlet::box')
                 </div>
                 <div class="tab-pane" id="holiday">
                     @include('outlet::holiday')
