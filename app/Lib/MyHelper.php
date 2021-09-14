@@ -214,8 +214,7 @@ class MyHelper
         'ip-address-view' => \Request::ip(),
         'user-agent-view' => $_SERVER['HTTP_USER_AGENT'],
       ]
-    );
- 
+      );
     try {
       $response =  $client->request('GET',$api.'api/'.$url, $content);
       return json_decode($response->getBody(), true);

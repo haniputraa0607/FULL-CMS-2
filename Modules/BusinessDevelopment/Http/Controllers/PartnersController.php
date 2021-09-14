@@ -121,7 +121,7 @@ class PartnersController extends Controller
      */
     public function show($id)
     {
-        return view('businessdevelopment::show');
+        return ['asd'];
     }
 
     /**
@@ -293,14 +293,7 @@ class PartnersController extends Controller
             "beneficiary_account" => "required",
         ]);
         $post = $request->all();
-        $result = MyHelper::post('partners/bankaccount/create', $post);
-        if($result){
-            $update_partner = [
-                "id_partner" => $post['id_partner'],
-                "id_bank_account" => $result['result']['id_bank_account'],
-            ];
-            $partner = MyHelper::post('partners/update', $update_partner);
-        } 
+        $result = MyHelper::post('partners/bankaccount/update', $post);
         if(isset($result['status']) && $result['status'] == 'success'){
             return redirect('businessdev/partners/detail/'.$post['id_partner'])->withSuccess(['Success create bank account']);
         }else{
