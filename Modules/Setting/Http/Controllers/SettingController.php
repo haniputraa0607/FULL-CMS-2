@@ -1164,7 +1164,8 @@ class SettingController extends Controller
         }else {
             $data['menu_list'] = [
                 'main_menu' => [],
-                'other_menu'=> []
+                'other_menu'=> [],
+                'home_menu' => []
             ];
         }
 
@@ -1200,6 +1201,8 @@ class SettingController extends Controller
 
         if($category == 'other-menu') {
             return parent::redirect($result, 'Text menu has been updated.', 'setting/text_menu#other_menu');
+        }elseif($category == 'home-menu'){
+            return parent::redirect($result, 'Text menu has been updated.', 'setting/text_menu#home_menu');
         }else{
             return parent::redirect($result, 'Text menu has been updated.', 'setting/text_menu#main_menu');
         }
