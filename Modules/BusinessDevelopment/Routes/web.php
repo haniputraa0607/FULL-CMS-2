@@ -23,6 +23,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'business
         Route::post('update/{user_id}', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@update']);
         Route::post('delete/{user_id}', ['middleware' => 'feature_control:341', 'uses' => 'PartnersController@destroy']);
         Route::post('update-bank/{id_bank_account}', ['middleware' => 'feature_control:352', 'uses' => 'PartnersController@updateBankAccount']);
+        Route::post('reset-pin/{id_partner}', ['middleware' => 'feature_control:352', 'uses' => 'PartnersController@resetPin']);
         Route::post('create-bank', ['middleware' => 'feature_control:352', 'uses' => 'PartnersController@createBankAccount']);
         Route::any('/{type?}', ['middleware' => 'feature_control:338', 'uses' => 'PartnersController@index']);
     });
