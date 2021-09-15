@@ -150,7 +150,12 @@ class HairStylistController extends Controller
             ];
 
             $data['detail'] = $detail['result'];
-            $data['outlets'] = MyHelper::get('outlet/be/list/simple')['result']??[];
+            $data['outlets'] = MyHelper::get('outlet/be/list/simple')['result'] ?? [];
+            $data['schedules'] = [];
+            if (!empty($data['detail']['id_outlet']) && $data['detail']['user_hair_stylist_status'] == 'Active') {
+            	$data['schedules'] = MyHelper::get('recruitment/hairstylist/be/schedule/list?id_outlet='.$data['detail']['id_outlet'])['result'] ?? [];
+            }
+
             return view('recruitment::hair_stylist.detail', $data);
         }else{
             return redirect('recruitment/hair-stylist')->withErrors($store['messages']??['Failed get detail hair stylist']);
