@@ -54,11 +54,13 @@
 			$day = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
 			$dayCount = count($day);
 			$hs_schedules = [];
-			foreach ($detail['hairstylist_schedule']['hairstylist_schedule_dates'] ?? [] as $val) {
-				$year   = date('Y', strtotime($val['date']));
-				$month  = date('m', strtotime($val['date']));
-				$date 	= date('j', strtotime($val['date']));
-				$hs_schedules[$year][$month][$date][$val['shift']] = $val;
+			foreach ($detail['hairstylist_schedules'] ?? [] as $schedule) {
+				foreach ($schedule['hairstylist_schedule_dates'] ?? [] as $val) {
+					$year   = date('Y', strtotime($val['date']));
+					$month  = date('m', strtotime($val['date']));
+					$date 	= date('j', strtotime($val['date']));
+					$hs_schedules[$year][$month][$date][$val['shift']] = $val;
+				}
 			}
 
 			$thisMonth = date('m');
@@ -112,11 +114,11 @@
 						        			</br>
 						        			@foreach ($schedules[$thisMonthYear][$thisMonth][$thisMonthDate[$tmIndex]['date']] as $schedule)
 						        				@php
-						        					$status = !empty($schedule['approve_at']) ? 'approved' : 'pending';
+						        					$status = !empty($schedule['approve_at']) ? 'approved' : (!empty($schedule['reject_at']) ? 'rejected' : 'pending');
 						        					$shift = ($schedule['shift'] == 'Morning') ? 'Pagi' : 'Sore';
-						        					$color = ($status == 'approved') ? 'lightgreen' : 'yellow';
+						        					$color = ($status == 'approved') ? 'lightgreen' : (($status == 'rejected') ? 'orangered' : 'yellow');
 						        				@endphp
-												<p style='color: {{ $color }}; margin:0px;'> {{ $schedule['nickname'].' ('.$shift.') - '.$status }} </p>
+												<p style='color: {{ $color }}; margin:0px;'> {{ $schedule['fullname'].' ('.$shift.') - '.$status }} </p>
 						        			@endforeach
 						        		</div>
 										" data-container="body" data-html="true"></i>
@@ -216,11 +218,11 @@
 						        			</br>
 						        			@foreach ($schedules[$nextMonthYear][$nextMonth][$nextMonthDate[$nmIndex]['date']] as $schedule)
 						        				@php
-						        					$status = !empty($schedule['approve_at']) ? 'approved' : 'pending';
+						        					$status = !empty($schedule['approve_at']) ? 'approved' : (!empty($schedule['reject_at']) ? 'rejected' : 'pending');
 						        					$shift = ($schedule['shift'] == 'Morning') ? 'Pagi' : 'Sore';
-						        					$color = ($status == 'approved') ? 'lightgreen' : 'yellow';
+						        					$color = ($status == 'approved') ? 'lightgreen' : (($status == 'rejected') ? 'orangered' : 'yellow');
 						        				@endphp
-												<p style='color: {{ $color }}; margin:0px;'> {{ $schedule['nickname'].' ('.$shift.') - '.$status }} </p>
+												<p style='color: {{ $color }}; margin:0px;'> {{ $schedule['fullname'].' ('.$shift.') - '.$status }} </p>
 						        			@endforeach
 						        		</div>
 										" data-container="body" data-html="true"></i>
