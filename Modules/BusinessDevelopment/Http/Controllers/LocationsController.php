@@ -193,10 +193,16 @@ class LocationsController extends Controller
         }
         if (isset($request['status']) && $request["status"] == 'on'){
             $post['status'] = 'Active';
+        }elseif(isset($request['status']) && $request["status"] == 'Active'){
+            $post['status'] = 'Active';
         }
         $result = MyHelper::post('partners/locations/update', $post);
-        if(isset($result['status']) && $result['status'] == 'success' && $request["status"] == 'on'){
-            return redirect('businessdev/locations/detail/'.$id)->withSuccess(['Success update candidate location to location']);
+        if(isset($result['status']) && $result['status'] == 'success' && isset($post["status"])){
+            if($request["status"] == 'on'){
+                return redirect('businessdev/locations/detail/'.$id)->withSuccess(['Success update location']);
+            }else{
+                return redirect('businessdev/locations/detail/'.$id)->withSuccess(['Success update candidate location to location']);
+            }
         }elseif(isset($result['status']) && $result['status'] == 'success'){
             return redirect('businessdev/locations/detail/'.$id)->withSuccess(['Success update candidate location']);
         }else{

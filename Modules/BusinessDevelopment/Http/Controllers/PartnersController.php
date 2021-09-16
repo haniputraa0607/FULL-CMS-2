@@ -227,6 +227,7 @@ class PartnersController extends Controller
         }
         if(isset($request["pin"]) && $status == 'on'){
             $post['password'] = Hash::make($request["pin"]);
+            $post['pin'] = $request['pin'];
         }
         if(isset($request["id_location"]) && $request["id_location"] != null){
             $postLocation = [
@@ -245,8 +246,12 @@ class PartnersController extends Controller
                 $result = MyHelper::post('partners/locations/update', $postLocation);
             }
         }
-        if(isset($result['status']) && $result['status'] == 'success' && isset($request["status"])){
-            return redirect('businessdev/partners/detail/'.$id)->withSuccess(['Success update candidate partner to partner']);
+        if(isset($result['status']) && $result['status'] == 'success' && isset($post["status"])){
+            if ($request["status"] == 'Active') {
+                return redirect('businessdev/partners/detail/'.$id)->withSuccess(['Success update candidate partner to partner']);
+            }else{
+                return redirect('businessdev/partners/detail/'.$id)->withSuccess(['Success update partner']);
+            }
         }elseif(isset($result['status']) && $result['status'] == 'success'){
             return redirect('businessdev/partners/detail/'.$id)->withSuccess(['Success update candidate partner']);
         }else{

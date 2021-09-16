@@ -312,7 +312,7 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="form" action="{{url('businessdev/locations/update')}}/{{$result['id_location']}}" method="post" enctype="multipart/form-data">
                     <div class="form-body">
-                        <input type="hidden" name='status' value="on">
+                        <input type="hidden" name='status' value="Active">
                         <input class="form-control" type="hidden" id="id_partner" name="id_partner" value="{{$result['id_partner']}}"/>
                         <div class="form-group">
                             <label for="example-search-input" class="control-label col-md-5">Nama Partner <span class="required" aria-required="true">*</span>

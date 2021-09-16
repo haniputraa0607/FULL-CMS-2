@@ -37,15 +37,12 @@
 		function changeTrigger() {
 			let userLevel = $('select[name=level] option:selected').val();
 			$('#select_department, #select_job_level').hide().find('select').prop('disabled', true);
-
 			if (userLevel == 'Admin') {
 				$('#select_department, #select_job_level').show().find('select').prop('disabled', false);
 			} else {
 				$('#select_department, #select_job_level').hide().find('select').prop('disabled', true);
 			}
-
 		}
-
 		$(document).ready(function(){
 			changeTrigger();
 			$('select[name=level]').on('change',function(){
