@@ -74,6 +74,7 @@ class PartnersController extends Controller
         $post['order_type'] = $orderType;
         $post['status'] = $data['status'];
         // dd($data['status']);
+        // dd($post);
         $list = MyHelper::post('partners'.$page, $post);
         if(($list['status']??'')=='success'){
             $data['data']          = $list['result']['data'];
@@ -88,7 +89,6 @@ class PartnersController extends Controller
             $data['data_up_to']      = 0;
             $data['data_paginator'] = false;
         }
-
         if($post){
             Session::put('filter-list-partners',$post);
         }

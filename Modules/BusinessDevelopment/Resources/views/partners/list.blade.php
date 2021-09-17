@@ -111,6 +111,27 @@
     </div>
     <br>
     @include('layouts.notifications')
+
+    <?php
+        $date_start = '';
+        $date_end = '';
+
+        if(Session::has('filter-list-partners')){
+            $search_param = Session::get('filter-list-partners');
+            if(isset($search_param['rule'])){
+                $rule = $search_param['rule'];
+            }
+
+            if(isset($search_param['conditions'])){
+                $conditions = $search_param['conditions'];
+            }
+        }
+    ?>
+
+    <form id="form-sorting" action="{{url()->current()}}?filter=1" method="POST">
+        @include('businessdevelopment::partners.filter')
+    </form>
+    <br>
   
 
     <div class="portlet light bordered">

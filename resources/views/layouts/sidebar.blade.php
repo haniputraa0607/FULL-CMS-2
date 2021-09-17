@@ -174,6 +174,18 @@
 									</a>
 								</li>
 							@endif
+							@if(MyHelper::hasAccess([121], $configs))
+								<li class="nav-item {{($submenu_active == 'user-autoresponse-updated-candidate-partner-to-partner') ? 'active open' : ''}}">
+									<a href="{{url('user/autoresponse/updated-candidate-partner-to-partner')}}" class="nav-link ">
+										<span class="title">[Response] Approved Candidate Partner</span>
+									</a>
+								</li>
+								<li class="nav-item {{($submenu_active == 'user-autoresponse-updated-candidate-location-to-location') ? 'active open' : ''}}">
+									<a href="{{url('user/autoresponse/updated-candidate-location-to-location')}}" class="nav-link ">
+										<span class="title">[Response] Approved Candidate Location</span>
+									</a>
+								</li>
+							@endif
 						@endif
 					@endif
 				</ul>
