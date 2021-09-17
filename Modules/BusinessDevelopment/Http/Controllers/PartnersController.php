@@ -74,7 +74,6 @@ class PartnersController extends Controller
         $post['order_type'] = $orderType;
         $post['status'] = $data['status'];
         // dd($data['status']);
-        // dd($post);
         $list = MyHelper::post('partners'.$page, $post);
         if(($list['status']??'')=='success'){
             $data['data']          = $list['result']['data'];
@@ -92,6 +91,7 @@ class PartnersController extends Controller
         if($post){
             Session::put('filter-list-partners',$post);
         }
+
         return view('businessdevelopment::partners.list', $data);
     }
 

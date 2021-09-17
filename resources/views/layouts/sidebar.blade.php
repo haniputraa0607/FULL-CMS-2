@@ -174,18 +174,6 @@
 									</a>
 								</li>
 							@endif
-							@if(MyHelper::hasAccess([121], $configs))
-								<li class="nav-item {{($submenu_active == 'user-autoresponse-updated-candidate-partner-to-partner') ? 'active open' : ''}}">
-									<a href="{{url('user/autoresponse/updated-candidate-partner-to-partner')}}" class="nav-link ">
-										<span class="title">[Response] Approved Candidate Partner</span>
-									</a>
-								</li>
-								<li class="nav-item {{($submenu_active == 'user-autoresponse-updated-candidate-location-to-location') ? 'active open' : ''}}">
-									<a href="{{url('user/autoresponse/updated-candidate-location-to-location')}}" class="nav-link ">
-										<span class="title">[Response] Approved Candidate Location</span>
-									</a>
-								</li>
-							@endif
 						@endif
 					@endif
 				</ul>
@@ -374,6 +362,13 @@
 					</a>
 				</li>
 				@endif
+				@if(MyHelper::hasAccess([40,121], $configs))
+				<li class="nav-item {{($submenu_active == 'partners-autoresponse-updated-candidate-partner-to-partner') ? 'active open' : ''}}">
+					<a href="{{url('user/autoresponse/updated-candidate-partner-to-partner')}}" class="nav-link ">
+						<span class="title">[Response] Approved Candidate Partner</span>
+					</a>
+				</li>
+				@endif
 			</ul>
 		</li>
 		@endif
@@ -396,6 +391,13 @@
 				<li class="nav-item {{($submenu_active == 'list-candidate-locations') ? 'active open' : ''}}">
 					<a href="{{url('businessdev/locations/candidate')}}" class="nav-link ">
 						<span class="title">List Candidate Locations</span>
+					</a>
+				</li>
+				@endif
+                @if(MyHelper::hasAccess([40,121], $configs))
+				<li class="nav-item {{($submenu_active == 'locations-autoresponse-updated-candidate-location-to-location') ? 'active open' : ''}}">
+					<a href="{{url('user/autoresponse/updated-candidate-location-to-location')}}" class="nav-link ">
+						<span class="title">[Response] Approved Candidate Location</span>
 					</a>
 				</li>
 				@endif
