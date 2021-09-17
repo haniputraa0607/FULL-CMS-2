@@ -30,7 +30,7 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/form-repeater.js') }}" type="text/javascript"></script>
     <script>
         var table;
-        table = $('#kt_datatable').DataTable({searching: false, "paging":   false, ordering: false});
+        {{--  table = $('#kt_datatable').DataTable({searching: false, "paging":   false, ordering: false});  --}}
 
         var SweetAlert = function() {
             return {
@@ -112,6 +112,26 @@
     <br>
     @include('layouts.notifications')
   
+    <?php
+        $date_start = '';
+        $date_end = '';
+
+        if(Session::has('filter-list-locations')){
+            $search_param = Session::get('filter-list-locations');
+            if(isset($search_param['rule'])){
+                $rule = $search_param['rule'];
+            }
+
+            if(isset($search_param['conditions'])){
+                $conditions = $search_param['conditions'];
+            }
+        }
+    ?>
+
+    <form id="form-sorting" action="{{url()->current()}}?filter=1" method="POST">
+        @include('businessdevelopment::locations.filter')
+    </form>
+    <br>
 
     <div class="portlet light bordered">
         <div class="portlet-title">
@@ -127,7 +147,7 @@
                         <select name="order" class="form-control select2" style="width: 100%">
                             <option value="created_at" @if(isset($order) && $order == 'created_at') selected @endif>Date</option>
                             <option value="name" @if(isset($order) && $order == 'name') selected @endif>Name</option>
-                            <option value="email" @if(isset($order) && $order == 'email') selected @endif>Email</option>
+                            <option value="address" @if(isset($order) && $order == 'address') selected @endif>Address</option>
                         </select>
                     </div>
                     <div class="col-md-2" style="padding-left:0px;padding-right:0px">
@@ -144,51 +164,53 @@
             <br>
             <br>
             <div style="white-space: nowrap;">
-                  <table class="table table-striped table-bordered table-hover" id="kt_datatable">
-                      <thead>
-                      <tr>
-                          <th class="text-nowrap text-center">Created At</th>
-                          <th class="text-nowrap text-center">Name Location</th>
-                          <th class="text-nowrap text-center">Address</th>
-                          <th class="text-nowrap text-center">Status</th>
-                          @if(MyHelper::hasAccess([343,344,345], $grantedFeature))
-                          <th class="text-nowrap text-center">Action</th>
-                          @endif
-                      </tr>
-                      </thead>
-                      <tbody>
-                          @if(!empty($data))
-                              @foreach($data as $location)
-                                  <tr data-id="{{ $location['id_location'] }}">
-                                      <td>{{date('d F Y H:i', strtotime($location['created_at']))}}</td>
-                                      <td>{{$location['name']}}</td>
-                                      <td>{{$location['address']}}</td>
-                                      <td>
-                                          @if($location['status'] == 'Active')
-                                              <span class="badge" style="background-color: #26C281; color: #ffffff">{{$location['status']}}</span>
-                                          @elseif($location['status'] == 'Candidate')
-                                              <span class="badge" style="background-color: #e1e445; color: #ffffff">{{$location['status']}}</span>
-                                          @else
-                                              <span class="badge" style="background-color: #EF1E31; color: #ffffff">{{$location['status']}}</span>
-                                          @endif
-                                      </td>
-                                      <td>
-                                          @if(MyHelper::hasAccess([343,344], $grantedFeature))
-                                          <a href="{{ url('businessdev/locations/detail/'.$location['id_location']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
-                                          @endif
-                                          @if(MyHelper::hasAccess([345], $grantedFeature))
-                                          <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $location['id_location'] }}" data-name="{{ $location['name'] }}"><i class="fa fa-trash-o"></i> Delete</a>
-                                          @endif
-                                      </td>
-                                  </tr>
-                              @endforeach
-                          @else
-                              <tr>
-                                  <td colspan="10" style="text-align: center">Data Not Available</td>
-                              </tr>
-                          @endif
-                          </tbody>
-                  </table>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover " id="kt_datatable">
+                        <thead>
+                        <tr>
+                            <th class="text-nowrap text-center">Created At</th>
+                            <th class="text-nowrap text-center">Name Location</th>
+                            <th class="text-nowrap text-center">Address</th>
+                            <th class="text-nowrap text-center">Status</th>
+                            @if(MyHelper::hasAccess([343,344,345], $grantedFeature))
+                            <th class="text-nowrap text-center">Action</th>
+                            @endif
+                        </tr>
+                        </thead>
+                        <tbody>
+                            @if(!empty($data))
+                                @foreach($data as $location)
+                                    <tr data-id="{{ $location['id_location'] }}">
+                                        <td>{{date('d F Y H:i', strtotime($location['created_at']))}}</td>
+                                        <td>{{$location['name']}}</td>
+                                        <td>{{$location['address']}}</td>
+                                        <td>
+                                            @if($location['status'] == 'Active')
+                                                <span class="badge" style="background-color: #26C281; color: #ffffff">{{$location['status']}}</span>
+                                            @elseif($location['status'] == 'Candidate')
+                                                <span class="badge" style="background-color: #e1e445; color: #ffffff">{{$location['status']}}</span>
+                                            @else
+                                                <span class="badge" style="background-color: #EF1E31; color: #ffffff">{{$location['status']}}</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if(MyHelper::hasAccess([343,344], $grantedFeature))
+                                            <a href="{{ url('businessdev/locations/detail/'.$location['id_location']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
+                                            @endif
+                                            @if(MyHelper::hasAccess([345], $grantedFeature))
+                                            <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $location['id_location'] }}" data-name="{{ $location['name'] }}"><i class="fa fa-trash-o"></i> Delete</a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="10" style="text-align: center">Data Not Available</td>
+                                </tr>
+                            @endif
+                            </tbody>
+                    </table>
+                </div>
           </div>
         </div>
     </div>
