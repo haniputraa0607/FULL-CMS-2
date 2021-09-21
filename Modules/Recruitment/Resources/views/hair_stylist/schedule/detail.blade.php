@@ -207,6 +207,10 @@
 		                    <div class="col-md-6">: {{ $detail['approve_by_name'] }}</div>
 		                </div>
 		                <div class="form-group">
+		                    <label class="col-md-2">Last Updated By</label>
+		                    <div class="col-md-6">: {{ $detail['last_updated_by_name'] }}</div>
+		                </div>
+		                <div class="form-group">
 		                    <label class="col-md-2">Full Name</label>
 		                    <div class="col-md-6">: {{ $detail['fullname'] }}</div>
 		                </div>
