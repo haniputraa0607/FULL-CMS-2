@@ -88,10 +88,10 @@ class PartnersController extends Controller
             $data['data_up_to']      = 0;
             $data['data_paginator'] = false;
         }
-
         if($post){
             Session::put('filter-list-partners',$post);
         }
+
         return view('businessdevelopment::partners.list', $data);
     }
 
@@ -121,7 +121,7 @@ class PartnersController extends Controller
      */
     public function show($id)
     {
-        return view('businessdevelopment::show');
+        return ['asd'];
     }
 
     /**
@@ -227,6 +227,7 @@ class PartnersController extends Controller
         }
         if(isset($request["pin"]) && $status == 'on'){
             $post['password'] = Hash::make($request["pin"]);
+            $post['pin'] = $request['pin'];
         }
         if(isset($request["id_location"]) && $request["id_location"] != null){
             $postLocation = [
@@ -245,8 +246,12 @@ class PartnersController extends Controller
                 $result = MyHelper::post('partners/locations/update', $postLocation);
             }
         }
-        if(isset($result['status']) && $result['status'] == 'success' && isset($request["status"])){
-            return redirect('businessdev/partners/detail/'.$id)->withSuccess(['Success update candidate partner to partner']);
+        if(isset($result['status']) && $result['status'] == 'success' && isset($post["status"])){
+            if ($request["status"] == 'Active') {
+                return redirect('businessdev/partners/detail/'.$id)->withSuccess(['Success update candidate partner to partner']);
+            }else{
+                return redirect('businessdev/partners/detail/'.$id)->withSuccess(['Success update partner']);
+            }
         }elseif(isset($result['status']) && $result['status'] == 'success'){
             return redirect('businessdev/partners/detail/'.$id)->withSuccess(['Success update candidate partner']);
         }else{
@@ -293,14 +298,7 @@ class PartnersController extends Controller
             "beneficiary_account" => "required",
         ]);
         $post = $request->all();
-        $result = MyHelper::post('partners/bankaccount/create', $post);
-        if($result){
-            $update_partner = [
-                "id_partner" => $post['id_partner'],
-                "id_bank_account" => $result['result']['id_bank_account'],
-            ];
-            $partner = MyHelper::post('partners/update', $update_partner);
-        } 
+        $result = MyHelper::post('partners/bankaccount/update', $post);
         if(isset($result['status']) && $result['status'] == 'success'){
             return redirect('businessdev/partners/detail/'.$post['id_partner'])->withSuccess(['Success create bank account']);
         }else{

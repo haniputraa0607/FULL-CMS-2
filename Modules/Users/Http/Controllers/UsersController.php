@@ -94,6 +94,22 @@ class UsersController extends Controller
             case 'pin-sent-whatsapp':
                 $data['active_response'] = ['email', 'whatsapp', 'push', 'inbox', 'forward'];
                 break;
+            case 'updated-candidate-partner-to-partner':
+                $data = [ 
+                  'title'             => 'Partners',
+                  'sub_title'         => 'Partners Auto Response '.$autocrmSubject,
+				  'menu_active'       => 'partners',
+				  'submenu_active'    => 'partners-autoresponse-'.$subject
+				];
+                break;
+            case 'updated-candidate-location-to-location':
+                $data = [ 
+                  'title'             => 'Locations',
+                  'sub_title'         => 'Locations Auto Response '.$autocrmSubject,
+				  'menu_active'       => 'locations',
+				  'submenu_active'    => 'locations-autoresponse-'.$subject
+				];
+                break;    
 			default:
 				# code...
 				break;
