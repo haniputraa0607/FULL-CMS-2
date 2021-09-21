@@ -5,6 +5,9 @@
 ?>
 @extends('layouts.main')
 
+@include('setting::featured_promo_campaign')
+@include('setting::social_media')
+
 @section('page-style')
 	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
 	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2-bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
@@ -448,6 +451,8 @@
 	});
 
 	</script>
+
+	@yield('featured-promo-campaign-script')
 @endsection
 
 @section('content')
@@ -484,9 +489,12 @@
             <a href="#banner" data-toggle="tab">Banner</a>
         </li>
 		@endif
-        {{-- <li>
+        <li>
             <a href="#featured_deals" data-toggle="tab">Featured Deals</a>
-        </li> --}}
+        </li>
+        <li>
+            <a href="#featured_promo_campaign" data-toggle="tab">Featured Promo Campaign</a>
+        </li>
         <!-- <li>
             <a href="#app-logo" data-toggle="tab">Application Logo</a>
         </li> -->
@@ -495,7 +503,7 @@
         </li> -->
         @if(MyHelper::hasAccess([241], $grantedFeature))
         <li>
-            <a href="#featured_subscription" data-toggle="tab">Featured Subscription</a>
+            {{-- <a href="#featured_subscription" data-toggle="tab">Featured Subscription</a> --}}
         </li>
 		@endif
         @if(MyHelper::hasAccess([246], $grantedFeature))
@@ -503,6 +511,10 @@
             <a href="#user_inbox" data-toggle="tab">User Inbox</a>
         </li>
 		@endif
+
+		<li>
+            <a href="#social_media" data-toggle="tab">Social Media</a>
+        </li>
     </ul>
 </div>
 
@@ -847,6 +859,8 @@
 	@endif
 	@include('setting::featured_deals')
 
+	@yield('featured-promo-campaign')
+
 	@if(MyHelper::hasAccess([241], $grantedFeature))
 	@include('setting::featured_subscription')
 	@endif
@@ -854,6 +868,8 @@
 	@if(MyHelper::hasAccess([246], $grantedFeature))
 	@include('setting::user_inbox')
 	@endif
+
+	@yield('social-media')
 
 	{{-- app logo --}}
     <div class="tab-pane" id="app-logo">

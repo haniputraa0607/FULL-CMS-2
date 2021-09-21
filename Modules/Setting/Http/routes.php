@@ -16,6 +16,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'setting'
     Route::post('faq/sort/update', 'SettingController@faqSortUpdate');
     Route::post('update/{slug}', 'SettingController@settingUpdate');
 
+    Route::post('social_media', 'SettingController@socialMediaSave');
     
     Route::get('intro/{key}', 'TutorialController@introList');
     Route::post('intro/save', 'TutorialController@introStore');
@@ -88,6 +89,12 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'setting'
     Route::post('featured_subscription/update', ['middleware' => 'feature_control:243', 'uses' => 'SettingController@updateFeaturedSubscription']);
     Route::post('featured_subscription/reorder', ['middleware' => 'feature_control:243', 'uses' => 'SettingController@reorderFeaturedSubscription']);
     Route::get('featured_subscription/delete/{slug}', ['middleware' => 'feature_control:244', 'uses' => 'SettingController@deleteFeaturedSubscription']);
+
+    /* featured promo campaign */
+    Route::post('featured_promo_campaign/create', ['middleware' => 'feature_control:145', 'uses' => 'SettingController@createFeaturedPromoCampaign']);
+    Route::post('featured_promo_campaign/update', ['middleware' => 'feature_control:146', 'uses' => 'SettingController@updateFeaturedPromoCampaign']);
+    Route::post('featured_promo_campaign/reorder', ['middleware' => 'feature_control:146', 'uses' => 'SettingController@reorderFeaturedPromoCampaign']);
+    Route::get('featured_promo_campaign/delete/{slug}', ['middleware' => 'feature_control:147', 'uses' => 'SettingController@deleteFeaturedPromoCampaign']);
 
     // point reset
     Route::post('reset/{type}/update', 'SettingController@updatePointReset');
