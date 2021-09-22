@@ -139,13 +139,14 @@
         <table class="table table-striped table-bordered table-hover">
             <thead>
             <tr>
-                <th scope="col" width="5%"> Action </th>
-                <th scope="col" width="10%"> Nickname </th>
-                <th scope="col" width="25%"> Full Name </th>
-                <th scope="col" width="15%"> Phone </th>
-                <th scope="col" width="20%"> Outlet </th>
-                <th scope="col" width="10%"> Status </th>
-                <th scope="col" width="15%"> Request Date </th>
+                <th scope="col" width="5%" class="text-center"> Action </th>
+                <th scope="col" width="10%" class="text-center"> Nickname </th>
+                <th scope="col" width="15%" class="text-center"> Full Name </th>
+                <th scope="col" width="15%" class="text-center"> Phone </th>
+                <th scope="col" width="20%" class="text-center"> Outlet </th>
+                <th scope="col" width="10%" class="text-center"> Status </th>
+                <th scope="col" width="10%" class="text-center"> Month </th>
+                <th scope="col" width="15%" class="text-center"> Request Date </th>
             </tr>
             </thead>
             <tbody>
@@ -155,6 +156,7 @@
                 		$status = $val['approve_at'] ? 'Approved' : ($val['reject_at'] ? 'Rejected' : 'Pending');
                 		$color = ($status == 'Approved') ? '#26C281' : (($status == 'Rejected') ? '#E7505A' : '#ffc107');
                 		$textColor = ($status == 'Pending') ? '#fff' : '#fff';
+                		$month = date('F', mktime(0, 0, 0, $val['schedule_month'], 10)). ' - ' .$val['schedule_year'];
                 	@endphp
                     <tr>
                         <td>
@@ -169,6 +171,7 @@
                         <td class="text-center">
                             <span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: {{ $color }};padding: 5px 12px;color: {{ $textColor }};">{{ $status }}</span>
                         </td>
+                        <td>{{ $month }}</td>
                         <td>{{ date('d M Y H:i', strtotime($val['request_at'])) }}</td>
                     </tr>
                 @endforeach

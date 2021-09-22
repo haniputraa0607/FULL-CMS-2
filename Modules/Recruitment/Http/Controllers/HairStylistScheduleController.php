@@ -18,7 +18,8 @@ class HairStylistScheduleController extends Controller
             'title'          	=> 'Recruitment',
             'sub_title'      	=> 'Schedule',
             'menu_active'    	=> 'hair-stylist',
-            'submenu_active' 	=> 'hair-stylist-schedule',
+            'submenu_active' 	=> 'hairstylist-schedule',
+            'child_active' 		=> 'hairstylist-schedule-list',
             'title_date_start' 	=> 'Request Start',
             'title_date_end' 	=> 'Request End'
         ];
@@ -65,7 +66,8 @@ class HairStylistScheduleController extends Controller
                 'title'          => 'Recruitment',
                 'sub_title'      => 'Schedule',
                 'menu_active'    => 'hair-stylist',
-                'submenu_active' => 'hair-stylist-schedule',
+                'submenu_active' => 'hairstylist-schedule',
+                'child_active' => 'hairstylist-schedule-list',
                 'url_back'       => 'recruitment/hair-stylist/schedule'
             ];
 
