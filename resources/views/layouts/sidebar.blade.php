@@ -51,11 +51,31 @@
 						<span class="title">Hair Stylist List</span>
 					</a>
 				</li>
-				<li class="nav-item {{($submenu_active == 'hair-stylist-schedule') ? 'active open' : ''}}">
-					<a href="{{url('recruitment/hair-stylist/schedule')}}" class="nav-link ">
-						<span class="title">Schedule List</span>
-					</a>
-				</li>
+				@if(MyHelper::hasAccess([353,354,355], $grantedFeature))
+					<li class="nav-item {{ ($submenu_active == 'hairstylist-schedule') ? 'active open' : '' }}">
+						<a href="javascript:;" class="nav-link nav-toggle">
+							<span class="title">Schedule</span>
+							<span class="arrow"></span>
+						</a>
+						<ul class="sub-menu">
+							<li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-schedule-list') ? 'active open' : '' }}">
+								<a href="{{ url('recruitment/hair-stylist/schedule') }}" class="nav-link ">
+									<span class="title">Schedule List</span>
+								</a>
+							</li>
+							<li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-schedule-autoresponse-approve-hairstylist-schedule') ? 'active open' : '' }}">
+								<a href="{{ url('autoresponse/hairstylist-schedule/approve-hairstylist-schedule') }}" class="nav-link nav-toggle">
+									<span class="title">[Response] Approve Hairstylist Schedule</span>
+								</a>
+							</li>
+							<li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-schedule-autoresponse-reject-hairstylist-schedule') ? 'active open' : '' }}">
+								<a href="{{ url('autoresponse/hairstylist-schedule/reject-hairstylist-schedule') }}" class="nav-link nav-toggle">
+									<span class="title">[Response] Reject Hairstylist Schedule</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+				@endif
 			</ul>
 		@endif
 

@@ -247,6 +247,18 @@ class AutocrmController extends Controller
                 ];
             	break;
 
+        	case 'reject-hairstylist-schedule':
+        	case 'approve-hairstylist-schedule':
+                $data['title']          	= ucfirst($type);
+                $data['sub_title']      	= ' Auto Response '.$autocrmSubject;
+                $data['menu_active']    	= 'hair-stylist';
+                $data['submenu_active'] 	= 'hairstylist-schedule';
+                $data['child_active']   	= $type.'-autoresponse-'.$subject;
+                $data['type'] 				= $type;
+                $data['active_response'] 	= ['email'];
+                $test['result'] 			= [];
+            	break;
+
         	default:
         		# code...
         		break;
