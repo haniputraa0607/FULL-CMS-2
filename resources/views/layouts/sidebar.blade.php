@@ -362,6 +362,13 @@
 					</a>
 				</li>
 				@endif
+				@if(MyHelper::hasAccess([338], $grantedFeature))
+				<li class="nav-item {{($submenu_active == 'list-request-update') ? 'active open' : ''}}">
+					<a href="{{url('businessdev/partners/request-update')}}" class="nav-link ">
+						<span class="title">List Request Data Partner</span>
+					</a>
+				</li>
+				@endif
 				@if(MyHelper::hasAccess([40,121], $configs))
 				<li class="nav-item {{($submenu_active == 'partners-autoresponse-updated-candidate-partner-to-partner') ? 'active open' : ''}}">
 					<a href="{{url('user/autoresponse/updated-candidate-partner-to-partner')}}" class="nav-link ">

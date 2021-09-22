@@ -332,4 +332,46 @@ class PartnersController extends Controller
 		}
         redirect('businessdev/partners/detail/'.$id_partner);
     }
+
+    public function listRequestUpdate(Request $request){
+        $data = [
+            'title'          => 'Partners',
+            'sub_title'      => 'List Request Update Partners',
+            'menu_active'    => 'partners',
+            'submenu_active' => 'list-request-update',
+        ];
+        $order = 'created_at';
+        $orderType = 'desc';
+        $sorting = 0;
+        if(isset($post['sorting'])){
+            $sorting = 1;
+            $order = $post['order'];
+            $orderType = $post['order_type'];
+        }
+        $page = '?page=1';
+        if(isset($post['page'])){
+            $page = '?page='.$post['page'];
+        }
+        $data['order'] = $order;
+        $data['order_type'] = $orderType;
+        $post['order'] = $order;
+        $post['order_type'] = $orderType;
+
+        $list = MyHelper::post('partners/request-update'.$page, $post);
+        if(($list['status']??'')=='success'){
+            $data['data']          = $list['result']['data'];
+            $data['data_total']     = $list['result']['total'];
+            $data['data_per_page']   = $list['result']['from'];
+            $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;
+            $data['data_paginator'] = new LengthAwarePaginator($list['result']['data'], $list['result']['total'], $list['result']['per_page'], $list['result']['current_page'], ['path' => url()->current()]);
+        }else{
+            $data['data']          = [];
+            $data['data_total']     = 0;
+            $data['data_per_page']   = 0;
+            $data['data_up_to']      = 0;
+            $data['data_paginator'] = false;
+        }
+
+        return view('businessdevelopment::partners.list_request', $data);
+    }
 }
