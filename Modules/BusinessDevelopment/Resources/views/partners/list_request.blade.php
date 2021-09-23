@@ -30,7 +30,6 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/form-repeater.js') }}" type="text/javascript"></script>
     <script>
         var table;
-        {{--  table = $('#kt_datatable').DataTable({searching: false, "paging":   false, ordering: false});  --}}
 
         var SweetAlert = function() {
             return {
@@ -43,7 +42,7 @@
                         let name    = $(this).data('name');
                         $(this).click(function() {
                             swal({
-                                    title: name+"\n\nAre you sure want to delete this locations?",
+                                    title: name+"\n\nAre you sure want to delete this request update?",
                                     text: "Your will not be able to recover this data!",
                                     type: "warning",
                                     showCancelButton: true,
@@ -54,25 +53,21 @@
                                 function(){
                                     $.ajax({
                                         type : "POST",
-                                        url : "{{url('businessdev/locations/delete')}}/"+id,
+                                        url : "{{url('businessdev/partners/request-update/delete')}}/"+id,
                                         data : {
                                             '_token' : '{{csrf_token()}}'
                                         },
                                         success : function(response) {
                                             if (response.status == 'success') {
-                                                swal("Deleted!", "Locations has been deleted.", "success")
+                                                swal("Deleted!", "Request Update has been deleted.", "success")
                                                 SweetAlert.init()
-                                                if(pathname=='/businessdev/candidatelocations'){
-                                                  location.href = "{{url('businessdev/candidatelocations')}}";
-                                                } else {
-                                                  location.href = "{{url('businessdev/locations')}}";
-                                                }
+                                                location.href = "{{url('businessdev/partners/request-update')}}";
                                             }
                                             else if(response.status == "fail"){
-                                                swal("Error!", "Failed to delete locations.", "error")
+                                                swal("Error!", "Failed to delete partner.", "error")
                                             }
                                             else {
-                                                swal("Error!", "Something went wrong. Failed to delete locations.", "error")
+                                                swal("Error!", "Something went wrong. Failed to delete partner.", "error")
                                             }
                                         }
                                     });
@@ -111,32 +106,11 @@
     </div>
     <br>
     @include('layouts.notifications')
-  
-    <?php
-        $date_start = '';
-        $date_end = '';
-
-        if(Session::has('filter-list-locations')){
-            $search_param = Session::get('filter-list-locations');
-            if(isset($search_param['rule'])){
-                $rule = $search_param['rule'];
-            }
-
-            if(isset($search_param['conditions'])){
-                $conditions = $search_param['conditions'];
-            }
-        }
-    ?>
-
-    <form id="form-sorting" action="{{url()->current()}}?filter=1" method="POST">
-        @include('businessdevelopment::locations.filter')
-    </form>
-    <br>
 
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject font-blue sbold uppercase">@if($title=='Candidate Partners') List Candidate Locations @else List Location @endif</span>
+                <span class="caption-subject font-blue sbold uppercase">List Request Update Partner</span>
             </div>
         </div>
         <div class="portlet-body form">
@@ -147,7 +121,7 @@
                         <select name="order" class="form-control select2" style="width: 100%">
                             <option value="created_at" @if(isset($order) && $order == 'created_at') selected @endif>Date</option>
                             <option value="name" @if(isset($order) && $order == 'name') selected @endif>Name</option>
-                            <option value="address" @if(isset($order) && $order == 'address') selected @endif>Address</option>
+                            <option value="email" @if(isset($order) && $order == 'email') selected @endif>Email</option>
                         </select>
                     </div>
                     <div class="col-md-2" style="padding-left:0px;padding-right:0px">
@@ -165,53 +139,43 @@
             <br>
             <div style="white-space: nowrap;">
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-hover text-center" id="kt_datatable">
+                    <table class="table table-striped table-bordered table-hover" id="kt_datatable">
                         <thead>
                         <tr>
                             <th class="text-nowrap text-center">Created At</th>
-                            <th class="text-nowrap text-center">Name Location</th>
-                            <th class="text-nowrap text-center">Address</th>
-                            <th class="text-nowrap text-center">Status</th>
-                            @if(MyHelper::hasAccess([343,344,345], $grantedFeature))
+                            <th class="text-nowrap text-center">Name</th>
+                            <th class="text-nowrap text-center">Email</th>
+                            @if(MyHelper::hasAccess([339,340,341], $grantedFeature))
                             <th class="text-nowrap text-center">Action</th>
                             @endif
                         </tr>
                         </thead>
                         <tbody>
-                            @if(!empty($data))
-                                @foreach($data as $location)
-                                    <tr data-id="{{ $location['id_location'] }}">
-                                        <td>{{date('d F Y H:i', strtotime($location['created_at']))}}</td>
-                                        <td>{{$location['name']}}</td>
-                                        <td>{{$location['address']}}</td>
-                                        <td>
-                                            @if($location['status'] == 'Active')
-                                                <span class="badge" style="background-color: #26C281; color: #ffffff">{{$location['status']}}</span>
-                                            @elseif($location['status'] == 'Candidate')
-                                                <span class="badge" style="background-color: #e1e445; color: #ffffff">{{$location['status']}}</span>
-                                            @else
-                                                <span class="badge" style="background-color: #EF1E31; color: #ffffff">{{$location['status']}}</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if(MyHelper::hasAccess([343,344], $grantedFeature))
-                                            <a href="{{ url('businessdev/locations/detail/'.$location['id_location']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
-                                            @endif
-                                            @if(MyHelper::hasAccess([345], $grantedFeature))
-                                            <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $location['id_location'] }}" data-name="{{ $location['name'] }}"><i class="fa fa-trash-o"></i> Delete</a>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @else
-                                <tr>
-                                    <td colspan="10" style="text-align: center">Data Not Available</td>
+                        @if(!empty($data))
+                            @foreach($data as $dt)
+                                <tr data-id="{{ $dt['id_partners_log'] }}" class="text-center">
+                                    <td>{{date('d F Y H:i', strtotime($dt['created_at']))}}</td>
+                                    <td>{{$dt['original_data']['name']}}</td>
+                                    <td>{{$dt['original_data']['email']}}</td>
+                                    <td>
+                                        @if(MyHelper::hasAccess([339,340], $grantedFeature))
+                                        <a href="{{ url('businessdev/partners/request-update/detail/'.$dt['id_partners_log']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i>Edit</a>
+                                        @endif
+                                        @if(MyHelper::hasAccess([341], $grantedFeature))
+                                        <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $dt['id_partners_log'] }}" data-name="{{ $dt['name'] }}"><i class="fa fa-trash-o"></i> Delete</a>
+                                        @endif
+                                    </td>
                                 </tr>
-                            @endif
-                            </tbody>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="10" style="text-align: center">Data Not Available</td>
+                            </tr>
+                        @endif
+                        </tbody>
                     </table>
                 </div>
-          </div>
+            </div>
         </div>
     </div>
     </form>
