@@ -42,7 +42,7 @@
                         let name    = $(this).data('name');
                         $(this).click(function() {
                             swal({
-                                    title: name+"\n\nAre you sure want to delete this partner?",
+                                    title: name+"\n\nAre you sure want to delete this request update?",
                                     text: "Your will not be able to recover this data!",
                                     type: "warning",
                                     showCancelButton: true,
@@ -53,19 +53,15 @@
                                 function(){
                                     $.ajax({
                                         type : "POST",
-                                        url : "{{url('businessdev/partners/delete')}}/"+id,
+                                        url : "{{url('businessdev/partners/request-update/delete')}}/"+id,
                                         data : {
                                             '_token' : '{{csrf_token()}}'
                                         },
                                         success : function(response) {
                                             if (response.status == 'success') {
-                                                swal("Deleted!", "Partner has been deleted.", "success")
+                                                swal("Deleted!", "Request Update has been deleted.", "success")
                                                 SweetAlert.init()
-                                                if(pathname=='/businessdev/candidatepartners'){
-                                                    location.href = "{{url('businessdev/candidatepartners')}}";
-                                                  } else {
-                                                    location.href = "{{url('businessdev/partners')}}";
-                                                  }
+                                                location.href = "{{url('businessdev/partners/request-update')}}";
                                             }
                                             else if(response.status == "fail"){
                                                 swal("Error!", "Failed to delete partner.", "error")
@@ -126,7 +122,6 @@
                             <option value="created_at" @if(isset($order) && $order == 'created_at') selected @endif>Date</option>
                             <option value="name" @if(isset($order) && $order == 'name') selected @endif>Name</option>
                             <option value="email" @if(isset($order) && $order == 'email') selected @endif>Email</option>
-                            <option value="address" @if(isset($order) && $order == 'address') selected @endif>Address</option>
                         </select>
                     </div>
                     <div class="col-md-2" style="padding-left:0px;padding-right:0px">
@@ -149,9 +144,7 @@
                         <tr>
                             <th class="text-nowrap text-center">Created At</th>
                             <th class="text-nowrap text-center">Name</th>
-                            <th class="text-nowrap text-center">Phone</th>
                             <th class="text-nowrap text-center">Email</th>
-                            <th class="text-nowrap text-center">Addres</th>
                             @if(MyHelper::hasAccess([339,340,341], $grantedFeature))
                             <th class="text-nowrap text-center">Action</th>
                             @endif
@@ -160,18 +153,16 @@
                         <tbody>
                         @if(!empty($data))
                             @foreach($data as $dt)
-                                <tr data-id="{{ $dt['id_partner'] }}">
+                                <tr data-id="{{ $dt['id_partners_log'] }}" class="text-center">
                                     <td>{{date('d F Y H:i', strtotime($dt['created_at']))}}</td>
-                                    <td>{{$dt['update_name']}}</td>
-                                    <td>{{$dt['update_phone']}}</td>
-                                    <td>{{$dt['update_email']}}</td>
-                                    <td>{{$dt['update_address']}}</td>
+                                    <td>{{$dt['original_data']['name']}}</td>
+                                    <td>{{$dt['original_data']['email']}}</td>
                                     <td>
                                         @if(MyHelper::hasAccess([339,340], $grantedFeature))
-                                        <a href="" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
+                                        <a href="{{ url('businessdev/partners/request-update/detail/'.$dt['id_partners_log']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i>Edit</a>
                                         @endif
                                         @if(MyHelper::hasAccess([341], $grantedFeature))
-                                        <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $dt['id_partner'] }}" data-name="{{ $dt['update_name'] }}"><i class="fa fa-trash-o"></i> Delete</a>
+                                        <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $dt['id_partners_log'] }}" data-name="{{ $dt['name'] }}"><i class="fa fa-trash-o"></i> Delete</a>
                                         @endif
                                     </td>
                                 </tr>

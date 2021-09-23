@@ -19,8 +19,14 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'business
     //partners
     Route::group(['prefix' => 'partners'], function()
     {
+        Route::group(['prefix' => 'request-update'], function()
+        {
+            Route::any('/', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@listRequestUpdate']);
+            Route::post('delete/{id}', ['middleware' => 'feature_control:341', 'uses' => 'PartnersController@destroyRequestUpdate']);
+            Route::get('detail/{id}', ['middleware' => 'feature_control:339', 'uses' => 'PartnersController@detailRequestUpdate']);
+            Route::post('update/{id}', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@updateRequestUpdate']);
+        });
         Route::get('detail/{user_id}', ['middleware' => 'feature_control:339', 'uses' => 'PartnersController@detail']);
-        Route::any('request-update', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@listRequestUpdate']);
         Route::post('update/{user_id}', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@update']);
         Route::post('delete/{user_id}', ['middleware' => 'feature_control:341', 'uses' => 'PartnersController@destroy']);
         Route::post('update-bank/{id_bank_account}', ['middleware' => 'feature_control:352', 'uses' => 'PartnersController@updateBankAccount']);

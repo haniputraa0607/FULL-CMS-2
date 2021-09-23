@@ -73,7 +73,7 @@ class PartnersController extends Controller
         $post['order'] = $order;
         $post['order_type'] = $orderType;
         $post['status'] = $data['status'];
-        // dd($data['status']);
+        
         $list = MyHelper::post('partners'.$page, $post);
         if(($list['status']??'')=='success'){
             $data['data']          = $list['result']['data'];
@@ -340,6 +340,7 @@ class PartnersController extends Controller
             'menu_active'    => 'partners',
             'submenu_active' => 'list-request-update',
         ];
+        $post = $request->all();
         $order = 'created_at';
         $orderType = 'desc';
         $sorting = 0;
@@ -347,6 +348,21 @@ class PartnersController extends Controller
             $sorting = 1;
             $order = $post['order'];
             $orderType = $post['order_type'];
+        }
+        if(isset($post['reset']) && $post['reset'] == 1){
+            Session::forget('filter-list-request-update');
+            $post['filter_type'] = 'today';
+        }elseif(Session::has('filter-list-request-update') && !empty($post) && !isset($post['filter'])){
+            $pageSession = 1;
+            if(isset($post['page'])){
+                $pageSession = $post['page'];
+            }
+            $post = Session::get('filter-list-request-update');
+            $post['page'] = $pageSession;
+            if($sorting == 0 && !empty($post['order'])){
+                $order = $post['order'];
+                $orderType = $post['order_type'];
+            }
         }
         $page = '?page=1';
         if(isset($post['page'])){
@@ -356,8 +372,8 @@ class PartnersController extends Controller
         $data['order_type'] = $orderType;
         $post['order'] = $order;
         $post['order_type'] = $orderType;
-
         $list = MyHelper::post('partners/request-update'.$page, $post);
+        
         if(($list['status']??'')=='success'){
             $data['data']          = $list['result']['data'];
             $data['data_total']     = $list['result']['total'];
@@ -371,7 +387,49 @@ class PartnersController extends Controller
             $data['data_up_to']      = 0;
             $data['data_paginator'] = false;
         }
+        if($post){
+            Session::put('filter-list-request-update',$post);
+        }
 
         return view('businessdevelopment::partners.list_request', $data);
+    }
+
+    public function destroyRequestUpdate($id){
+        $result = MyHelper::post("partners/request-update/delete", ['id_partners_log' => $id]);
+        return $result;
+    }
+
+    public function detailRequestUpdate($id)
+    {
+        $result = MyHelper::post('partners/request-update/detail', ['id_partners_log' => $id]);
+        $data = [
+            'title'          => 'Partners',
+            'sub_title'      => 'Detail Request Update Partners',
+            'menu_active'    => 'partners',
+            'submenu_active' => 'list-request-update',
+        ];
+        if(isset($result['status']) && $result['status'] == 'success'){
+            $data['result'] = $result['result']['partners_log'];
+            return view('businessdevelopment::partners.detail_request', $data);
+        }else{
+            return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
+        }
+    }
+
+    public function updateRequestUpdate(Request $request, $id)
+    {
+        $request->validate([
+            "name" => "required",
+            "phone" => "required",
+            "email" => "required",
+            "address" => "required",
+        ]);
+        $post = $request->except('_token','old_name','old_phone','old_email','old_address');
+        $result = MyHelper::post('partners/update', $post);
+        if(isset($result['status']) && $result['status'] == 'success'){
+            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success approve request update partner']);
+        }else{
+            return redirect('businessdev/partners/request-update/detail/'.$id)->withErrors($result['messages'] ?? ['Failed approve request update partner']);
+        }
     }
 }
