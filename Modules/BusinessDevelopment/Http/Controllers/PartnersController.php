@@ -425,9 +425,15 @@ class PartnersController extends Controller
             "address" => "required",
         ]);
         $post = $request->except('_token','old_name','old_phone','old_email','old_address');
+        $post['request'] = 'approve';
         $result = MyHelper::post('partners/update', $post);
         if(isset($result['status']) && $result['status'] == 'success'){
-            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success approve request update partner']);
+            $delete = $this->destroyRequestUpdate($id);
+            if(isset($result['status']) && $result['status'] == 'success'){
+                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success approve request update partner']);
+            }else{
+                return redirect('businessdev/partners/request-update/detail/'.$id)->withErrors($result['messages'] ?? ['Failed approve request update partner']);
+            }
         }else{
             return redirect('businessdev/partners/request-update/detail/'.$id)->withErrors($result['messages'] ?? ['Failed approve request update partner']);
         }
