@@ -164,7 +164,6 @@ class LocationsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->all());
         $request->validate([
             "name" => "required",
             "address" => "required",
@@ -172,6 +171,12 @@ class LocationsController extends Controller
             "longitude" => "required",
             "id_city" => "required",
         ]);
+        if (isset($request['status'])){
+            $request->validate([
+                "start_date" => "required",
+                "end_date" => "required"
+            ]);
+        }
         $post = [
             "id_location" => $id,
             "name" => $request["name"],
@@ -195,6 +200,12 @@ class LocationsController extends Controller
             $post['status'] = 'Active';
         }elseif(isset($request['status']) && $request["status"] == 'Active'){
             $post['status'] = 'Active';
+        }
+        if ($request['start_date']!=null && $post['status'] == 'Active'){
+            $post['start_date'] = date('Y-m-d', strtotime($request['start_date']));
+        } 
+        if ($request['end_date']!=null && $post['status'] == 'Active'){
+            $post['end_date'] = date('Y-m-d', strtotime($request['end_date']));
         }
         $result = MyHelper::post('partners/locations/update', $post);
         if(isset($result['status']) && $result['status'] == 'success' && isset($post["status"])){

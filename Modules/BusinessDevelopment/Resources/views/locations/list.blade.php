@@ -165,7 +165,7 @@
             <br>
             <div style="white-space: nowrap;">
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-hover " id="kt_datatable">
+                    <table class="table table-striped table-bordered table-hover text-center" id="kt_datatable">
                         <thead>
                         <tr>
                             <th class="text-nowrap text-center">Created At</th>

@@ -276,6 +276,34 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="example-search-input" class="control-label col-md-4">Start Date <span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Mulai Lokasi Disetujui" data-container="body"></i></label>
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                <input type="text" id="start_date" class="datepicker form-control" name="start_date" value="{{ (!empty($result['start_date']) ? date('d F Y', strtotime($result['start_date'])) : '')}}">
+                                <span class="input-group-btn">
+                                    <button class="btn default" type="button">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="example-search-input" class="control-label col-md-4">End Date <span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Berakhir Lokasi Disetujui" data-container="body"></i></label>
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                <input type="text" id="end_date" class="datepicker form-control" name="end_date" value="{{ (!empty($result['end_date']) ? date('d F Y', strtotime($result['end_date'])) : '')}}">
+                                <span class="input-group-btn">
+                                    <button class="btn default" type="button">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Status <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih status lokasi" data-container="body"></i></label>
                         <div class="col-md-5">
@@ -369,6 +397,34 @@
                             <div class="col-md-5">
                                 <input class="form-control" type="hidden" id="id_city-modal" name="id_city" value="" readonly/>
                                 <input class="form-control" type="text" id="city_name-modal" value="" readonly/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="example-search-input" class="control-label col-md-5">Start Date <span class="required" aria-required="true">*</span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Mulai Lokasi disetujui" data-container="body"></i></label>
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                    <input type="text" id="start_date" class="datepicker form-control" name="start_date" value="">
+                                    <span class="input-group-btn">
+                                        <button class="btn default" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="example-search-input" class="control-label col-md-5">End Date <span class="required" aria-required="true">*</span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Akhir Lokasi" data-container="body"></i></label>
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                    <input type="text" id="end_date" class="datepicker form-control" name="end_date" value="">
+                                    <span class="input-group-btn">
+                                        <button class="btn default" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
