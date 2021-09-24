@@ -275,6 +275,7 @@
                             </select>
                         </div>
                     </div>
+                    @if($title=='Location') 
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Start Date <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Mulai Lokasi Disetujui" data-container="body"></i></label>
@@ -303,6 +304,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Status <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih status lokasi" data-container="body"></i></label>
