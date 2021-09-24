@@ -88,12 +88,6 @@ class UsersController extends Controller
                 $data['title'] = 'Reset Password User Mitra';
                 $data['menu_active'] = 'user-franchise';
                 break;
-            case 'pin-sent':
-                $data['active_response'] = ['email', 'sms', 'push', 'inbox', 'forward'];
-                break;
-            case 'pin-sent-whatsapp':
-                $data['active_response'] = ['email', 'whatsapp', 'push', 'inbox', 'forward'];
-                break;
             case 'updated-candidate-partner-to-partner':
                 $data = [ 
                   'title'             => 'Partners',
