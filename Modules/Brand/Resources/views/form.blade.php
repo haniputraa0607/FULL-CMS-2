@@ -6,6 +6,13 @@
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-summernote/summernote.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-colorpicker/css/colorpicker.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/jquery-minicolors/jquery.minicolors.css') }}" rel="stylesheet" type="text/css" />
+@endsection
+
+@section('page-plugin')
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js') }}" type="text/javascript"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/jquery-minicolors/jquery.minicolors.min.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('page-script')
@@ -16,8 +23,16 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/components-select2.min.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-toastr/toastr.min.js') }}" type="text/javascript"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/components-color-pickers.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
     $(document).ready(function() {
+        $(document).ready(function () {
+            $('.colorpicker').minicolors({
+                format: 'hex',
+                theme: 'bootstrap'
+            })
+        });
+
         $('.summernote').summernote({
             placeholder: 'Brand Description',
             tabsize: 2,
@@ -101,6 +116,18 @@
             <form class="form-horizontal" role="form" action="{{ url('brand/store') }}" method="post" enctype="multipart/form-data">
                 <div class="form-body">
                     <div class="form-group">
+                        <label class="col-md-3 control-label">Code
+                            <span class="required" aria-required="true"> *
+                            </span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Kode Brand (Unique)" data-container="body"></i>
+                        </label>
+                        <div class="col-md-7">
+                            <div class="input-icon right">
+                                <input type="text" placeholder="Brand Code" class="form-control" name="code_brand" @if (isset($result['code_brand'])) value="{{ $result['code_brand'] }}" disabled @else value="{{ old('code_brand') }}" required @endif>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-md-3 control-label">Name
                             <span class="required" aria-required="true"> *
                             </span>
@@ -133,14 +160,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-3 control-label">Code
+                        <label class="col-md-3 control-label">Color
                             <span class="required" aria-required="true"> *
                             </span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Kode Brand (Unique)" data-container="body"></i>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Warna untuk brand" data-container="body"></i>
                         </label>
-                        <div class="col-md-7">
+                        <div class="col-md-4">
                             <div class="input-icon right">
-                                <input type="text" placeholder="Brand Code" class="form-control" name="code_brand" @if (isset($result['code_brand'])) value="{{ $result['code_brand'] }}" disabled @else value="{{ old('code_brand') }}" required @endif>
+                                <input type="text" placeholder="Color" class="form-control colorpicker" name="color_brand" @if (isset($result['color_brand'])) value="{{ $result['color_brand'] }}" @else value="{{ old('color_brand') }}" required @endif>
                             </div>
                         </div>
                     </div>
@@ -169,7 +196,7 @@
                                     <span class="btn default btn-file">
                                         <span class="fileinput-new"> Select image </span>
                                         <span class="fileinput-exists"> Change </span>
-                                        <input type="file" accept="image/png" name="logo_brand" class="file" data-jenis="logo_brand" required> </span>
+                                        <input type="file" accept="image/png" name="logo_brand" class="file" data-jenis="logo_brand" @if(empty($result['logo_brand'])) required @endif> </span>
                                     <a href="javascript:;" id="removeLogo" class="btn red default fileinput-exists" data-dismiss="fileinput"> Remove </a>
                                 </div>
                             </div>
