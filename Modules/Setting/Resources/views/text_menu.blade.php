@@ -462,7 +462,7 @@ $configs     		= session('configs');
 						@if($config_other_menu['is_active'] == 1)
 							<div class="row" style="margin-top: 2%;">
 								<div class="col-md-3">
-									<img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/text_menu/other_menu_4.jpg" height="150px" onclick="window.open(this.src)"/>
+									<img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/text_menu/other_menu_4.png" height="100px" onclick="window.open(this.src)"/>
 									<p style="text-align: center">(d)</p>
 								</div>
 							</div>
