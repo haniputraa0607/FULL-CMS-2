@@ -82,6 +82,12 @@ class HairStylistController extends Controller
         $post['id_user_hair_stylist'] = $id;
         $post['update_type'] = 'approve';
 
+        if(!empty($post['user_hair_stylist_photo'])){
+            $post['user_hair_stylist_photo'] = MyHelper::encodeImage($post['user_hair_stylist_photo']);
+        }else{
+            unset($post['user_hair_stylist_photo']);
+        }
+
         $update = MyHelper::post('recruitment/hairstylist/be/update',$post);
         if(isset($update['status']) && $update['status'] == 'success'){
             return redirect('recruitment/hair-stylist/detail/'.$id)->withSuccess(['Success update data to approved']);
@@ -165,6 +171,12 @@ class HairStylistController extends Controller
     public function hsUpdate(Request $request, $id){
         $post = $request->except('_token');
         $post['id_user_hair_stylist'] = $id;
+
+        if(!empty($post['user_hair_stylist_photo'])){
+            $post['user_hair_stylist_photo'] = MyHelper::encodeImage($post['user_hair_stylist_photo']);
+        }else{
+            unset($post['user_hair_stylist_photo']);
+        }
 
         $update = MyHelper::post('recruitment/hairstylist/be/update',$post);
         if(isset($update['status']) && $update['status'] == 'success'){

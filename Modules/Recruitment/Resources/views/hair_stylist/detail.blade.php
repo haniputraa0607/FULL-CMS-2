@@ -75,6 +75,30 @@ $grantedFeature     = session('granted_features');
         jQuery(document).ready(function() {
             SweetAlert.init()
         });
+
+		$(".filePhoto").change(function(e) {
+			var widthImg  = 300;
+			var heightImg = 300;
+
+			var _URL = window.URL || window.webkitURL;
+			var image, file;
+
+			if ((file = this.files[0])) {
+				image = new Image();
+
+				image.onload = function() {
+					if (this.width != widthImg && this.height != heightImg) {
+						toastr.warning("Please check dimension of your photo.");
+						$('#image').children('img').attr('src', 'https://www.placehold.it/720x360/EFEFEF/AAAAAA&amp;text=no+image');
+						$('#filePhoto').val("");
+						$("#removeImage").trigger( "click" );
+					}
+				};
+
+				image.src = _URL.createObjectURL(file);
+			}
+
+		});
     </script>
 @endsection
 
@@ -126,7 +150,7 @@ $grantedFeature     = session('granted_features');
         <div class="portlet-body">
         	<div class="tab-content">
 		        <div class="tab-pane active form" id="hs-info">
-		            <form class="form-horizontal" id="form-submit" role="form" action="{{url($url_back.'/update/'.$detail['id_user_hair_stylist'])}}" method="post">
+		            <form class="form-horizontal" id="form-submit" role="form" action="{{url($url_back.'/update/'.$detail['id_user_hair_stylist'])}}" method="post" enctype="multipart/form-data">
 		                <div class="form-body">
 		                    @if($detail['user_hair_stylist_status'] != 'Candidate')
 		                        <div class="form-group">
@@ -165,10 +189,31 @@ $grantedFeature     = session('granted_features');
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <input type="text" placeholder="Nickname" class="form-control" name="nickname" value="{{ $detail['nickname']}}" @if($detail['user_hair_stylist_status'] != 'Candidate') disabled @else required @endif>
+		                                <input type="text" placeholder="Nickname" class="form-control" name="nickname" value="{{ $detail['nickname']}}" @if($detail['user_hair_stylist_status'] != 'Candidate') readonly @else required @endif>
 		                            </div>
 		                        </div>
 		                    </div>
+							<div class="form-group">
+								<label class="col-md-3 control-label">
+									Photo<span class="required" aria-required="true"> <br>(300*300) </span>
+								</label>
+								<div class="col-md-8">
+									<div class="fileinput fileinput-new" data-provides="fileinput">
+										<div class="fileinput-new thumbnail" style="width: 200px; height: 200px;">
+											<img src="@if(isset($detail['user_hair_stylist_photo'])){{$detail['user_hair_stylist_photo']}}@endif" alt="">
+										</div>
+										<div class="fileinput-preview fileinput-exists thumbnail" id="image" style="max-width: 200px; max-height: 200px;"></div>
+										<div>
+											<span class="btn default btn-file">
+											<span class="fileinput-new"> Select image </span>
+											<span class="fileinput-exists"> Change </span>
+											<input type="file" class="filePhoto" id="fieldphoto" accept="image/*" name="user_hair_stylist_photo">
+											</span>
+											<a href="javascript:;" id="removeImage" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+										</div>
+									</div>
+								</div>
+							</div>
 		                    <div class="form-group">
 		                        <label class="col-md-3 control-label">Level <span class="required" aria-required="true"> * </span>
 		                        </label>

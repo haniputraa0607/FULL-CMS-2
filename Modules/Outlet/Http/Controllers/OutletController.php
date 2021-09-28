@@ -216,6 +216,10 @@ class OutletController extends Controller
                 return back()->withErrors(['Please input invalid longitude'])->withInput();
             }
 
+            if(!empty($post['outlet_image'])){
+                $post['outlet_image'] = MyHelper::encodeImage($post['outlet_image']);
+            }
+
             //change pin
             // return $post;
             if(isset($post['outlet_pin']) || isset($post['generate_pin_outlet'])){

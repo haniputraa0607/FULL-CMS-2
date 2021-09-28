@@ -561,6 +561,30 @@
             $('form#form-outlet-box').submit();
         }
     }
+
+    $(".filePhotoDetail").change(function(e) {
+        var widthImg  = 720;
+        var heightImg = 360;
+
+        var _URL = window.URL || window.webkitURL;
+        var image, file;
+
+        if ((file = this.files[0])) {
+            image = new Image();
+
+            image.onload = function() {
+                if (this.width != widthImg && this.height != heightImg) {
+                    toastr.warning("Please check dimension of your photo.");
+                    $('#outletImageDetail').children('img').attr('src', 'https://www.placehold.it/720x360/EFEFEF/AAAAAA&amp;text=no+image');
+                    $('#filePhotoDetail').val("");
+                    $("#removeImage").trigger( "click" );
+                }
+            };
+
+            image.src = _URL.createObjectURL(file);
+        }
+
+    });
   </script>
 @endsection
 

@@ -60,6 +60,19 @@
                 <input type="text" class="form-control" name="outlet_name" value="{{ $val['outlet_name'] }}" required placeholder="Outlet Name">
             </div>
         </div>
+
+        <div class="form-group">
+            <div class="input-icon right">
+                <label class="col-md-3 control-label">
+                    Description
+                    <i class="fa fa-question-circle tooltips" data-original-title="Deskripsi seputar outlet" data-container="body"></i>
+                </label>
+            </div>
+            <div class="col-md-9">
+                <textarea name="outlet_description" class="form-control" placeholder="Outlet Description">{{ $val['outlet_description'] }}</textarea>
+            </div>
+        </div>
+
         @if(MyHelper::hasAccess([95], $configs))
         <div class="form-group">
             <div class="input-icon right">
@@ -255,6 +268,31 @@
                 <input type="checkbox" name="plastic_used_status" @if(old('plastic_used_status',$val['plastic_used_status']) == 'Active') checked @endif  class="make-switch switch-change" data-size="small" data-on-text="Active" data-off-text="Inactive" value="Active">
             </div>
         </div>
+
+        <div class="form-group">
+            <label class="col-md-3 control-label">
+                Photo Detail<span class="required" aria-required="true">* <br>(720*360) </span>
+                <i class="fa fa-question-circle tooltips" data-original-title="Gambar Outlet Detail" data-container="body"></i>
+            </label>
+            <div class="col-md-8">
+                <div class="fileinput fileinput-new" data-provides="fileinput">
+                    <div class="fileinput-new thumbnail" style="width: 200px; height: 100px;">
+                        <img src="@if(isset($val['outlet_image'])){{$val['outlet_image']}}@endif" alt="">
+                    </div>
+                    <div class="fileinput-preview fileinput-exists thumbnail" id="outletImageDetail" style="max-width: 200px; max-height: 100px;"></div>
+                    <div>
+                        <span class="btn default btn-file">
+                        <span class="fileinput-new"> Select image </span>
+                        <span class="fileinput-exists"> Change </span>
+                        <input type="file" class="filePhotoDetail" id="fieldphoto" accept="image/*" name="outlet_image" @if(empty($val['outlet_image'])) required @endif>
+                        </span>
+
+                        <a href="javascript:;" id="removeImage" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         @foreach($delivery as $dev)
             <div class="form-group">
                 <div class="input-icon right">
