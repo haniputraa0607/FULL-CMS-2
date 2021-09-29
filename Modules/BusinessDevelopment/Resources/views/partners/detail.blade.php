@@ -632,39 +632,6 @@
                     </div> 
                 </div>
             </div>
-            
-            {{-- tab 4 total termintation --}}
-            <div class="tab-pane" id="total">
-                <div style="white-space: nowrap;">
-                    <div class="portlet light bordered">
-                    @include('businessdevelopment::partners.manage.total')
-                    </div>
-                </div>
-            </div>
-            {{-- tab 4 tomporary termintation --}}
-            <div class="tab-pane" id="tomporary">
-                <div style="white-space: nowrap;">
-                    <div class="portlet light bordered">
-                    @include('businessdevelopment::partners.manage.temporary')
-                    </div>
-                </div>
-            </div>
-            {{-- tab 4 partner substitutions --}}
-            <div class="tab-pane" id="subs">
-                <div style="white-space: nowrap;">
-                    <div class="portlet light bordered">
-                    @include('businessdevelopment::partners.manage.subs')
-                    </div>
-                </div>
-            </div>
-            {{-- tab 5 change status --}}
-            <div class="tab-pane" id="change">
-                <div style="white-space: nowrap;">
-                    <div class="portlet light bordered">
-                    @include('businessdevelopment::partners.manage.change')
-                    </div>
-                </div>
-            </div>
 
             {{-- tab 5 --}}
             <div class="tab-pane" id="resetpass">

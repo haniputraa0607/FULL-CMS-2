@@ -152,7 +152,7 @@ class PartnersController extends Controller
             $data['bank'] = MyHelper::get('disburse/setting/list-bank-account')['result']['list_bank']??[];
             $data['cities'] = MyHelper::get('city/list')['result']??[];
             $data['bankName'] = MyHelper::get('disburse/bank')['result']??[];
-            // dd($data['bankName']);
+            // dd($data);
             return view('businessdevelopment::partners.detail', $data);
         }else{
             return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
