@@ -382,16 +382,27 @@
                                 </div>
                                 <div class="portlet-body form">
                                     <div class="form-group">
-                                        <label for="example-search-input" class="control-label col-md-4">@if($title=='Candidate Partner') Approve Candidate @else Status @endif<span class="required" aria-required="true">*</span>
+                                        <label for="example-search-input" class="control-label col-md-4">Update Step<span class="required" aria-required="true">*</span>
                                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih status partner" data-container="body"></i></label>
                                         <div class="col-md-5">
-                                            @if($title=='Candidate Partner')
+                                            <select name="step" class="form-control input-sm select2" placeholder="Step Follow Up">
+                                                <option value="" selected disabled>Select Cooperation Scheme</option>
+                                                <option value="Follow up 1" @if(isset($result['step'])) @if($result['step'] == 'Follow up 1') selected @endif @endif>Follow up 1</option>
+                                                <option value="Follow up 2" @if(isset($result['step'])) @if($result['step'] == 'Follow up 2') selected @endif @endif>Follow up 2</option>
+                                                <option value="Follow up 3" @if(isset($result['step'])) @if($result['step'] == 'Follow up 3') selected @endif @endif>Follow up 3</option>
+                                                <option value="Follow up 4" @if(isset($result['step'])) @if($result['step'] == 'Follow up 4') selected @endif @endif>Follow up 4</option>
+                                                <option value="Follow up 5" @if(isset($result['step'])) @if($result['step'] == 'Follow up 5') selected @endif @endif>Follow up 5</option>
+                                                <option value="Follow up 6" @if(isset($result['step'])) @if($result['step'] == 'Follow up 6') selected @endif @endif>Follow up 6</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="example-search-input" class="control-label col-md-4">Approve Candidate<span class="required" aria-required="true">*</span>
+                                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih status partner" data-container="body"></i></label>
+                                        <div class="col-md-5">
                                             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#candidatePartnerModal" id="modalPartner">
                                                 Insert Data Partner
                                             </button>
-                                            @else
-                                            <input type="hidden" value="on" name="status">
-                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -538,7 +549,7 @@
                                         <select class="form-control select2" name="id_bank_name" id="id_bank_name" required>
                                             <option value="" selected disabled>Select Bank Name</option>
                                             @foreach($bankName as $b)
-                                                <option value="{{$b['id_bank_name']}}" @if($result['partner_bank_account']['id_bank_name'] == $b['id_bank_name']) selected @endif>{{$b['bank_name']}}</option>
+                                                <option value="{{$b['id_bank_name']}}" @if(isset($result['partner_bank_account']))@if($result['partner_bank_account']['id_bank_name'] == $b['id_bank_name']) selected @endif @endif>{{$b['bank_name']}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -547,14 +558,14 @@
                                     <label for="example-search-input" class="control-label col-md-4">Beneficiary Name <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nama penerima" data-container="body"></i></label>
                                     <div class="col-md-6">
-                                        <input class="form-control" type="text" id="input-beneficiary_name" name="beneficiary_name" value="{{$result['partner_bank_account']['beneficiary_name']}}" placeholder="Enter beneficiary name"/>
+                                        <input class="form-control" type="text" id="input-beneficiary_name" name="beneficiary_name" value="<?php if(isset($result['partner_bank_account'])) echo $result['partner_bank_account']['beneficiary_name'] ?>" placeholder="Enter beneficiary name"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Beneficiary Account <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukkan akun penerima" data-container="body"></i></label>
                                     <div class="col-md-6">
-                                        <input class="form-control" type="text" id="input-beneficiary_account" name="beneficiary_account" value="{{$result['partner_bank_account']['beneficiary_account']}}" placeholder="Enter beneficiary name"/>
+                                        <input class="form-control" type="text" id="input-beneficiary_account" name="beneficiary_account" value="<?php if(isset($result['partner_bank_account'])) echo $result['partner_bank_account']['beneficiary_account'] ?>" placeholder="Enter beneficiary name"/>
                                     </div>
                                 </div>
                             </div>
