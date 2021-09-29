@@ -166,7 +166,7 @@ class PartnersController extends Controller
      * @return Response
      */
     public function update(Request $request, $id)
-    {   
+    {       
         $request->validate([
             "name" => "required",
             "email" => "required",
