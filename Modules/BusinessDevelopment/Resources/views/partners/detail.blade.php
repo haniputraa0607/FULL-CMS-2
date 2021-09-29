@@ -89,7 +89,45 @@
                 }
             }
         }();
-
+        function totalTermin() {
+            $("#total-satu").show();
+            $("#total-dua").hide();
+        }
+        function totalTermin2() {
+            $("#total-dua").show();
+            $("#total-satu").hide();
+            let name = $('#total-name').val();
+            let email = $('#total-email').val();
+            let start_date = $('#total-start-date').val();
+            let end_date = $('#total-end-date').val();
+            let total_date = $('#total-date').val();
+            $("#rule-total-2").addClass("active");
+            $("#name-total").text(function(i, origText){
+                return origText + name;
+            });
+            $("#email-total").text(function(i, origText){
+                return origText + email;
+            });
+            $("#start-date-total").text(function(i, origText){
+                return origText + start_date;
+            });
+            $("#end-date-total").text(function(i, origText){
+                return origText + end_date;
+            });
+            $("#date-total").text(function(i, origText){
+                return origText + total_date;
+            });
+        }
+        function backTotalTermin1() {
+            $("#total-satu").show();
+            $("#total-dua").hide();
+            $("#name-total").html('Name : ');
+            $("#email-total").html('Name : ');
+            $("#start-date-total").html('Name : ');
+            $("#end-date-total").html('Name : ');
+            $("#date-total").html('Name : ');
+            $("#rule-total-2").removeClass("active");
+        }
         $('#modalPartner').click(function(){
             let nama = $('#input-name').val();
             let phone = $('#input-phone').val();
@@ -239,6 +277,9 @@
                 <a href="#bank" data-toggle="tab"> Partner Bank Account </a>
             </li>
             @endif
+            {{-- <li>
+                <a href="#manage" data-toggle="tab"> Manage Partner </a>
+            </li> --}}
             <li>
                 <a href="#resetpass" data-toggle="tab"> Reset PIN </a>
             </li>
@@ -340,7 +381,6 @@
                                     </div>
                                 </div>
                                 <div class="portlet-body form">
-                                    @endif
                                     <div class="form-group">
                                         <label for="example-search-input" class="control-label col-md-4">@if($title=='Candidate Partner') Approve Candidate @else Status @endif<span class="required" aria-required="true">*</span>
                                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih status partner" data-container="body"></i></label>
@@ -350,16 +390,17 @@
                                                 Insert Data Partner
                                             </button>
                                             @else
-                                            <input data-switch="true" type="checkbox" name="status" data-on-text="Active" data-off-text="Inactive" {{$result['status'] ==  'Active' ? 'checked' : ''}}/>
+                                            <input type="hidden" value="on" name="status">
                                             @endif
                                         </div>
                                     </div>
-                                    @if ($title=='Candidate Partner')
                                 </div>
                             </div>
                             @endif
+
                             
                             @if($title=='Partner')
+                            <input type="hidden" value="on" name="status">
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Ownership Status <span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Pilih Ownership Status" data-container="body"></i></label>
@@ -424,8 +465,9 @@
                 </div>
             </div>
 
-        {{-- tab 2 --}}
+            {{-- tab 2 --}}
             <div class="tab-pane" id="locations">
+                <div class="portlet-body form">
                     <div style="white-space: nowrap;">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover" id="kt_datatable">
@@ -475,6 +517,7 @@
                             </table>
                         </div>
                     </div>
+                </div>
             </div>
 
             {{-- tab 3 --}}
@@ -531,6 +574,66 @@
             </div>
 
             {{-- tab 4 --}}
+            <div class="tab-pane" id="manage">
+                <div style="white-space: nowrap;">
+                    <div class="portlet-body form">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="portlet light bordered">
+                                    <div class="portlet-title">
+                                        <div class="caption">
+                                            <span class="caption-subject font-black">Totally Termination</span>
+                                        </div>
+                                    </div> 
+                                    <div class="portlet-body form">
+                                        <a class="btn btn-primary" href="#total" data-toggle="tab" id="tombol-total" onclick="totalTermin();">Go to The Form</a>
+                                    </div>
+                                </div>
+                            </div>  
+                            <div class="col-sm-6">
+                                <div class="portlet light bordered">
+                                    <div class="portlet-title">
+                                        <div class="caption">
+                                            <span class="caption-subject font-black">Temporary Termintation</span>
+                                        </div>
+                                    </div> 
+                                    <div class="portlet-body form">
+                                        <a class="btn btn-primary" href="#tomporary" data-toggle="tab">Go to The Form</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="portlet light bordered">
+                                    <div class="portlet-title">
+                                        <div class="caption">
+                                            <span class="caption-subject font-black">Partner Substitutions</span>
+                                        </div>
+                                    </div> 
+                                    <div class="portlet-body form">
+                                        <a class="btn btn-primary" href="#subs" data-toggle="tab">Go to The Form</a>
+                                    </div>
+                                </div>
+                            </div>  
+                            <div class="col-sm-6">
+                                <div class="portlet light bordered">
+                                    <div class="portlet-title">
+                                        <div class="caption">
+                                            <span class="caption-subject font-black">Change Status</span>
+                                        </div>
+                                    </div> 
+                                    <div class="portlet-body form">
+                                        <a class="btn btn-primary" href="#change" data-toggle="tab">Go to The Form</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+
+            {{-- tab 5 --}}
             <div class="tab-pane" id="resetpass">
                 <div style="white-space: nowrap;">
                     <div class="portlet-body form">
@@ -540,21 +643,21 @@
                                     <label for="example-search-input" class="control-label col-md-4">New PIN <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukkan pin baru" data-container="body"></i></label>
                                     <div class="col-md-6">
-                                        <input class="form-control" type="password" id="input-new-pin" name="new-pin"  placeholder="Enter new pin"/>
+                                        <input class="form-control" type="password" id="input-new-pin" name="new-pin"  placeholder="Enter new pin" maxlength="6"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Confirm PIN <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Ulangi pin baru" data-container="body"></i></label>
                                     <div class="col-md-6">
-                                        <input class="form-control" type="password" id="input-confirm-pin" name="confirm-pin"  placeholder="Reenter new pin"/>
+                                        <input class="form-control" type="password" id="input-confirm-pin" name="confirm-pin"  placeholder="Reenter new pin" maxlength="6"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Your PIN <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukkan pin anda" data-container="body"></i></label>
                                     <div class="col-md-6">
-                                        <input class="form-control" type="password" id="input-your-pin" name="your-pin"  placeholder="Enter your pin"/>
+                                        <input class="form-control" type="password" id="input-your-pin" name="your-pin"  placeholder="Enter your pin" maxlength="6"/>
                                     </div>
                                 </div>
                             </div>
@@ -665,7 +768,7 @@
                             <label for="example-search-input" class="control-label col-md-5">PIN <span class="required" aria-required="true">*</span>
                                 <i class="fa fa-question-circle tooltips" data-original-title="Masukkan pin" data-container="body"></i></label>
                             <div class="col-md-5">
-                                <input class="form-control" type="password" id="input-pin" name="pin" value="" placeholder="Enter pin here"/>
+                                <input class="form-control" type="password" id="input-pin" name="pin" value="" placeholder="Enter pin here" maxlength="6"/>
                             </div>
                         </div>
                     </div>
