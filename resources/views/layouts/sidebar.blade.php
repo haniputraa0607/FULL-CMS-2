@@ -30,7 +30,7 @@
 
 		@if(MyHelper::hasAccess([347,348,349,350], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
-				<h3 class="uppercase" style="color: #3C3424;font-weight: 600;">Recruitment</h3>
+				<h3 class="uppercase" style="color: #000;font-weight: 600;">Recruitment</h3>
 			</li>
 		@endif
 		@if(MyHelper::hasAccess([347,348,349,350,353,354,355], $grantedFeature))
@@ -384,7 +384,7 @@
 
 		@if(MyHelper::hasAccess([338,339,340,341,342,343,344,345], $grantedFeature))
 		<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
-			<h3 class="uppercase" style="color: #3C3424;font-weight: 600;">Business Development</h3>
+			<h3 class="uppercase" style="color: #000;font-weight: 600;">Business Development</h3>
 		</li>
 		@if(MyHelper::hasAccess([338,339,340,341], $grantedFeature))
 		<li class="nav-item {{($menu_active == 'partners') ? 'active open' : ''}}">
