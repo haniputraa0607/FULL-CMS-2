@@ -267,13 +267,13 @@
 		@endif
 
 		@if($level == "Super Admin")
-		<li class="nav-item {{($menu_active == 'expired-qrcode') ? 'active' : ''}}">
+{{-- 		<li class="nav-item {{($menu_active == 'expired-qrcode') ? 'active' : ''}}">
 			<a href="{{url('setting/qrcode_expired')}}" class="nav-link">
 				<i class="fa fa-qrcode"></i>
 				<span class="title">Setting Expired QR Code</span>
 			</a>
 		</li>
-
+ --}}
 		<li class="nav-item {{($menu_active == 'count-login-failed') ? 'active' : ''}}">
 			<a href="{{url('setting/count_login_failed')}}" class="nav-link">
 				<i class="fa fa-times-circle-o"></i>
@@ -843,7 +843,7 @@
 			</li>
 			@endif
 
-			@if(MyHelper::hasAccess([48,49,50,51,52], $grantedFeature))
+			@if(MyHelper::hasAccess([48,49,50,51,52], $grantedFeature) && false)
 				<li class="nav-item {{($menu_active == 'product-plastic') ? 'active' : ''}}">
 					<a href="javascript:;" class="nav-link nav-toggle">
 						<i class="icon-wallet"></i>
