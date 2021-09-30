@@ -1018,7 +1018,7 @@
 
 												<div class="input-group-addon">IDR</div>
 
-												<input type="text" class="form-control text-center digit_mask" name="max_percent_discount" placeholder="" value="{{$result['promo_campaign_product_discount_rules']['max_percent_discount']}}" min="0" oninput="validity.valid||(value='');" autocomplete="off">
+												<input type="text" class="form-control text-center digit_mask" name="max_percent_discount" placeholder="" value="{{$result['promo_campaign_product_discount_rules']['max_percent_discount']??0}}" min="0" oninput="validity.valid||(value='');" autocomplete="off">
 											</div>
 										</div>
 									</div>
