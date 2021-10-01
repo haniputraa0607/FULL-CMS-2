@@ -76,6 +76,21 @@
 						</ul>
 					</li>
 				@endif
+				<li class="nav-item {{($submenu_active == 'hairstylist-autoresponse-register-candidate-hair-stylist') ? 'active open' : ''}}">
+					<a href="{{url('autoresponse/hairstylist/register-candidate-hair-stylist')}}" class="nav-link ">
+						<span class="title">[Response] Register Candidate Hair Stylist</span>
+					</a>
+				</li>
+				<li class="nav-item {{($submenu_active == 'hairstylist-autoresponse-rejected-candidate-hair-stylist') ? 'active open' : ''}}">
+					<a href="{{url('autoresponse/hairstylist/rejected-candidate-hair-stylist')}}" class="nav-link ">
+						<span class="title">[Response] Rejected Candidate Hair Stylist</span>
+					</a>
+				</li>
+				<li class="nav-item {{($submenu_active == 'hairstylist-autoresponse-approve-candidate-hair-stylist') ? 'active open' : ''}}">
+					<a href="{{url('autoresponse/hairstylist/approve-candidate-hair-stylist')}}" class="nav-link ">
+						<span class="title">[Response] Approve Candidate Hair Stylist</span>
+					</a>
+				</li>
 			</ul>
 		@endif
 

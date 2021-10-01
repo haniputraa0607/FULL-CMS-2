@@ -140,6 +140,7 @@
             <thead>
             <tr>
                 <th scope="col" width="10%"> Action </th>
+                <th scope="col" width="10%"> Status </th>
                 <th scope="col" width="10%"> Register Date </th>
                 <th scope="col" width="10%"> Full Name </th>
                 <th scope="col" width="10%"> Email </th>
@@ -153,10 +154,17 @@
                     <tr>
                         <td>
                             @if(MyHelper::hasAccess([348,349], $grantedFeature))
-                                <a class="btn btn-sm btn-info" target="_blank" href="{{ url('recruitment/hair-stylist/candidate/detail', $val['id_user_hair_stylist']) }}"><i class="fa fa-edit"></i></a>
+                                <a class="btn btn-sm btn-info" href="{{ url('recruitment/hair-stylist/candidate/detail', $val['id_user_hair_stylist']) }}"><i class="fa fa-edit"></i></a>
                             @endif
                             @if(MyHelper::hasAccess([350], $grantedFeature))
                                 <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $val['id_user_hair_stylist'] }}" data-name="{{ $val['fullname'] }}"><i class="fa fa-trash-o"></i></a>
+                            @endif
+                        </td>
+                        <td>
+                            @if($val['user_hair_stylist_status'] == 'Candidate')
+                                <span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: #faf21e;padding: 5px 12px;color: #fff;">Candidate</span>
+                            @elseif($val['user_hair_stylist_status'] == 'Rejected')
+                                <span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: #E7505A;padding: 5px 12px;color: #fff;">Rejected</span>
                             @endif
                         </td>
                         <td>{{ date('d M Y H:i', strtotime($val['created_at'])) }}</td>

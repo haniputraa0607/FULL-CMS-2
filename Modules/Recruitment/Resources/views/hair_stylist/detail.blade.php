@@ -54,8 +54,19 @@ $grantedFeature     = session('granted_features');
                                     closeOnConfirm: false
                                 },
                                 function(){
+									$('#action_type').val('approve');
                                     if ($('form#form-submit')[0].checkValidity()) {
-                                        $('form#form-submit').submit();
+										if(document.getElementById('auto_generate_pin').checked == false && $('#pin1').val() !== $('#pin2').val()){
+											swal({
+												title: "Woops!",
+												text: 'Password didn\'t match',
+												type: "warning",
+												showCancelButton: true,
+												showConfirmButton: false
+											});
+										}else{
+											$('form#form-submit').submit();
+										}
                                     }else{
                                         swal({
                                             title: "Incompleted Data",
@@ -65,6 +76,27 @@ $grantedFeature     = session('granted_features');
                                             showConfirmButton: false
                                         });
                                     }
+                                });
+                        })
+                    });
+
+                    $(".reject-candidate").each(function() {
+                        var token  	= "{{ csrf_token() }}";
+                        let column 	= $(this).parents('tr');
+                        let name    = $(this).data('name');
+                        $(this).click(function() {
+                            swal({
+                                    title: name+"\n\nAre you sure want to reject this candidate?",
+                                    text: "Your will not be able to recover this data!",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonClass: "btn-info",
+                                    confirmButtonText: "Yes, approve it!",
+                                    closeOnConfirm: false
+                                },
+                                function(){
+                                    $('#action_type').val('reject');
+                                    $('form#form-submit').submit();
                                 });
                         })
                     })
@@ -99,6 +131,18 @@ $grantedFeature     = session('granted_features');
 			}
 
 		});
+
+		function changeAutoGeneratePin() {
+			if(document.getElementById('auto_generate_pin').checked){
+				$("#div_password").hide();
+				$('#pin1').prop('required', false);
+				$('#pin2').prop('required', false);
+			}else{
+				$("#div_password").show();
+				$('#pin1').prop('required', true);
+				$('#pin2').prop('required', true);
+			}
+		}
     </script>
 @endsection
 
@@ -152,27 +196,31 @@ $grantedFeature     = session('granted_features');
 		        <div class="tab-pane active form" id="hs-info">
 		            <form class="form-horizontal" id="form-submit" role="form" action="{{url($url_back.'/update/'.$detail['id_user_hair_stylist'])}}" method="post" enctype="multipart/form-data">
 		                <div class="form-body">
-		                    @if($detail['user_hair_stylist_status'] != 'Candidate')
+							@if($detail['user_hair_stylist_status'] != 'Candidate')
+								<div class="form-group">
+									<label class="col-md-4 control-label">Status</label>
+									<div class="col-md-6">
+										@if($detail['user_hair_stylist_status'] == 'Active')
+											<span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: #26C281;padding: 5px 12px;color: #fff;">Active</span>
+										@elseif($detail['user_hair_stylist_status'] == 'Rejected')
+											<span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: #E7505A;padding: 5px 12px;color: #fff;">Rejected</span>
+										@else
+											<span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: #E7505A;padding: 5px 12px;color: #fff;">Inactive</span>
+										@endif
+									</div>
+								</div>
+							@endif
+		                    @if($detail['user_hair_stylist_status'] == 'Active' || $detail['user_hair_stylist_status'] == 'Inactive')
 		                        <div class="form-group">
-		                            <label class="col-md-3 control-label">Approve By</label>
+		                            <label class="col-md-4 control-label">Approve By</label>
 		                            <div class="col-md-6">{{$detail['approve_by_name']}}</div>
 		                        </div>
 		                        <div class="form-group">
-		                            <label class="col-md-3 control-label">Join Date</label>
+		                            <label class="col-md-4 control-label">Join Date</label>
 		                            <div class="col-md-6">{{date('d M Y H:i', strtotime($detail['join_date']))}}</div>
 		                        </div>
 		                        <div class="form-group">
-		                            <label class="col-md-3 control-label">Status</label>
-		                            <div class="col-md-6">
-		                                @if($detail['user_hair_stylist_status'] == 'Active')
-		                                    <span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: #26C281;padding: 5px 12px;color: #fff;">Active</span>
-		                                @else
-		                                    <span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: #E7505A;padding: 5px 12px;color: #fff;">Inactive</span>
-		                                @endif
-		                            </div>
-		                        </div>
-		                        <div class="form-group">
-		                            <label class="col-md-3 control-label">Bank Account</label>
+		                            <label class="col-md-4 control-label">Bank Account</label>
 		                            <div class="col-md-6" style="margin-top: 1%">
 		                                @if(empty($detail['beneficiary_account']))
 		                                    -
@@ -185,7 +233,7 @@ $grantedFeature     = session('granted_features');
 		                        </div>
 		                    @endif
 		                    <div class="form-group">
-		                        <label class="col-md-3 control-label">Nickname <span class="required" aria-required="true"> * </span>
+		                        <label class="col-md-4 control-label">Nickname <span class="required" aria-required="true"> * </span>
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
@@ -194,7 +242,7 @@ $grantedFeature     = session('granted_features');
 		                        </div>
 		                    </div>
 							<div class="form-group">
-								<label class="col-md-3 control-label">
+								<label class="col-md-4 control-label">
 									Photo<span class="required" aria-required="true"> <br>(300*300) </span>
 								</label>
 								<div class="col-md-8">
@@ -203,6 +251,7 @@ $grantedFeature     = session('granted_features');
 											<img src="@if(isset($detail['user_hair_stylist_photo'])){{$detail['user_hair_stylist_photo']}}@endif" alt="">
 										</div>
 										<div class="fileinput-preview fileinput-exists thumbnail" id="image" style="max-width: 200px; max-height: 200px;"></div>
+										@if($detail['user_hair_stylist_status'] == 'Rejected')
 										<div>
 											<span class="btn default btn-file">
 											<span class="fileinput-new"> Select image </span>
@@ -211,15 +260,16 @@ $grantedFeature     = session('granted_features');
 											</span>
 											<a href="javascript:;" id="removeImage" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
 										</div>
+										@endif
 									</div>
 								</div>
 							</div>
 		                    <div class="form-group">
-		                        <label class="col-md-3 control-label">Level <span class="required" aria-required="true"> * </span>
+		                        <label class="col-md-4 control-label">Level <span class="required" aria-required="true"> * </span>
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <select  class="form-control select2" name="level" data-placeholder="Select level" required>
+		                                <select  class="form-control select2" name="level" data-placeholder="Select level" required @if($detail['user_hair_stylist_status'] == 'Rejected') disabled @endif>
 		                                    <option></option>
 		                                    <option value="Supervisor" @if($detail['level'] == 'Supervisor') selected @endif>Supervisor</option>
 		                                    <option value="Hairstylist" @if($detail['level'] == 'Hairstylist') selected @endif>Hairstylist</option>
@@ -228,29 +278,38 @@ $grantedFeature     = session('granted_features');
 		                        </div>
 		                    </div>
 		                    <div class="form-group">
-		                        <label class="col-md-3 control-label">Full Name <span class="required" aria-required="true"> * </span>
+		                        <label class="col-md-4 control-label">Full Name <span class="required" aria-required="true"> * </span>
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <input type="text" placeholder="Full Name" class="form-control" name="fullname" value="{{ $detail['fullname']}}" required>
+		                                <input type="text" placeholder="Full Name" class="form-control" name="fullname" value="{{ $detail['fullname']}}" required @if($detail['user_hair_stylist_status'] == 'Rejected') readonly @endif>
+		                            </div>
+		                        </div>
+		                    </div>
+							<div class="form-group">
+								<label class="col-md-4 control-label">Email <span class="required" aria-required="true"> * </span>
+								</label>
+								<div class="col-md-6">
+									<div class="input-icon right">
+										<input type="text" placeholder="Email" class="form-control" name="email" value="{{ $detail['email']}}" required @if($detail['user_hair_stylist_status'] == 'Rejected') readonly @endif>
+									</div>
+								</div>
+							</div>
+		                    <div class="form-group">
+		                        <label class="col-md-4 control-label">Phone <span class="required" aria-required="true"> * </span>
+		                        </label>
+		                        <div class="col-md-6">
+		                            <div class="input-icon right">
+		                                <input type="text" placeholder="Phone" class="form-control" name="phone_number" value="{{ $detail['phone_number']}}" required @if($detail['user_hair_stylist_status'] == 'Rejected') readonly @endif>
 		                            </div>
 		                        </div>
 		                    </div>
 		                    <div class="form-group">
-		                        <label class="col-md-3 control-label">Phone <span class="required" aria-required="true"> * </span>
+		                        <label class="col-md-4 control-label">Gender <span class="required" aria-required="true"> * </span>
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <input type="text" placeholder="Phone" class="form-control" name="phone_number" value="{{ $detail['phone_number']}}" required>
-		                            </div>
-		                        </div>
-		                    </div>
-		                    <div class="form-group">
-		                        <label class="col-md-3 control-label">Gender <span class="required" aria-required="true"> * </span>
-		                        </label>
-		                        <div class="col-md-6">
-		                            <div class="input-icon right">
-		                                <select  class="form-control select2" name="gender" data-placeholder="Select gender" required>
+		                                <select  class="form-control select2" name="gender" data-placeholder="Select gender" required @if($detail['user_hair_stylist_status'] == 'Rejected') disabled @endif>
 		                                    <option></option>
 		                                    <option value="Male" @if($detail['gender'] == 'Male') selected @endif>Male</option>
 		                                    <option value="Female" @if($detail['gender'] == 'Female') selected @endif>Female</option>
@@ -259,33 +318,33 @@ $grantedFeature     = session('granted_features');
 		                        </div>
 		                    </div>
 		                    <div class="form-group">
-		                        <label class="col-md-3 control-label">Nationality <span class="required" aria-required="true"> * </span>
+		                        <label class="col-md-4 control-label">Nationality <span class="required" aria-required="true"> * </span>
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <input type="text" placeholder="Nationality" class="form-control" name="nationality" value="{{ $detail['nationality']}}" required>
+		                                <input type="text" placeholder="Nationality" class="form-control" name="nationality" value="{{ $detail['nationality']}}" required @if($detail['user_hair_stylist_status'] == 'Rejected') readonly @endif>
 		                            </div>
 		                        </div>
 		                    </div>
 		                    <div class="form-group">
-		                        <label class="col-md-3 control-label">Birthplace <span class="required" aria-required="true"> * </span>
+		                        <label class="col-md-4 control-label">Birthplace <span class="required" aria-required="true"> * </span>
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <input type="text" placeholder="Birthplace" class="form-control" name="birthplace" value="{{ $detail['birthplace']}}" required>
+		                                <input type="text" placeholder="Birthplace" class="form-control" name="birthplace" value="{{ $detail['birthplace']}}" required @if($detail['user_hair_stylist_status'] == 'Rejected') readonly @endif>
 		                            </div>
 		                        </div>
 		                    </div>
 		                    <div class="form-group">
 		                        <div class="input-icon right">
-		                            <label class="col-md-3 control-label">
+		                            <label class="col-md-4 control-label">
 		                                Birthdate
 		                                <span class="required" aria-required="true"> * </span>
 		                            </label>
 		                        </div>
 		                        <div class="col-md-6">
 		                            <div class="input-group">
-		                                <input type="text" class="datepicker form-control" name="birthdate" value="{{date('d-M-Y', strtotime($detail['birthdate']))}}" required autocomplete="off">
+		                                <input type="text" class="datepicker form-control" name="birthdate" value="{{date('d-M-Y', strtotime($detail['birthdate']))}}" required autocomplete="off" @if($detail['user_hair_stylist_status'] == 'Rejected') readonly @endif>
 		                                <span class="input-group-btn">
 		                                    <button class="btn default" type="button">
 		                                        <i class="fa fa-calendar"></i>
@@ -295,56 +354,56 @@ $grantedFeature     = session('granted_features');
 		                        </div>
 		                    </div>
 		                    <div class="form-group">
-		                        <label class="col-md-3 control-label">Religion <span class="required" aria-required="true"> * </span>
+		                        <label class="col-md-4 control-label">Religion <span class="required" aria-required="true"> * </span>
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <input type="text" placeholder="Religion" class="form-control" name="religion" value="{{ $detail['religion']}}" required>
+		                                <input type="text" placeholder="Religion" class="form-control" name="religion" value="{{ $detail['religion']}}" required @if($detail['user_hair_stylist_status'] == 'Rejected') readonly @endif>
 		                            </div>
 		                        </div>
 		                    </div>
 		                    <div class="form-group">
-		                        <label class="col-md-3 control-label">Height
+		                        <label class="col-md-4 control-label">Height
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <input type="text" placeholder="Height" class="form-control" name="height" value="{{ $detail['height']}}">
+		                                <input type="text" placeholder="Height" class="form-control" name="height" value="{{ $detail['height']}}" @if($detail['user_hair_stylist_status'] == 'Rejected') readonly @endif>
 		                            </div>
 		                        </div>
 		                    </div>
 		                    <div class="form-group">
-		                        <label class="col-md-3 control-label">Weight
+		                        <label class="col-md-4 control-label">Weight
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <input type="text" placeholder="Weight" class="form-control" name="weight" value="{{ $detail['weight']}}">
+		                                <input type="text" placeholder="Weight" class="form-control" name="weight" value="{{ $detail['weight']}}" @if($detail['user_hair_stylist_status'] == 'Rejected') readonly @endif>
 		                            </div>
 		                        </div>
 		                    </div>
 		                    <div class="form-group">
-		                        <label class="col-md-3 control-label">Recent Job
+		                        <label class="col-md-4 control-label">Recent Job
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <input type="text" placeholder="Recent Job" class="form-control" name="recent_job" value="{{ $detail['recent_job']}}">
+		                                <input type="text" placeholder="Recent Job" class="form-control" name="recent_job" value="{{ $detail['recent_job']}}" @if($detail['user_hair_stylist_status'] == 'Rejected') readonly @endif>
 		                            </div>
 		                        </div>
 		                    </div>
 		                    <div class="form-group">
-		                        <label class="col-md-3 control-label">Recent Company
+		                        <label class="col-md-4 control-label">Recent Company
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <input type="text" placeholder="Recent company" class="form-control" name="recent_company" value="{{ $detail['recent_company']}}">
+		                                <input type="text" placeholder="Recent company" class="form-control" name="recent_company" value="{{ $detail['recent_company']}}" @if($detail['user_hair_stylist_status'] == 'Rejected') readonly @endif>
 		                            </div>
 		                        </div>
 		                    </div>
 		                    <div class="form-group">
-		                        <label class="col-md-3 control-label">Blood Type <span class="required" aria-required="true"> * </span>
+		                        <label class="col-md-4 control-label">Blood Type <span class="required" aria-required="true"> * </span>
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <select  class="form-control select2" name="blood_type" data-placeholder="Select blood type" required>
+		                                <select  class="form-control select2" name="blood_type" data-placeholder="Select blood type" required @if($detail['user_hair_stylist_status'] == 'Rejected') disabled @endif>
 		                                    <option></option>
 		                                    <option value="A" @if($detail['blood_type'] == 'A') selected @endif>A</option>
 		                                    <option value="B" @if($detail['blood_type'] == 'B') selected @endif>B</option>
@@ -355,43 +414,76 @@ $grantedFeature     = session('granted_features');
 		                        </div>
 		                    </div>
 		                    <div class="form-group">
-		                        <label class="col-md-3 control-label">Recent Address <span class="required" aria-required="true"> * </span>
+		                        <label class="col-md-4 control-label">Recent Address <span class="required" aria-required="true"> * </span>
 		                        </label>
 		                        <div class="col-md-6">
-		                            <textarea type="text" name="recent_address" placeholder="Input recent address here" class="form-control" required>{{$detail['recent_address']}}</textarea>
+		                            <textarea type="text" name="recent_address" placeholder="Input recent address here" class="form-control" required @if($detail['user_hair_stylist_status'] == 'Rejected') disabled @endif>{{$detail['recent_address']}}</textarea>
 		                        </div>
 		                    </div>
 		                    <div class="form-group">
-		                        <label class="col-md-3 control-label">Postal Code <span class="required" aria-required="true"> * </span>
+		                        <label class="col-md-4 control-label">Postal Code <span class="required" aria-required="true"> * </span>
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <input type="text" placeholder="Postal Code" class="form-control" name="postal_code" value="{{ $detail['postal_code']}}" required>
+		                                <input type="text" placeholder="Postal Code" class="form-control" name="postal_code" value="{{ $detail['postal_code']}}" required @if($detail['user_hair_stylist_status'] == 'Rejected') readonly @endif>
 		                            </div>
 		                        </div>
 		                    </div>
 		                    <div class="form-group">
-		                        <label class="col-md-3 control-label">Marital Status <span class="required" aria-required="true"> * </span>
+		                        <label class="col-md-4 control-label">Marital Status <span class="required" aria-required="true"> * </span>
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <select  class="form-control select2" name="marital_status" data-placeholder="Select marital status" required>
+		                                <select  class="form-control select2" name="marital_status" data-placeholder="Select marital status" required @if($detail['user_hair_stylist_status'] == 'Rejected') disabled @endif>
 		                                    <option></option>
 		                                    <option value="Single" @if($detail['marital_status'] == 'Single') selected @endif>Single</option>
 		                                    <option value="Married" @if($detail['marital_status'] == 'Married') selected @endif>Married</option>
 		                                    <option value="Widowed" @if($detail['marital_status'] == 'Widowed') selected @endif>Widowed</option>
-		                                    <option value="Divorced" @if($detail['marital_status'] == 'Divorcedsss') selected @endif>Divorced</option>
+		                                    <option value="Divorced" @if($detail['marital_status'] == 'Divorced') selected @endif>Divorced</option>
 		                                </select>
 		                            </div>
 		                        </div>
 		                    </div>
 
+							@if($detail['user_hair_stylist_status'] == 'Candidate')
+								<div class="form-group">
+									<label  class="control-label col-md-4">Auto Generate Password <span class="required" aria-required="true">*</span>
+										<i class="fa fa-question-circle tooltips" data-original-title="Jika di centang maka password akan di generate otomatis oleh sistem" data-container="body"></i>
+									</label>
+									<div class="col-md-6">
+										<label class="mt-checkbox mt-checkbox-outline">
+											<input type="checkbox" name="auto_generate_pin" id="auto_generate_pin" class="same checkbox-product-price" onclick="changeAutoGeneratePin()"/>
+											<span></span>
+										</label>
+									</div>
+								</div>
+								<div id="div_password">
+									<div class="form-group">
+										<label for="example-search-input" class="control-label col-md-4">Password <span class="required" aria-required="true">*</span>
+											<i class="fa fa-question-circle tooltips" data-original-title="Masukkan password yang akan digunakan untuk login" data-container="body"></i>
+										</label>
+										<div class="col-md-6">
+											<input class="form-control" maxlength="6" type="password" name="pin" id="pin1" value="{{old('pin')}}" placeholder="Enter password" required/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="example-search-input" class="control-label col-md-4">Re-type Password <span class="required" aria-required="true">*</span>
+											<i class="fa fa-question-circle tooltips" data-original-title="Ketik ulang password yang akan digunakan untuk login" data-container="body"></i>
+										</label>
+										<div class="col-md-6">
+											<input class="form-control" maxlength="6" type="password" name="pin2" id="pin2" value="{{old('pin2')}}"placeholder="Re-type password" required/>
+										</div>
+									</div>
+								</div>
+							@endif
+
 		                    <div class="form-group">
-		                        <label class="col-md-3 control-label">Assign Outlet <span class="required" aria-required="true"> * </span>
+		                        <label class="col-md-4 control-label">Assign Outlet <span class="required" aria-required="true"> * </span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Penempatan outlet untuk hair stylist" data-container="body"></i>
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <select  class="form-control select2" name="id_outlet" data-placeholder="Select outlet" required>
+		                                <select  class="form-control select2" name="id_outlet" data-placeholder="Select outlet" required @if($detail['user_hair_stylist_status'] == 'Rejected') disabled @endif>
 		                                    <option></option>
 		                                    @foreach($outlets as $outlet)
 		                                        <option value="{{$outlet['id_outlet']}}" @if($outlet['id_outlet'] == $detail['id_outlet']) selected @endif>{{$outlet['outlet_code']}} - {{$outlet['outlet_name']}}</option>
@@ -401,10 +493,12 @@ $grantedFeature     = session('granted_features');
 		                        </div>
 		                    </div>
 		                </div>
-		                @if(MyHelper::hasAccess([349], $grantedFeature))
+                        <input type="hidden" name="action_type" id="action_type" value="">
+		                @if(MyHelper::hasAccess([349], $grantedFeature) && $detail['user_hair_stylist_status'] != 'Rejected')
 		                {{ csrf_field() }}
 		                <div class="row" style="text-align: center">
 		                    @if($detail['user_hair_stylist_status'] == 'Candidate')
+                                <a class="btn red reject-candidate" data-name="{{ $detail['fullname'] }}">Reject</a>
 		                        <a class="btn green-jungle approve-candidate" data-name="{{ $detail['fullname'] }}">Approve</a>
 		                    @else
 		                        <button type="submit" class="btn blue">Update</button>
