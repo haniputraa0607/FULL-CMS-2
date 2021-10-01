@@ -132,7 +132,7 @@ class PartnersController extends Controller
     public function detail($user_id)
     {
         $result = MyHelper::post('partners/edit', ['id_partner' => $user_id]);
-        if($result['result']['partner']['status']=='Candidate'){
+        if($result['result']['partner']['status']=='Candidate' || $result['result']['partner']['status']=='Rejected'){
             $data = [
                 'title'          => 'Candidate Partner',
                 'sub_title'      => 'Detail Candidate Partner',
@@ -152,6 +152,7 @@ class PartnersController extends Controller
             $data['bank'] = MyHelper::get('disburse/setting/list-bank-account')['result']['list_bank']??[];
             $data['cities'] = MyHelper::get('city/list')['result']??[];
             $data['bankName'] = MyHelper::get('disburse/bank')['result']??[];
+            $data['brands'] = MyHelper::get('partners/locations/brands')['result']??[];
             // dd($data);
             return view('businessdevelopment::partners.detail', $data);
         }else{
@@ -458,6 +459,7 @@ class PartnersController extends Controller
                 "name" => $request["nameLocation"],
                 "address" => $request["addressLocation"],  
                 "id_city" => $request["id_cityLocation"],  
+                "id_brand" => $request["id_brand"],  
                 "location_large" => $request["location_large"],  
                 "rental_price" => $request["rental_price"],  
                 "service_charge" => $request["service_charge"],  
@@ -477,7 +479,8 @@ class PartnersController extends Controller
         }
         $update_partner = [
             "id_partner" => $request["id_partner"],
-            "status_steps" => 'Follow Up'
+            "status_steps" => 'Follow Up',
+            "status" => 'Candidate'
         ];
         $follow_up = MyHelper::post('partners/create-follow-up', $post_follow_up);
         if(isset($follow_up['status']) && $follow_up['status'] == 'success'){
@@ -499,4 +502,15 @@ class PartnersController extends Controller
             return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create follow up steps']);
         }
     }
+
+    public function rejectCandidate($id)
+    {
+        $reject_partner = [
+            "id_partner" => $id,
+            "status" => 'Rejected'
+        ];
+        $partner_step = MyHelper::post('partners/update', $reject_partner);
+        return $partner_step;
+    }
+
 }

@@ -202,11 +202,13 @@
                                     </td>
                                     <td>
                                         @if($dt['status'] == 'Active')
-                                            <span class="badge" style="background-color: #26C281; color: #ffffff">{{$dt['status']}}</span>
+                                        <span class="badge" style="background-color: #26C281; color: #ffffff">{{$dt['status']}}</span>
                                         @elseif($dt['status'] == 'Inactive')
-                                            <span class="badge" style="background-color: #EF1E31; color: #ffffff">{{$dt['status']}}</span>
+                                        <span class="badge" style="background-color: #101ee7; color: #ffffff">{{$dt['status']}}</span>
+                                        @elseif($dt['status'] == 'Candidate')
+                                        <span class="badge" style="background-color: #e1e445; color: #ffffff">{{$dt['status']}}</span>
                                         @else
-                                            <span class="badge" style="background-color: #e1e445; color: #ffffff">{{$dt['status']}}</span>
+                                        <span class="badge" style="background-color: #EF1E31; color: #ffffff">{{$dt['status']}}</span>
                                         @endif
                                     </td>
                                     @endif

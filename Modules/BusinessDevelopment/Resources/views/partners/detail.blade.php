@@ -71,7 +71,7 @@
                                         },
                                         success : function(response) {
                                             if (response.status == 'success') {
-                                                swal("Deleted!", "User Mitra has been deleted.", "success")
+                                                swal("Deleted!", "Location has been deleted.", "success")
                                                 SweetAlert.init()
                                                 location.href = "{{url('businessdev/partners/detail')}}/"+id_partner;
                                             }
@@ -80,6 +80,52 @@
                                             }
                                             else {
                                                 swal("Error!", "Something went wrong. Failed to delete locations.", "error")
+                                            }
+                                        }
+                                    });
+                                });
+                        })
+                    })
+                }
+            }
+        }();
+        var SweetAlertReject = function() {
+            return {
+                init: function() {
+                    $(".sweetalert-reject").each(function() {
+                        var token  	= "{{ csrf_token() }}";
+                        var pathname = window.location.pathname;
+                        let column 	= $(this).parents('tr');
+                        let id     	= $(this).data('id');
+                        let name    = $(this).data('name');
+                        $(this).click(function() {
+                            swal({
+                                    title: name+"\n\nAre you sure want to reject this candidate partner?",
+                                    text: "You can continue to approve this candidate partner later!",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonClass: "btn-danger",
+                                    confirmButtonText: "Yes, reject it!",
+                                    closeOnConfirm: false
+                                },
+                                function(){
+                                    $.ajax({
+                                        type : "POST",
+                                        url : "{{url('businessdev/partners/reject')}}/"+id,
+                                        data : {
+                                            '_token' : '{{csrf_token()}}'
+                                        },
+                                        success : function(response) {
+                                            if (response.status == 'success') {
+                                                swal("Rejected!", "Candidate Partner has been rejected.", "success")
+                                                SweetAlert.init()
+                                                location.href = "{{url('businessdev/partners/detail')}}/"+id;
+                                            }
+                                            else if(response.status == "fail"){
+                                                swal("Error!", "Failed to rejecte candidate partner.", "error")
+                                            }
+                                            else {
+                                                swal("Error!", "Something went wrong. Failed to reject candidate partner.", "error")
                                             }
                                         }
                                     });
@@ -180,6 +226,7 @@
                 $('#back-follow-up').hide();
             });
             SweetAlert.init();
+            SweetAlertReject.init();
             $('[data-switch=true]').bootstrapSwitch();
             $('#btn-submit').on('click', function(event) {
                 if(document.getElementById('auto_generate_pin').checked == false){
@@ -272,34 +319,34 @@
             </div>
         </div>
         <div class="tabbable-line tabbable-full-width">
-        <ul class="nav nav-tabs">
-            <li class="active">
-                <a href="#overview" data-toggle="tab"> Partner Overview </a>
-            </li>
-            @if($title=='Partner') 
-                @if(MyHelper::hasAccess([342], $grantedFeature))
-                <li>
-                    <a href="#locations" data-toggle="tab"> Partner Locations </a>
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#overview" data-toggle="tab"> Partner Overview </a>
                 </li>
+                @if($title=='Partner') 
+                    @if(MyHelper::hasAccess([342], $grantedFeature))
+                    <li>
+                        <a href="#locations" data-toggle="tab"> Partner Locations </a>
+                    </li>
+                    @endif
+                    @if(MyHelper::hasAccess([351,352], $grantedFeature))
+                    <li>
+                        <a href="#bank" data-toggle="tab"> Partner Bank Account </a>
+                    </li>
+                    @endif
+                    <li>
+                        <a href="#status" data-toggle="tab">  </a>
+                    </li>
+                    <li>
+                        <a href="#resetpass" data-toggle="tab"> Reset PIN </a>
+                    </li>
                 @endif
-                @if(MyHelper::hasAccess([351,352], $grantedFeature))
-                <li>
-                    <a href="#bank" data-toggle="tab"> Partner Bank Account </a>
-                </li>
+                @if($title=='Candidate Partner') 
+                    <li>
+                        <a href="#status" data-toggle="tab"> Status Partner </a>
+                    </li>
                 @endif
-                <li>
-                    <a href="#status" data-toggle="tab">  </a>
-                </li>
-                <li>
-                    <a href="#resetpass" data-toggle="tab"> Reset PIN </a>
-                </li>
-            @endif
-            @if($title=='Candidate Partner') 
-                <li>
-                    <a href="#status" data-toggle="tab"> Status Partner </a>
-                </li>
-            @endif
-        </ul>
+            </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="overview">
                 <div class="portlet-body form">
@@ -696,7 +743,7 @@
                                             @include('businessdevelopment::partners.steps.follow_up')
                                         </div>
                                         <div class="tab-pane @if($result['status_steps']=='Survey Location') active @endif" id="survey">
-                                            <p>Survey Location</p>
+                                            @include('businessdevelopment::partners.steps.survey_loc')
                                         </div>
                                         <div class="tab-pane @if($result['status_steps']=='Calculation') active @endif" id="calcu">
                                             <p>Calculation</p>
