@@ -824,7 +824,7 @@
                         </div>
                     </div>
 
-                    <!-- <div class="form-group">
+                    <div class="form-group">
                         <div class="input-icon right">
                             <label class="col-md-3 control-label">
                             Content Short
@@ -833,9 +833,9 @@
                             </label>
                         </div>
                         <div class="col-md-9">
-                            <textarea name="news_content_short" id="field_content_short" class="form-control" placeholder="Content Short News" required>{ { $value['news_content_short'] } }</textarea>
+                            <textarea name="news_content_short" id="field_content_short" class="form-control" placeholder="Content Short News" required>{{$value['news_content_short']}}</textarea>
                         </div>
-                    </div> -->
+                    </div>
 
                     <div class="form-group">
                         <div class="input-icon right">

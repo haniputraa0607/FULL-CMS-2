@@ -158,11 +158,11 @@
 										<span class="title">[Response] Pin Sent</span>
 									</a>
 								</li>
-								<li class="nav-item {{($submenu_active == 'user-autoresponse-pin-create') ? 'active open' : ''}}">
-									<a href="{{url('user/autoresponse/pin-create')}}" class="nav-link ">
-										<span class="title">[Response] Pin Create</span>
-									</a>
-								</li>
+{{--								<li class="nav-item {{($submenu_active == 'user-autoresponse-pin-create') ? 'active open' : ''}}">--}}
+{{--									<a href="{{url('user/autoresponse/pin-create')}}" class="nav-link ">--}}
+{{--										<span class="title">[Response] Pin Create</span>--}}
+{{--									</a>--}}
+{{--								</li>--}}
 							@endif
 							@if(MyHelper::hasAccess([42], $configs))
 								<li class="nav-item {{($submenu_active == 'user-autoresponse-pin-verify') ? 'active open' : ''}}">
@@ -267,13 +267,13 @@
 		@endif
 
 		@if($level == "Super Admin")
-		<li class="nav-item {{($menu_active == 'expired-qrcode') ? 'active' : ''}}">
+{{-- 		<li class="nav-item {{($menu_active == 'expired-qrcode') ? 'active' : ''}}">
 			<a href="{{url('setting/qrcode_expired')}}" class="nav-link">
 				<i class="fa fa-qrcode"></i>
 				<span class="title">Setting Expired QR Code</span>
 			</a>
 		</li>
-
+ --}}
 		<li class="nav-item {{($menu_active == 'count-login-failed') ? 'active' : ''}}">
 			<a href="{{url('setting/count_login_failed')}}" class="nav-link">
 				<i class="fa fa-times-circle-o"></i>
@@ -601,13 +601,13 @@
 						</a>
 					</li>
 					@endif
-					{{-- @if(MyHelper::hasAccess([24], $grantedFeature))
+					@if(MyHelper::hasAccess([24,27], $grantedFeature))
 					<li class="nav-item {{($submenu_active == 'outlet-qrcode') ? 'active open' : ''}}">
 						<a href="{{url('outlet/qrcode')}}" class="nav-link ">
 							<span class="title">QRCode Outlet</span>
 						</a>
 					</li>
-					@endif --}}
+					@endif
 					@if(MyHelper::hasAccess([4], $configs))
 						@if(MyHelper::hasAccess([34], $grantedFeature))
 						<li class="nav-item {{($submenu_active == 'outlet-holiday') ? 'active open' : ''}}">
@@ -843,7 +843,7 @@
 			</li>
 			@endif
 
-			@if(MyHelper::hasAccess([48,49,50,51,52], $grantedFeature))
+			@if(MyHelper::hasAccess([48,49,50,51,52], $grantedFeature) && false)
 				<li class="nav-item {{($menu_active == 'product-plastic') ? 'active' : ''}}">
 					<a href="javascript:;" class="nav-link nav-toggle">
 						<i class="icon-wallet"></i>
