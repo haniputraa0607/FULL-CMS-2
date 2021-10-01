@@ -647,6 +647,9 @@ class SettingController extends Controller
         else
             $data['featured_subscriptions'] = [];
 
+        // featured promo campaign
+        $data['featured_promo_campaigns'] = MyHelper::get('setting/featured_promo_campaign/list')['result'] ?? [];
+        
         // subscription
         $sp=['select' => ['id_subscription', 'subscription_title']];
         $request = MyHelper::post('subscription/be/list-complete',$sp);
@@ -656,6 +659,9 @@ class SettingController extends Controller
         $dp=['deals_type'=>'Deals','forSelect2'=>true, 'featured'=>true];
         $request = MyHelper::post('deals/be/list',$dp);
         $data['deals'] = $request['result']??[];
+
+        // promo campaign
+        $data['promo_campaigns'] = MyHelper::get('promo-campaign/active-campaign?featured=true')['result'] ?? [];
 
         // news for banner
         $news_req = [
@@ -688,6 +694,8 @@ class SettingController extends Controller
         $data['app_sidebar'] = parent::getData(MyHelper::get('setting/app_sidebar'));
         $data['app_navbar'] = parent::getData(MyHelper::get('setting/app_navbar'));
         $data['inbox_max_days'] = parent::getData(MyHelper::post('setting',['key'=>'inbox_max_days']))['value']??30;
+        $data['social_media'] = MyHelper::get('setting/social-media')['result'] ?? [];
+
 		return view('setting::home', $data);
 	}
 
@@ -1164,7 +1172,8 @@ class SettingController extends Controller
         }else {
             $data['menu_list'] = [
                 'main_menu' => [],
-                'other_menu'=> []
+                'other_menu'=> [],
+                'home_menu' => []
             ];
         }
 
@@ -1200,6 +1209,8 @@ class SettingController extends Controller
 
         if($category == 'other-menu') {
             return parent::redirect($result, 'Text menu has been updated.', 'setting/text_menu#other_menu');
+        }elseif($category == 'home-menu'){
+            return parent::redirect($result, 'Text menu has been updated.', 'setting/text_menu#home_menu');
         }else{
             return parent::redirect($result, 'Text menu has been updated.', 'setting/text_menu#main_menu');
         }
@@ -1443,5 +1454,82 @@ class SettingController extends Controller
 
         $result = MyHelper::post('setting/outletapp/splash-screen', $post);
         return parent::redirect($result, 'Splash Screen has been updated.');
+    }
+
+    public function mitraAppsSetting(Request $request){
+        $post = $request->except('_token');
+        $data = [
+            'title'   		=> 'Mitra Apps Setting',
+            'menu_active'    => 'setting-mitra-apps',
+            'submenu_active' => 'setting-mitra-apps'
+        ];
+
+        $get = MyHelper::get('setting/mitra-apps/splash-screen');
+        $data['result_splash_screen'] = [];
+        if(isset($get['status']) &&  $get['status']=='success'){
+            $data['result_splash_screen'] = $get['result'];
+        }
+
+        return view('setting::mitra-apps', $data);
+    }
+
+    public function splashScreenMitraApps(Request $request){
+        $post = $request->except('_token');
+        if(isset($post['default_splash_screen_mitra_apps'])){
+            $post['default_splash_screen_mitra_apps'] = MyHelper::encodeImage($post['default_splash_screen_mitra_apps']);
+        }
+
+        if(isset($post['default_splash_screen_mitra_apps_duration'])){
+            if($post['default_splash_screen_mitra_apps_duration']<1){
+                $post['default_splash_screen_mitra_apps_duration']=1;
+            }
+        }
+
+        $result = MyHelper::post('setting/mitra-apps/splash-screen', $post);
+        return parent::redirect($result, 'Splash Screen has been updated.');
+    }
+
+    /* Featured Promo Campaign */
+    public function createFeaturedPromoCampaign(Request $request)
+    {
+        $post = $request->except('_token');
+
+        $result = MyHelper::post('setting/featured_promo_campaign/create', $post);
+
+        return parent::redirect($result, 'New featured promo campaign has been created.', 'setting/home#featured_promo_campaign');
+    }
+
+    public function updateFeaturedPromoCampaign(Request $request)
+    {
+        $post = $request->except('_token');
+        $validatedData = $request->validate([
+            'id_featured_promo_campaign'    => 'required'
+        ]);
+        $result = MyHelper::post('setting/featured_promo_campaign/update', $post);
+        return parent::redirect($result, 'Featured promo campaign has been updated.', 'setting/home#featured_promo_campaign',[],true);
+    }
+
+    public function reorderFeaturedPromoCampaign(Request $request)
+    {
+        $post = $request->except("_token");
+        $result = MyHelper::post('setting/featured_promo_campaign/reorder', $post);
+
+        return parent::redirect($result, 'Featured promo campaign has been sorted.', 'setting/home#featured_promo_campaign');
+    }
+
+    public function deleteFeaturedPromoCampaign($id_promo_campaign)
+    {
+        $post['id_featured_promo_campaign'] = $id_promo_campaign;
+        $result = MyHelper::post('setting/featured_promo_campaign/delete', $post);
+
+        return parent::redirect($result, 'Featured promo campaign has been deleted.', 'setting/home#featured_promo_campaign');
+    }
+
+    public function socialMediaSave(Request $request)
+    {
+        $post = $request->except('_token');
+        $result = MyHelper::post('setting/social-media', $post);
+
+        return parent::redirect($result, 'Social Media setting has been updated.','setting/home#social_media');
     }
 }

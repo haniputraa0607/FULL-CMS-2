@@ -12,7 +12,7 @@
 		</li>
 		@if($level == "Super Admin")
 		<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
-			<h3 class="uppercase" style="color: #3C3424;font-weight: 600;">Home</h3>
+			<h3 class="uppercase" style="color: #000;font-weight: 600;">Home</h3>
 		</li>
 		<li class="nav-item {{($menu_active == 'home') ? 'active' : ''}}">
 			<a href="{{url('home')}}" class="nav-link">
@@ -28,9 +28,60 @@
 		</li>
 		@endif
 
+		@if(MyHelper::hasAccess([347,348,349,350], $grantedFeature))
+			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
+				<h3 class="uppercase" style="color: #000;font-weight: 600;">Recruitment</h3>
+			</li>
+		@endif
+		@if(MyHelper::hasAccess([347,348,349,350,353,354,355], $grantedFeature))
+		<li class="nav-item {{($menu_active == 'hair-stylist') ? 'active open' : ''}}">
+			<a href="javascript:;" class="nav-link nav-toggle">
+				<i class="fa fa-cut"></i>
+				<span class="title">Hair Stylist</span>
+				<span class="arrow {{($menu_active == 'hair-stylist') ? 'open' : ''}}"></span>
+			</a>
+			<ul class="sub-menu">
+				<li class="nav-item {{($submenu_active == 'hair-stylist-candidate') ? 'active open' : ''}}">
+					<a href="{{url('recruitment/hair-stylist/candidate')}}" class="nav-link ">
+						<span class="title">Candidate List</span>
+					</a>
+				</li>
+				<li class="nav-item {{($submenu_active == 'hair-stylist-list') ? 'active open' : ''}}">
+					<a href="{{url('recruitment/hair-stylist')}}" class="nav-link ">
+						<span class="title">Hair Stylist List</span>
+					</a>
+				</li>
+				@if(MyHelper::hasAccess([353,354,355], $grantedFeature))
+					<li class="nav-item {{ ($submenu_active == 'hairstylist-schedule') ? 'active open' : '' }}">
+						<a href="javascript:;" class="nav-link nav-toggle">
+							<span class="title">Schedule</span>
+							<span class="arrow"></span>
+						</a>
+						<ul class="sub-menu">
+							<li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-schedule-list') ? 'active open' : '' }}">
+								<a href="{{ url('recruitment/hair-stylist/schedule') }}" class="nav-link ">
+									<span class="title">Schedule List</span>
+								</a>
+							</li>
+							<li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-schedule-autoresponse-approve-hairstylist-schedule') ? 'active open' : '' }}">
+								<a href="{{ url('autoresponse/hairstylist-schedule/approve-hairstylist-schedule') }}" class="nav-link nav-toggle">
+									<span class="title">[Response] Approve Hairstylist Schedule</span>
+								</a>
+							</li>
+							<li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-schedule-autoresponse-reject-hairstylist-schedule') ? 'active open' : '' }}">
+								<a href="{{ url('autoresponse/hairstylist-schedule/reject-hairstylist-schedule') }}" class="nav-link nav-toggle">
+									<span class="title">[Response] Reject Hairstylist Schedule</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+				@endif
+			</ul>
+		@endif
+
 		@if(MyHelper::hasAccess([2,4,7,9,148], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
-				<h3 class="uppercase" style="color: #3C3424;font-weight: 600;">Accounts</h3>
+				<h3 class="uppercase" style="color: #000;font-weight: 600;">Accounts</h3>
 			</li>
 			<li class="nav-item {{($menu_active == 'user') ? 'active open' : ''}}">
 				<a href="javascript:;" class="nav-link nav-toggle">
@@ -107,11 +158,6 @@
 										<span class="title">[Response] Pin Sent</span>
 									</a>
 								</li>
-									<li class="nav-item {{($submenu_active == 'user-autoresponse-pin-sent-whatsapp') ? 'active open' : ''}}">
-										<a href="{{url('user/autoresponse/pin-sent-whatsapp')}}" class="nav-link ">
-											<span class="title">[Response] Pin Sent WhatsApp</span>
-										</a>
-									</li>
 								<li class="nav-item {{($submenu_active == 'user-autoresponse-pin-create') ? 'active open' : ''}}">
 									<a href="{{url('user/autoresponse/pin-create')}}" class="nav-link ">
 										<span class="title">[Response] Pin Create</span>
@@ -221,13 +267,13 @@
 		@endif
 
 		@if($level == "Super Admin")
-		<li class="nav-item {{($menu_active == 'expired-qrcode') ? 'active' : ''}}">
+{{-- 		<li class="nav-item {{($menu_active == 'expired-qrcode') ? 'active' : ''}}">
 			<a href="{{url('setting/qrcode_expired')}}" class="nav-link">
 				<i class="fa fa-qrcode"></i>
 				<span class="title">Setting Expired QR Code</span>
 			</a>
 		</li>
-
+ --}}
 		<li class="nav-item {{($menu_active == 'count-login-failed') ? 'active' : ''}}">
 			<a href="{{url('setting/count_login_failed')}}" class="nav-link">
 				<i class="fa fa-times-circle-o"></i>
@@ -338,7 +384,7 @@
 
 		@if(MyHelper::hasAccess([338,339,340,341,342,343,344,345], $grantedFeature))
 		<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
-			<h3 class="uppercase" style="color: #3C3424;font-weight: 600;">Business Development</h3>
+			<h3 class="uppercase" style="color: #000;font-weight: 600;">Business Development</h3>
 		</li>
 		@if(MyHelper::hasAccess([338,339,340,341], $grantedFeature))
 		<li class="nav-item {{($menu_active == 'partners') ? 'active open' : ''}}">
@@ -417,7 +463,7 @@
 
 		@if(MyHelper::hasAccess([19,21,24,26,32,33,34,43,45,48,50,56,57,164,165,166,167], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
-				<h3 class="uppercase" style="color: #3C3424;font-weight: 600;">Browse</h3>
+				<h3 class="uppercase" style="color: #000;font-weight: 600;">Browse</h3>
 			</li>
 			@if(MyHelper::hasAccess([34], $configs))
 				@if(MyHelper::hasAccess([19,21,164,165,166,167], $grantedFeature))
@@ -797,7 +843,7 @@
 			</li>
 			@endif
 
-			@if(MyHelper::hasAccess([48,49,50,51,52], $grantedFeature))
+			@if(MyHelper::hasAccess([48,49,50,51,52], $grantedFeature) && false)
 				<li class="nav-item {{($menu_active == 'product-plastic') ? 'active' : ''}}">
 					<a href="javascript:;" class="nav-link nav-toggle">
 						<i class="icon-wallet"></i>
@@ -1105,7 +1151,7 @@
 
 		@if(MyHelper::hasAccess([58,59,60,61,62,63,64,66,69,71,299], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
-				<h3 class="uppercase" style="color: #3C3424;font-weight: 600;">Order</h3>
+				<h3 class="uppercase" style="color: #000;font-weight: 600;">Order</h3>
 			</li>
 
 			@if(MyHelper::hasAccess([69], $grantedFeature))
@@ -1198,11 +1244,13 @@
 							<span class="title">[Response] Cron Transaction</span>
 						</a>
 					</li>
+					@if(MyHelper::hasAccess([99], $configs))
 					<li class="nav-item {{($submenu_active == 'transaction-point-achievement') ? 'active' : ''}}">
 						<a href="{{url('transaction/autoresponse/transaction-point-achievement')}}" class="nav-link nav-toggle">
 							<span class="title">[Response] Transaction Point Achievement</span>
 						</a>
 					</li>
+					@endif
 					<li class="nav-item {{($submenu_active == 'transaction-failed-point-refund') ? 'active' : ''}}">
 						<a href="{{url('transaction/autoresponse/transaction-failed-point-refund')}}" class="nav-link nav-toggle">
 							<span class="title">[Response] Transaction Failed Point Refund</span>
@@ -1642,7 +1690,7 @@
 
 		@if(MyHelper::hasAccess([274,275,276], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
-				<h3 class="uppercase" style="color: #3C3424;font-weight: 600;">Invalid Transaction</h3>
+				<h3 class="uppercase" style="color: #000;font-weight: 600;">Invalid Transaction</h3>
 			</li>
 
 			@if(MyHelper::hasAccess([274], $grantedFeature))
@@ -1685,7 +1733,7 @@
 		@if(MyHelper::hasAccess([25], $configs) || MyHelper::hasAccess([26], $configs))
 			@if(MyHelper::hasAccess([72,73,74,75,76,77,78,79,80,81,97], $grantedFeature))
 				<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
-					<h3 class="uppercase" style="color: #3C3424;font-weight: 600;">Promo</h3>
+					<h3 class="uppercase" style="color: #000;font-weight: 600;">Promo</h3>
 				</li>
 				@if(MyHelper::hasAccess([25], $configs))
 					@if(MyHelper::hasAccess([72,73,74,75,76], $grantedFeature))
@@ -2401,7 +2449,7 @@
 
 		@if(MyHelper::hasAccess([83,96,97,98,100,103,104,105,106,107,108,109,111], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
-				<h3 class="uppercase" style="color: #3C3424;font-weight: 600;">CRM</h3>
+				<h3 class="uppercase" style="color: #000;font-weight: 600;">CRM</h3>
 			</li>
 
 			@if(MyHelper::hasAccess([96,97], $grantedFeature))
@@ -2725,7 +2773,7 @@
 
         @if(MyHelper::hasAccess([15,16,17,18,144,145,146,147,148,273,241], $grantedFeature))
             <li class="heading" style="height: 50px;padding: 25px 15px 10px;">
-                <h3 class="uppercase" style="color: #3C3424;font-weight: 600;">Settings</h3>
+                <h3 class="uppercase" style="color: #000;font-weight: 600;">Settings</h3>
             </li>
         @endif
 		@if(MyHelper::hasAccess([15,16,17,18,144,145,146,147,148,241], $grantedFeature))
@@ -2742,6 +2790,15 @@
 				<a href="{{url('setting/outletapp')}}" class="nav-link">
 					<i class="fa fa-tablet"></i>
 					<span class="title">Setting Outlet Apps</span>
+				</a>
+			</li>
+		@endif
+
+		@if(MyHelper::hasAccess([346], $grantedFeature))
+			<li class="nav-item {{($menu_active == 'setting-mitra-apps') ? 'active' : ''}}">
+				<a href="{{url('setting/mitra-apps')}}" class="nav-link">
+					<i class="fa fa-tablet"></i>
+					<span class="title">Setting Mitra Apps</span>
 				</a>
 			</li>
 		@endif
@@ -2970,7 +3027,7 @@
 
 		@if(MyHelper::hasAccess([85,86,87,88,89,154], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
-				<h3 class="uppercase" style="color: #3C3424;font-weight: 600;">About</h3>
+				<h3 class="uppercase" style="color: #000;font-weight: 600;">About</h3>
 			</li>
 
 			@if(MyHelper::hasAccess([85], $grantedFeature))
@@ -3044,7 +3101,7 @@
 
 		@if(MyHelper::hasAccess([234], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
-				<h3 class="uppercase" style="color: #3C3424;font-weight: 600;">Disburse</h3>
+				<h3 class="uppercase" style="color: #000;font-weight: 600;">Disburse</h3>
 			</li>
 
 			<li class="nav-item {{($menu_active == 'disburse-dashboard') ? 'active' : ''}}">
@@ -3130,7 +3187,7 @@
 		@endif
 		@if(MyHelper::hasAccess([125,126,127,128,129,271], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
-				<h3 class="uppercase" style="color: #3C3424;font-weight: 600;">Report</h3>
+				<h3 class="uppercase" style="color: #000;font-weight: 600;">Report</h3>
 			</li>
 			<li class="nav-item {{($menu_active == 'report-single') ? 'active' : ''}}">
 				<a href="{{url('report')}}" class="nav-link nav-toggle">

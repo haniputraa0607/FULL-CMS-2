@@ -767,6 +767,28 @@ class MyHelper
 
       return $res;
   }
+
+  /**
+   * Get list date and day of specific month and year
+   * @param  string 	$month 	01-12
+   * @param  string 	$year 	4 digit of year
+   * @return array        		list date and day
+   */
+  public static function getListDate($month, $year)
+  {
+  	$date = $year . '-' . $month . '-01';
+		$end 	= $year . '-' . $month . '-' . date('t', strtotime($date));
+
+		$listDate = [];
+		while (strtotime($date) <= strtotime($end)) {
+      $listDate[] = [
+      	'date' => date('j', strtotime($date)),
+      	'day'  => date('l', strtotime($date))
+      ];
+    	$date = date("Y-m-d", strtotime("+1 day", strtotime($date)));
+    }
+    return $listDate;
+  }
 }
 
 ?>

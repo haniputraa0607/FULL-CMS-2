@@ -57,7 +57,7 @@
             <!-- BEGIN LOGIN FORM -->
             <form class="login-form" action="{{url('login')}}" method="post">
 			{{csrf_field()}}
-                <h3 class="form-title" style="color: #3C3424">Sign In</h3>
+                <h3 class="form-title" style="color: #000">Sign In</h3>
 				@include('layouts.notifications')
                 <div class="alert alert-danger display-hide">
                     <button class="close" data-close="alert"></button>

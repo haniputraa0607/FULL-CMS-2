@@ -64,6 +64,9 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'outlet',
     Route::any('list/user-franchise', ['middleware' => 'feature_control:247', 'uses' => 'OutletController@listUserFranchise']);
     Route::any('detail/user-franchise/{phone}', ['middleware' => 'feature_control:248', 'uses' => 'OutletController@detailUserFranchise']);
     Route::post('user-franchise/set-password-default', ['middleware' => 'feature_control:248', 'uses' => 'OutletController@setPasswordDefaultUserFranchise']);
+
+    //outlet box
+    Route::post('box/save', ['middleware' => 'feature_control:27', 'uses' => 'OutletController@boxSave']);
 });
 
 Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'outlet', 'namespace' => 'Modules\Advert\Http\Controllers'], function()

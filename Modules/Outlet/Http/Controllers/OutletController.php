@@ -216,6 +216,10 @@ class OutletController extends Controller
                 return back()->withErrors(['Please input invalid longitude'])->withInput();
             }
 
+            if(!empty($post['outlet_image'])){
+                $post['outlet_image'] = MyHelper::encodeImage($post['outlet_image']);
+            }
+
             //change pin
             // return $post;
             if(isset($post['outlet_pin']) || isset($post['generate_pin_outlet'])){
@@ -1319,5 +1323,16 @@ class OutletController extends Controller
             $arr_result['data'] = array();
         }
         return response()->json($arr_result);
+    }
+
+    function boxSave(Request $request){
+        $post = $request->except('_token');
+        $save = MyHelper::post('outlet/box/save', $post);
+
+        if (isset($save['status']) && $save['status'] == 'success') {
+            return redirect('outlet/detail/'.$post['outlet_code'].'#box')->with(['success' => ['Save data box success']]);
+        }
+
+        return redirect('outlet/detail/'.$post['outlet_code'].'#box')->withErrors($save['messages']??['Save data box failed']);
     }
 }

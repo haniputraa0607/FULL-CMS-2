@@ -23,6 +23,10 @@ class VersionController extends Controller
                 $post['Display']['version_image_mobile'] = MyHelper::encodeImage($post['Display']['version_image_mobile']);
             } elseif (isset($post['Display']['version_image_outlet'])) {
                 $post['Display']['version_image_outlet'] = MyHelper::encodeImage($post['Display']['version_image_outlet']);
+            } elseif (isset($post['Display']['version_image_mitra'])) {
+                $post['Display']['version_image_mitra'] = MyHelper::encodeImage($post['Display']['version_image_mitra']);
+            } elseif (isset($post['Display']['version_image_web'])) {
+                $post['Display']['version_image_web'] = MyHelper::encodeImage($post['Display']['version_image_web']);
             }
             $save = MyHelper::post('version/update', $post);
             if (isset($save['status']) && $save['status'] == "success") {
@@ -37,11 +41,18 @@ class VersionController extends Controller
                 return back()->withErrors(['Something when wrong. Please try again.'])->withInput();
             }
         }
+
         $version = MyHelper::get('version/list');
         if (isset($version['status']) && $version['status'] == "success") {
             $data['version'] = $version['result'];
         } else {
-            $data['version'] = ['Android' => [], 'IOS' => [], 'OutletApp' => []];
+            $data['version'] = [
+            	'Android' 	=> [], 
+            	'IOS' 		=> [], 
+            	'OutletApp' => [],
+            	'MitraApp' 	=> [],
+            	'WebApp' 	=> []
+            ];
         }
         return view('setting::version.setting-version', $data);
     }
