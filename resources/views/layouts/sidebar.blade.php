@@ -158,11 +158,11 @@
 										<span class="title">[Response] Pin Sent</span>
 									</a>
 								</li>
-								<li class="nav-item {{($submenu_active == 'user-autoresponse-pin-create') ? 'active open' : ''}}">
-									<a href="{{url('user/autoresponse/pin-create')}}" class="nav-link ">
-										<span class="title">[Response] Pin Create</span>
-									</a>
-								</li>
+{{--								<li class="nav-item {{($submenu_active == 'user-autoresponse-pin-create') ? 'active open' : ''}}">--}}
+{{--									<a href="{{url('user/autoresponse/pin-create')}}" class="nav-link ">--}}
+{{--										<span class="title">[Response] Pin Create</span>--}}
+{{--									</a>--}}
+{{--								</li>--}}
 							@endif
 							@if(MyHelper::hasAccess([42], $configs))
 								<li class="nav-item {{($submenu_active == 'user-autoresponse-pin-verify') ? 'active open' : ''}}">
@@ -601,13 +601,13 @@
 						</a>
 					</li>
 					@endif
-					{{-- @if(MyHelper::hasAccess([24], $grantedFeature))
+					@if(MyHelper::hasAccess([24,27], $grantedFeature))
 					<li class="nav-item {{($submenu_active == 'outlet-qrcode') ? 'active open' : ''}}">
 						<a href="{{url('outlet/qrcode')}}" class="nav-link ">
 							<span class="title">QRCode Outlet</span>
 						</a>
 					</li>
-					@endif --}}
+					@endif
 					@if(MyHelper::hasAccess([4], $configs))
 						@if(MyHelper::hasAccess([34], $grantedFeature))
 						<li class="nav-item {{($submenu_active == 'outlet-holiday') ? 'active open' : ''}}">
