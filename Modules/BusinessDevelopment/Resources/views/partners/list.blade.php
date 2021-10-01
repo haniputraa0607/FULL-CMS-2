@@ -175,6 +175,7 @@
                             <th class="text-nowrap text-center">Email</th>
                             <th class="text-nowrap text-center">Addres</th>
                             @if($title=='Candidate Partners')
+                            <th class="text-nowrap text-center">Progress</th>
                             <th class="text-nowrap text-center">Status</th>
                             @endif
                             @if(MyHelper::hasAccess([339,340,341], $grantedFeature))
@@ -192,6 +193,13 @@
                                     <td>{{$dt['email']}}</td>
                                     <td>{{$dt['address']}}</td>
                                     @if($title=='Candidate Partners')
+                                    <td>
+                                        @if($dt['status_steps']==null)
+                                        <span class="badge" style="background-color: #EF1E31; color: #ffffff">{{'No Progress Yet'}}</span>
+                                        @else
+                                        <span class="badge" style="background-color: #2460e2; color: #ffffff">{{$dt['status_steps']}}</span>
+                                        @endif
+                                    </td>
                                     <td>
                                         @if($dt['status'] == 'Active')
                                             <span class="badge" style="background-color: #26C281; color: #ffffff">{{$dt['status']}}</span>

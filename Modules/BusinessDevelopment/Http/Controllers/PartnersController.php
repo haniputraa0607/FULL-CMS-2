@@ -429,13 +429,74 @@ class PartnersController extends Controller
         $result = MyHelper::post('partners/update', $post);
         if(isset($result['status']) && $result['status'] == 'success'){
             $delete = $this->destroyRequestUpdate($id);
-            if(isset($result['status']) && $result['status'] == 'success'){
+            if(isset($delete['status']) && $delete['status'] == 'success'){
                 return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success approve request update partner']);
             }else{
                 return redirect('businessdev/partners/request-update/detail/'.$id)->withErrors($result['messages'] ?? ['Failed approve request update partner']);
             }
         }else{
             return redirect('businessdev/partners/request-update/detail/'.$id)->withErrors($result['messages'] ?? ['Failed approve request update partner']);
+        }
+    }
+
+    public function followUp(Request $request){
+        $request->validate([
+            "import_file" => "mimes:pdf|max:2000",
+        ]);
+        if(isset($request["follow_up"]) && $request["follow_up"]=='Follow Up 1'){
+            $request->validate([
+                "location_large" => "required",
+                "rental_price" => "required",
+                "service_charge" => "required",
+                "promotion_levy" => "required",
+                "renovation_cost" => "required",
+                "partnership_fee" => "required",
+                "income" => "required",
+            ]);
+            $update_data_location = [
+                "id_location" => $request["id_location"],
+                "name" => $request["nameLocation"],
+                "address" => $request["addressLocation"],  
+                "id_city" => $request["id_cityLocation"],  
+                "location_large" => $request["location_large"],  
+                "rental_price" => $request["rental_price"],  
+                "service_charge" => $request["service_charge"],  
+                "promotion_levy" => $request["promotion_levy"],  
+                "renovation_cost" => $request["renovation_cost"],  
+                "partnership_fee" => $request["partnership_fee"],  
+                "income" => $request["income"],   
+            ];
+        }
+        $post_follow_up = [
+            "id_partner" => $request["id_partner"],
+            "follow_up" => $request["follow_up"],
+            "note" => $request["note"],  
+        ];
+        if (isset($request["import_file"])) {
+            $post_follow_up['attachment'] = MyHelper::encodeImage($request['import_file']);
+        }
+        $update_partner = [
+            "id_partner" => $request["id_partner"],
+            "status_steps" => 'Follow Up'
+        ];
+        $follow_up = MyHelper::post('partners/create-follow-up', $post_follow_up);
+        if(isset($follow_up['status']) && $follow_up['status'] == 'success'){
+            $partner_step = MyHelper::post('partners/update', $update_partner);
+            if (isset($partner_step['status']) && $partner_step['status'] == 'success') {
+                if(isset($update_data_location) && !empty($update_data_location)){
+                    $location_update =  MyHelper::post('partners/locations/update', $update_data_location);
+                    if (isset($location_update['status']) && $location_update['status'] == 'success') {
+                        return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
+                    }else{
+                        return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create follow up steps']);
+                    }
+                }
+                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
+            }else{
+                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create follow up steps']);
+            }
+        }else{
+            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create follow up steps']);
         }
     }
 }
