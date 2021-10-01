@@ -354,7 +354,7 @@
                 <a href="#tab_setting" data-toggle="tab"> Setting </a>
             </li>
             <li>
-                <a href="#tab_rating_option" data-toggle="tab"> Rating Option </a>
+                <a href="#tab_rating_option" data-toggle="tab"> Rating Option Outlet </a>
             </li>
             <li>
                 <a href="#tab_rating_option_hs" data-toggle="tab"> Rating Option Hairstylist </a>

@@ -1716,9 +1716,14 @@
 							</a>
 						</li>
 					@endif
-					<li class="nav-item {{($submenu_active == 'user-rating-response') ? 'active open' : ''}}">
-						<a href="{{url('user-rating/autoresponse')}}" class="nav-link ">
-							<span class="title">[Response] User Rating</span>
+					<li class="nav-item {{($submenu_active == 'user-rating-response-outlet') ? 'active open' : ''}}">
+						<a href="{{url('user-rating/autoresponse/outlet')}}" class="nav-link ">
+							<span class="title">[Response] Rating Outlet</span>
+						</a>
+					</li>
+					<li class="nav-item {{($submenu_active == 'user-rating-response-hairstylist') ? 'active open' : ''}}">
+						<a href="{{url('user-rating/autoresponse/hairstylist')}}" class="nav-link ">
+							<span class="title">[Response] Rating Hairstylist</span>
 						</a>
 					</li>
 				</ul>

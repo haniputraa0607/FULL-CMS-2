@@ -265,15 +265,29 @@ class UserRatingController extends Controller
         $data['date_end'] = date('d F Y',strtotime($date_end));
         return view('userrating::report_outlet_detail',$data+$post);
     }
-    public function autoresponse(Request $request) {
+    public function autoresponse(Request $request, $target = null) {
         $post = $request->except('_token');
         if(!empty($post)){
             if (isset($post['max_rating_value'])) {
+
+            	switch ($target) {
+            		case 'hairstylist':
+            			$maxRatingSubject = 'response_max_rating_value_hairstylist';
+            			break;
+            		
+            		default:
+            			$maxRatingSubject = 'response_max_rating_value';
+            			break;
+            	}
+
                 MyHelper::post('setting/update2',[
-                    'update'=>[
-                        'response_max_rating_value'=>['value',$post['max_rating_value']]
-                    ]
-                ]);
+                	'update' => [
+	    				$maxRatingSubject => [
+	    					'value', 
+	    					$post['max_rating_value']
+	    				]
+	        		]
+	        	]);
                 unset($post['max_rating_value']);
             }
 
@@ -301,15 +315,31 @@ class UserRatingController extends Controller
             // print_r($query);exit;
             return back()->withSuccess(['Response updated']);
         }
-        $data = [ 'title'             => 'User Rating Auto Response',
-                  'menu_active'       => 'user-rating',
-                  'submenu_active'    => 'user-rating-response',
-                  'subject'           => 'user-rating'
-                ];
-        $data['max_rating_value'] = MyHelper::post('setting',['key' => 'response_max_rating_value'])['result']['value']??2;
+
+
+        $data = [ 
+    		'title'             => 'User Rating Auto Response',
+			'menu_active'       => 'user-rating',
+			'submenu_active'    => 'user-rating-response-outlet',
+			'subject'           => 'user-rating-outlet'
+        ];
         $data['textreplaces'] = MyHelper::get('autocrm/textreplace')['result']??[];
-        $data['data'] = MyHelper::post('autocrm/list',['autocrm_title'=>'User Rating'])['result']??[];
-        $data['custom'] = explode(';',$data['data']['custom_text_replace']);
+
+        switch ($target) {
+        	case 'hairstylist':
+        		$data['submenu_active'] = 'user-rating-response-hairstylist';
+        		$data['subject'] = 'user-rating-hairstylist';
+        		$data['max_rating_value'] = MyHelper::post('setting',['key' => 'response_max_rating_value_hairstylist'])['result']['value']??2;
+		        $data['data'] = MyHelper::post('autocrm/list',['autocrm_title'=>'User Rating hairstylist'])['result']??[];
+		        $data['custom'] = explode(';',($data['data']['custom_text_replace'] ?? null));
+        		break;
+        	
+        	default:
+		        $data['max_rating_value'] = MyHelper::post('setting',['key' => 'response_max_rating_value'])['result']['value']??2;
+		        $data['data'] = MyHelper::post('autocrm/list',['autocrm_title'=>'User Rating Outlet'])['result']??[];
+		        $data['custom'] = explode(';',($data['data']['custom_text_replace'] ?? null));
+        		break;
+        }
         return view('userrating::response',$data);
     }
 }
