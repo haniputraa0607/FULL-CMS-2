@@ -302,9 +302,9 @@
 							        			@endphp
 							        			<select name="schedule[{{ $thisMonthYear.'-'.$thisMonth.'-'.$thisMonthDate[$tmIndex]['date'] }}]">
 							        				<option value=""></option>
-							        				<option value="Morning" {{ $shift == 'Morning' ? 'selected' : null }}>Pagi</option>
+							        				<option value="Morning" {{ ($shift == 'Morning' || $shift == 'full') ? 'selected' : null }}>Pagi</option>
 							        				<option value="Evening" {{ $shift == 'Evening' ? 'selected' : null }}>Sore</option>
-							        				<option value="Full" {{ $shift == 'Full' ? 'selected' : null }}>Pagi & Sore</option>
+							        				{{-- <option value="Full" {{ $shift == 'Full' ? 'selected' : null }}>Pagi & Sore</option> --}}
 							        			</select>
 							        		</div>
 							        	</div>
