@@ -54,6 +54,16 @@ class HairStylistScheduleController extends Controller
             Session::put('filter-hs-schedule',$post);
         }
 
+        $month = [];
+        for ($m=1; $m<=12; $m++) {
+        	$month[] = [
+        		'index' => $m,
+        		'name' => date('F', mktime(0,0,0,$m, 1, date('Y')))
+        	];
+        }
+
+        $data['months'] = $month;
+
         $data['outlets'] = MyHelper::get('outlet/be/list?log_save=0')['result'] ?? [];
 
         return view('recruitment::hair_stylist.schedule.list', $data);
