@@ -175,6 +175,7 @@
                             <th class="text-nowrap text-center">Email</th>
                             <th class="text-nowrap text-center">Addres</th>
                             @if($title=='Candidate Partners')
+                            <th class="text-nowrap text-center">Progress</th>
                             <th class="text-nowrap text-center">Status</th>
                             @endif
                             @if(MyHelper::hasAccess([339,340,341], $grantedFeature))
@@ -193,12 +194,21 @@
                                     <td>{{$dt['address']}}</td>
                                     @if($title=='Candidate Partners')
                                     <td>
-                                        @if($dt['status'] == 'Active')
-                                            <span class="badge" style="background-color: #26C281; color: #ffffff">{{$dt['status']}}</span>
-                                        @elseif($dt['status'] == 'Inactive')
-                                            <span class="badge" style="background-color: #EF1E31; color: #ffffff">{{$dt['status']}}</span>
+                                        @if($dt['status_steps']==null)
+                                        <span class="badge" style="background-color: #EF1E31; color: #ffffff">{{'No Progress Yet'}}</span>
                                         @else
-                                            <span class="badge" style="background-color: #e1e445; color: #ffffff">{{$dt['status']}}</span>
+                                        <span class="badge" style="background-color: #2460e2; color: #ffffff">{{$dt['status_steps']}}</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($dt['status'] == 'Active')
+                                        <span class="badge" style="background-color: #26C281; color: #ffffff">{{$dt['status']}}</span>
+                                        @elseif($dt['status'] == 'Inactive')
+                                        <span class="badge" style="background-color: #101ee7; color: #ffffff">{{$dt['status']}}</span>
+                                        @elseif($dt['status'] == 'Candidate')
+                                        <span class="badge" style="background-color: #e1e445; color: #ffffff">{{$dt['status']}}</span>
+                                        @else
+                                        <span class="badge" style="background-color: #EF1E31; color: #ffffff">{{$dt['status']}}</span>
                                         @endif
                                     </td>
                                     @endif

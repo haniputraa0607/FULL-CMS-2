@@ -132,7 +132,7 @@ class PartnersController extends Controller
     public function detail($user_id)
     {
         $result = MyHelper::post('partners/edit', ['id_partner' => $user_id]);
-        if($result['result']['partner']['status']=='Candidate'){
+        if($result['result']['partner']['status']=='Candidate' || $result['result']['partner']['status']=='Rejected'){
             $data = [
                 'title'          => 'Candidate Partner',
                 'sub_title'      => 'Detail Candidate Partner',
@@ -152,6 +152,7 @@ class PartnersController extends Controller
             $data['bank'] = MyHelper::get('disburse/setting/list-bank-account')['result']['list_bank']??[];
             $data['cities'] = MyHelper::get('city/list')['result']??[];
             $data['bankName'] = MyHelper::get('disburse/bank')['result']??[];
+            $data['brands'] = MyHelper::get('partners/locations/brands')['result']??[];
             // dd($data);
             return view('businessdevelopment::partners.detail', $data);
         }else{
@@ -429,7 +430,7 @@ class PartnersController extends Controller
         $result = MyHelper::post('partners/update', $post);
         if(isset($result['status']) && $result['status'] == 'success'){
             $delete = $this->destroyRequestUpdate($id);
-            if(isset($result['status']) && $result['status'] == 'success'){
+            if(isset($delete['status']) && $delete['status'] == 'success'){
                 return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success approve request update partner']);
             }else{
                 return redirect('businessdev/partners/request-update/detail/'.$id)->withErrors($result['messages'] ?? ['Failed approve request update partner']);
@@ -438,4 +439,107 @@ class PartnersController extends Controller
             return redirect('businessdev/partners/request-update/detail/'.$id)->withErrors($result['messages'] ?? ['Failed approve request update partner']);
         }
     }
+
+    public function followUp(Request $request){
+        $request->validate([
+            "import_file" => "mimes:pdf|max:2000",
+        ]);
+        if(isset($request["follow_up"]) && $request["follow_up"]=='Follow Up 1'){
+            $request->validate([
+                "location_large" => "required",
+                "rental_price" => "required",
+                "service_charge" => "required",
+                "promotion_levy" => "required",
+                "renovation_cost" => "required",
+                "partnership_fee" => "required",
+                "income" => "required",
+            ]);
+            $update_data_location = [
+                "id_location" => $request["id_location"],
+                "name" => $request["nameLocation"],
+                "address" => $request["addressLocation"],  
+                "id_city" => $request["id_cityLocation"],  
+                "id_brand" => $request["id_brand"],  
+                "location_large" => $request["location_large"],  
+                "rental_price" => $request["rental_price"],  
+                "service_charge" => $request["service_charge"],  
+                "promotion_levy" => $request["promotion_levy"],  
+                "renovation_cost" => $request["renovation_cost"],  
+                "partnership_fee" => $request["partnership_fee"],  
+                "income" => $request["income"],   
+            ];
+        }
+        $post_follow_up = [
+            "id_partner" => $request["id_partner"],
+            "follow_up" => $request["follow_up"],
+            "note" => $request["note"],  
+        ];
+        if (isset($request["import_file"])) {
+            $post_follow_up['attachment'] = MyHelper::encodeImage($request['import_file']);
+        }
+        
+        if($request["follow_up"]=='Payment'){
+            $status_steps = 'Payment';
+        }elseif($request["follow_up"]=='Confirmation Letter'){
+            $status_steps = 'Confirmation Letter';
+        }elseif($request["follow_up"]=='Calculation'){
+            $status_steps = 'Calculation';
+        }elseif($request["follow_up"]=='Survey Location'){
+            $status_steps = 'Survey Location';
+        }elseif($request["follow_up"]=='Approved'){
+            $status_steps = 'Finished Follow Up';
+        }else{
+            $status_steps = 'On Follow Up';
+        }
+        $update_partner = [
+            "id_partner" => $request["id_partner"],
+            "status_steps" => $status_steps,
+            "status" => 'Candidate'
+        ];
+        if (isset($request['ownership_status']) && $request['follow_up']=='Follow Up 1'){
+            $update_partner['ownership_status'] = $request['ownership_status'];
+        } 
+        if (isset($request['cooperation_scheme']) && $request['follow_up']=='Follow Up 1'){
+            $update_partner['cooperation_scheme'] = $request['cooperation_scheme'];
+        } 
+        if (isset($request['id_bank_account']) && $request['follow_up']=='Follow Up 1'){
+            $update_partner['id_bank_account'] = $request['id_bank_account'];
+        }
+        if ($request['start_date']!=null && $request['follow_up']=='Follow Up 1'){
+            $update_partner['start_date'] = date('Y-m-d', strtotime($request['start_date']));
+        } 
+        if ($request['end_date']!=null && $request['follow_up']=='Follow Up 1'){
+            $update_partner['end_date'] = date('Y-m-d', strtotime($request['end_date']));
+        } 
+        $follow_up = MyHelper::post('partners/create-follow-up', $post_follow_up);
+        if(isset($follow_up['status']) && $follow_up['status'] == 'success'){
+            $partner_step = MyHelper::post('partners/update', $update_partner);
+            if (isset($partner_step['status']) && $partner_step['status'] == 'success') {
+                if(isset($update_data_location) && !empty($update_data_location)){
+                    $location_update =  MyHelper::post('partners/locations/update', $update_data_location);
+                    if (isset($location_update['status']) && $location_update['status'] == 'success') {
+                        return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
+                    }else{
+                        return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create follow up steps']);
+                    }
+                }
+                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
+            }else{
+                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create follow up steps']);
+            }
+        }else{
+            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create follow up steps']);
+        }
+    }
+
+    public function rejectCandidate($id)
+    {
+        $reject_partner = [
+            "id_partner" => $id,
+            "status" => 'Rejected'
+        ];
+        $partner_step = MyHelper::post('partners/update', $reject_partner);
+        return $partner_step;
+    }
+
 }

@@ -71,7 +71,7 @@
                                         },
                                         success : function(response) {
                                             if (response.status == 'success') {
-                                                swal("Deleted!", "User Mitra has been deleted.", "success")
+                                                swal("Deleted!", "Location has been deleted.", "success")
                                                 SweetAlert.init()
                                                 location.href = "{{url('businessdev/partners/detail')}}/"+id_partner;
                                             }
@@ -80,6 +80,52 @@
                                             }
                                             else {
                                                 swal("Error!", "Something went wrong. Failed to delete locations.", "error")
+                                            }
+                                        }
+                                    });
+                                });
+                        })
+                    })
+                }
+            }
+        }();
+        var SweetAlertReject = function() {
+            return {
+                init: function() {
+                    $(".sweetalert-reject").each(function() {
+                        var token  	= "{{ csrf_token() }}";
+                        var pathname = window.location.pathname;
+                        let column 	= $(this).parents('tr');
+                        let id     	= $(this).data('id');
+                        let name    = $(this).data('name');
+                        $(this).click(function() {
+                            swal({
+                                    title: name+"\n\nAre you sure want to reject this candidate partner?",
+                                    text: "You can continue to approve this candidate partner later!",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonClass: "btn-danger",
+                                    confirmButtonText: "Yes, reject it!",
+                                    closeOnConfirm: false
+                                },
+                                function(){
+                                    $.ajax({
+                                        type : "POST",
+                                        url : "{{url('businessdev/partners/reject')}}/"+id,
+                                        data : {
+                                            '_token' : '{{csrf_token()}}'
+                                        },
+                                        success : function(response) {
+                                            if (response.status == 'success') {
+                                                swal("Rejected!", "Candidate Partner has been rejected.", "success")
+                                                SweetAlert.init()
+                                                location.href = "{{url('businessdev/partners/detail')}}/"+id;
+                                            }
+                                            else if(response.status == "fail"){
+                                                swal("Error!", "Failed to rejecte candidate partner.", "error")
+                                            }
+                                            else {
+                                                swal("Error!", "Something went wrong. Failed to reject candidate partner.", "error")
                                             }
                                         }
                                     });
@@ -170,7 +216,17 @@
         });
         $('.select2').select2();
         $(document).ready(function() {
+            $('#back-follow-up').hide();
+            $('#input-follow-up').click(function(){
+                $('#back-follow-up').show();
+                $('#input-follow-up').hide();
+            });
+            $('#back-follow-up').click(function(){
+                $('#input-follow-up').show();
+                $('#back-follow-up').hide();
+            });
             SweetAlert.init();
+            SweetAlertReject.init();
             $('[data-switch=true]').bootstrapSwitch();
             $('#btn-submit').on('click', function(event) {
                 if(document.getElementById('auto_generate_pin').checked == false){
@@ -262,29 +318,35 @@
                 <span class="caption-subject sbold uppercase font-blue">@if($title=='Candidate Partner') Candidate Partner Detail @else Partner Detail @endif</span>
             </div>
         </div>
-        @if($title=='Partner') <div class="tabbable-line tabbable-full-width">
-        <ul class="nav nav-tabs">
-            <li class="active">
-                <a href="#overview" data-toggle="tab"> Partner Overview </a>
-            </li>
-            @if(MyHelper::hasAccess([342], $grantedFeature))
-            <li>
-                <a href="#locations" data-toggle="tab"> Partner Locations </a>
-            </li>
-            @endif
-            @if(MyHelper::hasAccess([351,352], $grantedFeature))
-            <li>
-                <a href="#bank" data-toggle="tab"> Partner Bank Account </a>
-            </li>
-            @endif
-            {{-- <li>
-                <a href="#manage" data-toggle="tab"> Manage Partner </a>
-            </li> --}}
-            <li>
-                <a href="#resetpass" data-toggle="tab"> Reset PIN </a>
-            </li>
-        </ul>
-        @endif
+        <div class="tabbable-line tabbable-full-width">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#overview" data-toggle="tab"> Partner Overview </a>
+                </li>
+                @if($title=='Partner') 
+                    @if(MyHelper::hasAccess([342], $grantedFeature))
+                    <li>
+                        <a href="#locations" data-toggle="tab"> Partner Locations </a>
+                    </li>
+                    @endif
+                    @if(MyHelper::hasAccess([351,352], $grantedFeature))
+                    <li>
+                        <a href="#bank" data-toggle="tab"> Partner Bank Account </a>
+                    </li>
+                    @endif
+                    <li>
+                        <a href="#status" data-toggle="tab">  </a>
+                    </li>
+                    <li>
+                        <a href="#resetpass" data-toggle="tab"> Reset PIN </a>
+                    </li>
+                @endif
+                @if($title=='Candidate Partner') 
+                    <li>
+                        <a href="#status" data-toggle="tab"> Status Partner </a>
+                    </li>
+                @endif
+            </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="overview">
                 <div class="portlet-body form">
@@ -373,43 +435,6 @@
                             </div>
                             @endif
 
-                            @if ($title=='Candidate Partner')
-                            <div class="portlet light" style="margin-bottom: 0; padding-top: 0">
-                                <div class="portlet-title">
-                                    <div class="caption">
-                                        <span class="caption-subject sbold uppercase font-black">Status Candidate</span>
-                                    </div>
-                                </div>
-                                <div class="portlet-body form">
-                                    <div class="form-group">
-                                        <label for="example-search-input" class="control-label col-md-4">Update Step<span class="required" aria-required="true">*</span>
-                                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih status partner" data-container="body"></i></label>
-                                        <div class="col-md-5">
-                                            <select name="step" class="form-control input-sm select2" placeholder="Step Follow Up">
-                                                <option value="" selected disabled>Select Cooperation Scheme</option>
-                                                <option value="Follow up 1" @if(isset($result['step'])) @if($result['step'] == 'Follow up 1') selected @endif @endif>Follow up 1</option>
-                                                <option value="Follow up 2" @if(isset($result['step'])) @if($result['step'] == 'Follow up 2') selected @endif @endif>Follow up 2</option>
-                                                <option value="Follow up 3" @if(isset($result['step'])) @if($result['step'] == 'Follow up 3') selected @endif @endif>Follow up 3</option>
-                                                <option value="Follow up 4" @if(isset($result['step'])) @if($result['step'] == 'Follow up 4') selected @endif @endif>Follow up 4</option>
-                                                <option value="Follow up 5" @if(isset($result['step'])) @if($result['step'] == 'Follow up 5') selected @endif @endif>Follow up 5</option>
-                                                <option value="Follow up 6" @if(isset($result['step'])) @if($result['step'] == 'Follow up 6') selected @endif @endif>Follow up 6</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="example-search-input" class="control-label col-md-4">Approve Candidate<span class="required" aria-required="true">*</span>
-                                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih status partner" data-container="body"></i></label>
-                                        <div class="col-md-5">
-                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#candidatePartnerModal" id="modalPartner">
-                                                Insert Data Partner
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            @endif
-
-                            
                             @if($title=='Partner')
                             <input type="hidden" value="on" name="status">
                             <div class="form-group">
@@ -686,8 +711,57 @@
                     </div>   
                 </div>
             </div>
+
+            {{-- tab step --}}
+            <div class="tab-pane" id="status">
+                <div style="white-space: nowrap;">
+                    <div class="portlet-body form">
+                        <div class="tab-pane">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <ul class="ver-inline-menu tabbable margin-bottom-10">
+                                        <li class="@if($result['status_steps']=='On Follow Up' || $result['status_steps']==null || $result['status_steps']=='Finished Follow Up') active @endif">
+                                            <a data-toggle="tab" href="#follow"><i class="fa fa-cog"></i> Follow Up </a>
+                                        </li>
+                                        <li class="@if($result['status_steps']=='Survey Location') active @endif" @if($result['status_steps']==null || $result['status_steps']=='On Follow Up') style="opacity: 0.4 !important" @endif>
+                                            <a @if($result['status_steps']==null || $result['status_steps']=='On Follow Up') @else data-toggle="tab" @endif href="#survey"><i class="fa fa-cog"></i> Survey Location </a>
+                                        </li>
+                                        <li class="@if($result['status_steps']=='Calculation') active @endif" @if($result['status_steps']==null || $result['status_steps']=='On Follow Up' || $result['status_steps']=='Finished Follow Up') style="opacity: 0.4 !important" @endif>
+                                            <a @if($result['status_steps']==null || $result['status_steps']=='On Follow Up' || $result['status_steps']=='Finished Follow Up') @else data-toggle="tab" @endif href="#calcu"><i class="fa fa-cog"></i> Calculation </a>
+                                        </li>
+                                        <li class="@if($result['status_steps']=='Confirmation Letter') active @endif" <a @if($result['status_steps']=='Calculation' || $result['status_steps']=='Confirmation Letter' || $result['status_steps']=='Payment') @else style="opacity: 0.4 !important" @endif>
+                                            <a @if($result['status_steps']=='Calculation' || $result['status_steps']=='Confirmation Letter' || $result['status_steps']=='Payment') data-toggle="tab" @endif href="#confirm"><i class="fa fa-cog"></i> Confirmation Letter </a>
+                                        </li>
+                                        <li class="@if($result['status_steps']=='Payment') active @endif" @if($result['status_steps']!='Confirmation Letter' || $result['status_steps']!='Payment') style="opacity: 0.4 !important" @endif>
+                                            <a @if($result['status_steps']=='Confirmation Letter' || $result['status_steps']=='Payment') data-toggle="tab" @endif href="#payment"><i class="fa fa-cog"></i> Payment </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="tab-content">
+                                        <div class="tab-pane @if($result['status_steps']=='On Follow Up' || $result['status_steps']==null || $result['status_steps']=='Finished Follow Up') active @endif" id="follow">
+                                            @include('businessdevelopment::partners.steps.follow_up')
+                                        </div>
+                                        <div class="tab-pane @if($result['status_steps']=='Survey Location') active @endif" id="survey">
+                                            @include('businessdevelopment::partners.steps.survey_loc')
+                                        </div>
+                                        <div class="tab-pane @if($result['status_steps']=='Calculation') active @endif" id="calcu">
+                                            @include('businessdevelopment::partners.steps.calculation') 
+                                        </div>
+                                        <div class="tab-pane @if($result['status_steps']=='Confirmation Letter') active @endif" id="confirm">
+                                            <p>Confirmation Letter</p>
+                                        </div>
+                                        <div class="tab-pane @if($result['status_steps']=='Payment') active @endif" id="payment">
+                                            <p>Payment</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        @if($title=='Partner') </div> @endif
     </div>
     
     <div class="modal fade" id="candidatePartnerModal" tabindex="-1" role="dialog" aria-labelledby="candidatePartnerModalLabel" aria-hidden="true">
