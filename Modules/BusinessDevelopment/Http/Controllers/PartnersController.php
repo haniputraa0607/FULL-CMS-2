@@ -477,11 +477,40 @@ class PartnersController extends Controller
         if (isset($request["import_file"])) {
             $post_follow_up['attachment'] = MyHelper::encodeImage($request['import_file']);
         }
+        
+        if($request["follow_up"]=='Payment'){
+            $status_steps = 'Payment';
+        }elseif($request["follow_up"]=='Confirmation Letter'){
+            $status_steps = 'Confirmation Letter';
+        }elseif($request["follow_up"]=='Calculation'){
+            $status_steps = 'Calculation';
+        }elseif($request["follow_up"]=='Survey Location'){
+            $status_steps = 'Survey Location';
+        }elseif($request["follow_up"]=='Approved'){
+            $status_steps = 'Finished Follow Up';
+        }else{
+            $status_steps = 'On Follow Up';
+        }
         $update_partner = [
             "id_partner" => $request["id_partner"],
-            "status_steps" => 'Follow Up',
+            "status_steps" => $status_steps,
             "status" => 'Candidate'
         ];
+        if (isset($request['ownership_status']) && $request['follow_up']=='Follow Up 1'){
+            $update_partner['ownership_status'] = $request['ownership_status'];
+        } 
+        if (isset($request['cooperation_scheme']) && $request['follow_up']=='Follow Up 1'){
+            $update_partner['cooperation_scheme'] = $request['cooperation_scheme'];
+        } 
+        if (isset($request['id_bank_account']) && $request['follow_up']=='Follow Up 1'){
+            $update_partner['id_bank_account'] = $request['id_bank_account'];
+        }
+        if ($request['start_date']!=null && $request['follow_up']=='Follow Up 1'){
+            $update_partner['start_date'] = date('Y-m-d', strtotime($request['start_date']));
+        } 
+        if ($request['end_date']!=null && $request['follow_up']=='Follow Up 1'){
+            $update_partner['end_date'] = date('Y-m-d', strtotime($request['end_date']));
+        } 
         $follow_up = MyHelper::post('partners/create-follow-up', $post_follow_up);
         if(isset($follow_up['status']) && $follow_up['status'] == 'success'){
             $partner_step = MyHelper::post('partners/update', $update_partner);

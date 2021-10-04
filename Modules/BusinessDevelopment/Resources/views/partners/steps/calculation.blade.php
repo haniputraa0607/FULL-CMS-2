@@ -1,9 +1,9 @@
 <?php 
-    $surv = false;
+    $calcu = false;
     if(!empty($result['partner_step'])){
         foreach($result['partner_step'] as $i => $step){
-            if($step['follow_up']=='Survey Location'){
-                $surv = true;
+            if($step['follow_up']=='Calculation'){
+                $calcu = true;
                 $follow_up = $step['follow_up'];
                 $note = $step['note'];
                 $file = $step['attachment'];
@@ -17,7 +17,7 @@
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption">
-                    <span class="caption-subject font-dark sbold uppercase font-yellow">Survey Location</span>
+                    <span class="caption-subject font-dark sbold uppercase font-yellow">Calculation</span>
                 </div>
             </div>
             <div class="portlet-body form">
@@ -33,15 +33,15 @@
                             </div>
                             <div class="portlet-body">
                                 <p>Candidate Partner Rejected </p>
-                                @if ($surv==false)
-                                <a href="#form_survey" class="btn btn-sm yellow" type="button" style="float:center" data-toggle="tab" id="input-survey">
-                                    Survey Location
+                                @if ($calcu==false)
+                                <a href="#form_calcu" class="btn btn-sm yellow" type="button" style="float:center" data-toggle="tab" id="input-calcu">
+                                    Calculation
                                 </a>
                                 @endif
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane @if($result['status']=='Candidate' || $surv == true) active @endif" id="form_survey">
+                    <div class="tab-pane @if($result['status']=='Candidate' || $calcu == true) active @endif" id="form_calcu">
                         <form class="form-horizontal" role="form" action="{{url('businessdev/partners/create-follow-up')}}" method="post" enctype="multipart/form-data">
                             <div class="form-body">
                                 <input type="hidden" name="id_partner" value="{{$result['id_partner']}}">
@@ -49,18 +49,18 @@
                                     <label for="example-search-input" class="control-label col-md-4">Step <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Pilih step" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="follow_up" name="follow_up" value="Survey Location" readonly required/>
+                                        <input class="form-control" type="text" id="follow_up" name="follow_up" value="Calculation" readonly required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukan note" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <textarea name="note" id="note" class="form-control" placeholder="Enter note here" @if ($surv==true) readonly @endif >@if ($surv==true) {{ $note }} @endif</textarea>
+                                        <textarea name="note" id="note" class="form-control" placeholder="Enter note here" @if ($calcu==true) readonly @endif >@if ($calcu==true) {{ $note }} @endif</textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    @if ($surv==false) 
+                                    @if ($calcu==false) 
                                     <label for="example-search-input" class="control-label col-md-4">Import Attachment <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukan file" data-container="body"></i><br>
                                         <span class="required" aria-required="true"> (PDF max 2 mb) </span></label>
@@ -69,7 +69,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Download file" data-container="body"></i><br></label>
                                         @endif
                                     <div class="col-md-5">
-                                        @if ($surv==false) 
+                                        @if ($calcu==false) 
                                         <div class="fileinput fileinput-new text-left" data-provides="fileinput">
                                             <div class="input-group input-large">
                                                 <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
@@ -95,7 +95,7 @@
                                         @endif
                                     </div>
                                 </div>
-                                @if ($surv==false) 
+                                @if ($calcu==false) 
                                 <div class="form-actions">
                                     {{ csrf_field() }}
                                     <div class="row">

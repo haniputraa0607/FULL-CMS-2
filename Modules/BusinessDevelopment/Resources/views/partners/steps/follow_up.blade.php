@@ -28,35 +28,28 @@
             <div class="portlet-body form">
                 <div class="tab-content">
                     <div class="tab-pane @if($result['status']=='Rejected') active @endif">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover" id="kt_datatable">
-                                <thead>
-                                <tr>
-                                    <th class="text-nowrap text-center">Created At</th>
-                                    <th class="text-nowrap text-center">Step</th>
-                                    <th class="text-nowrap text-center">Note</th>
-                                    <th class="text-nowrap text-center">Attachment</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td colspan="10" style="text-align: center">
-                                            Candidate Partner Rejected <br><br>
-                                            @if($step_follow_up<8)
-                                            <a href="#form" class="btn btn-sm yellow" type="button" style="float:center" data-toggle="tab" id="input-follow-up">
-                                                @if($step_follow_up == 7) Approved @else Follow Up {{ $step_follow_up }} @endif
-                                            </a>
-                                            @endif
-                                            <a href="#table" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="back-follow-up">
-                                                Back
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="portlet box red">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-gear"></i>Warning</div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse"> </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <p>Candidate Partner Rejected </p>
+                                @if($step_follow_up<8)
+                                <a href="#form" class="btn btn-sm yellow" type="button" style="float:center" data-toggle="tab" id="input-follow-up">
+                                    @if($step_follow_up == 7) Approved @else Follow Up {{ $step_follow_up }} @endif
+                                </a>
+                                @endif
+                                <a href="#table" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="back-follow-up">
+                                    Back
+                                </a>
+                            </div>
                         </div>
                     </div>
-                    <div class="tab-pane @if($result['status']=='Candidate') active @endif" id="table">
+                    <div class="tab-pane active" id="table">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover" id="kt_datatable">
                                 <thead>
@@ -69,7 +62,8 @@
                                 </thead>
                                 <tbody>
                                     @if(!empty($result['partner_step']))
-                                        @foreach($result['partner_step'] as $step)
+                                        @foreach($result['partner_step'] as $i => $step)
+                                            @if ($i<=6)
                                             <tr data-id="{{ $step['id_steps_log'] }}">
                                                 <td>{{date('d F Y H:i', strtotime($step['created_at']))}}</td>
                                                 <td>{{$step['follow_up']}}</td>
@@ -82,6 +76,7 @@
                                                     @endif
                                                 </td>
                                             </tr>
+                                            @endif
                                         @endforeach
                                     @else
                                         <tr>
@@ -104,6 +99,68 @@
                                     </div>
                                 </div>
                                 @if ($step_follow_up==1)
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Ownership Status <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Pilih Ownership Status" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <select name="ownership_status" class="form-control input-sm select2" placeholder="Ownership Status" required>
+                                            <option value="" selected disabled>Select Ownership Status</option>
+                                            <option value="Central" @if(isset($result['ownership_status'])) @if($result['ownership_status'] == 'Central') selected @endif @endif>Central</option>
+                                            <option value="Partner" @if(isset($result['ownership_status'])) @if($result['ownership_status'] == 'Partner') selected @endif @endif>Partner</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Coopertaion Scheme<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Pilih Coopertaion Scheme" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <select name="cooperation_scheme" class="form-control input-sm select2" placeholder="Coopertaion Scheme" required>
+                                            <option value="" selected disabled>Select Cooperation Scheme</option>
+                                            <option value="Profit Sharing" @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Profit Sharing') selected @endif @endif>Profit Sharing</option>
+                                            <option value="Management Fee" @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Management Fee') selected @endif @endif>Management Fee</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Bank Account<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Pilih Bank Account" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <select name="id_bank_account" class="form-control input-sm select2" placeholder="Bank Account">
+                                            <option value="" selected disabled>Select Bank Account</option>
+                                            @foreach($bank as $b)
+                                            <option value="{{$b['id_bank_account']}}" @if($result['id_bank_account'] == $b['id_bank_account']) selected @endif>{{$b['id_bank_account']}} - {{$b['beneficiary_name']}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Start Date <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Mulai menjadi Partner" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <div class="input-group">
+                                            <input type="text" id="start_date" class="datepicker form-control" name="start_date" value="{{ (!empty($result['start_date']) ? date('d F Y', strtotime($result['start_date'])) : '')}}" required>
+                                            <span class="input-group-btn">
+                                                <button class="btn default" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">End Date <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Berakhir menjadi Partner" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <div class="input-group">
+                                            <input type="text" id="end_date" class="datepicker form-control" name="end_date" value="{{ (!empty($result['end_date']) ? date('d F Y', strtotime($result['end_date'])) : '')}}" required>
+                                            <span class="input-group-btn">
+                                                <button class="btn default" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                                 <input type="hidden" name="id_location" value="{{$result['partner_locations'][0]['id_location']}}">
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location Name <span class="required" aria-required="true">*</span>
@@ -202,7 +259,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Import Attachment <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan note" data-container="body"></i><br>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan file" data-container="body"></i><br>
                                         <span class="required" aria-required="true"> (PDF max 2 mb) </span></label>
                                     <div class="col-md-5">
                                         <div class="fileinput fileinput-new text-left" data-provides="fileinput">
@@ -226,7 +283,7 @@
                                     <div class="row">
                                         <div class="col-md-offset-4 col-md-8">
                                             <button type="submit" class="btn blue">Submit</button>
-                                            <a class="btn red sweetalert-reject" data-id="{{ $result['id_partner'] }}" data-name="{{ $result['name'] }}">Reject</a>
+                                            @if($result['status']=='Candidate') <a class="btn red sweetalert-reject" data-id="{{ $result['id_partner'] }}" data-name="{{ $result['name'] }}">Reject</a> @endif
                                         </div>
                                     </div>
                                 </div>
