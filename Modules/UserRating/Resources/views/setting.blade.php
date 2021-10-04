@@ -409,6 +409,19 @@
                 <form action="#" method="POST">
                     @csrf
                     <div class="row">
+                        <label class="col-md-3 control-label text-right">Maximum List Rating <i class="fa fa-question-circle tooltips" data-original-title="Jumlah maksimal rating yang ditampilkan pada halaman home. Urutan berdasarkan waktu terakhir popup ditampilkan dari terlama menuju ke terbaru " data-container="body"></i></label>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="number" min="1" name="popup_max_list" class="form-control" required value="{{old('popup_max_list',$setting['popup_max_list']['value']??'')}}" /><br/>
+                                    <span class="input-group-addon">
+                                        Rating
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <label class="col-md-3 control-label text-right">Popup Interval Time <i class="fa fa-question-circle tooltips" data-original-title="Rentang waktu minimal ditampilkannya popup rating" data-container="body"></i></label>
                         <div class="col-md-3">
                             <div class="form-group">
