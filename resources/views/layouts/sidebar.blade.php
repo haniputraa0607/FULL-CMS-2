@@ -1686,6 +1686,50 @@
 					</ul>
 				</li>
 			@endif
+			
+			@if(MyHelper::hasAccess([122], $configs) && MyHelper::hasAccess([356,357], $grantedFeature) )
+			<li class="nav-item {{($menu_active == 'user-rating') ? 'active' : ''}}">
+				<a href="javascript:;" class="nav-link nav-toggle">
+					<i class="fa fa-star-o"></i>
+					<span class="title">User Rating</span>
+					<span class="arrow {{($menu_active == 'user-rating') ? 'open' : ''}}"></span>
+				</a>
+				<ul class="sub-menu">
+					@if(MyHelper::hasAccess([356], $grantedFeature))
+						<li class="nav-item {{($submenu_active == 'user-rating-list') ? 'active open' : ''}}">
+							<a href="{{url('user-rating')}}" class="nav-link ">
+								<span class="title">User Rating List</span>
+							</a>
+						</li>
+					@endif
+					@if(MyHelper::hasAccess([357], $grantedFeature))
+						<li class="nav-item {{($submenu_active == 'rating-setting') ? 'active open' : ''}}">
+							<a href="{{url('user-rating/setting')}}" class="nav-link ">
+								<span class="title">User Rating Setting</span>
+							</a>
+						</li>
+					@endif
+					@if(MyHelper::hasAccess([356], $grantedFeature))
+						<li class="nav-item {{($submenu_active == 'user-rating-report') ? 'active open' : ''}}">
+							<a href="{{url('user-rating/report')}}" class="nav-link ">
+								<span class="title">User Rating Report</span>
+							</a>
+						</li>
+					@endif
+					<li class="nav-item {{($submenu_active == 'user-rating-response-outlet') ? 'active open' : ''}}">
+						<a href="{{url('user-rating/autoresponse/outlet')}}" class="nav-link ">
+							<span class="title">[Response] Rating Outlet</span>
+						</a>
+					</li>
+					<li class="nav-item {{($submenu_active == 'user-rating-response-hairstylist') ? 'active open' : ''}}">
+						<a href="{{url('user-rating/autoresponse/hairstylist')}}" class="nav-link ">
+							<span class="title">[Response] Rating Hairstylist</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+			@endif
+
 		@endif
 
 		@if(MyHelper::hasAccess([274,275,276], $grantedFeature))
