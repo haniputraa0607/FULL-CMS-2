@@ -640,7 +640,8 @@ $active_response = $active_response??['email', 'sms', 'push', 'inbox', 'whatsapp
 								You can use this variables to display user personalized information:
 								<br><br>
 								<div class="row">
-									@if($subject != 'new-user-franchise' && $subject != 'reset-password-user-franchise')
+									@if($subject != 'new-user-franchise' && $subject != 'reset-password-user-franchise' &&
+										$subject != 'register-candidate-hair-stylist' && $subject != 'rejected-candidate-hair-stylist' && $subject != 'approve-candidate-hair-stylist')
 										@foreach($textreplaces as $key=>$row)
 											<div class="col-md-3" style="margin-bottom:5px;">
 												<span class="btn dark btn-xs btn-block btn-outline var" data-toggle="tooltip" title="Text will be replace '{{ $row['keyword'] }}' with user's {{ $row['reference'] }}" onClick="addEmailSubject('{{ $row['keyword'] }}');">{{ str_replace('_',' ',$row['keyword']) }}</span>
@@ -679,7 +680,8 @@ $active_response = $active_response??['email', 'sms', 'push', 'inbox', 'whatsapp
 								You can use this variables to display user personalized information:
 								<br><br>
 								<div class="row" >
-									@if($subject != 'new-user-franchise' && $subject != 'reset-password-user-franchise')
+									@if($subject != 'new-user-franchise' && $subject != 'reset-password-user-franchise' &&
+										$subject != 'register-candidate-hair-stylist' && $subject != 'rejected-candidate-hair-stylist' && $subject != 'approve-candidate-hair-stylist')
 									@foreach($textreplaces as $key=>$row)
 										<div class="col-md-3" style="margin-bottom:5px;">
 											<span class="btn dark btn-xs btn-block btn-outline var" data-toggle="tooltip" title="Text will be replace '{{ $row['keyword'] }}' with user's {{ $row['reference'] }}" onClick="addEmailContent('{{ $row['keyword'] }}');">{{ str_replace('_',' ',$row['keyword']) }}</span>
@@ -701,8 +703,8 @@ $active_response = $active_response??['email', 'sms', 'push', 'inbox', 'whatsapp
 					@endif
 
 					@if($subject != 'email-verify' && $subject != 'new-user-franchise' && $subject != 'reset-password-user-franchise')
-						<hr>
 						@if(MyHelper::hasAccess([39], $configs) && in_array('sms', $active_response))
+							<hr>
 							<h4>SMS</h4>
 							<div class="form-group" >
 								<div class="input-icon right">

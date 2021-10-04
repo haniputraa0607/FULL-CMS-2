@@ -206,6 +206,24 @@ class AutocrmController extends Controller
 				$data['active_response'] = ['email'];
 				$test['result'] = [];
 					break;
+            case 'register-candidate-hair-stylist':
+                $data['active_response'] = ['email'];
+                $data['menu_active'] = 'hair-stylist';
+                $data['submenu_active'] = 'hairstylist-autoresponse-'.$subject;
+                $test['result'] = [];
+                break;
+            case 'rejected-candidate-hair-stylist':
+                $data['active_response'] = ['email'];
+                $data['menu_active'] = 'hair-stylist';
+                $data['submenu_active'] = 'hairstylist-autoresponse-'.$subject;
+                $test['result'] = [];
+                break;
+            case 'approve-candidate-hair-stylist':
+                $data['active_response'] = ['email'];
+                $data['menu_active'] = 'hair-stylist';
+                $data['submenu_active'] = 'hairstylist-autoresponse-'.$subject;
+                $test['result'] = [];
+                break;
 		}
 
         $data['click_inbox'] = [
