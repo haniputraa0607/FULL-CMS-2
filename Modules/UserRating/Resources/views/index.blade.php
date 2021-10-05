@@ -166,6 +166,7 @@
                         <th> Receipt Number </th>
                         <th> User </th>
                         <th> Grand Total </th>
+                        <th> Target </th>
                         <th> Star </th>
                         <th> Selected Options </th>
                         <th> Action </th>
@@ -179,8 +180,9 @@
                 		<td><a href="{{url('transaction/detail'.'/'.$rating['transaction']['id_transaction'].'/'.strtolower($rating['transaction']['trasaction_type']))}}">{{$rating['transaction']['transaction_receipt_number']}}</a></td>
                 		<td><a href="{{url('user/detail'.'/'.$rating['user']['phone'])}}">{{$rating['user']['name']}}</a></td>
                 		<td>Rp {{number_format($rating['transaction']['transaction_grandtotal'],0,',','.')}}</td>
-                		<td>{{$rating['rating_value']}}</td>
-                        <td>{{$rating['option_value']}}</td>
+                		<td>{{ $rating['id_user_hair_stylist'] ? 'Hairstylist' : 'Outlet' }}</td>
+                		<td>{{ $rating['rating_value'] }}</td>
+                        <td>{{ $rating['option_value'] }}</td>
                 		<td><a href="{{url('user-rating/detail/'.$rating['id_user_rating'])}}" class="btn blue">Detail</a></td>
                 	</tr>
                 	@endforeach

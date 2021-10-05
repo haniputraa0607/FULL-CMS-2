@@ -1,12 +1,12 @@
 @extends('layouts.main')
 
 @section('page-style')
-<link href="{{ env('S3_URL_VIEW') }}{{('assets/datemultiselect/jquery-ui.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ env('S3_URL_VIEW') }}{{('assets/datemultiselect/jquery-ui.multidatespicker.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ env('S3_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ env('S3_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2-bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ env('S3_URL_VIEW') }}{{('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{ env('S3_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css" /> 
+<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/datemultiselect/jquery-ui.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/datemultiselect/jquery-ui.multidatespicker.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2-bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css" /> 
 <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
 <style>
 	table.table-feedback td{
@@ -21,8 +21,8 @@
 <script src="https://www.amcharts.com/lib/3/serial.js"></script>
 <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
 <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
-<script src="{{ env('S3_URL_VIEW') }}{{('assets/global/plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
-<script src="{{ env('S3_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script>
+<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
+<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script>
 <script>
 	$(document).ready(function(){		
 		$("#start_date").datetimepicker({
@@ -71,12 +71,12 @@
 
 @include('layouts.notifications')
 <div class="form-group">	
-	<a href="{{url('user-rating/report')}}" class="btn blue"><i class="fa fa-chevron-left"></i> Show Summary</a>
+	<a href="{{ $redirect_url }}" class="btn blue"><i class="fa fa-chevron-left"></i> Show Summary</a>
 </div>
 <div class="portlet light bordered">
 	<div class="portlet-title">
 		<div class="caption">
-			<span class="caption-subject font-dark sbold uppercase font-blue">Report Rating</span>
+			<span class="caption-subject font-dark sbold uppercase font-blue">{{ $sub_title }}</span>
 		</div>
 		<div class="actions">
             <div class="form-group">
@@ -90,13 +90,13 @@
 	</div>
 	<div class="portlet-body">
 		<div class="hidden">
-			<form action="{{url('user-rating/report')}}" method="POST">
+			<form action="{{ $redirect_url }}" method="POST">
 				@csrf
 				<input type="text" id="dumpInput">
 				<input type="submit" id="dumpSubmit">
 			</form>
 		</div>
-		<form action="{{url('user-rating/report')}}" class="form-horizontal" method="POST">
+		<form action="{{ $redirect_url }}" class="form-horizontal" method="POST">
 			@csrf
 			<div class="row">
 				<label class="col-md-2 control-label">Date Start</label>
@@ -173,7 +173,7 @@
 						<td class="text-center">{{$outlet['rating3']}}</td>
 						<td class="text-center">{{$outlet['rating4']}}</td>
 						<td class="text-center">{{$outlet['rating5']}}</td>
-						<td><a class="btn green" href="{{url('user-rating/report/outlet/'.$outlet['outlet_code'])}}">Detail</a></td>
+						<td><a class="btn green" href="{{ $redirect_url.'/outlet/'.$outlet['outlet_code'] }}">Detail</a></td>
 					</tr>
 					@endforeach
 					@else

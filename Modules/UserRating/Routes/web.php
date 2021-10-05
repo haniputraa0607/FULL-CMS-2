@@ -29,4 +29,12 @@ Route::prefix('user-rating')->middleware(['web', 'validate_session'])->group(fun
 	    Route::get('outlet/{outlet_code}', 'UserRatingController@reportOutletDetail');
 	    Route::get('rating/{rating}', 'UserRatingController@reportRatingDetail');
 	});
+
+	Route::group(['prefix'=>'report/hairstylist'],function(){
+	    Route::get('/', 'UserRatingController@reportHairstylist');
+	    Route::post('/', 'UserRatingController@setReportFilterHairstylist');
+	    Route::get('outlet', 'UserRatingController@reportOutletHairstylist');
+	    Route::get('outlet/{outlet_code}', 'UserRatingController@reportOutletDetailHairstylist');
+	    Route::get('rating/{rating}', 'UserRatingController@reportRatingDetailHairstylist');
+	});
 });
