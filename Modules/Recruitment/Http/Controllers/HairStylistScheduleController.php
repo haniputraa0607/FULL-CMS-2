@@ -64,6 +64,7 @@ class HairStylistScheduleController extends Controller
 
         $data['months'] = $month;
 
+        $data['years'] = MyHelper::get('recruitment/hairstylist/be/schedule/year-list')['result'] ?? [];
         $data['outlets'] = MyHelper::get('outlet/be/list?log_save=0')['result'] ?? [];
 
         return view('recruitment::hair_stylist.schedule.list', $data);
