@@ -132,7 +132,12 @@
 				<div class="col-md-3">
 					<div class="form-group">
 						<select name="order" class="form-control">
-							<option value="outlet_name" @if($order == 'outlet_name') selected @endif>Name</option>
+							@if ($rating_target == 'hairstylist')
+								<option value="fullname" @if($order == 'fullname') selected @endif>Name</option>
+							@else
+								<option value="outlet_name" @if($order == 'outlet_name') selected @endif>Name</option>
+							@endif
+
 							@for($i = 5; $i>0;$i--)
 							<option value="rating{{$i}}" @if($order == 'rating'.$i) selected @endif>Total {{$i}} Star</option>
 							@endfor
@@ -142,7 +147,10 @@
 				<div class="col-md-2 control-label">Search</div>
 				<div class="col-md-3">
 					<div class="form-group">
-						<input type="text" name="search" placeholder="Search Outlet" class="form-control" value="{{$search}}">
+						@php
+							$placeholder = ($rating_target == 'hairstylist') ? 'Search Name' : 'Search Outlet';
+						@endphp
+						<input type="text" name="search" placeholder="{{ $placeholder }}" class="form-control" value="{{$search}}">
 					</div>
 				</div>
 			</div>
@@ -151,7 +159,7 @@
 			<table class="table table-striped table-bordered table-hover table-feedback">
 				<thead>
 					<tr>
-						<th rowspan="2" class="text-center" style="vertical-align: middle;"> Outlet Name </th>
+						<th rowspan="2" class="text-center" style="vertical-align: middle;"> {{ ucfirst($rating_target) }} Name </th>
 						<th colspan="5" class="text-center"> Total Rating </th>
 						<th rowspan="2" class="text-center" style="vertical-align: middle;"> Action </th>
 					</tr>
@@ -164,16 +172,26 @@
 					</tr>
 				</thead>
 				<tbody>
-					@if($outlet_data)
-					@foreach($outlet_data['data']??[] as $outlet)
+					@if($rating_data)
+					@foreach($rating_data['data'] ?? [] as $rating)
 					<tr>
-						<td>{{$outlet['outlet_code'].' - '.$outlet['outlet_name']}}</td>
-						<td class="text-center">{{$outlet['rating1']}}</td>
-						<td class="text-center">{{$outlet['rating2']}}</td>
-						<td class="text-center">{{$outlet['rating3']}}</td>
-						<td class="text-center">{{$outlet['rating4']}}</td>
-						<td class="text-center">{{$outlet['rating5']}}</td>
-						<td><a class="btn green" href="{{ $redirect_url.'/outlet/'.$outlet['outlet_code'] }}">Detail</a></td>
+						@if ($rating_target == 'hairstylist')
+							<td>{{ $rating['fullname'].' ('.$rating['nickname'].')' }}</td>
+							<td class="text-center">{{ $rating['rating1'] }}</td>
+							<td class="text-center">{{ $rating['rating2'] }}</td>
+							<td class="text-center">{{ $rating['rating3'] }}</td>
+							<td class="text-center">{{ $rating['rating4'] }}</td>
+							<td class="text-center">{{ $rating['rating5'] }}</td>
+							<td><a class="btn green" href="{{ $redirect_url.'/detail/'.$rating['id_user_hair_stylist'] }}">Detail</a></td>
+						@else
+							<td>{{ $rating['outlet_code'].' - '.$rating['outlet_name'] }}</td>
+							<td class="text-center">{{ $rating['rating1'] }}</td>
+							<td class="text-center">{{ $rating['rating2'] }}</td>
+							<td class="text-center">{{ $rating['rating3'] }}</td>
+							<td class="text-center">{{ $rating['rating4'] }}</td>
+							<td class="text-center">{{ $rating['rating5'] }}</td>
+							<td><a class="btn green" href="{{ $redirect_url.'/detail/'.$rating['outlet_code'] }}">Detail</a></td>
+						@endif
 					</tr>
 					@endforeach
 					@else

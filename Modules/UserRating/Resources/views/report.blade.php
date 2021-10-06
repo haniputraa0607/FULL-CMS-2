@@ -401,7 +401,7 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<a href="{{ $redirect_url.'/outlet' }}" class="btn blue">Show Feedback by Outlet</a>
+			<a href="{{ $redirect_url.'/detail' }}" class="btn blue">Show Feedback by {{ ucfirst($rating_target) }}</a>
 		</div>
 		<div class="tabbable-line tab-custom">
 			<ul class="nav nav-tabs ">
@@ -471,6 +471,8 @@
 										<input type="hidden" name="rule[4][subject]" value="review_date">
 										<input type="hidden" name="rule[4][operator]" value="<=">
 										<input type="hidden" name="rule[4][parameter]" value="{{date('Y-m-d',strtotime($date_end))}}">
+										<input type="hidden" name="rule[5][subject]" value="rating_target">
+										<input type="hidden" name="rule[5][parameter]" value="{{ $rating_target }}">
 										<input type="hidden" name="operator" value="and">
 										<input type="hidden" name="redirect" value="user-rating">
 										<button class="btn btn-block"> Show all </button>

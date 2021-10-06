@@ -159,7 +159,7 @@ class UserRatingController extends Controller
         }
         $outletOk = [];
         $colorRand = ['#FF6600','#FCD202','#FF6600','#FCD202','#DADADA','#3598dc','#2C3E50','#1BBC9B','#94A0B2','#1BA39C','#e7505a','#D91E18'];
-        foreach ($data['reportData']['outlet_data'] as $value) {
+        foreach ($data['reportData']['rating_data'] as $value) {
             if(!$colorRand){
                 $colorRand = ['#FF6600','#FCD202','#FF6600','#FCD202','#DADADA','#3598dc','#2C3E50','#1BBC9B','#94A0B2','#1BA39C','#e7505a','#D91E18'];
             }
@@ -174,8 +174,8 @@ class UserRatingController extends Controller
         $data['date_start'] = date('d F Y',strtotime($date_start));
         $data['date_end'] = date('d F Y',strtotime($date_end));
         $data['reportData']['rating_item'] = $ratingOk;
-        $data['reportData']['outlet_data'] = $outletOk;
-        $data['redirect_url'] = url('user-rating/report');
+        $data['reportData']['rating_data'] = $outletOk;
+        $data['redirect_url'] = url('user-rating/report/outlet');
         $data['rating_target'] = 'outlet';
         return view('userrating::report',$data+$post);
     }
@@ -231,12 +231,12 @@ class UserRatingController extends Controller
         $post['page'] = $page;
         $post['transaction_type'] = session('rating_transaction_type', 'all');
         // return $post;
-        $data['outlet_data'] = MyHelper::post('user-rating/report/outlet',$post)['result']??[];
-        $data['next_page'] = $data['outlet_data']['next_page_url']?url()->current().'?page='.($page+1):'';
-        $data['prev_page'] = $data['outlet_data']['prev_page_url']?url()->current().'?page='.($page-1):'';
+        $data['rating_data'] = MyHelper::post('user-rating/report/outlet',$post)['result']??[];
+        $data['next_page'] = $data['rating_data']['next_page_url']?url()->current().'?page='.($page+1):'';
+        $data['prev_page'] = $data['rating_data']['prev_page_url']?url()->current().'?page='.($page-1):'';
         $data['date_start'] = date('d F Y',strtotime($date_start));
         $data['date_end'] = date('d F Y',strtotime($date_end));
-        $data['redirect_url'] = url('user-rating/report');
+        $data['redirect_url'] = url('user-rating/report/outlet');
         $data['rating_target'] = 'outlet';
         return view('userrating::report_outlet',$data+$post);
     }
@@ -268,7 +268,7 @@ class UserRatingController extends Controller
         $colorRand = ['#FF6600','#FCD202','#FF6600','#FCD202','#DADADA','#3598dc','#2C3E50','#1BBC9B','#94A0B2','#1BA39C','#e7505a','#D91E18'];
         $data['date_start'] = date('d F Y',strtotime($date_start));
         $data['date_end'] = date('d F Y',strtotime($date_end));
-        $data['redirect_url'] = url('user-rating/report');
+        $data['redirect_url'] = url('user-rating/report/outlet');
         $data['rating_target'] = 'outlet';
         return view('userrating::report_outlet_detail',$data+$post);
     }
@@ -377,7 +377,7 @@ class UserRatingController extends Controller
         }
         $outletOk = [];
         $colorRand = ['#FF6600','#FCD202','#FF6600','#FCD202','#DADADA','#3598dc','#2C3E50','#1BBC9B','#94A0B2','#1BA39C','#e7505a','#D91E18'];
-        foreach ($data['reportData']['outlet_data'] as $value) {
+        foreach ($data['reportData']['rating_data'] as $value) {
             if(!$colorRand){
                 $colorRand = ['#FF6600','#FCD202','#FF6600','#FCD202','#DADADA','#3598dc','#2C3E50','#1BBC9B','#94A0B2','#1BA39C','#e7505a','#D91E18'];
             }
@@ -392,9 +392,8 @@ class UserRatingController extends Controller
         $data['date_start'] = date('d F Y',strtotime($date_start));
         $data['date_end'] = date('d F Y',strtotime($date_end));
         $data['reportData']['rating_item'] = $ratingOk;
-        $data['reportData']['outlet_data'] = $outletOk;
+        $data['reportData']['rating_data'] = $outletOk;
         $data['redirect_url'] = url('user-rating/report/hairstylist');
-        $data['rating_target'] = 'hairstylist';
         return view('userrating::report',$data+$post);
     }
 
@@ -430,7 +429,7 @@ class UserRatingController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function reportOutletHairstylist(Request $request)
+    public function reportListHairstylist(Request $request)
     {
         $data = [
             'title'          => 'User Rating',
@@ -445,26 +444,24 @@ class UserRatingController extends Controller
         $page = $request->get('page')?:1;
         $post['date_start'] = $date_start;
         $post['date_end'] = $date_end;
-        $post['order'] = session('rating_hs_order','outlet_name');
+        $post['order'] = session('rating_hs_order','fullname');
         $post['search'] = session('rating_hs_search');
         $post['page'] = $page;
         $post['transaction_type'] = session('rating_hs_transaction_type', 'all');
         $post['rating_target'] = 'hairstylist';
-        // return $post;
-        $data['outlet_data'] = MyHelper::post('user-rating/report/outlet',$post)['result']??[];
-        $data['next_page'] = $data['outlet_data']['next_page_url']?url()->current().'?page='.($page+1):'';
-        $data['prev_page'] = $data['outlet_data']['prev_page_url']?url()->current().'?page='.($page-1):'';
+        $data['rating_data'] = MyHelper::post('user-rating/report/hairstylist',$post)['result'] ?? [];
+        $data['next_page'] = $data['rating_data']['next_page_url']?url()->current().'?page='.($page+1):'';
+        $data['prev_page'] = $data['rating_data']['prev_page_url']?url()->current().'?page='.($page-1):'';
         $data['date_start'] = date('d F Y',strtotime($date_start));
         $data['date_end'] = date('d F Y',strtotime($date_end));
         $data['redirect_url'] = url('user-rating/report/hairstylist');
-        $data['rating_target'] = 'hairstylist';
         return view('userrating::report_outlet',$data+$post);
     }
     /**
      * Display a listing of the resource.
      * @return Response
      */
-    public function reportOutletDetailHairstylist(Request $request,$outlet_code)
+    public function reportDetailHairstylist(Request $request, $id_user_hair_stylist)
     {
         $data = [
             'title'          => 'User Rating',
@@ -479,10 +476,10 @@ class UserRatingController extends Controller
         $post['notes_only'] = session('rating_hs_notes_only',0);
         $post['date_start'] = $date_start;
         $post['date_end'] = $date_end;
-        $post['outlet_code'] = $outlet_code;
+        $post['id_user_hair_stylist'] = $id_user_hair_stylist;
         $post['transaction_type'] = session('rating_hs_transaction_type', 'all');
         $post['rating_target'] = 'hairstylist';
-        $data['reportData'] = MyHelper::post('user-rating/report/outlet',$post)['result']??[];
+        $data['reportData'] = MyHelper::post('user-rating/report/hairstylist',$post)['result'] ?? [];
         if(!$data['reportData']){
             return back()->withErrors(['Rating data not found']);
         }
@@ -490,7 +487,6 @@ class UserRatingController extends Controller
         $data['date_start'] = date('d F Y',strtotime($date_start));
         $data['date_end'] = date('d F Y',strtotime($date_end));
         $data['redirect_url'] = url('user-rating/report/hairstylist');
-        $data['rating_target'] = 'hairstylist';
         return view('userrating::report_outlet_detail',$data+$post);
     }
 }

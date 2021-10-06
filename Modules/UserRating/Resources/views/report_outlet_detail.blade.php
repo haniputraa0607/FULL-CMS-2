@@ -100,27 +100,27 @@
 		"dataProvider": [
 		{
 			"name":"5 Star",
-			"total":{{$reportData['outlet_data']['rating5']}},
+			"total":{{$reportData['rating_data']['rating5']}},
 			"color":"#32c5d2"
 		},
 		{
 			"name":"4 Star",
-			"total":{{$reportData['outlet_data']['rating4']}},
+			"total":{{$reportData['rating_data']['rating4']}},
 			"color":"#36D7B7"
 		},
 		{
 			"name":"3 Star",
-			"total":{{$reportData['outlet_data']['rating3']}},
+			"total":{{$reportData['rating_data']['rating3']}},
 			"color":"#F7CA18"
 		},
 		{
 			"name":"2 Star",
-			"total":{{$reportData['outlet_data']['rating2']}},
+			"total":{{$reportData['rating_data']['rating2']}},
 			"color":"#EF4836"
 		},
 		{
 			"name":"1 Star",
-			"total":{{$reportData['outlet_data']['rating1']}},
+			"total":{{$reportData['rating_data']['rating1']}},
 			"color":"#D91E18"
 		}
 		],
@@ -171,13 +171,13 @@
 
 @include('layouts.notifications')
 <div class="form-group">
-	<a href="{{ $redirect_url.'/outlet' }}" class="btn blue"><i class="fa fa-chevron-left"></i> Show All Outlet</a>
+	<a href="{{ $redirect_url.'/detail' }}" class="btn blue"><i class="fa fa-chevron-left"></i> Show All {{ ucfirst($rating_target) }}</a>
 	<a href="{{ $redirect_url }}" class="btn blue"><i class="fa fa-circle-o"></i> Show Summary</a>
 </div>
 <div class="portlet light bordered">
 	<div class="portlet-title">
 		<div class="caption">
-			<span class="caption-subject font-dark sbold uppercase font-blue">{{ $sub_title }} {{$reportData['outlet_data']['outlet_name']}}</span>
+			<span class="caption-subject font-dark sbold uppercase font-blue">{{ $sub_title }} {{ $reportData['rating_data']['fullname'] ?? $reportData['rating_data']['outlet_name'] }}</span>
 		</div>
 		<div class="actions">
             <div class="form-group">
@@ -246,7 +246,7 @@
 					</div>
 					<div class="details">
 						<div class="number">
-							<span data-counter="counterup" data-value="0">{{array_sum([$reportData['outlet_data']['rating1'],$reportData['outlet_data']['rating2'],$reportData['outlet_data']['rating3'],$reportData['outlet_data']['rating4'],$reportData['outlet_data']['rating5']])}}</span> 
+							<span data-counter="counterup" data-value="0">{{array_sum([$reportData['rating_data']['rating1'],$reportData['rating_data']['rating2'],$reportData['rating_data']['rating3'],$reportData['rating_data']['rating4'],$reportData['rating_data']['rating5']])}}</span> 
 						</div>
 						<div class="desc">
 							Total User Rating
@@ -261,7 +261,7 @@
 					</div>
 					<div class="details">
 						<div class="number">
-							<span data-counter="counterup" data-value="0">{{$reportData['outlet_data']['rating5']??0}}</span> 
+							<span data-counter="counterup" data-value="0">{{$reportData['rating_data']['rating5']??0}}</span> 
 						</div>
 						<div class="desc">
 							<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> 5
@@ -276,7 +276,7 @@
 					</div>
 					<div class="details">
 						<div class="number">
-							<span data-counter="counterup" data-value="0">{{$reportData['outlet_data']['rating4']??0}}</span> 
+							<span data-counter="counterup" data-value="0">{{$reportData['rating_data']['rating4']??0}}</span> 
 						</div>
 						<div class="desc">
 							<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> 4
@@ -293,7 +293,7 @@
 					</div>
 					<div class="details">
 						<div class="number">
-							<span data-counter="counterup" data-value="0">{{$reportData['outlet_data']['rating3']??0}}</span> 
+							<span data-counter="counterup" data-value="0">{{$reportData['rating_data']['rating3']??0}}</span> 
 						</div>
 						<div class="desc">
 							<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> 3
@@ -308,7 +308,7 @@
 					</div>
 					<div class="details">
 						<div class="number">
-							<span data-counter="counterup" data-value="0">{{$reportData['outlet_data']['rating2']??0}}</span> 
+							<span data-counter="counterup" data-value="0">{{$reportData['rating_data']['rating2']??0}}</span> 
 						</div>
 						<div class="desc">
 							<i class="fa fa-star"></i> <i class="fa fa-star"></i> 2
@@ -323,7 +323,7 @@
 					</div>
 					<div class="details">
 						<div class="number">
-							<span data-counter="counterup" data-value="0">{{$reportData['outlet_data']['rating1']??0}}</span> 
+							<span data-counter="counterup" data-value="0">{{$reportData['rating_data']['rating1']??0}}</span> 
 						</div>
 						<div class="desc">
 							<i class="fa fa-star"></i> 1
@@ -429,8 +429,15 @@
 										<input type="hidden" name="rule[4][subject]" value="review_date">
 										<input type="hidden" name="rule[4][operator]" value="<=">
 										<input type="hidden" name="rule[4][parameter]" value="{{date('Y-m-d',strtotime($date_end))}}">
-										<input type="hidden" name="rule[5][subject]" value="outlet">
-										<input type="hidden" name="rule[5][operator]" value="{{$reportData['outlet_data']['id_outlet']}}">
+										<input type="hidden" name="rule[5][subject]" value="rating_target">
+										<input type="hidden" name="rule[5][parameter]" value="{{ $rating_target }}">
+										@if ($rating_target == 'hairstylist')
+											<input type="hidden" name="rule[5][subject]" value="hairstylist">
+											<input type="hidden" name="rule[5][operator]" value="{{$reportData['rating_data']['id_user_hair_stylist']}}">
+										@else
+											<input type="hidden" name="rule[5][subject]" value="outlet">
+											<input type="hidden" name="rule[5][operator]" value="{{$reportData['rating_data']['id_outlet']}}">
+										@endif
 										<input type="hidden" name="operator" value="and">
 										<input type="hidden" name="redirect" value="user-rating">
 										<button class="btn btn-block"> Show all </button>
