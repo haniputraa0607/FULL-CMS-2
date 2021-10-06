@@ -116,6 +116,22 @@
             operator:[],
             opsi:{!!json_encode($outlets)!!}
         },
+        hairstylist_phone:{
+            display:'Hairstylist Phone',
+            operator:[
+                ['=','='],
+                ['like','like']
+            ],
+            opsi:[]
+        },
+        rating_target:{
+            display:'Rating Target',
+            operator:[],
+            opsi:[
+                ['outlet','Outlet'],
+                ['hairstylist','Hairstylist']
+            ]
+        },
     };
 	$(document).ready(function(){
 		$('#outlet_selector').on('change',function(){

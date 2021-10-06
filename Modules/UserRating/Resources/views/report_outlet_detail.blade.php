@@ -432,11 +432,12 @@
 										<input type="hidden" name="rule[5][subject]" value="rating_target">
 										<input type="hidden" name="rule[5][parameter]" value="{{ $rating_target }}">
 										@if ($rating_target == 'hairstylist')
-											<input type="hidden" name="rule[5][subject]" value="hairstylist">
-											<input type="hidden" name="rule[5][operator]" value="{{$reportData['rating_data']['id_user_hair_stylist']}}">
+											<input type="hidden" name="rule[6][subject]" value="hairstylist_phone">
+											<input type="hidden" name="rule[6][operator]" value="=">
+											<input type="hidden" name="rule[6][parameter]" value="{{$reportData['rating_data']['phone_number']}}">
 										@else
-											<input type="hidden" name="rule[5][subject]" value="outlet">
-											<input type="hidden" name="rule[5][operator]" value="{{$reportData['rating_data']['id_outlet']}}">
+											<input type="hidden" name="rule[6][subject]" value="outlet">
+											<input type="hidden" name="rule[6][operator]" value="{{$reportData['rating_data']['id_outlet']}}">
 										@endif
 										<input type="hidden" name="operator" value="and">
 										<input type="hidden" name="redirect" value="user-rating">
