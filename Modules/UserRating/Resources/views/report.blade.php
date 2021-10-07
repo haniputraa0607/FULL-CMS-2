@@ -209,7 +209,7 @@
 <div class="portlet light bordered">
 	<div class="portlet-title">
 		<div class="caption">
-			<span class="caption-subject font-dark sbold uppercase font-blue">Report Feedback</span>
+			<span class="caption-subject font-dark sbold uppercase font-blue">{{ $sub_title }}</span>
 		</div>
 		<div class="actions">
             <div class="form-group">
@@ -401,7 +401,7 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<a href="{{url('user-rating/report/outlet')}}" class="btn blue">Show Feedback by Outlet</a>
+			<a href="{{ $redirect_url.'/detail' }}" class="btn blue">Show Feedback by {{ ucfirst($rating_target) }}</a>
 		</div>
 		<div class="tabbable-line tab-custom">
 			<ul class="nav nav-tabs ">
@@ -429,6 +429,9 @@
 							<tr>
 								<th> Create Feedback Date </th>
 								<th> Receipt Number </th>
+								@if ($rating_target == 'hairstylist')
+									<th> Hair Stylist </th>
+								@endif
 								<th> User </th>
 								<th> Grand Total </th>
 								<th> Action </th>
@@ -440,6 +443,9 @@
 							<tr>
 								<td>{{date('d M Y',strtotime($feedback['created_at']))}}</td>
 								<td><a href="{{url('transaction/detail'.'/'.$feedback['transaction']['id_transaction'].'/'.strtolower($feedback['transaction']['trasaction_type']))}}">{{$feedback['transaction']['transaction_receipt_number']}}</a></td>
+								@if ($rating_target == 'hairstylist')
+									<td><a href="{{ url('recruitment/hair-stylist/detail'.'/'.$feedback['user_hair_stylist']['id_user_hair_stylist']) }}">{{ $feedback['user_hair_stylist']['fullname'] }}</a></td>
+								@endif
 								<td><a href="{{url('user/detail'.'/'.$feedback['user']['phone'])}}">{{$feedback['user']['name']}}</a></td>
 								<td>Rp {{number_format($feedback['transaction']['transaction_grandtotal'],0,',','.')}}</td>
 								<td><a href="{{url('user-rating/detail/'.$feedback['id_user_rating'])}}" class="btn blue">Detail</a></td>
@@ -465,6 +471,8 @@
 										<input type="hidden" name="rule[4][subject]" value="review_date">
 										<input type="hidden" name="rule[4][operator]" value="<=">
 										<input type="hidden" name="rule[4][parameter]" value="{{date('Y-m-d',strtotime($date_end))}}">
+										<input type="hidden" name="rule[5][subject]" value="rating_target">
+										<input type="hidden" name="rule[5][parameter]" value="{{ $rating_target }}">
 										<input type="hidden" name="operator" value="and">
 										<input type="hidden" name="redirect" value="user-rating">
 										<button class="btn btn-block"> Show all </button>

@@ -1,12 +1,12 @@
 @extends('layouts.main')
 
 @section('page-style')
-<link href="{{ env('S3_URL_VIEW') }}{{('assets/datemultiselect/jquery-ui.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ env('S3_URL_VIEW') }}{{('assets/datemultiselect/jquery-ui.multidatespicker.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ env('S3_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ env('S3_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2-bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ env('S3_URL_VIEW') }}{{('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{ env('S3_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css" /> 
+<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/datemultiselect/jquery-ui.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/datemultiselect/jquery-ui.multidatespicker.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2-bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css" /> 
 <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
 <style>
 	table.table-feedback td{
@@ -21,8 +21,8 @@
 <script src="https://www.amcharts.com/lib/3/serial.js"></script>
 <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
 <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
-<script src="{{ env('S3_URL_VIEW') }}{{('assets/global/plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
-<script src="{{ env('S3_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script>
+<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
+<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script>
 <script>
 	$(document).ready(function(){		
 		$("#start_date").datetimepicker({
@@ -71,12 +71,12 @@
 
 @include('layouts.notifications')
 <div class="form-group">	
-	<a href="{{url('user-rating/report')}}" class="btn blue"><i class="fa fa-chevron-left"></i> Show Summary</a>
+	<a href="{{ $redirect_url }}" class="btn blue"><i class="fa fa-chevron-left"></i> Show Summary</a>
 </div>
 <div class="portlet light bordered">
 	<div class="portlet-title">
 		<div class="caption">
-			<span class="caption-subject font-dark sbold uppercase font-blue">Report Rating</span>
+			<span class="caption-subject font-dark sbold uppercase font-blue">{{ $sub_title }}</span>
 		</div>
 		<div class="actions">
             <div class="form-group">
@@ -90,13 +90,13 @@
 	</div>
 	<div class="portlet-body">
 		<div class="hidden">
-			<form action="{{url('user-rating/report')}}" method="POST">
+			<form action="{{ $redirect_url }}" method="POST">
 				@csrf
 				<input type="text" id="dumpInput">
 				<input type="submit" id="dumpSubmit">
 			</form>
 		</div>
-		<form action="{{url('user-rating/report')}}" class="form-horizontal" method="POST">
+		<form action="{{ $redirect_url }}" class="form-horizontal" method="POST">
 			@csrf
 			<div class="row">
 				<label class="col-md-2 control-label">Date Start</label>
@@ -132,7 +132,12 @@
 				<div class="col-md-3">
 					<div class="form-group">
 						<select name="order" class="form-control">
-							<option value="outlet_name" @if($order == 'outlet_name') selected @endif>Name</option>
+							@if ($rating_target == 'hairstylist')
+								<option value="fullname" @if($order == 'fullname') selected @endif>Name</option>
+							@else
+								<option value="outlet_name" @if($order == 'outlet_name') selected @endif>Name</option>
+							@endif
+
 							@for($i = 5; $i>0;$i--)
 							<option value="rating{{$i}}" @if($order == 'rating'.$i) selected @endif>Total {{$i}} Star</option>
 							@endfor
@@ -142,7 +147,10 @@
 				<div class="col-md-2 control-label">Search</div>
 				<div class="col-md-3">
 					<div class="form-group">
-						<input type="text" name="search" placeholder="Search Outlet" class="form-control" value="{{$search}}">
+						@php
+							$placeholder = ($rating_target == 'hairstylist') ? 'Search Name' : 'Search Outlet';
+						@endphp
+						<input type="text" name="search" placeholder="{{ $placeholder }}" class="form-control" value="{{$search}}">
 					</div>
 				</div>
 			</div>
@@ -151,7 +159,7 @@
 			<table class="table table-striped table-bordered table-hover table-feedback">
 				<thead>
 					<tr>
-						<th rowspan="2" class="text-center" style="vertical-align: middle;"> Outlet Name </th>
+						<th rowspan="2" class="text-center" style="vertical-align: middle;"> {{ ucfirst($rating_target) }} Name </th>
 						<th colspan="5" class="text-center"> Total Rating </th>
 						<th rowspan="2" class="text-center" style="vertical-align: middle;"> Action </th>
 					</tr>
@@ -164,16 +172,26 @@
 					</tr>
 				</thead>
 				<tbody>
-					@if($outlet_data)
-					@foreach($outlet_data['data']??[] as $outlet)
+					@if($rating_data)
+					@foreach($rating_data['data'] ?? [] as $rating)
 					<tr>
-						<td>{{$outlet['outlet_code'].' - '.$outlet['outlet_name']}}</td>
-						<td class="text-center">{{$outlet['rating1']}}</td>
-						<td class="text-center">{{$outlet['rating2']}}</td>
-						<td class="text-center">{{$outlet['rating3']}}</td>
-						<td class="text-center">{{$outlet['rating4']}}</td>
-						<td class="text-center">{{$outlet['rating5']}}</td>
-						<td><a class="btn green" href="{{url('user-rating/report/outlet/'.$outlet['outlet_code'])}}">Detail</a></td>
+						@if ($rating_target == 'hairstylist')
+							<td>{{ $rating['fullname'].' ('.$rating['nickname'].')' }}</td>
+							<td class="text-center">{{ $rating['rating1'] }}</td>
+							<td class="text-center">{{ $rating['rating2'] }}</td>
+							<td class="text-center">{{ $rating['rating3'] }}</td>
+							<td class="text-center">{{ $rating['rating4'] }}</td>
+							<td class="text-center">{{ $rating['rating5'] }}</td>
+							<td><a class="btn green" href="{{ $redirect_url.'/detail/'.$rating['id_user_hair_stylist'] }}">Detail</a></td>
+						@else
+							<td>{{ $rating['outlet_code'].' - '.$rating['outlet_name'] }}</td>
+							<td class="text-center">{{ $rating['rating1'] }}</td>
+							<td class="text-center">{{ $rating['rating2'] }}</td>
+							<td class="text-center">{{ $rating['rating3'] }}</td>
+							<td class="text-center">{{ $rating['rating4'] }}</td>
+							<td class="text-center">{{ $rating['rating5'] }}</td>
+							<td><a class="btn green" href="{{ $redirect_url.'/detail/'.$rating['outlet_code'] }}">Detail</a></td>
+						@endif
 					</tr>
 					@endforeach
 					@else

@@ -1,12 +1,12 @@
 @extends('layouts.main')
 
 @section('page-style')
-<link href="{{ env('S3_URL_VIEW') }}{{('assets/datemultiselect/jquery-ui.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ env('S3_URL_VIEW') }}{{('assets/datemultiselect/jquery-ui.multidatespicker.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ env('S3_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ env('S3_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2-bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ env('S3_URL_VIEW') }}{{('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{ env('S3_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css" /> 
+<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/datemultiselect/jquery-ui.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/datemultiselect/jquery-ui.multidatespicker.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2-bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css" /> 
 <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
 <style>
 	.tab-custom{
@@ -59,8 +59,8 @@
 <script src="https://www.amcharts.com/lib/3/serial.js"></script>
 <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
 <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
-<script src="{{ env('S3_URL_VIEW') }}{{('assets/global/plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
-<script src="{{ env('S3_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script>
+<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
+<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script>
 <script>
 	$(document).ready(function(){		
 		$("#start_date").datetimepicker({
@@ -100,27 +100,27 @@
 		"dataProvider": [
 		{
 			"name":"5 Star",
-			"total":{{$reportData['outlet_data']['rating5']}},
+			"total":{{$reportData['rating_data']['rating5']}},
 			"color":"#32c5d2"
 		},
 		{
 			"name":"4 Star",
-			"total":{{$reportData['outlet_data']['rating4']}},
+			"total":{{$reportData['rating_data']['rating4']}},
 			"color":"#36D7B7"
 		},
 		{
 			"name":"3 Star",
-			"total":{{$reportData['outlet_data']['rating3']}},
+			"total":{{$reportData['rating_data']['rating3']}},
 			"color":"#F7CA18"
 		},
 		{
 			"name":"2 Star",
-			"total":{{$reportData['outlet_data']['rating2']}},
+			"total":{{$reportData['rating_data']['rating2']}},
 			"color":"#EF4836"
 		},
 		{
 			"name":"1 Star",
-			"total":{{$reportData['outlet_data']['rating1']}},
+			"total":{{$reportData['rating_data']['rating1']}},
 			"color":"#D91E18"
 		}
 		],
@@ -171,13 +171,13 @@
 
 @include('layouts.notifications')
 <div class="form-group">
-	<a href="{{url('user-rating/report/outlet')}}" class="btn blue"><i class="fa fa-chevron-left"></i> Show All Outlet</a>
-	<a href="{{url('user-rating/report')}}" class="btn blue"><i class="fa fa-circle-o"></i> Show Summary</a>
+	<a href="{{ $redirect_url.'/detail' }}" class="btn blue"><i class="fa fa-chevron-left"></i> Show All {{ ucfirst($rating_target) }}</a>
+	<a href="{{ $redirect_url }}" class="btn blue"><i class="fa fa-circle-o"></i> Show Summary</a>
 </div>
 <div class="portlet light bordered">
 	<div class="portlet-title">
 		<div class="caption">
-			<span class="caption-subject font-dark sbold uppercase font-blue">Report Feedback Outlet {{$reportData['outlet_data']['outlet_name']}}</span>
+			<span class="caption-subject font-dark sbold uppercase font-blue">{{ $sub_title }} {{ $reportData['rating_data']['fullname'] ?? $reportData['rating_data']['outlet_name'] }}</span>
 		</div>
 		<div class="actions">
             <div class="form-group">
@@ -190,7 +190,7 @@
         </div>
 	</div>
 	<div class="portlet-body">
-		<form action="{{url('user-rating/report')}}" class="form-horizontal" method="POST">
+		<form action="{{ $redirect_url }}" class="form-horizontal" method="POST">
 			@csrf
 			<div class="row">
 				<label class="col-md-2 control-label">Date Start</label>
@@ -246,7 +246,7 @@
 					</div>
 					<div class="details">
 						<div class="number">
-							<span data-counter="counterup" data-value="0">{{array_sum([$reportData['outlet_data']['rating1'],$reportData['outlet_data']['rating2'],$reportData['outlet_data']['rating3'],$reportData['outlet_data']['rating4'],$reportData['outlet_data']['rating5']])}}</span> 
+							<span data-counter="counterup" data-value="0">{{array_sum([$reportData['rating_data']['rating1'],$reportData['rating_data']['rating2'],$reportData['rating_data']['rating3'],$reportData['rating_data']['rating4'],$reportData['rating_data']['rating5']])}}</span> 
 						</div>
 						<div class="desc">
 							Total User Rating
@@ -261,7 +261,7 @@
 					</div>
 					<div class="details">
 						<div class="number">
-							<span data-counter="counterup" data-value="0">{{$reportData['outlet_data']['rating5']??0}}</span> 
+							<span data-counter="counterup" data-value="0">{{$reportData['rating_data']['rating5']??0}}</span> 
 						</div>
 						<div class="desc">
 							<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> 5
@@ -276,7 +276,7 @@
 					</div>
 					<div class="details">
 						<div class="number">
-							<span data-counter="counterup" data-value="0">{{$reportData['outlet_data']['rating4']??0}}</span> 
+							<span data-counter="counterup" data-value="0">{{$reportData['rating_data']['rating4']??0}}</span> 
 						</div>
 						<div class="desc">
 							<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> 4
@@ -293,7 +293,7 @@
 					</div>
 					<div class="details">
 						<div class="number">
-							<span data-counter="counterup" data-value="0">{{$reportData['outlet_data']['rating3']??0}}</span> 
+							<span data-counter="counterup" data-value="0">{{$reportData['rating_data']['rating3']??0}}</span> 
 						</div>
 						<div class="desc">
 							<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> 3
@@ -308,7 +308,7 @@
 					</div>
 					<div class="details">
 						<div class="number">
-							<span data-counter="counterup" data-value="0">{{$reportData['outlet_data']['rating2']??0}}</span> 
+							<span data-counter="counterup" data-value="0">{{$reportData['rating_data']['rating2']??0}}</span> 
 						</div>
 						<div class="desc">
 							<i class="fa fa-star"></i> <i class="fa fa-star"></i> 2
@@ -323,7 +323,7 @@
 					</div>
 					<div class="details">
 						<div class="number">
-							<span data-counter="counterup" data-value="0">{{$reportData['outlet_data']['rating1']??0}}</span> 
+							<span data-counter="counterup" data-value="0">{{$reportData['rating_data']['rating1']??0}}</span> 
 						</div>
 						<div class="desc">
 							<i class="fa fa-star"></i> 1
@@ -354,7 +354,7 @@
 		</div>
 		<div>
 			<div class="hidden">
-				<form action="{{url('user-rating/report')}}" method="POST">
+				<form action="{{ $redirect_url }}" method="POST">
 					@csrf
 					<input type="text" id="dumpInput">
 					<input type="submit" id="dumpSubmit">
@@ -387,6 +387,9 @@
 							<tr>
 								<th> Create Feedback Date </th>
 								<th> Receipt Number </th>
+								@if ($rating_target == 'hairstylist')
+									<th> Hair Stylist </th>
+								@endif
 								<th> User </th>
 								<th> Grand Total </th>
 								<th> Action </th>
@@ -398,6 +401,9 @@
 							<tr>
 								<td>{{date('d M Y',strtotime($feedback['created_at']))}}</td>
 								<td><a href="{{url('transaction/detail'.'/'.$feedback['transaction']['id_transaction'].'/'.strtolower($feedback['transaction']['trasaction_type']))}}">{{$feedback['transaction']['transaction_receipt_number']}}</a></td>
+								@if ($rating_target == 'hairstylist')
+									<td><a href="{{ url('recruitment/hair-stylist/detail'.'/'.$feedback['user_hair_stylist']['id_user_hair_stylist']) }}">{{ $feedback['user_hair_stylist']['fullname'] }}</a></td>
+								@endif
 								<td><a href="{{url('user/detail'.'/'.$feedback['user']['phone'])}}">{{$feedback['user']['name']}}</a></td>
 								<td>Rp {{number_format($feedback['transaction']['transaction_grandtotal'],0,',','.')}}</td>
 								<td><a href="{{url('user-rating/detail/'.$feedback['id_user_rating'])}}" class="btn blue">Detail</a></td>
@@ -423,8 +429,16 @@
 										<input type="hidden" name="rule[4][subject]" value="review_date">
 										<input type="hidden" name="rule[4][operator]" value="<=">
 										<input type="hidden" name="rule[4][parameter]" value="{{date('Y-m-d',strtotime($date_end))}}">
-										<input type="hidden" name="rule[5][subject]" value="outlet">
-										<input type="hidden" name="rule[5][operator]" value="{{$reportData['outlet_data']['id_outlet']}}">
+										<input type="hidden" name="rule[5][subject]" value="rating_target">
+										<input type="hidden" name="rule[5][parameter]" value="{{ $rating_target }}">
+										@if ($rating_target == 'hairstylist')
+											<input type="hidden" name="rule[6][subject]" value="hairstylist_phone">
+											<input type="hidden" name="rule[6][operator]" value="=">
+											<input type="hidden" name="rule[6][parameter]" value="{{$reportData['rating_data']['phone_number']}}">
+										@else
+											<input type="hidden" name="rule[6][subject]" value="outlet">
+											<input type="hidden" name="rule[6][operator]" value="{{$reportData['rating_data']['id_outlet']}}">
+										@endif
 										<input type="hidden" name="operator" value="and">
 										<input type="hidden" name="redirect" value="user-rating">
 										<button class="btn btn-block"> Show all </button>

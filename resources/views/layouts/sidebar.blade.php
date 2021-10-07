@@ -1726,8 +1726,14 @@
 					@endif
 					@if(MyHelper::hasAccess([356], $grantedFeature))
 						<li class="nav-item {{($submenu_active == 'user-rating-report') ? 'active open' : ''}}">
-							<a href="{{url('user-rating/report')}}" class="nav-link ">
-								<span class="title">User Rating Report</span>
+							<a href="{{url('user-rating/report/outlet')}}" class="nav-link ">
+								<span class="title">User Rating Report Outlet</span>
+							</a>
+						</li>
+
+						<li class="nav-item {{($submenu_active == 'user-rating-report-hairstylist') ? 'active open' : ''}}">
+							<a href="{{url('user-rating/report/hairstylist')}}" class="nav-link ">
+								<span class="title">User Rating Report Hairstylist</span>
 							</a>
 						</li>
 					@endif
