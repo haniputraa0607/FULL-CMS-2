@@ -208,6 +208,9 @@ class PartnersController extends Controller
             "email" => $request["email"],
             "address" => $request["address"],
         ];
+        if (isset($request['gender'])){
+            $post['gender'] = $request['gender'];
+        } 
         if (isset($request['ownership_status']) && $status == 'on'){
             $post['ownership_status'] = $request['ownership_status'];
         } 
@@ -446,6 +449,7 @@ class PartnersController extends Controller
         ]);
         if(isset($request["follow_up"]) && $request["follow_up"]=='Follow Up 1'){
             $request->validate([
+                "mall" => "required",
                 "location_large" => "required",
                 "rental_price" => "required",
                 "service_charge" => "required",
@@ -453,6 +457,10 @@ class PartnersController extends Controller
                 "renovation_cost" => "required",
                 "partnership_fee" => "required",
                 "income" => "required",
+                "npwp" => "required",
+                "npwp_name" => "required",
+                "npwp_address" => "required",
+                
             ]);
             $update_data_location = [
                 "id_location" => $request["id_location"],
@@ -467,6 +475,7 @@ class PartnersController extends Controller
                 "renovation_cost" => $request["renovation_cost"],  
                 "partnership_fee" => $request["partnership_fee"],  
                 "income" => $request["income"],   
+                "mall" => $request["mall"],   
             ];
         }
         $post_follow_up = [
@@ -496,6 +505,15 @@ class PartnersController extends Controller
             "status_steps" => $status_steps,
             "status" => 'Candidate'
         ];
+        if (isset($request["npwp"]) && $request["follow_up"]=='Follow Up 1') {
+            $update_partner['npwp'] = $request['npwp'];
+        }
+        if (isset($request["npwp_name"]) && $request["follow_up"]=='Follow Up 1') {
+            $update_partner['npwp_name'] = $request['npwp_name'];
+        }
+        if (isset($request["npwp_address"]) && $request["follow_up"]=='Follow Up 1') {
+            $update_partner['npwp_address'] = $request['npwp_address'];
+        }
         if (isset($request['ownership_status']) && $request['follow_up']=='Follow Up 1'){
             $update_partner['ownership_status'] = $request['ownership_status'];
         } 
@@ -510,6 +528,28 @@ class PartnersController extends Controller
         } 
         if ($request['end_date']!=null && $request['follow_up']=='Follow Up 1'){
             $update_partner['end_date'] = date('Y-m-d', strtotime($request['end_date']));
+        }
+
+        if(isset($request["follow_up"]) && $request["follow_up"]=='Confirmation Letter'){
+            $request->validate([
+                "no_letter" => "required",
+                "location_letter" => "required",
+                "installment" => "required",
+            ]);
+            $data_confir = [
+                "id_partner"  => $request["id_partner"],
+                "no_letter" => $request["no_letter"],
+                "location" => $request["location_letter"],
+            ];
+            $update_data_location = [
+                "id_location" => $request["id_location"],
+                "installment" => $request["installment"],
+            ];
+        }
+        if(isset($request["follow_up"]) && $request["follow_up"]=='Payment'){
+            $update_partner['status'] = 'Active';
+            $update_partner['pin'] = rand(100000,999999);
+            $update_partner['password'] = Hash::make($update_partner["pin"]);
         } 
         $follow_up = MyHelper::post('partners/create-follow-up', $post_follow_up);
         if(isset($follow_up['status']) && $follow_up['status'] == 'success'){
@@ -518,10 +558,21 @@ class PartnersController extends Controller
                 if(isset($update_data_location) && !empty($update_data_location)){
                     $location_update =  MyHelper::post('partners/locations/update', $update_data_location);
                     if (isset($location_update['status']) && $location_update['status'] == 'success') {
+                        if(isset($data_confir) && !empty($data_confir)){
+                            $confirmation =  MyHelper::post('partners/confirmation-letter/create', $data_confir);
+                            if (isset($confirmation['status']) && $confirmation['status'] == 'success') {
+                                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
+                            }else{
+                                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create follow up steps']);
+                            }
+                        }
                         return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
                     }else{
                         return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create follow up steps']);
                     }
+                }
+                if(isset($pdate_partner['status']) && !empty($pdate_partner['status'])){
+                    return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success update candidate partner to partner']); 
                 }
                 return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
             }else{
@@ -540,6 +591,11 @@ class PartnersController extends Controller
         ];
         $partner_step = MyHelper::post('partners/update', $reject_partner);
         return $partner_step;
+    }
+    public function pdf()
+    {
+        $pdf = MyHelper::post('partners/pdf',['id_partner' => '1']);
+        return $pdf;
     }
 
 }

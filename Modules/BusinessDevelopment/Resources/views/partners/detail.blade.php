@@ -360,6 +360,17 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Partner Gender <span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Masukkan kelamin" data-container="body"></i></label>
+                                <div class="col-md-5">
+                                    <select name="gender" class="form-control input-sm select2" placeholder="Select Gender">
+                                        <option value="" selected disabled>Select Gender</option>
+                                        <option value="Man" @if(isset($result['gender'])) @if($result['gender'] == 'Man') selected @endif @endif>Man</option>
+                                        <option value="Woman" @if(isset($result['gender'])) @if($result['gender'] == 'Woman') selected @endif @endif>Woman</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Phone <span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Masukkan phone" data-container="body"></i></label>
                                 <div class="col-md-5">
@@ -732,7 +743,7 @@
                                         <li class="@if($result['status_steps']=='Confirmation Letter') active @endif" <a @if($result['status_steps']=='Calculation' || $result['status_steps']=='Confirmation Letter' || $result['status_steps']=='Payment') @else style="opacity: 0.4 !important" @endif>
                                             <a @if($result['status_steps']=='Calculation' || $result['status_steps']=='Confirmation Letter' || $result['status_steps']=='Payment') data-toggle="tab" @endif href="#confirm"><i class="fa fa-cog"></i> Confirmation Letter </a>
                                         </li>
-                                        <li class="@if($result['status_steps']=='Payment') active @endif" @if($result['status_steps']!='Confirmation Letter' || $result['status_steps']!='Payment') style="opacity: 0.4 !important" @endif>
+                                        <li class="@if($result['status_steps']=='Payment') active @endif" @if($result['status_steps']=='Confirmation Letter' || $result['status_steps']=='Payment') @else style="opacity: 0.4 !important" @endif>
                                             <a @if($result['status_steps']=='Confirmation Letter' || $result['status_steps']=='Payment') data-toggle="tab" @endif href="#payment"><i class="fa fa-cog"></i> Payment </a>
                                         </li>
                                     </ul>
@@ -749,10 +760,10 @@
                                             @include('businessdevelopment::partners.steps.calculation') 
                                         </div>
                                         <div class="tab-pane @if($result['status_steps']=='Confirmation Letter') active @endif" id="confirm">
-                                            <p>Confirmation Letter</p>
+                                            @include('businessdevelopment::partners.steps.confirmation')
                                         </div>
                                         <div class="tab-pane @if($result['status_steps']=='Payment') active @endif" id="payment">
-                                            <p>Payment</p>
+                                            @include('businessdevelopment::partners.steps.payment')
                                         </div>
                                     </div>
                                 </div>

@@ -100,6 +100,27 @@
                                 </div>
                                 @if ($step_follow_up==1)
                                 <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">NPWP <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan npwp" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" type="text" id="npwp" name="npwp" placeholder="Enter npwp here" required/>
+                                    </div>
+                                </div>   
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">NPWP Name <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan nama npwp here" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" type="text" id="npwp_name" name="npwp_name" placeholder="Enter npwp_name here" required/>
+                                    </div>
+                                </div>   
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">NPWP Address <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan alamat npwp here" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" type="text" id="npwp_address" name="npwp_address" placeholder="Enter npwp_address here" required/>
+                                    </div>
+                                </div>   
+                                <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Ownership Status <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Pilih Ownership Status" data-container="body"></i></label>
                                     <div class="col-md-5">
@@ -176,6 +197,14 @@
                                         <textarea name="addressLocation" id="follow-address-location" class="form-control" placeholder="Enter location name here" required>{{$result['partner_locations'][0]['address']}}</textarea>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Location Mall <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Mall Calon Lokasi" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <textarea name="mall" id="follow-mall" class="form-control" placeholder="Enter location mall here" required>{{$result['partner_locations'][0]['address']}}</textarea>
+                                    </div>
+                                </div>
+                                
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location City <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Kota Calon Lokasi" data-container="body"></i></label>
