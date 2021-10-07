@@ -110,20 +110,6 @@
             </div>
         </div>
 
-        @if (($product[0]['product_type']??false) == 'service')
-        <div class="form-group" id="div_processing_time">
-            <label class="col-md-3 control-label">Processing Time
-                <i class="fa fa-question-circle tooltips" data-original-title="Waktu pengerjaan untuk setiap service" data-container="body"></i>
-            </label>
-            <div class="col-md-4">
-                <div class="input-group">
-                    <input type="text" class="form-control price" maxlength="3" id="processing_time" name="processing_time_service" value="{{ $syu['processing_time_service'] }}" required>
-                    <span class="input-group-addon">Minutes</span>
-                </div>
-            </div>
-        </div>
-        @endif
-
         <div class="form-group">
             <label class="col-md-3 control-label">Product Visible
                 <i class="fa fa-question-circle tooltips" data-original-title="Setting apakah produk akan ditampilkan di aplikasi" data-container="body"></i>
