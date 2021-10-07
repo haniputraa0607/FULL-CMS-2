@@ -146,6 +146,7 @@
                 <th scope="col" width="20%" class="text-center"> Outlet </th>
                 <th scope="col" width="10%" class="text-center"> Status </th>
                 <th scope="col" width="10%" class="text-center"> Month </th>
+                <th scope="col" width="10%" class="text-center"> Year </th>
                 <th scope="col" width="15%" class="text-center"> Request Date </th>
             </tr>
             </thead>
@@ -156,7 +157,7 @@
                 		$status = $val['approve_at'] ? 'Approved' : ($val['reject_at'] ? 'Rejected' : 'Pending');
                 		$color = ($status == 'Approved') ? '#26C281' : (($status == 'Rejected') ? '#E7505A' : '#ffc107');
                 		$textColor = ($status == 'Pending') ? '#fff' : '#fff';
-                		$month = date('F', mktime(0, 0, 0, $val['schedule_month'], 10)). ' - ' .$val['schedule_year'];
+                		$month = date('F', mktime(0, 0, 0, $val['schedule_month'], 10));
                 	@endphp
                     <tr>
                         <td>
@@ -166,13 +167,14 @@
                         </td>
                         <td>{{ $val['nickname'] }}</td>
                         <td>{{ $val['fullname'] }}</td>
-                        <td>{{ $val['phone_number'] }}</td>
+                        <td class="text-center">{{ $val['phone_number'] }}</td>
                         <td>{{ $val['outlet_code'] .' - '. $val['outlet_name'] }}</td>
                         <td class="text-center">
                             <span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: {{ $color }};padding: 5px 12px;color: {{ $textColor }};">{{ $status }}</span>
                         </td>
-                        <td>{{ $month }}</td>
-                        <td>{{ date('d M Y H:i', strtotime($val['request_at'])) }}</td>
+                        <td class="text-center">{{ $month }}</td>
+                        <td class="text-center">{{ $val['schedule_year'] }}</td>
+                        <td class="text-center">{{ date('d M Y H:i', strtotime($val['request_at'])) }}</td>
                     </tr>
                 @endforeach
             @else

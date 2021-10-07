@@ -76,6 +76,21 @@
 						</ul>
 					</li>
 				@endif
+				<li class="nav-item {{($submenu_active == 'hairstylist-autoresponse-register-candidate-hair-stylist') ? 'active open' : ''}}">
+					<a href="{{url('autoresponse/hairstylist/register-candidate-hair-stylist')}}" class="nav-link ">
+						<span class="title">[Response] Register Candidate Hair Stylist</span>
+					</a>
+				</li>
+				<li class="nav-item {{($submenu_active == 'hairstylist-autoresponse-rejected-candidate-hair-stylist') ? 'active open' : ''}}">
+					<a href="{{url('autoresponse/hairstylist/rejected-candidate-hair-stylist')}}" class="nav-link ">
+						<span class="title">[Response] Rejected Candidate Hair Stylist</span>
+					</a>
+				</li>
+				<li class="nav-item {{($submenu_active == 'hairstylist-autoresponse-approve-candidate-hair-stylist') ? 'active open' : ''}}">
+					<a href="{{url('autoresponse/hairstylist/approve-candidate-hair-stylist')}}" class="nav-link ">
+						<span class="title">[Response] Approve Candidate Hair Stylist</span>
+					</a>
+				</li>
 			</ul>
 		@endif
 
@@ -158,11 +173,11 @@
 										<span class="title">[Response] Pin Sent</span>
 									</a>
 								</li>
-								<li class="nav-item {{($submenu_active == 'user-autoresponse-pin-create') ? 'active open' : ''}}">
-									<a href="{{url('user/autoresponse/pin-create')}}" class="nav-link ">
-										<span class="title">[Response] Pin Create</span>
-									</a>
-								</li>
+{{--								<li class="nav-item {{($submenu_active == 'user-autoresponse-pin-create') ? 'active open' : ''}}">--}}
+{{--									<a href="{{url('user/autoresponse/pin-create')}}" class="nav-link ">--}}
+{{--										<span class="title">[Response] Pin Create</span>--}}
+{{--									</a>--}}
+{{--								</li>--}}
 							@endif
 							@if(MyHelper::hasAccess([42], $configs))
 								<li class="nav-item {{($submenu_active == 'user-autoresponse-pin-verify') ? 'active open' : ''}}">
@@ -601,13 +616,13 @@
 						</a>
 					</li>
 					@endif
-					{{-- @if(MyHelper::hasAccess([24], $grantedFeature))
+					@if(MyHelper::hasAccess([24,27], $grantedFeature))
 					<li class="nav-item {{($submenu_active == 'outlet-qrcode') ? 'active open' : ''}}">
 						<a href="{{url('outlet/qrcode')}}" class="nav-link ">
 							<span class="title">QRCode Outlet</span>
 						</a>
 					</li>
-					@endif --}}
+					@endif
 					@if(MyHelper::hasAccess([4], $configs))
 						@if(MyHelper::hasAccess([34], $grantedFeature))
 						<li class="nav-item {{($submenu_active == 'outlet-holiday') ? 'active open' : ''}}">
@@ -1686,6 +1701,50 @@
 					</ul>
 				</li>
 			@endif
+			
+			@if(MyHelper::hasAccess([122], $configs) && MyHelper::hasAccess([356,357], $grantedFeature) )
+			<li class="nav-item {{($menu_active == 'user-rating') ? 'active' : ''}}">
+				<a href="javascript:;" class="nav-link nav-toggle">
+					<i class="fa fa-star-o"></i>
+					<span class="title">User Rating</span>
+					<span class="arrow {{($menu_active == 'user-rating') ? 'open' : ''}}"></span>
+				</a>
+				<ul class="sub-menu">
+					@if(MyHelper::hasAccess([356], $grantedFeature))
+						<li class="nav-item {{($submenu_active == 'user-rating-list') ? 'active open' : ''}}">
+							<a href="{{url('user-rating')}}" class="nav-link ">
+								<span class="title">User Rating List</span>
+							</a>
+						</li>
+					@endif
+					@if(MyHelper::hasAccess([357], $grantedFeature))
+						<li class="nav-item {{($submenu_active == 'rating-setting') ? 'active open' : ''}}">
+							<a href="{{url('user-rating/setting')}}" class="nav-link ">
+								<span class="title">User Rating Setting</span>
+							</a>
+						</li>
+					@endif
+					@if(MyHelper::hasAccess([356], $grantedFeature))
+						<li class="nav-item {{($submenu_active == 'user-rating-report') ? 'active open' : ''}}">
+							<a href="{{url('user-rating/report')}}" class="nav-link ">
+								<span class="title">User Rating Report</span>
+							</a>
+						</li>
+					@endif
+					<li class="nav-item {{($submenu_active == 'user-rating-response-outlet') ? 'active open' : ''}}">
+						<a href="{{url('user-rating/autoresponse/outlet')}}" class="nav-link ">
+							<span class="title">[Response] Rating Outlet</span>
+						</a>
+					</li>
+					<li class="nav-item {{($submenu_active == 'user-rating-response-hairstylist') ? 'active open' : ''}}">
+						<a href="{{url('user-rating/autoresponse/hairstylist')}}" class="nav-link ">
+							<span class="title">[Response] Rating Hairstylist</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+			@endif
+
 		@endif
 
 		@if(MyHelper::hasAccess([274,275,276], $grantedFeature))

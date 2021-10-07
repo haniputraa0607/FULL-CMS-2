@@ -79,8 +79,11 @@ class HairStylistController extends Controller
 
     public function candidateUpdate(Request $request, $id){
         $post = $request->except('_token');
+        if(empty($post['action_type'])){
+            return redirect('recruitment/hair-stylist/candidate/detail/'.$id)->withErrors(['Action type can not be empty']);
+        }
         $post['id_user_hair_stylist'] = $id;
-        $post['update_type'] = 'approve';
+        $post['update_type'] = $post['action_type'];
 
         if(!empty($post['user_hair_stylist_photo'])){
             $post['user_hair_stylist_photo'] = MyHelper::encodeImage($post['user_hair_stylist_photo']);
@@ -89,8 +92,10 @@ class HairStylistController extends Controller
         }
 
         $update = MyHelper::post('recruitment/hairstylist/be/update',$post);
-        if(isset($update['status']) && $update['status'] == 'success'){
+        if(isset($update['status']) && $update['status'] == 'success' && $post['update_type'] == 'approve'){
             return redirect('recruitment/hair-stylist/detail/'.$id)->withSuccess(['Success update data to approved']);
+        }elseif(isset($update['status']) && $update['status'] == 'success' && $post['update_type'] == 'reject'){
+            return redirect('recruitment/hair-stylist/candidate/detail/'.$id)->withSuccess(['Success update data to rejected']);
         }else{
             return redirect('recruitment/hair-stylist/candidate/detail/'.$id)->withErrors($update['messages']??['Failed update data to approved']);
         }
