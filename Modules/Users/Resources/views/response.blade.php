@@ -698,13 +698,13 @@ $active_response = $active_response??['email', 'sms', 'push', 'inbox', 'whatsapp
 								</div>
 							</div>
 						</div>
+						<hr>
 					@else
 						<input hidden name="autocrm_email_toogle" value="0">
 					@endif
 
 					@if($subject != 'email-verify' && $subject != 'new-user-franchise' && $subject != 'reset-password-user-franchise')
 						@if(MyHelper::hasAccess([39], $configs) && in_array('sms', $active_response))
-							<hr>
 							<h4>SMS</h4>
 							<div class="form-group" >
 								<div class="input-icon right">
@@ -899,7 +899,7 @@ $active_response = $active_response??['email', 'sms', 'push', 'inbox', 'whatsapp
 									<input type="text" placeholder="https://" class="form-control" name="autocrm_push_link" value="{{$data['autocrm_push_link']}}">
 								</div>
 							</div>
-						<hr>
+							<hr>
 						@else
 							<input hidden name="autocrm_push_toogle" value="0">
 						@endif
