@@ -858,6 +858,42 @@
 			</li>
 			@endif
 
+			@if(MyHelper::hasAccess([362,363,364,365,366], $grantedFeature))
+				<li class="nav-item {{($menu_active == 'product-service') ? 'active' : ''}}">
+					<a href="javascript:;" class="nav-link nav-toggle">
+						<i class="fa fa-cut"></i>
+						<span class="title">Product Service</span>
+						<span class="arrow {{($menu_active == 'product-service') ? 'open' : ''}}"></span>
+					</a>
+					<ul class="sub-menu">
+						@if(MyHelper::hasAccess([362,363,365,366], $grantedFeature))
+							<li class="nav-item {{($submenu_active == 'product-service-list') ? 'active open' : ''}}">
+								<a href="{{url('product-service')}}" class="nav-link ">
+									<span class="title">Product Service List</span>
+								</a>
+							</li>
+						@endif
+						@if(MyHelper::hasAccess([363,365], $grantedFeature))
+							<li class="nav-item {{($submenu_active == 'product-service-list-visible') ? 'active open' : ''}}">
+								<a href="{{url('product-service/visible')}}" class="nav-link ">
+									<span class="title">Visible Product Service List</span>
+								</a>
+							</li>
+							<li class="nav-item {{($submenu_active == 'product-service-list-hidden') ? 'active open' : ''}}">
+								<a href="{{url('product-service/hidden')}}" class="nav-link ">
+									<span class="title">Hidden Product Service List</span>
+								</a>
+							</li>
+							<li class="nav-item {{($submenu_active == 'product-service-position') ? 'active open' : ''}}">
+								<a href="{{url('product-service/position/assign')}}" class="nav-link ">
+									<span class="title">Manage Position</span>
+								</a>
+							</li>
+						@endif
+					</ul>
+				</li>
+			@endif
+
 			@if(MyHelper::hasAccess([48,49,50,51,52], $grantedFeature) && false)
 				<li class="nav-item {{($menu_active == 'product-plastic') ? 'active' : ''}}">
 					<a href="javascript:;" class="nav-link nav-toggle">
