@@ -534,7 +534,6 @@ class PartnersController extends Controller
             $request->validate([
                 "no_letter" => "required",
                 "location_letter" => "required",
-                "installment" => "required",
             ]);
             $data_confir = [
                 "id_partner"  => $request["id_partner"],
@@ -543,7 +542,7 @@ class PartnersController extends Controller
             ];
             $update_data_location = [
                 "id_location" => $request["id_location"],
-                "installment" => $request["installment"],
+                "notes" => $request["payment_note"],
             ];
         }
         if(isset($request["follow_up"]) && $request["follow_up"]=='Payment'){
@@ -571,7 +570,7 @@ class PartnersController extends Controller
                         return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create follow up steps']);
                     }
                 }
-                if(isset($pdate_partner['status']) && !empty($pdate_partner['status'])){
+                if(isset($update_partner['status']) && !empty($update_partner['status'])){
                     return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success update candidate partner to partner']); 
                 }
                 return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    

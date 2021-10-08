@@ -68,12 +68,12 @@
                                 </div>
                                 <input type="hidden" name="id_location" value="{{$result['partner_locations'][0]['id_location']}}">
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Installment Fee <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukkan jumlah angsuran" data-container="body"></i></label>
+                                    <label for="example-search-input" class="control-label col-md-4">Payment Note <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan catatan tentang pembayaran" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="installment" name="installment" placeholder="Enter installment here" required @if ($confir==true) readonly value="{{$result['partner_locations'][0]['installment']}}" @endif/>
+                                        <textarea style="height: 200px" name="payment_note" id="payment_note" class="form-control" placeholder="Final Payment akan diangsur ..." @if ($confir==true) readonly @endif>{{ $result['partner_locations'][0]['notes'] }}</textarea>
                                     </div>
-                                </div>
+                                </div> 
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukan note" data-container="body"></i></label>
