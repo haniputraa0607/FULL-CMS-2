@@ -10,6 +10,8 @@
 	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-select/css/bootstrap-select.css') }}" rel="stylesheet" type="text/css" /> 
 	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet" type="text/css" /> 
 	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css" /> 
+	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css')}}" rel="stylesheet" type="text/css" />
+	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
 	<style type="text/css">
 		.select2-results__option[aria-selected=true] {
 		    display: none;
@@ -31,6 +33,8 @@
 @section('page-script')
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/components-select2.min.js') }}" type="text/javascript"></script>
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/components-date-time-pickers.min.js') }}" type="text/javascript"></script>
+	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js')}}" type="text/javascript"></script>
+	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-toastr/toastr.min.js') }}" type="text/javascript"></script>
 
 	@php
 		$code_type 			= null;
@@ -357,6 +361,23 @@
                 $(':input[type="submit"]').prop('disabled', false);
             }
         });
+
+        $('.fileinput-preview').bind('DOMSubtreeModified', function() {
+            var mentah    = $(this).find('img')
+            // set image
+            var cariImage = mentah.attr('src')
+            var ko        = new Image()
+            ko.src        = cariImage
+            // load image
+            ko.onload     = function(){
+                if (this.naturalHeight === 375 && this.naturalWidth === 750) {
+                } else {
+                    mentah.attr('src', "{{ $result['url_promo_image'] ?? 'https://www.placehold.it/750x375/EFEFEF/AAAAAA&text=no+image' }}")
+                    $('#file').val("");
+                    toastr.warning("Please check dimension of your photo.");
+                }
+            };
+        })
 	});
 	</script>
 	<style>
@@ -406,7 +427,7 @@
 			</div>
 		</div>
 	</div>
-	<form role="form" action="" method="POST">
+	<form role="form" action="" method="POST" enctype="multipart/form-data">
 		<div class="col-md-1"></div>
 		
 		{{-- info --}}
@@ -436,6 +457,31 @@
                         <i class="fa fa-question-circle tooltips" data-original-title="Judul Promo" data-container="body"></i>
 						<div class="input-group col-md-12">
 							<input required type="text" class="form-control" name="promo_title" placeholder="Promo Title" @if(isset($result['promo_title']) && $result['promo_title'] != "") value="{{$result['promo_title']}}" @elseif(old('promo_title') != "") value="{{old('promo_title')}}" @endif autocomplete="off">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label">Image</label>
+						<span class="required" aria-required="true"> * </span>
+                        <i class="fa fa-question-circle tooltips" data-original-title="Gambar Promo" data-container="body"></i>
+                        <br>
+            			<span class="required" aria-required="true"> (750*375) </span>
+						<div class="input-group col-md-12 text-center">
+							<div class="fileinput fileinput-new" data-provides="fileinput">
+			                    <div class="fileinput-new thumbnail" style="width: 350px; height: 175px;">
+			                      <img src="{{ $result['url_promo_image'] ?? 'https://www.placehold.it/750x375/EFEFEF/AAAAAA&amp;text=no+image' }}" alt="Image Deals">
+			                    </div>
+			                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 350px; max-height: 175px;"></div>
+			                    <div class="text-left">
+			                        <span class="btn default btn-file">
+			                        <span class="fileinput-new"> Select image </span>
+			                        <span class="fileinput-exists"> Change </span>
+			                        <input type="file" accept="image/*"  {{ empty($result['url_promo_image']) ? 'required' : '' }} name="promo_image" id="file">
+
+			                        </span>
+
+			                        <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+			                    </div>
+			                </div>
 						</div>
 					</div>
 					<div class="form-group">

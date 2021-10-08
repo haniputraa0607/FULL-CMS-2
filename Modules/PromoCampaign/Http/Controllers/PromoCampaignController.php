@@ -309,6 +309,10 @@ class PromoCampaignController extends Controller
                 $post['id_promo_campaign'] = $id_promo_campaign;
                 $messages = ['Promo Campaign has been updated'];
             }
+
+            if (isset($post['promo_image'])) {
+	            $post['promo_image']         = MyHelper::encodeImage($post['promo_image']);
+	        }
             $action = MyHelper::post('promo-campaign/step1', $post);
 
             if (isset($action['status']) && $action['status'] == 'success') 
@@ -319,8 +323,6 @@ class PromoCampaignController extends Controller
             {
                 return back()->withErrors($action['message']??$action['messages']??$action['result']??['Something went wrong'])->withInput();
             }
-
-            
         }
     }
 

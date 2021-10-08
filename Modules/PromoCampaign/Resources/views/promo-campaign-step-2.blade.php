@@ -749,6 +749,13 @@
 							<div class="col-md-4 name">Created</div>
 							<div class="col-md-8 value">: @if(isset($result['created_at'])) {{date("d F Y", strtotime($result['created_at']))}}&nbsp;{{date("H:i", strtotime($result['created_at']))}} @endif</div>
 						</div>
+						<div class="row static-info">
+		                    <div class="col-md-4 name">Image</div>
+		                    <div class="col-md-8 value">
+		                    	<span style="float: left;margin-right: 5px">:</span> 
+		                    	<div><img src="{{ $result['url_promo_image'] ?? '' }}" style="width: 225px"></div>
+		                    </div>
+		                </div>
 					</div>
 					<div class="row static-info">
 						<div class="col-md-4"></div>
