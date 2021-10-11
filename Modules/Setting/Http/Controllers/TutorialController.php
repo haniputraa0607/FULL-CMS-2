@@ -62,9 +62,9 @@ class TutorialController extends Controller
         $data['value'] = json_encode([
             'active'        => (isset($post['active']) && $post['active'] == 'on') ? 1 : 0,
             'skippable'     => (isset($post['skippable']) && $post['skippable'] == 'on') ? 1 : 0,
-            'text_next'     => $post['text_next'],
-            'text_skip'     => $post['text_skip'],
-            'text_last'     => $post['text_last']
+            'text_next'     => $post['text_next'] ?? null,
+            'text_skip'     => $post['text_skip'] ?? null,
+            'text_last'     => $post['text_last'] ?? null
         ]);
 
         if (isset($post['value_text']) && $post['value_text'] != null) {
