@@ -147,18 +147,156 @@ class PartnersController extends Controller
                 'submenu_active' => 'list-partners',
             ];
         }
+        
+
         if(isset($result['status']) && $result['status'] == 'success'){
             $data['result'] = $result['result']['partner'];
             $data['bank'] = MyHelper::get('disburse/setting/list-bank-account')['result']['list_bank']??[];
             $data['cities'] = MyHelper::get('city/list')['result']??[];
             $data['bankName'] = MyHelper::get('disburse/bank')['result']??[];
             $data['brands'] = MyHelper::get('partners/locations/brands')['result']??[];
-            // dd($data);
+            $data['confirmation'] = $this->dataConfirmation($result['result']['partner'],$data['cities']);
+            // dd($data['confirmation']);
             return view('businessdevelopment::partners.detail', $data);
         }else{
             return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
         }
     }
+
+    public function dataConfirmation($data,$city){
+        $send= [];
+        foreach($city as $c){
+            if($c['id_city']==$data['partner_locations'][0]['id_city']){
+                $city_name = $c['city_name'];
+            }
+        }
+        if($data['gender']=='Man'){
+            $send['pihak_dua'] = 'BAPAK '.strtoupper($data['name']);
+        }elseif($data['gender']=='Woman'){
+            $send['pihak_dua']  = 'IBU '.strtoupper($data['name']);
+        }
+
+        if($data['partner_locations'][0]['mall'] != null && $data['partner_locations'][0]['id_city'] != null){
+            $send['lokasi'] = strtoupper($data['partner_locations'][0]['mall']).' - '.strtoupper($city_name);
+        }
+
+        if($data['partner_locations'][0]['address'] != null){
+            $send['address'] = $data['partner_locations'][0]['address'];
+        }
+
+        if($data['partner_locations'][0]['location_large'] != null){
+            $send['large'] = $data['partner_locations'][0]['location_large'];
+        }
+
+        if($data['start_date'] != null && $data['end_date'] != null){
+            $send['waktu'] = $this->timeTotal(explode('-', $data['start_date']),explode('-', $data['end_date']));
+        }
+
+        if($data['partner_locations'][0]['partnership_fee'] != null){
+            $send['partnership_fee'] = $this->rupiah($data['partner_locations'][0]['partnership_fee']);
+            $send['dp'] = $this->rupiah($data['partner_locations'][0]['partnership_fee']*0.2);
+            $send['dp2'] = $this->rupiah($data['partner_locations'][0]['partnership_fee']*0.3);
+            $send['final'] = $this->rupiah($data['partner_locations'][0]['partnership_fee']*0.5);
+        }
+        return $send;
+    }
+
+    public function rupiah($nominal){
+        $rupiah = number_format($nominal ,0, ',' , '.' );
+        return $rupiah.',-';
+    }
+
+    public function timeTotal($start_date,$end_date){
+        if($end_date[2]==$start_date[2] && $end_date[1]==$start_date[1]){
+            $tahun = $end_date[0]-$start_date[0];
+            $total_waktu = $tahun.' tahun';
+        }elseif($end_date[1]==$start_date[1]){
+            $selisih_tanggal = $end_date[2]-$start_date[2];
+            if($start_date[1]==2){
+                if($start_date[0]%4==0){
+                    $jumlah_hari = 29;
+                }else{
+                    $jumlah_hari =28;
+                }
+            }elseif($start_date[1]==4 || $start_date[1]==6 || $start_date[1]==9 || $start_date[1]==11){
+                $jumlah_hari = 30;
+            }else{
+                $jumlah_hari = 31;
+            }
+            if($selisih_tanggal>0){
+                $tahun = $end_date[0]-$start_date[0];
+                $tanggal = $end_date[2]-$start_date[2];
+            }else{
+                $awal = intval($start_date[2]);
+                $akhir = intval($end_date[2]);
+                $tahun = ($end_date[0]-$start_date[0])-1;
+                $tanggal = ($jumlah_hari-$awal)+$akhir;
+            }
+            $total_waktu = $tahun.' tahun '.$tanggal.' hari';
+        }elseif($end_date[2]==$start_date[2]){
+            $selisih_bulan = $end_date[1]-$start_date[1];
+            if($selisih_bulan>0){
+                $tahun = $end_date[0]-$start_date[0];
+                $bulan = $end_date[1]-$start_date[1];
+            }else{
+                $awal = intval($start_date[1]);
+                $akhir = intval($end_date[1]);
+                $tahun = ($end_date[0]-$start_date[0])-1;
+                $bulan = (12-$awal)+$akhir;
+            }
+            $total_waktu = $tahun.' tahun '.$bulan.' bulan';
+        }else{
+            $selisih_bulan = $end_date[1]-$start_date[1];
+            $selisih_tanggal = $end_date[2]-$start_date[2];
+            if($start_date[1]==2){
+                if($start_date[0]%4==0){
+                    $jumlah_hari = 29;
+                }else{
+                    $jumlah_hari =28;
+                }
+            }elseif($start_date[1]==4 || $start_date[1]==6 || $start_date[1]==9 || $start_date[1]==11){
+                $jumlah_hari = 30;
+            }else{
+                $jumlah_hari = 31;
+            }
+            if($selisih_tanggal>0){
+                if($selisih_bulan>0){
+                    $tahun = $end_date[0]-$start_date[0];
+                    $bulan = $end_date[1]-$start_date[1];
+                    $tanggal = $end_date[2]-$start_date[2];
+                }else{
+                    $awal = intval($start_date[1]);
+                    $akhir = intval($end_date[1]);
+                    $tahun = ($end_date[0]-$start_date[0])-1;
+                    $bulan = (12-$awal)+$akhir;
+                    $tanggal = $end_date[2]-$start_date[2];
+                }
+                $total_waktu = $tahun.' tahun '.$bulan.' bulan '.$tanggal.' hari';
+            }else{
+                if($selisih_bulan==1){
+                    $tahun = $end_date[0]-$start_date[0];
+                    $tanggal = ($jumlah_hari-$start_date[2])+$end_date[2];
+                    $total_waktu = $tahun.' tahun '.$tanggal.' hari';
+                }elseif($selisih_bulan>0){
+                    $tahun = $end_date[0]-$start_date[0];
+                    $bulan = $end_date[1]-$start_date[1];
+                    $tanggal = ($jumlah_hari-$start_date[2])+$end_date[2];
+                    $total_waktu = $tahun.' tahun '.$bulan.' bulan '.$tanggal.' hari';
+                }else{
+                    $awal = intval($start_date[1]);
+                    $akhir = intval($end_date[1]);
+                    $tahun = ($end_date[0]-$start_date[0])-1;
+                    $bulan = (12-$awal)+$akhir;
+                    $tanggal = ($jumlah_hari-$start_date[2])+$end_date[2];
+                    $total_waktu = $tahun.' tahun '.$bulan.' bulan '.$tanggal.' hari';
+                }
+            }
+            
+        }
+        return $total_waktu;
+    }
+
+
 
     /**
      * Update the specified resource in storage.
@@ -549,6 +687,10 @@ class PartnersController extends Controller
             $update_partner['status'] = 'Active';
             $update_partner['pin'] = rand(100000,999999);
             $update_partner['password'] = Hash::make($update_partner["pin"]);
+            $update_data_location = [
+                "id_location" => $request["id_location"],
+                "status" => 'Active',
+            ];
         } 
         $follow_up = MyHelper::post('partners/create-follow-up', $post_follow_up);
         if(isset($follow_up['status']) && $follow_up['status'] == 'success'){
@@ -564,6 +706,9 @@ class PartnersController extends Controller
                             }else{
                                 return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create follow up steps']);
                             }
+                        }
+                        if(isset($update_data_location['status']) && !empty($update_data_location['status'])){
+                            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success update candidate partner to partner']); 
                         }
                         return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
                     }else{

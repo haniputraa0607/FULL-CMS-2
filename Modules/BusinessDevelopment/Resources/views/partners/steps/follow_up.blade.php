@@ -143,7 +143,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Bank Account<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Bank Account
                                         <i class="fa fa-question-circle tooltips" data-original-title="Pilih Bank Account" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <select name="id_bank_account" class="form-control input-sm select2" placeholder="Bank Account">
@@ -258,7 +258,7 @@
                                     </div>
                                 </div>    
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Renovation Cost <span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Contractor Price <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukan biaya renovasi" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" id="renovation_cost" name="renovation_cost" placeholder="Enter renovation cost here" required/>
@@ -287,7 +287,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Import Attachment <span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Import Attachment
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukan file" data-container="body"></i><br>
                                         <span class="required" aria-required="true"> (PDF max 2 mb) </span></label>
                                     <div class="col-md-5">

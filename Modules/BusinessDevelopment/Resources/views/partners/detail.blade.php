@@ -363,7 +363,7 @@
                                 <label for="example-search-input" class="control-label col-md-4">Partner Gender <span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Masukkan kelamin" data-container="body"></i></label>
                                 <div class="col-md-5">
-                                    <select name="gender" class="form-control input-sm select2" placeholder="Select Gender">
+                                    <select name="gender" class="form-control input-sm select2" placeholder="Select Gender" required>
                                         <option value="" selected disabled>Select Gender</option>
                                         <option value="Man" @if(isset($result['gender'])) @if($result['gender'] == 'Man') selected @endif @endif>Man</option>
                                         <option value="Woman" @if(isset($result['gender'])) @if($result['gender'] == 'Woman') selected @endif @endif>Woman</option>
@@ -594,14 +594,14 @@
                                     <label for="example-search-input" class="control-label col-md-4">Beneficiary Name <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nama penerima" data-container="body"></i></label>
                                     <div class="col-md-6">
-                                        <input class="form-control" type="text" id="input-beneficiary_name" name="beneficiary_name" value="<?php if(isset($result['partner_bank_account'])) echo $result['partner_bank_account']['beneficiary_name'] ?>" placeholder="Enter beneficiary name"/>
+                                        <input class="form-control" type="text" id="input-beneficiary_name" name="beneficiary_name" value="<?php if(isset($result['partner_bank_account'])) echo $result['partner_bank_account']['beneficiary_name'] ?>" placeholder="Enter beneficiary name" required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Beneficiary Account <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukkan akun penerima" data-container="body"></i></label>
                                     <div class="col-md-6">
-                                        <input class="form-control" type="text" id="input-beneficiary_account" name="beneficiary_account" value="<?php if(isset($result['partner_bank_account'])) echo $result['partner_bank_account']['beneficiary_account'] ?>" placeholder="Enter beneficiary name"/>
+                                        <input class="form-control" type="text" id="input-beneficiary_account" name="beneficiary_account" value="<?php if(isset($result['partner_bank_account'])) echo $result['partner_bank_account']['beneficiary_account'] ?>" placeholder="Enter beneficiary name" required/>
                                     </div>
                                 </div>
                             </div>
@@ -690,21 +690,21 @@
                                     <label for="example-search-input" class="control-label col-md-4">New PIN <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukkan pin baru" data-container="body"></i></label>
                                     <div class="col-md-6">
-                                        <input class="form-control" type="password" id="input-new-pin" name="new-pin"  placeholder="Enter new pin" maxlength="6"/>
+                                        <input class="form-control" type="password" id="input-new-pin" name="new-pin"  placeholder="Enter new pin" maxlength="6" required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Confirm PIN <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Ulangi pin baru" data-container="body"></i></label>
                                     <div class="col-md-6">
-                                        <input class="form-control" type="password" id="input-confirm-pin" name="confirm-pin"  placeholder="Reenter new pin" maxlength="6"/>
+                                        <input class="form-control" type="password" id="input-confirm-pin" name="confirm-pin"  placeholder="Reenter new pin" maxlength="6" required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Your PIN <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukkan pin anda" data-container="body"></i></label>
                                     <div class="col-md-6">
-                                        <input class="form-control" type="password" id="input-your-pin" name="your-pin"  placeholder="Enter your pin" maxlength="6"/>
+                                        <input class="form-control" type="password" id="input-your-pin" name="your-pin"  placeholder="Enter your pin" maxlength="6" required/>
                                     </div>
                                 </div>
                             </div>
