@@ -126,56 +126,59 @@
                             <input type="checkbox" name="active" @if(isset($value['active']) && $value['active'] == '1') checked @endif class="make-switch switch-change" data-size="small" data-on-text="Active" data-off-text="Inactive">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-3">
-                                Status Skippable
-                            <i class="fa fa-question-circle tooltips" data-original-title="Status dilewati tutorial, jika Active maka gambar tutorial dapat dilewati oleh pengguna" data-container="body"></i>
-                        </label>
-                        <div class="col-md-9">
-                            <input type="checkbox" name="skippable" @if(isset($value['skippable']) && $value['skippable'] == '1') checked @endif class="make-switch switch-change" data-size="small" data-on-text="Active" data-off-text="Inactive">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-3">
-                                Text Button
-                            <i class="fa fa-question-circle tooltips" data-original-title="Teks untuk button yang akan ditampilkan pada halaman tutorial" data-container="body"></i>
-                        </label>
-                        <div class="col-md-9">
-                            <div class="col-md-6">
-                                <div class="form-group" style="border: none;">
-                                    <img class="img-responsive" src="{{env('STORAGE_URL_VIEW').'img/setting/next.png'}}" alt="">
-                                    <div class="input-group" style="border: none;border: none;width: 60%;margin: auto;">
-                                        <input maxlength="11" type="text" name="text_next" @if(isset($value['text_next'])) value="{{$value['text_next']}}" @endif class="form-control">
-                                        <span class="input-group-addon">
-                                            <i style="color:#333;" class="fa fa-question-circle tooltips" data-original-title="Input ini akan menggantikan text Selanjutnya (Default), di tampilkan di bagian bawah kanan" data-container="body"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group" style="border: none;">
-                                    <img class="img-responsive" src="{{env('STORAGE_URL_VIEW').'img/setting/skip.png'}}" alt="">
-                                    <div class="input-group" style="border: none;border: none;width: 60%;margin: auto;">
-                                        <input maxlength="11" type="text" name="text_skip" @if(isset($value['text_skip'])) value="{{$value['text_skip']}}" @endif class="form-control">
-                                        <span class="input-group-addon">
-                                            <i style="color:#333;" class="fa fa-question-circle tooltips" data-original-title="Input ini akan menggantikan text Lewati (Default), di tampilkan di bagian bawah kiri" data-container="body"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group" style="border: none;">
-                                    <img class="img-responsive" src="{{env('STORAGE_URL_VIEW').'img/setting/last_button.png'}}" alt="">
-                                    <div class="input-group" style="border: none;border: none;width: 60%;margin: auto;">
-                                        <input maxlength="11" type="text" name="text_last" @if(isset($value['text_last'])) value="{{$value['text_last']}}" @endif class="form-control">
-                                        <span class="input-group-addon">
-                                            <i style="color:#333;" class="fa fa-question-circle tooltips" data-original-title="Input ini akan menggantikan text Mulai (Default), di tampilkan di bagian bawah kanan, menggantikan text Next (Default) jika sudah di gambar terakhir" data-container="body"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+					{{-- 
+	                <div class="form-group">
+	                    <label class="control-label col-md-3">
+	                            Status Skippable
+	                        <i class="fa fa-question-circle tooltips" data-original-title="Status dilewati tutorial, jika Active maka gambar tutorial dapat dilewati oleh pengguna" data-container="body"></i>
+	                    </label>
+	                    <div class="col-md-9">
+	                        <input type="checkbox" name="skippable" @if(isset($value['skippable']) && $value['skippable'] == '1') checked @endif class="make-switch switch-change" data-size="small" data-on-text="Active" data-off-text="Inactive">
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="control-label col-md-3">
+	                            Text Button
+	                        <i class="fa fa-question-circle tooltips" data-original-title="Teks untuk button yang akan ditampilkan pada halaman tutorial" data-container="body"></i>
+	                    </label>
+	                    <div class="col-md-9">
+	                        <div class="col-md-6">
+	                            <div class="form-group" style="border: none;">
+	                                <img class="img-responsive" src="{{env('STORAGE_URL_VIEW').'img/setting/next.png'}}" alt="">
+	                                <div class="input-group" style="border: none;border: none;width: 60%;margin: auto;">
+	                                    <input maxlength="11" type="text" name="text_next" @if(isset($value['text_next'])) value="{{$value['text_next']}}" @endif class="form-control">
+	                                    <span class="input-group-addon">
+	                                        <i style="color:#333;" class="fa fa-question-circle tooltips" data-original-title="Input ini akan menggantikan text Selanjutnya (Default), di tampilkan di bagian bawah kanan" data-container="body"></i>
+	                                    </span>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <div class="col-md-6">
+	                            <div class="form-group" style="border: none;">
+	                                <img class="img-responsive" src="{{env('STORAGE_URL_VIEW').'img/setting/skip.png'}}" alt="">
+	                                <div class="input-group" style="border: none;border: none;width: 60%;margin: auto;">
+	                                    <input maxlength="11" type="text" name="text_skip" @if(isset($value['text_skip'])) value="{{$value['text_skip']}}" @endif class="form-control">
+	                                    <span class="input-group-addon">
+	                                        <i style="color:#333;" class="fa fa-question-circle tooltips" data-original-title="Input ini akan menggantikan text Lewati (Default), di tampilkan di bagian bawah kiri" data-container="body"></i>
+	                                    </span>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <div class="col-md-6">
+	                            <div class="form-group" style="border: none;">
+	                                <img class="img-responsive" src="{{env('STORAGE_URL_VIEW').'img/setting/last_button.png'}}" alt="">
+	                                <div class="input-group" style="border: none;border: none;width: 60%;margin: auto;">
+	                                    <input maxlength="11" type="text" name="text_last" @if(isset($value['text_last'])) value="{{$value['text_last']}}" @endif class="form-control">
+	                                    <span class="input-group-addon">
+	                                        <i style="color:#333;" class="fa fa-question-circle tooltips" data-original-title="Input ini akan menggantikan text Mulai (Default), di tampilkan di bagian bawah kanan, menggantikan text Next (Default) jika sudah di gambar terakhir" data-container="body"></i>
+	                                    </span>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+					--}}                
                     <div class="form-group">
                         <label class="control-label col-md-3">
                                 Intro List
