@@ -162,6 +162,11 @@ class SettingController extends Controller
             $span = 'credit_card_payment_gateway';
             $colInput = 4;
             $colLabel = 3;
+        } elseif ($key == 'privacypolicy') {
+        	$sub = 'about-privacy-policy';
+            $active = 'privacy-policy';
+            $subTitle = 'Kebijakan Privasi';
+            $label = 'Kebijakan Privasi';
         }
 
         $data = [
@@ -213,7 +218,7 @@ class SettingController extends Controller
                     $data['key'] = 'value';
                 }
             } else {
-                return view('setting::index', $data)->withErrors($request['messages']);
+                return redirect('home')->withErrors($request['messages']);
             }
             return view('setting::index', $data);
         }

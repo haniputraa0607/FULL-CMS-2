@@ -3180,6 +3180,14 @@
 				</a>
 			</li>
 			@endif
+			@if(MyHelper::hasAccess([367], $grantedFeature))
+			<li class="nav-item {{($menu_active == 'privacy-policy') ? 'active' : ''}}">
+				<a href="{{url('setting/privacypolicy')}}" class="nav-link nav-toggle">
+					<i class="fa fa-lock"></i>
+					<span class="title">Privacy Policy</span>
+				</a>
+			</li>
+			@endif
 			@if(MyHelper::hasAccess([96], $configs))
 			@if(MyHelper::hasAccess([154], $grantedFeature))
 			<li class="nav-item {{($menu_active == 'delivery-service') ? 'active' : ''}}">
