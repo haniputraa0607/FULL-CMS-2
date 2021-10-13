@@ -472,10 +472,39 @@
 			</ul>
 		</li>
 		@endif
+		@if(MyHelper::hasAccess([338,339,340,341], $grantedFeature))
+		<li class="nav-item {{($menu_active == 'project') ? 'active open' : ''}}">
+			<a href="javascript:;" class="nav-link nav-toggle">
+				<i class="fa fa-project-diagram"></i>
+				<span class="title">Partners</span>
+				<span class="arrow {{($menu_active == 'partners') ? 'open' : ''}}"></span>
+			</a>
+			<ul class="sub-menu">
+				@if(MyHelper::hasAccess([338], $grantedFeature))
+				<li class="nav-item {{($submenu_active == 'project-new') ? 'active open' : ''}}">
+					<a href="{{url('project/create/new')}}" class="nav-link ">
+						<span class="title">New Project</span>
+					</a>
+				</li>
+				@endif
+				@if(MyHelper::hasAccess([338], $grantedFeature))
+				<li class="nav-item {{($submenu_active == 'list-project') ? 'active open' : ''}}">
+					<a href="{{url('project/')}}" class="nav-link ">
+						<span class="title">List Project</span>
+					</a>
+				</li>
+				@endif
+				@if(MyHelper::hasAccess([338], $grantedFeature))
+				<li class="nav-item {{($submenu_active == 'list-process-project') ? 'active open' : ''}}">
+					<a href="{{url('project/process')}}" class="nav-link ">
+						<span class="title">List Process Project</span>
+					</a>
+				</li>
+				@endif
+			</ul>
+		</li>
 		@endif
-
-
-
+		@endif
 		@if(MyHelper::hasAccess([19,21,24,26,32,33,34,43,45,48,50,56,57,164,165,166,167], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
 				<h3 class="uppercase" style="color: #000;font-weight: 600;">Browse</h3>
