@@ -20,6 +20,10 @@
         .datepicker{
             padding: 6px 12px;
            }
+        .zoom-in {
+			cursor: zoom-in;
+            border: 1px solid;
+		}
     </style>
 @endsection
 
@@ -209,6 +213,19 @@
             }
 
         });
+        $('#modalSurvey').click(function(){
+            let note = $('#noteSurvey').val();
+            let sur_note = $('#surye_note').val();
+            if ($('#potential').is(":checked"))
+            {
+                $('#potentialModal').val('OK');
+            }else{
+                $('#potentialModal').val('NOT OK');
+            }
+            $('#surveynoteModal').val(sur_note);
+            $("#noteModal").val(note);
+
+        });
         $('.datepicker').datepicker({
             'format' : 'dd MM yyyy',
             'todayHighlight' : true,
@@ -332,6 +349,9 @@
                     @if(MyHelper::hasAccess([351,352], $grantedFeature))
                     <li>
                         <a href="#bank" data-toggle="tab"> Partner Bank Account </a>
+                    </li>
+                    <li>
+                        <a href="#manage" data-toggle="tab"> Manage Partner </a>
                     </li>
                     @endif
                     <li>
@@ -498,6 +518,24 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Confirmation Letter 
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Download file" data-container="body"></i><br></label>
+                                <div class="col-md-5">
+                                    <label for="example-search-input" class="control-label">
+                                        <a href="{{ $result['partner_confirmation'][0]['attachment'] }}">Download Confirmation Letter</a>
+                                    <label>
+                                </div>
+                            </div>    
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Form Survey Location 
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Download file" data-container="body"></i><br></label>
+                                <div class="col-md-5">
+                                    <label for="example-search-input" class="control-label">
+                                        <a href="{{ $result['partner_survey'][0]['attachment'] }}">Download Form Survey Location</a>
+                                    <label>
+                                </div>
+                            </div>    
                             @endif
                         </div>
                         <div class="form-actions">
@@ -777,12 +815,12 @@
     
     <div class="modal fade" id="candidatePartnerModal" tabindex="-1" role="dialog" aria-labelledby="candidatePartnerModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="candidatePartnerModalLabel">Insert Data Partner</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="candidatePartnerModalLabel">Insert Data Partner</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form" action="{{url('businessdev/partners/update')}}/{{$result['id_partner']}}" method="post" enctype="multipart/form-data">
@@ -875,9 +913,93 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn blue">Submit</button>
                 </div>
-            </form>
-          </div>
+                </form>
+            </div>
         </div>
-      </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-sm" id="formSurvey" tabindex="-1" role="dialog" aria-labelledby="candidatePartnerModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="candidatePartnerModalLabel">Form Survey</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" action="{{url('businessdev/partners/create-follow-up')}}" method="post" enctype="multipart/form-data">
+                <div class="form-body">
+                    <input type="hidden" name="id_partner" value="{{$result['id_partner']}}">
+                    <input type="hidden" name='follow_up' id="followUpModal" value="Survey Location">
+                    <input type="hidden" name='note' id="noteModal" value="">
+                    <input type="hidden" name='surye_note' id="surveynoteModal" value="">
+                    <input type="hidden" name='survey_potential' id="potentialModal" value="">
+                    @foreach ($formSurvey as $x => $form)
+                        <?php 
+                            if($x == 'cat1'){
+                                $name_input = 'umum';
+                            }elseif($x == 'cat2'){
+                                $name_input = 'dalam';
+                            }else{
+                                $name_input = 'tawar';
+                            }
+                        ?>
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <label for="example-search-input"><span class="sbold uppercase font-black">{{ $form['category'] }}</span></label>
+                            </div>
+                        </div>
+                        @foreach ($form["question"] as $i => $q )
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <input type="hidden" name="{{ $name_input }}_question_{{ $i }}" value="{{ $q }}">
+                                <label for="example-search-input">{{ $q }}</label>
+                            </div>
+                            <div class="col-md-2">
+                                <select name="{{ $name_input }}_answer_{{ $i }}" class="form-control input-sm select2" required>
+                                    <option value="" selected disabled></option>
+                                    <option value="a">A</option>
+                                    <option value="b">B</option>
+                                    <option value="c">C</option>
+                                    <option value="d">D</option>
+                                </select>
+                            </div>
+                        </div>
+                        @endforeach
+                    @endforeach
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label for="example-search-input">Import Attachment
+                                <i class="fa fa-question-circle tooltips" data-original-title="Masukan file" data-container="body"></i><br>
+                                <span class="required" aria-required="true"> (PDF max 2 mb) </span></label>
+                        </div>
+                        <div class="col-md-7" style="padding-left: 12px !important">
+                            <div class="fileinput fileinput-new text-left" data-provides="fileinput">
+                                <div class="input-group input-large">
+                                    <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                        <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                        <span class="fileinput-filename"> </span>
+                                    </div>
+                                    <span class="input-group-addon btn default btn-file">
+                                                <span class="fileinput-new"> Select file </span>
+                                                <span class="fileinput-exists"> Change </span>
+                                                <input type="file" accept=".pdf, application/pdf, application/x-pdf,application/acrobat, applications/vnd.pdf, text/pdf, text/x-pdf" class="file" name="import_file" id="attSurv">
+                                            </span>
+                                    <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer form-actions">
+                    {{ csrf_field() }}
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn blue">Submit</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 @endsection

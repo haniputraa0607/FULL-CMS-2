@@ -52,6 +52,30 @@
                                         <input class="form-control" type="text" id="follow_up" name="follow_up" value="Confirmation Letter" readonly required/>
                                     </div>
                                 </div>
+                                @if($confir==false)
+                                <div class="row" style="margin-top: 2%;">
+                                    <div class="col-md-6">
+                                        <center>
+                                            <img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/confirmation/template_confirmation_1.png" height="200px" onclick="window.open(this.src)"/>
+                                        </center>
+                                        <p style="text-align: center">(a)</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <center>
+                                            <img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/confirmation/template_confirmation_2.png" height="200px" onclick="window.open(this.src)"/>
+                                        </center>
+                                        <p style="text-align: center">(b)</p>
+                                    </div>
+                                </div> 
+                                <div class="row" style="margin-top: 2%;">
+                                    <div class="col-md-12">
+                                        <center>
+                                            <img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/confirmation/template_confirmation_3.png" height="200px" onclick="window.open(this.src)"/>
+                                        </center>
+                                        <p style="text-align: center">(c)</p>
+                                    </div>
+                                </div> 
+                                @endif
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Recipient <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nama pihak kedua" data-container="body"></i></label>
@@ -191,7 +215,7 @@
                                     </div>
                                 </div>    
                                 @endif
-                                @if ($confir==false) 
+                                @if ($confir==false)
                                 <div class="form-actions">
                                     {{ csrf_field() }}
                                     <div class="row">

@@ -150,13 +150,13 @@
                             <option value="address" @if(isset($order) && $order == 'address') selected @endif>Address</option>
                         </select>
                     </div>
-                    <div class="col-md-2" style="padding-left:0px;padding-right:0px">
+                    <div class="col-md-3">
                         <select name="order_type" class="form-control select2">
                             <option value="desc" @if(isset($order_type) && $order_type == 'desc') selected @endif>Descending</option>
                             <option value="asc" @if(isset($order_type) && $order_type == 'asc') selected @endif>Ascending</option>
                         </select>
                     </div>
-                    <div class="col-md-1" style="padding-left:0px;padding-right:0px;text-align:right">
+                    <div class="col-md-1">
                         <button type="submit" class="btn yellow">Show</button>
                     </div>
                 </form>
