@@ -74,6 +74,10 @@ class BrandController extends Controller
             $post['logo_brand'] = MyHelper::encodeImage($post['logo_brand']);
         }
 
+        if (isset($post['logo_landscape_brand']) && $post['logo_landscape_brand'] != null) {
+            $post['logo_landscape_brand'] = MyHelper::encodeImage($post['logo_landscape_brand']);
+        }
+
         if (isset($post['image_brand']) && $post['image_brand'] != null) {
             $post['image_brand'] = MyHelper::encodeImage($post['image_brand']);
         }
