@@ -69,6 +69,12 @@
                             $("#removeLogo").trigger( "click" );
                         }
                     }
+                    if (type == "logo_landscape_brand") {
+                        if (this.height != 200) {
+                            toastr.warning("Please check dimension of your photo");
+                            $("#removeLogoLandscape").trigger( "click" );
+                        }
+                    }
                     if (type == "image_brand") {
                         if (this.width != 750 || this.height != 375) {
                             toastr.warning("Please check dimension of your photo.");
@@ -123,7 +129,7 @@
                         </label>
                         <div class="col-md-7">
                             <div class="input-icon right">
-                                <input type="text" placeholder="Brand Code" class="form-control" name="code_brand" @if (isset($result['code_brand'])) value="{{ $result['code_brand'] }}" disabled @else value="{{ old('code_brand') }}" required @endif>
+                                <input type="text" placeholder="Brand Code" class="form-control" name="code_brand" @if (isset($result['code_brand'])) value="{{ $result['code_brand'] }}" readonly @else value="{{ old('code_brand') }}" required @endif>
                             </div>
                         </div>
                     </div>
@@ -173,13 +179,13 @@
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label">
-                            Logo
+                            Logo Square
                             <span class="required" aria-required="true"> * </span>
                             <br>
                             <span class="required" aria-required="true"> (200*200)</span>
                             <br>
                             <span class="required" aria-required="true"> (Only PNG) </span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Gambar dengan ukuran square digunakan utnuk menjadi logo brand" data-container="body"></i>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Gambar dengan ukuran square digunakan untuk menjadi logo brand" data-container="body"></i>
                         </label>
                         <div class="col-md-7">
                             <div class="fileinput fileinput-new" data-provides="fileinput">
@@ -198,6 +204,37 @@
                                         <span class="fileinput-exists"> Change </span>
                                         <input type="file" accept="image/png" name="logo_brand" class="file" data-jenis="logo_brand" @if(empty($result['logo_brand'])) required @endif> </span>
                                     <a href="javascript:;" id="removeLogo" class="btn red default fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">
+                            Logo Landscape
+                            <span class="required" aria-required="true"> * </span>
+                            <br>
+                            <span class="required" aria-required="true"> (Height 200)</span>
+                            <br>
+                            <span class="required" aria-required="true"> (Only PNG) </span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Logo gambar dengan ukuran landscape akan digunakan pada header di aplikasi" data-container="body"></i>
+                        </label>
+                        <div class="col-md-7">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="fileinput-new thumbnail" style="width: 200px; height: 100px;">
+                                    @if(isset($result['logo_landscape_brand']) && $result['logo_landscape_brand'] != "")
+                                        <img src="{{$result['logo_landscape_brand']}}" id="preview_logo_landscape_brand" />
+                                    @else
+                                        <img id="preview_logo_landscape_brand" src="https://www.placehold.it/100x200/EFEFEF/AAAAAA"/>
+                                    @endif
+                                </div>
+
+                                <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 100px;"> </div>
+                                <div>
+                                    <span class="btn default btn-file">
+                                        <span class="fileinput-new"> Select image </span>
+                                        <span class="fileinput-exists"> Change </span>
+                                        <input type="file" accept="image/png" name="logo_landscape_brand" class="file" data-jenis="logo_landscape_brand" @if(empty($result['logo_landscape_brand'])) required @endif> </span>
+                                    <a href="javascript:;" id="removeLogoLandscape" class="btn red default fileinput-exists" data-dismiss="fileinput"> Remove </a>
                                 </div>
                             </div>
                         </div>
