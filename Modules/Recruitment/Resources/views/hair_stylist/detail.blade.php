@@ -263,7 +263,7 @@ $grantedFeature     = session('granted_features');
 											<img src="@if(isset($detail['user_hair_stylist_photo'])){{$detail['user_hair_stylist_photo']}}@endif" alt="">
 										</div>
 										<div class="fileinput-preview fileinput-exists thumbnail" id="image" style="max-width: 200px; max-height: 200px;"></div>
-										@if(!!in_array($detail['user_hair_stylist_status'], ['Active','Inactive']))
+										@if(!!in_array($detail['user_hair_stylist_status'], ['Active','Inactive','Training Completed']))
 											<div>
 												<span class="btn default btn-file">
 												<span class="fileinput-new"> Select image </span>
@@ -281,7 +281,7 @@ $grantedFeature     = session('granted_features');
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <select  class="form-control select2" name="level" data-placeholder="Select level" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) disabled @endif>
+		                                <select  class="form-control select2" name="level" data-placeholder="Select level" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive','Training Completed'])) disabled @endif>
 		                                    <option></option>
 		                                    <option value="Supervisor" @if($detail['level'] == 'Supervisor') selected @endif>Supervisor</option>
 		                                    <option value="Hairstylist" @if($detail['level'] == 'Hairstylist') selected @endif>Hairstylist</option>
@@ -294,7 +294,7 @@ $grantedFeature     = session('granted_features');
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <input type="text" placeholder="Full Name" class="form-control" name="fullname" value="{{ $detail['fullname']}}" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) readonly @endif>
+		                                <input type="text" placeholder="Full Name" class="form-control" name="fullname" value="{{ $detail['fullname']}}" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive','Training Completed'])) readonly @endif>
 		                            </div>
 		                        </div>
 		                    </div>
@@ -303,7 +303,7 @@ $grantedFeature     = session('granted_features');
 								</label>
 								<div class="col-md-6">
 									<div class="input-icon right">
-										<input type="text" placeholder="Email" class="form-control" name="email" value="{{ $detail['email']}}" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) readonly @endif>
+										<input type="text" placeholder="Email" class="form-control" name="email" value="{{ $detail['email']}}" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive','Training Completed'])) readonly @endif>
 									</div>
 								</div>
 							</div>
@@ -312,7 +312,7 @@ $grantedFeature     = session('granted_features');
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <input type="text" placeholder="Phone" class="form-control" name="phone_number" value="{{ $detail['phone_number']}}" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) readonly @endif>
+		                                <input type="text" placeholder="Phone" class="form-control" name="phone_number" value="{{ $detail['phone_number']}}" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive','Training Completed'])) readonly @endif>
 		                            </div>
 		                        </div>
 		                    </div>
@@ -321,7 +321,7 @@ $grantedFeature     = session('granted_features');
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <select  class="form-control select2" name="gender" data-placeholder="Select gender" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) disabled @endif>
+		                                <select  class="form-control select2" name="gender" data-placeholder="Select gender" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive','Training Completed'])) disabled @endif>
 		                                    <option></option>
 		                                    <option value="Male" @if($detail['gender'] == 'Male') selected @endif>Male</option>
 		                                    <option value="Female" @if($detail['gender'] == 'Female') selected @endif>Female</option>
@@ -334,7 +334,7 @@ $grantedFeature     = session('granted_features');
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <input type="text" placeholder="Nationality" class="form-control" name="nationality" value="{{ $detail['nationality']}}" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) readonly @endif>
+		                                <input type="text" placeholder="Nationality" class="form-control" name="nationality" value="{{ $detail['nationality']}}" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive','Training Completed'])) readonly @endif>
 		                            </div>
 		                        </div>
 		                    </div>
@@ -343,7 +343,7 @@ $grantedFeature     = session('granted_features');
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <input type="text" placeholder="Birthplace" class="form-control" name="birthplace" value="{{ $detail['birthplace']}}" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) readonly @endif>
+		                                <input type="text" placeholder="Birthplace" class="form-control" name="birthplace" value="{{ $detail['birthplace']}}" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive','Training Completed'])) readonly @endif>
 		                            </div>
 		                        </div>
 		                    </div>
@@ -356,7 +356,7 @@ $grantedFeature     = session('granted_features');
 		                        </div>
 		                        <div class="col-md-6">
 		                            <div class="input-group">
-		                                <input type="text" class="datepicker form-control" name="birthdate" value="{{date('d-M-Y', strtotime($detail['birthdate']))}}" required autocomplete="off" @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) readonly @endif>
+		                                <input type="text" class="datepicker form-control" name="birthdate" value="{{date('d-M-Y', strtotime($detail['birthdate']))}}" required autocomplete="off" @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive','Training Completed'])) readonly @endif>
 		                                <span class="input-group-btn">
 		                                    <button class="btn default" type="button">
 		                                        <i class="fa fa-calendar"></i>
@@ -370,7 +370,7 @@ $grantedFeature     = session('granted_features');
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <input type="text" placeholder="Religion" class="form-control" name="religion" value="{{ $detail['religion']}}" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) readonly @endif>
+		                                <input type="text" placeholder="Religion" class="form-control" name="religion" value="{{ $detail['religion']}}" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive','Training Completed'])) readonly @endif>
 		                            </div>
 		                        </div>
 		                    </div>
@@ -379,7 +379,7 @@ $grantedFeature     = session('granted_features');
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <input type="text" placeholder="Height" class="form-control" name="height" value="{{ (int)$detail['height']}}" @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) readonly @endif>
+		                                <input type="text" placeholder="Height" class="form-control" name="height" value="{{ (int)$detail['height']}}" @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive','Training Completed'])) readonly @endif>
 		                            </div>
 		                        </div>
 		                    </div>
@@ -388,7 +388,7 @@ $grantedFeature     = session('granted_features');
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <input type="text" placeholder="Weight" class="form-control" name="weight" value="{{ (int)$detail['weight']}}" @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) readonly @endif>
+		                                <input type="text" placeholder="Weight" class="form-control" name="weight" value="{{ (int)$detail['weight']}}" @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive','Training Completed'])) readonly @endif>
 		                            </div>
 		                        </div>
 		                    </div>
@@ -397,7 +397,7 @@ $grantedFeature     = session('granted_features');
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <input type="text" placeholder="Recent Job" class="form-control" name="recent_job" value="{{ $detail['recent_job']}}" @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) readonly @endif>
+		                                <input type="text" placeholder="Recent Job" class="form-control" name="recent_job" value="{{ $detail['recent_job']}}" @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive','Training Completed'])) readonly @endif>
 		                            </div>
 		                        </div>
 		                    </div>
@@ -406,7 +406,7 @@ $grantedFeature     = session('granted_features');
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <input type="text" placeholder="Recent company" class="form-control" name="recent_company" value="{{ $detail['recent_company']}}" @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) readonly @endif>
+		                                <input type="text" placeholder="Recent company" class="form-control" name="recent_company" value="{{ $detail['recent_company']}}" @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive','Training Completed'])) readonly @endif>
 		                            </div>
 		                        </div>
 		                    </div>
@@ -415,7 +415,7 @@ $grantedFeature     = session('granted_features');
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <select  class="form-control select2" name="blood_type" data-placeholder="Select blood type" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) disabled @endif>
+		                                <select  class="form-control select2" name="blood_type" data-placeholder="Select blood type" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive','Training Completed'])) disabled @endif>
 		                                    <option></option>
 		                                    <option value="A" @if($detail['blood_type'] == 'A') selected @endif>A</option>
 		                                    <option value="B" @if($detail['blood_type'] == 'B') selected @endif>B</option>
@@ -429,7 +429,7 @@ $grantedFeature     = session('granted_features');
 		                        <label class="col-md-4 control-label">Recent Address <span class="required" aria-required="true"> * </span>
 		                        </label>
 		                        <div class="col-md-6">
-		                            <textarea type="text" name="recent_address" placeholder="Input recent address here" class="form-control" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) disabled @endif>{{$detail['recent_address']}}</textarea>
+		                            <textarea type="text" name="recent_address" placeholder="Input recent address here" class="form-control" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive','Training Completed'])) disabled @endif>{{$detail['recent_address']}}</textarea>
 		                        </div>
 		                    </div>
 		                    <div class="form-group">
@@ -437,7 +437,7 @@ $grantedFeature     = session('granted_features');
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <input type="text" placeholder="Postal Code" class="form-control" name="postal_code" value="{{ $detail['postal_code']}}" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) readonly @endif>
+		                                <input type="text" placeholder="Postal Code" class="form-control" name="postal_code" value="{{ $detail['postal_code']}}" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive','Training Completed'])) readonly @endif>
 		                            </div>
 		                        </div>
 		                    </div>
@@ -446,7 +446,7 @@ $grantedFeature     = session('granted_features');
 		                        </label>
 		                        <div class="col-md-6">
 		                            <div class="input-icon right">
-		                                <select  class="form-control select2" name="marital_status" data-placeholder="Select marital status" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) disabled @endif>
+		                                <select  class="form-control select2" name="marital_status" data-placeholder="Select marital status" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive','Training Completed'])) disabled @endif>
 		                                    <option></option>
 		                                    <option value="Single" @if($detail['marital_status'] == 'Single') selected @endif>Single</option>
 		                                    <option value="Married" @if($detail['marital_status'] == 'Married') selected @endif>Married</option>
