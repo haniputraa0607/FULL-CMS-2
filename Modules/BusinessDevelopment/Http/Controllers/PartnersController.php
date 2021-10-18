@@ -147,18 +147,160 @@ class PartnersController extends Controller
                 'submenu_active' => 'list-partners',
             ];
         }
+        
+
         if(isset($result['status']) && $result['status'] == 'success'){
             $data['result'] = $result['result']['partner'];
             $data['bank'] = MyHelper::get('disburse/setting/list-bank-account')['result']['list_bank']??[];
             $data['cities'] = MyHelper::get('city/list')['result']??[];
             $data['bankName'] = MyHelper::get('disburse/bank')['result']??[];
             $data['brands'] = MyHelper::get('partners/locations/brands')['result']??[];
-            // dd($data);
+            $data['confirmation'] = $this->dataConfirmation($result['result']['partner'],$data['cities']);
+            if(isset($data['result']['partner_locations'][0]['id_brand'])){
+                $data['formSurvey'] = MyHelper::post('partners/form-survey',['id_brand' => $data['result']['partner_locations'][0]['id_brand']]);
+            }else{
+                $data['formSurvey'] = [];
+            }
             return view('businessdevelopment::partners.detail', $data);
         }else{
             return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
         }
     }
+
+    public function dataConfirmation($data,$city){
+        $send= [];
+        foreach($city as $c){
+            if($c['id_city']==$data['partner_locations'][0]['id_city']){
+                $city_name = $c['city_name'];
+            }
+        }
+        if($data['gender']=='Man'){
+            $send['pihak_dua'] = 'BAPAK '.strtoupper($data['name']);
+        }elseif($data['gender']=='Woman'){
+            $send['pihak_dua']  = 'IBU '.strtoupper($data['name']);
+        }
+
+        if($data['partner_locations'][0]['mall'] != null && $data['partner_locations'][0]['id_city'] != null){
+            $send['lokasi'] = strtoupper($data['partner_locations'][0]['mall']).' - '.strtoupper($city_name);
+        }
+
+        if($data['partner_locations'][0]['address'] != null){
+            $send['address'] = $data['partner_locations'][0]['address'];
+        }
+
+        if($data['partner_locations'][0]['location_large'] != null){
+            $send['large'] = $data['partner_locations'][0]['location_large'];
+        }
+
+        if($data['start_date'] != null && $data['end_date'] != null){
+            $send['waktu'] = $this->timeTotal(explode('-', $data['start_date']),explode('-', $data['end_date']));
+        }
+
+        if($data['partner_locations'][0]['partnership_fee'] != null){
+            $send['partnership_fee'] = $this->rupiah($data['partner_locations'][0]['partnership_fee']);
+            $send['dp'] = $this->rupiah($data['partner_locations'][0]['partnership_fee']*0.2);
+            $send['dp2'] = $this->rupiah($data['partner_locations'][0]['partnership_fee']*0.3);
+            $send['final'] = $this->rupiah($data['partner_locations'][0]['partnership_fee']*0.5);
+        }
+        return $send;
+    }
+
+    public function rupiah($nominal){
+        $rupiah = number_format($nominal ,0, ',' , '.' );
+        return $rupiah.',-';
+    }
+
+    public function timeTotal($start_date,$end_date){
+        if($end_date[2]==$start_date[2] && $end_date[1]==$start_date[1]){
+            $tahun = $end_date[0]-$start_date[0];
+            $total_waktu = $tahun.' tahun';
+        }elseif($end_date[1]==$start_date[1]){
+            $selisih_tanggal = $end_date[2]-$start_date[2];
+            if($start_date[1]==2){
+                if($start_date[0]%4==0){
+                    $jumlah_hari = 29;
+                }else{
+                    $jumlah_hari =28;
+                }
+            }elseif($start_date[1]==4 || $start_date[1]==6 || $start_date[1]==9 || $start_date[1]==11){
+                $jumlah_hari = 30;
+            }else{
+                $jumlah_hari = 31;
+            }
+            if($selisih_tanggal>0){
+                $tahun = $end_date[0]-$start_date[0];
+                $tanggal = $end_date[2]-$start_date[2];
+            }else{
+                $awal = intval($start_date[2]);
+                $akhir = intval($end_date[2]);
+                $tahun = ($end_date[0]-$start_date[0])-1;
+                $tanggal = ($jumlah_hari-$awal)+$akhir;
+            }
+            $total_waktu = $tahun.' tahun '.$tanggal.' hari';
+        }elseif($end_date[2]==$start_date[2]){
+            $selisih_bulan = $end_date[1]-$start_date[1];
+            if($selisih_bulan>0){
+                $tahun = $end_date[0]-$start_date[0];
+                $bulan = $end_date[1]-$start_date[1];
+            }else{
+                $awal = intval($start_date[1]);
+                $akhir = intval($end_date[1]);
+                $tahun = ($end_date[0]-$start_date[0])-1;
+                $bulan = (12-$awal)+$akhir;
+            }
+            $total_waktu = $tahun.' tahun '.$bulan.' bulan';
+        }else{
+            $selisih_bulan = $end_date[1]-$start_date[1];
+            $selisih_tanggal = $end_date[2]-$start_date[2];
+            if($start_date[1]==2){
+                if($start_date[0]%4==0){
+                    $jumlah_hari = 29;
+                }else{
+                    $jumlah_hari =28;
+                }
+            }elseif($start_date[1]==4 || $start_date[1]==6 || $start_date[1]==9 || $start_date[1]==11){
+                $jumlah_hari = 30;
+            }else{
+                $jumlah_hari = 31;
+            }
+            if($selisih_tanggal>0){
+                if($selisih_bulan>0){
+                    $tahun = $end_date[0]-$start_date[0];
+                    $bulan = $end_date[1]-$start_date[1];
+                    $tanggal = $end_date[2]-$start_date[2];
+                }else{
+                    $awal = intval($start_date[1]);
+                    $akhir = intval($end_date[1]);
+                    $tahun = ($end_date[0]-$start_date[0])-1;
+                    $bulan = (12-$awal)+$akhir;
+                    $tanggal = $end_date[2]-$start_date[2];
+                }
+                $total_waktu = $tahun.' tahun '.$bulan.' bulan '.$tanggal.' hari';
+            }else{
+                if($selisih_bulan==1){
+                    $tahun = $end_date[0]-$start_date[0];
+                    $tanggal = ($jumlah_hari-$start_date[2])+$end_date[2];
+                    $total_waktu = $tahun.' tahun '.$tanggal.' hari';
+                }elseif($selisih_bulan>0){
+                    $tahun = $end_date[0]-$start_date[0];
+                    $bulan = $end_date[1]-$start_date[1];
+                    $tanggal = ($jumlah_hari-$start_date[2])+$end_date[2];
+                    $total_waktu = $tahun.' tahun '.$bulan.' bulan '.$tanggal.' hari';
+                }else{
+                    $awal = intval($start_date[1]);
+                    $akhir = intval($end_date[1]);
+                    $tahun = ($end_date[0]-$start_date[0])-1;
+                    $bulan = (12-$awal)+$akhir;
+                    $tanggal = ($jumlah_hari-$start_date[2])+$end_date[2];
+                    $total_waktu = $tahun.' tahun '.$bulan.' bulan '.$tanggal.' hari';
+                }
+            }
+            
+        }
+        return $total_waktu;
+    }
+
+
 
     /**
      * Update the specified resource in storage.
@@ -208,6 +350,9 @@ class PartnersController extends Controller
             "email" => $request["email"],
             "address" => $request["address"],
         ];
+        if (isset($request['gender'])){
+            $post['gender'] = $request['gender'];
+        } 
         if (isset($request['ownership_status']) && $status == 'on'){
             $post['ownership_status'] = $request['ownership_status'];
         } 
@@ -443,9 +588,11 @@ class PartnersController extends Controller
     public function followUp(Request $request){
         $request->validate([
             "import_file" => "mimes:pdf|max:2000",
+            "note" => "required",
         ]);
         if(isset($request["follow_up"]) && $request["follow_up"]=='Follow Up 1'){
             $request->validate([
+                "mall" => "required",
                 "location_large" => "required",
                 "rental_price" => "required",
                 "service_charge" => "required",
@@ -453,6 +600,10 @@ class PartnersController extends Controller
                 "renovation_cost" => "required",
                 "partnership_fee" => "required",
                 "income" => "required",
+                "npwp" => "required",
+                "npwp_name" => "required",
+                "npwp_address" => "required",
+                
             ]);
             $update_data_location = [
                 "id_location" => $request["id_location"],
@@ -467,6 +618,7 @@ class PartnersController extends Controller
                 "renovation_cost" => $request["renovation_cost"],  
                 "partnership_fee" => $request["partnership_fee"],  
                 "income" => $request["income"],   
+                "mall" => $request["mall"],   
             ];
         }
         $post_follow_up = [
@@ -496,6 +648,15 @@ class PartnersController extends Controller
             "status_steps" => $status_steps,
             "status" => 'Candidate'
         ];
+        if (isset($request["npwp"]) && $request["follow_up"]=='Follow Up 1') {
+            $update_partner['npwp'] = $request['npwp'];
+        }
+        if (isset($request["npwp_name"]) && $request["follow_up"]=='Follow Up 1') {
+            $update_partner['npwp_name'] = $request['npwp_name'];
+        }
+        if (isset($request["npwp_address"]) && $request["follow_up"]=='Follow Up 1') {
+            $update_partner['npwp_address'] = $request['npwp_address'];
+        }
         if (isset($request['ownership_status']) && $request['follow_up']=='Follow Up 1'){
             $update_partner['ownership_status'] = $request['ownership_status'];
         } 
@@ -510,7 +671,92 @@ class PartnersController extends Controller
         } 
         if ($request['end_date']!=null && $request['follow_up']=='Follow Up 1'){
             $update_partner['end_date'] = date('Y-m-d', strtotime($request['end_date']));
-        } 
+        }
+
+        if(isset($request["follow_up"]) && $request["follow_up"]=='Survey Location'){
+            $request->validate([
+                "surye_note" => "required",
+            ]);
+            $form_survey = [
+                "id_partner"  => $request["id_partner"],
+                'note' => $request['surye_note'],
+                'date' => date("Y-m-d"),
+                'surveyor' => session('name'),
+            ];
+            if($request["survey_potential"]=='OK'){
+                $form_survey['potential'] = 1;
+            } else{
+                $form_survey['potential'] = 0;
+            }
+            $form_survey["value"] = $request->except('id_partner','note','follow_up','_token');
+            $tes = array_keys($form_survey["value"]);
+            $q1 = 0;
+            $q2 = 0;
+            $q3 = 0;
+            $a1 = 0;
+            $a2 = 0;
+            $a3 = 0;
+            $i = 0;
+            foreach ($form_survey["value"] as $survey) {
+                if (strstr($tes[$i],'umum_question')==true) {
+                    $question_umum[$q1] = '"'.$survey.'"';
+                    $q1++;
+                } elseif(strstr($tes[$i],'dalam_question')==true) {
+                    $question_dalam[$q2] = '"'.$survey.'"';
+                    $q2++;
+                }elseif(strstr($tes[$i],'tawar_question')==true){
+                    $question_tawar[$q3] = '"'.$survey.'"';
+                    $q3++;
+                }elseif(strstr($tes[$i],'umum_answer')==true){
+                    $answer_umum[$a1] = '"'.$survey.'"';
+                    $a1++;
+                }elseif(strstr($tes[$i],'dalam_answer')==true) {
+                    $answer_dalam[$a2] = '"'.$survey.'"';
+                    $a2++;
+                }elseif(strstr($tes[$i],'tawar_answer')==true){
+                    $answer_tawar[$a3] = '"'.$survey.'"';
+                    $a3++;
+                }
+                $i++;
+            }
+            foreach($question_umum as $i => $que){
+                $val_umum[$i] = '{"question":'.$que.',"answer":'.$answer_umum[$i].'}';
+            }
+            $val_1 = implode(',',$val_umum);
+            foreach($question_dalam as $i => $que){
+                $val_dalam[$i] = '{"question":'.$que.',"answer":'.$answer_dalam[$i].'}';
+            }
+            $val_2 = implode(',',$val_dalam);
+            foreach($question_tawar as $i => $que){
+                $val_tawar[$i] = '{"question":'.$que.',"answer":'.$answer_tawar[$i].'}';
+            }
+            $val_3 = implode(',',$val_tawar);
+            $form_survey["value"] = '{"cat1":['.$val_1.'],"cat2":['.$val_2.'],"cat3":['.$val_3.']}';
+        }
+        if(isset($request["follow_up"]) && $request["follow_up"]=='Confirmation Letter'){
+            $request->validate([
+                "no_letter" => "required",
+                "location_letter" => "required",
+            ]);
+            $data_confir = [
+                "id_partner"  => $request["id_partner"],
+                "no_letter" => $request["no_letter"],
+                "location" => $request["location_letter"],
+            ];
+            $update_data_location = [
+                "id_location" => $request["id_location"],
+                "notes" => $request["payment_note"],
+            ];
+        }
+        if(isset($request["follow_up"]) && $request["follow_up"]=='Payment'){
+            $update_partner['status'] = 'Active';
+            $update_partner['pin'] = rand(100000,999999);
+            $update_partner['password'] = Hash::make($update_partner["pin"]);
+            $update_data_location = [
+                "id_location" => $request["id_location"],
+                "status" => 'Active',
+            ];
+        }
         $follow_up = MyHelper::post('partners/create-follow-up', $post_follow_up);
         if(isset($follow_up['status']) && $follow_up['status'] == 'success'){
             $partner_step = MyHelper::post('partners/update', $update_partner);
@@ -518,17 +764,39 @@ class PartnersController extends Controller
                 if(isset($update_data_location) && !empty($update_data_location)){
                     $location_update =  MyHelper::post('partners/locations/update', $update_data_location);
                     if (isset($location_update['status']) && $location_update['status'] == 'success') {
+                        if(isset($data_confir) && !empty($data_confir)){
+                            $confirmation =  MyHelper::post('partners/confirmation-letter/create', $data_confir);
+                            if (isset($confirmation['status']) && $confirmation['status'] == 'success') {
+                                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
+                            }else{
+                                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
+                            }
+                        }
+                        if(isset($update_data_location['status']) && !empty($update_data_location['status']) && $update_data_location['status']=='Active'){
+                            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success update candidate partner to partner']); 
+                        }
                         return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
                     }else{
-                        return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create follow up steps']);
+                        return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
+                    }
+                }
+                if(isset($update_partner['status']) && !empty($update_partner['status']) && $update_partner['status'] == 'Active'){
+                    return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success update candidate partner to partner']); 
+                }
+                if(isset($form_survey) && !empty($form_survey)){
+                    $create_form_survey =  MyHelper::post('partners/form-survey/create', $form_survey);
+                    if (isset($create_form_survey['status']) && $create_form_survey['status'] == 'success') {
+                        return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
+                    }else{
+                        return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
                     }
                 }
                 return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
             }else{
-                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create follow up steps']);
+                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
             }
         }else{
-            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create follow up steps']);
+            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
         }
     }
 
@@ -540,6 +808,11 @@ class PartnersController extends Controller
         ];
         $partner_step = MyHelper::post('partners/update', $reject_partner);
         return $partner_step;
+    }
+    public function pdf()
+    {
+        $pdf = MyHelper::post('partners/pdf',['id_partner' => '1']);
+        return $pdf;
     }
 
 }

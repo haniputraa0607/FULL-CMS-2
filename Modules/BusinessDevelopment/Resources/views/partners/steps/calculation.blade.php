@@ -61,11 +61,11 @@
                                 </div>
                                 <div class="form-group">
                                     @if ($calcu==false) 
-                                    <label for="example-search-input" class="control-label col-md-4">Import Attachment <span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Import Attachment 
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukan file" data-container="body"></i><br>
                                         <span class="required" aria-required="true"> (PDF max 2 mb) </span></label>
                                         @else
-                                    <label for="example-search-input" class="control-label col-md-4">Download Attachment <span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Download Attachment 
                                         <i class="fa fa-question-circle tooltips" data-original-title="Download file" data-container="body"></i><br></label>
                                         @endif
                                     <div class="col-md-5">

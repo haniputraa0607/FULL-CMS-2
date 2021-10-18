@@ -20,6 +20,10 @@
         .datepicker{
             padding: 6px 12px;
            }
+        .zoom-in {
+			cursor: zoom-in;
+            border: 1px solid;
+		}
     </style>
 @endsection
 
@@ -209,6 +213,19 @@
             }
 
         });
+        $('#modalSurvey').click(function(){
+            let note = $('#noteSurvey').val();
+            let sur_note = $('#surye_note').val();
+            if ($('#potential').is(":checked"))
+            {
+                $('#potentialModal').val('OK');
+            }else{
+                $('#potentialModal').val('NOT OK');
+            }
+            $('#surveynoteModal').val(sur_note);
+            $("#noteModal").val(note);
+
+        });
         $('.datepicker').datepicker({
             'format' : 'dd MM yyyy',
             'todayHighlight' : true,
@@ -333,6 +350,9 @@
                     <li>
                         <a href="#bank" data-toggle="tab"> Partner Bank Account </a>
                     </li>
+                    <li>
+                        <a href="#manage" data-toggle="tab"> Manage Partner </a>
+                    </li>
                     @endif
                     <li>
                         <a href="#status" data-toggle="tab">  </a>
@@ -357,6 +377,17 @@
                                     <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nama" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <input class="form-control" type="text" id="input-name" name="name" value="{{$result['name']}}" placeholder="Enter name here"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Partner Gender <span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Masukkan kelamin" data-container="body"></i></label>
+                                <div class="col-md-5">
+                                    <select name="gender" class="form-control input-sm select2" placeholder="Select Gender" required>
+                                        <option value="" selected disabled>Select Gender</option>
+                                        <option value="Man" @if(isset($result['gender'])) @if($result['gender'] == 'Man') selected @endif @endif>Man</option>
+                                        <option value="Woman" @if(isset($result['gender'])) @if($result['gender'] == 'Woman') selected @endif @endif>Woman</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -487,6 +518,24 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Confirmation Letter 
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Download file" data-container="body"></i><br></label>
+                                <div class="col-md-5">
+                                    <label for="example-search-input" class="control-label">
+                                        <a href="{{ $result['partner_confirmation'][0]['attachment'] }}">Download Confirmation Letter</a>
+                                    <label>
+                                </div>
+                            </div>    
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Form Survey Location 
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Download file" data-container="body"></i><br></label>
+                                <div class="col-md-5">
+                                    <label for="example-search-input" class="control-label">
+                                        <a href="{{ $result['partner_survey'][0]['attachment'] }}">Download Form Survey Location</a>
+                                    <label>
+                                </div>
+                            </div>    
                             @endif
                         </div>
                         <div class="form-actions">
@@ -583,14 +632,14 @@
                                     <label for="example-search-input" class="control-label col-md-4">Beneficiary Name <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nama penerima" data-container="body"></i></label>
                                     <div class="col-md-6">
-                                        <input class="form-control" type="text" id="input-beneficiary_name" name="beneficiary_name" value="<?php if(isset($result['partner_bank_account'])) echo $result['partner_bank_account']['beneficiary_name'] ?>" placeholder="Enter beneficiary name"/>
+                                        <input class="form-control" type="text" id="input-beneficiary_name" name="beneficiary_name" value="<?php if(isset($result['partner_bank_account'])) echo $result['partner_bank_account']['beneficiary_name'] ?>" placeholder="Enter beneficiary name" required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Beneficiary Account <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukkan akun penerima" data-container="body"></i></label>
                                     <div class="col-md-6">
-                                        <input class="form-control" type="text" id="input-beneficiary_account" name="beneficiary_account" value="<?php if(isset($result['partner_bank_account'])) echo $result['partner_bank_account']['beneficiary_account'] ?>" placeholder="Enter beneficiary name"/>
+                                        <input class="form-control" type="text" id="input-beneficiary_account" name="beneficiary_account" value="<?php if(isset($result['partner_bank_account'])) echo $result['partner_bank_account']['beneficiary_account'] ?>" placeholder="Enter beneficiary name" required/>
                                     </div>
                                 </div>
                             </div>
@@ -679,21 +728,21 @@
                                     <label for="example-search-input" class="control-label col-md-4">New PIN <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukkan pin baru" data-container="body"></i></label>
                                     <div class="col-md-6">
-                                        <input class="form-control" type="password" id="input-new-pin" name="new-pin"  placeholder="Enter new pin" maxlength="6"/>
+                                        <input class="form-control" type="password" id="input-new-pin" name="new-pin"  placeholder="Enter new pin" maxlength="6" required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Confirm PIN <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Ulangi pin baru" data-container="body"></i></label>
                                     <div class="col-md-6">
-                                        <input class="form-control" type="password" id="input-confirm-pin" name="confirm-pin"  placeholder="Reenter new pin" maxlength="6"/>
+                                        <input class="form-control" type="password" id="input-confirm-pin" name="confirm-pin"  placeholder="Reenter new pin" maxlength="6" required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Your PIN <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukkan pin anda" data-container="body"></i></label>
                                     <div class="col-md-6">
-                                        <input class="form-control" type="password" id="input-your-pin" name="your-pin"  placeholder="Enter your pin" maxlength="6"/>
+                                        <input class="form-control" type="password" id="input-your-pin" name="your-pin"  placeholder="Enter your pin" maxlength="6" required/>
                                     </div>
                                 </div>
                             </div>
@@ -732,7 +781,7 @@
                                         <li class="@if($result['status_steps']=='Confirmation Letter') active @endif" <a @if($result['status_steps']=='Calculation' || $result['status_steps']=='Confirmation Letter' || $result['status_steps']=='Payment') @else style="opacity: 0.4 !important" @endif>
                                             <a @if($result['status_steps']=='Calculation' || $result['status_steps']=='Confirmation Letter' || $result['status_steps']=='Payment') data-toggle="tab" @endif href="#confirm"><i class="fa fa-cog"></i> Confirmation Letter </a>
                                         </li>
-                                        <li class="@if($result['status_steps']=='Payment') active @endif" @if($result['status_steps']!='Confirmation Letter' || $result['status_steps']!='Payment') style="opacity: 0.4 !important" @endif>
+                                        <li class="@if($result['status_steps']=='Payment') active @endif" @if($result['status_steps']=='Confirmation Letter' || $result['status_steps']=='Payment') @else style="opacity: 0.4 !important" @endif>
                                             <a @if($result['status_steps']=='Confirmation Letter' || $result['status_steps']=='Payment') data-toggle="tab" @endif href="#payment"><i class="fa fa-cog"></i> Payment </a>
                                         </li>
                                     </ul>
@@ -749,10 +798,10 @@
                                             @include('businessdevelopment::partners.steps.calculation') 
                                         </div>
                                         <div class="tab-pane @if($result['status_steps']=='Confirmation Letter') active @endif" id="confirm">
-                                            <p>Confirmation Letter</p>
+                                            @include('businessdevelopment::partners.steps.confirmation')
                                         </div>
                                         <div class="tab-pane @if($result['status_steps']=='Payment') active @endif" id="payment">
-                                            <p>Payment</p>
+                                            @include('businessdevelopment::partners.steps.payment')
                                         </div>
                                     </div>
                                 </div>
@@ -766,12 +815,12 @@
     
     <div class="modal fade" id="candidatePartnerModal" tabindex="-1" role="dialog" aria-labelledby="candidatePartnerModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="candidatePartnerModalLabel">Insert Data Partner</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="candidatePartnerModalLabel">Insert Data Partner</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form" action="{{url('businessdev/partners/update')}}/{{$result['id_partner']}}" method="post" enctype="multipart/form-data">
@@ -864,9 +913,93 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn blue">Submit</button>
                 </div>
-            </form>
-          </div>
+                </form>
+            </div>
         </div>
-      </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-sm" id="formSurvey" tabindex="-1" role="dialog" aria-labelledby="candidatePartnerModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="candidatePartnerModalLabel">Form Survey</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" action="{{url('businessdev/partners/create-follow-up')}}" method="post" enctype="multipart/form-data">
+                <div class="form-body">
+                    <input type="hidden" name="id_partner" value="{{$result['id_partner']}}">
+                    <input type="hidden" name='follow_up' id="followUpModal" value="Survey Location">
+                    <input type="hidden" name='note' id="noteModal" value="">
+                    <input type="hidden" name='surye_note' id="surveynoteModal" value="">
+                    <input type="hidden" name='survey_potential' id="potentialModal" value="">
+                    @foreach ($formSurvey as $x => $form)
+                        <?php 
+                            if($x == 'cat1'){
+                                $name_input = 'umum';
+                            }elseif($x == 'cat2'){
+                                $name_input = 'dalam';
+                            }else{
+                                $name_input = 'tawar';
+                            }
+                        ?>
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <label for="example-search-input"><span class="sbold uppercase font-black">{{ $form['category'] }}</span></label>
+                            </div>
+                        </div>
+                        @foreach ($form["question"] as $i => $q )
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <input type="hidden" name="{{ $name_input }}_question_{{ $i }}" value="{{ $q }}">
+                                <label for="example-search-input">{{ $q }}</label>
+                            </div>
+                            <div class="col-md-2">
+                                <select name="{{ $name_input }}_answer_{{ $i }}" class="form-control input-sm select2" required>
+                                    <option value="" selected disabled></option>
+                                    <option value="a">A</option>
+                                    <option value="b">B</option>
+                                    <option value="c">C</option>
+                                    <option value="d">D</option>
+                                </select>
+                            </div>
+                        </div>
+                        @endforeach
+                    @endforeach
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label for="example-search-input">Import Attachment
+                                <i class="fa fa-question-circle tooltips" data-original-title="Masukan file" data-container="body"></i><br>
+                                <span class="required" aria-required="true"> (PDF max 2 mb) </span></label>
+                        </div>
+                        <div class="col-md-7" style="padding-left: 12px !important">
+                            <div class="fileinput fileinput-new text-left" data-provides="fileinput">
+                                <div class="input-group input-large">
+                                    <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                        <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                        <span class="fileinput-filename"> </span>
+                                    </div>
+                                    <span class="input-group-addon btn default btn-file">
+                                                <span class="fileinput-new"> Select file </span>
+                                                <span class="fileinput-exists"> Change </span>
+                                                <input type="file" accept=".pdf, application/pdf, application/x-pdf,application/acrobat, applications/vnd.pdf, text/pdf, text/x-pdf" class="file" name="import_file" id="attSurv">
+                                            </span>
+                                    <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer form-actions">
+                    {{ csrf_field() }}
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn blue">Submit</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 @endsection
