@@ -162,9 +162,11 @@
                         </td>
                         <td>
                             @if($val['user_hair_stylist_status'] == 'Candidate')
-                                <span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: #faf21e;padding: 5px 12px;color: #fff;">Candidate</span>
+                                <span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: #9b9e9c;padding: 5px 12px;color: #fff;">Candidate</span>
                             @elseif($val['user_hair_stylist_status'] == 'Rejected')
                                 <span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: #E7505A;padding: 5px 12px;color: #fff;">Rejected</span>
+                            @else
+                                <span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: #faf21e;padding: 5px 12px;color: #fff;">{{$val['user_hair_stylist_status'] }}</span>
                             @endif
                         </td>
                         <td>{{ date('d M Y H:i', strtotime($val['created_at'])) }}</td>
