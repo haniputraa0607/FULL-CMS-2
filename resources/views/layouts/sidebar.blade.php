@@ -91,6 +91,11 @@
 						<span class="title">[Response] Approve Candidate Hair Stylist</span>
 					</a>
 				</li>
+				<li class="nav-item {{($submenu_active == 'hairstylist-autoresponse-reset-password-user-hair-stylist') ? 'active open' : ''}}">
+					<a href="{{url('autoresponse/hairstylist/reset-password-user-hair-stylist')}}" class="nav-link ">
+						<span class="title">[Response] Reset Password User Hair Stylist</span>
+					</a>
+				</li>
 			</ul>
 		@endif
 

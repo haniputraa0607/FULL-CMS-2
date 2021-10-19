@@ -651,6 +651,9 @@
                 <li>
                     <a href="#schedule" data-toggle="tab"> Schedule </a>
                 </li>
+                <li>
+                    <a href="#shifttime" data-toggle="tab"> Shift Time </a>
+                </li>
                 @if(MyHelper::hasAccess([51], $grantedFeature))
                 <li>
                     <a href="#visibility" data-toggle="tab"> Visibility </a>
@@ -680,6 +683,9 @@
                 </div>
                 <div class="tab-pane" id="schedule">
                     @include('outlet::schedule_open')
+                </div>
+                <div class="tab-pane" id="shifttime">
+                    @include('outlet::shift_time')
                 </div>
                 <div class="tab-pane" id="visibility">
                     @include('outlet::outlet_visibility')

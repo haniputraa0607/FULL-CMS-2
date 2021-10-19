@@ -1325,7 +1325,7 @@ class OutletController extends Controller
         return response()->json($arr_result);
     }
 
-    function boxSave(Request $request){
+    public function boxSave(Request $request){
         $post = $request->except('_token');
         $save = MyHelper::post('outlet/box/save', $post);
 
@@ -1334,5 +1334,16 @@ class OutletController extends Controller
         }
 
         return redirect('outlet/detail/'.$post['outlet_code'].'#box')->withErrors($save['messages']??['Save data box failed']);
+    }
+
+    public function shiftTimeSave(Request $request){
+        $post = $request->except('_token');
+        $save = MyHelper::post('outlet/shift-time/save', $post);
+
+        if (isset($save['status']) && $save['status'] == 'success') {
+            return redirect('outlet/detail/'.$post['outlet_code'].'#shifttime')->with(['success' => ['Save data shift success']]);
+        }
+
+        return redirect('outlet/detail/'.$post['outlet_code'].'#shifttime')->withErrors($save['messages']??['Save data shift failed']);
     }
 }
