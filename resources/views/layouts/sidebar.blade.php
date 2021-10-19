@@ -504,6 +504,31 @@
 			</ul>
 		</li>
 		@endif
+        @if(MyHelper::hasAccess([339,340], $grantedFeature))
+		<li class="nav-item {{($menu_active == 'form-survey') ? 'active open' : ''}}">
+			<a href="javascript:;" class="nav-link nav-toggle">
+				<i class="fa fa-list"></i>
+				<span class="title">Form Survey</span>
+				<span class="arrow {{($menu_active == 'form-survey') ? 'open' : ''}}"></span>
+			</a>
+			<ul class="sub-menu">
+				@if(MyHelper::hasAccess([339,340], $grantedFeature))
+				<li class="nav-item {{($submenu_active == 'list-form-survey') ? 'active open' : ''}}">
+					<a href="{{url('businessdev/form-survey')}}" class="nav-link ">
+						<span class="title">List Form Survey</span>
+					</a>
+				</li>
+				@endif
+				@if(MyHelper::hasAccess([339,340], $grantedFeature))
+				<li class="nav-item {{($submenu_active == 'new-form-survey') ? 'active open' : ''}}">
+					<a href="{{url('businessdev/form-survey/new')}}" class="nav-link ">
+						<span class="title">New Form Survey</span>
+                    </a>
+				</li>
+				@endif
+			</ul>
+		</li>
+		@endif
 		@endif
 		@if(MyHelper::hasAccess([19,21,24,26,32,33,34,43,45,48,50,56,57,164,165,166,167], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
