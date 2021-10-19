@@ -162,6 +162,11 @@ class SettingController extends Controller
             $span = 'credit_card_payment_gateway';
             $colInput = 4;
             $colLabel = 3;
+        } elseif ($key == 'privacypolicy') {
+        	$sub = 'about-privacy-policy';
+            $active = 'privacy-policy';
+            $subTitle = 'Kebijakan Privasi';
+            $label = 'Kebijakan Privasi';
         }
 
         $data = [
@@ -213,7 +218,7 @@ class SettingController extends Controller
                     $data['key'] = 'value';
                 }
             } else {
-                return view('setting::index', $data)->withErrors($request['messages']);
+                return redirect('home')->withErrors($request['messages']);
             }
             return view('setting::index', $data);
         }
@@ -829,19 +834,29 @@ class SettingController extends Controller
 
     function defaultHomeSave(Request $request){
         $post = $request->except('_token');
-        if(isset($post['default_home_image'])){
+        if (isset($post['default_home_image'])) {
             $post['default_home_image'] = MyHelper::encodeImage($post['default_home_image']);
         }
-		if(isset($post['default_home_splash_screen'])){
+
+		if (isset($post['default_home_splash_screen'])) {
             $post['default_home_splash_screen'] = MyHelper::encodeImage($post['default_home_splash_screen']);
         }
 
-        if(isset($post['default_home_splash_duration'])){
-            if($post['default_home_splash_duration']<1){
-                $post['default_home_splash_duration']=1;
+        if (isset($post['default_home_splash_duration'])) {
+            if ($post['default_home_splash_duration'] < 1) {
+                $post['default_home_splash_duration'] = 1;
             }
         }
 
+        if (isset($post['default_home_splash_screen_web_apps'])) {
+            $post['default_home_splash_screen_web_apps'] = MyHelper::encodeImage($post['default_home_splash_screen_web_apps']);
+        }
+
+        if (isset($post['default_home_splash_duration_web_apps'])) {
+            if ($post['default_home_splash_duration_web_apps'] < 1) {
+                $post['default_home_splash_duration_web_apps'] = 1;
+            }
+        }
 		// print_r($post);exit;
         $result = MyHelper::post('setting/default_home', $post);
         return parent::redirect($result, 'Default Home Background has been updated.');

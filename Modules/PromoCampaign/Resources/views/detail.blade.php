@@ -484,6 +484,13 @@
 	                                        <div class="col-md-8 value">: {{ $result['code_limit']??false ? number_format($result['code_limit']).' Times usage' : 'Unlimited' }}</div>
 	                                    </div>
                                     @endif
+                                    <div class="row static-info">
+					                    <div class="col-md-4 name">Image</div>
+					                    <div class="col-md-8 value">
+					                    	<span style="float: left;margin-right: 5px">:</span> 
+					                    	<div><img src="{{ $result['url_promo_image'] ?? null }}" style="width: 225px"></div>
+					                    </div>
+					                </div>
 
                                 {{-- if promo campaign already used --}}
                                 @if( (empty($result['promo_campaign_reports']) || empty($result['step_complete']) || session('level') == 'Super Admin' ) && MyHelper::hasAccess([203], $grantedFeature))

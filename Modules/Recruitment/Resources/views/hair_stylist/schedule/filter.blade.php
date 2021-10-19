@@ -49,16 +49,13 @@
         } else if (subject_value == 'year') {
             var operator = "conditions["+index+"][operator]";
             var operator_value = document.getElementsByName(operator)[0];
-            for(i = operator_value.options.length - 1 ; i >= 0 ; i--) operator_value.remove(i);
-            operator_value.options[operator_value.options.length] = new Option('=', '=');
-            operator_value.options[operator_value.options.length] = new Option('<', '<');
-            operator_value.options[operator_value.options.length] = new Option('>', '>');
-            operator_value.options[operator_value.options.length] = new Option('<=', '<=');
-            operator_value.options[operator_value.options.length] = new Option('>=', '>=');
+			for(i = operator_value.options.length - 1 ; i >= 0 ; i--) operator_value.remove(i);
+            @foreach($years ?? [] as $year)
+			operator_value.options[operator_value.options.length] = new Option("{{ $year }}", "{{ $year }}");
+			@endforeach
 
             var parameter = "conditions["+index+"][parameter]";
-            document.getElementsByName(parameter)[0].type = 'number';
-            document.getElementsByName(parameter)[0].min = 0;
+            document.getElementsByName(parameter)[0].type = 'hidden';
         } else {
             var operator = "conditions["+index+"][operator]";
             var operator_value = document.getElementsByName(operator)[0];
@@ -150,11 +147,9 @@
 															<option value="{{$month['index']}}" @if ($con['operator'] == $month['index']) selected @endif>{{$month['name']}}</option>
 														@endforeach
 													@elseif ($con['subject'] == 'year')
-														<option value="=" @if ($con['operator'] == '=') selected @endif>=</option>
-                                                        <option value="<" @if ($con['operator']  == '<') selected @endif><</option>
-                                                        <option value=">" @if ($con['operator']  == '>') selected @endif>></option>
-                                                        <option value="<=" @if ($con['operator']  == '<=') selected @endif><=</option>
-                                                        <option value=">=" @if ($con['operator']  == '>=') selected @endif>>=</option>
+														@foreach($years ?? [] as $year)
+															<option value="{{ $year }}" @if ($con['operator'] == $year) selected @endif>{{ $year }}</option>
+														@endforeach
                                                     @else
                                                         <option value="=" @if ($con['operator'] == '=') selected @endif>=</option>
                                                         <option value="like" @if ($con['operator']  == 'like') selected @endif>Like</option>
@@ -162,13 +157,9 @@
                                                 </select>
                                             </div>
 
-                                            @if (in_array($con['subject'], ['status', 'id_outlet', 'month']))
+                                            @if (in_array($con['subject'], ['status', 'id_outlet', 'month', 'year']))
                                                 <div class="col-md-3">
                                                     <input type="hidden" placeholder="Keyword" class="form-control" name="parameter" required @if (isset($con['parameter'])) value="{{ $con['parameter'] }}" @endif/>
-                                                </div>
-                                            @elseif (in_array($con['subject'], ['month']))
-                                                <div class="col-md-3">
-                                                    <input type="number" placeholder="Keyword" class="form-control" name="parameter" required @if (isset($con['parameter'])) value="{{ $con['parameter'] }}" @endif/>
                                                 </div>
                                             @else
                                                 <div class="col-md-3">

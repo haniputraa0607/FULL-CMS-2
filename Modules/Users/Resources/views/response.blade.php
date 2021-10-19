@@ -275,7 +275,6 @@ $active_response = $active_response??['email', 'sms', 'push', 'inbox', 'whatsapp
 				}
 			});
 			document.getElementById('link_'+type).style.display = 'none';
-			if(type=="inbox") document.getElementById('div_inbox_content').style.display = 'none';
 		}
 
 		else if(det == 'Outlet' || det == 'Order'){
@@ -298,7 +297,6 @@ $active_response = $active_response??['email', 'sms', 'push', 'inbox', 'whatsapp
 				}
 			});
 			document.getElementById('link_'+type).style.display = 'none';
-			if(type=="inbox") document.getElementById('div_inbox_content').style.display = 'none';
 		}
 
 		else if(det == 'News'){
@@ -321,7 +319,6 @@ $active_response = $active_response??['email', 'sms', 'push', 'inbox', 'whatsapp
 				}
 			});
 			document.getElementById('link_'+type).style.display = 'none';
-			if(type=="inbox") document.getElementById('div_inbox_content').style.display = 'none';
 		}
 
 		else if(det == 'Home'){
@@ -329,7 +326,6 @@ $active_response = $active_response??['email', 'sms', 'push', 'inbox', 'whatsapp
 			var operator_value = document.getElementsByName('autocrm_'+type+'_id_reference')[0];
 			for(i = operator_value.options.length - 1 ; i >= 0 ; i--) operator_value.remove(i);
 			document.getElementById('link_'+type).style.display = 'none';
-			if(type=="inbox") document.getElementById('div_inbox_content').style.display = 'none';
 		}
 
 		else if(det == 'Inbox'){
@@ -337,7 +333,6 @@ $active_response = $active_response??['email', 'sms', 'push', 'inbox', 'whatsapp
 			var operator_value = document.getElementsByName('autocrm_'+type+'_id_reference')[0];
 			for(i = operator_value.options.length - 1 ; i >= 0 ; i--) operator_value.remove(i);
 			document.getElementById('link_'+type).style.display = 'none';
-			if(type=="inbox") document.getElementById('div_inbox_content').style.display = 'none';
 		}
 
 		else if(det == 'Voucher'){
@@ -345,7 +340,6 @@ $active_response = $active_response??['email', 'sms', 'push', 'inbox', 'whatsapp
 			var operator_value = document.getElementsByName('autocrm_'+type+'_id_reference')[0];
 			for(i = operator_value.options.length - 1 ; i >= 0 ; i--) operator_value.remove(i);
 			document.getElementById('link_'+type).style.display = 'none';
-			if(type=="inbox") document.getElementById('div_inbox_content').style.display = 'none';
 		}
 
 		else if(det == 'Contact Us' || det == 'Transaction'){
@@ -353,7 +347,6 @@ $active_response = $active_response??['email', 'sms', 'push', 'inbox', 'whatsapp
 			var operator_value = document.getElementsByName('autocrm_'+type+'_id_reference')[0];
 			for(i = operator_value.options.length - 1 ; i >= 0 ; i--) operator_value.remove(i);
 			document.getElementById('link_'+type).style.display = 'none';
-			if(type=="inbox") document.getElementById('div_inbox_content').style.display = 'none';
 		}
 
 		else if(det == 'Link'){
@@ -361,7 +354,6 @@ $active_response = $active_response??['email', 'sms', 'push', 'inbox', 'whatsapp
 			var operator_value = document.getElementsByName('autocrm_'+type+'_id_reference')[0];
 			for(i = operator_value.options.length - 1 ; i >= 0 ; i--) operator_value.remove(i);
 			document.getElementById('link_'+type).style.display = 'block';
-			if(type=="inbox") document.getElementById('div_inbox_content').style.display = 'none';
 		}
 
 		else if(det == 'Content'){
@@ -369,7 +361,6 @@ $active_response = $active_response??['email', 'sms', 'push', 'inbox', 'whatsapp
 			var operator_value = document.getElementsByName('autocrm_'+type+'_id_reference')[0];
 			for(i = operator_value.options.length - 1 ; i >= 0 ; i--) operator_value.remove(i);
 			document.getElementById('link_'+type).style.display = 'none';
-			if(type=="inbox") document.getElementById('div_inbox_content').style.display = 'block';
 		}
 
 		else {
@@ -377,7 +368,6 @@ $active_response = $active_response??['email', 'sms', 'push', 'inbox', 'whatsapp
 			var operator_value = document.getElementsByName('autocrm_'+type+'_id_reference')[0];
 			for(i = operator_value.options.length - 1 ; i >= 0 ; i--) operator_value.remove(i);
 			document.getElementById('link_'+type).style.display = 'none';
-			if(type=="inbox") document.getElementById('div_inbox_content').style.display = 'none';
 		}
 	}
 
@@ -419,6 +409,7 @@ $active_response = $active_response??['email', 'sms', 'push', 'inbox', 'whatsapp
 			if(nilai=='1'){
 				document.getElementById('div_inbox_subject').style.display = 'block';
 				document.getElementById('div_inbox_clickto').style.display = 'block';
+				document.getElementById('div_inbox_content').style.display = 'block';
 			} else {
 				document.getElementById('div_inbox_subject').style.display = 'none';
 				document.getElementById('div_inbox_content').style.display = 'none';
@@ -698,13 +689,13 @@ $active_response = $active_response??['email', 'sms', 'push', 'inbox', 'whatsapp
 								</div>
 							</div>
 						</div>
+						<hr>
 					@else
 						<input hidden name="autocrm_email_toogle" value="0">
 					@endif
 
 					@if($subject != 'email-verify' && $subject != 'new-user-franchise' && $subject != 'reset-password-user-franchise')
 						@if(MyHelper::hasAccess([39], $configs) && in_array('sms', $active_response))
-							<hr>
 							<h4>SMS</h4>
 							<div class="form-group" >
 								<div class="input-icon right">
@@ -899,7 +890,7 @@ $active_response = $active_response??['email', 'sms', 'push', 'inbox', 'whatsapp
 									<input type="text" placeholder="https://" class="form-control" name="autocrm_push_link" value="{{$data['autocrm_push_link']}}">
 								</div>
 							</div>
-						<hr>
+							<hr>
 						@else
 							<input hidden name="autocrm_push_toogle" value="0">
 						@endif
@@ -930,7 +921,7 @@ $active_response = $active_response??['email', 'sms', 'push', 'inbox', 'whatsapp
 									</label>
 								</div>
 								<div class="col-md-9">
-									<input type="text" placeholder="Inbox Subject" class="form-control" name="autocrm_inbox_subject" id="autocrm_inbox_subject" value="{{$data['autocrm_inbox_subject']}}">
+									<input type="text" placeholder="Inbox Subject" class="form-control" name="autocrm_inbox_subject" id="autocrm_inbox_subject" value="{{$data['autocrm_inbox_subject']}}" autocomplete="off">
 									<br>
 									You can use this variables to display user personalized information:
 									<br><br>
@@ -974,7 +965,7 @@ $active_response = $active_response??['email', 'sms', 'push', 'inbox', 'whatsapp
 									<input type="text" placeholder="https://" class="form-control" name="autocrm_inbox_link" id="autocrm_inbox_link" @if(isset($data['autocrm_inbox_link'])) value="{{$data['autocrm_inbox_link']}}" @endif>
 								</div>
 							</div>
-							<div class="form-group" id="div_inbox_content" style="margin-bottom:30px; display:none">
+							<div class="form-group" id="div_inbox_content" style="margin-bottom:30px; @if($data['autocrm_inbox_toogle'] == 0) display:none; @endif">
 								<label for="multiple" class="control-label col-md-3">Content</label>
 								<div class="col-md-9">
 									<textarea name="autocrm_inbox_content" id="autocrm_inbox_content" class="form-control summernote">@if(isset($data['autocrm_inbox_content']) && $data['autocrm_inbox_content'] != ""){{$data['autocrm_inbox_content']}}@endif</textarea>

@@ -273,7 +273,7 @@ class AutocrmController extends Controller
                 $data['submenu_active'] 	= 'hairstylist-schedule';
                 $data['child_active']   	= $type.'-autoresponse-'.$subject;
                 $data['type'] 				= $type;
-                $data['active_response'] 	= ['email'];
+                $data['active_response'] 	= ['email','inbox'];
                 $test['result'] 			= [];
             	break;
 

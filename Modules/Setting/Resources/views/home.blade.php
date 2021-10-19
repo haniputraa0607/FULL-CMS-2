@@ -415,6 +415,7 @@
 		var heightImg = 1920;
 		var widthImg2  = 540;
 		var heightImg2 = 960;
+		let appType = $(this).data('app-type');
 
 		var _URL = window.URL || window.webkitURL;
 		var image, file;
@@ -432,8 +433,13 @@
 					// $('#remove_square').click()
 					// image.src = _URL.createObjectURL();
 
-					$('#field_splash').val("");
-					$('#div_splash').children('img').attr('src', 'https://www.placehold.it/500x250/EFEFEF/AAAAAA&amp;text=no+image');
+					if (appType == 'webapp') {
+						$('#field_splash_webapp').val("");
+						$('#div_splash_webapp').children('img').attr('src', 'https://www.placehold.it/500x250/EFEFEF/AAAAAA&amp;text=no+image');
+					} else {
+						$('#field_splash').val("");
+						$('#div_splash').children('img').attr('src', 'https://www.placehold.it/500x250/EFEFEF/AAAAAA&amp;text=no+image');
+					}
 
 					// console.log(document.getElementsByName('news_image_luar'))
 				}
@@ -732,46 +738,100 @@
 						</div>
 					</div>
 					<div class="portlet-body">
-						<form role="form" class="form-horizontal" action="{{url('setting/default_home')}}" method="POST" enctype="multipart/form-data">
-							<div class="form-body">
-								<div class="form-group col-md-12">
-									<label class="text-right col-md-4">Splash Screen Duration
-										<span class="required" aria-required="true"> * </span>
-									</label>
-									<div class="col-md-4">
-										<input type="number" class="form-control" name="default_home_splash_duration" value="{{$default_home['default_home_splash_duration']??''}}" min="1">
-									</div>
-								</div>
-								<div class="form-group col-md-12">
-										<label class="control-label col-md-4">Splash Screen
-											<br>
-											<span class="required" aria-required="true"> (1080*1920)/(540*960) </span>
-										</label><br>
-										<div class="fileinput fileinput-new col-md-4" data-provides="fileinput">
-											<div class="fileinput-new thumbnail">
-												@if(isset($default_home['default_home_splash_screen']))
-													<img src="{{ env('STORAGE_URL_API')}}{{$default_home['default_home_splash_screen']}}?updated_at={{time()}}" alt="">
-												@else
-													<img src="https://www.placehold.it/200x100/EFEFEF/AAAAAA&amp;text=no+image" alt="">
-												@endif
+						<ul class="nav nav-tabs">
+				            <li class="active">
+				                <a href="#tab_splash_custapp" data-toggle="tab"> Customer App </a>
+				            </li>
+				            <li>
+				                <a href="#tab_splash_webapp" data-toggle="tab"> Web App </a>
+				            </li>
+				        </ul>
+				        <div class="tab-content">
+				        	<div class="tab-pane fade in active" id="tab_splash_custapp">
+								<form role="form" class="form-horizontal" action="{{url('setting/default_home')}}" method="POST" enctype="multipart/form-data">
+									<div class="form-body">
+										<div class="form-group col-md-12">
+											<label class="text-right col-md-4">Splash Screen Duration
+												<span class="required" aria-required="true"> * </span>
+											</label>
+											<div class="col-md-4">
+												<input type="number" class="form-control" name="default_home_splash_duration" value="{{$default_home['default_home_splash_duration']??''}}" min="1">
 											</div>
-											<div class="fileinput-preview fileinput-exists thumbnail" id="div_splash" style="max-width: 500px; max-height: 250px;"></div>
-											<div>
-												<span class="btn default btn-file">
-												<span class="fileinput-new"> Select image </span>
-												<span class="fileinput-exists"> Change </span>
-												<input type="file" class="file file-splash" id="field_splash" accept="image/*" name="default_home_splash_screen">
-												</span>
-												<a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+										</div>
+										<div class="form-group col-md-12">
+											<label class="control-label col-md-4">Splash Screen
+												<br>
+												<span class="required" aria-required="true"> (1080*1920)/(540*960) </span>
+											</label><br>
+											<div class="fileinput fileinput-new col-md-4" data-provides="fileinput">
+												<div class="fileinput-new thumbnail">
+													@if(isset($default_home['default_home_splash_screen']))
+														<img src="{{ env('STORAGE_URL_API')}}{{$default_home['default_home_splash_screen']}}?updated_at={{time()}}" alt="">
+													@else
+														<img src="https://www.placehold.it/200x100/EFEFEF/AAAAAA&amp;text=no+image" alt="">
+													@endif
+												</div>
+												<div class="fileinput-preview fileinput-exists thumbnail" id="div_splash" style="max-width: 500px; max-height: 250px;"></div>
+												<div>
+													<span class="btn default btn-file">
+													<span class="fileinput-new"> Select image </span>
+													<span class="fileinput-exists"> Change </span>
+													<input type="file" class="file file-splash" id="field_splash" accept="image/*" name="default_home_splash_screen" data-app-type="custapp">
+													</span>
+													<a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+												</div>
 											</div>
 										</div>
 									</div>
+									<div class="form-actions" style="text-align:center">
+										{{ csrf_field() }}
+										<button type="submit" class="btn blue" id="checkBtn">Submit</button>
+									</div>
+								</form>
 							</div>
-							<div class="form-actions" style="text-align:center">
-								{{ csrf_field() }}
-								<button type="submit" class="btn blue" id="checkBtn">Submit</button>
+            				<div class="tab-pane fade" id="tab_splash_webapp">
+								<form role="form" class="form-horizontal" action="{{url('setting/default_home')}}" method="POST" enctype="multipart/form-data">
+									<div class="form-body">
+										<div class="form-group col-md-12">
+											<label class="text-right col-md-4">Splash Screen Duration
+												<span class="required" aria-required="true"> * </span>
+											</label>
+											<div class="col-md-4">
+												<input type="number" class="form-control" name="default_home_splash_duration_web_apps" value="{{$default_home['default_home_splash_duration_web_apps']??''}}" min="1">
+											</div>
+										</div>
+										<div class="form-group col-md-12">
+											<label class="control-label col-md-4">Splash Screen
+												<br>
+												<span class="required" aria-required="true"> (1080*1920)/(540*960) </span>
+											</label><br>
+											<div class="fileinput fileinput-new col-md-4" data-provides="fileinput">
+												<div class="fileinput-new thumbnail">
+													@if(isset($default_home['default_home_splash_screen_web_apps']))
+														<img src="{{ env('STORAGE_URL_API') . ($default_home['default_home_splash_screen_web_apps'] ?? null) }}?updated_at={{time()}}" alt="">
+													@else
+														<img src="https://www.placehold.it/200x100/EFEFEF/AAAAAA&amp;text=no+image" alt="">
+													@endif
+												</div>
+												<div class="fileinput-preview fileinput-exists thumbnail" id="div_splash_webapp" style="max-width: 500px; max-height: 250px;"></div>
+												<div>
+													<span class="btn default btn-file">
+													<span class="fileinput-new"> Select image </span>
+													<span class="fileinput-exists"> Change </span>
+													<input type="file" class="file file-splash" id="field_splash_webapp" accept="image/*" name="default_home_splash_screen_web_apps" data-app-type="webapp">
+													</span>
+													<a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="form-actions" style="text-align:center">
+										{{ csrf_field() }}
+										<button type="submit" class="btn blue" id="checkBtn">Submit</button>
+									</div>
+								</form>
 							</div>
-						</form>
+						</div>
 					</div>
 				</div>
 			</div>

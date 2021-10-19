@@ -4,7 +4,7 @@
  ?>
 @extends('layouts.main')
 
-@include('transaction::transaction.transaction_detail')
+{{-- @include('transaction::transaction.transaction_detail') --}}
 
 @section('page-style')
 @yield('sub-page-style')
@@ -48,7 +48,7 @@
                     <a href="#tab_rating" data-toggle="tab"> Rating </a>
                 </li>
                 <li>
-                    <a href="#tab_transaction" data-toggle="tab"> Transaction </a>
+                    {{-- <a href="#tab_transaction" data-toggle="tab"> Transaction </a> --}}
                 </li>
             </ul>
 
@@ -87,6 +87,20 @@
                         </div>
                 	</div>
                 	<div class="row">
+                		<label class="col-md-3 text-right">Target</label>
+                		<div class="col-md-5">
+                            {{ $rating['id_user_hair_stylist'] ? 'Hairstylist' : 'Outlet' }}<br/>
+                        </div>
+                	</div>
+                	@if ($rating['id_user_hair_stylist'])
+                		<div class="row">
+	                		<label class="col-md-3 text-right">Hair Stylist</label>
+	                		<div class="col-md-5">
+                            	<a href="{{ url('recruitment/hair-stylist/detail'.'/'.$rating['user_hair_stylist']['id_user_hair_stylist']) }}">{{ $rating['user_hair_stylist']['fullname'] }}</a><br/>
+	                        </div>
+	                	</div>
+                	@endif
+                	<div class="row">
                 		<label class="col-md-3 text-right">Star</label>
                 		<div class="col-md-5">
                             <span class="font-yellow-crusta">{!!str_repeat('<i class="fa fa-star"></i>',$rating['rating_value'])!!}{!!str_repeat('<i class="fa fa-star-o"></i>',(5-$rating['rating_value']))!!}</span> ({{$rating['rating_value']}})<br/>
@@ -115,7 +129,7 @@
                 	</div>
                 </div>
                 <div class="tab-pane" id="tab_transaction">
-                    @yield('sub-content')
+                    {{-- @yield('sub-content') --}}
                 </div>
             </div>
         </div>

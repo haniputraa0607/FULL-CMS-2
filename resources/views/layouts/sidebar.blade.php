@@ -472,7 +472,39 @@
 			</ul>
 		</li>
 		@endif
-		@if(MyHelper::hasAccess([339,340], $grantedFeature))
+		@if(MyHelper::hasAccess([338,339,340,341], $grantedFeature))
+		<li class="nav-item {{($menu_active == 'project') ? 'active open' : ''}}">
+			<a href="javascript:;" class="nav-link nav-toggle">
+				<i class="fa fa-project-diagram"></i>
+				<span class="title">Partners</span>
+				<span class="arrow {{($menu_active == 'partners') ? 'open' : ''}}"></span>
+			</a>
+			<ul class="sub-menu">
+				@if(MyHelper::hasAccess([338], $grantedFeature))
+				<li class="nav-item {{($submenu_active == 'project-new') ? 'active open' : ''}}">
+					<a href="{{url('project/create/new')}}" class="nav-link ">
+						<span class="title">New Project</span>
+					</a>
+				</li>
+				@endif
+				@if(MyHelper::hasAccess([338], $grantedFeature))
+				<li class="nav-item {{($submenu_active == 'list-project') ? 'active open' : ''}}">
+					<a href="{{url('project/')}}" class="nav-link ">
+						<span class="title">List Project</span>
+					</a>
+				</li>
+				@endif
+				@if(MyHelper::hasAccess([338], $grantedFeature))
+				<li class="nav-item {{($submenu_active == 'list-process-project') ? 'active open' : ''}}">
+					<a href="{{url('project/process')}}" class="nav-link ">
+						<span class="title">List Process Project</span>
+					</a>
+				</li>
+				@endif
+			</ul>
+		</li>
+		@endif
+        @if(MyHelper::hasAccess([339,340], $grantedFeature))
 		<li class="nav-item {{($menu_active == 'form-survey') ? 'active open' : ''}}">
 			<a href="javascript:;" class="nav-link nav-toggle">
 				<i class="fa fa-list"></i>
@@ -491,16 +523,13 @@
 				<li class="nav-item {{($submenu_active == 'new-form-survey') ? 'active open' : ''}}">
 					<a href="{{url('businessdev/form-survey/new')}}" class="nav-link ">
 						<span class="title">New Form Survey</span>
-					</a>
+                    </a>
 				</li>
 				@endif
 			</ul>
 		</li>
 		@endif
 		@endif
-
-
-
 		@if(MyHelper::hasAccess([19,21,24,26,32,33,34,43,45,48,50,56,57,164,165,166,167], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
 				<h3 class="uppercase" style="color: #000;font-weight: 600;">Browse</h3>
@@ -881,6 +910,42 @@
 					</li>
 				</ul>
 			</li>
+			@endif
+
+			@if(MyHelper::hasAccess([362,363,364,365,366], $grantedFeature))
+				<li class="nav-item {{($menu_active == 'product-service') ? 'active' : ''}}">
+					<a href="javascript:;" class="nav-link nav-toggle">
+						<i class="fa fa-cut"></i>
+						<span class="title">Product Service</span>
+						<span class="arrow {{($menu_active == 'product-service') ? 'open' : ''}}"></span>
+					</a>
+					<ul class="sub-menu">
+						@if(MyHelper::hasAccess([362,363,365,366], $grantedFeature))
+							<li class="nav-item {{($submenu_active == 'product-service-list') ? 'active open' : ''}}">
+								<a href="{{url('product-service')}}" class="nav-link ">
+									<span class="title">Product Service List</span>
+								</a>
+							</li>
+						@endif
+						@if(MyHelper::hasAccess([363,365], $grantedFeature))
+							<li class="nav-item {{($submenu_active == 'product-service-list-visible') ? 'active open' : ''}}">
+								<a href="{{url('product-service/visible')}}" class="nav-link ">
+									<span class="title">Visible Product Service List</span>
+								</a>
+							</li>
+							<li class="nav-item {{($submenu_active == 'product-service-list-hidden') ? 'active open' : ''}}">
+								<a href="{{url('product-service/hidden')}}" class="nav-link ">
+									<span class="title">Hidden Product Service List</span>
+								</a>
+							</li>
+							<li class="nav-item {{($submenu_active == 'product-service-position') ? 'active open' : ''}}">
+								<a href="{{url('product-service/position/assign')}}" class="nav-link ">
+									<span class="title">Manage Position</span>
+								</a>
+							</li>
+						@endif
+					</ul>
+				</li>
 			@endif
 
 			@if(MyHelper::hasAccess([48,49,50,51,52], $grantedFeature) && false)
@@ -1751,8 +1816,14 @@
 					@endif
 					@if(MyHelper::hasAccess([356], $grantedFeature))
 						<li class="nav-item {{($submenu_active == 'user-rating-report') ? 'active open' : ''}}">
-							<a href="{{url('user-rating/report')}}" class="nav-link ">
-								<span class="title">User Rating Report</span>
+							<a href="{{url('user-rating/report/outlet')}}" class="nav-link ">
+								<span class="title">User Rating Report Outlet</span>
+							</a>
+						</li>
+
+						<li class="nav-item {{($submenu_active == 'user-rating-report-hairstylist') ? 'active open' : ''}}">
+							<a href="{{url('user-rating/report/hairstylist')}}" class="nav-link ">
+								<span class="title">User Rating Report Hairstylist</span>
 							</a>
 						</li>
 					@endif
@@ -3160,6 +3231,14 @@
 				<a href="{{url('setting/tos')}}" class="nav-link nav-toggle">
 					<i class="icon-note"></i>
 					<span class="title">Ketentuan Layanan</span>
+				</a>
+			</li>
+			@endif
+			@if(MyHelper::hasAccess([367], $grantedFeature))
+			<li class="nav-item {{($menu_active == 'privacy-policy') ? 'active' : ''}}">
+				<a href="{{url('setting/privacypolicy')}}" class="nav-link nav-toggle">
+					<i class="fa fa-lock"></i>
+					<span class="title">Privacy Policy</span>
 				</a>
 			</li>
 			@endif

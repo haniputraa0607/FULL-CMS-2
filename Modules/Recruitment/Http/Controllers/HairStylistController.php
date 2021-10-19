@@ -91,11 +91,20 @@ class HairStylistController extends Controller
             unset($post['user_hair_stylist_photo']);
         }
 
+        if(!empty($post['data_document'])){
+            foreach ($post['data_document'] as &$doc){
+                if(!empty($doc['attachment'])){
+                    $doc['ext'] = pathinfo($doc['attachment']->getClientOriginalName(), PATHINFO_EXTENSION);
+                    $doc['attachment'] = MyHelper::encodeImage($doc['attachment']);
+                }
+            }
+        }
+
         $update = MyHelper::post('recruitment/hairstylist/be/update',$post);
         if(isset($update['status']) && $update['status'] == 'success' && $post['update_type'] == 'approve'){
             return redirect('recruitment/hair-stylist/detail/'.$id)->withSuccess(['Success update data to approved']);
-        }elseif(isset($update['status']) && $update['status'] == 'success' && $post['update_type'] == 'reject'){
-            return redirect('recruitment/hair-stylist/candidate/detail/'.$id)->withSuccess(['Success update data to rejected']);
+        }elseif(isset($update['status']) && $update['status'] == 'success'){
+            return redirect('recruitment/hair-stylist/candidate/detail/'.$id)->withSuccess(['Success update data to '.$post['update_type']??""]);
         }else{
             return redirect('recruitment/hair-stylist/candidate/detail/'.$id)->withErrors($update['messages']??['Failed update data to approved']);
         }
@@ -183,6 +192,15 @@ class HairStylistController extends Controller
             unset($post['user_hair_stylist_photo']);
         }
 
+        if(!empty($post['data_document'])){
+            foreach ($post['data_document'] as &$doc){
+                if(!empty($doc['attachment'])){
+                    $doc['ext'] = pathinfo($doc['attachment']->getClientOriginalName(), PATHINFO_EXTENSION);
+                    $doc['attachment'] = MyHelper::encodeImage($doc['attachment']);
+                }
+            }
+        }
+
         $update = MyHelper::post('recruitment/hairstylist/be/update',$post);
         if(isset($update['status']) && $update['status'] == 'success'){
             return redirect('recruitment/hair-stylist/detail/'.$id)->withSuccess(['Success update data to hair stylist']);
@@ -198,5 +216,22 @@ class HairStylistController extends Controller
             'user_hair_stylist_status' => $post['user_hair_stylist_status']
         ]);
         return $update;
+    }
+
+    public function hsDownloadFile($id){
+        $data = MyHelper::post('recruitment/hairstylist/be/detail/document', ['id_user_hair_stylist_document' => $id]);
+
+        if(isset($data['status']) && $data['status'] == 'success'){
+            $ext = explode(".",$data['result']['attachment'])[1]??null;
+            if(empty($ext)){
+                return redirect('recruitment/hair-stylist')->withErrors(['Extention not found']);
+            }
+            $filename = $data['result']['document_type'].'_'.strtotime(date('Ymdhis')).'.'.$ext;
+            $temp = tempnam(sys_get_temp_dir(), $filename);
+            copy($data['result']['attachment'], $temp);
+            return response()->download($temp, $filename)->deleteFileAfterSend(true);
+        }else{
+            return redirect('recruitment/hair-stylist')->withErrors(['File not found']);
+        }
     }
 }
