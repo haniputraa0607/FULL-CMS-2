@@ -61,7 +61,7 @@
 				</div>
 			</div>
 			<div class="portlet-body form">
-				<form role="form" class="form-horizontal" action="{{url('project/create')}}" method="POST" enctype="multipart/form-data">
+				<form role="form" class="form-horizontal" action="{{url('project/create/new')}}" method="POST" enctype="multipart/form-data">
 					{{ csrf_field() }}
 					<div class="form-body">
 						<div class="form-group">
@@ -146,7 +146,6 @@
 	</div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
 <script type="text/javascript">
     $(document).ready(function () {
         $.ajaxSetup({
@@ -156,15 +155,11 @@
         });
          $('#lokasi').html('<select name="location" class="form-control input-sm select2" disabled required><option value="">Select Location</option></select>'); 
      $('#partner').on('change', function(){
-            var data = {
-                'id_partner' : $("#partner").val()
-            };
-            $.ajax({
-                url : "{{ url('project/select-list/lokasi') }}",
-                type: "POST",
-                data: data,
-                dataType: 'json',
+            $.ajax({ 
+                url : "{{ url('project/select-list/lokasi') }}/"+$("#partner").val(),
+                type: "get",
                 success: function (data) {
+                    console.log(data)
                      var obj = jQuery.parseJSON(JSON.stringify(data));
                     if (obj.status == "success") {
                         var list="";
@@ -177,7 +172,7 @@
                     }
                 },
                 error: function (data) {
-                    alert('eror')
+                    $('#lokasi').html('<select name="location" class="form-control input-sm select2" required><option value="">Select Location</option></select>'); 
                 }
             });
      }); 

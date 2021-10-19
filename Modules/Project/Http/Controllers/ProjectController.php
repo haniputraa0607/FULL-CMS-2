@@ -23,6 +23,7 @@ class ProjectController extends Controller
     {
         $post = $request->all();
         $url = $request->url();
+       
         if($type!='process'){
             $data = [
                 'title'          => 'Project',
@@ -31,6 +32,7 @@ class ProjectController extends Controller
                 'submenu_active' => 'list-project',
             ];
             $data['status'] = 'Active';
+             $session = 'filter-project';
         } else {
             $data = [
                 'title'          => 'Process Project',
@@ -39,41 +41,32 @@ class ProjectController extends Controller
                 'submenu_active' => 'list-process-project',
             ];
             $data['status'] = 'Process';
+             $session = 'filter-process-project';
         }
-        
-        $order = 'created_at';
-        $orderType = 'desc';
-        $sorting = 0;
-        if(isset($post['sorting'])){
-            $sorting = 1;
-            $order = $post['order'];
-            $orderType = $post['order_type'];
+         if( ($post['rule']??false) && !isset($post['draw']) ){
+             session([$session => $post]);
+        }elseif($post['clear']??false){
+            session([$session => null]);
         }
         if(isset($post['reset']) && $post['reset'] == 1){
-            Session::forget('filter-list-process');
-            $post['filter_type'] = 'today';
-        }elseif(Session::has('filter-list-process') && !empty($post) && !isset($post['filter'])){
+            Session::forget($session);
+        }elseif(Session::has($session) && !empty($post) && !isset($post['filter'])){
             $pageSession = 1;
             if(isset($post['page'])){
                 $pageSession = $post['page'];
             }
-            $post = Session::get('filter-list-process');
+            $post = Session::get($session);
             $post['page'] = $pageSession;
-            if($sorting == 0 && !empty($post['order'])){
-                $order = $post['order'];
-                $orderType = $post['order_type'];
-            }
+            
+        }
+        if(isset($post['rule'])){
+        	$data['rule'] = array_map('array_values', $post['rule']);
         }
         $page = '?page=1';
         if(isset($post['page'])){
             $page = '?page='.$post['page'];
         }
-        $data['order'] = $order;
-        $data['order_type'] = $orderType;
-        $post['order'] = $order;
-        $post['order_type'] = $orderType;
         $post['status'] = $data['status'];
-        
         $list = MyHelper::post('project/list'.$page, $post);
         if(($list['status']??'')=='success'){
             $data['data']          = $list['result']['data'];
@@ -89,16 +82,27 @@ class ProjectController extends Controller
             $data['data_paginator'] = false;
         }
         if($post){
-            Session::put('filter-list-process',$post);
+            Session::put($session,$post);
         }
-        
+        $getPartner = MyHelper::get('project/select-list/partner');
+        $getLokasi = MyHelper::get('project/select-list/lokasi');
+        $data['partner']=array_map(function($var){
+            return [$var['id_partner'],$var['name']];
+        }, $getPartner['result']);
+        $data['location']=array_map(function($var){
+            return [$var['id_location'],$var['name']];
+        }, $getLokasi['result']);
+//        return $data;
         return view('project::project.list', $data);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
+    
+    public function reject(Request $request)
+    {
+         $post  = $request->except('_token'); 
+	$query = MyHelper::post('project/delete', $post);
+        return $query; 
+       
+    }
     public function create(Request $request)
     {
         $post = $request->except('_token');
@@ -124,18 +128,16 @@ class ProjectController extends Controller
 		}
        
     }
-    public function lokasi(Request $request)
+    public function lokasi($id)
     {
-        $post['id_partner']=$request->id_partner;
+        $post['id_partner']=$id;
         $getoutlet = MyHelper::post('partner/select-list/lokasi',$post);
         return $getoutlet;
-			
     }
      public function detail($id)
     {
         
         $result = MyHelper::post('project/detail', ['id_project' => $id]);
-//        return $result;
         if($result['result']['status']=='process'&&$result['status']=='success'){
             $data = [
                 'title'          => 'Process Project',
