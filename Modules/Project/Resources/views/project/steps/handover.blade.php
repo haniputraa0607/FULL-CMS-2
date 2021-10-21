@@ -17,7 +17,6 @@
         if($result['project_handover']['status']=='Process'){
            $next_handover = true;
         }
-        
     }
 ?>
 <script>
@@ -36,7 +35,7 @@
                                         };
                         $(this).click(function() {
                             swal({
-                                    title: "Delete data?",
+                                    title: "Delete data handover?",
                                     text: "Your will not be able to recover this data!",
                                     type: "warning",
                                     showCancelButton: true,
