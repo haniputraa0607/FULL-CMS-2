@@ -501,9 +501,9 @@
 		@if(MyHelper::hasAccess([338,339,340,341], $grantedFeature))
 		<li class="nav-item {{($menu_active == 'project') ? 'active open' : ''}}">
 			<a href="javascript:;" class="nav-link nav-toggle">
-				<i class="fa fa-project-diagram"></i>
-				<span class="title">Partners</span>
-				<span class="arrow {{($menu_active == 'partners') ? 'open' : ''}}"></span>
+				<i class="fa fa-file"></i>
+				<span class="title">Project</span>
+				<span class="arrow {{($menu_active == 'project') ? 'open' : ''}}"></span>
 			</a>
 			<ul class="sub-menu">
 				@if(MyHelper::hasAccess([338], $grantedFeature))

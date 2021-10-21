@@ -25,6 +25,55 @@
     }
 ?>
 <script>
+    var SweetAlertDeleteContract = function() {
+            return {
+                init: function() {
+                    $(".sweetalert-contract-delete").each(function() {
+                        var token  	= "{{ csrf_token() }}";
+                        var pathname = window.location.pathname; 
+                        let column 	= $(this).parents('tr');
+                        let id     	= $(this).data('id');
+                        let name    = $(this).data('name');
+                        var data = {
+                                    '_token' : '{{csrf_token()}}',
+                                    'id_project':{{$result['id_project']}}
+                                        };
+                        $(this).click(function() {
+                            swal({
+                                    title: "Delete data?",
+                                    text: "Your will not be able to recover this data!",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonClass: "btn-danger",
+                                    confirmButtonText: "Yes, delete it!",
+                                    closeOnConfirm: false
+                                },
+                                function(){
+                                    $.ajax({
+                                        type : "POST",
+                                        url : "{{url('project/delete/contract')}}",
+                                        data : data,
+                                        success : function(response) {
+                                            if (response.status == 'success') {
+                                                swal("Deleted!", "Data has been deleted.", "success")
+                                               location.href = "{{url('project/detail')}}/"+{{$result['id_project']}}+"#contract";
+                                                window.location.reload();
+                                            }
+                                            else if(response.status == "fail"){
+                                              
+                                                swal("Error!", "Failed to delete.", "error")
+                                            }
+                                            else {
+                                                swal("Error!", "Something went wrong. Failed to delete .", "error")
+                                            }
+                                        }
+                                    });
+                                });
+                        })
+                    })
+                }
+            }
+        }();
         var SweetAlertNextContract = function() {
             return {
                 init: function() {
@@ -77,6 +126,7 @@
         }();
         jQuery(document).ready(function() {
             SweetAlertNextContract.init()
+            SweetAlertDeleteContract.init()
         });
     </script>
 <div style="white-space: nowrap;">
@@ -115,16 +165,14 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan note" data-container="body"></i></label>
+                                    <label for="example-search-input" class="control-label col-md-4">Note</label>
                                     <div class="col-md-5">
-                                        <textarea name="note" id="note" @if($result['status']!='Process' ) disabled @endif class="form-control" placeholder="Enter note here" required>{{$note}}</textarea>
+                                        <textarea name="note" id="note" @if($result['status']!='Process' ) disabled @endif class="form-control" placeholder="Enter note here">{{$note}}</textarea>
                                     </div>
                                 </div>
                                 @if($result['status']=='Process')
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Import Attachment <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan file" data-container="body"></i><br>
+                                    <label for="example-search-input" class="control-label col-md-4">Import Attachment<br>
                                         <span class="required" aria-required="true"> (PDF max 2 mb) </span></label>
                                     <div class="col-md-5">
                                         <div class="fileinput fileinput-new text-left" data-provides="fileinput">
@@ -150,7 +198,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Download file" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <br>
-                                        <a target="_blank" target='blank' href="{{ $attachment }}"><i class="fa fa-download" style="font-size:48px;color:red"></i></a>
+                                        <a target="_blank" target='blank' href="{{ $attachment }}"><i class="fa fa-download" style="font-size:48px"></i></a>
                                     </div>
                                 </div>
                                 @endif
@@ -160,7 +208,8 @@
                                     <div class="row">
                                         <div class="col-md-offset-4 col-md-8">
                                             <button type="submit" class="btn blue">Submit</button>
-                                            @if($next_contract==true)
+                                           @if($next_contract==true)
+                                            <a class="btn red sweetalert-contract-delete">Delete</a>
                                             <a class="btn green sweetalert-contract-next">Next Step</a>
                                             @endif
                                         </div>
