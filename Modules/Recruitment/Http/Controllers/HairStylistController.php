@@ -203,7 +203,7 @@ class HairStylistController extends Controller
 
     public function updateStatus(Request $request){
         $post = $request->except('_token');
-        $update = MyHelper::post('recruitment/hairstylist/be/update',[
+        $update = MyHelper::post('recruitment/hairstylist/be/update-status',[
             'id_user_hair_stylist' => $post['id_user_hair_stylist'],
             'user_hair_stylist_status' => $post['user_hair_stylist_status']
         ]);
