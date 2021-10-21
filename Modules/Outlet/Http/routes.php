@@ -67,6 +67,9 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'outlet',
 
     //outlet box
     Route::post('box/save', ['middleware' => 'feature_control:27', 'uses' => 'OutletController@boxSave']);
+
+    //time shift
+    Route::post('shift-time/save', ['middleware' => 'feature_control:27', 'uses' => 'OutletController@shiftTimeSave']);
 });
 
 Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'outlet', 'namespace' => 'Modules\Advert\Http\Controllers'], function()

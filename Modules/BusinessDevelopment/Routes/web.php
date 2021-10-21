@@ -46,5 +46,14 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'business
         Route::post('delete/{user_id}', ['middleware' => 'feature_control:345', 'uses' => 'LocationsController@destroy']);  
         Route::any('/{type?}', ['middleware' => 'feature_control:342', 'uses' => 'LocationsController@index']);
     });
+    Route::group(['prefix' => 'form-survey'], function()
+    {
+        Route::get('new', ['middleware' => 'feature_control:343', 'uses' => 'FormSurveyController@new']);
+        Route::get('detail/{id}', ['middleware' => 'feature_control:343', 'uses' => 'FormSurveyController@edit']);
+        Route::post('create', ['middleware' => 'feature_control:344', 'uses' => 'FormSurveyController@store']);
+        Route::post('update', ['middleware' => 'feature_control:344', 'uses' => 'FormSurveyController@update']);
+        Route::post('delete/{user_id}', ['middleware' => 'feature_control:345', 'uses' => 'LocationsController@destroy']);  
+        Route::any('/', ['middleware' => 'feature_control:339', 'uses' => 'FormSurveyController@index']);
+    });
     
 });

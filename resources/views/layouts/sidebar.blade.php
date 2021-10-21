@@ -112,6 +112,11 @@
 						<span class="title">[Response] Approve Candidate Hair Stylist</span>
 					</a>
 				</li>
+				<li class="nav-item {{($submenu_active == 'hairstylist-autoresponse-reset-password-user-hair-stylist') ? 'active open' : ''}}">
+					<a href="{{url('autoresponse/hairstylist/reset-password-user-hair-stylist')}}" class="nav-link ">
+						<span class="title">[Response] Reset Password User Hair Stylist</span>
+					</a>
+				</li>
 			</ul>
 		@endif
 
@@ -520,6 +525,31 @@
 					<a href="{{url('project/process')}}" class="nav-link ">
 						<span class="title">List Process Project</span>
 					</a>
+				</li>
+				@endif
+			</ul>
+		</li>
+		@endif
+        @if(MyHelper::hasAccess([339,340], $grantedFeature))
+		<li class="nav-item {{($menu_active == 'form-survey') ? 'active open' : ''}}">
+			<a href="javascript:;" class="nav-link nav-toggle">
+				<i class="fa fa-list"></i>
+				<span class="title">Form Survey</span>
+				<span class="arrow {{($menu_active == 'form-survey') ? 'open' : ''}}"></span>
+			</a>
+			<ul class="sub-menu">
+				@if(MyHelper::hasAccess([339,340], $grantedFeature))
+				<li class="nav-item {{($submenu_active == 'list-form-survey') ? 'active open' : ''}}">
+					<a href="{{url('businessdev/form-survey')}}" class="nav-link ">
+						<span class="title">List Form Survey</span>
+					</a>
+				</li>
+				@endif
+				@if(MyHelper::hasAccess([339,340], $grantedFeature))
+				<li class="nav-item {{($submenu_active == 'new-form-survey') ? 'active open' : ''}}">
+					<a href="{{url('businessdev/form-survey/new')}}" class="nav-link ">
+						<span class="title">New Form Survey</span>
+                    </a>
 				</li>
 				@endif
 			</ul>

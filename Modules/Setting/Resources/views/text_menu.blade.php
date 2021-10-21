@@ -122,27 +122,27 @@ $configs     		= session('configs');
 						<ul>
 							<li>Gambar (a) adalah urutan menu.</li>
 							<li>Gambar (b) adalah contoh tampilan untuk "Text Menu".</li>
-							<li>Gambar (c) adalah contoh tampilan untuk "Text Header".</li>
-							@if($config_main_menu['is_active'] == 1)<li>Gambar (d) adalah contoh tampilan untuk "Icon".</li>@endif
+{{--							<li>Gambar (c) adalah contoh tampilan untuk "Text Header".</li>--}}
+							@if($config_main_menu['is_active'] == 1)<li>Gambar (c) adalah contoh tampilan untuk "Icon".</li>@endif
 						</ul>
 
 						<div class="row" style="margin-top: 2%;">
 							<div class="col-md-4">
-								<img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/text_menu/main_menu_1.jpg" height="200px" onclick="window.open(this.src)"/>
+								<img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/text_menu/main_menu_1.png" height="200px" onclick="window.open(this.src)"/>
 								<p style="text-align: center">(a)</p>
 							</div>
 							<div class="col-md-4">
-								<img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/text_menu/main_menu_2.jpg" height="200px" onclick="window.open(this.src)"/>
+								<img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/text_menu/main_menu_2.png" height="200px" onclick="window.open(this.src)"/>
 								<p style="text-align: center">(b)</p>
 							</div>
-							<div class="col-md-4">
-								<img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/text_menu/main_menu_3.jpg" height="200px" onclick="window.open(this.src)"/>
-								<p style="text-align: center">(c)</p>
-							</div>
+{{--							<div class="col-md-4">--}}
+{{--								<img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/text_menu/main_menu_3.jpg" height="200px" onclick="window.open(this.src)"/>--}}
+{{--								<p style="text-align: center">(c)</p>--}}
+{{--							</div>--}}
 							@if($config_main_menu['is_active'] == 1)
 							<div class="col-md-4">
-								<img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/text_menu/main_menu_4.jpg" height="200px" onclick="window.open(this.src)"/>
-								<p style="text-align: center">(d)</p>
+								<img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/text_menu/main_menu_4.png" height="200px" onclick="window.open(this.src)"/>
+								<p style="text-align: center">(c)</p>
 							</div>
 							@endif
 						</div>
@@ -189,14 +189,15 @@ $configs     		= session('configs');
 																	<input class="form-control" type="text" name="{{$key}}_text_menu" value="{{$value['text_menu']}}" maxlength="10" required>
 																</div>
 															</div>
-															<div class="row" style="margin-bottom: 3%;">
-																<div class="col-md-4">
-																	<p style="margin-top:2%;margin-bottom:1%;"> Text Header <span class="required" aria-required="true"> * </span></p>
-																</div>
-																<div class="col-md-8">
-																	<input class="form-control" type="text" name="{{$key}}_text_header" value="{{$value['text_header']}}" maxlength="20" required>
-																</div>
-															</div>
+{{--															<div class="row" style="margin-bottom: 3%;">--}}
+{{--																<div class="col-md-4">--}}
+{{--																	<p style="margin-top:2%;margin-bottom:1%;"> Text Header <span class="required" aria-required="true"> * </span></p>--}}
+{{--																</div>--}}
+{{--																<div class="col-md-8">--}}
+{{--																	<input class="form-control" type="text" name="{{$key}}_text_header" value="{{$value['text_header']}}" maxlength="20" required>--}}
+{{--																</div>--}}
+{{--															</div>--}}
+															<input class="form-control" type="hidden" name="{{$key}}_text_header" value="{{$value['text_header']}}">
 															<div class="row">
 																<div class="col-md-4">
 																	<p style="margin-top:2%;margin-bottom:1%;"> Text Color <span class="required" aria-required="true"> * </span></p>
@@ -450,11 +451,11 @@ $configs     		= session('configs');
 								<p style="text-align: center">(a)</p>
 							</div>
 							<div class="col-md-4">
-								<img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/text_menu/other_menu_2.jpg" height="150px" onclick="window.open(this.src)"/>
+								<img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/text_menu/other_menu_2.jpg" height="180px" onclick="window.open(this.src)"/>
 								<p style="text-align: center">(b)</p>
 							</div>
 							<div class="col-md-4">
-								<img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/text_menu/other_menu_3.jpg" height="150px" onclick="window.open(this.src)"/>
+								<img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/text_menu/other_menu_3.jpg" height="250px" onclick="window.open(this.src)"/>
 								<p style="text-align: center">(c)</p>
 							</div>
 						</div>

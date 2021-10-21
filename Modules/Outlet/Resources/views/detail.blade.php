@@ -623,9 +623,9 @@
                 <li class="active" id="infoOutlet">
                     <a href="#info" data-toggle="tab" > Info </a>
                 </li>
-                <li id="pinOutlet">
+{{--                 <li id="pinOutlet">
                     <a href="#pin" data-toggle="tab" > Update Pin </a>
-                </li>
+                </li> --}}
                 @if(MyHelper::hasAccess([29], $grantedFeature))
                     <li>
                         <a href="#photo" data-toggle="tab"> Photo </a>
@@ -650,6 +650,9 @@
                 @endif
                 <li>
                     <a href="#schedule" data-toggle="tab"> Schedule </a>
+                </li>
+                <li>
+                    <a href="#shifttime" data-toggle="tab"> Shift Time </a>
                 </li>
                 @if(MyHelper::hasAccess([51], $grantedFeature))
                 <li>
@@ -680,6 +683,9 @@
                 </div>
                 <div class="tab-pane" id="schedule">
                     @include('outlet::schedule_open')
+                </div>
+                <div class="tab-pane" id="shifttime">
+                    @include('outlet::shift_time')
                 </div>
                 <div class="tab-pane" id="visibility">
                     @include('outlet::outlet_visibility')
