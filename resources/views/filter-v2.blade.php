@@ -279,7 +279,9 @@
 @endsection
 @section('filter_view')
 
+@if (empty($without_form))
 <form action="{{$filter_action ?? '#'}}" method="post">
+@endif
 	<div class="portlet light bordered" id="card-filter">
 		<div class="portlet-title">
 			<div class="caption font-blue">
@@ -353,17 +355,21 @@
 								<option value="or" @if (isset($operator) && $operator == 'or') selected @endif>Valid when minimum one condition is met</option>
 							</select>
 						</div>
-						<div class="col-md-4">
-							{{ csrf_field() }}
-							<button type="submit" class="btn btn-warning">{!!$filter_button ?? '<i class="fa fa-search"></i> Search'!!}</button>
-						</div>
+						@if (empty($hide_search_button))
+							<div class="col-md-4">
+								{{ csrf_field() }}
+								<button type="submit" class="btn btn-warning">{!!$filter_button ?? '<i class="fa fa-search"></i> Search'!!}</button>
+							</div>
+						@endif
 					</div>
 				</div>
 			</div>
 
 		</div>
 	</div>
+@if (empty($without_form))
 </form>
+@endif
 @if(isset($rule) && !($hide_record_total??false))
 <div class="alert alert-block alert-info show">
 	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
