@@ -108,6 +108,11 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'transact
     Route::post('failed-void-payment', [ 'uses' => 'ManualRefundController@filter']);
     Route::post('failed-void-payment/confirm', [ 'uses' => 'ManualRefundController@confirmManualRefund']);
 
+    Route::group(['prefix' => 'outlet-service'], function(){
+    	Route::get('/', [ 'uses' => 'TransactionOutletServiceController@listOutletService']);
+    	Route::post('/', [ 'uses' => 'TransactionOutletServiceController@filter']);
+    });
+
     Route::any('/create/fake', 'TransactionController@fakeTransaction');
     Route::get('/', ['middleware' => 'feature_control:69', 'uses' => 'TransactionController@transactionList']);
     Route::get('/detail/{id}/{key}', ['middleware' => 'feature_control:70', 'uses' => 'TransactionController@transactionDetail']);

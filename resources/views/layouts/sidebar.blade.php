@@ -1294,6 +1294,11 @@
 				</a>
 				<ul class="sub-menu">
 					@if(MyHelper::hasAccess([13,12], $configs))
+					<li class="nav-item {{($submenu_active == 'transaction-outlet-service') ? 'active open' : ''}}">
+						<a href="{{ url('transaction/outlet-service') }}" class="nav-link">
+							<span class="title">Transaction Outlet Service</span>
+						</a>
+					</li>
 					<li class="nav-item {{($submenu_active == 'transaction-all') ? 'active open' : ''}}">
 						<a href="{{url('transaction/all/'.date('YmdHis'))}}" class="nav-link ">
 							<span class="title">All Transaction</span>
