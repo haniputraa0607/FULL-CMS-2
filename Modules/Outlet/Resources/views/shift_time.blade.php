@@ -1,4 +1,4 @@
-<form class="form-horizontal" id="form-outlet-box" role="form" action="{{ url('outlet/shift-time/save') }}" method="post">
+<form class="form-horizontal" role="form" action="{{ url('outlet/shift-time/save') }}" method="post">
 	<?php
 		$arrShift = [];
 		if(!empty($outlet[0]['outlet_time_shift'])){

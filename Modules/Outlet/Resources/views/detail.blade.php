@@ -525,17 +525,19 @@
     function addOutletBox() {
         var html = '<div id="div_outlet_box_parent_'+count_outlet_box+'">'+
                     '<div class="form-group">'+
-                    '<div class="col-md-1"></div>'+
-                    '<div class="col-md-3">'+
-                    '<input class="form-control" type="text" maxlength="200" id="outlet_box_code_'+count_outlet_box+'" name="outlet_box_data['+count_outlet_box+'][outlet_box_code]" required placeholder="Enter outlet box code"/>'+
+                    '<div class="col-md-2">'+
+                    '<input class="form-control" type="text" maxlength="200" id="outlet_box_code_'+count_outlet_box+'" name="outlet_box_data['+count_outlet_box+'][outlet_box_code]" required placeholder="Box code"/>'+
                     '</div>'+
-                    '<div class="col-md-3">'+
-                    '<input class="form-control" type="text" maxlength="200" id="outlet_box_name_'+count_outlet_box+'" name="outlet_box_data['+count_outlet_box+'][outlet_box_name]" required placeholder="Enter outlet box name"/>'+
+                    '<div class="col-md-2">'+
+                    '<input class="form-control" type="text" maxlength="200" id="outlet_box_name_'+count_outlet_box+'" name="outlet_box_data['+count_outlet_box+'][outlet_box_name]" required placeholder="Enter name"/>'+
+                    '</div>'+
+                    '<div class="col-md-4">'+
+                    '<input class="form-control" type="text" maxlength="200" id="outlet_box_url_'+count_outlet_box+'" name="outlet_box_data['+count_outlet_box+'][outlet_box_url]" required placeholder="Enter box url"/>'+
                     '</div>'+
                     '<div class="col-md-3">'+
                     '<input data-switch="true" type="checkbox" name="outlet_box_data['+count_outlet_box+'][outlet_box_status]" data-on-text="Active" data-off-text="Inactive" checked/>'+
                     '</div>'+
-                    '<div class="col-md-2" style="margin-left: -4%">'+
+                    '<div class="col-md-1" style="margin-left: -4%">'+
                     '<a class="btn btn-danger btn" onclick="deleteOutletBox('+count_outlet_box+')">&nbsp;<i class="fa fa-trash"></i></a>'+
                     '</div>'+
                     '</div>'+
