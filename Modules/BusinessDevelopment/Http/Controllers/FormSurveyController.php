@@ -60,50 +60,6 @@ class FormSurveyController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function store(Request $request)
-    {
-        $result = MyHelper::get('partners/form-survey/all');
-        $value = $request->except('_token','id','name_brand');
-        $tes = array_keys($value);
-        $q = 0;
-        $icat = 0;
-        $cat = 1;
-        $t = 0;
-        foreach ($value as $v) {
-            if ($tes[$t]=='cat'.$cat) {
-                $category[$cat] = $v;
-                $name_category[$cat] = $tes[$t];
-                $cat++;
-                $icat++;
-                $q = 0;
-            }else{
-                $question[$icat][$q] = $v;
-                $q++;
-            }
-
-            $t++;
-        }
-        foreach($category as $i => $cate){
-            $category[$i] = strtoupper($cate);
-        }
-        foreach($name_category as $c => $value){
-            $form_input[$value] = [
-                'category' => $category[$c],
-                'question' => $question[$c],
-            ];
-        }
-        $result[$request['id']] = $form_input;
-        $post =[
-            'key' => 'form_survey',
-            'value_text' => json_encode($result),
-        ];
-        $post_form = MyHelper::post('partners/form-survey/store', $post);
-        if (isset($post_form['status']) && $post_form['status'] == 'success') {
-            return redirect('businessdev/form-survey/detail/'.$request['id'])->withSuccess(['Success update candidate partner to partner']);
-        }else{
-            return redirect('businessdev/form-survey/detail/'.$request['id'])->withErrors($result['messages'] ?? ['Failed update detail candidate partner']);
-        }
-    }
 
     public function new(){
         $data = [
@@ -181,21 +137,28 @@ class FormSurveyController extends Controller
      * @param int $id
      * @return Response
      */
-    public function update(Request $request)
+    public function store(Request $request)
     {
         // dd($request->all());
         $result = MyHelper::get('partners/form-survey/all');
         $index_cat = 1;
         foreach($request['category'] as $cat){
-            $q = 0;
             $name_cat = 'cat'.$index_cat;
-            foreach($cat as $value){
-                
-            }
-            $form[$name_cat]["category"] = $cat['cat'];
+            $form[$name_cat]["category"] = strtoupper($cat['cat']);
+            $form[$name_cat]["question"] = $cat['question'];
             $index_cat++;
         }
-        return $x;
+        $result[$request['id_brand']] = $form;
+        $post =[
+            'key' => 'form_survey',
+            'value_text' => json_encode($result),
+        ];
+        $post_form = MyHelper::post('partners/form-survey/store', $post);
+        if (isset($post_form['status']) && $post_form['status'] == 'success') {
+            return redirect('businessdev/form-survey/detail/'.$request['id_brand'])->withSuccess(['Success create new form survey']);
+        }else{
+            return redirect('businessdev/form-survey/detail/'.$request['id_brand'])->withErrors($result['messages'] ?? ['Failed create new form survey']);
+        }
     }
 
     /**
@@ -205,6 +168,13 @@ class FormSurveyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $result = MyHelper::get('partners/form-survey/all');
+        unset($result[$id]);
+        $post =[
+            'key' => 'form_survey',
+            'value_text' => json_encode($result),
+        ];
+        $post_form = MyHelper::post('partners/form-survey/store', $post);
+        return $post_form;
     }
 }

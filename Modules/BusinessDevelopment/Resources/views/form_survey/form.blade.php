@@ -26,6 +26,72 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/components-color-pickers.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
     $('.select2').select2();
+    function changeSelect(){
+        setTimeout(function(){
+            $(".select2").select2({
+                placeholder: "Search"
+            });
+        }, 100);
+    }
+
+    function addRule(noRule){
+		$("#div-rule").append(
+			'<div class="rule'+noRule+'">'+
+            '<div class="form-group mt-repeater">'+
+            '<div data-repeater-item class="mt-repeater-item">'+
+            '<div class="form-group">'+
+            '<label class="col-md-2 control-label">Category '+
+            '<i class="fa fa-question-circle tooltips" data-original-title="Masukan Kategori Pertanyaan" data-container="body"></i>'+
+            '</label>'+
+            '<div class="col-md-8">'+
+            '<input class="form-control" type="text" value="" name="category['+noRule+'][cat]" placeholder="Enter Category here" required/>'+
+            '</div>'+
+            '</div>'+
+            '<div class="mt-repeater">'+
+            '<div class="mt-repeater-cell">'+
+            '<div id="div-category'+noRule+'">'+
+            '<div id="category'+noRule+'0">'+
+            '<div class="form-group">'+
+            '<label class="col-md-3 control-label">Question '+
+            '<i class="fa fa-question-circle tooltips" data-original-title="Masukan Pertanyaan" data-container="body"></i>'+
+            '</label>'+
+            '<div class="col-md-9">'+
+            '<textarea class="form-control" placeholder="Enter Question here" name="category['+noRule+'][question][0]" required></textarea>'+
+            '</div>'+
+            '</div>'+
+            '</div>'+
+            '</div>'+
+            '<div class="form-action col-md-12">'+
+            '<div class="col-md-3"></div>'+
+            '<div class="col-9">'+
+            '<a id="btnAddCondition'+noRule+'" href="javascript:;" class="btn btn-info mt-repeater-add" onClick="changeSelect();addCondition('+noRule+', 0)">'+
+            '<i class="fa fa-plus"></i> Add New Question</a>'+
+            '</div>'+
+            '</div>'+
+            '</div>'+
+            '</div>'+
+            '</div>'+
+            '</div>'
+		);
+		noRule++;
+	}    
+
+    function addCondition(no, noCond){
+        noCond = parseInt(noCond) + 1;
+		$(
+            '<div id="category'+no+noCond+'">'+
+            '<div class="form-group">'+
+            '<label class="col-md-3 control-label">Question '+
+            '<i class="fa fa-question-circle tooltips" data-original-title="Masukan Pertanyaan" data-container="body"></i>'+
+            '</label>'+
+            '<div class="col-md-9">'+
+            '<textarea class="form-control" placeholder="Enter Question here" name="category['+no+'][question]['+noCond+']" required></textarea>'+
+            '</div>'+
+            '</div>'+
+            '</div>'
+		).appendTo($('#div-category'+no)).slideDown("slow")
+		$('#btnAddCondition'+no).attr('onclick', 'changeSelect();addCondition('+no+','+noCond+')');
+	}
     $(document).ready(function() {
         $(document).ready(function () {
             $('.colorpicker').minicolors({
@@ -116,47 +182,74 @@
         <div class="portlet-body form">
             <form class="form-horizontal" role="form" action="{{ url('businessdev/form-survey/create') }}" method="post" enctype="multipart/form-data">
                 <div class="form-body">
-                    <input type="hidden" name="id" value="{{ $brand['id_brand'] }}">
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">Brand
-                            <span class="required" aria-required="true"> *
-                            </span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih Brand" data-container="body"></i>
-                        </label>
-                        <div class="col-md-5">
-                            <input class="form-control" type="text" value="{{ $brand['name_brand'] }}" name="name_brand" readonly />
-                        </div>
-                    </div>
-                    @php
-                        $cat = 1;
-                    @endphp
-                    @foreach ($form_survey as $i => $form)
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">Category {{ $loop->iteration }}
-                            <span class="required" aria-required="true"> *
-                            </span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih Brand" data-container="body"></i>
-                        </label>
-                        <div class="col-md-5">
-                            <input class="form-control" type="text" value="{{ $form['category'] }}" name="cat{{ $cat }}"/>
-                        </div>
-                    </div>
-                        @foreach ($form['question'] as $x => $que )
+                    <div class="form-group mt-repeater" style="margin-bottom: 0px; !important">
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Question {{ $loop->iteration }}
+                            <label class="col-md-2 control-label">Brand
                                 <span class="required" aria-required="true"> *
                                 </span>
-                                <i class="fa fa-question-circle tooltips" data-original-title="Pilih Brand" data-container="body"></i>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Masukan Kategori Pertanyaan" data-container="body"></i>
                             </label>
                             <div class="col-md-8">
-                                <textarea class="form-control" placeholder="- " name="cat{{ $cat }}_question_{{ $x }}" >{{ $que }}</textarea>
+                                <input class="form-control" type="text" value="{{ $brand['name_brand'] }}" name="" placeholder="Enter Category here" required/>
+                                <input type="hidden" name="id_brand" value="{{ $brand['id_brand'] }}">
                             </div>
                         </div>
+                    </div>
+                    <div id="div-rule">
+                        @php
+                            $i = 0;
+                        @endphp
+                        @foreach ($form_survey as $form)
+                        <div class="rule{{ $i }}">
+                            <div class="form-group mt-repeater">
+                                <div data-repeater-item class="mt-repeater-item">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">Category
+                                            <i class="fa fa-question-circle tooltips" data-original-title="Masukan Pertanyaan" data-container="body"></i>
+                                        </label>
+                                        <div class="col-md-8">
+                                            <input class="form-control" type="text" value="{{ $form['category'] }}" name="category[{{ $i }}][cat]" placeholder="Enter Category here" required/>
+                                        </div>
+                                    </div>
+                                    <div class="mt-repeater">
+                                        <div class="mt-repeater-cell">
+                                            <div id="div-category{{ $i }}">
+                                                @foreach ($form['question'] as $q => $question)
+                                                <div id="category{{ $i }}{{ $q }}">
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">Question
+                                                            <i class="fa fa-question-circle tooltips" data-original-title="Masukan Pertanyaan" data-container="body"></i>
+                                                        </label>
+                                                        <div class="col-md-9">
+                                                            <textarea class="form-control" placeholder="Enter Question here" name="category[{{ $i }}][question][{{ $q }}]" required>{{ $question }}</textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                            <div class="form-action col-md-12">
+                                                <div class="col-md-3"></div>
+                                                <div class="col-9">
+                                                    <a id="btnAddCondition{{  $i }}" href="javascript:;" class="btn btn-info mt-repeater-add" onClick="changeSelect();addCondition({{ $i }}, {{ $q }})">
+                                                        <i class="fa fa-plus"></i> Add New Question</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>  
+                                </div>
+                            </div>
+                        </div>
+                        @php
+                            $i++;
+                        @endphp
                         @endforeach
-                    @php
-                        $cat++;
-                    @endphp
-                    @endforeach
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <a href="javascript:;" class="btn btn-success mt-repeater-add" onClick="addRule({{ $i }});changeSelect()">
+                                <i class="fa fa-plus"></i> Add New Category</a>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-actions">
                     {{ csrf_field() }}

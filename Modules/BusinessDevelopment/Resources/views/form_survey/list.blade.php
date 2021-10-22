@@ -7,6 +7,7 @@
 @section('page-style')
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <style type="text/css">
         #sortable{
             cursor: move;
@@ -20,6 +21,7 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/scripts/datatable.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/datatables/datatables.min.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
         var table=$('#sample_1').DataTable({
                 language: {
@@ -37,31 +39,53 @@
                 }
         });
 
-        $('#sample_1').on('click', '.delete', function() {
-            var token  = "{{ csrf_token() }}";
-            var column = $(this).parents('tr');
-            var id     = $(this).data('id');
-
-            $.ajax({
-                type : "POST",
-                url : "{{ url('brand/delete') }}",
-                data : "_token="+token+"&id_brand="+id,
-                success : function(result) {
-                    if (result == "success") {
-                        $('#sample_1').DataTable().row(column).remove().draw();
-                        toastr.info("Brand has been deleted.");
-                    }
-                    else if(result == "fail"){
-                        toastr.warning("Failed to delete brand. Brand has been used.");
-                    }
-                    else {
-                        toastr.warning("Something went wrong. Failed to delete brand.");
-                    }
+        var SweetAlert = function() {
+            return {
+                init: function() {
+                    $(".sweetalert-delete").each(function() {
+                        var token  	= "{{ csrf_token() }}";
+                        let column 	= $(this).parents('tr');
+                        let id     	= $(this).data('id');
+                        $(this).click(function() {
+                            swal({
+                                    title: name+"\n\nAre you sure want to delete this form survey?",
+                                    text: "Your will not be able to recover this data!",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonClass: "btn-danger",
+                                    confirmButtonText: "Yes, delete it!",
+                                    closeOnConfirm: false
+                                },
+                                function(){
+                                    $.ajax({
+                                        type : "POST",
+                                        url : "{{url('businessdev/form-survey/delete')}}/"+id,
+                                        data : {
+                                            '_token' : '{{csrf_token()}}'
+                                        },
+                                        success : function(response) {
+                                            if (response.status == 'success') {
+                                                swal("Deleted!", "Form Suvey has been deleted.", "success")
+                                                SweetAlert.init()
+                                                location.href = "{{url('businessdev/form-survey')}}";
+                                            }
+                                            else if(response.status == "fail"){
+                                                swal("Error!", "Failed to delete form suvey.", "error")
+                                            }
+                                            else {
+                                                swal("Error!", "Something went wrong. Failed to delete form suvey.", "error")
+                                            }
+                                        }
+                                    });
+                                });
+                        })
+                    })
                 }
-            });
-        });
+            }
+        }();
         var manual=1;
         $(document).ready(function(){
+            SweetAlert.init()
             $('.form').on( 'click', function () {
                 $('#data_start').val(table.page.info().start);
             });
@@ -159,56 +183,47 @@
             </div>
         </div>
         <div class="portlet-body form">
-
-            <form action="{{url('/brand/reorder')}}" method="POST">
-                <table class="table table-striped table-bordered table-hover dt-responsive" width="100%" id="sample_1">
-                    <thead>
-                        <tr>
-                            <th width="30px"> No </th>
-                            <th> Brand </th>
-                            <th width="80px"> Category </th>
-                            @if(MyHelper::hasAccess([339,340], $grantedFeature))
-                                <th width="130px;"> Action </th>
-                            @endif
-                        </tr>
-                    </thead>
-                    <tbody id="sortable">
-                        @if (!empty($form))
-                            @foreach($form as $i => $value)
-                                <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        @foreach ($brand as $b)
-                                            @if ($b['id_brand'] == $i)
-                                                {{ $b['name_brand'] }}
-                                            @endif
-                                        @endforeach
-                                    </td>
-                                    <td class="text-center">
-                                        {{ count($value) }}
-                                    </td>
-                                    @if(MyHelper::hasAccess([339,340], $grantedFeature))
-                                    <td class="text-center">
-                                        @if(MyHelper::hasAccess([339,340], $grantedFeature))
-                                        <a href="{{ url('businessdev/form-survey/detail/'.$i) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
-                                        @endif
-                                        @if(MyHelper::hasAccess([339,340], $grantedFeature))
-                                        <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $i }}"><i class="fa fa-trash-o"></i> Delete</a>
-                                        @endif
-                                    </td>
-                                    @endif
-                                </tr>
-                            @endforeach
+            <table class="table table-striped table-bordered table-hover dt-responsive" width="100%" id="sample_1">
+                <thead>
+                    <tr>
+                        <th width="30px"> No </th>
+                        <th> Brand </th>
+                        <th width="80px"> Category </th>
+                        @if(MyHelper::hasAccess([339,340], $grantedFeature))
+                            <th width="130px;"> Action </th>
                         @endif
-                    </tbody>
-                </table>
-                <div class="form-group text-center">
-                    <input type="hidden" name="data_start" id="data_start" value="0">
-                    {{csrf_field()}}
-                    <button class="btn green">Update Order</button>
-                </div>
-            </form>
-
+                    </tr>
+                </thead>
+                <tbody id="sortable">
+                    @if (!empty($form))
+                        @foreach($form as $i => $value)
+                            <tr>
+                                <td class="text-center">{{ $loop->iteration }}</td>
+                                <td>
+                                    @foreach ($brand as $b)
+                                        @if ($b['id_brand'] == $i)
+                                            {{ $b['name_brand'] }}
+                                        @endif
+                                    @endforeach
+                                </td>
+                                <td class="text-center">
+                                    {{ count($value) }}
+                                </td>
+                                @if(MyHelper::hasAccess([339,340], $grantedFeature))
+                                <td class="text-center">
+                                    @if(MyHelper::hasAccess([339,340], $grantedFeature))
+                                    <a href="{{ url('businessdev/form-survey/detail/'.$i) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
+                                    @endif
+                                    @if(MyHelper::hasAccess([339,340], $grantedFeature))
+                                    <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $i }}"><i class="fa fa-trash-o"></i> Delete</a>
+                                    @endif
+                                </td>
+                                @endif
+                            </tr>
+                        @endforeach
+                    @endif
+                </tbody>
+            </table>
         </div>
     </div>
 

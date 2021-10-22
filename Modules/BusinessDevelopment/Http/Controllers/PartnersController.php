@@ -161,6 +161,7 @@ class PartnersController extends Controller
             }else{
                 $data['formSurvey'] = [];
             }
+            // dd($data['formSurvey']);
             return view('businessdevelopment::partners.detail', $data);
         }else{
             return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
@@ -688,50 +689,17 @@ class PartnersController extends Controller
             } else{
                 $form_survey['potential'] = 0;
             }
-            $form_survey["value"] = $request->except('id_partner','note','follow_up','_token');
-            $tes = array_keys($form_survey["value"]);
-            $q1 = 0;
-            $q2 = 0;
-            $q3 = 0;
-            $a1 = 0;
-            $a2 = 0;
-            $a3 = 0;
-            $i = 0;
-            foreach ($form_survey["value"] as $survey) {
-                if (strstr($tes[$i],'umum_question')==true) {
-                    $question_umum[$q1] = '"'.$survey.'"';
-                    $q1++;
-                } elseif(strstr($tes[$i],'dalam_question')==true) {
-                    $question_dalam[$q2] = '"'.$survey.'"';
-                    $q2++;
-                }elseif(strstr($tes[$i],'tawar_question')==true){
-                    $question_tawar[$q3] = '"'.$survey.'"';
-                    $q3++;
-                }elseif(strstr($tes[$i],'umum_answer')==true){
-                    $answer_umum[$a1] = '"'.$survey.'"';
-                    $a1++;
-                }elseif(strstr($tes[$i],'dalam_answer')==true) {
-                    $answer_dalam[$a2] = '"'.$survey.'"';
-                    $a2++;
-                }elseif(strstr($tes[$i],'tawar_answer')==true){
-                    $answer_tawar[$a3] = '"'.$survey.'"';
-                    $a3++;
+            $index_cat = 1;
+            foreach($request['category'] as $cat){
+                $name_cat = 'cat'.$index_cat;
+                $form[$name_cat]['category'] = $cat['cat'];
+                foreach($cat['question'] as $q => $que){
+                    $form[$name_cat]['value'][$q]['question'] = $que['question'];
+                    $form[$name_cat]['value'][$q]['answer'] = $que['answer'];
                 }
-                $i++;
+                $index_cat++;
             }
-            foreach($question_umum as $i => $que){
-                $val_umum[$i] = '{"question":'.$que.',"answer":'.$answer_umum[$i].'}';
-            }
-            $val_1 = implode(',',$val_umum);
-            foreach($question_dalam as $i => $que){
-                $val_dalam[$i] = '{"question":'.$que.',"answer":'.$answer_dalam[$i].'}';
-            }
-            $val_2 = implode(',',$val_dalam);
-            foreach($question_tawar as $i => $que){
-                $val_tawar[$i] = '{"question":'.$que.',"answer":'.$answer_tawar[$i].'}';
-            }
-            $val_3 = implode(',',$val_tawar);
-            $form_survey["value"] = '{"cat1":['.$val_1.'],"cat2":['.$val_2.'],"cat3":['.$val_3.']}';
+            $form_survey["value"] = json_encode($form);
         }
         if(isset($request["follow_up"]) && $request["follow_up"]=='Confirmation Letter'){
             $request->validate([
@@ -773,7 +741,12 @@ class PartnersController extends Controller
                             }
                         }
                         if(isset($update_data_location['status']) && !empty($update_data_location['status']) && $update_data_location['status']=='Active'){
-                            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success update candidate partner to partner']); 
+                            $project = MyHelper::get('project/initProject/'.$request['id_partner'].'/'.$request['id_location']);
+                            if (isset($project['status']) && $project['status'] == 'success') {
+                                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success update candidate partner to partner']); 
+                            }else{
+                                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed to update candidate partner to partner']);
+                            }
                         }
                         return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
                     }else{
