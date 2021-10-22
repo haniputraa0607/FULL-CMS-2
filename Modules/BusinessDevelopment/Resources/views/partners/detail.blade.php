@@ -667,11 +667,11 @@
                                 <div class="portlet light bordered">
                                     <div class="portlet-title">
                                         <div class="caption">
-                                            <span class="caption-subject font-black">Totally Termination</span>
+                                            <span class="caption-subject font-black">Partner Becomes Ixobox</span>
                                         </div>
                                     </div> 
                                     <div class="portlet-body form">
-                                        <a class="btn btn-primary" href="#total" data-toggle="tab" id="tombol-total" onclick="totalTermin();">Go to The Form</a>
+                                        <a class="btn btn-primary" href="#change" data-toggle="tab" id="tombol-total" onclick="totalTermin();">Go to The Form</a>
                                     </div>
                                 </div>
                             </div>  
@@ -679,11 +679,11 @@
                                 <div class="portlet light bordered">
                                     <div class="portlet-title">
                                         <div class="caption">
-                                            <span class="caption-subject font-black">Temporary Termintation</span>
+                                            <span class="caption-subject font-black">Outlet Closure</span>
                                         </div>
                                     </div> 
                                     <div class="portlet-body form">
-                                        <a class="btn btn-primary" href="#tomporary" data-toggle="tab">Go to The Form</a>
+                                        <a class="btn btn-primary" href="#closure" data-toggle="tab">Go to The Form</a>
                                     </div>
                                 </div>
                             </div>
@@ -693,11 +693,11 @@
                                 <div class="portlet light bordered">
                                     <div class="portlet-title">
                                         <div class="caption">
-                                            <span class="caption-subject font-black">Partner Substitutions</span>
+                                            <span class="caption-subject font-black">Outlet Closure Temporary</span>
                                         </div>
                                     </div> 
                                     <div class="portlet-body form">
-                                        <a class="btn btn-primary" href="#subs" data-toggle="tab">Go to The Form</a>
+                                        <a class="btn btn-primary" href="#tempo" data-toggle="tab">Go to The Form</a>
                                     </div>
                                 </div>
                             </div>  
@@ -705,11 +705,11 @@
                                 <div class="portlet light bordered">
                                     <div class="portlet-title">
                                         <div class="caption">
-                                            <span class="caption-subject font-black">Change Status</span>
+                                            <span class="caption-subject font-black">Outlet Exchange</span>
                                         </div>
                                     </div> 
                                     <div class="portlet-body form">
-                                        <a class="btn btn-primary" href="#change" data-toggle="tab">Go to The Form</a>
+                                        <a class="btn btn-primary" href="#exchange" data-toggle="tab">Go to The Form</a>
                                     </div>
                                 </div>
                             </div>
@@ -717,6 +717,32 @@
                     </div> 
                 </div>
             </div>
+
+            {{--  manage tab 4  --}}
+
+            {{--  tab change  --}}
+            <div class="tab-pane" id="change">
+                @include('businessdevelopment::partners.manage.change')
+            </div>
+
+            {{--  tab change  --}}
+            <div class="tab-pane" id="closure">
+                @include('businessdevelopment::partners.manage.closure')
+            </div>
+
+            {{--  tab change  --}}
+            <div class="tab-pane" id="tempo">
+                @include('businessdevelopment::partners.manage.tempo')
+            </div>
+
+            {{--  tab change  --}}
+            <div class="tab-pane" id="exchange">
+                @include('businessdevelopment::partners.manage.exchange')
+            </div>
+
+            {{--  end of manage tab 4  --}}
+
+
 
             {{-- tab 5 --}}
             <div class="tab-pane" id="resetpass">
