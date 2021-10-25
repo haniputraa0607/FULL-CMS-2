@@ -667,11 +667,11 @@
                                 <div class="portlet light bordered">
                                     <div class="portlet-title">
                                         <div class="caption">
-                                            <span class="caption-subject font-black">Totally Termination</span>
+                                            <span class="caption-subject font-black">Partner Becomes Ixobox</span>
                                         </div>
                                     </div> 
                                     <div class="portlet-body form">
-                                        <a class="btn btn-primary" href="#total" data-toggle="tab" id="tombol-total" onclick="totalTermin();">Go to The Form</a>
+                                        <a class="btn btn-primary" href="#change" data-toggle="tab" id="tombol-total" onclick="totalTermin();">Go to The Form</a>
                                     </div>
                                 </div>
                             </div>  
@@ -679,11 +679,11 @@
                                 <div class="portlet light bordered">
                                     <div class="portlet-title">
                                         <div class="caption">
-                                            <span class="caption-subject font-black">Temporary Termintation</span>
+                                            <span class="caption-subject font-black">Outlet Closure</span>
                                         </div>
                                     </div> 
                                     <div class="portlet-body form">
-                                        <a class="btn btn-primary" href="#tomporary" data-toggle="tab">Go to The Form</a>
+                                        <a class="btn btn-primary" href="#closure" data-toggle="tab">Go to The Form</a>
                                     </div>
                                 </div>
                             </div>
@@ -693,11 +693,11 @@
                                 <div class="portlet light bordered">
                                     <div class="portlet-title">
                                         <div class="caption">
-                                            <span class="caption-subject font-black">Partner Substitutions</span>
+                                            <span class="caption-subject font-black">Outlet Closure Temporary</span>
                                         </div>
                                     </div> 
                                     <div class="portlet-body form">
-                                        <a class="btn btn-primary" href="#subs" data-toggle="tab">Go to The Form</a>
+                                        <a class="btn btn-primary" href="#tempo" data-toggle="tab">Go to The Form</a>
                                     </div>
                                 </div>
                             </div>  
@@ -705,11 +705,11 @@
                                 <div class="portlet light bordered">
                                     <div class="portlet-title">
                                         <div class="caption">
-                                            <span class="caption-subject font-black">Change Status</span>
+                                            <span class="caption-subject font-black">Outlet Exchange</span>
                                         </div>
                                     </div> 
                                     <div class="portlet-body form">
-                                        <a class="btn btn-primary" href="#change" data-toggle="tab">Go to The Form</a>
+                                        <a class="btn btn-primary" href="#exchange" data-toggle="tab">Go to The Form</a>
                                     </div>
                                 </div>
                             </div>
@@ -717,6 +717,32 @@
                     </div> 
                 </div>
             </div>
+
+            {{--  manage tab 4  --}}
+
+            {{--  tab change  --}}
+            <div class="tab-pane" id="change">
+                @include('businessdevelopment::partners.manage.change')
+            </div>
+
+            {{--  tab change  --}}
+            <div class="tab-pane" id="closure">
+                @include('businessdevelopment::partners.manage.closure')
+            </div>
+
+            {{--  tab change  --}}
+            <div class="tab-pane" id="tempo">
+                @include('businessdevelopment::partners.manage.tempo')
+            </div>
+
+            {{--  tab change  --}}
+            <div class="tab-pane" id="exchange">
+                @include('businessdevelopment::partners.manage.exchange')
+            </div>
+
+            {{--  end of manage tab 4  --}}
+
+
 
             {{-- tab 5 --}}
             <div class="tab-pane" id="resetpass">
@@ -929,35 +955,31 @@
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form" action="{{url('businessdev/partners/create-follow-up')}}" method="post" enctype="multipart/form-data">
+                @if (isset($formSurvey) && !empty($formSurvey))
                 <div class="form-body">
                     <input type="hidden" name="id_partner" value="{{$result['id_partner']}}">
                     <input type="hidden" name='follow_up' id="followUpModal" value="Survey Location">
                     <input type="hidden" name='note' id="noteModal" value="">
                     <input type="hidden" name='surye_note' id="surveynoteModal" value="">
                     <input type="hidden" name='survey_potential' id="potentialModal" value="">
+                    @php
+                        $i = 0;
+                    @endphp
                     @foreach ($formSurvey as $x => $form)
-                        <?php 
-                            if($x == 'cat1'){
-                                $name_input = 'umum';
-                            }elseif($x == 'cat2'){
-                                $name_input = 'dalam';
-                            }else{
-                                $name_input = 'tawar';
-                            }
-                        ?>
                         <div class="form-group">
                             <div class="col-md-10">
                                 <label for="example-search-input"><span class="sbold uppercase font-black">{{ $form['category'] }}</span></label>
+                                <input type="hidden" name="category[{{ $i }}][cat]" value="{{ $form['category'] }}">
                             </div>
                         </div>
-                        @foreach ($form["question"] as $i => $q )
+                        @foreach ($form["question"] as $x => $q )
                         <div class="form-group">
                             <div class="col-md-10">
-                                <input type="hidden" name="{{ $name_input }}_question_{{ $i }}" value="{{ $q }}">
+                                <input type="hidden" name="category[{{ $i }}][question][{{ $x }}][question]" value="{{ $q }}">
                                 <label for="example-search-input">{{ $q }}</label>
                             </div>
                             <div class="col-md-2">
-                                <select name="{{ $name_input }}_answer_{{ $i }}" class="form-control input-sm select2" required>
+                                <select name="category[{{ $i }}][question][{{ $x }}][answer]" class="form-control input-sm select2" required>
                                     <option value="" selected disabled></option>
                                     <option value="a">A</option>
                                     <option value="b">B</option>
@@ -967,6 +989,9 @@
                             </div>
                         </div>
                         @endforeach
+                    @php
+                        $i++;
+                    @endphp
                     @endforeach
                     <div class="form-group">
                         <div class="col-md-3">
@@ -992,10 +1017,17 @@
                         </div>
                     </div>
                 </div>
+                @else
+                    <center>
+                        Form Survey for this brand has not been set yet
+                    </center>
+                @endif
                 <div class="modal-footer form-actions">
                     {{ csrf_field() }}
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    @if (isset($formSurvey) && !empty($formSurvey))
                     <button type="submit" class="btn blue">Submit</button>
+                    @endif
                 </div>
                 </form>
             </div>

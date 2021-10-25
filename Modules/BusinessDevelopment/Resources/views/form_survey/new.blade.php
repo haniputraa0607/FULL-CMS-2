@@ -43,7 +43,7 @@
 		$("#div-rule").append(
 			'<div class="rule'+noRule+'">'+
             '<div class="form-group mt-repeater">'+
-            '<div data-repeater-item class="mt-repeater-item mt-overflow">'+
+            '<div data-repeater-item class="mt-repeater-item">'+
             '<div class="form-group">'+
             '<label class="col-md-2 control-label">Category '+
             '<i class="fa fa-question-circle tooltips" data-original-title="Masukan Kategori Pertanyaan" data-container="body"></i>'+
@@ -52,7 +52,7 @@
             '<input class="form-control" type="text" value="" name="category['+noRule+'][cat]" placeholder="Enter Category here" required/>'+
             '</div>'+
             '</div>'+
-            '<div class="form-group mt-repeater">'+
+            '<div class="mt-repeater">'+
             '<div class="mt-repeater-cell">'+
             '<div id="div-category'+noRule+'">'+
             '<div id="category'+noRule+'0">'+
@@ -61,7 +61,7 @@
             '<i class="fa fa-question-circle tooltips" data-original-title="Masukan Pertanyaan" data-container="body"></i>'+
             '</label>'+
             '<div class="col-md-9">'+
-            '<textarea class="form-control" placeholder="Enter Question here" name="category['+noRule+'][0][question]" required></textarea>'+
+            '<textarea class="form-control" placeholder="Enter Question here" name="category['+noRule+'][question][0]" required></textarea>'+
             '</div>'+
             '</div>'+
             '</div>'+
@@ -89,7 +89,7 @@
             '<i class="fa fa-question-circle tooltips" data-original-title="Masukan Pertanyaan" data-container="body"></i>'+
             '</label>'+
             '<div class="col-md-9">'+
-            '<textarea class="form-control" placeholder="Enter Question here" name="category['+no+']['+noCond+'][question]" required></textarea>'+
+            '<textarea class="form-control" placeholder="Enter Question here" name="category['+no+'][question]['+noCond+']" required></textarea>'+
             '</div>'+
             '</div>'+
             '</div>'
@@ -139,27 +139,29 @@
             </div>
         </div>
         <div class="portlet-body form">
-            <form id="form-sorting" class="form-horizontal" role="form" action="{{ url('businessdev/form-survey/update') }}" method="post" enctype="multipart/form-data">
+            <form id="form-sorting" class="form-horizontal" role="form" action="{{ url('businessdev/form-survey/create') }}" method="post" enctype="multipart/form-data">
                 <div class="form-body">
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Brand
-                            <span class="required" aria-required="true"> *
-                            </span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Masukan Kategori Pertanyaan" data-container="body"></i>
-                        </label>
-                        <div class="col-md-5">
-                            <select name="id_brand" class="form-control input-sm select2" placeholder="Select Brand" style="width:100%" required>
-                                <option value="" selected disabled></option>
-                                @foreach($brand as $b)
-                                    <option value="{{$b['id_brand']}}">{{$b['name_brand']}}</option>
-                                @endforeach
-                            </select>
+                    <div class="form-group mt-repeater" style="margin-bottom: 0px; !important">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Brand
+                                <span class="required" aria-required="true"> *
+                                </span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Masukan Kategori Pertanyaan" data-container="body"></i>
+                            </label>
+                            <div class="col-md-8">
+                                <select name="id_brand" class="form-control input-sm select2" placeholder="Select Brand" style="width:100%" required>
+                                    <option value="" selected disabled></option>
+                                    @foreach($brand as $b)
+                                        <option value="{{$b['id_brand']}}">{{$b['name_brand']}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div id="div-rule">
                         <div class="rule0">
                             <div class="form-group mt-repeater">
-                                <div data-repeater-item class="mt-repeater-item mt-overflow">
+                                <div data-repeater-item class="mt-repeater-item">
                                     <div class="form-group">
                                         <label class="col-md-2 control-label">Category
                                             <i class="fa fa-question-circle tooltips" data-original-title="Masukan Pertanyaan" data-container="body"></i>
@@ -168,7 +170,7 @@
                                             <input class="form-control" type="text" value="" name="category[0][cat]" placeholder="Enter Category here" required/>
                                         </div>
                                     </div>
-                                    <div class="form-group mt-repeater">
+                                    <div class="mt-repeater">
                                         <div class="mt-repeater-cell">
                                             <div id="div-category0">
                                                 <div id="category00">
@@ -177,7 +179,7 @@
                                                             <i class="fa fa-question-circle tooltips" data-original-title="Masukan Pertanyaan" data-container="body"></i>
                                                         </label>
                                                         <div class="col-md-9">
-                                                            <textarea class="form-control" placeholder="Enter Question here" name="category[0][0][question]" required></textarea>
+                                                            <textarea class="form-control" placeholder="Enter Question here" name="category[0][question][0]" required></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -195,17 +197,19 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <a href="javascript:;" class="btn btn-success mt-repeater-add" onClick="addRule();changeSelect()">
-                            <i class="fa fa-plus"></i> Add New Category</a>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <a href="javascript:;" class="btn btn-success mt-repeater-add" onClick="addRule();changeSelect()">
+                                <i class="fa fa-plus"></i> Add New Category</a>
+                        </div>
                     </div>
-                    {{ csrf_field() }}
+                </div>
+                {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-12 text-center">
                             <button type="submit" class="btn blue">Submit</button>
                         </div>
                     </div>
-                </div>
             </form>
         </div>
     </div>
