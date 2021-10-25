@@ -441,62 +441,146 @@
     </script>
     <script type="text/javascript">
     $(document).on('click', '.same', function() {
-      var open = $(this).parent().parent().parent().find('.kelas-open').val();
-      var close = $(this).parent().parent().parent().find('.kelas-close').val();
-      if (open == '') {
-        alert('Open field cannot be empty');
-        $(this).parent().parent().parent().find('.kelas-open').focus();
-        return false;
-      }
-
-      if (close == '') {
-        alert('Close field cannot be empty');
-        $(this).parent().parent().parent().find('.kelas-close').focus();
-        return false;
-      }
-
-      if ($(this).is(':checked')) {
-        var check = $('input[name="ampas[]"]:checked').length;
-        var count = $('.same').prop('checked', false);
-        $(this).prop('checked', true);
-
-        if (check == 1) {
-            var all_open = $('.kelas-open');
-            var array_open = [];
-            for (i = 0; i < all_open.length; i++) {
-              array_open.push(all_open[i]['defaultValue']);
-            }
-            sessionStorage.setItem("item_open", array_open);
-
-            var all_close = $('.kelas-close');
-            var array_close = [];
-            for (i = 0; i < all_close.length; i++) {
-              array_close.push(all_close[i]['defaultValue']);
-            }
-            sessionStorage.setItem("item_close", array_close);
+        var open = $(this).parent().parent().parent().find('.kelas-open').val();
+        var close = $(this).parent().parent().parent().find('.kelas-close').val();
+        if (open == '') {
+            alert('Open field cannot be empty');
+            $(this).parent().parent().parent().find('.kelas-open').focus();
+            return false;
         }
 
-        $('.kelas-open').val(open);
-        $('.kelas-close').val(close);
+        if (close == '') {
+            alert('Close field cannot be empty');
+            $(this).parent().parent().parent().find('.kelas-close').focus();
+            return false;
+        }
 
-      } else {
+        var id = $(this).data('id');
+        var shift_start_morning = $('#shift_start_morning_'+id).val();
+        var shift_end_morning = $('#shift_end_morning_'+id).val();
+        if (shift_start_morning == '') {
+            alert('Shift morning start field cannot be empty');
+            return false;
+        }
 
-          var item_open = sessionStorage.getItem("item_open");
-          var item_close = sessionStorage.getItem("item_close");
+        if (shift_end_morning == '') {
+            alert('Shift morning end field cannot be empty');
+            return false;
+        }
 
-          var myarr_open = item_open.split(",");
-          var myarr_close = item_close.split(",");
-          $('.kelas-open').each(function(i, obj) {
-              $(this).val(myarr_open[i]);
-          });
+        var shift_start_evening = $('#shift_start_evening_'+id).val();
+        var shift_end_evening = $('#shift_end_evening_'+id).val();
+        if (shift_start_evening == '') {
+            alert('Shift evening start field cannot be empty');
+            return false;
+        }
 
-          $('.kelas-close').each(function(i, obj) {
-              $(this).val(myarr_close[i]);
-          });
+        if (shift_end_evening == '') {
+            alert('Shift evening end field cannot be empty');
+            return false;
+        }
 
-          $(this).parent().parent().parent().find('.kelas-open').val(open);
-          $(this).parent().parent().parent().find('.kelas-close').val(close);
-      }
+        if ($(this).is(':checked')) {
+            var check = $('input[name="ampas[]"]:checked').length;
+            var count = $('.same').prop('checked', false);
+            $(this).prop('checked', true);
+
+            if (check == 1) {
+                var all_open = $('.kelas-open');
+                var array_open = [];
+                for (i = 0; i < all_open.length; i++) {
+                    array_open.push(all_open[i]['defaultValue']);
+                }
+                sessionStorage.setItem("item_open", array_open);
+
+                var all_close = $('.kelas-close');
+                var array_close = [];
+                for (i = 0; i < all_close.length; i++) {
+                    array_close.push(all_close[i]['defaultValue']);
+                }
+                sessionStorage.setItem("item_close", array_close);
+
+                var all_shift_start_morning = $('.shift-start-morning');
+                var array_shift_start_morning = [];
+                for (i = 0; i < all_shift_start_morning.length; i++) {
+                    array_shift_start_morning.push(all_shift_start_morning[i]['defaultValue']);
+                }
+                sessionStorage.setItem("item_shift_start_morning", array_shift_start_morning);
+
+                var all_shift_end_morning = $('.shift-end-morning');
+                var array_shift_end_morning = [];
+                for (i = 0; i < all_shift_end_morning.length; i++) {
+                    array_shift_end_morning.push(all_shift_end_morning[i]['defaultValue']);
+                }
+                sessionStorage.setItem("item_shift_end_morning", array_shift_end_morning);
+
+                var all_shift_start_evening = $('.shift-start-evening');
+                var array_shift_start_evening = [];
+                for (i = 0; i < all_shift_start_evening.length; i++) {
+                    array_shift_start_evening.push(all_shift_start_evening[i]['defaultValue']);
+                }
+                sessionStorage.setItem("item_shift_start_evening", array_shift_start_evening);
+
+                var all_shift_end_evening = $('.shift-end-evening');
+                var array_shift_end_evening = [];
+                for (i = 0; i < all_shift_end_evening.length; i++) {
+                    array_shift_end_evening.push(all_shift_end_evening[i]['defaultValue']);
+                }
+                sessionStorage.setItem("item_shift_end_evening", array_shift_end_evening);
+            }
+
+            $('.kelas-open').val(open);
+            $('.kelas-close').val(close);
+            $('.shift-start-morning').val(shift_start_morning);
+            $('.shift-end-morning').val(shift_end_morning);
+            $('.shift-start-evening').val(shift_start_evening);
+            $('.shift-end-evening').val(shift_end_evening);
+        } else {
+
+            var item_open = sessionStorage.getItem("item_open");
+            var item_close = sessionStorage.getItem("item_close");
+            var item_shift_start_morning = sessionStorage.getItem("item_shift_start_morning");
+            var item_shift_end_morning = sessionStorage.getItem("item_shift_end_morning");
+            var item_shift_start_evening = sessionStorage.getItem("item_shift_start_evening");
+            var item_shift_end_evening = sessionStorage.getItem("item_shift_end_evening");
+
+            var myarr_open = item_open.split(",");
+            var myarr_close = item_close.split(",");
+            var myarr_shift_start_morning = item_shift_start_morning.split(",");
+            var myarr_shift_end_morning = item_shift_end_morning.split(",");
+            var myarr_shift_start_evening = item_shift_start_evening.split(",");
+            var myarr_shift_end_evening = item_shift_end_evening.split(",");
+            $('.kelas-open').each(function(i, obj) {
+                $(this).val(myarr_open[i]);
+            });
+
+            $('.kelas-close').each(function(i, obj) {
+                $(this).val(myarr_close[i]);
+            });
+
+            $('.shift-start-morning').each(function(i, obj) {
+                $(this).val(myarr_shift_start_morning[i]);
+            });
+
+            $('.shift-end-morning').each(function(i, obj) {
+                $(this).val(myarr_shift_end_morning[i]);
+            });
+
+            $('.shift-start-evening').each(function(i, obj) {
+                $(this).val(myarr_shift_start_evening[i]);
+            });
+
+            $('.shift-end-evening').each(function(i, obj) {
+                $(this).val(myarr_shift_end_evening[i]);
+            });
+
+            $(this).parent().parent().parent().find('.kelas-open').val(open);
+            $(this).parent().parent().parent().find('.kelas-close').val(close);
+            $(this).parent().parent().parent().find('.shift-start-morning').val(shift_start_morning);
+            $(this).parent().parent().parent().find('.shift-end-morning').val(shift_start_morning);
+            $(this).parent().parent().parent().find('.shift-start-evening').val(shift_start_evening);
+            $(this).parent().parent().parent().find('.shift-end-evening').val(shift_end_evening);
+        }
     });
 
     $('.latlong').change(function(){
@@ -525,17 +609,19 @@
     function addOutletBox() {
         var html = '<div id="div_outlet_box_parent_'+count_outlet_box+'">'+
                     '<div class="form-group">'+
-                    '<div class="col-md-1"></div>'+
-                    '<div class="col-md-3">'+
-                    '<input class="form-control" type="text" maxlength="200" id="outlet_box_code_'+count_outlet_box+'" name="outlet_box_data['+count_outlet_box+'][outlet_box_code]" required placeholder="Enter outlet box code"/>'+
+                    '<div class="col-md-2">'+
+                    '<input class="form-control" type="text" maxlength="200" id="outlet_box_code_'+count_outlet_box+'" name="outlet_box_data['+count_outlet_box+'][outlet_box_code]" required placeholder="Box code"/>'+
                     '</div>'+
-                    '<div class="col-md-3">'+
-                    '<input class="form-control" type="text" maxlength="200" id="outlet_box_name_'+count_outlet_box+'" name="outlet_box_data['+count_outlet_box+'][outlet_box_name]" required placeholder="Enter outlet box name"/>'+
+                    '<div class="col-md-2">'+
+                    '<input class="form-control" type="text" maxlength="200" id="outlet_box_name_'+count_outlet_box+'" name="outlet_box_data['+count_outlet_box+'][outlet_box_name]" required placeholder="Enter name"/>'+
+                    '</div>'+
+                    '<div class="col-md-4">'+
+                    '<input class="form-control" type="text" maxlength="200" id="outlet_box_url_'+count_outlet_box+'" name="outlet_box_data['+count_outlet_box+'][outlet_box_url]" required placeholder="Enter box url"/>'+
                     '</div>'+
                     '<div class="col-md-3">'+
                     '<input data-switch="true" type="checkbox" name="outlet_box_data['+count_outlet_box+'][outlet_box_status]" data-on-text="Active" data-off-text="Inactive" checked/>'+
                     '</div>'+
-                    '<div class="col-md-2" style="margin-left: -4%">'+
+                    '<div class="col-md-1" style="margin-left: -4%">'+
                     '<a class="btn btn-danger btn" onclick="deleteOutletBox('+count_outlet_box+')">&nbsp;<i class="fa fa-trash"></i></a>'+
                     '</div>'+
                     '</div>'+
@@ -623,9 +709,9 @@
                 <li class="active" id="infoOutlet">
                     <a href="#info" data-toggle="tab" > Info </a>
                 </li>
-                <li id="pinOutlet">
+{{--                 <li id="pinOutlet">
                     <a href="#pin" data-toggle="tab" > Update Pin </a>
-                </li>
+                </li> --}}
                 @if(MyHelper::hasAccess([29], $grantedFeature))
                     <li>
                         <a href="#photo" data-toggle="tab"> Photo </a>

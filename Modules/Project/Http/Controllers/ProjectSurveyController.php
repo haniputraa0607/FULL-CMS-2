@@ -34,4 +34,10 @@ class ProjectSurveyController extends Controller
 	$query = MyHelper::post('project/next/survey_location', $post);
 	return $query; 
     }
+    public function delete(Request $request)
+    {
+        $post = $request->except('_token');
+	$query = MyHelper::post('project/delete/survey_location', $post);
+	return $query; 
+    }
 }

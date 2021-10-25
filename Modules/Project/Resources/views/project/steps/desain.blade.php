@@ -41,7 +41,8 @@
                                         success : function(response) {
                                             if (response.status == 'success') {
                                                 swal("Deleted!", "Desain has been deleted.", "success")
-                                               
+                                               location.href = "{{url('project/detail')}}/"+{{$result['id_project']}}+"#contract";
+                                                window.location.reload();
                                             }
                                             else if(response.status == "fail"){
                                               
@@ -206,10 +207,9 @@
                                     </div>
                                 </div>
                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan note" data-container="body"></i></label>
+                                    <label for="example-search-input" class="control-label col-md-4">Note </label>
                                     <div class="col-md-5">
-                                        <textarea name="note" id="note" class="form-control" placeholder="Enter note here" required></textarea>
+                                        <textarea name="note" id="note" class="form-control" placeholder="Enter note here" ></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -225,8 +225,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Import Attachment <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan file" data-container="body"></i><br>
+                                    <label for="example-search-input" class="control-label col-md-4">Import Attachment<br>
                                         <span class="required" aria-required="true"> (PDF max 2 mb) </span></label>
                                     <div class="col-md-5">
                                         <div class="fileinput fileinput-new text-left" data-provides="fileinput">
