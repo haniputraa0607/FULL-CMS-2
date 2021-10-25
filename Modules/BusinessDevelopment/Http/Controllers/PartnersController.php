@@ -725,10 +725,10 @@ class PartnersController extends Controller
                 "status" => 'Active',
             ];
         }
-        $follow_up = MyHelper::post('partners/create-follow-up', $post_follow_up);
-        if(isset($follow_up['status']) && $follow_up['status'] == 'success'){
-            $partner_step = MyHelper::post('partners/update', $update_partner);
-            if (isset($partner_step['status']) && $partner_step['status'] == 'success') {
+        $partner_step = MyHelper::post('partners/update', $update_partner);
+        if (isset($partner_step['status']) && $partner_step['status'] == 'success') {
+            $follow_up = MyHelper::post('partners/create-follow-up', $post_follow_up);
+            if(isset($follow_up['status']) && $follow_up['status'] == 'success'){
                 if(isset($update_data_location) && !empty($update_data_location)){
                     $location_update =  MyHelper::post('partners/locations/update', $update_data_location);
                     if (isset($location_update['status']) && $location_update['status'] == 'success') {
