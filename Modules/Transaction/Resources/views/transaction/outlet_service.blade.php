@@ -142,7 +142,7 @@
                     	let tooltipDetailRefund = tooltipTemplate.replace('%tooltip_text%', 'Detail dari hasil pengisian form confirm process');
 
                         const buttons = [
-                            `<a class="btn blue btn-sm btn-outline" href="{{url('transaction/detail')}}/${row.id_transaction}/${row.trasaction_type == 'Pickup Order' ? 'pickup order' : 'delivery'}">Detail Transaction ${tooltipDetailTransaction}</a>`
+                            `<a class="btn blue btn-sm btn-outline" href="{{url('transaction/outlet-service/detail')}}/${row.id_transaction}">Detail Transaction ${tooltipDetailTransaction}</a>`
                         ];
 
                         return buttons.join('');

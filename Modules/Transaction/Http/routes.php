@@ -111,6 +111,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'transact
     Route::group(['prefix' => 'outlet-service'], function(){
     	Route::get('/', [ 'uses' => 'TransactionOutletServiceController@listOutletService']);
     	Route::post('/', [ 'uses' => 'TransactionOutletServiceController@filter']);
+    	Route::get('detail/{id_transaction}', [ 'uses' => 'TransactionOutletServiceController@detailOutletService']);
     });
 
     Route::any('/create/fake', 'TransactionController@fakeTransaction');

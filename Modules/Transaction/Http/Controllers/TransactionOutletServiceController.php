@@ -109,4 +109,27 @@ class TransactionOutletServiceController extends Controller
 
         return abort(404);
     }
+
+    public function detailOutletService(Request $request, $id) {
+
+        $data = [
+            'title'          => 'Transaction',
+            'menu_active'    => 'transaction',
+            'sub_title'      => 'Detail Transaction',
+            'submenu_active' => 'transaction-outlet-service'
+        ];
+
+        $post['id_transaction'] = $id;
+        $check = MyHelper::post('transaction/outlet-service/detail', $post);
+
+    	if (isset($check['status']) && $check['status'] == 'success') {
+    		$data['data'] = $check['result'];
+    	} elseif (isset($check['status']) && $check['status'] == 'fail') {
+            return view('error', ['msg' => 'Data failed']);
+        } else {
+            return view('error', ['msg' => 'Something went wrong, try again']);
+        }
+        return view('transaction::transactionDetailOutletService', $data);
+    	
+    }
 }
