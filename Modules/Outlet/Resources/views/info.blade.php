@@ -257,7 +257,7 @@
         </div>
         @endif
 
-        <div class="form-group">
+        <div class="form-group hidden">
             <div class="input-icon right">
                 <label class="col-md-3 control-label">
                     Plastic Status
@@ -294,7 +294,7 @@
         </div>
 
         @foreach($delivery as $dev)
-            <div class="form-group">
+            <div class="form-group hidden">
                 <div class="input-icon right">
                     <label class="col-md-3 control-label">
                         {{$dev['delivery_name']}}

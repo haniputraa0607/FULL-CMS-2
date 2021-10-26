@@ -963,7 +963,7 @@
                 <li class="active">
                     <a href="#info" data-toggle="tab"> Info </a>
                 </li>
-                <li id="nav-prod-variant" @if($product[0]['product_variant_status'] != 1) style="display: none" @endif>
+                <li id="nav-prod-variant" @if($product[0]['product_variant_status'] != 1 || true) style="display: none" @endif>
                     <a href="#variant-group" data-toggle="tab"> Variant Group</a>
                 </li>
                 <!-- @if(MyHelper::hasAccess([53], $grantedFeature))

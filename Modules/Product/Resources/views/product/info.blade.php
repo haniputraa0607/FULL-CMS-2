@@ -6,7 +6,7 @@
 <form class="form-horizontal" id="formWithPrice" role="form" action="{{ url()->current() }}" method="post" enctype="multipart/form-data">
     @foreach ($product as $syu)
     <div class="form-body">
-        <div class="form-group">
+        <div class="form-group hidden">
             <label for="multiple" class="control-label col-md-3">Product Variant Status <span class="required" aria-required="true"> * </span>
                 <i class="fa fa-question-circle tooltips" data-original-title="Jika produk memiliki variant silahkan centang checkbox ini" data-container="body"></i>
             </label>
@@ -16,7 +16,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group hidden">
             <label for="multiple" class="control-label col-md-3">Category <span class="required" aria-required="true"> * </span>
                 <i class="fa fa-question-circle tooltips" data-original-title="Pilih Kategori Produk" data-container="body"></i>
             </label>
@@ -40,7 +40,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group hidden">
             <label class="col-md-3 text-right control-label">Promo Category <i class="fa fa-question-circle tooltips" data-original-title="Pilih Kategori Promo Produk" data-container="body"></i></label>
             <div class="col-md-8">
                 <select name="id_product_promo_category[]" class="select2 form-control" data-placeholder="Select category" multiple>
@@ -82,7 +82,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group hidden">
             <label class="col-md-3 control-label">POS Name
                 <i class="fa fa-question-circle tooltips" data-original-title="Nama Default Dari POS" data-container="body"></i>
             </label>
@@ -162,7 +162,7 @@
                 </div>
             </div>
         </div>
-         <div class="form-group">
+         <div class="form-group hidden">
             <label class="col-md-3 control-label">
                 Photo Detail<span class="required" aria-required="true">* <br>(720*360) </span>
                 <i class="fa fa-question-circle tooltips" data-original-title="Gambar Produk Detail" data-container="body"></i>
