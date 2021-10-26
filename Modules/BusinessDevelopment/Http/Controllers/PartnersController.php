@@ -768,6 +768,8 @@ class PartnersController extends Controller
             }else{
                 return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
             }
+        }elseif(isset($partner_step['status']) && $partner_step['status'] == 'fail_date'){
+            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($partner_step['messages'] ?? ['Failed create step '.$request["follow_up"].''])->withInput( );
         }else{
             return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
         }
@@ -781,11 +783,6 @@ class PartnersController extends Controller
         ];
         $partner_step = MyHelper::post('partners/update', $reject_partner);
         return $partner_step;
-    }
-    public function pdf()
-    {
-        $pdf = MyHelper::post('partners/pdf',['id_partner' => '1']);
-        return $pdf;
     }
 
 }
