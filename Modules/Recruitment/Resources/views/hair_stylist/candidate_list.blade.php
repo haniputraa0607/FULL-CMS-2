@@ -48,7 +48,7 @@
                                 function(){
                                     $.ajax({
                                         type : "POST",
-                                        url : "{{ url('recruitment/hair-stylist/candidate/delete') }}",
+                                        url : "{{ url('recruitment/hair-stylist/candidate/delete') }}"+'/'+id,
                                         data : "_token="+token+"&id_user_hair_stylist="+id,
                                         success : function(result) {
                                             if (result.status == "success") {

@@ -255,15 +255,15 @@ $configs    		= session('configs');
                                     <input type="checkbox" name="product_visibility" @if($value['product_visibility'] == 'Visible') checked @endif data-id="{{ $value['id_product'] }}" class="make-switch switch-large switch-change" data-on-text="Visible" data-off-text="Hidden">
                                 </div>
                             </td>
-                            <td><a href="{{ url('product-service/detail') }}/{{ $value['product_code'] }}#visibility">{{ $value['product_detail_count'] }}</a></td>
-                            <td><a href="{{ url('product-service/detail') }}/{{ $value['product_code'] }}#visibility">{{ $value['product_detail_hiddens_count'] }}</td>
+                            <td><a href="{{ url('product-academy/detail') }}/{{ $value['product_code'] }}#visibility">{{ $value['product_detail_count'] }}</a></td>
+                            <td><a href="{{ url('product-academy/detail') }}/{{ $value['product_code'] }}#visibility">{{ $value['product_detail_hiddens_count'] }}</td>
                             @if(MyHelper::hasAccess([363,365,366], $grantedFeature))
                                 <td style="width: 80px;">
                                     @if(MyHelper::hasAccess([366], $grantedFeature))
                                         <a data-toggle="confirmation" data-popout="true" class="btn btn-sm red delete" data-id="{{ $value['id_product'] }}"><i class="fa fa-trash-o"></i></a>
                                     @endif
                                     @if(MyHelper::hasAccess([363,365], $grantedFeature))
-                                        <a href="{{ url('product-service/detail') }}/{{ $value['product_code'] }}" class="btn btn-sm blue"><i class="fa fa-edit"></i></a>
+                                        <a href="{{ url('product-academy/detail') }}/{{ $value['product_code'] }}" class="btn btn-sm blue"><i class="fa fa-edit"></i></a>
                                     @endif
                                 </td>
                             @endif

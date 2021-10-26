@@ -169,10 +169,10 @@
             </label>
             <div class="col-md-8">
                 <div class="fileinput fileinput-new" data-provides="fileinput">
-                    <div class="fileinput-new thumbnail" style="width: 200px; height: 200px;">
+                    <div class="fileinput-new thumbnail" style="width: 200px; height: 100px;">
                      <img src="@if(isset($syu['product_photo_detail'])){{ env('STORAGE_URL_API') }}{{$syu['product_photo_detail']}}@endif" alt="">
                     </div>
-                    <div class="fileinput-preview fileinput-exists thumbnail" id="imageproductDetail" style="max-width: 200px; max-height: 200px;"></div>
+                    <div class="fileinput-preview fileinput-exists thumbnail" id="imageproductDetail" style="max-width: 200px; max-height: 100px;"></div>
                     <div>
                         <span class="btn default btn-file">
                         <span class="fileinput-new"> Select image </span>
