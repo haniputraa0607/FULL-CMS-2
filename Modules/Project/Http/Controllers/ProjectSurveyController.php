@@ -18,8 +18,8 @@ class ProjectSurveyController extends Controller
     public function create(Request $request)
     {
         $post = $request->except('_token');
-         if (isset($request["import_file"])) {
-            $post['attachment'] = MyHelper::encodeImage($request['import_file']);
+         if (isset($post["import_file"])) {
+            $post['attachment'] = MyHelper::encodeImage($post['import_file']);
         }
 	$query = MyHelper::post('project/create/survey_location', $post);
 	if(isset($query['status']) && $query['status'] == 'success'){
