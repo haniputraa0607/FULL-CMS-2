@@ -48,7 +48,7 @@
                                 function(){
                                     $.ajax({
                                         type : "POST",
-                                        url : "{{ url('recruitment/hair-stylist/candidate/delete') }}",
+                                        url : "{{ url('recruitment/hair-stylist/candidate/delete') }}"+'/'+id,
                                         data : "_token="+token+"&id_user_hair_stylist="+id,
                                         success : function(result) {
                                             if (result.status == "success") {
@@ -57,7 +57,7 @@
                                                 location.href = "{{url('recruitment/hair-stylist/candidate')}}";
                                             }
                                             else if(result.status == "fail"){
-                                                swal("Error!", "Failed to delete candidate. Candidate has been used.", "error")
+                                                swal("Error!", result.messages[0], "error")
                                             }
                                             else {
                                                 swal("Error!", "Something went wrong. Failed to delete candidate.", "error")
