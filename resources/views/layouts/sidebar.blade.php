@@ -3209,6 +3209,15 @@
 			</li> --}}
 		@endif
 
+		@if(MyHelper::hasAccess([338], $grantedFeature))
+			<li class="nav-item {{($menu_active == 'confirmation-letter') ? 'active' : ''}}">
+				<a href="{{url('setting/logo-confir')}}" class="nav-link">
+					<i class="fa fa-image"></i>
+					<span class="title">Confirmation Letter Logo</span>
+				</a>
+			</li>
+		@endif
+
 		@if(MyHelper::hasAccess([85,86,87,88,89,154], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
 				<h3 class="uppercase" style="color: #000;font-weight: 600;">About</h3>

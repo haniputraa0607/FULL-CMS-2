@@ -180,7 +180,7 @@
             </div>
         </div>
         <div class="portlet-body form">
-            <form class="form-horizontal" role="form" action="{{ url('businessdev/form-survey/create') }}" method="post" enctype="multipart/form-data">
+            <form class="form-horizontal" role="form" action="{{ url('businessdev/form-survey/create/update') }}" method="post" enctype="multipart/form-data">
                 <div class="form-body">
                     <div class="form-group mt-repeater" style="margin-bottom: 0px; !important">
                         <div class="form-group">

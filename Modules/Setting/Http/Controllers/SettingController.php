@@ -1346,6 +1346,7 @@ class SettingController extends Controller
             'submenu_active' => 'maintenance-mode'
         ];
         if($post){
+            dd($post);
             if(isset($post['image']) && $post['image'] !== null){
                 $post['image']= MyHelper::encodeImage($post['image']);
             }
@@ -1546,5 +1547,29 @@ class SettingController extends Controller
         $result = MyHelper::post('setting/social-media', $post);
 
         return parent::redirect($result, 'Social Media setting has been updated.','setting/home#social_media');
+    }
+
+    public function confirmationLogoPDF(Request $request){
+        $post = $request->except('_token');
+        $data = [
+            'title'          => 'Confirmation Letter Logo',
+            'menu_active'    => 'confirmation-letter',
+            'submenu_active'    => 'confirmation-letter',
+        ];
+        if($post){
+            if(isset($post['image']) && $post['image'] !== null){
+                $post['image']= MyHelper::encodeImage($post['image']);
+            }
+            $set_logo_confir = MyHelper::post('setting/confirmation-logo', $post);
+            if(($set_logo_confir['status']??'')=='success'){
+                return redirect('setting/logo-confir')->with('success',['Success update confirmation letter logo']);
+            }else{
+                return redirect('setting/logo-confir')->withErrors([$set_logo_confir['message']]);
+            }
+        }else{
+            $logo_confir = MyHelper::get('setting/get-confirmation-logo');
+            $data['image'] = $logo_confir['logo'];
+            return view('setting::confirmation_logo', $data);
+        }
     }
 }
