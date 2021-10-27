@@ -161,7 +161,8 @@ class PartnersController extends Controller
             }else{
                 $data['formSurvey'] = [];
             }
-            // dd($data['formSurvey']);
+            $enkripsi = MyHelper::createSlug($data['result']['id_partner'], $data['result']['created_at']);
+            $data['url_partners_close_temporary'] = url('businessdev/partners/close-temporary/').'/'.$enkripsi;
             return view('businessdevelopment::partners.detail', $data);
         }else{
             return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
