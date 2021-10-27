@@ -296,6 +296,17 @@ class ProductAcademyController extends Controller
         ];
 
         $data['result'] = MyHelper::get('academy/product/setting/instalment')['result']??[];
+        $data['arr_step_instalment'] = json_encode(array_column($data['result'], 'total_instalment'));
         return view('academy::product.instalment', $data);
+    }
+
+    public function settingInstalmentSave(Request $request){
+        $post = $request->except('_token');
+        $save = MyHelper::post('academy/product/setting/instalment/save', $post);
+        if (isset($save['status']) && $save['status'] == "success") {
+            return redirect('product-academy/setting/instalment')->withSuccess(['Success save data']);
+        }else{
+            return redirect('product-academy/setting/instalment')->withErrors(['Failed save data'])->withInput();
+        }
     }
 }
