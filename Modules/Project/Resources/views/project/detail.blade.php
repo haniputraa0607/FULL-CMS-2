@@ -330,8 +330,9 @@
         <div class="tab-content">
             <div class="tab-pane active" id="overview">
                 <div class="portlet-body form">
-                    <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+                    <form class="form-horizontal" role="form" action="{{url('project/update/detail')}}" method="post" enctype="multipart/form-data">
                         <div class="form-body">
+                            <input class="form-control" type="hidden" id="id_project" name="id_project" value="{{$result['id_project']}}"/>
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Nama Project<span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Nama Project" data-container="body"></i></label>
@@ -357,7 +358,7 @@
                                 <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Note" data-container="body"></i></label>
                                 <div class="col-md-5">
-                                    <input disabled class="form-control" type="text" id="input-phone" name="phone" value="{{$result['note']}}" placeholder="Enter note"/>
+                                    <input class="form-control" type="text" id="input-phone" name="note" value="{{$result['note']}}" placeholder="Enter note"  @if($result['status']!='Process' ) disabled @endif />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -369,7 +370,16 @@
                             </div>
                            
                         </div>
-                     
+                        @if($result['status']=="Process")
+                        <div class="form-actions">
+                            {{ csrf_field() }}
+                            <div class="row">
+                                <div class="col-md-offset-4 col-md-8">
+                                    <button type="submit" class="btn blue">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
                     </form>
                 </div>
             </div>

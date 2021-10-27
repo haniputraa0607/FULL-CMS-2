@@ -17,6 +17,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'project'
     Route::any('create/new', ['middleware' => 'feature_control:4', 'uses' => 'ProjectController@create']);
     Route::get('select-list/lokasi/{id}', ['middleware' => 'feature_control:4', 'uses' => 'ProjectController@lokasi']);
     Route::get('detail/{id}', ['middleware' => 'feature_control:339', 'uses' => 'ProjectController@detail']);
+    Route::post('update/detail', ['middleware' => 'feature_control:339', 'uses' => 'ProjectController@update']);
     Route::post('reject/data', ['middleware' => 'feature_control:339', 'uses' => 'ProjectController@reject']);
     
     //survey
