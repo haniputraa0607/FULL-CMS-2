@@ -669,7 +669,7 @@
 
     @include('layouts.notifications')
 
-    <a href="{{url('product-service')}}" class="btn green" style="margin-bottom: 2%;"><i class="fa fa-arrow-left"></i> Back</a>
+    <a href="{{url('product-academy')}}" class="btn green" style="margin-bottom: 2%;"><i class="fa fa-arrow-left"></i> Back</a>
     <div class="portlet light bordered">
         <div class="portlet-title tabbable-line">
             <div class="caption">

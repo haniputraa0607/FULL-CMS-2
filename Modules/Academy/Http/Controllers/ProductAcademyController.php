@@ -20,7 +20,7 @@ class ProductAcademyController extends Controller
         $data = [
             'title'          => 'Product Academy',
             'sub_title'      => 'List Product Academy',
-            'menu_active'    => 'product-academy',
+            'menu_active'    => 'academy',
             'submenu_active' => 'product-academy-list',
         ];
 
@@ -43,7 +43,7 @@ class ProductAcademyController extends Controller
         $data = [
             'title'          => 'Product Academy',
             'sub_title'      => 'Product Academy Detail',
-            'menu_active'    => 'product-academy',
+            'menu_active'    => 'academy',
             'submenu_active' => 'product-academy-list'
         ];
 
@@ -144,7 +144,7 @@ class ProductAcademyController extends Controller
         $data = [
             'title'          => 'Product Academy',
             'sub_title'      => $visibility.' Product Academy List',
-            'menu_active'    => 'product-academy',
+            'menu_active'    => 'academy',
             'submenu_active' => 'product-academy-list-'.lcfirst($visibility),
             'visibility'     => $visibility
         ];
@@ -264,7 +264,7 @@ class ProductAcademyController extends Controller
         $data = [
             'title'          => 'Manage Product Academy Position',
             'sub_title'      => 'Assign Product Academy Position',
-            'menu_active'    => 'product-academy',
+            'menu_active'    => 'academy',
             'submenu_active' => 'product-academy-position'
         ];
         $product = MyHelper::post('academy/product', ['admin_list' => 1]);
@@ -285,28 +285,5 @@ class ProductAcademyController extends Controller
         }
         $result = MyHelper::post('product/position/assign', $post);
         return parent::redirect($result, 'Position product academy has been save.', 'product-academy/position/assign');
-    }
-
-    public function settingInstalment(){
-        $data = [
-            'title'          => 'Product Academy',
-            'sub_title'      => 'Setting Instalment',
-            'menu_active'    => 'product-academy',
-            'submenu_active' => 'product-academy-instalment'
-        ];
-
-        $data['result'] = MyHelper::get('academy/product/setting/instalment')['result']??[];
-        $data['arr_step_instalment'] = json_encode(array_column($data['result'], 'total_instalment'));
-        return view('academy::product.instalment', $data);
-    }
-
-    public function settingInstalmentSave(Request $request){
-        $post = $request->except('_token');
-        $save = MyHelper::post('academy/product/setting/instalment/save', $post);
-        if (isset($save['status']) && $save['status'] == "success") {
-            return redirect('product-academy/setting/instalment')->withSuccess(['Success save data']);
-        }else{
-            return redirect('product-academy/setting/instalment')->withErrors(['Failed save data'])->withInput();
-        }
     }
 }

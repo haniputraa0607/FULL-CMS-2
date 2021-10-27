@@ -975,16 +975,21 @@
 			@endif
 
 			@if(MyHelper::hasAccess([373,374,375,376,377], $grantedFeature))
-				<li class="nav-item {{($menu_active == 'product-academy') ? 'active' : ''}}">
+				<li class="nav-item {{($menu_active == 'academy') ? 'active' : ''}}">
 					<a href="javascript:;" class="nav-link nav-toggle">
 						<i class="fa fa-building-o"></i>
-						<span class="title">Product Academy</span>
-						<span class="arrow {{($menu_active == 'product-academy') ? 'open' : ''}}"></span>
+						<span class="title">Academy</span>
+						<span class="arrow {{($menu_active == 'academy') ? 'open' : ''}}"></span>
 					</a>
 					<ul class="sub-menu">
 						@if(MyHelper::hasAccess([376], $grantedFeature))
-							<li class="nav-item {{($submenu_active == 'product-academy-instalment') ? 'active open' : ''}}">
-								<a href="{{url('product-academy/setting/instalment')}}" class="nav-link ">
+							<li class="nav-item {{($submenu_active == 'academy-banner') ? 'active open' : ''}}">
+								<a href="{{url('academy/setting/banner')}}" class="nav-link ">
+									<span class="title">Setting Banner</span>
+								</a>
+							</li>
+							<li class="nav-item {{($submenu_active == 'academy-instalment') ? 'active open' : ''}}">
+								<a href="{{url('academy/setting/instalment')}}" class="nav-link ">
 									<span class="title">Setting Instalment</span>
 								</a>
 							</li>

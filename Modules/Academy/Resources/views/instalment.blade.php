@@ -199,7 +199,7 @@
                 </div>
             </div>
             <br>
-            <form class="form-horizontal" id="form" role="form" action="{{url('product-academy/setting/instalment')}}" method="post">
+            <form class="form-horizontal" id="form" role="form" action="{{url('academy/setting/instalment')}}" method="post">
                 <div class="form-body">
                     <div id="instalment">
                         @if(!empty($result))
