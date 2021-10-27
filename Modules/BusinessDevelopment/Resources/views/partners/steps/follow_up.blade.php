@@ -103,21 +103,21 @@
                                     <label for="example-search-input" class="control-label col-md-4">NPWP <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukan npwp" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="npwp" name="npwp" placeholder="Enter npwp here" required/>
+                                        <input class="form-control" type="text" id="npwp" name="npwp" placeholder="Enter npwp here" value="{{ old('npwp') }}" required/>
                                     </div>
                                 </div>   
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">NPWP Name <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukan nama npwp here" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="npwp_name" name="npwp_name" placeholder="Enter npwp_name here" required/>
+                                        <input class="form-control" type="text" id="npwp_name" name="npwp_name" placeholder="Enter npwp_name here" value="{{ old('npwp_name') }}" required/>
                                     </div>
                                 </div>   
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">NPWP Address <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukan alamat npwp here" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="npwp_address" name="npwp_address" placeholder="Enter npwp_address here" required/>
+                                        <input class="form-control" type="text" id="npwp_address" name="npwp_address" placeholder="Enter npwp_address here" value="{{ old('npwp_address') }}" required/>
                                     </div>
                                 </div>   
                                 <div class="form-group">
@@ -126,8 +126,8 @@
                                     <div class="col-md-5">
                                         <select name="ownership_status" class="form-control input-sm select2" placeholder="Ownership Status" required>
                                             <option value="" selected disabled>Select Ownership Status</option>
-                                            <option value="Central" @if(isset($result['ownership_status'])) @if($result['ownership_status'] == 'Central') selected @endif @endif>Central</option>
-                                            <option value="Partner" @if(isset($result['ownership_status'])) @if($result['ownership_status'] == 'Partner') selected @endif @endif>Partner</option>
+                                            <option value="Central" @if(old('ownership_status')) @if(old('ownership_status')=='Central') selected @endif @else @if(isset($result['ownership_status'])) @if($result['ownership_status'] == 'Central') selected @endif @endif @endif>Central</option>
+                                            <option value="Partner" @if(old('ownership_status')) @if(old('ownership_status')=='Partner') selected @endif @else @if(isset($result['ownership_status'])) @if($result['ownership_status'] == 'Partner') selected @endif @endif @endif>Partner</option>
                                         </select>
                                     </div>
                                 </div>
@@ -137,20 +137,8 @@
                                     <div class="col-md-5">
                                         <select name="cooperation_scheme" class="form-control input-sm select2" placeholder="Coopertaion Scheme" required>
                                             <option value="" selected disabled>Select Cooperation Scheme</option>
-                                            <option value="Profit Sharing" @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Profit Sharing') selected @endif @endif>Profit Sharing</option>
-                                            <option value="Management Fee" @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Management Fee') selected @endif @endif>Management Fee</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Bank Account
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Pilih Bank Account" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <select name="id_bank_account" class="form-control input-sm select2" placeholder="Bank Account">
-                                            <option value="" selected disabled>Select Bank Account</option>
-                                            @foreach($bank as $b)
-                                            <option value="{{$b['id_bank_account']}}" @if($result['id_bank_account'] == $b['id_bank_account']) selected @endif>{{$b['id_bank_account']}} - {{$b['beneficiary_name']}}</option>
-                                            @endforeach
+                                            <option value="Profit Sharing" @if(old('cooperation_scheme')) @if(old('cooperation_scheme')=='Profit Sharing') selected @endif @else @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Profit Sharing') selected @endif @endif @endif>Profit Sharing</option>
+                                            <option value="Management Fee" @if(old('cooperation_scheme')) @if(old('cooperation_scheme')=='Management Fee') selected @endif @else @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Management Fee') selected @endif @endif @endif>Management Fee</option>
                                         </select>
                                     </div>
                                 </div>
@@ -169,7 +157,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">End Date <span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">End Date <span class="required" aria-required="true">*</span><br><span class="required" aria-required="true">( must be more than 3 years )</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Berakhir menjadi Partner" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
@@ -187,21 +175,21 @@
                                     <label for="example-search-input" class="control-label col-md-4">Location Name <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nama Calon Lokasi" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="follow-name-location" name="nameLocation" value="{{$result['partner_locations'][0]['name']}}" placeholder="Enter location name here" required/>
+                                        <input class="form-control" type="text" id="follow-name-location" name="nameLocation" value="{{ old('nameLocation') ?? $result['partner_locations'][0]['name']}}" placeholder="Enter location name here" required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location Address <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Address Calon Lokasi" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <textarea name="addressLocation" id="follow-address-location" class="form-control" placeholder="Enter location name here" required>{{$result['partner_locations'][0]['address']}}</textarea>
+                                        <textarea name="addressLocation" id="follow-address-location" class="form-control" placeholder="Enter location name here" required>{{ old('addressLocation') ?? $result['partner_locations'][0]['address']}}</textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location Mall <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Mall Calon Lokasi" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <textarea name="mall" id="follow-mall" class="form-control" placeholder="Enter location mall here" required>{{$result['partner_locations'][0]['address']}}</textarea>
+                                        <textarea name="mall" id="follow-mall" class="form-control" placeholder="Enter location mall here" required>{{ old('mall') ?? $result['partner_locations'][0]['address']}}</textarea>
                                     </div>
                                 </div>
                                 
@@ -212,7 +200,7 @@
                                         <select class="form-control select2" name="id_cityLocation" id="follow-id_cityLocation" required>
                                             <option value="" selected disabled>Select City</option>
                                             @foreach($cities as $city)
-                                                <option value="{{$city['id_city']}}" @if($result['partner_locations'][0]['id_city'] == $city['id_city']) selected @endif>{{$city['city_name']}}</option>
+                                                <option value="{{$city['id_city']}}" @if(old('id_cityLocation')) @if(old('id_cityLocation') == $city['id_city']) selected @endif @else @if($result['partner_locations'][0]['id_city'] == $city['id_city']) selected @endif @endif>{{$city['city_name']}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -224,7 +212,7 @@
                                         <select class="form-control select2" name="id_brand" id="follow-id_brand" required>
                                             <option value="" selected disabled>Select Brand</option>
                                             @foreach($brands as $brand)
-                                                <option value="{{$brand['id_brand']}}" @if($result['partner_locations'][0]['id_brand'] == $brand['id_brand']) selected @endif>{{$brand['name_brand']}}</option>
+                                                <option value="{{$brand['id_brand']}}" @if(old('id_brand')) @if(old('id_brand') == $brand['id_brand']) selected @endif @else @if($result['partner_locations'][0]['id_brand'] == $brand['id_brand']) selected @endif @endif>{{$brand['name_brand']}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -233,49 +221,49 @@
                                     <label for="example-search-input" class="control-label col-md-4">Location Large <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukan luas lokasi" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="location_large" name="location_large" placeholder="Enter location large here" required/>
+                                        <input class="form-control" type="text" id="location_large" name="location_large" placeholder="Enter location large here" value="{{ old('location_large') }}" required/>
                                     </div>
                                 </div>    
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Rental Price <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukan harga sewa" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="rental_price" name="rental_price" placeholder="Enter rental price here" required/>
+                                        <input class="form-control" type="text" id="rental_price" name="rental_price" placeholder="Enter rental price here" value="{{ old('rental_price') }}" required/>
                                     </div>
                                 </div>    
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Service Charge <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukan biaya servis" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="service_charge" name="service_charge" placeholder="Enter service charge here" required/>
+                                        <input class="form-control" type="text" id="service_charge" name="service_charge" placeholder="Enter service charge here" value="{{ old('service_charge') }}" required/>
                                     </div>
                                 </div>    
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Promotion Levy <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukan promosi" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="promotion_levy" name="promotion_levy" placeholder="Enter promotion levy here" required/>
+                                        <input class="form-control" type="text" id="promotion_levy" name="promotion_levy" placeholder="Enter promotion levy here"  value="{{ old('promotion_levy') }}" required/>
                                     </div>
                                 </div>    
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Contractor Price <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukan biaya renovasi" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="renovation_cost" name="renovation_cost" placeholder="Enter renovation cost here" required/>
+                                        <input class="form-control" type="text" id="renovation_cost" name="renovation_cost" placeholder="Enter renovation cost here" value="{{ old('renovation_cost') }}" required/>
                                     </div>
                                 </div>    
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Partnership Fee <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukan pembayaran kerja sama" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="partnership_fee" name="partnership_fee" placeholder="Enter partnership fee here" required/>
+                                        <input class="form-control" type="text" id="partnership_fee" name="partnership_fee" placeholder="Enter partnership fee here" value="{{ old('partnership_fee') }}" required/>
                                     </div>
                                 </div>    
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Income <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukan pemasukan" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="income" name="income" placeholder="Enter income here" required/>
+                                        <input class="form-control" type="text" id="income" name="income" placeholder="Enter income here" value="{{ old('income') }}" required/>
                                     </div>
                                 </div>    
                                 @endif
@@ -283,7 +271,7 @@
                                     <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukan note" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <textarea name="note" id="note" class="form-control" placeholder="Enter note here" required></textarea>
+                                        <textarea name="note" id="note" class="form-control" placeholder="Enter note here" required>{{ old('note') }}</textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">

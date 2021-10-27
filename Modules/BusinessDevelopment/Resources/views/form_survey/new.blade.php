@@ -139,7 +139,7 @@
             </div>
         </div>
         <div class="portlet-body form">
-            <form id="form-sorting" class="form-horizontal" role="form" action="{{ url('businessdev/form-survey/create') }}" method="post" enctype="multipart/form-data">
+            <form id="form-sorting" class="form-horizontal" role="form" action="{{ url('businessdev/form-survey/create/new') }}" method="post" enctype="multipart/form-data">
                 <div class="form-body">
                     <div class="form-group mt-repeater" style="margin-bottom: 0px; !important">
                         <div class="form-group">

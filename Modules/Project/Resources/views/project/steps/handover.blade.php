@@ -23,7 +23,7 @@
      var SweetAlertDeleteHandover = function() {
             return {
                 init: function() {
-                    $(".sweetalert-handover-delete").each(function() {
+                    $(".sweetalert-handover-submit").each(function() {
                         var token  	= "{{ csrf_token() }}";
                         var pathname = window.location.pathname; 
                         let column 	= $(this).parents('tr');
@@ -35,84 +35,16 @@
                                         };
                         $(this).click(function() {
                             swal({
-                                    title: "Delete data handover?",
-                                    text: "Your will not be able to recover this data!",
-                                    type: "warning",
-                                    showCancelButton: true,
-                                    confirmButtonClass: "btn-danger",
-                                    confirmButtonText: "Yes, delete it!",
-                                    closeOnConfirm: false
-                                },
-                                function(){
-                                    $.ajax({
-                                        type : "POST",
-                                        url : "{{url('project/delete/handover')}}",
-                                        data : data,
-                                        success : function(response) {
-                                            if (response.status == 'success') {
-                                                swal("Deleted!", "Data has been deleted.", "success")
-                                               location.href = "{{url('project/detail')}}/"+{{$result['id_project']}}+"#handover";
-                                                window.location.reload();
-                                            }
-                                            else if(response.status == "fail"){
-                                              
-                                                swal("Error!", "Failed to delete.", "error")
-                                            }
-                                            else {
-                                                swal("Error!", "Something went wrong. Failed to delete .", "error")
-                                            }
-                                        }
-                                    });
-                                });
-                        })
-                    })
-                }
-            }
-        }();
-        var SweetAlertNextHandover = function() {
-            return {
-                init: function() {
-                    $(".sweetalert-handover-next").each(function() {
-                        var token  	= "{{ csrf_token() }}";
-                        var pathname = window.location.pathname; 
-                        let column 	= $(this).parents('tr');
-                        let id     	= $(this).data('id');
-                        let name    = $(this).data('name');
-                        var data = {
-                            '_token' : '{{csrf_token()}}',
-                            'id_project':{{$result['id_project']}}
-                                        };
-                        $(this).click(function() {
-                            swal({
-                                    title: "Project Success?",
-                                    text: "Project Success!",
+                                    title: "Submit data?",
+                                    text: "Check your data before submit! Project will success",
                                     type: "warning",
                                     showCancelButton: true,
                                     confirmButtonClass: "btn-success",
-                                    confirmButtonText: "Yes, Next Step!",
+                                    confirmButtonText: "Yes, submit it!",
                                     closeOnConfirm: false
                                 },
                                 function(){
-                                    $.ajax({
-                                        type : "POST",
-                                        url : "{{url('project/next/handover')}}",
-                                        data : data,
-                                        success : function(response) {
-                                            if (response.status == 'success') {
-                                                swal("Success!", "Next Step.", "success")
-                                                SweetAlert.init()
-                                                location.href = "{{url('project/detail')}}/"+{{$result['id_project']}};
-                                                window.location.reload();
-
-                                            }
-                                            else if(response.status == "fail"){
-                                                swal("Error!", "Failed.", "error")
-                                            }
-                                            else {
-                                                swal("Error!", "Something went wrong. Failed to delete .", "error")
-                                            }
-                                        }
-                                    });
+                                    $('#handover_form').submit();
                                 });
                         })
                     })
@@ -120,7 +52,6 @@
             }
         }();
         jQuery(document).ready(function() {
-            SweetAlertNextHandover.init()
             SweetAlertDeleteHandover.init()
         });
     </script>
@@ -135,7 +66,7 @@
             <div class="portlet-body form">
                 <div class="tab-content">
                     <div id="form_survey">
-                       <form class="form-horizontal" role="form" action="{{url('project/create/handover')}}" method="post" enctype="multipart/form-data">
+                       <form class="form-horizontal"id="handover_form" role="form" action="{{url('project/create/handover')}}" method="post" enctype="multipart/form-data">
                             <div class="form-body">
                                 <input type="hidden" name="id_project" value="{{$result['id_project']}}">
                                 <div class="form-group">
@@ -188,11 +119,7 @@
                                     {{ csrf_field() }}
                                     <div class="row">
                                         <div class="col-md-offset-4 col-md-8">
-                                            <button type="submit" class="btn blue">Submit</button>
-                                            @if($next_handover==true)
-                                            <a class="btn red sweetalert-handover-delete">Delete</a>
-                                            <a class="btn green sweetalert-handover-next">Project Success</a>
-                                            @endif
+                                            <a class="btn blue sweetalert-handover-submit">Submit</a>
                                         </div>
                                     </div>
                                 </div>

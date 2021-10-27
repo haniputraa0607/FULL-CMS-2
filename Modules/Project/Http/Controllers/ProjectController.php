@@ -128,6 +128,16 @@ class ProjectController extends Controller
 		}
        
     }
+    public function update(Request $request)
+    {
+        $post = $request->except('_token');
+        $query = MyHelper::post('project/update', $post);
+        if(isset($query['status']) && $query['status'] == 'success'){
+                return back()->withSuccess(['Project Update Success']);
+        } else{
+                return back()->withErrors($query['messages']);
+        }
+    }
     public function lokasi($id)
     {
         $post['id_partner']=$id;

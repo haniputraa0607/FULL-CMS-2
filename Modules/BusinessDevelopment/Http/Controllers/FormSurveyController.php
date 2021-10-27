@@ -86,7 +86,7 @@ class FormSurveyController extends Controller
         if(isset($new_brand) && !empty($new_brand)){
             return view('businessdevelopment::form_survey.new', $data);
         }else{
-            return 'Tidak bisa buat baru';
+            return redirect('businessdev/form-survey')->withErrors($result['messages'] ?? ['Cant create a new form survey. All brands already have form survey']);
         }
 
     }
@@ -137,9 +137,8 @@ class FormSurveyController extends Controller
      * @param int $id
      * @return Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $type = null)
     {
-        // dd($request->all());
         $result = MyHelper::get('partners/form-survey/all');
         $index_cat = 1;
         foreach($request['category'] as $cat){
@@ -155,9 +154,17 @@ class FormSurveyController extends Controller
         ];
         $post_form = MyHelper::post('partners/form-survey/store', $post);
         if (isset($post_form['status']) && $post_form['status'] == 'success') {
-            return redirect('businessdev/form-survey/detail/'.$request['id_brand'])->withSuccess(['Success create new form survey']);
+            if($type == 'new'){
+                return redirect('businessdev/form-survey')->withSuccess(['Success create new form survey']);
+            }elseif($type == 'update'){
+                return redirect('businessdev/form-survey')->withSuccess(['Success update form survey']);
+            }
         }else{
-            return redirect('businessdev/form-survey/detail/'.$request['id_brand'])->withErrors($result['messages'] ?? ['Failed create new form survey']);
+            if ($type == 'new') {
+                return redirect('businessdev/form-survey')->withErrors($result['messages'] ?? ['Failed create new form survey']);
+            }elseif($type == 'update'){
+                return redirect('businessdev/form-survey')->withErrors($result['messages'] ?? ['Failed update form survey']);
+            }
         }
     }
 

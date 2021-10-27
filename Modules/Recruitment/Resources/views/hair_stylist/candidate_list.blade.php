@@ -57,7 +57,7 @@
                                                 location.href = "{{url('recruitment/hair-stylist/candidate')}}";
                                             }
                                             else if(result.status == "fail"){
-                                                swal("Error!", "Failed to delete candidate. Candidate has been used.", "error")
+                                                swal("Error!", result.messages[0], "error")
                                             }
                                             else {
                                                 swal("Error!", "Something went wrong. Failed to delete candidate.", "error")
