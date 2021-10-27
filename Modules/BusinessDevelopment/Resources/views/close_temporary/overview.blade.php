@@ -16,7 +16,7 @@ $grantedFeature     = session('granted_features');
                             <div class="col-md-6">
                                  <div class="row static-info">
                                         <div class="col-md-4 name">Name </div>
-                                        <div class="col-md-8 value">: {{$partner['id_partner']}}</div>
+                                        <div class="col-md-8 value">: {{$partner['name']}}</div>
                                     </div>
                             </div>
                             <div class="col-md-6">
