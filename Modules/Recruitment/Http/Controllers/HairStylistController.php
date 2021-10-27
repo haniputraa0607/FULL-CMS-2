@@ -226,4 +226,9 @@ class HairStylistController extends Controller
             return redirect('recruitment/hair-stylist')->withErrors(['File not found']);
         }
     }
+
+    public function candidateDelete($id){
+        $delete = MyHelper::post('recruitment/hairstylist/be/delete', ['id_user_hair_stylist' => $id]);
+        return $delete;
+    }
 }
