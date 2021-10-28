@@ -1,16 +1,15 @@
 <?php
 
-namespace Modules\ProductService\Http\Controllers;
+namespace Modules\Academy\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\Http\Controllers\Controller;
 use App\Lib\MyHelper;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Session;
 
-
-class ProductServiceController extends Controller
+class ProductAcademyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,20 +18,20 @@ class ProductServiceController extends Controller
     public function index()
     {
         $data = [
-            'title'          => 'Product Service',
-            'sub_title'      => 'List Product Service',
-            'menu_active'    => 'product-service',
-            'submenu_active' => 'product-service-list',
+            'title'          => 'Product Academy',
+            'sub_title'      => 'List Product Academy',
+            'menu_active'    => 'academy',
+            'submenu_active' => 'product-academy-list',
         ];
 
-        $product = MyHelper::post('product-service', ['admin_list' => 1]);
+        $product = MyHelper::post('academy/product', ['admin_list' => 1]);
         if (isset($product['status']) && $product['status'] == "success") {
             $data['product'] = $product['result'];
         }else {
             $data['product'] = [];
         }
 
-        return view('productservice::index', $data);
+        return view('academy::product.index', $data);
     }
 
     /**
@@ -42,17 +41,18 @@ class ProductServiceController extends Controller
      */
     function detail(Request $request, $code) {
         $data = [
-            'title'          => 'Product Service',
-            'sub_title'      => 'Product Service Detail',
-            'menu_active'    => 'product-service',
-            'submenu_active' => 'product-service-list'
+            'title'          => 'Product Academy',
+            'sub_title'      => 'Product Academy Detail',
+            'menu_active'    => 'academy',
+            'submenu_active' => 'product-academy-list'
         ];
 
-        $product = MyHelper::post('product-service', ['product_code' => $code, 'outlet_prices' => 1]);
+        $product = MyHelper::post('academy/product', ['product_code' => $code, 'outlet_prices' => 1]);
+
         if (isset($product['status']) && $product['status'] == "success") {
             $data['product'] = $product['result'];
         }else {
-            return redirect('product-service/detail/'.$code)->withErrors($product['messages'] ?? ['Product not found']);
+            return redirect('product-academy/detail/'.$code)->withErrors($product['messages'] ?? ['Product not found']);
         }
 
         $post = $request->except('_token');
@@ -71,6 +71,7 @@ class ProductServiceController extends Controller
                 $dtPrice['page'] = $post['page'];
             }
 
+            $dtDetail['outlet_academy_status'] = 1;
             $outlet = MyHelper::post('outlet/be/list/product-detail', $dtDetail);
             if (isset($outlet['status']) && $outlet['status'] == "success") {
                 $data['outlet']          = $outlet['result']['data'];
@@ -86,6 +87,7 @@ class ProductServiceController extends Controller
                 $data['outletPaginator'] = false;
             }
 
+            $dtPrice['outlet_academy_status'] = 1;
             $outletsSpecialPrice = MyHelper::post('outlet/be/list/product-special-price', $dtPrice);
             if (isset($outletsSpecialPrice['status']) && $outletsSpecialPrice['status'] == "success") {
                 $data['outletSpecialPrice']          = $outletsSpecialPrice['result']['data'];
@@ -94,33 +96,28 @@ class ProductServiceController extends Controller
                 $data['outletSpecialPriceUpTo']      = $outletsSpecialPrice['result']['from'] + count($outletsSpecialPrice['result']['data'])-1;
                 $data['outletSpecialPricePaginator'] = new LengthAwarePaginator($outletsSpecialPrice['result']['data'], $outletsSpecialPrice['result']['total'], $outletsSpecialPrice['result']['per_page'], $outletsSpecialPrice['result']['current_page'], ['path' => url()->current()]);
             }else{
-                $data['outlet']          = [];
-                $data['outletTotal']     = 0;
-                $data['outletPerPage']   = 0;
+                $data['outletSpecialPrice']          = [];
+                $data['outletSpecialPriceTotal']     = 0;
+                $data['outletSpecialPricePerPage']   = 0;
                 $data['outletSpecialPriceUpTo']      = 0;
                 $data['outletSpecialPricePaginator'] = false;
             }
 
-            $outletAll = MyHelper::post('outlet/be/list', ['admin' => 1, 'id_product' => $data['product'][0]['id_product']]);
+            $outletAll = MyHelper::post('outlet/be/list', ['outlet_academy_status' => 1, 'admin' => 1, 'id_product' => $data['product'][0]['id_product']]);
             $data['outlet_all'] = [];
             if (isset($outletAll['status']) && $outletAll['status'] == 'success') {
                 $data['outlet_all'] = $outletAll['result'];
             }
 
-            $data['brands'] = MyHelper::get('brand/be/list')['result']??[];
-            $data['list_product_service_use'] = MyHelper::get('product-service/product-use/list')['result']??[];
-            $data['product_service_use'] = $data['product'][0]['product_service_use']??[];
-
-            return view('productservice::detail', $data);
+            return view('academy::product.detail', $data);
         }
         else {
-
             if (isset($post['product_detail_visibility'])) {
                 $save = MyHelper::post('product/detail/update', $post);
-                return parent::redirect($save, 'Visibility setting has been updated.', 'product-service/detail/'.$code.'?page='.$post['page'].'&type='.$post['type'].'#outletsetting');
+                return parent::redirect($save, 'Visibility setting has been updated.', 'product-academy/detail/'.$code.'?page='.$post['page'].'&type='.$post['type'].'#outletsetting');
             }else if (isset($post['product_price'])) {
                 $save = MyHelper::post('product/detail/update/price', $post);
-                return parent::redirect($save, 'Product price setting has been updated.', 'product-service/detail/'.$code.'?page='.$post['page'].'&type='.$post['type'].'#outletpricesetting');
+                return parent::redirect($save, 'Product price setting has been updated.', 'product-academy/detail/'.$code.'?page='.$post['page'].'&type='.$post['type'].'#outletpricesetting');
             }else{
                 if (isset($post['photo'])) {
                     $post['photo'] = MyHelper::encodeImage($post['photo']);
@@ -131,15 +128,9 @@ class ProductServiceController extends Controller
                 }
 
                 $save = MyHelper::post('product/update', $post);
-                return parent::redirect($save, 'Product service detail has been updated.', 'product-service/detail/'.$post['product_code']??$code.'#info');
+                return parent::redirect($save, 'Product service detail has been updated.', 'product-academy/detail/'.$post['product_code']??$code.'#info');
             }
         }
-    }
-
-    function productUseUpdate(Request $request){
-        $post = $request->except('_token');
-        $save = MyHelper::post('product-service/product-use/update', $post);
-        return parent::redirect($save, 'Product use has been save.', 'product-service/detail/'.$post['product_code'].'#productuse');
     }
 
     public function visibility(Request $request, $key = null)
@@ -151,10 +142,10 @@ class ProductServiceController extends Controller
             $visibility = 'Visible';
         }
         $data = [
-            'title'          => 'Product Service',
-            'sub_title'      => $visibility.' Product Service List',
-            'menu_active'    => 'product-service',
-            'submenu_active' => 'product-service-list-'.lcfirst($visibility),
+            'title'          => 'Product Academy',
+            'sub_title'      => $visibility.' Product Academy List',
+            'menu_active'    => 'academy',
+            'submenu_active' => 'product-academy-list-'.lcfirst($visibility),
             'visibility'     => $visibility
         ];
 
@@ -198,7 +189,7 @@ class ProductServiceController extends Controller
             Session::forget('idVisibility_allOutlet');
             Session::forget('idVisibility_allProduct');
             if (isset($save['status']) && $save['status'] == "success") {
-                return parent::redirect($save, 'Product service visibility has been updated.', 'product-service/'.strtolower($visibility).'/'.$post['key']);
+                return parent::redirect($save, 'Product academy visibility has been updated.', 'product-service/'.strtolower($visibility).'/'.$post['key']);
             }else {
                 if (isset($save['errors'])) {
                     return back()->withErrors($save['errors'])->withInput();
@@ -213,7 +204,7 @@ class ProductServiceController extends Controller
 
         }
 
-        $outlet = MyHelper::get('outlet/be/list');
+        $outlet = MyHelper::post('outlet/be/list', ['admin' =>  1, 'outlet_academy_status' => 1]);
         if (isset($outlet['status']) && $outlet['status'] == 'success') {
             $data['outlet'] = $outlet['result'];
         } elseif (isset($outlet['status']) && $outlet['status'] == 'fail') {
@@ -229,10 +220,10 @@ class ProductServiceController extends Controller
         }
 
         if($page){
-            $product = MyHelper::post('product-service?page='.$page, ['visibility' => $visibility, 'id_outlet' => $data['key'], 'pagination' => true]);
+            $product = MyHelper::post('academy/product?page='.$page, ['visibility' => $visibility, 'id_outlet' => $data['key'], 'pagination' => true]);
             $data['page'] = $page;
         }else{
-            $product = MyHelper::post('product-service', ['visibility' => $visibility, 'id_outlet' => $data['key'], 'pagination' => true]);
+            $product = MyHelper::post('academy/product', ['visibility' => $visibility, 'id_outlet' => $data['key'], 'pagination' => true]);
             $data['page'] = 1;
         }
 
@@ -266,17 +257,17 @@ class ProductServiceController extends Controller
         } else {
             return back()->witherrors(['Product Not Found']);
         }
-        return view('productservice::visibility', $data);
+        return view('academy::product.visibility', $data);
     }
 
     public function positionAssign(Request $request) {
         $data = [
-            'title'          => 'Manage Product Service Position',
-            'sub_title'      => 'Assign Product Service Position',
-            'menu_active'    => 'product-service',
-            'submenu_active' => 'product-service-position'
+            'title'          => 'Manage Product Academy Position',
+            'sub_title'      => 'Assign Product Academy Position',
+            'menu_active'    => 'academy',
+            'submenu_active' => 'product-academy-position'
         ];
-        $product = MyHelper::post('product-service', ['admin_list' => 1]);
+        $product = MyHelper::post('academy/product', ['admin_list' => 1]);
 
         if (isset($product['status']) && $product['status'] == "success") {
             $data['product'] = $product['result'];
@@ -284,15 +275,15 @@ class ProductServiceController extends Controller
             $data['product'] = [];
         }
 
-        return view('productservice::position', $data);
+        return view('academy::product.position', $data);
     }
 
     public function positionAssignUpdate(Request $request){
         $post = $request->except('_token');
         if (!isset($post['product_ids'])) {
-            return redirect('product-service/position/assign')->withErrors(['Data ID can not be empty'])->withInput();
+            return redirect('product-academy/position/assign')->withErrors(['Data ID can not be empty'])->withInput();
         }
         $result = MyHelper::post('product/position/assign', $post);
-        return parent::redirect($result, 'Position product service has been save.', 'product-service/position/assign');
+        return parent::redirect($result, 'Position product academy has been save.', 'product-academy/position/assign');
     }
 }
