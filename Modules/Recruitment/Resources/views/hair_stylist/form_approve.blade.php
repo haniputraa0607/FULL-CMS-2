@@ -1,5 +1,5 @@
 <div style="margin-top: -4%">
-	<form class="form-horizontal" role="form" action="{{url($url_back.'/update/'.$detail['id_user_hair_stylist'])}}" method="post" enctype="multipart/form-data">
+	<form class="form-horizontal" id="form_approve" role="form" action="{{url($url_back.'/update/'.$detail['id_user_hair_stylist'])}}" method="post" enctype="multipart/form-data">
 		<div class="form-body">
 			<div style="text-align: center"><h3>Approve Action</h3></div>
 			<hr style="border-top: 2px dashed;">
@@ -69,12 +69,11 @@
 					</div>
 				</div>
 			</div>
-			</div>
 		</div>
-		<input type="hidden" name="action_type" id="action_type" value="approve">
+		<input type="hidden" name="action_type" id="action_type_approve" value="approve">
 		<div class="row" style="text-align: center">
 			{{ csrf_field() }}
-			<a class="btn red save" data-name="{{ $detail['fullname'] }}" data-status="reject">Reject</a>
+			<a class="btn red save" data-name="{{ $detail['fullname'] }}" data-status="Rejected" data-form="approve">Reject</a>
 			<button class="btn green-jungle">Approve</button>
 		</div>
 	</form>
