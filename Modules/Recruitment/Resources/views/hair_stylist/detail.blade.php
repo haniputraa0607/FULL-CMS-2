@@ -48,52 +48,12 @@ $grantedFeature     = session('granted_features');
         var SweetAlert = function() {
             return {
                 init: function() {
-                    $(".approve-candidate").each(function() {
-                        var token  	= "{{ csrf_token() }}";
-                        let column 	= $(this).parents('tr');
-                        let name    = $(this).data('name');
-                        $(this).click(function() {
-                            swal({
-                                    title: name+"\n\nAre you sure want to approve this candidate?",
-                                    text: "Your will not be able to recover this data!",
-                                    type: "warning",
-                                    showCancelButton: true,
-                                    confirmButtonClass: "btn-info",
-                                    confirmButtonText: "Yes, approve it!",
-                                    closeOnConfirm: false
-                                },
-                                function(){
-									$('#action_type').val('approve');
-                                    if ($('form#form-submit')[0].checkValidity()) {
-										if(document.getElementById('auto_generate_pin').checked == false && $('#pin1').val() !== $('#pin2').val()){
-											swal({
-												title: "Woops!",
-												text: 'Password didn\'t match',
-												type: "warning",
-												showCancelButton: true,
-												showConfirmButton: false
-											});
-										}else{
-											$('form#form-submit').submit();
-										}
-                                    }else{
-                                        swal({
-                                            title: "Incompleted Data",
-                                            text: "Please fill blank input",
-                                            type: "warning",
-                                            showCancelButton: true,
-                                            showConfirmButton: false
-                                        });
-                                    }
-                                });
-                        })
-                    });
-
                     $(".save").each(function() {
                         var token  	= "{{ csrf_token() }}";
                         let column 	= $(this).parents('tr');
                         let name    = $(this).data('name');
 						let status    = $(this).data('status');
+						let form    = $(this).data('form');
                         $(this).click(function() {
                             swal({
                                     title: name+"\n\nAre you sure want change to status "+status.toLowerCase()+" ?",
@@ -105,8 +65,8 @@ $grantedFeature     = session('granted_features');
                                     closeOnConfirm: false
                                 },
                                 function(){
-                                    $('#action_type').val(status);
-                                    $('form#form-submit').submit();
+                                    $('#action_type_'+form).val(status);
+                                    $('form#form_'+form).submit();
                                 });
                         })
                     })
@@ -538,7 +498,7 @@ $grantedFeature     = session('granted_features');
 												@endif
 											</td>
 											<td>{{$doc['document_type']}}</td>
-											<td>{{date('d F M H:i', strtotime($doc['process_date']))}}</td>
+											<td>{{(!empty($doc['process_date']) ? date('d F M H:i', strtotime($doc['process_date'])): '')}}</td>
 											<td>{{$doc['process_name_by']}}</td>
 											<td><p>{{$doc['process_notes']}}</p></td>
 											<td>{{date('d F M H:i', strtotime($doc['created_at']))}}</td>
@@ -550,7 +510,6 @@ $grantedFeature     = session('granted_features');
 						</div>
 					@endif
 
-					<input type="hidden" name="action_type" id="action_type" value="">
 					@if(MyHelper::hasAccess([349], $grantedFeature) && $detail['user_hair_stylist_status'] != 'Rejected')
 						{{ csrf_field() }}
 						<div class="row" style="text-align: center">
@@ -569,10 +528,13 @@ $grantedFeature     = session('granted_features');
 					<div class="col-md-3">
 						<ul class="ver-inline-menu tabbable margin-bottom-10">
 							<li @if($detail['user_hair_stylist_status'] == 'Candidate') class="active" @endif>
-								<a @if(in_array($detail['user_hair_stylist_status'], ['Candidate', 'Interviewed', 'Technical Tested', 'Training Completed'])) data-toggle="tab" href="#interview" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Interview </a>
+								<a @if(in_array($detail['user_hair_stylist_status'], ['Candidate', 'Interviewed', 'Psychological Tested', 'Technical Tested', 'Training Completed'])) data-toggle="tab" href="#interview" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Interview </a>
 							</li>
 							<li @if($detail['user_hair_stylist_status'] == 'Interviewed') class="active" @endif>
-								<a  @if(in_array($detail['user_hair_stylist_status'], ['Interviewed', 'Technical Tested', 'Training Completed'])) data-toggle="tab" href="#technical_test" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Technical Test </a>
+								<a  @if(in_array($detail['user_hair_stylist_status'], ['Interviewed', 'Psychological Tested', 'Technical Tested', 'Training Completed'])) data-toggle="tab" href="#psychological_test" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Psychological Test </a>
+							</li>
+							<li @if($detail['user_hair_stylist_status'] == 'Psychological Tested') class="active" @endif>
+								<a  @if(in_array($detail['user_hair_stylist_status'], ['Psychological Tested', 'Technical Tested', 'Training Completed'])) data-toggle="tab" href="#technical_test" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Technical Test </a>
 							</li>
 							<li @if($detail['user_hair_stylist_status'] == 'Technical Tested') class="active" @endif>
 								<a @if(in_array($detail['user_hair_stylist_status'], ['Technical Tested', 'Training Completed'])) data-toggle="tab"  href="#training_result" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Training Result</a>
@@ -587,13 +549,15 @@ $grantedFeature     = session('granted_features');
 							<div class="tab-pane @if($detail['user_hair_stylist_status'] == 'Candidate') active @endif" id="interview">
 								@include('recruitment::hair_stylist.form_document_interview')
 							</div>
-							<div class="tab-pane @if($detail['user_hair_stylist_status'] == 'Interviewed') active @endif" id="technical_test">
+							<div class="tab-pane @if($detail['user_hair_stylist_status'] == 'Interviewed') active @endif" id="psychological_test">
+								@include('recruitment::hair_stylist.form_document_psychological')
+							</div>
+							<div class="tab-pane @if($detail['user_hair_stylist_status'] == 'Psychological Tested') active @endif" id="technical_test">
 								@include('recruitment::hair_stylist.form_document_technical')
 							</div>
 							<div class="tab-pane @if($detail['user_hair_stylist_status'] == 'Technical Tested') active @endif" id="training_result">
 								@include('recruitment::hair_stylist.form_document_training')
 							</div>
-
 							<div class="tab-pane @if($detail['user_hair_stylist_status'] == 'Training Completed') active @endif" id="approve">
 								@include('recruitment::hair_stylist.form_approve')
 							</div>

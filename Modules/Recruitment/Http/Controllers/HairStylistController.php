@@ -93,11 +93,9 @@ class HairStylistController extends Controller
         }
 
         if(!empty($post['data_document'])){
-            foreach ($post['data_document'] as &$doc){
-                if(!empty($doc['attachment'])){
-                    $doc['ext'] = pathinfo($doc['attachment']->getClientOriginalName(), PATHINFO_EXTENSION);
-                    $doc['attachment'] = MyHelper::encodeImage($doc['attachment']);
-                }
+            if(!empty($post['data_document']['attachment'])){
+                $post['data_document']['ext'] = pathinfo($post['data_document']['attachment']->getClientOriginalName(), PATHINFO_EXTENSION);
+                $post['data_document']['attachment'] = MyHelper::encodeImage($post['data_document']['attachment']);
             }
         }
 
@@ -225,5 +223,10 @@ class HairStylistController extends Controller
         }else{
             return redirect('recruitment/hair-stylist')->withErrors(['File not found']);
         }
+    }
+
+    public function candidateDelete($id){
+        $delete = MyHelper::post('recruitment/hairstylist/be/delete', ['id_user_hair_stylist' => $id]);
+        return $delete;
     }
 }

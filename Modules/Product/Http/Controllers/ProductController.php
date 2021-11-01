@@ -740,8 +740,8 @@ class ProductController extends Controller
                 $data['outlet']          = [];
                 $data['outletTotal']     = 0;
                 $data['outletPerPage']   = 0;
-                $data['trxUpTo']      = 0;
-                $data['trxPaginator'] = false;
+                $data['outletUpTo']      = 0;
+                $data['outletPaginator'] = false;
             }
 
             $outletsSpecialPrice = MyHelper::post('outlet/be/list/product-special-price', $dtPrice);
@@ -752,11 +752,11 @@ class ProductController extends Controller
                 $data['outletSpecialPriceUpTo']      = $outletsSpecialPrice['result']['from'] + count($outletsSpecialPrice['result']['data'])-1;
                 $data['outletSpecialPricePaginator'] = new LengthAwarePaginator($outletsSpecialPrice['result']['data'], $outletsSpecialPrice['result']['total'], $outletsSpecialPrice['result']['per_page'], $outletsSpecialPrice['result']['current_page'], ['path' => url()->current()]);
             }else{
-                $data['outlet']          = [];
-                $data['outletTotal']     = 0;
-                $data['outletPerPage']   = 0;
-                $data['trxUpTo']      = 0;
-                $data['trxPaginator'] = false;
+                $data['outletSpecialPrice']          = [];
+                $data['outletSpecialPriceTotal']     = 0;
+                $data['outletSpecialPricePerPage']   = 0;
+                $data['outletSpecialPriceUpTo']      = 0;
+                $data['outletSpecialPricePaginator'] = false;
             }
 
             $data['brands'] = MyHelper::get('brand/be/list')['result']??[];
