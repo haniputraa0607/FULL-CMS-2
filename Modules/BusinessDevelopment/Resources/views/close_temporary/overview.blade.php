@@ -66,11 +66,11 @@ $grantedFeature     = session('granted_features');
                                         <div class="col-md-4 name">Status </div>
                                         <div class="col-md-8 value">: 
                                             @if($partner['status'] == 'Active')
-                                                <span class="badge" style="background-color: #26C281; color: #ffffff">{{$partner['status']}}</span>
+                                                <span class="sale-num sbold badge badge-pill" style="font-size: 20px!important;height: 30px!important;background-color: #26C281;padding: 5px 12px;color: #fff;">{{$partner['status']}}</span>
                                             @elseif($partner['status'] == 'Inactive')
                                                 <span class="sale-num sbold badge badge-pill" style="font-size: 20px!important;height: 30px!important;background-color: #e1e445;padding: 5px 12px;color: #fff;">{{$partner['status']}}</span>
                                             @else
-                                                <span class="badge" style="background-color: #EF1E31; color: #ffffff">{{$partner['status']}}</span>
+                                                <span class="sale-num sbold badge badge-pill" style="font-size: 20px!important;height: 30px!important;background-color: #EF1E31;padding: 5px 12px;color: #fff;">{{$partner['status']}}</span>
                                             @endif
                                         </div>
                                     </div>
@@ -95,6 +95,7 @@ $grantedFeature     = session('granted_features');
                     <th class="text-nowrap text-center">No</th>
                     <th class="text-nowrap text-center">Title</th>
                     <th class="text-nowrap text-center">Date</th>
+                    <th class="text-nowrap text-center">Jenis</th>
                     <th class="text-nowrap text-center">Status</th>
                     <th class="text-nowrap text-center">Action</th>
                 </tr>
@@ -106,14 +107,25 @@ $grantedFeature     = session('granted_features');
                             <tr data-id="{{ $value['id_partners_close_temporary'] }}">
                                 <td>{{$i}}</td>
                                 <td>{{$value['title']}}</td>
-                                <td>{{date('d F Y', strtotime($value['close_date']))}}</td>
+                                <td>@if($value['close_date']!=null)
+                                    {{date('d F Y', strtotime($value['close_date']))}}
+                                    @else
+                                    {{date('d F Y', strtotime($value['start_date']))}}
+                                    @endif
+                                </td>
+                                <td>@if($value['close_date']!=null)
+                                    <span class="btn-danger btn-sm text-nowrap" style="color: #ffffff">Close</span>
+                                    @else
+                                    <span class="btn-success btn-sm text-nowrap" style="color: #ffffff">Open</span>
+                                    @endif
+                                </td>
                                 <td>
                                     @if($value['status'] == 'Success')
-                                        <span class="badge" style="background-color: #26C281; color: #ffffff">{{$value['status']}}</span>
+                                        <span class="badge" style="background-color: #26C281;padding: 5px 12px; color: #ffffff ">{{$value['status']}}</span>
                                     @elseif($value['status'] == 'Process')
-                                        <span class="badge" style="background-color: #e1e445; color: #ffffff">{{$value['status']}}</span>
+                                        <span class="badge" style="background-color: #e1e445;padding: 5px 12px; color: #ffffff">{{$value['status']}}</span>
                                     @else
-                                        <span class="badge" style="background-color: #EF1E31; color: #ffffff">{{$value['status']}}</span>
+                                        <span class="badge" style="background-color: #EF1E31;padding: 5px 12px; color: #ffffff">{{$value['status']}}</span>
                                     @endif
                                 </td>
                                 <td>

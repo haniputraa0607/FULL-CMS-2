@@ -42,6 +42,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'business
             Route::get('/{id}', ['middleware' => 'feature_control:343', 'uses' => 'PartnersCloseTemporaryController@index']);
             Route::get('/detail/{id}', ['middleware' => 'feature_control:343', 'uses' => 'PartnersCloseTemporaryController@detail']);
             Route::post('/update', ['middleware' => 'feature_control:343', 'uses' => 'PartnersCloseTemporaryController@update']);
+            Route::post('/updateActive', ['middleware' => 'feature_control:343', 'uses' => 'PartnersCloseTemporaryController@updateActive']);
             Route::post('/reject', ['middleware' => 'feature_control:343', 'uses' => 'PartnersCloseTemporaryController@reject']);
             Route::post('/success', ['middleware' => 'feature_control:343', 'uses' => 'PartnersCloseTemporaryController@success']);
             Route::post('/create', ['middleware' => 'feature_control:343', 'uses' => 'PartnersCloseTemporaryController@create']);
