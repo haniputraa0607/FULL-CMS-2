@@ -26,6 +26,18 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
     Route::post('update/{id}', ['middleware' => 'feature_control:349', 'uses' => 'HairStylistController@hsUpdate']);
     Route::post('update-status', ['middleware' => 'feature_control:349', 'uses' => 'HairStylistController@updateStatus']);
 
+	Route::group(['prefix' => 'request'], function()
+	{
+	    Route::any('/', ['middleware' => 'feature_control:379', 'uses' => 'RequestHairStylistController@index']);
+	    Route::any('/new', ['middleware' => 'feature_control:378', 'uses' => 'RequestHairStylistController@create']);
+	    Route::any('/detail/{id}', ['middleware' => 'feature_control:380', 'uses' => 'RequestHairStylistController@show']);
+	    Route::post('/store', ['middleware' => 'feature_control:378', 'uses' => 'RequestHairStylistController@store']);
+	    Route::post('/delete/{id}', ['middleware' => 'feature_control:379', 'uses' => 'RequestHairStylistController@destroy']);
+	    Route::post('/reject/{id}', ['middleware' => 'feature_control:379', 'uses' => 'RequestHairStylistController@reject']);
+	    Route::post('/update/{id}', ['middleware' => 'feature_control:379', 'uses' => 'RequestHairStylistController@update']);
+	});
+
+
 	Route::group(['prefix' => 'schedule'], function()
 	{
 	    Route::any('/', ['middleware' => 'feature_control:353,354,355', 'uses' => 'HairStylistScheduleController@list']);

@@ -119,6 +119,31 @@
 				</li>
 			</ul>
 		@endif
+        @if(MyHelper::hasAccess([379,380,381,382], $grantedFeature))
+		<li class="nav-item {{($menu_active == 'req-hair-stylist') ? 'active open' : ''}}">
+			<a href="javascript:;" class="nav-link nav-toggle">
+				<i class="fa fa-male"></i>
+				<span class="title">Request Hair Stylist</span>
+				<span class="arrow {{($menu_active == 'req-hair-stylist') ? 'open' : ''}}"></span>
+			</a>
+            <ul class="sub-menu">
+                @if(MyHelper::hasAccess([378], $grantedFeature))
+                <li class="nav-item {{($submenu_active == 'new-request-hair-stylist') ? 'active open' : ''}}">
+                    <a href="{{url('recruitment/hair-stylist/request/new')}}" class="nav-link ">
+                        <span class="title">New Request Hair Stylist</span>
+                    </a>
+                </li>
+                @endif
+				@if(MyHelper::hasAccess([379,380,381,382], $grantedFeature))
+				<li class="nav-item {{($submenu_active == 'list-request-hair-stylist') ? 'active open' : ''}}">
+					<a href="{{url('recruitment/hair-stylist/request')}}" class="nav-link ">
+						<span class="title">List Request Hair Stylist</span>
+					</a>
+				</li>
+				@endif
+            </ul>
+        </li>
+        @endif
 
 		@if(MyHelper::hasAccess([2,4,7,9,148], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
