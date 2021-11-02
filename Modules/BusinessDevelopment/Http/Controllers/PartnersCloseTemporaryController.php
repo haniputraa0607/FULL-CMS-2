@@ -43,7 +43,7 @@ class PartnersCloseTemporaryController extends Controller
                 $status = true;
             $lampiran = MyHelper::post('partners/close-temporary/temporary', ['id_partner' => $id]);
                 if(($lampiran['status']) && $lampiran['status'] == 'success' ){
-                    if($lampiran['result']['status'] == 'Process' ){
+                    if($lampiran['result']['status'] == 'Process' ||$lampiran['result']['status'] == 'Waiting'){
                         $action = false;
                     }
                 }
@@ -54,7 +54,7 @@ class PartnersCloseTemporaryController extends Controller
                 $status = true;
                 $lampiran = MyHelper::post('partners/close-temporary/temporary', ['id_partner' => $id]);
                 if(($lampiran['status']) && $lampiran['status'] == 'success' ){
-                    if($lampiran['result']['status'] == 'Process' ){
+                    if($lampiran['result']['status'] == 'Process' ||$lampiran['result']['status'] == 'Waiting'){
                         $action = false;
                     }
                 }
@@ -102,6 +102,9 @@ class PartnersCloseTemporaryController extends Controller
     }
     public function update(Request $request){
          $post = $request->except('_token');
+         if(isset($post['close_date'])&& $post['close_date']!=null){
+        $post['close_date'] = date('Y-m-d', strtotime($post['close_date']));
+        }
         $query = MyHelper::post('partners/close-temporary/update', $post);
         if(isset($query['status']) && $query['status'] == 'success'){
                 return back()->withSuccess(['Update Success']);
@@ -110,7 +113,10 @@ class PartnersCloseTemporaryController extends Controller
         }
     }
     public function updateActive(Request $request){
-         $post = $request->except('_token');
+        $post = $request->except('_token');
+        if(isset($post['close_date'])&& $post['close_date']!=null){
+        $post['close_date'] = date('Y-m-d', strtotime($post['close_date']));
+        }
         $query = MyHelper::post('partners/close-temporary/updateActive', $post);
         if(isset($query['status']) && $query['status'] == 'success'){
                 return back()->withSuccess(['Update Success']);
@@ -120,6 +126,9 @@ class PartnersCloseTemporaryController extends Controller
     }
     public function create(Request $request){
          $post = $request->except('_token');
+         if(isset($post['close_date'])&& $post['close_date']!=null){
+        $post['close_date'] = date('Y-m-d', strtotime($post['close_date']));
+        }
         $query = MyHelper::post('partners/close-temporary/create', $post);
         if(isset($query['status']) && $query['status'] == 'success'){
                 return back()->withSuccess(['Create Success']);
@@ -129,6 +138,9 @@ class PartnersCloseTemporaryController extends Controller
     }
     public function createActive(Request $request){
          $post = $request->except('_token');
+        if(isset($post['start_date'])&& $post['start_date']!=null){
+        $post['start_date'] = date('Y-m-d', strtotime($post['start_date']));
+        }
         $query = MyHelper::post('partners/close-temporary/createActive', $post);
         if(isset($query['status']) && $query['status'] == 'success'){
                 return back()->withSuccess(['Create Success']);
@@ -143,9 +155,16 @@ class PartnersCloseTemporaryController extends Controller
     }
     public function success(Request $request){
          $post = $request->except('_token');
-        $query = MyHelper::post('partners/close-temporary/success', $post);
+         if(isset($post['status'])&&$post['status'] == "Close"){
+            $query = MyHelper::post('partners/close-temporary/success', $post);
+         }elseif(isset($post['status'])&&$post['status'] == "Start"){
+             $query = MyHelper::post('partners/close-temporary/successActive', $post);
+         }else{
+          return response()->json(['status' => 'fail', 'messages' => $post['status']]);   
+         }
         return $query;
     }
+   
     public function lampiranDelete(Request $request)
     {
         $post = $request->except('_token'); 

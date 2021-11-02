@@ -97,6 +97,11 @@
                     <a href="#create" data-toggle="tab">Create Document </a>
                 </li>
                 @endif
+                @if($result['outlet']!=false)
+                <li>
+                    <a href="#outlet" data-toggle="tab">List Outlet</a>
+                </li>
+                @endif
             </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="overview">
@@ -105,10 +110,16 @@
             <div class="tab-pane" id="document">
                 @include('businessdevelopment::close_temporary.document')
             </div>
+            @if($result['status']=="Process")
             <div class="tab-pane" id="create">
                 @include('businessdevelopment::close_temporary.create')
             </div>
-
+            @endif
+            @if($result['outlet']!=false)
+            <div class="tab-pane" id="outlet">
+                @include('businessdevelopment::close_temporary.outlet')
+            </div>
+            @endif
         </div>
     </div>
     

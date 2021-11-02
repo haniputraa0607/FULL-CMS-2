@@ -60,10 +60,17 @@ $grantedFeature     = session('granted_features');
                         var token  	= "{{ csrf_token() }}";
                         var pathname = window.location.pathname; 
                         let column 	= $(this).parents('tr');
+                        @if(!empty($result['close_date']))
+                            let status = "Close";
+                        @else
+                            let status = "Start";
+                        @endif
                         var data = {
-                                    '_token' : '{{csrf_token()}}',
-                                    'id_partners_close_temporary':{{$result['id_partners_close_temporary']}}
-                                        };
+                            '_token' : '{{csrf_token()}}',
+                            'id_partners_close_temporary':{{$result['id_partners_close_temporary']}},
+                            'status':status
+                            };
+                            console.log(data)
                         $(this).click(function() {
                             swal({
                                     title: "Are you sure want to accept data?",
@@ -135,7 +142,7 @@ $grantedFeature     = session('granted_features');
                                 </div>
                                 @else
                                 <label for="example-search-input" class="control-label col-md-4">Tanggal Mulai<span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Mulai" data-container="body"></i></label>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Mulai" min='@php date("Y-m-d"); @endphp' data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <input type="text" id="close_date" @if($result['status']!='Process' ) disabled @endif class="datepicker form-control" name="start_date" value="{{ (!empty($result['start_date']) ? date('d F Y', strtotime($result['start_date'])) : '')}}" >
