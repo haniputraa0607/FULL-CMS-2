@@ -255,8 +255,8 @@ $configs    		= session('configs');
                                     <input type="checkbox" name="product_visibility" @if($value['product_visibility'] == 'Visible') checked @endif data-id="{{ $value['id_product'] }}" class="make-switch switch-large switch-change" data-on-text="Visible" data-off-text="Hidden">
                                 </div>
                             </td>
-                            <td><a href="{{ url('product/detail') }}/{{ $value['product_code'] }}#visibility">{{ $value['product_detail_count'] }}</a></td>
-                            <td><a href="{{ url('product/detail') }}/{{ $value['product_code'] }}#visibility">{{ $value['product_detail_hiddens_count'] }}</td>
+                            <td><a href="{{ url('product-service/detail') }}/{{ $value['product_code'] }}#visibility">{{ $value['product_detail_count'] }}</a></td>
+                            <td><a href="{{ url('product-service/detail') }}/{{ $value['product_code'] }}#visibility">{{ $value['product_detail_hiddens_count'] }}</td>
                             @if(MyHelper::hasAccess([363,365,366], $grantedFeature))
                                 <td style="width: 80px;">
                                     @if(MyHelper::hasAccess([366], $grantedFeature))

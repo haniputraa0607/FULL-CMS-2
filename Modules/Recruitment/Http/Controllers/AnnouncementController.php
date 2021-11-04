@@ -15,7 +15,7 @@ class AnnouncementController extends Controller
 		$data = [
             'title'          	=> 'Recruitment',
             'sub_title'      	=> 'Announcement',
-            'menu_active'    	=> 'hair-stylist',
+            'menu_active'    	=> 'hairstylist-announcement',
             'submenu_active' 	=> 'hairstylist-announcement',
             'child_active' 		=> 'hairstylist-announcement-create',
             'filter_title'   	=> 'Filter Hairstylist',
@@ -62,7 +62,7 @@ class AnnouncementController extends Controller
         $data = [
             'title'          	=> 'Recruitment',
             'sub_title'      	=> 'Announcement',
-            'menu_active'    	=> 'hair-stylist',
+            'menu_active'    	=> 'hairstylist-announcement',
             'submenu_active' 	=> 'hairstylist-announcement',
             'child_active' 		=> 'hairstylist-announcement-list'
         ];
@@ -138,7 +138,7 @@ class AnnouncementController extends Controller
 		$data = [
             'title'          	=> 'Recruitment',
             'sub_title'      	=> 'Announcement',
-            'menu_active'    	=> 'hair-stylist',
+            'menu_active'    	=> 'hairstylist-announcement',
             'submenu_active' 	=> 'hairstylist-announcement',
             'child_active' 		=> 'hairstylist-announcement-list',
             'filter_title'   	=> 'Filter Hairstylist',

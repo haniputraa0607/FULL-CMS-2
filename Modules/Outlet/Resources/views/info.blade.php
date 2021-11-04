@@ -39,6 +39,21 @@
         <div class="form-group">
             <div class="input-icon right">
                 <label class="col-md-3 control-label">
+                    Outlet Academy Status
+                    <i class="fa fa-question-circle tooltips" data-original-title="Jika memilih active outlet akan tampil di daftar outlet academy" data-container="body"></i>
+                </label>
+            </div>
+            <div class="col-md-9">
+                <select class="select2 form-control" name="outlet_academy_status">
+                    <option value="1" @if($val['outlet_academy_status'] == 1) selected @endif>Active</option>
+                    <option value="0" @if($val['outlet_academy_status'] == 0) selected @endif>Inactive</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="input-icon right">
+                <label class="col-md-3 control-label">
                 Code
                 <i class="fa fa-question-circle tooltips" data-original-title="Kode outlet bersifat unik" data-container="body"></i>
                 </label>
@@ -83,7 +98,7 @@
                 </label>
             </div>
             <div class="col-md-9">
-                <select class="select2 form-control" multiple="multiple" name="outlet_brands[]">
+                <select class="select2 form-control" name="outlet_brands[]">
                     <option value="*">All Brands</option>
                     @foreach($brands as $brand)
                     <option value="{{$brand['id_brand']}}" @if(in_array($brand['id_brand'],array_column($val['brands'],'id_brand'))) selected="selected" @endif>{{$brand['name_brand']}}</option>
