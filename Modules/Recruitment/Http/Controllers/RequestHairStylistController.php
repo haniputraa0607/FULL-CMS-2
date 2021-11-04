@@ -177,7 +177,11 @@ class RequestHairStylistController extends Controller
             $post['id_hs'] = json_encode($post['id_hs']);
         }else{
             $post['notes'] = null;
-            $post['status'] = $old_req['status'];
+            if($old_req['status']=='Approved'){
+                $post['status'] = 'Request';
+            }else{
+                $post['status'] = $old_req['status'];
+            }
             $post['id_hs'] = null;
         }
         $post['id_request_hair_stylist'] = $id;   

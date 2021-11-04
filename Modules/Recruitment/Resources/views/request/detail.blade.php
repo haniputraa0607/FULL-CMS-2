@@ -99,8 +99,7 @@
         });
         $('#status').on('switchChange.bootstrapSwitch', function(event, state) {
             actionForm('approved', state);
-            numberHS('approved_hs',state)
-            
+            numberHS('approved_hs',state);
         });
     });
     function actionForm(identity, state) {
@@ -124,11 +123,11 @@
                     '<div class="form-group">'+
                     '<label for="example-search-input" class="control-label col-md-4">Hair Stylist '+(i+1)+' <span class="required" aria-required="true">*</span>'+
                     '<i class="fa fa-question-circle tooltips" data-original-title="Original Partner Name" data-container="body"></i></label>'+
-                    '<div class="col-md-5">'+
-                    '<select class="form-control select2 approvedForm" name="id_hs['+i+']" id="id_hs['+i+']" onchange="changeHS(this.value);" required>'+
+                    '<div class="col-md-5 for_option_'+i+'">'+
+                    '<select class="form-control select2 approvedForm id_hs_'+i+'" name="id_hs['+i+']" id="id_hs['+i+']" onchange="foreach_again(this.value,'+i+');" >'+
                     '<option value="" selected disabled>Select Hair Stylist</option>'+
                     '@foreach($hairstylist as $h => $hs)'+
-                    '<option value="{{$hs['id_user_hair_stylist']}}" @if($result['id_hs'][0] ==$hs['id_user_hair_stylist'] ) selected @endif>{{$hs['fullname']}}</option>'+
+                    '<option id="list_option_'+i+'_{{$hs['id_user_hair_stylist']}}" value="{{$hs['id_user_hair_stylist']}}">{{$hs['fullname']}}</option>'+
                     '@endforeach'+
                     '</select>'+
                     '</div>'+
@@ -137,12 +136,46 @@
                 $('.select2').select2();
             }
         }else{
-            $("#approved_hs").html('');
+            $('#'+idenity).html('');
         }
     }
 
-    function changeHS(name){
-        
+    function changeHS(id,no){
+        var num = $('#number_of_request').val();
+        for (let i = 0; i < num; i++) {
+            if(i!=no){
+                $('#list_option_'+i+'_'+id+'').remove();
+            }
+        }
+
+    }
+
+    function foreach_again(id,no){
+        var num = $('#number_of_request').val();
+        for (let i = 0; i < num; i++) {
+            if(i!=no){
+                var value = $('.id_hs_'+i+'').val();
+                $('.for_option_'+i+'').html('');
+                $('.for_option_'+i+'').append(
+                    '<select class="form-control select2 approvedForm id_hs_'+i+'" name="id_hs['+i+']" id="id_hs['+i+']" onchange="foreach_again(this.value,'+i+');"  required>'+
+                    '<option value="" selected disabled>Select Hair Stylist</option>'+
+                    '@foreach($hairstylist as $h => $hs)'+
+                    '<option id="list_option_'+i+'_{{$hs['id_user_hair_stylist']}}" value="{{$hs['id_user_hair_stylist']}}">{{$hs['fullname']}}</option>'+
+                    '@endforeach'+
+                    '</select>'
+                );
+                for (let cek = 0; cek < num; cek++) {
+                    let old = $('.id_hs_'+cek+'').val();
+                    if(old != null){
+                        $('#list_option_'+i+'_'+old+'').remove();
+                    }
+                }
+                if(value != null){
+                    $('#list_option_'+i+'_'+value+'').prop('selected',true);
+                }
+                $('.select2').select2();
+            }
+        }
     }
     </script>
 @endsection
@@ -204,7 +237,7 @@
                         <label for="example-search-input" class="control-label col-md-4">Status <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Original Partner Name" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <input type="checkbox" class="make-switch" data-size="small" data-on-color="info" data-on-text="Approve" name="status" data-off-color="default" data-off-text="@if ($result['status']=='Rejected') Rejected @else Request @endif" id="status" @if ($result['status']=='Approved') checked @endif>
+                            <input type="checkbox" class="make-switch" data-size="small" data-on-color="info" data-on-text="Approve" name="status" data-off-color="default" data-off-text="@if ($result['status']=='Rejected') Rejected @else Request @endif" id="status" @if ($result['status']=='Approved') checked readonly @endif>
                         </div>
                     </div>
                     <div class="approved">
@@ -216,24 +249,26 @@
                             </div>
                         </div>
                         <div id="approved_hs"></div>
-                        <div id="real_approved_hs">
-                            @for($i=0;$i<$result['number_of_request'];$i++)
-                            <div class="form-group">
-                                <label for="example-search-input" class="control-label col-md-4">Hair Stylist {{ $i+1 }} <span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Original Partner Name" data-container="body"></i></label>
-                                <div class="col-md-5">
-                                    <select class="form-control select2 approvedForm" name="id_hs[{{ $i }}]" id="id_hs[{{ $i }}]" onchange="changeHS(this.value);" required>
-                                        <option value="" selected disabled>Select Hair Stylist</option>
+                    </div>
+                    @if ($result['status']=='Approved')  
+                    <div id="real_approved_hs">
+                        @for($i=0;$i<$result['number_of_request'];$i++)
+                        <div class="form-group">
+                            <label for="example-search-input" class="control-label col-md-4">Hair Stylist {{  $i+1 }} <span class="required" aria-required="true">*</span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Original Partner Name" data-container="body"></i></label>
+                                <div class="col-md-5 for_option_{{  $i }}">
+                                    <select class="form-control select2 selectApprove id_hs_{{  $i }}" name="id_hs[{{  $i }}]" id="id_hs[{{  $i }}]" onchange="foreach_again(this.value,{{  $i }});" >
+                                        <option value="" selected>Select Hair Stylist</option>  
                                         @foreach($hairstylist as $h => $hs)
-                                        <option value="{{$hs['id_user_hair_stylist']}}" @if($result['id_hs'][$i] == $hs['id_user_hair_stylist'] ) selected @endif>{{$hs['fullname']}}</option>
-                                        @endforeach     
+                                        <option id="list_option_{{  $i }}_{{$hs['id_user_hair_stylist']}}" value="{{$hs['id_user_hair_stylist']}}" @if($result['id_hs'][$i] == $hs['id_user_hair_stylist'] ) selected @endif>{{$hs['fullname']}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
                             @endfor
                         </div>
                     </div>
-                </div>
+                    @endif
                 <div class="form-actions">
                     {{ csrf_field() }}
                     <div class="row">
