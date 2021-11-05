@@ -159,17 +159,17 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Applicant <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Original Partner Name" data-container="body"></i></label>
-                        <div class="col-md-5">
-                            <input class="form-control" type="text" id="old_name" name="applicant" required/>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Number of Request <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Original Partner Name" data-container="body"></i></label>
                         <div class="col-md-5">
                             <input class="form-control" type="text" id="old_name" name="number_of_request" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="example-search-input" class="control-label col-md-4">Notes 
+                            <i class="fa fa-question-circle tooltips" data-original-title="Original Partner Name" data-container="body"></i></label>
+                        <div class="col-md-5">
+                            <textarea name="notes_om" id="input-note" class="form-control" placeholder="Enter note here"></textarea>
                         </div>
                     </div>
                 </div>
