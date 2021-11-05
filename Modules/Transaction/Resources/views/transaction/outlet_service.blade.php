@@ -179,9 +179,9 @@
                     	if (value == 'Completed') {
                             return '<div class="badge badge-success">Completed</div>';
                         } else if(value == 'Cancelled') {
-                            return '<div class="badge badge-warning">Cancelled</div>';
+                            return '<div class="badge badge-danger">Cancelled</div>';
                         } else {
-                            return '<div class="badge badge-danger">Pending</div>';
+                            return '<div class="badge badge-warning">Pending</div>';
                         }
                         return `${row.transaction_payment_status}`;
                     }
