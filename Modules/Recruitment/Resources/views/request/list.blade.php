@@ -182,10 +182,12 @@
                                     <td>{{$dt['outlet_request']['outlet_name']}}</td>
                                     <td class="text-center">{{$dt['number_of_request']}}</td>
                                     <td>
-                                        @if($dt['status'] == 'Approved')
+                                        @if($dt['status'] == 'Approve')
                                         <span class="badge" style="background-color: #26C281; color: #ffffff">{{$dt['status']}}</span>
                                         @elseif($dt['status'] == 'Request')
                                         <span class="badge" style="background-color: #e1e445; color: #ffffff">{{$dt['status']}}</span>
+                                        @elseif($dt['status'] == 'Done Approved')
+                                        <span class="badge" style="background-color: #11407e; color: #ffffff">{{$dt['status']}}</span>
                                         @else
                                         <span class="badge" style="background-color: #EF1E31; color: #ffffff">{{$dt['status']}}</span>
                                         @endif

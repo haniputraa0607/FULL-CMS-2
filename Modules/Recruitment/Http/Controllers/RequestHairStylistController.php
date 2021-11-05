@@ -101,6 +101,7 @@ class RequestHairStylistController extends Controller
     public function store(Request $request)
     {
         $post = $request->except('_token');
+        $post['applicant'] = session('name');
         $result = MyHelper::post('mitra/request/create', $post);
         if(isset($result['status']) && $result['status'] == 'success'){
             return redirect('recruitment/hair-stylist/request/detail/'.$result['result']['id_request_hair_stylist'])->withSuccess(['Success create a new request hair stylist']);
@@ -124,15 +125,11 @@ class RequestHairStylistController extends Controller
             'menu_active'    => 'req-hair-stylist',
             'submenu_active' => 'list-req-hair-stylist',
         ]; 
-        $getList = MyHelper::post('recruitment/hairstylist/be/list', [])['result']['data'];
-        foreach($getList as $i => $hs){
-            if(!isset($hs['id_outlet'])){
-                $listHS[$i] = $hs;
-            }
-        }
+        $list_hs = MyHelper::post('mitra/request/list-hs', ['id_outlet' => $result['result']['request_hair_stylist']['id_outlet']])??[];
         if(isset($result['status']) && $result['status'] == 'success'){
             $data['result'] = $result['result']['request_hair_stylist'];
-            $data['hairstylist'] = $listHS;
+            $data['hairstylist'] = $list_hs;
+            // dd($data);
             return view('recruitment::request.detail', $data);
         }else{
             return redirect('recruitment/request')->withErrors($result['messages'] ?? ['Failed get detail request hair stylist']);
@@ -170,14 +167,27 @@ class RequestHairStylistController extends Controller
                 "notes" => "required",
             ]);
             $post['notes'] = $request['notes'];
-            $post['status'] = 'Approved';
+            $post['status'] = 'Approve';
+            if(isset($post['id_hs'])){
+                $val = false;
+                foreach($post['id_hs'] as $id_hs){
+                    if($id_hs == null){
+                        $val = true;
+                    }
+                }
+                if($val){
+                    $post['status'] = 'Approve';
+                }else{
+                    $post['status'] = 'Done Approved';
+                }
+            }
             $post['id_hs'] = [
                 "id_hair_stylist" => $request['id_hs'],
             ];
             $post['id_hs'] = json_encode($post['id_hs']);
         }else{
             $post['notes'] = null;
-            if($old_req['status']=='Approved'){
+            if($old_req['status']=='Approve'){
                 $post['status'] = 'Request';
             }else{
                 $post['status'] = $old_req['status'];
