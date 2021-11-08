@@ -1277,7 +1277,7 @@
 				</ul>
 			</li>
 		@endif
-        @if(MyHelper::hasAccess([379,380,381,382], $grantedFeature))
+        @if(MyHelper::hasAccess([379,380,381,382], $grantedFeature) || MyHelper::hasAccess([378], $grantedFeature))
 		<li class="nav-item {{($menu_active == 'req-hair-stylist') ? 'active open' : ''}}">
 			<a href="javascript:;" class="nav-link nav-toggle">
 				<i class="fa fa-male"></i>
@@ -1292,7 +1292,7 @@
                     </a>
                 </li>
                 @endif
-				@if(MyHelper::hasAccess([379,380,381,382], $grantedFeature))
+				@if(MyHelper::hasAccess([379,380,381,382], $grantedFeature) || MyHelper::hasAccess([378], $grantedFeature) )
 				<li class="nav-item {{($submenu_active == 'list-req-hair-stylist') ? 'active open' : ''}}">
 					<a href="{{url('recruitment/hair-stylist/request')}}" class="nav-link ">
 						<span class="title">List Request Hair Stylist</span>

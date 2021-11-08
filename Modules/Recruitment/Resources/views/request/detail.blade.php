@@ -1,3 +1,8 @@
+<?php
+    use App\Lib\MyHelper;
+    $grantedFeature     = session('granted_features');
+ ?>
+ 
 @extends('layouts.main')
 
 @section('page-style')
@@ -234,10 +239,30 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="example-search-input" class="control-label col-md-4">Applicant Notes <span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Notes from applicant" data-container="body"></i></label>
+                        <div class="col-md-5">
+                            <textarea name="notes" id="input-note-app" class="form-control" placeholder="Enter note here" readonly>{{ $result['notes_om'] }}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Status <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Status Request" data-container="body"></i></label>
                         <div class="col-md-5">
+                            @if(MyHelper::hasAccess([383], $grantedFeature))
                             <input type="checkbox" class="make-switch" data-size="small" data-on-color="info" data-on-text="Approve" name="status" data-off-color="default" data-off-text="@if ($result['status']=='Rejected') Rejected @else Request @endif" id="status" @if ($result['status']=='Approve'  || $result['status']=='Done Approved') checked readonly @endif>
+                            @else
+                                @if($result['status'] == 'Approve')
+                                <span class="badge" style="background-color: #26C281; color: #ffffff">{{$result['status']}}</span>
+                                @elseif($result['status'] == 'Request')
+                                <span class="badge" style="background-color: #e1e445; color: #ffffff">{{$result['status']}}</span>
+                                @elseif($result['status'] == 'Done Approved')
+                                <span class="badge" style="background-color: #11407e; color: #ffffff">{{$result['status']}}</span>
+                                @else
+                                <span class="badge" style="background-color: #EF1E31; color: #ffffff">{{$result['status']}}</span>
+                                @endif
+                                <input type="hidden" name="status" id="status" value="{{ $result['status'] }}">
+                            @endif
                         </div>
                     </div>
                     <div class="approved">
@@ -245,7 +270,7 @@
                             <label for="example-search-input" class="control-label col-md-4">Notes <span class="required" aria-required="true">*</span>
                                 <i class="fa fa-question-circle tooltips" data-original-title="Notes Business Development" data-container="body"></i></label>
                             <div class="col-md-5">
-                                <textarea name="notes" id="input-note" class="form-control approvedForm" placeholder="Enter note here">{{ $result['notes'] }}</textarea>
+                                <textarea name="notes" id="input-note" class="form-control approvedForm" placeholder="Enter note here" @if(!MyHelper::hasAccess([383], $grantedFeature)) readonly @endif>{{ $result['notes'] }}</textarea>
                             </div>
                         </div>
                         <div id="approved_hs"></div>
@@ -257,12 +282,25 @@
                             <label for="example-search-input" class="control-label col-md-4">Hair Stylist {{  $i+1 }} <span class="required" aria-required="true">*</span>
                                 <i class="fa fa-question-circle tooltips" data-original-title="Selected Hair Stylist {{  $i+1 }}" data-container="body"></i></label>
                                 <div class="col-md-5 for_option_{{  $i }}">
+                                    @if(MyHelper::hasAccess([383], $grantedFeature))
                                     <select class="form-control select2 selectApprove id_hs_{{  $i }}" name="id_hs[{{  $i }}]" id="id_hs[{{  $i }}]" onchange="foreach_again(this.value,{{  $i }});" >
                                         <option value="" selected>Select Hair Stylist</option>  
                                         @foreach($hairstylist as $h => $hs)
                                         <option id="list_option_{{  $i }}_{{$hs['id_user_hair_stylist']}}" value="{{$hs['id_user_hair_stylist']}}" @if(isset($result['id_hs'][$i])) @if($result['id_hs'][$i] == $hs['id_user_hair_stylist'] ) selected @endif @endif >{{$hs['fullname']}}</option>
                                         @endforeach
                                     </select>
+                                    @else
+                                    @if(isset($result['id_hs'][$i]))
+                                        @foreach($hairstylist as $h => $hs)
+                                                @if($result['id_hs'][$i] == $hs['id_user_hair_stylist'])
+                                                    <label for="example-search-input" class="control-label">{{ $hs['fullname'] }}</label>
+                                                    <input type="hidden" name="id_hs[{{  $i }}]" id="id_hs[{{  $i }}]" value="{{ $result['id_hs'][$i] }}">
+                                                @endif
+                                        @endforeach
+                                    @else
+                                    <label for="example-search-input" class="control-label"> - </label>
+                                    @endif
+                                    @endif
                                 </div>
                             </div>
                             @endfor

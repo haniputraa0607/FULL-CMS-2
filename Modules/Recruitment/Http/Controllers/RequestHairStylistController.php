@@ -164,6 +164,7 @@ class RequestHairStylistController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         $request->validate([
             "outlate_name" => "required",
             "applicant" => "required",
@@ -179,22 +180,31 @@ class RequestHairStylistController extends Controller
             $post['notes'] = $request['notes'];
             $post['status'] = 'Approve';
             if(isset($post['id_hs'])){
-                $val = false;
-                foreach($post['id_hs'] as $id_hs){
-                    if($id_hs == null){
-                        $val = true;
-                    }
-                }
-                if($val){
-                    $post['status'] = 'Approve';
-                }else{
+                $count = count($post['id_hs']);
+                if($count==$post['number_of_request']){
                     $post['status'] = 'Done Approved';
+                }else{
+                    $post['status'] = 'Approve';
                 }
             }
             $post['id_hs'] = [
                 "id_hair_stylist" => $request['id_hs'],
             ];
             $post['id_hs'] = json_encode($post['id_hs']);
+        }elseif(isset($request['status'])){
+            if (isset($request['notes'])) {
+                $post['notes'] = $request['notes'];
+            }else{
+                $post['notes'] = null;
+            }
+            if (isset($request['id_hs'])) {
+                $post['id_hs'] = [
+                    "id_hair_stylist" => $request['id_hs'],
+                ];
+                $post['id_hs'] = json_encode($post['id_hs']);
+            }else{
+                $post['id_hs'] = null;
+            }
         }else{
             $post['notes'] = null;
             if($old_req['status']=='Approve'){
