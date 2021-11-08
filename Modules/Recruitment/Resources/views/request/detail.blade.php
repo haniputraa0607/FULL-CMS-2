@@ -122,7 +122,7 @@
                 $('#'+idenity).append(
                     '<div class="form-group">'+
                     '<label for="example-search-input" class="control-label col-md-4">Hair Stylist '+(i+1)+' '+
-                    '<i class="fa fa-question-circle tooltips" data-original-title="Original Partner Name" data-container="body"></i></label>'+
+                    '<i class="fa fa-question-circle tooltips" data-original-title="Selected Hair Stylist '+(i+1)+'" data-container="body"></i></label>'+
                     '<div class="col-md-5 for_option_'+i+'">'+
                     '<select class="form-control select2 approvedForm id_hs_'+i+'" name="id_hs['+i+']" id="id_hs['+i+']" onchange="foreach_again(this.value,'+i+');" >'+
                     '<option value="" selected disabled>Select Hair Stylist</option>'+
@@ -214,28 +214,28 @@
                 <div class="form-body">
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Outlet Name <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Original Partner Name" data-container="body"></i></label>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Outlet Name Request" data-container="body"></i></label>
                         <div class="col-md-5">
                             <input class="form-control" type="text" id="old_name" name="outlate_name" value="{{$result['outlet_request']['outlet_name']}}" readonly/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Applicant <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Original Partner Name" data-container="body"></i></label>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Request maker" data-container="body"></i></label>
                         <div class="col-md-5">
                             <input class="form-control approvedFormTop" type="text" id="old_name" name="applicant" value="{{$result['applicant']}}" @if ($result['status']=='Approve'  || $result['status']=='Done Approved') readonly @endif>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Number of Request <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Original Partner Name" data-container="body"></i></label>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Number of Request Hair Stylist" data-container="body"></i></label>
                         <div class="col-md-5">
                             <input class="form-control approvedFormTop" type="text" id="number_of_request" name="number_of_request" value="{{$result['number_of_request']}}" @if ($result['status']=='Approve'  || $result['status']=='Done Approved') readonly @endif/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Status <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Original Partner Name" data-container="body"></i></label>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Status Request" data-container="body"></i></label>
                         <div class="col-md-5">
                             <input type="checkbox" class="make-switch" data-size="small" data-on-color="info" data-on-text="Approve" name="status" data-off-color="default" data-off-text="@if ($result['status']=='Rejected') Rejected @else Request @endif" id="status" @if ($result['status']=='Approve'  || $result['status']=='Done Approved') checked readonly @endif>
                         </div>
@@ -243,7 +243,7 @@
                     <div class="approved">
                         <div class="form-group">
                             <label for="example-search-input" class="control-label col-md-4">Notes <span class="required" aria-required="true">*</span>
-                                <i class="fa fa-question-circle tooltips" data-original-title="Original Partner Name" data-container="body"></i></label>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Notes Business Development" data-container="body"></i></label>
                             <div class="col-md-5">
                                 <textarea name="notes" id="input-note" class="form-control approvedForm" placeholder="Enter note here">{{ $result['notes'] }}</textarea>
                             </div>
@@ -255,7 +255,7 @@
                         @for($i=0;$i<$result['number_of_request'];$i++)
                         <div class="form-group">
                             <label for="example-search-input" class="control-label col-md-4">Hair Stylist {{  $i+1 }} <span class="required" aria-required="true">*</span>
-                                <i class="fa fa-question-circle tooltips" data-original-title="Original Partner Name" data-container="body"></i></label>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Selected Hair Stylist {{  $i+1 }}" data-container="body"></i></label>
                                 <div class="col-md-5 for_option_{{  $i }}">
                                     <select class="form-control select2 selectApprove id_hs_{{  $i }}" name="id_hs[{{  $i }}]" id="id_hs[{{  $i }}]" onchange="foreach_again(this.value,{{  $i }});" >
                                         <option value="" selected>Select Hair Stylist</option>  

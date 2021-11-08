@@ -57,6 +57,16 @@ class RequestHairStylistController extends Controller
         $post['order_type'] = $orderType;
         
         $list = MyHelper::post('mitra/request'.$page, $post);
+        foreach($list['result']['data'] as $i => $req){
+            if($req['id_hs']==null){
+                $list['result']['data'][$i]['count'] = 0;
+            }else{
+                $json = json_decode($req['id_hs']??'' , true);
+                if(is_array($json)){
+                    $list['result']['data'][$i]['count'] = count((is_countable($json['id_hair_stylist'])?$json['id_hair_stylist']:[]));
+                }
+            }
+        }
         if(($list['status']??'')=='success'){
             $data['data']          = $list['result']['data'];
             $data['data_total']     = $list['result']['total'];
