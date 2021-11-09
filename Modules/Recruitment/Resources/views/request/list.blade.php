@@ -168,8 +168,9 @@
                             <th class="text-nowrap text-center">Created At</th>
                             <th class="text-nowrap text-center">Outlet Name</th>
                             <th class="text-nowrap text-center">Number of Request</th>
+                            <th class="text-nowrap text-center">Progress</th>
                             <th class="text-nowrap text-center">Status</th>
-                            @if(MyHelper::hasAccess([339,340,341], $grantedFeature))
+                            @if(MyHelper::hasAccess([379,380,381,382], $grantedFeature))
                             <th class="text-nowrap text-center">Action</th>
                             @endif
                         </tr>
@@ -181,6 +182,7 @@
                                     <td>{{date('d F Y H:i', strtotime($dt['created_at']))}}</td>
                                     <td>{{$dt['outlet_request']['outlet_name']}}</td>
                                     <td class="text-center">{{$dt['number_of_request']}}</td>
+                                    <td class="text-center">{{$dt['count']}} / {{$dt['number_of_request']}}</td>
                                     <td>
                                         @if($dt['status'] == 'Approve')
                                         <span class="badge" style="background-color: #26C281; color: #ffffff">{{$dt['status']}}</span>
@@ -193,10 +195,10 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if(MyHelper::hasAccess([339,340], $grantedFeature))
+                                        @if(MyHelper::hasAccess([380,381], $grantedFeature))
                                         <a href="{{ url('recruitment/hair-stylist/request/detail/'.$dt['id_request_hair_stylist']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
                                         @endif
-                                        @if(MyHelper::hasAccess([341], $grantedFeature))
+                                        @if(MyHelper::hasAccess([382], $grantedFeature))
                                         <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $dt['id_request_hair_stylist'] }}" data-name="{{ $dt['applicant'] }}"><i class="fa fa-trash-o"></i> Delete</a>
                                         @endif
                                     </td>
