@@ -150,6 +150,16 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'product'
     	Route::post('delete/product-tag', ['middleware' => 'feature_control:47', 'uses' => 'TagController@deleteProductTag']);
     	Route::post('create/product-tag', ['middleware' => 'feature_control:47', 'uses' => 'TagController@createTagProduct']);
 	});
+
+	/**
+	 * product group
+	 */
+	Route::group(['prefix' => 'product-group'], function() {
+    	Route::get('/', ['middleware' => 'feature_control:385', 'uses' => 'ProductGroupController@list']);
+    	Route::post('create', ['middleware' => 'feature_control:384', 'uses' => 'ProductGroupController@create']);
+    	Route::post('update', ['middleware' => 'feature_control:387', 'uses' => 'ProductGroupController@update']);
+    	Route::post('delete', ['middleware' => 'feature_control:388', 'uses' => 'ProductGroupController@delete']);
+	});
 });
 
 Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'product', 'namespace' => 'Modules\Advert\Http\Controllers'], function()

@@ -709,6 +709,13 @@
 							<span class="title">Product Photo Default</span>
 						</a>
 					</li>
+					@if(MyHelper::hasAccess([384,385,386,387,388], $grantedFeature))
+						<li class="nav-item {{($submenu_active == 'product-group') ? 'active open' : ''}}">
+							<a href="{{url('product/product-group')}}" class="nav-link ">
+								<span class="title">Product Group</span>
+							</a>
+						</li>
+					@endif
 				</ul>
 			</li>
 			@endif
