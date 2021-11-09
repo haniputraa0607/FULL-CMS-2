@@ -70,15 +70,7 @@
             </li>
             @if (!empty($sub_title))
             <li>
-                <span><a href="{{ $url_sub_title }}" >{{ $sub_title }}</a></span>
-                @if (!empty($sub_title2))
-                    <i class="fa fa-circle"></i>
-                @endif
-            </li>
-            @endif
-             @if (!empty($sub_title2))
-            <li>
-                <span><a href="{{ $url_sub_title2 }}" >{{ $sub_title2 }}</a></span>
+                <span>{{ $sub_title }}</span>
             </li>
             @endif
         </ul>
@@ -95,7 +87,7 @@
         <div class="tabbable-line tabbable-full-width">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="#overview" data-toggle="tab"> Partner Closure</a>
+                    <a href="#overview" data-toggle="tab">Outlet Change Ownership</a>
                 </li>
                 <li>
                     <a href="#document" data-toggle="tab"> Document </a>
@@ -105,27 +97,17 @@
                     <a href="#create" data-toggle="tab">Create Document </a>
                 </li>
                 @endif
-                @if($result['outlet']!=false)
-                <li>
-                    <a href="#outlet" data-toggle="tab">List Outlet</a>
-                </li>
-                @endif
             </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="overview">
-               @include('businessdevelopment::close_temporary.update')
+               @include('businessdevelopment::outlet_manage.change_ownership.update')
             </div>
             <div class="tab-pane" id="document">
-                @include('businessdevelopment::close_temporary.document')
+                 @include('businessdevelopment::outlet_manage.change_ownership.document')
             </div>
             @if($result['status']=="Process")
             <div class="tab-pane" id="create">
-                @include('businessdevelopment::close_temporary.create')
-            </div>
-            @endif
-            @if($result['outlet']!=false)
-            <div class="tab-pane" id="outlet">
-                @include('businessdevelopment::close_temporary.outlet')
+                @include('businessdevelopment::outlet_manage.change_ownership.create_lampiran')
             </div>
             @endif
         </div>

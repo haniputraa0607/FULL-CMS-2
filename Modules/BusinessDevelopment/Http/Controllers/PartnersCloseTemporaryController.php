@@ -70,12 +70,15 @@ class PartnersCloseTemporaryController extends Controller
         }
     }
     public function detail(Request $request,$id){
+        $enk = $id;
         $id = MyHelper::explodeSlug($id)[0]??'';
         $result = MyHelper::post('partners/close-temporary/detail', ['id_partners_close_temporary' => $id]);
         $resultlampiran = MyHelper::post('partners/close-temporary/lampiran/data', ['id_partners_close_temporary' => $id]);
            $data = [
                 'title'          => 'Partner',
-                'sub_title'      => 'Detail Partner Closure Temporary',
+                'sub_title'      => 'Partner Closure Temporary',
+                'sub_title2'     => 'Detail Partner Closure Temporary',
+                'url_sub_title2' => url('businessdev/partners/close-temporary/detail').'/'.$enk,
                 'menu_active'    => 'partners',
                 'submenu_active' => 'detail-partner-closure-temporary',
             ];
@@ -94,7 +97,8 @@ class PartnersCloseTemporaryController extends Controller
                 $data['title_partner'] = "DETAIL PARTNER CLOSURE TEMPORARY";
                 $data['url'] = false;
             }
-            
+            $enkrip = MyHelper::createSlug($result['result']['partner']['id_partner'], $result['result']['partner']['created_at']);
+            $data['url_sub_title'] = url('businessdev/partners/close-temporary/').'/'.$enkrip;
             return view('businessdevelopment::close_temporary.detail', $data);
         }else{
             return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Not Found']);
