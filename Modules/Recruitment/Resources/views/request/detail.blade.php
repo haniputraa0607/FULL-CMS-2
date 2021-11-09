@@ -227,8 +227,9 @@
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Applicant <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Request maker" data-container="body"></i></label>
-                        <div class="col-md-5">
-                            <input class="form-control approvedFormTop" type="text" id="old_name" name="applicant" value="{{$result['applicant']}}" @if ($result['status']=='Approve'  || $result['status']=='Done Approved') readonly @endif>
+                        <div class="col-md-5 mt-2">
+                            <label class="control-label"><a href="{{ url('profile') }}">{{$result['applicant']}}</a></label>
+                            <input type="hidden" id="old_name" name="applicant" value="{{$result['applicant']}}">
                         </div>
                     </div>
                     <div class="form-group">
