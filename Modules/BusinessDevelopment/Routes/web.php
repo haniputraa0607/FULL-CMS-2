@@ -36,6 +36,44 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'business
         Route::post('create-follow-up', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@followUp']);
         Route::get('pdf', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@pdf']);
         Route::any('/{type?}', ['middleware' => 'feature_control:338', 'uses' => 'PartnersController@index']);
+        //partner close temporary
+        Route::group(['prefix' => 'close-temporary'], function()
+        {
+            Route::get('/{id}', ['middleware' => 'feature_control:343', 'uses' => 'PartnersCloseTemporaryController@index']);
+            Route::get('/detail/{id}', ['middleware' => 'feature_control:343', 'uses' => 'PartnersCloseTemporaryController@detail']);
+            Route::post('/update', ['middleware' => 'feature_control:343', 'uses' => 'PartnersCloseTemporaryController@update']);
+            Route::post('/updateActive', ['middleware' => 'feature_control:343', 'uses' => 'PartnersCloseTemporaryController@updateActive']);
+            Route::post('/reject', ['middleware' => 'feature_control:343', 'uses' => 'PartnersCloseTemporaryController@reject']);
+            Route::post('/success', ['middleware' => 'feature_control:343', 'uses' => 'PartnersCloseTemporaryController@success']);
+            Route::post('/create', ['middleware' => 'feature_control:343', 'uses' => 'PartnersCloseTemporaryController@create']);
+            Route::post('/createActive', ['middleware' => 'feature_control:343', 'uses' => 'PartnersCloseTemporaryController@createActive']);
+            Route::post('/lampiran/delete', ['middleware' => 'feature_control:343', 'uses' => 'PartnersCloseTemporaryController@lampiranDelete']);
+            Route::post('/lampiran/create', ['middleware' => 'feature_control:343', 'uses' => 'PartnersCloseTemporaryController@lampiranCreate']);
+        });
+        Route::group(['prefix' => 'outlet'], function()
+        {
+            Route::get('/{id}', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@index']);
+            Route::group(['prefix' => 'cutoff'], function()
+            {
+              Route::post('/create', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@createCutoff']);  
+              Route::get('/detail/{id}', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@detailCutoff']);  
+              Route::post('/update', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@updateCutoff']);
+              Route::post('/reject', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@rejectCutoff']);
+              Route::post('/success', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@successCutoff']);
+              Route::post('/lampiran/delete', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@lampiranDeleteCutoff']);
+              Route::post('/lampiran/create', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@lampiranCreateCutoff']);
+            });
+            Route::group(['prefix' => 'change'], function()
+            {
+              Route::post('/create', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@createChange']);  
+              Route::get('/detail/{id}', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@detailChange']);  
+              Route::post('/update', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@updateChange']);
+              Route::post('/reject', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@rejectChange']);
+              Route::post('/success', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@successChange']);
+              Route::post('/lampiran/delete', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@lampiranDeleteChange']);
+              Route::post('/lampiran/create', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@lampiranCreateChange']);
+            });
+        });
     });
     
     //locations
