@@ -705,11 +705,11 @@
                                 <div class="portlet light bordered">
                                     <div class="portlet-title">
                                         <div class="caption">
-                                            <span class="caption-subject font-black">Outlet Exchange</span>
+                                            <span class="caption-subject font-black">Manage Outlet</span>
                                         </div>
                                     </div> 
-                                    <div class="portlet-body form">
-                                        <a class="btn btn-primary" href="#exchange" data-toggle="tab">Go to The Form</a>
+                                    <div class="portlet-body">
+                                        <a class="btn btn-primary" href="{{$url_outlet}}">Go to The Form</a>
                                     </div>
                                 </div>
                             </div>

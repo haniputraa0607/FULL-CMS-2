@@ -5,6 +5,59 @@ $grantedFeature     = session('granted_features');
 @php
     $datenow = date("Y-m-d H:i:s");
 @endphp
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+        var SweetAlertRejectPengajuan = function() {
+            return {
+                init: function() {
+                    $(".sweetalert-reject-pengajuan").each(function() {
+                        var token  	= "{{ csrf_token() }}";
+                        var pathname = window.location.pathname; 
+                        let column 	= $(this).parents('tr');
+                        let id     	= $(this).data('id');
+                        var data = {
+                                    '_token' : '{{csrf_token()}}',
+                                    'id_partners_close_temporary':id
+                                        };
+                        $(this).click(function() {
+                            swal({
+                                    title: "Are you sure want to reject?",
+                                    text: "Your will not be able to recover this data!",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonClass: "btn-danger",
+                                    confirmButtonText: "Yes, reject it!",
+                                    closeOnConfirm: false
+                                },
+                                function(){
+                                    $.ajax({
+                                        type : "POST",
+                                        url : "{{url('businessdev/partners/close-temporary/reject')}}",
+                                        data : data,
+                                        success : function(response) {
+                                            if (response.status == 'success') {
+                                                swal("Deleted!", "Reject Success.", "success")
+                                                window.location.reload();
+                                            }
+                                            else if(response.status == "fail"){
+                                                swal("Error!", "Failed to delete.", "error")
+                                            }
+                                            else {
+                                                swal("Error!", "Something went wrong. Failed to delete .", "error")
+                                            }
+                                        }
+                                    });
+                                });
+                        })
+                    })
+                }
+            }
+        }();
+      
+        $(document).ready(function() {
+            SweetAlertRejectPengajuan.init();
+        });
+    </script>
 <div class="row">
     <div class="col-md-12">
         <div class="portlet profile-info portlet light bordered">
@@ -131,7 +184,7 @@ $grantedFeature     = session('granted_features');
                                 <td>
                                         <a href="{{ $value['detail'] }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
                                     @if($value['status'] == 'Process')
-                                        <a href="{{ $value['reject'] }}" class="btn btn-sm red text-nowrap"><i class="fa fa-trash-o"></i> Reject</a>
+                                        <a class="btn btn-sm red sweetalert-reject-pengajuan btn-primary" data-id="{{ $value['id_partners_close_temporary'] }}"><i class="fa fa-trash-o"></i> Reject</a>
                                     @endif
                                 </td>
                             </tr> 
