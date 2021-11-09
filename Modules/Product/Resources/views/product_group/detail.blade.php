@@ -20,6 +20,36 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/datatables/datatables.min.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
+
+    	function loadProduct() {
+    		var token  = "{{ csrf_token() }}";
+            var id     = "{{$product_group['id_product_group']}}";
+            $("#selectProduct").find('option').remove().end().prop('disabled', true);
+            $.ajax({
+                type: "GET",
+                url: "{{ url('product/product-group/product-list') }}",
+                data : "_token="+token+"&id_product_group="+id,
+                dataType: "json",
+                success: function(data){
+                    console.log(data)
+                    $("#selectProduct").prop('disabled', false);
+                    if (data.status == 'fail') {
+                        $.ajax(this)
+                        return
+                    }
+                    productLoad = 1;
+                    $.each(data, function( key, value ) {
+                        $('#selectProduct').append("<option id='tag"+value.id_product+"' value='"+value.id_product+"'>"+value.product_code+" - "+value.product_name+"</option>");
+                    });
+                    $('#multipleProduct').prop('required', true)
+                    $('#multipleProduct').prop('disabled', false)
+                }
+            });
+            $("#selectProduct").select2({
+                placeholder: "Select product"
+            })
+    	}
+
         $('#sample_1').dataTable({
                 language: {
                     aria: {
@@ -46,7 +76,7 @@
                     [5, 10, 15, 20, -1],
                     [5, 10, 15, 20, "All"]
                 ],
-                pageLength: 10,
+                pageLength: -1,
                 dom: "<'row' <'col-md-12'B>><'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>"
         });
 
@@ -57,40 +87,26 @@
 
             $.ajax({
                 type : "POST",
-                url : "{{ url('product/product-group/delete') }}",
-                data : "_token="+token+"&id_product_group="+id,
+                url : "{{ url('product/product-group/remove-product') }}",
+                data : "_token="+token+"&id_product="+id,
                 success : function(result) {
-                    if (result.status == "success") {
+                    if (result == "success") {
                         $('#sample_1').DataTable().row(column).remove().draw();
-                        toastr.info("Product Group has been deleted.");
+                        loadProduct();
+                        toastr.info("Product has been deleted.");
                     }
-                    else if(result.status == "fail"){
-                        toastr.warning("Failed to delete product group.Product Group has been used.");
+                    else if(result == "fail"){
+                        toastr.warning("Failed to delete product.");
                     }
                     else {
-                        toastr.warning("Something went wrong. Failed to delete product group.");
+                        toastr.warning("Something went wrong. Failed to delete product.");
                     }
                 }
             });
         });
-
-        $('#list-form').on('click', '.update-button', function() {
-        	let id = $(this).data('id') ?? null;
-        	let code = $(this).data('code') ?? null;
-        	let name = $(this).data('name') ?? null;
-        	$('#update [name="id_product_group"]').val(id);
-        	$('#update [name="product_group_code"]').val(code);
-        	$('#update [name="product_group_name"]').val(name);
-        	console.log(id, code, name);
-        })
-
-        $('#create, #update').on('hide.bs.modal', function () {
-        	$('[name="product_group_code"], [name="product_group_name"]').prop('required', false);
-        })
-
-        $('#create, #update').on('show.bs.modal', function () {
-        	$('[name="product_group_code"], [name="product_group_name"]').prop('required', true);
-        })
+        $(document).ready(function() {
+            loadProduct();
+		});
     </script>
 
 @endsection
@@ -121,18 +137,17 @@
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject font-blue sbold uppercase">Product Group List</span>
+                <span class="caption-subject font-blue sbold uppercase">{{$product_group['product_group_name']}}</span>
             </div>
             <div class="actions">
-            	@if(MyHelper::hasAccess([384], $grantedFeature))
-                	<a class="btn green btn-md" data-toggle="modal" href="#create"> <i class="fa fa-plus"></i> Add Product Group</a>
-            	@endif
+                <a class="btn green btn-md" data-toggle="modal" href="#basic"> <i class="fa fa-plus"></i> Add Product </a>
             </div>
         </div>
-        <div class="portlet-body form" id="list-form">
+        <div class="portlet-body form">
             <table class="table table-striped table-bordered table-hover dt-responsive" width="100%" id="sample_1">
                 <thead>
                     <tr>
+                        <th style="width:20%;"> Variant Name </th>
                         <th style="width:20%;"> Code </th>
                         <th style="width:20%;"> Name </th>
                         <th style="width:10%;"> Action </th>
@@ -140,18 +155,17 @@
                 </thead>
                 <tbody>
                     @if (!empty($product_group))
-                        @foreach($product_group as $value)
+                        @foreach($product_group['products'] as $value)
                             <tr style="height: 45px;">
-                                <td>{{ $value['product_group_code'] }}</td>
-                                <td>{{ $value['product_group_name'] }}</td>
-                                <td style="width: 90px;" class="text-center">
-    								<a class="btn green btn-sm update-button" data-toggle="modal" href="#update" data-id="{{ $value['id_product_group'] }}" data-name="{{ $value['product_group_name'] }}" data-code="{{ $value['product_group_code'] }}"> <i class="fa fa-pencil"></i></a> 
-                                	@if(MyHelper::hasAccess([386], $grantedFeature))
-                                    	<a class="btn btn-sm blue" href="{{ url('product/product-group/detail/'.$value['id_product_group']) }}"><i class="fa fa-link"></i></a>
-                                	@endif
-            						@if(MyHelper::hasAccess([388], $grantedFeature))
-                                    	<a data-toggle="confirmation" data-popout="true" class="btn btn-sm red delete" data-id="{{ $value['id_product_group'] }}"><i class="fa fa-trash-o"></i></a>
-                                	@endif
+                                <td>{{ $value['variant_name'] }}</td>
+                                <td>{{ $value['product_code'] }}</td>
+                                <td>{{ $value['product_name'] }}</td>
+                                <td style="width: 90px;">
+                                    <div class="btn-group btn-group-solid">
+                                        @if(MyHelper::hasAccess([28], $grantedFeature))
+                                            <a data-toggle="confirmation" data-popout="true" class="btn btn-sm red delete" data-id="{{ $value['id_product'] }}"><i class="fa fa-trash-o"></i></a>
+                                        @endif
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -160,76 +174,45 @@
             </table>
         </div>
     </div>
-    <div class="modal fade" id="create" tabindex="-1" role="basic" aria-hidden="true">
-        <div class="modal-dialog modal-md">
+    <div class="modal fade" id="basic" tabindex="-1" role="basic" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <form class="form-horizontal" role="form" action="{{ url('product/product-group/create') }}" method="post" enctype="multipart/form-data">
+                <form class="form-horizontal" role="form" action="{{ url('product/product-group/add-product') }}" method="post" enctype="multipart/form-data">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                        <h4 class="modal-title">Add Product Group</h4>
+                        <h4 class="modal-title">Add Product to Product Group {{$product_group['product_group_name']}}</h4>
                     </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label class="col-md-3 control-label">Code</label>
+                                <label class="col-md-3 control-label">Product Group Code</label>
                                 <div class="col-md-7">
                                     <div class="input-icon right">
-                                        <input type="text" placeholder="Product Group Code" class="form-control" name="product_group_code" value="" autocomplete="off">
+                                        <input type="text" readonly placeholder="Product Group Code" class="form-control" name="product_group_code" value="{{ $product_group['product_group_code'] }}">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-3 control-label">Name</label>
+                                <label class="col-md-3 control-label">Product Group Name</label>
                                 <div class="col-md-7">
                                     <div class="input-icon right">
-                                        <input type="text" placeholder="Product Group Name" class="form-control" name="product_group_name" value="" autocomplete="off">
+                                        <input type="text" readonly placeholder="Product Group Name" class="form-control" name="product_group_name" value="{{ $product_group['product_group_name'] }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Product</label>
+                                <div class="col-md-7">
+                                    <div class="input-icon right">
+                                        <select style="width:100%;" id="selectProduct" name="products[]" class="form-control select2-multiple" multiple="multiple" tabindex="-1" aria-hidden="true"></select>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     <div class="modal-footer">
                         {{ csrf_field() }}
+                        <input hidden name="id_product_group" value="{{ $product_group['id_product_group'] }}">
                         <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn green">Submit</button>
-                    </div>
-                </form>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
-
-    <div class="modal fade" id="update" tabindex="-1" role="basic" aria-hidden="true">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <form class="form-horizontal" role="form" action="{{ url('product/product-group/update') }}" method="post" enctype="multipart/form-data">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                        <h4 class="modal-title">Edit Product Group</h4>
-                    </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Code</label>
-                                <div class="col-md-7">
-                                    <div class="input-icon right">
-                                        <input type="text" placeholder="Product Group Code" class="form-control" name="product_group_code" value="" autocomplete="off">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Name</label>
-                                <div class="col-md-7">
-                                    <div class="input-icon right">
-                                        <input type="text" placeholder="Product Group Name" class="form-control" name="product_group_name" value="" autocomplete="off">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <div class="modal-footer">
-                        {{ csrf_field() }}
-                        <input type="hidden" name="id_product_group" value="">
-                        <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn green">Update</button>
                     </div>
                 </form>
             </div>

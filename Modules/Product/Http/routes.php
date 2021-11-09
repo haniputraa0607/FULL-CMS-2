@@ -159,6 +159,10 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'product'
     	Route::post('create', ['middleware' => 'feature_control:384', 'uses' => 'ProductGroupController@create']);
     	Route::post('update', ['middleware' => 'feature_control:387', 'uses' => 'ProductGroupController@update']);
     	Route::post('delete', ['middleware' => 'feature_control:388', 'uses' => 'ProductGroupController@delete']);
+    	Route::get('detail/{id_product_group}', ['middleware' => 'feature_control:386', 'uses' => 'ProductGroupController@detail']);
+    	Route::get('product-list', 'ProductGroupController@productList');
+    	Route::post('add-product', 'ProductGroupController@addProduct');
+    	Route::post('remove-product', 'ProductGroupController@removeProduct');
 	});
 });
 

@@ -67,4 +67,57 @@ class ProductGroupController extends Controller
         	return ['status' => 'success'];
         }
     }
+
+    public function detail(Request $request, $id_product_group)
+    {
+    	$data = [
+            'title'          => 'Product',
+            'sub_title'      => 'Detail Product Group',
+            'menu_active'    => 'product',
+            'submenu_active' => 'product-group',
+        ];
+
+        $detail = MyHelper::get('product/product-group/detail/' . $id_product_group);
+
+        if (($detail['status'] ?? false) != 'success') {
+        	return redirect('product/product-group')->withErrors($detail['messages'] ?? ['Product group detail not found']);
+        }
+
+        $data['product_group'] = $detail['result'] ?? [];
+
+        return view('product::product_group.detail', $data);
+    }
+
+    public function productList(Request $request)
+    {
+        $post   = $request->all();
+        $action = MyHelper::post('product/product-group/product-list', ['id_product_group' => $post['id_product_group']]);
+        return $action;
+    }
+
+    public function addProduct(Request $request)
+    {
+        $post   = $request->except('_token');
+
+        $action = MyHelper::post('product/product-group/add-product', $post);
+
+        if (isset($action['status']) && $action['status'] == 'success') {
+            return redirect('product/product-group/detail/' . $post['id_product_group'])->withSuccess(['Product has been added']);
+        } else {
+            return redirect('product/product-group/detail/' . $post['id_product_group'])->withInput()->withErrors($action['messages']);
+        }
+    }
+
+    public function removeProduct(Request $request)
+    {
+        $post   = $request->all();
+
+        $delete = MyHelper::post('product/product-group/remove-product', ['id_product' => $post['id_product']]);
+
+        if (isset($delete['status']) && $delete['status'] == "success") {
+            return "success";
+        } else {
+            return "fail";
+        }
+    }
 }
