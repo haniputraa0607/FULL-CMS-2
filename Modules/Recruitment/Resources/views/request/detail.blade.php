@@ -228,8 +228,9 @@
                         <label for="example-search-input" class="control-label col-md-4">Applicant <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Request maker" data-container="body"></i></label>
                         <div class="col-md-5 mt-2">
-                            <label class="control-label"><a href="{{ url('profile') }}">{{$result['applicant']}}</a></label>
+                            <label class="control-label"><a href="{{ $result['url_applicant'] }}">{{$result['applicant']}}</a></label>
                             <input type="hidden" id="old_name" name="applicant" value="{{$result['applicant']}}">
+                            <input type="hidden" id="old_name" name="phone" value="{{$result['applicant_phone']}}">
                         </div>
                     </div>
                     <div class="form-group">

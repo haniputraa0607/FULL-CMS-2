@@ -112,6 +112,7 @@ class RequestHairStylistController extends Controller
     {
         $post = $request->except('_token');
         $post['applicant'] = session('name');
+        $post['applicant_phone'] = session('phone');
         $result = MyHelper::post('mitra/request/create', $post);
         if(isset($result['status']) && $result['status'] == 'success'){
             return redirect('recruitment/hair-stylist/request/detail/'.$result['result']['id_request_hair_stylist'])->withSuccess(['Success create a new request hair stylist']);
@@ -138,6 +139,7 @@ class RequestHairStylistController extends Controller
         $list_hs = MyHelper::post('mitra/request/list-hs', ['id_outlet' => $result['result']['request_hair_stylist']['id_outlet']])??[];
         if(isset($result['status']) && $result['status'] == 'success'){
             $data['result'] = $result['result']['request_hair_stylist'];
+            $data['result']['url_applicant'] = url('user/detail').'/'.$data['result']['applicant_phone'];
             $data['hairstylist'] = $list_hs;
             // dd($data);
             return view('recruitment::request.detail', $data);
