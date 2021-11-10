@@ -35,6 +35,7 @@
 					<?php
 					$shiftTitle = [
 						'Morning' => 'Pagi',
+						'Middle' => 'Tengah',
 						'Evening' => 'Sore'
 					];
 					$j = 0;
@@ -44,13 +45,15 @@
 						$html = '';
 						$html .= '<div class="row">';
 						$html .= '<div class="col-md-2" style="text-align: right">';
-						$html .= '<label style="margin-top: 5px;margin-left: 15px;">Shift '.$shift.'</label>';
+						$html .= '<label style="margin-top: 5px;margin-left: 15px;">Shift '.$shift;
+						$html .= '<i class="fa fa-question-circle tooltips" data-original-title="Jika tidak ingin digunakan silahkan isi dengan 0:00" data-container="body"></i>';
+						$html .= '</label>';
 						$html .= '</div>';
 						$html .= '<div class="col-md-3">';
-						$html .= '<input type="text" data-placeholder="select time start" name="data_shift['.$i.']['.$j.'][start]" id="shift_start_'.strtolower($key).'_'.$i.'" class="form-control mt-repeater-input-inline shift-start-'.strtolower($key).' timepicker timepicker-no-seconds" data-show-meridian="false" value="00:00" readonly>';
+						$html .= '<input type="text" data-placeholder="select time start" name="data_shift['.$i.']['.$j.'][start]" id="shift_start_'.strtolower($key).'_'.$i.'" class="form-control mt-repeater-input-inline shift-start-'.strtolower($key).' timepicker timepicker-no-seconds" data-show-meridian="false" value="0:00" readonly>';
 						$html .= '</div>';
 						$html .= '<div class="col-md-3" style="padding-bottom: 5px">';
-						$html .= '<input type="text" data-placeholder="select time end" name="data_shift['.$i.']['.$j.'][end]" id="shift_end_'.strtolower($key).'_'.$i.'" class="form-control mt-repeater-input-inline shift-end-'.strtolower($key).' timepicker timepicker-no-seconds" data-show-meridian="false" value="00:00" readonly>';
+						$html .= '<input type="text" data-placeholder="select time end" name="data_shift['.$i.']['.$j.'][end]" id="shift_end_'.strtolower($key).'_'.$i.'" class="form-control mt-repeater-input-inline shift-end-'.strtolower($key).' timepicker timepicker-no-seconds" data-show-meridian="false" value="0:00" readonly>';
 						$html .= '</div>';
 						$html .= '<input type="hidden" name="data_shift['.$i.']['.$j.'][shift]" value="'.$key.'">';
 						$html .= '</div>';
@@ -90,10 +93,11 @@
 		            </div>
 
                     <?php
-                    $shiftTitle = [
-                        'Morning' => 'Pagi',
-                        'Evening' => 'Sore'
-                    ];
+					$shiftTitle = [
+						'Morning' => 'Pagi',
+						'Middle' => 'Tengah',
+						'Evening' => 'Sore'
+					];
                     $j = 0;
                     ?>
                     @foreach($shiftTitle as $key=>$shift)
@@ -102,13 +106,15 @@
                         $check = array_search($key, array_column($val['time_shift'], 'shift'));
                         $html .= '<div class="row">';
                         $html .= '<div class="col-md-2" style="text-align: right">';
-                        $html .= '<label style="margin-top: 5px;margin-left: 15px;">Shift '.$shift.'</label>';
+                        $html .= '<label style="margin-top: 5px;margin-left: 15px;">Shift '.$shift;
+						$html .= ' <i class="fa fa-question-circle tooltips" data-original-title="Jika tidak ingin digunakan silahkan isi dengan 0:00" data-container="body"></i>';
+						$html .='</label>';
                         $html .= '</div>';
                         $html .= '<div class="col-md-3">';
-                        $html .= '<input type="text" data-placeholder="select time start" name="data_shift['.$i.']['.$j.'][start]" id="shift_start_'.strtolower($key).'_'.$i.'" class="form-control mt-repeater-input-inline shift-start-'.strtolower($key).' timepicker timepicker-no-seconds" data-show-meridian="false" value="'.(!empty($val['time_shift'][$check]['shift_time_start']) ? date('H:i', strtotime($val['time_shift'][$check]['shift_time_start'])) : '00:00').'" readonly>';
+                        $html .= '<input type="text" data-placeholder="select time start" name="data_shift['.$i.']['.$j.'][start]" id="shift_start_'.strtolower($key).'_'.$i.'" class="form-control mt-repeater-input-inline shift-start-'.strtolower($key).' timepicker timepicker-no-seconds" data-show-meridian="false" value="'.($check !== false ? date('H:i', strtotime($val['time_shift'][$check]['shift_time_start'])) : '0:00').'" readonly>';
                         $html .= '</div>';
                         $html .= '<div class="col-md-3" style="padding-bottom: 5px">';
-                        $html .= '<input type="text" data-placeholder="select time end" name="data_shift['.$i.']['.$j.'][end]" id="shift_end_'.strtolower($key).'_'.$i.'" class="form-control mt-repeater-input-inline shift-end-'.strtolower($key).' timepicker timepicker-no-seconds" data-show-meridian="false" value="'.(!empty($val['time_shift'][$check]['shift_time_end']) ? date('H:i', strtotime($val['time_shift'][$check]['shift_time_end'])) : '00:00').'" readonly>';
+                        $html .= '<input type="text" data-placeholder="select time end" name="data_shift['.$i.']['.$j.'][end]" id="shift_end_'.strtolower($key).'_'.$i.'" class="form-control mt-repeater-input-inline shift-end-'.strtolower($key).' timepicker timepicker-no-seconds" data-show-meridian="false" value="'.($check !== false ? date('H:i', strtotime($val['time_shift'][$check]['shift_time_end'])) : '0:00').'" readonly>';
                         $html .= '</div>';
                         $html .= '<input type="hidden" name="data_shift['.$i.']['.$j.'][shift]" value="'.$key.'">';
                         $html .= '<input type="hidden" name="data_shift['.$i.']['.$j.'][id_outlet_schedule]" value="'.$val['id_outlet_schedule'].'">';

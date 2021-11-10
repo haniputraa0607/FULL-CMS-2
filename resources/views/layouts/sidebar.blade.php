@@ -1284,7 +1284,7 @@
 				</ul>
 			</li>
 		@endif
-        @if(MyHelper::hasAccess([379,380,381,382], $grantedFeature))
+        @if(MyHelper::hasAccess([379,380,381,382], $grantedFeature) || MyHelper::hasAccess([378], $grantedFeature))
 		<li class="nav-item {{($menu_active == 'req-hair-stylist') ? 'active open' : ''}}">
 			<a href="javascript:;" class="nav-link nav-toggle">
 				<i class="fa fa-male"></i>
@@ -1293,14 +1293,14 @@
 			</a>
             <ul class="sub-menu">
                 @if(MyHelper::hasAccess([378], $grantedFeature))
-                <li class="nav-item {{($submenu_active == 'new-request-hair-stylist') ? 'active open' : ''}}">
+                <li class="nav-item {{($submenu_active == 'new-req-hair-stylist') ? 'active open' : ''}}">
                     <a href="{{url('recruitment/hair-stylist/request/new')}}" class="nav-link ">
                         <span class="title">New Request Hair Stylist</span>
                     </a>
                 </li>
                 @endif
-				@if(MyHelper::hasAccess([379,380,381,382], $grantedFeature))
-				<li class="nav-item {{($submenu_active == 'list-request-hair-stylist') ? 'active open' : ''}}">
+				@if(MyHelper::hasAccess([379,380,381,382], $grantedFeature) || MyHelper::hasAccess([378], $grantedFeature) )
+				<li class="nav-item {{($submenu_active == 'list-req-hair-stylist') ? 'active open' : ''}}">
 					<a href="{{url('recruitment/hair-stylist/request')}}" class="nav-link ">
 						<span class="title">List Request Hair Stylist</span>
 					</a>
