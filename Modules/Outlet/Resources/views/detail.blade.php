@@ -468,6 +468,18 @@
             return false;
         }
 
+        var shift_start_middle = $('#shift_start_middle_'+id).val();
+        var shift_end_middle = $('#shift_end_middle_'+id).val();
+        if (shift_start_middle == '') {
+            alert('Shift middle start field cannot be empty');
+            return false;
+        }
+
+        if (shift_end_middle == '') {
+            alert('Shift middle end field cannot be empty');
+            return false;
+        }
+
         var shift_start_evening = $('#shift_start_evening_'+id).val();
         var shift_end_evening = $('#shift_end_evening_'+id).val();
         if (shift_start_evening == '') {
@@ -514,6 +526,20 @@
                 }
                 sessionStorage.setItem("item_shift_end_morning", array_shift_end_morning);
 
+                var all_shift_start_middle = $('.shift-start-middle');
+                var array_shift_start_middle = [];
+                for (i = 0; i < all_shift_start_middle.length; i++) {
+                    array_shift_start_middle.push(all_shift_start_middle[i]['defaultValue']);
+                }
+                sessionStorage.setItem("item_shift_start_middle", array_shift_start_middle);
+
+                var all_shift_end_middle = $('.shift-end-middle');
+                var array_shift_end_middle = [];
+                for (i = 0; i < all_shift_end_middle.length; i++) {
+                    array_shift_end_middle.push(all_shift_end_middle[i]['defaultValue']);
+                }
+                sessionStorage.setItem("item_shift_end_middle", array_shift_end_middle);
+
                 var all_shift_start_evening = $('.shift-start-evening');
                 var array_shift_start_evening = [];
                 for (i = 0; i < all_shift_start_evening.length; i++) {
@@ -531,8 +557,8 @@
 
             $('.kelas-open').val(open);
             $('.kelas-close').val(close);
-            $('.shift-start-morning').val(shift_start_morning);
-            $('.shift-end-morning').val(shift_end_morning);
+            $('.shift-start-middle').val(shift_start_middle);
+            $('.shift-end-middle').val(shift_end_middle);
             $('.shift-start-evening').val(shift_start_evening);
             $('.shift-end-evening').val(shift_end_evening);
         } else {
@@ -541,6 +567,8 @@
             var item_close = sessionStorage.getItem("item_close");
             var item_shift_start_morning = sessionStorage.getItem("item_shift_start_morning");
             var item_shift_end_morning = sessionStorage.getItem("item_shift_end_morning");
+            var item_shift_start_middle = sessionStorage.getItem("item_shift_start_middle");
+            var item_shift_end_middle = sessionStorage.getItem("item_shift_end_middle");
             var item_shift_start_evening = sessionStorage.getItem("item_shift_start_evening");
             var item_shift_end_evening = sessionStorage.getItem("item_shift_end_evening");
 
@@ -548,6 +576,8 @@
             var myarr_close = item_close.split(",");
             var myarr_shift_start_morning = item_shift_start_morning.split(",");
             var myarr_shift_end_morning = item_shift_end_morning.split(",");
+            var myarr_shift_start_middle = item_shift_start_middle.split(",");
+            var myarr_shift_end_middle = item_shift_end_middle.split(",");
             var myarr_shift_start_evening = item_shift_start_evening.split(",");
             var myarr_shift_end_evening = item_shift_end_evening.split(",");
             $('.kelas-open').each(function(i, obj) {
@@ -566,6 +596,14 @@
                 $(this).val(myarr_shift_end_morning[i]);
             });
 
+            $('.shift-start-middle').each(function(i, obj) {
+                $(this).val(myarr_shift_start_middle[i]);
+            });
+
+            $('.shift-end-middle').each(function(i, obj) {
+                $(this).val(myarr_shift_end_middle[i]);
+            });
+
             $('.shift-start-evening').each(function(i, obj) {
                 $(this).val(myarr_shift_start_evening[i]);
             });
@@ -578,6 +616,8 @@
             $(this).parent().parent().parent().find('.kelas-close').val(close);
             $(this).parent().parent().parent().find('.shift-start-morning').val(shift_start_morning);
             $(this).parent().parent().parent().find('.shift-end-morning').val(shift_start_morning);
+            $(this).parent().parent().parent().find('.shift-start-middle').val(shift_start_middle);
+            $(this).parent().parent().parent().find('.shift-end-middle').val(shift_start_middle);
             $(this).parent().parent().parent().find('.shift-start-evening').val(shift_start_evening);
             $(this).parent().parent().parent().find('.shift-end-evening').val(shift_end_evening);
         }

@@ -91,7 +91,7 @@
         // action for change outlet
 		$("#multiple").change(function() {
         	var id = $(this).val();
-            var url = '{{ url("product/".lcfirst($visibility)) }}/'+id;
+            var url = '{{ url("product-service/".lcfirst($visibility)) }}/'+id;
             var token  = "{{ csrf_token() }}";
 
             // add selected product to session

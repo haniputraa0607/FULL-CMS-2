@@ -256,4 +256,28 @@ class TransactionSettingController extends Controller
             }
     	}
     }
+
+    public function homeServiceSetting(Request $request){
+        if (empty($request->all())) {
+            $data = [
+                'title'          => 'Order',
+                'menu_active'    => 'home-service-setting',
+                'sub_title'      => 'Home Service Settings',
+                'submenu_active' => 'home-service-setting'
+            ];
+
+            $data['result'] = MyHelper::get('transaction/setting/home-service')['result']??[];
+            return view('transaction::setting.home_service', $data);
+
+        } else {
+
+            $update = MyHelper::post('transaction/setting/home-service', $request->all());
+
+            if (($update['status'] ?? false) == 'success'){
+                return back()->with('success', ['Home service setting has been updated']);
+            }else{
+                return back()->withErrors($update['messages'] ?? ['Update failed']);
+            }
+        }
+    }
 }

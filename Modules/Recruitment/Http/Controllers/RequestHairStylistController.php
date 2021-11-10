@@ -57,6 +57,16 @@ class RequestHairStylistController extends Controller
         $post['order_type'] = $orderType;
         
         $list = MyHelper::post('mitra/request'.$page, $post);
+        foreach($list['result']['data'] as $i => $req){
+            if($req['id_hs']==null){
+                $list['result']['data'][$i]['count'] = 0;
+            }else{
+                $json = json_decode($req['id_hs']??'' , true);
+                if(is_array($json)){
+                    $list['result']['data'][$i]['count'] = count((is_countable($json['id_hair_stylist'])?$json['id_hair_stylist']:[]));
+                }
+            }
+        }
         if(($list['status']??'')=='success'){
             $data['data']          = $list['result']['data'];
             $data['data_total']     = $list['result']['total'];
@@ -101,7 +111,7 @@ class RequestHairStylistController extends Controller
     public function store(Request $request)
     {
         $post = $request->except('_token');
-        $post['applicant'] = session('name');
+        $post['id_user'] = session('id_user');
         $result = MyHelper::post('mitra/request/create', $post);
         if(isset($result['status']) && $result['status'] == 'success'){
             return redirect('recruitment/hair-stylist/request/detail/'.$result['result']['id_request_hair_stylist'])->withSuccess(['Success create a new request hair stylist']);
@@ -128,8 +138,8 @@ class RequestHairStylistController extends Controller
         $list_hs = MyHelper::post('mitra/request/list-hs', ['id_outlet' => $result['result']['request_hair_stylist']['id_outlet']])??[];
         if(isset($result['status']) && $result['status'] == 'success'){
             $data['result'] = $result['result']['request_hair_stylist'];
+            $data['result']['url_applicant'] = url('user/detail').'/'.$data['result']['applicant_request']['phone'];
             $data['hairstylist'] = $list_hs;
-            // dd($data);
             return view('recruitment::request.detail', $data);
         }else{
             return redirect('recruitment/request')->withErrors($result['messages'] ?? ['Failed get detail request hair stylist']);
@@ -154,9 +164,9 @@ class RequestHairStylistController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         $request->validate([
             "outlate_name" => "required",
-            "applicant" => "required",
             "number_of_request" => "required",
         ]);
         $old_req = MyHelper::post('mitra/request/detail', ['id_request_hair_stylist' => $id]);
@@ -169,22 +179,31 @@ class RequestHairStylistController extends Controller
             $post['notes'] = $request['notes'];
             $post['status'] = 'Approve';
             if(isset($post['id_hs'])){
-                $val = false;
-                foreach($post['id_hs'] as $id_hs){
-                    if($id_hs == null){
-                        $val = true;
-                    }
-                }
-                if($val){
-                    $post['status'] = 'Approve';
-                }else{
+                $count = count($post['id_hs']);
+                if($count==$post['number_of_request']){
                     $post['status'] = 'Done Approved';
+                }else{
+                    $post['status'] = 'Approve';
                 }
             }
             $post['id_hs'] = [
                 "id_hair_stylist" => $request['id_hs'],
             ];
             $post['id_hs'] = json_encode($post['id_hs']);
+        }elseif(isset($request['status'])){
+            if (isset($request['notes'])) {
+                $post['notes'] = $request['notes'];
+            }else{
+                $post['notes'] = null;
+            }
+            if (isset($request['id_hs'])) {
+                $post['id_hs'] = [
+                    "id_hair_stylist" => $request['id_hs'],
+                ];
+                $post['id_hs'] = json_encode($post['id_hs']);
+            }else{
+                $post['id_hs'] = null;
+            }
         }else{
             $post['notes'] = null;
             if($old_req['status']=='Approve'){
