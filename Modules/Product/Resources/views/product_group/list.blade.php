@@ -47,32 +47,36 @@
                     [5, 10, 15, 20, "All"]
                 ],
                 pageLength: 10,
-                dom: "<'row' <'col-md-12'B>><'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>"
-        });
+                dom: "<'row' <'col-md-12'B>><'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
+                "fnDrawCallback": function( oSettings ) {
+            		$("#sample_1 .delete").confirmation({
+					    singleton: true,
+					    onConfirm: function () {
+	                		var token  = "{{ csrf_token() }}";
+	                		var column = $(this).parents('tr');
+	                		var id     = $(this).data('id');
 
-        $('#sample_1').on('click', '.delete', function() {
-            var token  = "{{ csrf_token() }}";
-            var column = $(this).parents('tr');
-            var id     = $(this).data('id');
-
-            $.ajax({
-                type : "POST",
-                url : "{{ url('product/product-group/delete') }}",
-                data : "_token="+token+"&id_product_group="+id,
-                success : function(result) {
-                    if (result.status == "success") {
-                        $('#sample_1').DataTable().row(column).remove().draw();
-                        toastr.info("Product Group has been deleted.");
-                    }
-                    else if(result.status == "fail"){
-                        toastr.warning("Failed to delete product group.Product Group has been used.");
-                    }
-                    else {
-                        toastr.warning("Something went wrong. Failed to delete product group.");
-                    }
+				            $.ajax({
+				                type : "POST",
+				                url : "{{ url('product/product-group/delete') }}",
+				                data : "_token="+token+"&id_product_group="+id,
+				                success : function(result) {
+				                    if (result.status == "success") {
+				                        $('#sample_1').DataTable().row(column).remove().draw();
+				                        toastr.info("Product Group has been deleted.");
+				                    }
+				                    else if(result.status == "fail"){
+				                        toastr.warning("Failed to delete product group.Product Group has been used.");
+				                    }
+				                    else {
+				                        toastr.warning("Something went wrong. Failed to delete product group.");
+				                    }
+				                }
+				            });
+					    }
+					})
                 }
             });
-        });
 
         $('#list-form').on('click', '.update-button', function() {
         	let id = $(this).data('id') ?? null;
@@ -150,7 +154,7 @@
                                     	<a class="btn btn-sm blue" href="{{ url('product/product-group/detail/'.$value['id_product_group']) }}"><i class="fa fa-link"></i></a>
                                 	@endif
             						@if(MyHelper::hasAccess([388], $grantedFeature))
-                                    	<a data-toggle="confirmation" data-popout="true" class="btn btn-sm red delete" data-id="{{ $value['id_product_group'] }}"><i class="fa fa-trash-o"></i></a>
+                                    	<a class="btn btn-sm red delete" data-id="{{ $value['id_product_group'] }}"><i class="fa fa-trash-o"></i></a>
                                 	@endif
                                 </td>
                             </tr>
