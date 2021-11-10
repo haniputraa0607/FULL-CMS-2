@@ -35,24 +35,14 @@ $grantedFeature     = session('granted_features');
                                         @else
                                             <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: #EF1E31;padding: 5px 12px;color: #fff;">Proses Cut Off</span>
                                         @endif
-                                    @elseif(!empty($value['change']))
-                                        <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: #e1e445;padding: 5px 12px;color: #fff;">Proses Change Owner</span>
-                                    @elseif(!empty($value['close']))
-                                      @if($value['close']['status']=="Success")
-                                        <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: #e1e445;padding: 5px 12px;color: #fff;">Close Temporary</span>
-                                        @elseif($value['close']['status']=="Process"||$value['close']['status']=="Waiting")
-                                        <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: #e1e445;padding: 5px 12px;color: #fff;">Process Close Temporary</span>
-                                        @endif
                                     @else
                                         <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: #26C281;padding: 5px 12px;color: #fff;">{{$value['outlet_status']}}</span>
                                     @endif
                                     
                                 </td>
                                 <td>
-                                        @if(!empty($value['cutoff'])||!empty($value['change']))
+                                        @if(!empty($value['cutoff']))
                                         <a href="{{$value['url_detail']}}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
-                                        @elseif(!empty($value['close']))
-                                        <a href="{{$value['url_detail_close']}}" class="btn btn-sm blue text-nowrap"><i class="fa fa-eye"></i> Detail Close</a>
                                         @else
                                         <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: #808080;padding: 5px 12px;color: #fff;">No Action</span>
                                         @endif
