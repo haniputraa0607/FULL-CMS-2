@@ -162,6 +162,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'product'
     	Route::get('detail/{id_product_group}', ['middleware' => 'feature_control:386', 'uses' => 'ProductGroupController@detail']);
     	Route::get('product-list', 'ProductGroupController@productList');
     	Route::post('add-product', 'ProductGroupController@addProduct');
+    	Route::post('update-product', 'ProductGroupController@updateProduct');
     	Route::post('remove-product', 'ProductGroupController@removeProduct');
 	});
 });

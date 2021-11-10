@@ -104,7 +104,7 @@ class ProductGroupController extends Controller
         if (isset($action['status']) && $action['status'] == 'success') {
             return redirect('product/product-group/detail/' . $post['id_product_group'])->withSuccess(['Product has been added']);
         } else {
-            return redirect('product/product-group/detail/' . $post['id_product_group'])->withInput()->withErrors($action['messages']);
+            return redirect('product/product-group/detail/' . $post['id_product_group'])->withInput()->withErrors($action['messages'] ?? ['Something went wrong']);
         }
     }
 
@@ -118,6 +118,18 @@ class ProductGroupController extends Controller
             return "success";
         } else {
             return "fail";
+        }
+    }
+
+    public function updateProduct(Request $request)
+    {
+        $post   = $request->except('_token');
+        $update = MyHelper::post('product/product-group/update-product', $post);
+
+        if (isset($update['status']) && $update['status'] == 'success') {
+            return redirect('product/product-group/detail/' . $post['id_product_group'])->withSuccess(['Product has been updated']);
+        } else {
+            return redirect('product/product-group/detail/' . $post['id_product_group'])->withInput()->withErrors($update['messages'] ?? ['Something went wrong']);
         }
     }
 }

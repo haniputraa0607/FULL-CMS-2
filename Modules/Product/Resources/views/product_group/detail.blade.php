@@ -144,34 +144,41 @@
             </div>
         </div>
         <div class="portlet-body form">
-            <table class="table table-striped table-bordered table-hover dt-responsive" width="100%" id="sample_1">
-                <thead>
-                    <tr>
-                        <th style="width:20%;"> Variant Name </th>
-                        <th style="width:20%;"> Code </th>
-                        <th style="width:20%;"> Name </th>
-                        <th style="width:10%;"> Action </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (!empty($product_group))
-                        @foreach($product_group['products'] as $value)
-                            <tr style="height: 45px;">
-                                <td>{{ $value['variant_name'] }}</td>
-                                <td>{{ $value['product_code'] }}</td>
-                                <td>{{ $value['product_name'] }}</td>
-                                <td style="width: 90px;">
-                                    <div class="btn-group btn-group-solid">
-                                        @if(MyHelper::hasAccess([28], $grantedFeature))
-                                            <a data-toggle="confirmation" data-popout="true" class="btn btn-sm red delete" data-id="{{ $value['id_product'] }}"><i class="fa fa-trash-o"></i></a>
-                                        @endif
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    @endif
-                </tbody>
-            </table>
+        	<form action="{{ url('product/product-group/update-product') }}" method="post" enctype="multipart/form-data">
+	            <table class="table table-striped table-bordered table-hover dt-responsive" width="100%" id="sample_1">
+	                <thead>
+	                    <tr>
+	                        <th style="width:20%;"> Variant Name </th>
+	                        <th style="width:20%;"> Code </th>
+	                        <th style="width:20%;"> Name </th>
+	                        <th style="width:10%;"> Action </th>
+	                    </tr>
+	                </thead>
+	                <tbody>
+	                    @if (!empty($product_group))
+	                        @foreach($product_group['products'] as $value)
+	                            <tr style="height: 45px;">
+	                                <td><input type="text" name="variants[{{ $value['id_product'] }}]" value="{{ $value['variant_name'] }}" autocomplete="off"></td>
+	                                <td>{{ $value['product_code'] }}</td>
+	                                <td>{{ $value['product_name'] }}</td>
+	                                <td style="width: 90px;">
+	                                    <div class="btn-group btn-group-solid">
+	                                        @if(MyHelper::hasAccess([28], $grantedFeature))
+	                                            <a data-toggle="confirmation" data-popout="true" class="btn btn-sm red delete" data-id="{{ $value['id_product'] }}"><i class="fa fa-trash-o"></i></a>
+	                                        @endif
+	                                    </div>
+	                                </td>
+	                            </tr>
+	                        @endforeach
+	                    @endif
+	                </tbody>
+	            </table>
+                {{ csrf_field() }}
+                <div class="text-center">
+	                <input hidden name="id_product_group" value="{{ $product_group['id_product_group'] }}">
+	                <button type="submit" class="btn green">Update</button>
+                </div>
+	        </form>
         </div>
     </div>
     <div class="modal fade" id="basic" tabindex="-1" role="basic" aria-hidden="true">
