@@ -222,15 +222,14 @@
                             <i class="fa fa-question-circle tooltips" data-original-title="Outlet Name Request" data-container="body"></i></label>
                         <div class="col-md-5">
                             <input class="form-control" type="text" id="old_name" name="outlate_name" value="{{$result['outlet_request']['outlet_name']}}" readonly/>
+                            <input type="hidden" name="id_user" value="{{ $result['id_user'] }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Applicant <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Request maker" data-container="body"></i></label>
                         <div class="col-md-5 mt-2">
-                            <label class="control-label"><a href="{{ $result['url_applicant'] }}">{{$result['applicant']}}</a></label>
-                            <input type="hidden" id="old_name" name="applicant" value="{{$result['applicant']}}">
-                            <input type="hidden" id="old_name" name="phone" value="{{$result['applicant_phone']}}">
+                            <label class="control-label"><a href="{{ $result['url_applicant'] }}">{{$result['applicant_request']['name']}}</a></label>
                         </div>
                     </div>
                     <div class="form-group">
@@ -315,7 +314,7 @@
                         <div class="col-md-12 text-center">
                             <button type="submit" class="btn blue">Submit</button>
                             @if ($result['status']!='Rejected')
-                            <a class="btn red sweetalert-reject" data-id="{{ $result['id_request_hair_stylist'] }}" data-name="{{ $result['applicant'] }}">Reject</a>
+                            <a class="btn red sweetalert-reject" data-id="{{ $result['id_request_hair_stylist'] }}" data-name="{{ $result['applicant_request']['name'] }}">Reject</a>
                             @endif
                         </div>
                     </div>
