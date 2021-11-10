@@ -19,6 +19,8 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'transact
     Route::any('/setting/timer-payment-gateway', 'TransactionController@timerPaymentGateway');
     Route::get('/setting/transaction-messages', 'TransactionSettingController@updateTransactionMessages');
     Route::post('/setting/transaction-messages', 'TransactionSettingController@updateTransactionMessages');
+    Route::get('/setting/home-service', 'TransactionSettingController@homeServiceSetting');
+    Route::post('/setting/home-service', 'TransactionSettingController@homeServiceSetting');
 
     //===== setting delivery =====//
     Route::get('/setting/available-delivery', 'TransactionController@availableDelivery');

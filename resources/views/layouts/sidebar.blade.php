@@ -1615,6 +1615,15 @@
 			</li>
 			@endif
 
+			@if(MyHelper::hasAccess([389], $grantedFeature))
+				<li class="nav-item {{($menu_active == 'home-service-setting') ? 'active' : ''}}">
+					<a href="{{url('transaction/setting/home-service')}}" class="nav-link nav-toggle">
+						<i class="fa fa-cut"></i>
+						<span class="title">Home Service Setting</span>
+					</a>
+				</li>
+			@endif
+
 			@if(MyHelper::hasAccess([250], $grantedFeature))
 				<li class="nav-item {{($menu_active == 'delivery-settings') ? 'active' : ''}}">
 					<a href="javascript:;" class="nav-link nav-toggle">
