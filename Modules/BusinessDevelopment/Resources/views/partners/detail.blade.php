@@ -671,7 +671,7 @@
                                         </div>
                                     </div> 
                                     <div class="portlet-body form">
-                                        <a class="btn btn-primary" href="#change" data-toggle="tab" id="tombol-total" onclick="totalTermin();">Go to The Form</a>
+                                        <a class="btn btn-primary" href="{{$url_partners_close_total}}" >Go to The Form</a>
                                     </div>
                                 </div>
                             </div>  
@@ -679,11 +679,11 @@
                                 <div class="portlet light bordered">
                                     <div class="portlet-title">
                                         <div class="caption">
-                                            <span class="caption-subject font-black">Outlet Closure</span>
+                                            <span class="caption-subject font-black">Partner Closure Permanent</span>
                                         </div>
                                     </div> 
                                     <div class="portlet-body form">
-                                        <a class="btn btn-primary" href="#closure" data-toggle="tab">Go to The Form</a>
+                                        <a class="btn btn-primary" href="{{$url_partners_close_total}}" >Go to The Form</a>
                                     </div>
                                 </div>
                             </div>

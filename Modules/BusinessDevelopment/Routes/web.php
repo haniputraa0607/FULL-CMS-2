@@ -50,6 +50,19 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'business
             Route::post('/lampiran/delete', ['middleware' => 'feature_control:343', 'uses' => 'PartnersCloseTemporaryController@lampiranDelete']);
             Route::post('/lampiran/create', ['middleware' => 'feature_control:343', 'uses' => 'PartnersCloseTemporaryController@lampiranCreate']);
         });
+        Route::group(['prefix' => 'close-permanent'], function()
+        {
+            Route::get('/{id}', ['middleware' => 'feature_control:343', 'uses' => 'PartnersClosePermanentController@index']);
+            Route::post('/create', ['middleware' => 'feature_control:343', 'uses' => 'PartnersClosePermanentController@create']);
+            Route::post('/createActive', ['middleware' => 'feature_control:343', 'uses' => 'PartnersClosePermanentController@createActive']);
+            Route::post('/reject', ['middleware' => 'feature_control:343', 'uses' => 'PartnersClosePermanentController@reject']);
+            Route::get('/detail/{id}', ['middleware' => 'feature_control:343', 'uses' => 'PartnersClosePermanentController@detail']);
+            Route::post('/update', ['middleware' => 'feature_control:343', 'uses' => 'PartnersClosePermanentController@update']);
+            Route::post('/updateActive', ['middleware' => 'feature_control:343', 'uses' => 'PartnersClosePermanentController@updateActive']);
+            Route::post('/lampiran/delete', ['middleware' => 'feature_control:343', 'uses' => 'PartnersClosePermanentController@lampiranDelete']);
+            Route::post('/lampiran/create', ['middleware' => 'feature_control:343', 'uses' => 'PartnersClosePermanentController@lampiranCreate']);
+            Route::post('/success', ['middleware' => 'feature_control:343', 'uses' => 'PartnersClosePermanentController@success']);
+        });
         Route::group(['prefix' => 'outlet'], function()
         {
             Route::get('/{id}', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@index']);

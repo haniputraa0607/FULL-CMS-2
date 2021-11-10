@@ -164,6 +164,7 @@ class PartnersController extends Controller
             $enkripsi = MyHelper::createSlug($data['result']['id_partner'], $data['result']['created_at']);
             $data['url_partners_close_temporary'] = url('businessdev/partners/close-temporary/').'/'.$enkripsi;
             $data['url_outlet'] = url('businessdev/partners/outlet/').'/'.$enkripsi;
+            $data['url_partners_close_total'] = url('businessdev/partners/close-permanent/').'/'.$enkripsi;
             return view('businessdevelopment::partners.detail', $data);
         }else{
             return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
@@ -539,7 +540,6 @@ class PartnersController extends Controller
         if($post){
             Session::put('filter-list-request-update',$post);
         }
-
         return view('businessdevelopment::partners.list_request', $data);
     }
 
