@@ -54,7 +54,7 @@
                     	<input type="hidden" name="key" value="{{ $key }}">
                         <label class="control-label col-md-{{$colLabel}}">
                             {{ $label }}
-                            <i class="fa fa-question-circle tooltips" data-original-title="Outlet yang akan digunakan untuk penentuan harga produk catering order" data-container="body"></i>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Outlet yang akan digunakan untuk Online Shop di customer app" data-container="body"></i>
                         </label>
                         <div class="col-md-{{$colInput}}">
                             <select name="value" class="select2 form-control">
