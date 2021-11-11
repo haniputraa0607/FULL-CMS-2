@@ -19,6 +19,8 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'transact
     Route::any('/setting/timer-payment-gateway', 'TransactionController@timerPaymentGateway');
     Route::get('/setting/transaction-messages', 'TransactionSettingController@updateTransactionMessages');
     Route::post('/setting/transaction-messages', 'TransactionSettingController@updateTransactionMessages');
+    Route::get('/setting/home-service', 'TransactionSettingController@homeServiceSetting');
+    Route::post('/setting/home-service', 'TransactionSettingController@homeServiceSetting');
 
     //===== setting delivery =====//
     Route::get('/setting/available-delivery', 'TransactionController@availableDelivery');
@@ -112,6 +114,12 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'transact
     	Route::get('/', [ 'uses' => 'TransactionOutletServiceController@listOutletService']);
     	Route::post('/', [ 'uses' => 'TransactionOutletServiceController@filter']);
     	Route::get('detail/{id_transaction}', [ 'uses' => 'TransactionOutletServiceController@detailOutletService']);
+    });
+
+    Route::group(['prefix' => 'home-service'], function(){
+        Route::get('/', [ 'uses' => 'TransactionHomeServiceController@listHomeService']);
+        Route::post('/', [ 'uses' => 'TransactionHomeServiceController@filter']);
+        Route::get('detail/{id_transaction}', [ 'uses' => 'TransactionHomeServiceController@detailHomeService']);
     });
 
     Route::any('/create/fake', 'TransactionController@fakeTransaction');

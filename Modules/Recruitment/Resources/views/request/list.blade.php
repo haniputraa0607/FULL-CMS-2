@@ -199,7 +199,7 @@
                                         <a href="{{ url('recruitment/hair-stylist/request/detail/'.$dt['id_request_hair_stylist']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
                                         @endif
                                         @if(MyHelper::hasAccess([382], $grantedFeature))
-                                        <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $dt['id_request_hair_stylist'] }}" data-name="{{ $dt['applicant'] }}"><i class="fa fa-trash-o"></i> Delete</a>
+                                        <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $dt['id_request_hair_stylist'] }}" data-name="{{ $dt['applicant_request']['name'] }}"><i class="fa fa-trash-o"></i> Delete</a>
                                         @endif
                                     </td>
                                 </tr>

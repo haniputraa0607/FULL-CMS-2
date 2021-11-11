@@ -1335,6 +1335,11 @@
 							<span class="title">Transaction Outlet Service</span>
 						</a>
 					</li>
+					<li class="nav-item {{($submenu_active == 'transaction-home-service') ? 'active open' : ''}}">
+						<a href="{{ url('transaction/home-service') }}" class="nav-link">
+							<span class="title">Transaction Home Service</span>
+						</a>
+					</li>
 					<li class="nav-item {{($submenu_active == 'transaction-all') ? 'active open' : ''}}">
 						<a href="{{url('transaction/all/'.date('YmdHis'))}}" class="nav-link ">
 							<span class="title">All Transaction</span>
@@ -1626,6 +1631,15 @@
 					@endif
 				</ul>
 			</li>
+			@endif
+
+			@if(MyHelper::hasAccess([389], $grantedFeature))
+				<li class="nav-item {{($menu_active == 'home-service-setting') ? 'active' : ''}}">
+					<a href="{{url('transaction/setting/home-service')}}" class="nav-link nav-toggle">
+						<i class="fa fa-cut"></i>
+						<span class="title">Home Service Setting</span>
+					</a>
+				</li>
 			@endif
 
 			@if(MyHelper::hasAccess([250], $grantedFeature))

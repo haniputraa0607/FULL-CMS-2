@@ -46,99 +46,6 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/form-repeater.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
     <script>
-        var SweetAlert = function() {
-            return {
-                init: function() {
-                    $(".sweetalert-delete").each(function() {
-                        var token  	= "{{ csrf_token() }}";
-                        var pathname = window.location.pathname;
-                        let column 	= $(this).parents('tr');
-                        let id     	= $(this).data('id');
-                        let id_partner     	= $(this).data('partner');
-                        let name    = $(this).data('name');
-                        $(this).click(function() {
-                            swal({
-                                    title: name+"\n\nAre you sure want to delete this locations?",
-                                    text: "Your will not be able to recover this data!",
-                                    type: "warning",
-                                    showCancelButton: true,
-                                    confirmButtonClass: "btn-danger",
-                                    confirmButtonText: "Yes, delete it!",
-                                    closeOnConfirm: false
-                                },
-                                function(){
-                                    $.ajax({
-                                        type : "POST",
-                                        url : "{{url('businessdev/locations/delete')}}/"+id,
-                                        data : {
-                                            '_token' : '{{csrf_token()}}'
-                                        },
-                                        success : function(response) {
-                                            if (response.status == 'success') {
-                                                swal("Deleted!", "Location has been deleted.", "success")
-                                                SweetAlert.init()
-                                                location.href = "{{url('businessdev/partners/detail')}}/"+id_partner;
-                                            }
-                                            else if(response.status == "fail"){
-                                                swal("Error!", "Failed to delete locations.", "error")
-                                            }
-                                            else {
-                                                swal("Error!", "Something went wrong. Failed to delete locations.", "error")
-                                            }
-                                        }
-                                    });
-                                });
-                        })
-                    })
-                }
-            }
-        }();
-        var SweetAlertReject = function() {
-            return {
-                init: function() {
-                    $(".sweetalert-reject").each(function() {
-                        var token  	= "{{ csrf_token() }}";
-                        var pathname = window.location.pathname;
-                        let column 	= $(this).parents('tr');
-                        let id     	= $(this).data('id');
-                        let name    = $(this).data('name');
-                        $(this).click(function() {
-                            swal({
-                                    title: name+"\n\nAre you sure want to reject this candidate partner?",
-                                    text: "You can continue to approve this candidate partner later!",
-                                    type: "warning",
-                                    showCancelButton: true,
-                                    confirmButtonClass: "btn-danger",
-                                    confirmButtonText: "Yes, reject it!",
-                                    closeOnConfirm: false
-                                },
-                                function(){
-                                    $.ajax({
-                                        type : "POST",
-                                        url : "{{url('businessdev/partners/reject')}}/"+id,
-                                        data : {
-                                            '_token' : '{{csrf_token()}}'
-                                        },
-                                        success : function(response) {
-                                            if (response.status == 'success') {
-                                                swal("Rejected!", "Candidate Partner has been rejected.", "success")
-                                                SweetAlert.init()
-                                                location.href = "{{url('businessdev/partners/detail')}}/"+id;
-                                            }
-                                            else if(response.status == "fail"){
-                                                swal("Error!", "Failed to rejecte candidate partner.", "error")
-                                            }
-                                            else {
-                                                swal("Error!", "Something went wrong. Failed to reject candidate partner.", "error")
-                                            }
-                                        }
-                                    });
-                                });
-                        })
-                    })
-                }
-            }
-        }();
         function totalTermin() {
             $("#total-satu").show();
             $("#total-dua").hide();
@@ -242,8 +149,6 @@
                 $('#input-follow-up').show();
                 $('#back-follow-up').hide();
             });
-            SweetAlert.init();
-            SweetAlertReject.init();
             $('[data-switch=true]').bootstrapSwitch();
             $('#btn-submit').on('click', function(event) {
                 if(document.getElementById('auto_generate_pin').checked == false){
@@ -304,6 +209,7 @@
             return false;
         });
     </script>
+    
 @endsection
 
 @section('content')
@@ -335,34 +241,63 @@
                 <span class="caption-subject sbold uppercase font-blue">{{$sub_title}}</span>
             </div>
         </div>
-        <div class="tabbable-line tabbable-full-width">
-            <ul class="nav nav-tabs">
-                <li class="active">
-                    <a href="#overview" data-toggle="tab"> List Outlet </a>
-                </li>
-                <li>
-                    <a href="#cutoff" data-toggle="tab"> Cut Off Outlet </a>
-                </li>
-                <li>
-                    <a href="#change" data-toggle="tab"> Change Ownership </a>
-                </li>
-                <li>
-                    <a href="#close" data-toggle="tab"> Close Temporary </a>
-                </li>
-            </ul>
-        <div class="tab-content">
-            <div class="tab-pane active" id="overview">
-                @include('businessdevelopment::outlet_manage.overview')
-            </div>
-            <div class="tab-pane" id="cutoff">
-                @include('businessdevelopment::outlet_manage.create_cutoff')
-            </div>
-            <div class="tab-pane" id="change">
-                @include('businessdevelopment::outlet_manage.create_change')
-            </div>
-            <div class="tab-pane" id="close">
-                @include('businessdevelopment::outlet_manage.create_close')
-            </div>
+       
+<div class="portlet-body form">
+    <div style="white-space: nowrap;">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover" id="kt_datatable">
+                <thead>
+                <tr>
+                    <th class="text-nowrap text-center">No</th>
+                    <th class="text-nowrap text-center">Title</th>
+                    <th class="text-nowrap text-center">Note</th>
+                    <th class="text-nowrap text-center">Jenis</th>
+                    <th class="text-nowrap text-center">Status</th>
+                    <th class="text-nowrap text-center">Date Close</th>
+                    <th class="text-nowrap text-center">Created At</th>
+                    <th class="text-nowrap text-center">Action</th>
+                </tr>
+                </thead>
+                <tbody style="text-align:center">
+                        @php $i = 1;
+                        @endphp
+                        @foreach($result as $value)
+                           <tr data-id="{{ $value['id_outlet_close_temporary'] }}">
+                                <td>{{$i}}</td>
+                                <td>{{$value['title']}}</td>
+                                <td>{{$value['note']}}</td>
+                                <td>
+                                     @if($value['jenis']=='Close')
+                                     <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: red;padding: 5px 12px;color: #fff;">Close</span>
+                                        @else
+                                        <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: greenyellow;padding: 5px 12px;color: #fff;">Aktivasi</span>
+                                    @endif
+                                </td>
+                                <td>
+                                     @if($value['status']=='Process'||$value['status']=='Waiting')
+                                     <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: lightblue;padding: 5px 12px;color: #fff;">{{$value['status']}}</span>
+                                        @elseif($value['status']=='Process')
+                                        <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: greenyellow;padding: 5px 12px;color: #fff;">{{$value['status']}}</span>
+                                        @else
+                                        <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: red;padding: 5px 12px;color: #fff;">{{$value['status']}}</span>
+                                    @endif
+                                </td>
+                                <td>{{date('d F Y', strtotime($value['date']))}}</td>
+                                <td>{{date('d F Y', strtotime($value['created_at']))}}</td>
+                                
+                                <td>
+                                    <a class="btn btn-sm sweetalert-document-info btn-primary" href="{{$value['url_detail']}}"><i class="fa fa-search"></i> Detail</a>
+                                </td>
+                            </tr>
+                         @php $i++;
+                        @endphp
+                        @endforeach
+                    </tbody>
+            </table>
         </div>
     </div>
+</div>
+    </div>
+    
+
 @endsection
