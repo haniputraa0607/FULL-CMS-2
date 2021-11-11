@@ -69,17 +69,19 @@ class FormSurveyController extends Controller
             'submenu_active' => 'new-form-survey',
         ];
 
-        $brand = MyHelper::get('brand');
+        $brand = MyHelper::get('brand')??[];
         $form = MyHelper::get('partners/form-survey/list');
         $new_brand = [];
         $nb = 0;
-        foreach($brand['result'] as $b){
-            $cek = $this->cekBrand($b['id_brand'],$form['result']);
-            if($cek==false){
-                $new_brand[$nb]=$b;
-                $nb++;
+        if(isset($brand['result']) && !empty($brand['result'])){
+            foreach($brand['result'] as $b){
+                $cek = $this->cekBrand($b['id_brand'],$form['result']);
+                if($cek==false){
+                    $new_brand[$nb]=$b;
+                    $nb++;
+                }
+                
             }
-            
         }
         $data['brand'] = $new_brand;
         $data['conditions'] = "";
