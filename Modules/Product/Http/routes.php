@@ -164,6 +164,14 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'product'
     	Route::post('add-product', 'ProductGroupController@addProduct');
     	Route::post('update-product', 'ProductGroupController@updateProduct');
     	Route::post('remove-product', 'ProductGroupController@removeProduct');
+
+		Route::group(['prefix' => 'featured'], function() {
+	    	Route::get('/', 'ProductGroupController@listFeaturedProductGroup');
+	    	Route::post('create', ['uses' => 'ProductGroupController@createFeaturedProductGroup']);
+		    Route::post('update', ['uses' => 'ProductGroupController@updateFeaturedProductGroup']);
+		    Route::post('reorder', ['uses' => 'ProductGroupController@reorderFeaturedProductGroup']);
+		    Route::get('delete/{slug}', ['uses' => 'ProductGroupController@deleteFeaturedProductGroup']);
+		});
 	});
 });
 

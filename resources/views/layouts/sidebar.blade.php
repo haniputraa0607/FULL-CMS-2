@@ -715,6 +715,12 @@
 								<span class="title">Product Group</span>
 							</a>
 						</li>
+
+						<li class="nav-item {{($submenu_active == 'featured-product-group') ? 'active open' : ''}}">
+							<a href="{{url('product/product-group/featured')}}" class="nav-link ">
+								<span class="title">Featured Product Group</span>
+							</a>
+						</li>
 					@endif
 				</ul>
 			</li>
