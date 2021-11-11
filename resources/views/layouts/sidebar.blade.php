@@ -1329,6 +1329,11 @@
 							<span class="title">Transaction Outlet Service</span>
 						</a>
 					</li>
+					<li class="nav-item {{($submenu_active == 'transaction-home-service') ? 'active open' : ''}}">
+						<a href="{{ url('transaction/home-service') }}" class="nav-link">
+							<span class="title">Transaction Home Service</span>
+						</a>
+					</li>
 					<li class="nav-item {{($submenu_active == 'transaction-all') ? 'active open' : ''}}">
 						<a href="{{url('transaction/all/'.date('YmdHis'))}}" class="nav-link ">
 							<span class="title">All Transaction</span>
