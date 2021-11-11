@@ -45,6 +45,10 @@ class OutletManageController extends Controller
                        $value['change'] = false;
                    }
                }
+               if(!empty($value['close'])){
+                       $enkripsi = MyHelper::createSlug($value['close']['id_outlet'], $value['close']['created_at']);
+                       $value['url_detail_close'] = env('APP_URL').'businessdev/partners/outlet/close/list/'.$enkripsi;
+               }
                array_push($val,$value);
             }
             $data['outlet'] = $val;
@@ -216,6 +220,109 @@ class OutletManageController extends Controller
             $post['attachment'] = MyHelper::encodeImage($post['import_file']);
         }
 	$query = MyHelper::post('partners/outlet/change/lampiran/create', $post);
+        if(isset($query['status']) && $query['status'] == 'success'){
+                  return back()->withSuccess(['Create lampiran success']);
+          } else{
+                return back()->withErrors($query['messages']);
+        }  
+    }
+    
+    //Close
+    public function listClose(Request $request,$id){
+        $id = MyHelper::explodeSlug($id)[0]??'';
+        $result = MyHelper::post('partners/outlet/close/index', ['id_outlet' => $id]);
+           $data = [
+                'title'          => 'Partner',
+                'sub_title'      => 'List Close Temporary Outlet',
+                'menu_active'    => 'partners',
+                'submenu_active' => 'close-temporary-outlet',
+            ];
+        if(isset($result['status']) && $result['status'] == 'success' ){
+            $data['result'] = array();
+            foreach ($result['result'] as $value) {
+                $enkripsi = MyHelper::createSlug($value['id_outlet_close_temporary'], $value['created_at']);
+                $value['url_detail'] = env('APP_URL').'businessdev/partners/outlet/close/detail/'.$enkripsi;
+                array_push($data['result'],$value);
+            }
+            return view('businessdevelopment::outlet_manage.close_temporary.index', $data);
+        }else{
+            return redirect()->back()->withErrors($result['messages'] ?? ['Not Found']);
+        }
+    }
+    public function detailClose(Request $request,$id){
+        $id = MyHelper::explodeSlug($id)[0]??'';
+        $result = MyHelper::post('partners/outlet/close/detail', ['id_outlet_close_temporary' => $id]);
+        $resultlampiran = MyHelper::post('partners/outlet/close/lampiran/data', ['id_outlet_close_temporary' => $id]);
+           $data = [
+                'title'          => 'Partner',
+                'sub_title'      => 'Close Temporary Outlet',
+                'menu_active'    => 'partners',
+                'submenu_active' => 'close-temporary-outlet',
+            ];
+        if(isset($result['status']) && $result['status'] == 'success' ){
+            $data['result'] = $result['result'];
+            $lampiran = array();
+            if(isset($resultlampiran['status'])&&$resultlampiran['status']=='success'){
+            foreach ($resultlampiran['result'] as $value) {
+              array_push($lampiran, $value);
+            }
+            }
+            $data['lampiran'] = $lampiran;
+            $data['button'] = count($lampiran);
+            return view('businessdevelopment::outlet_manage.close_temporary.detail', $data);
+        }else{
+            return redirect()->back()->withErrors($result['messages'] ?? ['Not Found']);
+        }
+    }
+    public function createClose(Request $request){
+        $post = $request->except('_token');
+         if(isset($post['date'])&& $post['date']!=null){
+        $post['date'] = date('Y-m-d', strtotime($post['date']));
+        }
+        $query = MyHelper::post('partners/outlet/close/create', $post);
+        if(isset($query['status']) && $query['status'] == 'success'){
+                return back()->withSuccess(['Create Success']);
+        } else{
+                return back()->withErrors($query['messages']);
+        }
+    }
+    public function updateClose(Request $request){
+         $post = $request->except('_token');
+         if(isset($post['date'])&& $post['date']!=null){
+        $post['date'] = date('Y-m-d', strtotime($post['date']));
+        }
+        
+        $query = MyHelper::post('partners/outlet/close/update', $post);
+        if(isset($query['status']) && $query['status'] == 'success'){
+                return back()->withSuccess(['Update Success']);
+        } else{
+                return back()->withErrors($query['messages']);
+        }
+    }
+    public function rejectClose(Request $request){
+         $post = $request->except('_token');
+        $query = MyHelper::post('partners/outlet/close/reject', $post);
+        return $query;
+    }
+    public function successClose(Request $request){
+         $post = $request->except('_token');
+         $query = MyHelper::post('partners/outlet/close/success', $post);
+         return $query;
+    }
+    public function lampiranDeleteClose(Request $request)
+    {
+        $post = $request->except('_token'); 
+	$query = MyHelper::post('partners/outlet/close/lampiran/delete', $post);
+        return $query; 
+       
+    }
+    public function lampiranCreateClose(Request $request)
+    {
+        $post = $request->except('_token'); 
+        if (isset($post["import_file"])) {
+            $post['attachment'] = MyHelper::encodeImage($post['import_file']);
+        }
+	$query = MyHelper::post('partners/outlet/close/lampiran/create', $post);
         if(isset($query['status']) && $query['status'] == 'success'){
                   return back()->withSuccess(['Create lampiran success']);
           } else{
