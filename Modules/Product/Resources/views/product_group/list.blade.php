@@ -89,7 +89,7 @@
         	$('#update [name="id_product_group"]').val(id);
         	$('#update [name="product_group_code"]').val(code);
         	$('#update [name="product_group_name"]').val(name);
-        	$('#update .imageproduct').children('img').attr('src', photo);
+        	$('#edit-img').attr('src', photo);
         	$('#update [name="photo"]').attr("src",photo);
         	$('#update [name="product_group_description"]').val(desc);
         	console.log(id, code, name, photo, desc);
@@ -311,7 +311,7 @@
                             	<div class="col-md-8">
                             		<div class="fileinput fileinput-new" data-provides="fileinput">
                             			<div class="fileinput-new thumbnail" style="width: 200px; height: 200px;">
-                            				<img src="" alt="">
+                            				<img src="" alt="" id="edit-img">
                             			</div>
                             			<div class="fileinput-preview fileinput-exists thumbnail imageproduct" style="max-width: 200px; max-height: 200px;"></div>
                             			<div>
