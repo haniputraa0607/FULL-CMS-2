@@ -161,6 +161,15 @@ class ProductGroupController extends Controller
     public function createFeaturedProductGroup(Request $request)
     {
         $post = $request->except('_token');
+
+        $validatedData = $request->validate([
+            'banner_image' => 'required|dimensions:width=750,height=375'
+        ]);
+
+        if(isset($post['banner_image'])){
+            $post['image'] = MyHelper::encodeImage($post['banner_image']);
+            unset($post['banner_image']);
+        }
         $result = MyHelper::post('product/product-group/featured/create', $post);
 
         return parent::redirect($result, 'New featured product group has been created.', 'product/product-group/featured');
@@ -170,8 +179,15 @@ class ProductGroupController extends Controller
     {
         $post = $request->except('_token');
         $validatedData = $request->validate([
-            'id_banner'    => 'required'
+            'id_banner'    => 'required',
+            'banner_image' => 'sometimes|dimensions:width=750,height=375'
         ]);
+
+        if(isset($post['banner_image'])){
+            $post['image'] = MyHelper::encodeImage($post['banner_image']);
+            unset($post['banner_image']);
+        }
+
         $result = MyHelper::post('product/product-group/featured/update', $post);
         return parent::redirect($result, 'Featured product group has been updated.', 'product/product-group/featured',[],true);
     }

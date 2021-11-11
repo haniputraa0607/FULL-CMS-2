@@ -73,11 +73,12 @@
 	    });
 
 	    $('#featured_product_group .btn-edit').click(function() {
-			var id         = $(this).data('id');
-			var banner_end   = $(this).data('end-date');
+			var id = $(this).data('id');
+			var banner_end = $(this).data('end-date');
 			var banner_start = $(this).data('start-date');
-			var id_product_group   = $(this).data('id-product-group');
-			var promo_title   = $(this).data('group-name');
+			var image = $(this).data('img');
+			var id_product_group = $(this).data('id-product-group');
+			var promo_title = $(this).data('group-name');
 
 			// assign value to form
 			$('#id_banner').val(id);
@@ -95,6 +96,7 @@
 		    });
 			$('#id_product_group').find('option').first().attr('value',id_product_group).text(promo_title);
 			$('#id_product_group').select2().trigger('change');
+			$('#edit-banner-img').attr('src', image);
 	    });
 
 	    $('#featured_product_group .btn-delete').click(function() {
@@ -161,14 +163,22 @@
 				 				  			<span class="caption-subject bold" style="font-size: 12px !important;">{{ $key + 1 }}</span>
 										</div>
 										<div class="col-md-10 text-right">
-												<a class="btn blue btn-circle btn-edit" href="#modalFeaturedProductGroupUpdate" data-toggle="modal" data-start-date="{{ date('d M Y H:i',strtotime($featured_product_group['banner_start'])) }}" data-end-date="{{ date('d M Y H:i',strtotime($featured_product_group['banner_end'])) }}" data-id-product-group="{{ $featured_product_group['id_reference'] }}" data-group-name="{{ $featured_product_group['product_group_name'] }}" data-id="{{ $featured_product_group['id_banner'] }}"><i class="fa fa-pencil"></i> </a>
+												<a class="btn blue btn-circle btn-edit" href="#modalFeaturedProductGroupUpdate" 
+													data-toggle="modal" 
+													data-start-date="{{ date('d M Y H:i',strtotime($featured_product_group['banner_start'])) }}" 
+													data-end-date="{{ date('d M Y H:i',strtotime($featured_product_group['banner_end'])) }}" 
+													data-id-product-group="{{ $featured_product_group['id_reference'] }}" 
+													data-group-name="{{ $featured_product_group['product_group_name'] }}" 
+													data-img="{{ $featured_product_group['image_url'] }}" 
+													data-id="{{ $featured_product_group['id_banner'] }}"
+													><i class="fa fa-pencil"></i> </a>
 												<a class="btn red-mint btn-circle btn-delete" data-id="{{ $featured_product_group['id_banner'] }}"><i class="fa fa-trash-o"></i> </a>
 										</div>
 									</div>
 				 				</div>
 				 			 	<div class="portlet-body">
 				 			   		<input type="hidden" name="id_banner[]" value="{{ $featured_product_group['id_banner'] }}">
-				 			   		<center><img src="{{ $featured_product_group['url_photo'] ?? null }}" alt="product group Image" width="150"></center>
+				 			   		<center><img src="{{ $featured_product_group['image_url'] ?? null }}" alt="product group Image" width="150"></center>
 				 			 	</div>
 				 			 	<div class="click-to text-center">
 				 			 		<div>{{ $featured_product_group['product_group_name'] }}</div>
@@ -200,6 +210,33 @@
 				<br>
 				<form role="form" action="{{url('product/product-group/featured/update')}}" method="POST" enctype="multipart/form-data">
 					<input type="hidden" name="id_banner" id="id_banner">
+					<div class="row">
+						<div class="col-md-3 text-right">
+							<label class="control-label">Banner Image <span class="required" aria-required="true"> * (750*375)</span></label><br>
+						</div>
+						<div class="col-md-8">
+							<div class="form-body">
+								<div class="form-body">
+									<div class="form-group">
+										<div class="fileinput fileinput-new" data-provides="fileinput">
+											<div class="fileinput-new thumbnail" style="width: 200px;">
+												<img src="https://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=750+x+375" alt="" id="edit-banner-img">
+											</div>
+											<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+											<div>
+												<span class="btn default btn-file">
+												<span class="fileinput-new"> Select image </span>
+												<span class="fileinput-exists"> Change </span>
+												<input type="file" accept="image/*" name="banner_image">
+												</span>
+												<a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 					<div class="row">
 						<div class="col-md-3 text-right">
 							<label>Product Group</label>
@@ -256,6 +293,31 @@
 			<div class="modal-body form">
 				<br>
 				<form role="form" action="{{url('product/product-group/featured/create')}}" method="POST" enctype="multipart/form-data">
+					<div class="row">
+						<div class="col-md-3 text-right">
+							<label class="control-label">Banner Image <span class="required" aria-required="true"> * (750*375)</span></label><br>
+						</div>
+						<div class="col-md-8">
+							<div class="form-body">
+								<div class="form-group">
+									<div class="fileinput fileinput-new" data-provides="fileinput">
+										<div class="fileinput-new thumbnail" style="width: 200px;">
+											<img src="https://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=750+x+375" alt="">
+										</div>
+										<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+										<div>
+											<span class="btn default btn-file">
+											<span class="fileinput-new"> Select image </span>
+											<span class="fileinput-exists"> Change </span>
+											<input type="file" accept="image/*" name="banner_image" required>
+											</span>
+											<a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 					<div class="row">
 						<div class="col-md-3 text-right">
 							<label>Product Group</label>
