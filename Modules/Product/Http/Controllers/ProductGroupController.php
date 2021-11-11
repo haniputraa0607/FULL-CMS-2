@@ -33,10 +33,14 @@ class ProductGroupController extends Controller
     {
     	$post = $request->except('_token');
 
+    	if (isset($post['photo'])) {
+            $post['photo'] = MyHelper::encodeImage($post['photo']);
+        }
+
         $create = MyHelper::post('product/product-group/create', $post);
 
      	if (($create['status'] ?? false) != 'success') {
-        	return redirect('product/product-group')->withErrors($productGroup['messages'] ?? ['Something went wrong']);
+        	return redirect('product/product-group')->withErrors($create['messages'] ?? ['Something went wrong']);
         } else {
         	return redirect('product/product-group')->withSuccess(['Product Group has been created']);
         }
@@ -46,10 +50,14 @@ class ProductGroupController extends Controller
     {
     	$post = $request->except('_token');
 
+    	if (isset($post['photo'])) {
+            $post['photo'] = MyHelper::encodeImage($post['photo']);
+        }
+        
         $update = MyHelper::post('product/product-group/update', $post);
 
      	if (($update['status'] ?? false) != 'success') {
-        	return redirect('product/product-group')->withErrors($productGroup['messages'] ?? ['Something went wrong']);
+        	return redirect('product/product-group')->withErrors($update['messages'] ?? ['Something went wrong']);
         } else {
         	return redirect('product/product-group')->withSuccess(['Product Group has been updated']);
         }
