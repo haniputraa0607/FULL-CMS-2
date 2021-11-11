@@ -165,6 +165,7 @@ class PartnersController extends Controller
             $data['url_partners_close_temporary'] = url('businessdev/partners/close-temporary/').'/'.$enkripsi;
             $data['url_outlet'] = url('businessdev/partners/outlet/').'/'.$enkripsi;
             $data['url_partners_close_total'] = url('businessdev/partners/close-permanent/').'/'.$enkripsi;
+            $data['url_partners_becomes_ixobox'] = url('businessdev/partners/becomes-ixobox/').'/'.$enkripsi;
             return view('businessdevelopment::partners.detail', $data);
         }else{
             return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);

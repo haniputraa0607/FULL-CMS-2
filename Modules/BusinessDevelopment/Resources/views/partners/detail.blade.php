@@ -671,7 +671,7 @@
                                         </div>
                                     </div> 
                                     <div class="portlet-body form">
-                                        <a class="btn btn-primary" href="{{$url_partners_close_total}}" >Go to The Form</a>
+                                        <a class="btn btn-primary" href="{{$url_partners_becomes_ixobox}}" >Go to The Form</a>
                                     </div>
                                 </div>
                             </div>  

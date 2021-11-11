@@ -63,6 +63,19 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'business
             Route::post('/lampiran/create', ['middleware' => 'feature_control:343', 'uses' => 'PartnersClosePermanentController@lampiranCreate']);
             Route::post('/success', ['middleware' => 'feature_control:343', 'uses' => 'PartnersClosePermanentController@success']);
         });
+        Route::group(['prefix' => 'becomes-ixobox'], function()
+        {
+            Route::get('/{id}', ['middleware' => 'feature_control:343', 'uses' => 'PartnersBecomesIxoboxController@index']);
+            Route::post('/create', ['middleware' => 'feature_control:343', 'uses' => 'PartnersBecomesIxoboxController@create']);
+            Route::post('/createActive', ['middleware' => 'feature_control:343', 'uses' => 'PartnersBecomesIxoboxController@createActive']);
+            Route::post('/reject', ['middleware' => 'feature_control:343', 'uses' => 'PartnersBecomesIxoboxController@reject']);
+            Route::get('/detail/{id}', ['middleware' => 'feature_control:343', 'uses' => 'PartnersBecomesIxoboxController@detail']);
+            Route::post('/update', ['middleware' => 'feature_control:343', 'uses' => 'PartnersBecomesIxoboxController@update']);
+            Route::post('/updateActive', ['middleware' => 'feature_control:343', 'uses' => 'PartnersBecomesIxoboxController@updateActive']);
+            Route::post('/lampiran/delete', ['middleware' => 'feature_control:343', 'uses' => 'PartnersBecomesIxoboxController@lampiranDelete']);
+            Route::post('/lampiran/create', ['middleware' => 'feature_control:343', 'uses' => 'PartnersBecomesIxoboxController@lampiranCreate']);
+            Route::post('/success', ['middleware' => 'feature_control:343', 'uses' => 'PartnersBecomesIxoboxController@success']);
+        });
         Route::group(['prefix' => 'outlet'], function()
         {
             Route::get('/{id}', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@index']);
