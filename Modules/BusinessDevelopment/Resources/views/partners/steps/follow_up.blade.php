@@ -189,7 +189,7 @@
                                     <label for="example-search-input" class="control-label col-md-4">Location Mall <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Mall Calon Lokasi" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <textarea name="mall" id="follow-mall" class="form-control" placeholder="Enter location mall here" required>{{ old('mall') ?? $result['partner_locations'][0]['address']}}</textarea>
+                                        <textarea name="mall" id="follow-mall" class="form-control" placeholder="Enter location mall here" required>{{ old('mall') ?? $result['partner_locations'][0]['mall']}}</textarea>
                                     </div>
                                 </div>
                                 
