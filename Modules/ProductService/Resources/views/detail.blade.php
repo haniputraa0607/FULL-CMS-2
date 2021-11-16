@@ -686,9 +686,7 @@
     function productServiceUseSubmit() {
         var data = $('#form-product-service').serialize();
 
-        if(data.indexOf("product_use_data") < 0){
-            toastr.warning("Data can not be empty");
-        }else if (!$('form#form-product-service')[0].checkValidity()) {
+        if (!$('form#form-product-service')[0].checkValidity()) {
             toastr.warning("Incompleted Data. Please fill blank input.");
         }else{
             $('form#form-product-service').submit();
