@@ -343,6 +343,14 @@
                 <li>
                     <a href="#status" data-toggle="tab"> Status Outlet </a>
                 </li>
+                @if($result['status']=='Success')
+                <li>
+                    <a href="#new" data-toggle="tab"> Lokasi Baru </a>
+                </li>
+                <li>
+                    <a href="#old" data-toggle="tab"> Lokasi Lama</a>
+                </li>
+                @endif
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="overview">
@@ -351,6 +359,14 @@
                 <div class="tab-pane" id="status">
                     @include('businessdevelopment::outlet_manage.close_temporary.change_location.status')
                 </div>
+                 @if($result['status']=='Success')
+                <div class="tab-pane" id="new">
+                    @include('businessdevelopment::outlet_manage.close_temporary.change_location.new')
+                </div>
+                <div class="tab-pane" id="old">
+                    @include('businessdevelopment::outlet_manage.close_temporary.change_location.old')
+                </div>
+                @endif
             </div>
     </div>
 @endsection
