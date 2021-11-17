@@ -64,6 +64,7 @@
 								<div class="col-md-8">
 									<div class="input-icon right">
 										<select name="outlet" class="select2 form-control" data-placeholder="Select outlet">
+											<option></option>
 											@foreach($outlets as $o)
 												<option value="{{$o['id_outlet']}}" @if($o['id_outlet']==$result['outlet']) selected @endif>{{$o['outlet_code']}} - {{$o['outlet_name']}}</option>
 											@endforeach
