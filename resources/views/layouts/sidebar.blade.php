@@ -776,9 +776,9 @@
 									<span class="title">Setting Banner</span>
 								</a>
 							</li>
-							<li class="nav-item {{($submenu_active == 'academy-instalment') ? 'active open' : ''}}">
-								<a href="{{url('academy/setting/instalment')}}" class="nav-link ">
-									<span class="title">Setting Instalment</span>
+							<li class="nav-item {{($submenu_active == 'academy-installment') ? 'active open' : ''}}">
+								<a href="{{url('academy/setting/installment')}}" class="nav-link ">
+									<span class="title">Setting Installment</span>
 								</a>
 							</li>
 						@endif
