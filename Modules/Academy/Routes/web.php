@@ -11,8 +11,8 @@
 |
 */
 Route::group(['middleware' => 'validate_session', 'prefix' => 'academy'], function(){
-    Route::get('setting/instalment', ['middleware' => 'feature_control:376', 'uses' => 'AcademyController@settingInstalment']);
-    Route::post('setting/instalment', ['middleware' => 'feature_control:376', 'uses' => 'AcademyController@settingInstalmentSave']);
+    Route::get('setting/installment', ['middleware' => 'feature_control:376', 'uses' => 'AcademyController@settingInstallment']);
+    Route::post('setting/installment', ['middleware' => 'feature_control:376', 'uses' => 'AcademyController@settingInstallmentSave']);
 
     Route::get('setting/banner', ['middleware' => 'feature_control:376', 'uses' => 'AcademyController@settingBanner']);
     Route::post('setting/banner', ['middleware' => 'feature_control:376', 'uses' => 'AcademyController@settingBannerSave']);

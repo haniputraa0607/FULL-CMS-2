@@ -11,26 +11,26 @@ use Session;
 
 class AcademyController extends Controller
 {
-    public function settingInstalment(){
+    public function settingInstallment(){
         $data = [
             'title'          => 'Academy',
-            'sub_title'      => 'Setting Instalment',
+            'sub_title'      => 'Setting Installment',
             'menu_active'    => 'academy',
-            'submenu_active' => 'academy-instalment'
+            'submenu_active' => 'academy-installment'
         ];
 
-        $data['result'] = MyHelper::get('academy/setting/instalment')['result']??[];
-        $data['arr_step_instalment'] = json_encode(array_column($data['result'], 'total_instalment'));
-        return view('academy::instalment', $data);
+        $data['result'] = MyHelper::get('academy/setting/installment')['result']??[];
+        $data['arr_step_installment'] = json_encode(array_column($data['result'], 'total_installment'));
+        return view('academy::installment', $data);
     }
 
-    public function settingInstalmentSave(Request $request){
+    public function settingInstallmentSave(Request $request){
         $post = $request->except('_token');
-        $save = MyHelper::post('academy/setting/instalment/save', $post);
+        $save = MyHelper::post('academy/setting/installment/save', $post);
         if (isset($save['status']) && $save['status'] == "success") {
-            return redirect('academy/setting/instalment')->withSuccess(['Success save data']);
+            return redirect('academy/setting/installment')->withSuccess(['Success save data']);
         }else{
-            return redirect('academy/setting/instalment')->withErrors(['Failed save data'])->withInput();
+            return redirect('academy/setting/installment')->withErrors(['Failed save data'])->withInput();
         }
     }
 
