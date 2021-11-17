@@ -244,6 +244,7 @@ class OutletManageController extends Controller
                 $value['url_detail'] = env('APP_URL').'businessdev/partners/outlet/close/detail/'.$enkripsi;
                 array_push($data['result'],$value);
             }
+            return $data;
             return view('businessdevelopment::outlet_manage.close_temporary.index', $data);
         }else{
             return redirect()->back()->withErrors($result['messages'] ?? ['Not Found']);
