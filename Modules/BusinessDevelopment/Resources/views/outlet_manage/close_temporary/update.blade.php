@@ -117,10 +117,15 @@ $grantedFeature     = session('granted_features');
                         <div class="form-body">
                             <input class="form-control" type="hidden" id="id_outlet_close_temporary" name="id_outlet_close_temporary" value="{{$result['id_outlet_close_temporary']}}"/>
                             <div class="form-group">
-                                <label for="example-search-input" class="control-label col-md-4">Outlet<span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Title" data-container="body"></i></label>
+                                <label for="example-search-input" class="control-label col-md-4">Outlet</label>
                                 <div class="col-md-5">
                                     <input  disabled class="form-control" type="text" id="input-name"  value="{{$result['outlet_name']}}" placeholder="Enter name here"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Jenis Aktivasi</label>
+                                <div class="col-md-5">
+                                    <input  disabled class="form-control" type="text" id="input-name"  value="{{$result['jenis_active']}}" placeholder="Enter name here"/>
                                 </div>
                             </div>
                             <div class="form-group">
