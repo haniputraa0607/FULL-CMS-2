@@ -230,6 +230,7 @@ class OutletManageController extends Controller
     public function listClose(Request $request,$id){
         $id = MyHelper::explodeSlug($id)[0]??'';
         $result = MyHelper::post('partners/outlet/close/index', ['id_outlet' => $id]);
+        $result1 = MyHelper::post('partners/outlet/close', ['id_outlet' => $id]);
            $data = [
                 'title'          => 'Partner',
                 'sub_title'      => 'List Close Temporary Outlet',
