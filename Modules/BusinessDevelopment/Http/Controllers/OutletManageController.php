@@ -230,7 +230,6 @@ class OutletManageController extends Controller
     public function listClose(Request $request,$id){
         $id = MyHelper::explodeSlug($id)[0]??'';
         $result = MyHelper::post('partners/outlet/close/index', ['id_outlet' => $id]);
-        $result1 = MyHelper::post('partners/outlet/close', ['id_outlet' => $id]);
            $data = [
                 'title'          => 'Partner',
                 'sub_title'      => 'List Close Temporary Outlet',
@@ -245,7 +244,6 @@ class OutletManageController extends Controller
                 $value['url_detail'] = env('APP_URL').'businessdev/partners/outlet/close/detail/'.$enkripsi;
                 array_push($data['result'],$value);
             }
-            return $data;
             return view('businessdevelopment::outlet_manage.close_temporary.index', $data);
         }else{
             return redirect()->back()->withErrors($result['messages'] ?? ['Not Found']);
