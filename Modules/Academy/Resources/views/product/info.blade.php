@@ -135,7 +135,7 @@
             </label>
             <div class="col-md-3">
                 <div class="input-group">
-                    <input name="product_academy_duration" maxlength="255" class="form-control" value="{{ $syu['product_academy_duration'] }}">
+                    <input name="product_academy_total_meeting" maxlength="255" class="form-control" value="{{ $syu['product_academy_total_meeting'] }}">
                     <span class="input-group-addon">
                         X
                     </span>

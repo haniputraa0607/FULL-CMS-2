@@ -164,6 +164,8 @@ class PartnersController extends Controller
             $enkripsi = MyHelper::createSlug($data['result']['id_partner'], $data['result']['created_at']);
             $data['url_partners_close_temporary'] = url('businessdev/partners/close-temporary/').'/'.$enkripsi;
             $data['url_outlet'] = url('businessdev/partners/outlet/').'/'.$enkripsi;
+            $data['url_partners_close_total'] = url('businessdev/partners/close-permanent/').'/'.$enkripsi;
+            $data['url_partners_becomes_ixobox'] = url('businessdev/partners/becomes-ixobox/').'/'.$enkripsi;
             return view('businessdevelopment::partners.detail', $data);
         }else{
             return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
@@ -172,39 +174,39 @@ class PartnersController extends Controller
 
     public function dataConfirmation($data,$city){
         $send= [];
-        foreach($city as $c){
-            if($c['id_city']==$data['partner_locations'][0]['id_city']){
-                $city_name = $c['city_name'];
+        if($data['partner_locations']){
+            foreach($city as $c){
+                if($c['id_city']==$data['partner_locations'][0]['id_city']){
+                    $city_name = $c['city_name'];
+                }
+            }
+            if($data['partner_locations'][0]['mall'] != null && $data['partner_locations'][0]['id_city'] != null){
+                $send['lokasi'] = strtoupper($data['partner_locations'][0]['mall']).' - '.strtoupper($city_name);
+            }
+            if($data['partner_locations'][0]['address'] != null){
+                $send['address'] = $data['partner_locations'][0]['address'];
+            }
+    
+            if($data['partner_locations'][0]['location_large'] != null){
+                $send['large'] = $data['partner_locations'][0]['location_large'];
+            }
+            if($data['partner_locations'][0]['partnership_fee'] != null){
+                $send['partnership_fee'] = $this->rupiah($data['partner_locations'][0]['partnership_fee']);
+                $send['dp'] = $this->rupiah($data['partner_locations'][0]['partnership_fee']*0.2);
+                $send['dp2'] = $this->rupiah($data['partner_locations'][0]['partnership_fee']*0.3);
+                $send['final'] = $this->rupiah($data['partner_locations'][0]['partnership_fee']*0.5);
             }
         }
         if($data['gender']=='Man'){
-            $send['pihak_dua'] = 'BAPAK '.strtoupper($data['name']);
+            $send['pihak_dua'] = 'BAPAK '.strtoupper($data['contact_person']);
         }elseif($data['gender']=='Woman'){
-            $send['pihak_dua']  = 'IBU '.strtoupper($data['name']);
-        }
-
-        if($data['partner_locations'][0]['mall'] != null && $data['partner_locations'][0]['id_city'] != null){
-            $send['lokasi'] = strtoupper($data['partner_locations'][0]['mall']).' - '.strtoupper($city_name);
-        }
-
-        if($data['partner_locations'][0]['address'] != null){
-            $send['address'] = $data['partner_locations'][0]['address'];
-        }
-
-        if($data['partner_locations'][0]['location_large'] != null){
-            $send['large'] = $data['partner_locations'][0]['location_large'];
+            $send['pihak_dua']  = 'IBU '.strtoupper($data['contact_person']);
         }
 
         if($data['start_date'] != null && $data['end_date'] != null){
             $send['waktu'] = $this->timeTotal(explode('-', $data['start_date']),explode('-', $data['end_date']));
         }
 
-        if($data['partner_locations'][0]['partnership_fee'] != null){
-            $send['partnership_fee'] = $this->rupiah($data['partner_locations'][0]['partnership_fee']);
-            $send['dp'] = $this->rupiah($data['partner_locations'][0]['partnership_fee']*0.2);
-            $send['dp2'] = $this->rupiah($data['partner_locations'][0]['partnership_fee']*0.3);
-            $send['final'] = $this->rupiah($data['partner_locations'][0]['partnership_fee']*0.5);
-        }
         return $send;
     }
 
@@ -315,6 +317,7 @@ class PartnersController extends Controller
     {       
         $request->validate([
             "name" => "required",
+            "cp" => "required",
             "email" => "required",
         ]);
         if(isset($request["status"]) && $request["status"] == 'on'){
@@ -349,6 +352,7 @@ class PartnersController extends Controller
         $post = [
             "id_partner" => $id,
             "name" => $request["name"],
+            "contact_person" => $request["cp"],
             "phone" => $request["phone"],
             "email" => $request["email"],
             "address" => $request["address"],
@@ -539,7 +543,6 @@ class PartnersController extends Controller
         if($post){
             Session::put('filter-list-request-update',$post);
         }
-
         return view('businessdevelopment::partners.list_request', $data);
     }
 
@@ -729,19 +732,25 @@ class PartnersController extends Controller
         }
         $partner_step = MyHelper::post('partners/update', $update_partner);
         if (isset($partner_step['status']) && $partner_step['status'] == 'success') {
-            $follow_up = MyHelper::post('partners/create-follow-up', $post_follow_up);
+            $post['post_follow_up'] = $post_follow_up;
+            if(isset($form_survey) && !empty($form_survey)){
+                $post['form_survey'] = $form_survey;
+            }
+            $follow_up = MyHelper::post('partners/create-follow-up', $post);
             if(isset($follow_up['status']) && $follow_up['status'] == 'success'){
                 if(isset($update_data_location) && !empty($update_data_location)){
-                    $location_update =  MyHelper::post('partners/locations/update', $update_data_location);
+                    if(isset($update_data_location) && !empty($update_data_location)){
+                        $post_loc['update_data_location'] = $update_data_location;
+                    }
+                    if (isset($data_confir) && !empty($data_confir)) {
+                        $post_loc['data_confir'] = $data_confir;
+                    }
+                    if(isset($update_data_location['status']) && !empty($update_data_location['status']) && $update_data_location['status']=='Active'){
+                        $post_loc['partner'] = $request['id_partner'];
+                        $post_loc['location'] = $request['id_location'];
+                    }
+                    $location_update =  MyHelper::post('partners/locations/update', $post_loc);
                     if (isset($location_update['status']) && $location_update['status'] == 'success') {
-                        if(isset($data_confir) && !empty($data_confir)){
-                            $confirmation =  MyHelper::post('partners/confirmation-letter/create', $data_confir);
-                            if (isset($confirmation['status']) && $confirmation['status'] == 'success') {
-                                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
-                            }else{
-                                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
-                            }
-                        }
                         if(isset($update_data_location['status']) && !empty($update_data_location['status']) && $update_data_location['status']=='Active'){
                             $project = MyHelper::get('project/initProject/'.$request['id_partner'].'/'.$request['id_location']);
                             if (isset($project['status']) && $project['status'] == 'success') {
@@ -757,14 +766,6 @@ class PartnersController extends Controller
                 }
                 if(isset($update_partner['status']) && !empty($update_partner['status']) && $update_partner['status'] == 'Active'){
                     return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success update candidate partner to partner']); 
-                }
-                if(isset($form_survey) && !empty($form_survey)){
-                    $create_form_survey =  MyHelper::post('partners/form-survey/create', $form_survey);
-                    if (isset($create_form_survey['status']) && $create_form_survey['status'] == 'success') {
-                        return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
-                    }else{
-                        return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
-                    }
                 }
                 return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
             }else{

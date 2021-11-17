@@ -61,7 +61,7 @@
                                             @if ($surv==true)
                                             <input class="form-control" type="text" id="follow_up" name="survey_potential" @if ($surv==true) readonly value="{{$result['partner_survey'][0]['potential']}}" @endif required/>
                                             @else    
-                                            <input type="checkbox" class="make-switch" data-size="small" data-on-color="info" data-on-text="ON" name="survey_potential" data-off-color="default" data-off-text="NOT OK" id="potential">
+                                            <input type="checkbox" class="make-switch" data-size="small" data-on-color="info" data-on-text="OK" name="survey_potential" data-off-color="default" data-off-text="NOT OK" id="potential">
                                             @endif
                                         </div>
                                     </div>

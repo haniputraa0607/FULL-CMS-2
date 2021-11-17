@@ -151,7 +151,7 @@ class SettingController extends Controller
         } elseif ($key == 'default_outlet') {
             $sub = 'default-outlet';
             $active = 'outlet';
-            $subTitle = 'Default Outlet';
+            $subTitle = 'Online Shop Outlet';
             $colInput = 4;
             $colLabel = 3;
         } elseif ($key == 'credit_card_payment_gateway') {
