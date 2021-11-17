@@ -76,11 +76,14 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'business
             Route::group(['prefix' => 'close'], function()
             {
               Route::post('/create', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@createClose']);  
+              Route::post('/createActive', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@createActive']);  
               Route::get('/list/{id}', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@listClose']);  
               Route::get('/detail/{id}', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@detailClose']);  
               Route::post('/update', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@updateClose']);
+              Route::post('/updateActive', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@updateCloseActive']);
               Route::post('/reject', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@rejectClose']);
               Route::post('/success', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@successClose']);
+              Route::post('/create-follow-up', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@followUp']);
               Route::post('/lampiran/delete', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@lampiranDeleteClose']);
               Route::post('/lampiran/create', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@lampiranCreateClose']);
             });

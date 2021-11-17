@@ -46,6 +46,99 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/form-repeater.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
     <script>
+        var SweetAlert = function() {
+            return {
+                init: function() {
+                    $(".sweetalert-delete").each(function() {
+                        var token  	= "{{ csrf_token() }}";
+                        var pathname = window.location.pathname;
+                        let column 	= $(this).parents('tr');
+                        let id     	= $(this).data('id');
+                        let id_partner     	= $(this).data('partner');
+                        let name    = $(this).data('name');
+                        $(this).click(function() {
+                            swal({
+                                    title: name+"\n\nAre you sure want to delete this locations?",
+                                    text: "Your will not be able to recover this data!",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonClass: "btn-danger",
+                                    confirmButtonText: "Yes, delete it!",
+                                    closeOnConfirm: false
+                                },
+                                function(){
+                                    $.ajax({
+                                        type : "POST",
+                                        url : "{{url('businessdev/locations/delete')}}/"+id,
+                                        data : {
+                                            '_token' : '{{csrf_token()}}'
+                                        },
+                                        success : function(response) {
+                                            if (response.status == 'success') {
+                                                swal("Deleted!", "Location has been deleted.", "success")
+                                                SweetAlert.init()
+                                                location.href = "{{url('businessdev/partners/detail')}}/"+id_partner;
+                                            }
+                                            else if(response.status == "fail"){
+                                                swal("Error!", "Failed to delete locations.", "error")
+                                            }
+                                            else {
+                                                swal("Error!", "Something went wrong. Failed to delete locations.", "error")
+                                            }
+                                        }
+                                    });
+                                });
+                        })
+                    })
+                }
+            }
+        }();
+        var SweetAlertReject = function() {
+            return {
+                init: function() {
+                    $(".sweetalert-reject").each(function() {
+                        var token  	= "{{ csrf_token() }}";
+                        var pathname = window.location.pathname; 
+                        let column 	= $(this).parents('tr');
+                        var data = {
+                                    '_token' : '{{csrf_token()}}',
+                                    'id_outlet_close_temporary':{{$result['id_outlet_close_temporary']}}
+                                        };
+                        $(this).click(function() {
+                            swal({
+                                    title: "Are you sure want to reject?",
+                                    text: "Your will not be able to recover this data!",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonClass: "btn-danger",
+                                    confirmButtonText: "Yes, reject it!",
+                                    closeOnConfirm: false
+                                },
+                                function(){
+                                    $.ajax({
+                                        type : "POST",
+                                        url : "{{url('businessdev/partners/outlet/close/reject')}}",
+                                        data : data,
+                                        success : function(response) {
+                                            if (response.status == 'success') {
+                                                swal("Deleted!", "Reject Success.", "success")
+                                                window.location.reload();
+                                            }
+                                            else if(response.status == "fail"){
+                                                swal("Error!", "Failed to delete.", "error")
+                                            }
+                                            else {
+                                                swal("Error!", "Something went wrong. Failed to delete .", "error")
+                                            }
+                                        }
+                                    });
+                                });
+                        })
+                    })
+                }
+            }
+        }();
+        
         function totalTermin() {
             $("#total-satu").show();
             $("#total-dua").hide();
@@ -149,6 +242,8 @@
                 $('#input-follow-up').show();
                 $('#back-follow-up').hide();
             });
+            SweetAlert.init();
+            SweetAlertReject.init();
             $('[data-switch=true]').bootstrapSwitch();
             $('#btn-submit').on('click', function(event) {
                 if(document.getElementById('auto_generate_pin').checked == false){
@@ -209,7 +304,6 @@
             return false;
         });
     </script>
-    
 @endsection
 
 @section('content')
@@ -238,34 +332,25 @@
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">{{$sub_title}}</span>
+                <span class="caption-subject sbold uppercase font-blue">Outlet Activate</span>
             </div>
         </div>
-       <div class="tabbable-line tabbable-full-width">
+        <div class="tabbable-line tabbable-full-width">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="#overview" data-toggle="tab">History Close </a>
+                    <a href="#overview" data-toggle="tab"> Outlet Overview </a>
                 </li>
-                @if($outlet['outlet_status']!='Active')
                 <li>
-                    <a href="#active" data-toggle="tab"> Activate Outlet</a>
+                    <a href="#status" data-toggle="tab"> Status Outlet </a>
                 </li>
-                @endif
             </ul>
-        <div class="tab-content">
-            <div class="tab-pane active" id="overview">
-                @include('businessdevelopment::outlet_manage.close_temporary.overview')
+            <div class="tab-content">
+                <div class="tab-pane active" id="overview">
+                   @include('businessdevelopment::outlet_manage.close_temporary.change_location.overview')
+                </div>
+                <div class="tab-pane" id="status">
+                    @include('businessdevelopment::outlet_manage.close_temporary.change_location.status')
+                </div>
             </div>
-            <div class="tab-pane" id="active">
-                @if($result[0]['status']=='Process'||$result[0]['status']=='Waiting')
-                Terdapat Proses yang sedang berjalan
-                @else
-                @include('businessdevelopment::outlet_manage.close_temporary.create_active')
-                @endif
-            </div>
-        </div>
     </div>
-    </div>
-    
-
 @endsection

@@ -87,7 +87,7 @@
         <div class="tabbable-line tabbable-full-width">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="#overview" data-toggle="tab">Outlet Change Ownership</a>
+                    <a href="#overview" data-toggle="tab">Outlet Overview</a>
                 </li>
                 <li>
                     <a href="#document" data-toggle="tab"> Document </a>
