@@ -23,7 +23,7 @@ class PartnersCloseTemporaryController extends Controller
                 'title'          => 'Partner',
                 'sub_title'      => 'Partner Closure Temporary',
                 'menu_active'    => 'partners',
-                'submenu_active' => 'partner-closure-temporary',
+                'submenu_active' => 'list-partners',
             ];
         if(isset($result['status']) && $result['status'] == 'success' && $resulttemporary['status'] == 'success' && isset($resulttemporary['status']) ){
             $data['partner'] = $result['result'];
@@ -41,7 +41,7 @@ class PartnersCloseTemporaryController extends Controller
             $data['url'] = false;
             if($data['partner']['status']=='Inactive'){
                 $status = true;
-            $lampiran = MyHelper::post('partners/close-temporary/temporary', ['id_partner' => $id]);
+                $lampiran = MyHelper::post('partners/close-temporary/temporary', ['id_partner' => $id]);
                 if(($lampiran['status']) && $lampiran['status'] == 'success' ){
                     if($lampiran['result']['status'] == 'Process' ||$lampiran['result']['status'] == 'Waiting'){
                         $action = false;

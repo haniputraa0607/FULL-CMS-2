@@ -467,7 +467,7 @@
 					@if(MyHelper::hasAccess([199], $grantedFeature))
 					<li class="nav-item {{($submenu_active == 'default-outlet') ? 'active open' : ''}}">
 						<a href="{{url('setting/default_outlet')}}" class="nav-link ">
-							<span class="title">Default Outlet</span>
+							<span class="title">Online Shop Outlet</span>
 						</a>
 					</li>
 					@endif
@@ -715,6 +715,12 @@
 								<span class="title">Product Group</span>
 							</a>
 						</li>
+
+						<li class="nav-item {{($submenu_active == 'featured-product-group') ? 'active open' : ''}}">
+							<a href="{{url('product/product-group/featured')}}" class="nav-link ">
+								<span class="title">Featured Product Group</span>
+							</a>
+						</li>
 					@endif
 				</ul>
 			</li>
@@ -770,9 +776,9 @@
 									<span class="title">Setting Banner</span>
 								</a>
 							</li>
-							<li class="nav-item {{($submenu_active == 'academy-instalment') ? 'active open' : ''}}">
-								<a href="{{url('academy/setting/instalment')}}" class="nav-link ">
-									<span class="title">Setting Instalment</span>
+							<li class="nav-item {{($submenu_active == 'academy-installment') ? 'active open' : ''}}">
+								<a href="{{url('academy/setting/installment')}}" class="nav-link ">
+									<span class="title">Setting Installment</span>
 								</a>
 							</li>
 						@endif
@@ -1327,6 +1333,11 @@
 					<li class="nav-item {{($submenu_active == 'transaction-outlet-service') ? 'active open' : ''}}">
 						<a href="{{ url('transaction/outlet-service') }}" class="nav-link">
 							<span class="title">Transaction Outlet Service</span>
+						</a>
+					</li>
+					<li class="nav-item {{($submenu_active == 'transaction-home-service') ? 'active open' : ''}}">
+						<a href="{{ url('transaction/home-service') }}" class="nav-link">
+							<span class="title">Transaction Home Service</span>
 						</a>
 					</li>
 					<li class="nav-item {{($submenu_active == 'transaction-all') ? 'active open' : ''}}">

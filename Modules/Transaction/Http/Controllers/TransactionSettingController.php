@@ -267,6 +267,7 @@ class TransactionSettingController extends Controller
             ];
 
             $data['result'] = MyHelper::get('transaction/setting/home-service')['result']??[];
+            $data['outlets'] = MyHelper::post('outlet/be/list', ['admin' => 1])['result']??[];
             return view('transaction::setting.home_service', $data);
 
         } else {

@@ -380,6 +380,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Contact Person <span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nama kontak" data-container="body"></i></label>
+                                <div class="col-md-5">
+                                    <input class="form-control" type="text" id="input-cp" name="cp" value="{{$result['contact_person']}}" placeholder="Enter contact person here"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Partner Gender <span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Masukkan kelamin" data-container="body"></i></label>
                                 <div class="col-md-5">
@@ -472,11 +479,7 @@
                                 <label for="example-search-input" class="control-label col-md-4">Ownership Status <span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Pilih Ownership Status" data-container="body"></i></label>
                                 <div class="col-md-5">
-                                    <select name="ownership_status" class="form-control input-sm select2" placeholder="Ownership Status">
-                                        <option value="" selected disabled>Select Ownership Status</option>
-                                        <option value="Central" @if(isset($result['ownership_status'])) @if($result['ownership_status'] == 'Central') selected @endif @endif>Central</option>
-                                        <option value="Partner" @if(isset($result['ownership_status'])) @if($result['ownership_status'] == 'Partner') selected @endif @endif>Partner</option>
-                                    </select>
+                                    <input class="form-control" type="text" id="input-longitude-location" name="ownership_status" value="{{$result['ownership_status']}}" placeholder="Enter location name here" readonly/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -671,7 +674,7 @@
                                         </div>
                                     </div> 
                                     <div class="portlet-body form">
-                                        <a class="btn btn-primary" href="#change" data-toggle="tab" id="tombol-total" onclick="totalTermin();">Go to The Form</a>
+                                        <a class="btn btn-primary" href="{{$url_partners_becomes_ixobox}}" >Go to The Form</a>
                                     </div>
                                 </div>
                             </div>  
@@ -679,11 +682,11 @@
                                 <div class="portlet light bordered">
                                     <div class="portlet-title">
                                         <div class="caption">
-                                            <span class="caption-subject font-black">Outlet Closure</span>
+                                            <span class="caption-subject font-black">Partner Closure Permanent</span>
                                         </div>
                                     </div> 
                                     <div class="portlet-body form">
-                                        <a class="btn btn-primary" href="#closure" data-toggle="tab">Go to The Form</a>
+                                        <a class="btn btn-primary" href="{{$url_partners_close_total}}" >Go to The Form</a>
                                     </div>
                                 </div>
                             </div>

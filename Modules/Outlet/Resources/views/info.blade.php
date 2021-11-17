@@ -54,6 +54,21 @@
         <div class="form-group">
             <div class="input-icon right">
                 <label class="col-md-3 control-label">
+                    Outlet Service Status
+                    <i class="fa fa-question-circle tooltips" data-original-title="Jika memilih active outlet akan tampil di daftar outlet service" data-container="body"></i>
+                </label>
+            </div>
+            <div class="col-md-9">
+                <select class="select2 form-control" name="outlet_service_status">
+                    <option value="1" @if($val['outlet_service_status'] == 1) selected @endif>Active</option>
+                    <option value="0" @if($val['outlet_service_status'] == 0) selected @endif>Inactive</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="input-icon right">
+                <label class="col-md-3 control-label">
                 Code
                 <i class="fa fa-question-circle tooltips" data-original-title="Kode outlet bersifat unik" data-container="body"></i>
                 </label>

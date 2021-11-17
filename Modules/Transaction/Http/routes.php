@@ -116,6 +116,12 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'transact
     	Route::get('detail/{id_transaction}', [ 'uses' => 'TransactionOutletServiceController@detailOutletService']);
     });
 
+    Route::group(['prefix' => 'home-service'], function(){
+        Route::get('/', [ 'uses' => 'TransactionHomeServiceController@listHomeService']);
+        Route::post('/', [ 'uses' => 'TransactionHomeServiceController@filter']);
+        Route::get('detail/{id_transaction}', [ 'uses' => 'TransactionHomeServiceController@detailHomeService']);
+    });
+
     Route::any('/create/fake', 'TransactionController@fakeTransaction');
     Route::get('/', ['middleware' => 'feature_control:69', 'uses' => 'TransactionController@transactionList']);
     Route::get('/detail/{id}/{key}', ['middleware' => 'feature_control:70', 'uses' => 'TransactionController@transactionDetail']);
