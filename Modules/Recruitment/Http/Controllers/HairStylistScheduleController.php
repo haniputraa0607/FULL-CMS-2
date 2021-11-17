@@ -78,14 +78,13 @@ class HairStylistScheduleController extends Controller
                 'sub_title'      => 'Schedule',
                 'menu_active'    => 'hairstylist-schedule',
                 'submenu_active' => 'hairstylist-schedule',
-                'child_active' => 'hairstylist-schedule-list',
+                'child_active' 	 => 'hairstylist-schedule-list',
                 'url_back'       => 'recruitment/hair-stylist/schedule'
             ];
 
-            $data['detail'] = $detail['result'];
-            $data['schedules'] = MyHelper::get('recruitment/hairstylist/be/schedule/outlet?id_outlet='.$data['detail']['id_outlet'])['result'] ?? [];
+            $data['data'] = $detail['result'];
 
-            return view('recruitment::hair_stylist.schedule.detail', $data);
+            return view('recruitment::hair_stylist.schedule.detail_v2', $data);
         }else{
             return redirect('recruitment/hair-stylist/schedule')->withErrors($store['messages']??['Failed get detail schedule']);
         }
