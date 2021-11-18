@@ -1340,6 +1340,11 @@
 							<span class="title">Transaction Home Service</span>
 						</a>
 					</li>
+					<li class="nav-item {{($submenu_active == 'transaction-academy') ? 'active open' : ''}}">
+						<a href="{{ url('transaction/academy') }}" class="nav-link">
+							<span class="title">Transaction Academy</span>
+						</a>
+					</li>
 					<li class="nav-item {{($submenu_active == 'transaction-all') ? 'active open' : ''}}">
 						<a href="{{url('transaction/all/'.date('YmdHis'))}}" class="nav-link ">
 							<span class="title">All Transaction</span>

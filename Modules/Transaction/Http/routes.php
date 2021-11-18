@@ -122,6 +122,12 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'transact
         Route::get('detail/{id_transaction}', [ 'uses' => 'TransactionHomeServiceController@detailHomeService']);
     });
 
+    Route::group(['prefix' => 'academy'], function(){
+        Route::get('/', [ 'uses' => 'TransactionAcademyController@listAcademy']);
+        Route::post('/', [ 'uses' => 'TransactionAcademyController@filter']);
+        Route::get('detail/{id_transaction}', [ 'uses' => 'TransactionAcademyController@detailAcademy']);
+    });
+
     Route::any('/create/fake', 'TransactionController@fakeTransaction');
     Route::get('/', ['middleware' => 'feature_control:69', 'uses' => 'TransactionController@transactionList']);
     Route::get('/detail/{id}/{key}', ['middleware' => 'feature_control:70', 'uses' => 'TransactionController@transactionDetail']);
