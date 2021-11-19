@@ -155,6 +155,7 @@ class PartnersController extends Controller
             $data['cities'] = MyHelper::get('city/list')['result']??[];
             $data['bankName'] = MyHelper::get('disburse/bank')['result']??[];
             $data['brands'] = MyHelper::get('partners/locations/brands')['result']??[];
+            $data['terms'] = MyHelper::get('partners/term')['result']??[];
             $data['confirmation'] = $this->dataConfirmation($result['result']['partner'],$data['cities']);
             if(isset($data['result']['partner_locations'][0]['id_brand'])){
                 $data['formSurvey'] = MyHelper::post('partners/form-survey',['id_brand' => $data['result']['partner_locations'][0]['id_brand']]);
@@ -166,6 +167,7 @@ class PartnersController extends Controller
             $data['url_outlet'] = url('businessdev/partners/outlet/').'/'.$enkripsi;
             $data['url_partners_close_total'] = url('businessdev/partners/close-permanent/').'/'.$enkripsi;
             $data['url_partners_becomes_ixobox'] = url('businessdev/partners/becomes-ixobox/').'/'.$enkripsi;
+            // dd($data['confirmation']);
             return view('businessdevelopment::partners.detail', $data);
         }else{
             return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
@@ -608,7 +610,8 @@ class PartnersController extends Controller
                 "income" => "required",
                 "npwp" => "required",
                 "npwp_name" => "required",
-                "npwp_address" => "required",
+                "termpayment" => "required",
+                "partner_note" => "required",
                 
             ]);
             $update_data_location = [
@@ -663,6 +666,12 @@ class PartnersController extends Controller
         if (isset($request["npwp_address"]) && $request["follow_up"]=='Follow Up 1') {
             $update_partner['npwp_address'] = $request['npwp_address'];
         }
+        if (isset($request["termpayment"]) && $request["follow_up"]=='Follow Up 1') {
+            $update_partner['id_term_payment'] = $request['termpayment'];
+        }
+        if (isset($request["partner_note"]) && $request["follow_up"]=='Follow Up 1') {
+            $update_partner['notes'] = $request['partner_note'];
+        }
         if (isset($request['ownership_status']) && $request['follow_up']=='Follow Up 1'){
             $update_partner['ownership_status'] = $request['ownership_status'];
         } 
@@ -706,6 +715,15 @@ class PartnersController extends Controller
             }
             $form_survey["value"] = json_encode($form);
         }
+        if(isset($request["follow_up"]) && $request["follow_up"]=='Calculation'){
+            $request->validate([
+                "total_payment" => "required",
+            ]);
+            $update_data_location = [
+                "id_location" => $request["id_location"],
+                "total_payment" => $request["total_payment"],
+            ];
+        }
         if(isset($request["follow_up"]) && $request["follow_up"]=='Confirmation Letter'){
             $request->validate([
                 "no_letter" => "required",
@@ -725,6 +743,8 @@ class PartnersController extends Controller
             $update_partner['status'] = 'Active';
             $update_partner['pin'] = rand(100000,999999);
             $update_partner['password'] = Hash::make($update_partner["pin"]);
+            $update_partner['trans_date'] = date('Y-m-d');
+            $update_partner['due_date'] = date('Y-m-d', strtotime($request['due_date']));
             $update_data_location = [
                 "id_location" => $request["id_location"],
                 "status" => 'Active',

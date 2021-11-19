@@ -52,6 +52,14 @@
                                         <input class="form-control" type="text" id="follow_up" name="follow_up" value="Calculation" readonly required/>
                                     </div>
                                 </div>
+                                <input type="hidden" name="id_location" value="{{$result['partner_locations'][0]['id_location']}}">
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Total Payment <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Nominal yang akan digunakan untuk perhitungan detail produk invoice" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" type="text" id="total_payment" name="total_payment" placeholder="Enter rental price here" @if ($calcu==true) value="{{ $result['partner_locations'][0]['total_payment'] }}" readonly @endif required/>
+                                    </div>
+                                </div>    
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukan note" data-container="body"></i></label>

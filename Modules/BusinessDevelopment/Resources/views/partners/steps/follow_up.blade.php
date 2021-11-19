@@ -110,16 +110,28 @@
                                     <label for="example-search-input" class="control-label col-md-4">NPWP Name <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukan nama npwp here" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="npwp_name" name="npwp_name" placeholder="Enter npwp_name here" value="{{ old('npwp_name') }}" required/>
+                                        <input class="form-control" type="text" id="npwp_name" name="npwp_name" placeholder="Enter npwp name here" value="{{ old('npwp_name') }}" required/>
                                     </div>
                                 </div>   
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">NPWP Address <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukan alamat npwp here" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="npwp_address" name="npwp_address" placeholder="Enter npwp_address here" value="{{ old('npwp_address') }}" required/>
+                                        <textarea name="npwp_address" id="npwp_address" class="form-control" placeholder="Enter npwp address here" required>{{ old('npwp_address') }}</textarea>
                                     </div>
                                 </div>   
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Term of Payment <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan no jangka waktu pembayaran di sini" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <select class="form-control select2" name="termpayment" id="termpayment" required>
+                                            <option value="" selected disabled>Select Brand</option>
+                                            @foreach($terms as $term)
+                                                <option value="{{$term['id_term_of_payment']}}" @if(old('termpayment')) @if(old('termpayment') == $term['id_term_of_payment']) selected @endif @else @if($result['id_term_payment'] == $term['id_term_of_payment']) selected @endif @endif>{{$term['name']}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>     
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Ownership Status <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Pilih Ownership Status" data-container="body"></i></label>
@@ -143,6 +155,13 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Partner Note <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan note dari partner" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <textarea name="partner_note" id="partner_note" class="form-control" placeholder="Enter partner note here" required>{{ old('partner_note') }}</textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Start Date <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Mulai menjadi Partner" data-container="body"></i></label>
                                     <div class="col-md-5">
@@ -157,8 +176,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">End Date <span class="required" aria-required="true">*</span><br><span class="required" aria-required="true">( must be more than 3 years )</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Berakhir menjadi Partner" data-container="body"></i></label>
+                                    <label for="example-search-input" class="control-label col-md-4">End Date <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Berakhir menjadi Partner" data-container="body"></i><br><span class="required" aria-required="true">( must be more than 3 years )</span></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <input type="text" id="end_date" class="datepicker form-control" name="end_date" value="{{ (!empty($result['end_date']) ? date('d F Y', strtotime($result['end_date'])) : '')}}" required>
@@ -186,10 +205,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Mall <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Mall Calon Lokasi" data-container="body"></i></label>
+                                    <label for="example-search-input" class="control-label col-md-4">Location Short Addres <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Alamat Singkat Calon Lokasi" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <textarea name="mall" id="follow-mall" class="form-control" placeholder="Enter location mall here" required>{{ old('mall') ?? $result['partner_locations'][0]['mall']}}</textarea>
+                                        <input class="form-control" type="text" id="follow-mall" name="mall" value="{{ old('mall') ?? $result['partner_locations'][0]['mall']}}" placeholder="Enter location mall here" required/>
                                     </div>
                                 </div>
                                 
