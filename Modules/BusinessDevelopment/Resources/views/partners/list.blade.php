@@ -61,8 +61,8 @@
                                             if (response.status == 'success') {
                                                 swal("Deleted!", "Partner has been deleted.", "success")
                                                 SweetAlert.init()
-                                                if(pathname=='/businessdev/candidatepartners'){
-                                                    location.href = "{{url('businessdev/candidatepartners')}}";
+                                                if(pathname=='/businessdev/partners/candidate'){
+                                                    location.href = "{{url('/businessdev/partners/candidate')}}";
                                                   } else {
                                                     location.href = "{{url('businessdev/partners')}}";
                                                   }

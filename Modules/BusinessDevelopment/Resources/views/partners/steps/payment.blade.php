@@ -53,6 +53,20 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Due Date <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Berakhir menjadi Partner" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <div class="input-group">
+                                            <input type="text" id="due_date" class="datepicker form-control" name="due_date" @if ($pay==true) value="{{ (!empty($result['due_date']) ? date('d F Y', strtotime($result['due_date'])) : '')}}" readonly @endif required>
+                                            <span class="input-group-btn">
+                                                <button class="btn default" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukan note" data-container="body"></i></label>
                                     <div class="col-md-5">
