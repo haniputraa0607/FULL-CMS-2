@@ -7,22 +7,22 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use App\Lib\MyHelper;
 
-class TransactionHomeServiceController extends Controller
+class TransactionAcademyController extends Controller
 {
-    public function listHomeService(Request $request)
+    public function listAcademy(Request $request)
     {
         $data = [
             'title'          => 'Transaction',
             'menu_active'    => 'transaction',
-            'sub_title'      => 'Transaction Home Service',
-            'submenu_active' => 'transaction-home-service',
+            'sub_title'      => 'Transaction Academy',
+            'submenu_active' => 'transaction-academy',
             'filter_title'   => 'Filter Transaction',
             'filter_date'    => true,
             'filter_date_today' => true,
         ];
 
-        if(session('trx_home_service')){
-            $extra=session('trx_home_service');
+        if(session('trx_acedemy')){
+            $extra=session('trx_acedemy');
             $data['rule']=array_map('array_values', $extra['rule']);
             $data['operator']=$extra['operator'];
         } else{
@@ -49,7 +49,7 @@ class TransactionHomeServiceController extends Controller
         }
 
         if ($request->wantsJson()) {
-            $data = MyHelper::post('transaction/home-service', $extra + $request->all());
+            $data = MyHelper::post('transaction/academy', $extra + $request->all());
             return $data['result'];
         }
         
@@ -68,7 +68,7 @@ class TransactionHomeServiceController extends Controller
             $data['is_today'] = true;
         }
 
-        return view('transaction::transaction.home_service', $data);
+        return view('transaction::transaction.academy', $data);
     }
 
     /**
@@ -94,38 +94,38 @@ class TransactionHomeServiceController extends Controller
                     'hide' => '1',
                 ];
             }
-            session(['trx_home_service'=>$post]);
+            session(['trx_acedemy'=>$post]);
             return back();
         }
 
         if($post['clear']??false){
-            session(['trx_home_service'=>null]);
+            session(['trx_acedemy'=>null]);
             return back();
         }
 
         return abort(404);
     }
 
-    public function detailHomeService(Request $request, $id) {
+    public function detailAcademy(Request $request, $id) {
 
         $data = [
             'title'          => 'Transaction',
             'menu_active'    => 'transaction',
-            'sub_title'      => 'Detail Transaction Home Service',
-            'submenu_active' => 'transaction-home-service'
+            'sub_title'      => 'Detail Transaction Academy',
+            'submenu_active' => 'transaction-academy'
         ];
 
         $post['id_transaction'] = $id;
-        $check = MyHelper::post('transaction/home-service/detail', $post);
+        $check = MyHelper::post('transaction/academy/detail', $post);
 
-    	if (isset($check['status']) && $check['status'] == 'success') {
-    		$data['data'] = $check['result'];
-    	} elseif (isset($check['status']) && $check['status'] == 'fail') {
+        if (isset($check['status']) && $check['status'] == 'success') {
+            $data['data'] = $check['result'];
+        } elseif (isset($check['status']) && $check['status'] == 'fail') {
             return view('error', ['msg' => 'Data failed']);
         } else {
             return view('error', ['msg' => 'Something went wrong, try again']);
         }
-        return view('transaction::transactionDetailHomeService', $data);
-    	
+        return view('transaction::transactionDetailAcademy', $data);
+
     }
 }

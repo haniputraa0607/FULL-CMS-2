@@ -294,8 +294,7 @@
 				@if($filter_date ?? false)
 				@if($filter_date_today ?? false)
 				<div class="form-group row">
-                    <label class="col-md-1 col-form-label"></label>
-                    <div class="col-md-9 col-form-label">
+                    <div class="col-md-9 col-form-label" style="margin-left: 4.5%">
                         <label class="radio-inline">
                             <input type="radio" name="filter_type" @if($is_today ?? false) checked @endif id="filter-date-type" value="today">
                             <span></span> Today
@@ -306,6 +305,7 @@
                         </label>
                     </div>
                 </div>
+				<br>
                 @endif
 				<div class="row" id="filter-date-range">
 					<div class="col-md-2 text-right pt-3">Date Start:</div>
