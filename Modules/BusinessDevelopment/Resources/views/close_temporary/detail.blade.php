@@ -63,7 +63,7 @@
                 <i class="fa fa-circle"></i>
             </li>
             <li>
-                <span>{{ $title }}</span>
+                <span><a href="{{ $url_title }}" >{{ $title }}</a></span>
                 @if (!empty($sub_title))
                     <i class="fa fa-circle"></i>
                 @endif

@@ -16,12 +16,15 @@ use Illuminate\Support\Facades\Hash;
 class PartnersCloseTemporaryController extends Controller
 {
     public function index(Request $request,$id){
+        $enk = $id;
         $id = MyHelper::explodeSlug($id)[0]??'';
         $result = MyHelper::post('partners/close-temporary', ['id_partner' => $id]);
         $resulttemporary = MyHelper::post('partners/close-temporary/closeTemporary', ['id_partner' => $id]);
             $data = [
                 'title'          => 'Partner',
+                'url_title'      => url('businessdev/partners/detail').'/'.$id,
                 'sub_title'      => 'Partner Closure Temporary',
+                'url_sub_title'  =>url('businessdev/partners/close-temporary').'/'.$enk,
                 'menu_active'    => 'partners',
                 'submenu_active' => 'list-partners',
             ];
@@ -98,6 +101,7 @@ class PartnersCloseTemporaryController extends Controller
                 $data['url'] = false;
             }
             $enkrip = MyHelper::createSlug($result['result']['partner']['id_partner'], $result['result']['partner']['created_at']);
+            $data['url_title'] = url('businessdev/partners/detail/').'/'.$result['result']['id_partner'];
             $data['url_sub_title'] = url('businessdev/partners/close-temporary/').'/'.$enkrip;
             return view('businessdevelopment::close_temporary.detail', $data);
         }else{

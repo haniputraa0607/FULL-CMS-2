@@ -52,9 +52,9 @@ $grantedFeature     = session('granted_features');
                                             @if($outlet['outlet_status'] == 'Active')
                                                 <span class="sale-num sbold badge badge-pill" style="font-size: 20px!important;height: 30px!important;background-color: #26C281;padding: 5px 12px;color: #fff;">{{$outlet['outlet_status']}}</span>
                                             @elseif($outlet['outlet_status'] == 'Inactive')
-                                                <span class="sale-num sbold badge badge-pill" style="font-size: 20px!important;height: 30px!important;background-color: #e1e445;padding: 5px 12px;color: #fff;">{{$outlet['outlet_status']}}</span>
-                                            @else
                                                 <span class="sale-num sbold badge badge-pill" style="font-size: 20px!important;height: 30px!important;background-color: #EF1E31;padding: 5px 12px;color: #fff;">{{$outlet['outlet_status']}}</span>
+                                            @else
+                                                <span class="sale-num sbold badge badge-pill" style="font-size: 20px!important;height: 30px!important;background-color: #e1e445;padding: 5px 12px;color: #fff;">{{$outlet['outlet_status']}}</span>
                                             @endif
                                         </div>
                                     </div>
@@ -106,6 +106,8 @@ $grantedFeature     = session('granted_features');
                                      <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: lightblue;padding: 5px 12px;color: #fff;">{{$value['status']}}</span>
                                         @elseif($value['status']=='Process')
                                         <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: greenyellow;padding: 5px 12px;color: #fff;">{{$value['status']}}</span>
+                                        @elseif($value['status']=='Success')
+                                        <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: #26C281;padding: 5px 12px;color: #fff;">{{$value['status']}}</span>
                                         @else
                                         <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: red;padding: 5px 12px;color: #fff;">{{$value['status']}}</span>
                                     @endif

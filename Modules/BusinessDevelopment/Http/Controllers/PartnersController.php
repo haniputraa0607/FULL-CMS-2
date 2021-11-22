@@ -168,6 +168,7 @@ class PartnersController extends Controller
             $data['url_partners_close_total'] = url('businessdev/partners/close-permanent/').'/'.$enkripsi;
             $data['url_partners_becomes_ixobox'] = url('businessdev/partners/becomes-ixobox/').'/'.$enkripsi;
             // dd($data['confirmation']);
+//            return $data;
             return view('businessdevelopment::partners.detail', $data);
         }else{
             return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
@@ -592,12 +593,25 @@ class PartnersController extends Controller
             return redirect('businessdev/partners/request-update/detail/'.$id)->withErrors($result['messages'] ?? ['Failed approve request update partner']);
         }
     }
-
+    public function approved(Request $request) {
+        $update_status_step = [
+            "id_partner" => $request["id_partner"],
+            "status_steps" => "Finished Follow Up",
+            "status" => 'Candidate'
+        ];
+        $partner_step = MyHelper::post('partners/update', $update_status_step);
+       return $partner_step; 
+    }
     public function followUp(Request $request){
         $request->validate([
             "import_file" => "mimes:pdf|max:2000",
             "note" => "required",
         ]);
+        $post_follow_up = [
+            "id_partner" => $request["id_partner"],
+            "follow_up" => $request["follow_up"],
+            "note" => $request["note"],  
+        ];
         if(isset($request["follow_up"]) && $request["follow_up"]=='Follow Up 1'){
             $request->validate([
                 "mall" => "required",
@@ -629,12 +643,13 @@ class PartnersController extends Controller
                 "income" => $request["income"],   
                 "mall" => $request["mall"],   
             ];
-        }
-        $post_follow_up = [
+            $post_follow_up = [
             "id_partner" => $request["id_partner"],
-            "follow_up" => $request["follow_up"],
+            "follow_up" => "Follow Up",
             "note" => $request["note"],  
         ];
+        }
+        
         if (isset($request["import_file"])) {
             $post_follow_up['attachment'] = MyHelper::encodeImage($request['import_file']);
         }
@@ -647,8 +662,6 @@ class PartnersController extends Controller
             $status_steps = 'Calculation';
         }elseif($request["follow_up"]=='Survey Location'){
             $status_steps = 'Survey Location';
-        }elseif($request["follow_up"]=='Approved'){
-            $status_steps = 'Finished Follow Up';
         }else{
             $status_steps = 'On Follow Up';
         }

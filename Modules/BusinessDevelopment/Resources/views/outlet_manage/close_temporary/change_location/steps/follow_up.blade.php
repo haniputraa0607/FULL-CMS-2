@@ -6,7 +6,60 @@
     }
   }
 ?>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+        var SweetAlertNextSteps = function() {
+            return {
+                init: function() {
+                    $(".sweetalert-next-steps").each(function() {
+                        var token  	= "{{ csrf_token() }}";
+                        var pathname = window.location.pathname; 
+                        let column 	= $(this).parents('tr');
+                        let id     	= $(this).data('id');
+                        let name    = $(this).data('name');
+                        var data = {
+                            '_token' : '{{csrf_token()}}',
+                            'id_outlet_close_temporary':id
+                                        };
+                        $(this).click(function() {
+                            swal({
+                                    title: "Approved?",
+                                    text: "Kamu akan diarahkan ke step selanjutnya!",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonClass: "btn-success",
+                                    confirmButtonText: "Yes, Next Step!",
+                                    closeOnConfirm: false
+                                },
+                                function(){
+                                    $.ajax({
+                                        type : "POST",
+                                        url : "{{url('businessdev/partners/outlet/close/followup/approved')}}",
+                                        data : data,
+                                        success : function(response) {
+                                            if (response.status == 'success') {
+                                                swal("Success!", "Next Step", "success")
+                                                SweetAlert.init()
+                                                 window.location.reload();
+                                            }
+                                            else if(response.status == "fail"){
+                                                swal("Error!", "Failed to delete.", "error")
+                                            }
+                                            else {
+                                                swal("Error!", "Something went wrong. Failed to delete .", "error")
+                                            }
+                                        }
+                                    });
+                                });
+                        })
+                    })
+                }
+            }
+        }();
+        jQuery(document).ready(function() {
+            SweetAlertNextSteps.init()
+        });
+    </script>
 <div style="white-space: nowrap;">
     <div class="tab-pane">
         <div class="portlet light bordered">
@@ -14,15 +67,18 @@
                 <div class="caption">
                     <span class="caption-subject font-dark sbold uppercase font-yellow">Follow Up Data</span>
                 </div>
-                @if($result['status']=='Process')
-                    @if($step_follow_up<8)
+                @if($result['status']=='Process'&&$result['status_steps']=='On Follow Up')
                     <a href="#form" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="input-follow-up">
-                        @if($step_follow_up == 7) Approved @else Follow Up {{ $step_follow_up }} @endif
+                        Follow Up
                     </a>
-                    @endif
                     <a href="#table" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="back-follow-up">
                         Back
                     </a>
+                    @if($step_follow_up>1)
+                    <a class="btn btn-sm green sweetalert-next-steps btn-primary" data-id="{{ $result['id_outlet_close_temporary'] }}" type="button" style="float:right" data-toggle="tab" id="next-follow-up">
+                        Approved
+                    </a>
+                    @endif
                 @endif
             </div>
             <div class="portlet-body form">
@@ -41,10 +97,10 @@
                                 <tbody>
                                     @if(!empty($result['step']))
                                         @foreach($result['step'] as $i => $step)
-                                            @if ($i<=6)
+                                            @php $i++; @endphp
                                             <tr data-id="{{ $step['id_outlet_close_temporary_steps'] }}">
                                                 <td>{{date('d F Y H:i', strtotime($step['created_at']))}}</td>
-                                                <td>{{$step['follow_up']}}</td>
+                                                <td>{{$step['follow_up']}} {{$i}}</td>
                                                 <td>{{$step['note']}}</td>
                                                 <td>
                                                     @if(isset($step['attachment']))
@@ -54,7 +110,6 @@
                                                     @endif
                                                 </td>
                                             </tr>
-                                            @endif
                                         @endforeach
                                     @else
                                         <tr>
@@ -74,7 +129,7 @@
                                     <label for="example-search-input" class="control-label col-md-4">Step <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Pilih step" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="follow_up" name="follow_up" value="@if($step_follow_up<7)Follow Up {{ $step_follow_up }} @else Approved @endif" readonly required/>
+                                        <input class="form-control" type="text" id="follow_up" name="follow_up" value="@if($step_follow_up<2)Follow Up {{ $step_follow_up }} @else Follow Up @endif" readonly required/>
                                     </div>
                                 </div>
                                 @if ($step_follow_up==1)
