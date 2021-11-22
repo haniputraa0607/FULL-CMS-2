@@ -99,8 +99,12 @@ class RequestHairStylistController extends Controller
             'submenu_active' => 'new-req-hair-stylist',
         ];  
         $listOutlet = MyHelper::get('mitra/request/outlet');
-        $data['outlet'] = $listOutlet['result'];
-        return view('recruitment::request.new', $data);
+        if(isset($listOutlet) && !empty($listOutlet)){
+            $data['outlet'] = $listOutlet['result'];
+            return view('recruitment::request.new', $data);
+        }else{
+            return redirect('recruitment/hair-stylist/request')->withErrors($result['messages'] ?? ['Failed create a new request hair stylist because there is no outlet listed yet']);
+        }
     }
 
     /**

@@ -78,77 +78,77 @@
                                 @endif
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Recipient <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama pihak kedua" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama contact person perusahaan yang akan menjalin kontrak kerja sama" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" @if(isset($confirmation['pihak_dua'])) value="{{ $confirmation['pihak_dua'] }}" @endif placeholder="- " readonly/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama pihak kedua" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Lokasi outlet yang diajukan partner" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" @if(isset($confirmation['lokasi'])) value="{{ $confirmation['lokasi'] }}" @endif placeholder="- " readonly />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Outlet Address <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama pihak kedua" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Alamat lengkap dari lokasi outlet yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <textarea style="height: 80px" class="form-control" placeholder="- " readonly >@if(isset($confirmation['lokasi'])) {{ $confirmation['address'] }} @endif</textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Outlet Large <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama pihak kedua" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Luas lokasi outlet yang diakukan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" @if(isset($confirmation['large'])) value="{{ $confirmation['large'] }}" @endif placeholder="- " readonly />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Partnership Time <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama pihak kedua" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Masa kerja sama partner dengan IXOBOX" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" @if(isset($confirmation['waktu'])) value="{{ $confirmation['waktu'] }}" @endif placeholder="- " readonly />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Partnership Fee <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama pihak kedua" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Biaya kerja sama yang akan dibayarkan partner ke IXOBOX" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" @if(isset($confirmation['partnership_fee'])) value="{{ $confirmation['partnership_fee'] }}" @endif placeholder="- " readonly />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Booking Fee <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama pihak kedua" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Biaya booking fee adalah 20% dari Partnership Fee" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" @if(isset($confirmation['dp'])) value="{{ $confirmation['dp'] }}" @endif placeholder="- " readonly />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Down Payment 1 <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama pihak kedua" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Biaya booking fee adalah 30% dari Partnership Fee" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" @if(isset($confirmation['dp2'])) value="{{ $confirmation['dp2'] }}" @endif placeholder="- " readonly />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Final Payment <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama pihak kedua" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Pembayaran terakhir oleh partner ke IXOBOX" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" @if(isset($confirmation['final'])) value="{{ $confirmation['final'] }}" @endif placeholder="- " readonly />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Reference Number <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nomor surat" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Nomor surat yang akan dicantumkan di confirmation letter" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" id="no_letter" name="no_letter" placeholder="Enter reference number here" required @if ($confir==true) readonly value="{{$result['partner_confirmation'][0]['no_letter']}}" @endif/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location Letter <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukkan lokasi surat" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Lokasi confirmation letter dibuat" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" id="location_letter" name="location_letter" placeholder="Enter location letter here" required @if ($confir==true) readonly value="{{$result['partner_confirmation'][0]['location']}}" @endif/>
                                     </div>
@@ -156,14 +156,14 @@
                                 <input type="hidden" name="id_location" value="{{$result['partner_locations'][0]['id_location']}}">
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Payment Note <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan catatan tentang pembayaran" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Catatan pembayaran berisikan pilihan untuk pengansuran final payment, jika tidak diisi berarti final payment tanpa angsuran" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <textarea style="height: 200px" name="payment_note" id="payment_note" class="form-control" placeholder="Final Payment akan diangsur ..." @if ($confir==true) readonly @endif>{{ $result['partner_locations'][0]['notes'] }}</textarea>
                                     </div>
                                 </div> 
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan note" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Catatan untuk step in" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <textarea name="note" id="note" class="form-control" placeholder="Enter note here" @if ($confir==true) readonly @endif >@if ($confir==true) {{ $note }} @endif</textarea>
                                     </div>
@@ -171,11 +171,11 @@
                                 <div class="form-group">
                                     @if ($confir==false) 
                                     <label for="example-search-input" class="control-label col-md-4">Import Attachment 
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan file" data-container="body"></i><br>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Unggah file jika ada lampiran yang diperlukan" data-container="body"></i><br>
                                         <span class="required" aria-required="true"> (PDF max 2 mb) </span></label>
                                     @else
                                     <label for="example-search-input" class="control-label col-md-4">Download Attachment 
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Download file" data-container="body"></i><br></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Download file yang dilampirkan pada step ini" data-container="body"></i><br></label>
                                     @endif
                                     <div class="col-md-5">
                                         @if ($confir==false) 
@@ -206,8 +206,8 @@
                                 </div>
                                 @if ($confir==true)
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Confirmation Letter <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Download file" data-container="body"></i><br></label>
+                                    <label for="example-search-input" class="control-label col-md-4">Confirmation Letter
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Download file confirmation letter" data-container="body"></i><br></label>
                                     <div class="col-md-5">
                                         <label for="example-search-input" class="control-label col-md-4">
                                             <a href="{{ $result['partner_confirmation'][0]['attachment'] }}">Download Confirmation Letter</a>

@@ -73,7 +73,8 @@ class PartnersController extends Controller
         $post['order'] = $order;
         $post['order_type'] = $orderType;
         $post['status'] = $data['status'];
-        
+
+
         $list = MyHelper::post('partners'.$page, $post);
         if(($list['status']??'')=='success'){
             $data['data']          = $list['result']['data'];

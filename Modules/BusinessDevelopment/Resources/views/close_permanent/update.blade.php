@@ -121,15 +121,15 @@ $grantedFeature     = session('granted_features');
                             <input class="form-control" type="hidden" id="id_partners_close_permanent" name="id_partners_close_permanent" value="{{$result['id_partners_close_permanent']}}"/>
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Title<span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Title" data-container="body"></i></label>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Judul pengajua" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <input @if($result['status']!='Process' ) disabled @endif class="form-control" type="text" id="input-name" name="title" value="{{$result['title']}}" placeholder="Enter name here"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 @if(!empty($result['close_date']))
-                                <label for="example-search-input" class="control-label col-md-4">Tanggal Close<span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Close" data-container="body"></i></label>
+                                <label for="example-search-input" class="control-label col-md-4">Submitted Date<span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Pengajuan tanggal partner beralih ke IXOBOX" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <div class="input-group">
                                         <input type="text" id="close_date" @if($result['status']!='Process' ) disabled @endif class="datepicker form-control" name="close_date" value="{{ (!empty($result['close_date']) ? date('d F Y', strtotime($result['close_date'])) : '')}}" >
@@ -141,8 +141,8 @@ $grantedFeature     = session('granted_features');
                                     </div>
                                 </div>
                                 @else
-                                <label for="example-search-input" class="control-label col-md-4">Tanggal Mulai<span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Mulai" min='@php date("Y-m-d"); @endphp' data-container="body"></i></label>
+                                <label for="example-search-input" class="control-label col-md-4">Start Date<span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Pengajuan tanggal partner beralih ke IXOBOX" min='@php date("Y-m-d"); @endphp' data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <input type="text" id="close_date" @if($result['status']!='Process' ) disabled @endif class="datepicker form-control" name="start_date" value="{{ (!empty($result['start_date']) ? date('d F Y', strtotime($result['start_date'])) : '')}}" >
@@ -157,7 +157,7 @@ $grantedFeature     = session('granted_features');
                             </div>
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Note
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Note" data-container="body"></i></label>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Catatan untuk pengajuan ini" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <input class="form-control" type="text" id="input-phone" name="note" value="{{$result['note']}}" placeholder="Enter note"  @if($result['status']!='Process' ) disabled @endif />
                                 </div>

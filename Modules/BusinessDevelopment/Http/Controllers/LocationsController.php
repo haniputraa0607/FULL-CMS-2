@@ -73,7 +73,9 @@ class LocationsController extends Controller
         $post['order'] = $order;
         $post['order_type'] = $orderType;
         $post['status'] = $data['status'];
+
         $list = MyHelper::post('partners/locations'.$page, $post);
+        dd($list);
         
         if(($list['status']??'')=='success'){
             $data['data']          = $list['result']['data'];

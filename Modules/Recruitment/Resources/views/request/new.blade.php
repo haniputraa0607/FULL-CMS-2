@@ -148,7 +148,7 @@
                 <div class="form-body">
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Outlet Name <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Outlet Name Request" data-container="body"></i></label>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Nama outlet yang membuat permintaan hair stylist" data-container="body"></i></label>
                         <div class="col-md-5">
                             <select class="form-control select2 approvedForm" name="id_outlet" required>
                                 <option value="" selected disabled>Select Outlet</option>
@@ -160,14 +160,14 @@
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Number of Request <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Number of Request Hair Stylist" data-container="body"></i></label>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Jumlah hair stylist yang diminta oleh outlet" data-container="body"></i></label>
                         <div class="col-md-5">
                             <input class="form-control" type="text" id="old_name" name="number_of_request" required/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Notes 
-                            <i class="fa fa-question-circle tooltips" data-original-title="Notes Outlet Manager" data-container="body"></i></label>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Catatan dari outlet manager" data-container="body"></i></label>
                         <div class="col-md-5">
                             <textarea name="notes_om" id="input-note" class="form-control" placeholder="Enter note here"></textarea>
                         </div>
