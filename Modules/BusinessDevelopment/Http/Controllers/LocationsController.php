@@ -21,6 +21,7 @@ class LocationsController extends Controller
      */
     public function index(Request $request, $type = null)
     {
+        $rule = false;
         $post = $request->all();
         $url = $request->url();
         if($type!='candidate'){
@@ -75,7 +76,6 @@ class LocationsController extends Controller
         $post['status'] = $data['status'];
 
         $list = MyHelper::post('partners/locations'.$page, $post);
-        dd($list);
         
         if(($list['status']??'')=='success'){
             $data['data']          = $list['result']['data'];
@@ -83,12 +83,14 @@ class LocationsController extends Controller
             $data['data_per_page']   = $list['result']['from'];
             $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;
             $data['data_paginator'] = new LengthAwarePaginator($list['result']['data'], $list['result']['total'], $list['result']['per_page'], $list['result']['current_page'], ['path' => url()->current()]);
+            $data['rule'] = $rule;
         }else{
             $data['data']          = [];
             $data['data_total']     = 0;
             $data['data_per_page']   = 0;
             $data['data_up_to']      = 0;
             $data['data_paginator'] = false;
+            $data['rule'] = false;
         }
 
         if($post){
