@@ -4,21 +4,21 @@
             <input class="form-control" type="hidden" id="id_partners_becomes_ixobox" name="id_partners_becomes_ixobox" value="{{$result['id_partners_becomes_ixobox']}}"/>
             <div class="form-group">
                 <label for="example-search-input" class="control-label col-md-4">Title<span class="required" aria-required="true">*</span>
-                    <i class="fa fa-question-circle tooltips" data-original-title="Title" data-container="body"></i></label>
+                    <i class="fa fa-question-circle tooltips" data-original-title="Judul dokumen untuj pengajuan" data-container="body"></i></label>
                 <div class="col-md-5">
                     <input required class="form-control" type="text" id="input-name" name="title" placeholder="Enter name here"/>
                 </div>
             </div>
             <div class="form-group">
                 <label for="example-search-input" class="control-label col-md-4">Note
-                    <i class="fa fa-question-circle tooltips" data-original-title="Note" data-container="body"></i></label>
+                    <i class="fa fa-question-circle tooltips" data-original-title="Catatan untuk dokumen yang diunggah" data-container="body"></i></label>
                 <div class="col-md-5">
                     <input class="form-control" type="text" id="input-phone" name="note" placeholder="Enter note"/>
                 </div>
             </div>
             <div class="form-group">
                 <label for="example-search-input" class="control-label col-md-4">Import Attachment<span class="required" aria-required="true">*</span>
-                    <i class="fa fa-question-circle tooltips" data-original-title="Note" data-container="body"></i><br>
+                    <i class="fa fa-question-circle tooltips" data-original-title="Unggah file dokumen untuk melanjutkan proses pengajuan selanjutnya" data-container="body"></i><br>
                     <span class="required" aria-required="true"> (PDF max 2 mb) </span></label>
                 <div class="col-md-5">
                     <div class="fileinput fileinput-new text-left" data-provides="fileinput">

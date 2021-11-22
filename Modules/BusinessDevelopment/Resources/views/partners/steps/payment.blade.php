@@ -47,14 +47,14 @@
                                 <input type="hidden" name="id_partner" value="{{$result['id_partner']}}">
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Step <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Pilih step" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Step yang sedang dilakukan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" id="follow_up" name="follow_up" value="Payment" readonly required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Due Date <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Berakhir menjadi Partner" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal jatuh tempo atau tanggal terakhir pembayaran partnershi fee" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <input type="text" id="due_date" class="datepicker form-control" name="due_date" @if ($pay==true) value="{{ (!empty($result['due_date']) ? date('d F Y', strtotime($result['due_date'])) : '')}}" readonly @endif required>
@@ -70,18 +70,18 @@
                                     <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Masukan note" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <textarea name="note" id="note" class="form-control" placeholder="Enter note here" @if ($pay==true) readonly @endif >@if ($pay==true) {{ $note }} @endif</textarea>
+                                        <textarea name="note" id="note" class="form-control" placeholder="Catatan untuk step in" @if ($pay==true) readonly @endif >@if ($pay==true) {{ $note }} @endif</textarea>
                                     </div>
                                 </div>
                                 <input type="hidden" name="id_location" value="{{$result['partner_locations'][0]['id_location']}}">
                                 <div class="form-group">
                                     @if ($pay==false) 
                                     <label for="example-search-input" class="control-label col-md-4">Import Attachment 
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan file" data-container="body"></i><br>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Unggah file jika ada lampiran yang diperlukan" data-container="body"></i><br>
                                         <span class="required" aria-required="true"> (PDF max 2 mb) </span></label>
                                         @else
                                     <label for="example-search-input" class="control-label col-md-4">Download Attachment 
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Download file" data-container="body"></i><br></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Download file yang dilampirkan pada step ini" data-container="body"></i><br></label>
                                         @endif
                                     <div class="col-md-5">
                                         @if ($pay==false) 

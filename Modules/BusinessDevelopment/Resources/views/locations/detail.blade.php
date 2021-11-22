@@ -216,56 +216,56 @@
                     <input class="form-control" type="hidden" id="id_partner" name="id_partner" value="{{$result['id_partner']}}" readonly/>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Name Partner <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Nama Partner" data-container="body"></i></label>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Nama partner pemilik lokasi" data-container="body"></i></label>
                         <div class="col-md-5">
                             <input class="form-control" type="text" id="input-name-partner" name="namePartner" value="{{$result['location_partner']['name']}}" readonly/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Name Location <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nama lokasi" data-container="body"></i></label>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Nama Lokasi yang dimiliki partner" data-container="body"></i></label>
                         <div class="col-md-5">
                             <input class="form-control" type="text" id="input-name" name="name" value="{{$result['name']}}" placeholder="Enter name location here"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Address Location <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Masukkan alamat lokasi" data-container="body"></i></label>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Alamat lengkap lokasi" data-container="body"></i></label>
                         <div class="col-md-5">
                             <textarea name="address" id="input-address" class="form-control" placeholder="Enter address location here">{{$result['address']}}</textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Latitude Location <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Masukkan latitude lokasi" data-container="body"></i></label>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Titik garis lintang lokasi" data-container="body"></i></label>
                         <div class="col-md-5">
                             <input class="form-control" type="text" id="input-latitude" name="latitude" value="{{$result['latitude']}}" placeholder="Enter latitude location here"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Longitude Location <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Masukkan longitude lokasi" data-container="body"></i></label>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Titik garis bujur lokasi" data-container="body"></i></label>
                         <div class="col-md-5">
                             <input class="form-control" type="text" id="input-longitude" name="longitude" value="{{$result['longitude']}}" placeholder="Enter longitude location here"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">PIC Name Location <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nama pic lokasi" data-container="body"></i></label>
+                        <label for="example-search-input" class="control-label col-md-4">PIC Name Location 
+                            <i class="fa fa-question-circle tooltips" data-original-title="Nama penanggung jawan lokasi" data-container="body"></i></label>
                         <div class="col-md-5">
                             <input class="form-control" type="text" id="input-pic_name" name="pic_name" value="{{$result['pic_name']}}" placeholder="Enter pic_name location here"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">PIC Contact Location <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Masukkan kontak pic lokasi" data-container="body"></i></label>
+                        <label for="example-search-input" class="control-label col-md-4">PIC Contact Location 
+                            <i class="fa fa-question-circle tooltips" data-original-title="Kontak yang dapat dihubungi dari penanggung jawab lokasi" data-container="body"></i></label>
                         <div class="col-md-5">
                             <input class="form-control" type="text" id="input-pic_contact" name="pic_contact" value="{{$result['pic_contact']}}" placeholder="Enter pic_contact location here"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">City Location <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Masukkan kota lokasi" data-container="body"></i></label>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Kota/Kabupaten lokasi berasa" data-container="body"></i></label>
                         <div class="col-md-5">
                             <select class="form-control select2" name="id_city" id="input-id_city" required>
                                 <option value="" selected disabled>Select City</option>
@@ -278,7 +278,7 @@
                     @if($title=='Location') 
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Start Date <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Mulai Lokasi Disetujui" data-container="body"></i></label>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Tanggal lokasi mulai disahkan" data-container="body"></i></label>
                         <div class="col-md-5">
                             <div class="input-group">
                                 <input type="text" id="start_date" class="datepicker form-control" name="start_date" value="{{ (!empty($result['start_date']) ? date('d F Y', strtotime($result['start_date'])) : '')}}">
@@ -292,7 +292,7 @@
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">End Date <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Berakhir Lokasi Disetujui" data-container="body"></i></label>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Tanggal lokasi berhenti beroperasi" data-container="body"></i></label>
                         <div class="col-md-5">
                             <div class="input-group">
                                 <input type="text" id="end_date" class="datepicker form-control" name="end_date" value="{{ (!empty($result['end_date']) ? date('d F Y', strtotime($result['end_date'])) : '')}}">
@@ -307,7 +307,7 @@
                     @endif
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Status <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih status lokasi" data-container="body"></i></label>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Status lokasi" data-container="body"></i></label>
                         <div class="col-md-5">
                             @if($title=='Candidate Location')
                             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#candidatePartnerModal" id="modalPartner">

@@ -146,7 +146,7 @@
                                 <input type="hidden" name="id_partner" value="{{$result['id_partner']}}">
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Step <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Pilih step" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Step yang sedang dilakukan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" id="follow_up" name="follow_up" value="@if($step_follow_up<2)Follow Up {{ $step_follow_up }} @else Follow Up @endif" readonly required/>
                                     </div>
@@ -154,28 +154,28 @@
                                 @if ($step_follow_up==1)
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">NPWP <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan npwp" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Nomor NPWP partner" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" id="npwp" name="npwp" placeholder="Enter npwp here" value="{{ old('npwp') }}" required/>
                                     </div>
                                 </div>   
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">NPWP Name <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan nama npwp here" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama NPWP partner" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" id="npwp_name" name="npwp_name" placeholder="Enter npwp name here" value="{{ old('npwp_name') }}" required/>
                                     </div>
                                 </div>   
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">NPWP Address <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan alamat npwp here" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Alamat NPWP Partner" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <textarea name="npwp_address" id="npwp_address" class="form-control" placeholder="Enter npwp address here" required>{{ old('npwp_address') }}</textarea>
                                     </div>
                                 </div>   
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Term of Payment <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan no jangka waktu pembayaran di sini" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Pilih metode pembayaran partner" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <select class="form-control select2" name="termpayment" id="termpayment" required>
                                             <option value="" selected disabled>Select Brand</option>
@@ -187,7 +187,7 @@
                                 </div>     
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Ownership Status <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Pilih Ownership Status" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Stastus kepemilikan kontrak kerja sama dengan IXOBOX" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <select name="ownership_status" class="form-control input-sm select2" placeholder="Ownership Status" required>
                                             <option value="" selected disabled>Select Ownership Status</option>
@@ -198,7 +198,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Coopertaion Scheme<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Pilih Coopertaion Scheme" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Skema Pembagian hasil partner dengan IXOBOX" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <select name="cooperation_scheme" class="form-control input-sm select2" placeholder="Coopertaion Scheme" required>
                                             <option value="" selected disabled>Select Cooperation Scheme</option>
@@ -209,14 +209,14 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Partner Note <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan note dari partner" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Catatan tentang perusahaan/instansi partner" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <textarea name="partner_note" id="partner_note" class="form-control" placeholder="Enter partner note here" required>{{ old('partner_note') }}</textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Start Date <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Mulai menjadi Partner" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai menjadi partner atau tanggal kerja sama dimulai" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <input type="text" id="start_date" class="datepicker form-control" name="start_date" value="{{ (!empty($result['start_date']) ? date('d F Y', strtotime($result['start_date'])) : '')}}" required>
@@ -230,7 +230,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">End Date <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Berakhir menjadi Partner" data-container="body"></i><br><span class="required" aria-required="true">( must be more than 3 years )</span></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal berakhir menjadi partner atau tanggal kerja sama selesai" data-container="body"></i><br><span class="required" aria-required="true">( must be more than 3 years )</span></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <input type="text" id="end_date" class="datepicker form-control" name="end_date" value="{{ (!empty($result['end_date']) ? date('d F Y', strtotime($result['end_date'])) : '')}}" required>
@@ -245,21 +245,21 @@
                                 <input type="hidden" name="id_location" value="{{$result['partner_locations'][0]['id_location']}}">
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location Name <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama Calon Lokasi" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama calon lokasi yang diajukan oleh perusahaan/instansi" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" id="follow-name-location" name="nameLocation" value="{{ old('nameLocation') ?? $result['partner_locations'][0]['name']}}" placeholder="Enter location name here" required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location Address <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Address Calon Lokasi" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Alamat lengkap calon lokasi yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <textarea name="addressLocation" id="follow-address-location" class="form-control" placeholder="Enter location name here" required>{{ old('addressLocation') ?? $result['partner_locations'][0]['address']}}</textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location Short Addres <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Alamat Singkat Calon Lokasi" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Alamat singakt calon lokasi yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" id="follow-mall" name="mall" value="{{ old('mall') ?? $result['partner_locations'][0]['mall']}}" placeholder="Enter location mall here" required/>
                                     </div>
@@ -267,7 +267,7 @@
                                 
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location City <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Kota Calon Lokasi" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Kota/Kabupaten dari calon lokasi" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <select class="form-control select2" name="id_cityLocation" id="follow-id_cityLocation" required>
                                             <option value="" selected disabled>Select City</option>
@@ -279,7 +279,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location Brand <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Brand Calon Lokasi" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Brand yang akan digunakan oleh calon lokasi" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <select class="form-control select2" name="id_brand" id="follow-id_brand" required>
                                             <option value="" selected disabled>Select Brand</option>
@@ -291,49 +291,49 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location Large <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan luas lokasi" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Luas dari lokasi yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" id="location_large" name="location_large" placeholder="Enter location large here" value="{{ old('location_large') }}" required/>
                                     </div>
                                 </div>    
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Rental Price <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan harga sewa" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Harga sewa dari lokasi per tahun" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" id="rental_price" name="rental_price" placeholder="Enter rental price here" value="{{ old('rental_price') }}" required/>
                                     </div>
                                 </div>    
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Service Charge <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan biaya servis" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Perkiraan biaya servis untuk lokasi yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" id="service_charge" name="service_charge" placeholder="Enter service charge here" value="{{ old('service_charge') }}" required/>
                                     </div>
                                 </div>    
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Promotion Levy <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan promosi" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Promosi yang nantinya akan dipakai" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" id="promotion_levy" name="promotion_levy" placeholder="Enter promotion levy here"  value="{{ old('promotion_levy') }}" required/>
                                     </div>
                                 </div>    
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Contractor Price <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan biaya renovasi" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Biaya kontraktor untuk membangun lokasi" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" id="renovation_cost" name="renovation_cost" placeholder="Enter renovation cost here" value="{{ old('renovation_cost') }}" required/>
                                     </div>
                                 </div>    
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Partnership Fee <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan pembayaran kerja sama" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Biaya kerja sama yang akan dibayarkan partner ke IXOBOX" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" id="partnership_fee" name="partnership_fee" placeholder="Enter partnership fee here" value="{{ old('partnership_fee') }}" required/>
                                     </div>
                                 </div>    
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Income <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan pemasukan" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Perkiraan permasukan per bulan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" id="income" name="income" placeholder="Enter income here" value="{{ old('income') }}" required/>
                                     </div>
@@ -341,14 +341,14 @@
                                 @endif
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan note" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Catatan untuk step ini" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <textarea name="note" id="note" class="form-control" placeholder="Enter note here" required>{{ old('note') }}</textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Import Attachment
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan file" data-container="body"></i><br>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Unggah file jika ada lampiran yang diperlukan" data-container="body"></i><br>
                                         <span class="required" aria-required="true"> (PDF max 2 mb) </span></label>
                                     <div class="col-md-5">
                                         <div class="fileinput fileinput-new text-left" data-provides="fileinput">

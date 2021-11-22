@@ -47,14 +47,14 @@
                                 <input type="hidden" name="id_partner" value="{{$result['id_partner']}}">
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Step <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Pilih step" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Step yang sedang dilakukan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" id="follow_up" name="follow_up" value="Survey Location" readonly required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label">Survey Potential
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Survey Potential. OK/NOT OK" data-container="body"></i>
+                                    <label class="col-md-4 control-label">Survey Potential <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Hasil dari survey yang dilakukan, lokasi yang diajukan diterima atau tidak" data-container="body"></i>
                                     </label>
                                     <div class="col-md-5">
                                         <div class="input-icon right">
@@ -67,15 +67,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Payment Note <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan catatan tentang pembayaran" data-container="body"></i></label>
+                                    <label for="example-search-input" class="control-label col-md-4">Survey Note <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Catatan dari survey lokasi yang telah dilakukan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <textarea style="height: 80px" name="surye_note" id="surye_note" class="form-control" placeholder="Enter survey note here" @if ($surv==true) readonly @endif>@if ($surv==true) {{$result['partner_survey'][0]['note']}} @endif</textarea>
                                     </div>
                                 </div> 
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan note" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Catatan untuk step ini" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <textarea name="note" id="noteSurvey" class="form-control" placeholder="Enter note here" @if ($surv==true) readonly @endif >@if ($surv==true) {{ $note }} @endif</textarea>
                                     </div>
@@ -83,7 +83,7 @@
                                 <div class="form-group">
                                     @if ($surv==true) 
                                     <label for="example-search-input" class="control-label col-md-4">Download Attachment
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Download file" data-container="body"></i><br></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Download file yang dilampirkan pada step ini" data-container="body"></i><br></label>
                                         @endif
                                     <div class="col-md-5">
                                         @if ($surv==true) 
@@ -99,8 +99,8 @@
                                 </div>
                                 @if ($surv==true)
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">File Form Survey <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Download file" data-container="body"></i><br></label>
+                                    <label for="example-search-input" class="control-label col-md-4">File Form Survey
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Download file form survey" data-container="body"></i><br></label>
                                     <div class="col-md-5">
                                         <label for="example-search-input" class="control-label col-md-4">
                                             <a href="{{ $result['partner_survey'][0]['attachment'] }}">Download Form Survey</a>

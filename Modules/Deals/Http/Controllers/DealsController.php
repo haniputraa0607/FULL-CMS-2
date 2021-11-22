@@ -581,6 +581,7 @@ class DealsController extends Controller
         if (!empty($request->except('_token','page'))) {
         	return redirect($rpage);
         }
+        // dd($post);
         $get_data = MyHelper::post('deals/be/list?page='.$request->get('page'), $post);
 
 		if(!empty($get_data['result']['data']) && $get_data['status'] == 'success' && !empty($get_data['result']['data'])){
