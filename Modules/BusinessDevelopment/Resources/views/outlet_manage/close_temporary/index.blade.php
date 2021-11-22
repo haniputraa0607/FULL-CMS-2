@@ -220,14 +220,22 @@
                 <i class="fa fa-circle"></i>
             </li>
             <li>
-                <span>{{ $title }}</span>
+                <span> <a href='{{ $url_title }}'>{{ $title }}</a></span>
                 @if (!empty($sub_title))
                     <i class="fa fa-circle"></i>
                 @endif
             </li>
             @if (!empty($sub_title))
             <li>
-                <span>{{ $sub_title }}</span>
+                <span><a href='{{ $url_sub_title }}'>{{ $sub_title }}</a></span>
+                @if (!empty($list_sub_title))
+                    <i class="fa fa-circle"></i>
+                @endif
+            </li>
+            @endif
+            @if (!empty($list_sub_title))
+            <li>
+                <span>{{ $list_sub_title }}</span>
             </li>
             @endif
         </ul>
