@@ -1925,6 +1925,37 @@
 			</li>
 			@endif
 
+			@if(MyHelper::hasAccess([390,391], $grantedFeature))
+				<li class="nav-item {{($menu_active == 'academy-transaction') ? 'active' : ''}}">
+					<a href="javascript:;" class="nav-link nav-toggle">
+						<i class="fa fa-building-o"></i>
+						<span class="title">Academy Transaction</span>
+						<span class="arrow {{($menu_active == 'academy-transaction') ? 'open' : ''}}"></span>
+					</a>
+					<ul class="sub-menu">
+						<li class="nav-item {{($submenu_active == 'academy-transaction-schedule') ? 'active open' : ''}}">
+							<a href="{{url('academy/transaction/user/schedule')}}" class="nav-link ">
+								<span class="title">Schedule</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'academy-transaction-day-off') ? 'active open' : ''}}">
+							<a href="{{url('academy/transaction/user/schedule/day-off')}}" class="nav-link ">
+								<span class="title">Day Off</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'academy-autoresponse-approve-day-off-user-academy') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/academy/approve-day-off-user-academy')}}" class="nav-link ">
+								<span class="title">[Response] Approve Day Off</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'academy-autoresponse-reject-day-off-user-academy') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/academy/reject-day-off-user-academy')}}" class="nav-link ">
+								<span class="title">[Response] Reject Day Off</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+			@endif
 		@endif
 
 		@if(MyHelper::hasAccess([274,275,276], $grantedFeature))
