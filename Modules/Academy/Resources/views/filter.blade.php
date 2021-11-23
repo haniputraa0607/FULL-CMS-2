@@ -185,11 +185,9 @@
 		data.forEach(function(i){
 			add(i);
 		});
-		@if($filter_date ?? false)
-		if(data.length<3){
+		if(data.length <= 0){
 			return add();
 		}
-		@endif
 	}
 	function add(newValue){
 		if(newValue==undefined){
@@ -263,17 +261,6 @@
 		});
 		$('input[name="operator"]').val(database.operator);
 
-		@if($filter_date_today ?? false)
-		$('input[name=filter_type]').on('change', function() {
-			if ($(this).prop('checked')) {
-				if ($(this).val() == 'today') {
-					$('#filter-date-range').addClass('hidden');
-				} else {
-					$('#filter-date-range').removeClass('hidden');
-				}
-			}
-		}).change();
-		@endif
 	})
 </script>
 @endsection
@@ -291,50 +278,6 @@
 		</div>
 		<div class="portlet-body form">
 			<div class="form-body collapse show">
-				@if($filter_date ?? false)
-				@if($filter_date_today ?? false)
-				<div class="form-group row">
-                    <div class="col-md-9 col-form-label" style="margin-left: 4.5%">
-                        <label class="radio-inline">
-                            <input type="radio" name="filter_type" @if($is_today ?? false) checked @endif id="filter-date-type" value="today">
-                            <span></span> Today
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="filter_type" @if(!($is_today ?? false)) checked @endif id="filter-date-type" value="range_date">
-                            <span></span> Range Date
-                        </label>
-                    </div>
-                </div>
-				<br>
-                @endif
-				<div class="row" id="filter-date-range">
-					<div class="col-md-2 text-right pt-3">Date Start:</div>
-					<div class="col-md-3">
-						<div class="input-group">
-							<input type="hidden" name="rule[9998][subject]" value="transaction_date">
-							<input type="hidden" name="rule[9998][operator]" value=">=">
-							<input type="date" name="rule[9998][parameter]" class="form-control" required id="transaction_date_boe">
-							<input type="hidden" name="rule[9998][hide]" value="1">
-							<div class="input-group-addon">
-								<span class="input-group-text"><i class="fa fa-calendar"></i></span>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-2 text-right pt-3">Date End:</div>
-					<div class="col-md-3">
-						<div class="input-group">
-							<input type="hidden" name="rule[9999][subject]" value="transaction_date">
-							<input type="hidden" name="rule[9999][operator]" value="<=">
-							<input type="date" name="rule[9999][parameter]" class="form-control" required id="transaction_date_loe">
-							<input type="hidden" name="rule[9999][hide]" value="1">
-							<div class="input-group-addon">
-								<span class="input-group-text"><i class="fa fa-calendar"></i></span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<hr>
-				@endif
 				<div class="form-group mt-repeater">
 					<div data-repeater-list="conditions">
 						<div data-repeater-item class="mt-repeater-item" id="repeaterContainer">

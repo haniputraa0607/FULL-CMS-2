@@ -38,10 +38,12 @@ $grantedFeature     = session('granted_features');
                                     @elseif(!empty($value['change']))
                                         <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: #e1e445;padding: 5px 12px;color: #fff;">Proses Change Owner</span>
                                     @elseif(!empty($value['close']))
-                                      @if($value['close']['status']=="Success")
+                                      @if($value['close']['status']=="Success"&&$value['close']['jenis']=='Close')
                                         <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: #e1e445;padding: 5px 12px;color: #fff;">Close Temporary</span>
                                         @elseif($value['close']['status']=="Process"||$value['close']['status']=="Waiting")
                                         <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: #e1e445;padding: 5px 12px;color: #fff;">Process Close Temporary</span>
+                                        @else
+                                        <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: #26C281;padding: 5px 12px;color: #fff;">{{$value['outlet_status']}}</span>
                                         @endif
                                     @else
                                         <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: #26C281;padding: 5px 12px;color: #fff;">{{$value['outlet_status']}}</span>

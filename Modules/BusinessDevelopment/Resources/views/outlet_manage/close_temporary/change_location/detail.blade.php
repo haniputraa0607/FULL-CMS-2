@@ -98,14 +98,16 @@
                 init: function() {
                     $(".sweetalert-reject").each(function() {
                         var token  	= "{{ csrf_token() }}";
-                        var pathname = window.location.pathname;
+                        var pathname = window.location.pathname; 
                         let column 	= $(this).parents('tr');
-                        let id     	= $(this).data('id');
-                        let name    = $(this).data('name');
+                        var data = {
+                                    '_token' : '{{csrf_token()}}',
+                                    'id_outlet_close_temporary':{{$result['id_outlet_close_temporary']}}
+                                        };
                         $(this).click(function() {
                             swal({
-                                    title: name+"\n\nAre you sure want to reject this candidate partner?",
-                                    text: "You can continue to approve this candidate partner later!",
+                                    title: "Are you sure want to reject?",
+                                    text: "Your will not be able to recover this data!",
                                     type: "warning",
                                     showCancelButton: true,
                                     confirmButtonClass: "btn-danger",
@@ -115,21 +117,18 @@
                                 function(){
                                     $.ajax({
                                         type : "POST",
-                                        url : "{{url('businessdev/partners/reject')}}/"+id,
-                                        data : {
-                                            '_token' : '{{csrf_token()}}'
-                                        },
+                                        url : "{{url('businessdev/partners/outlet/close/reject')}}",
+                                        data : data,
                                         success : function(response) {
                                             if (response.status == 'success') {
-                                                swal("Rejected!", "Candidate Partner has been rejected.", "success")
-                                                SweetAlert.init()
-                                                location.href = "{{url('businessdev/partners/detail')}}/"+id;
+                                                swal("Deleted!", "Reject Success.", "success")
+                                                window.location.reload();
                                             }
                                             else if(response.status == "fail"){
-                                                swal("Error!", "Failed to rejecte candidate partner.", "error")
+                                                swal("Error!", "Failed to delete.", "error")
                                             }
                                             else {
-                                                swal("Error!", "Something went wrong. Failed to reject candidate partner.", "error")
+                                                swal("Error!", "Something went wrong. Failed to delete .", "error")
                                             }
                                         }
                                     });
@@ -139,6 +138,7 @@
                 }
             }
         }();
+        
         function totalTermin() {
             $("#total-satu").show();
             $("#total-dua").hide();
@@ -314,14 +314,30 @@
                 <i class="fa fa-circle"></i>
             </li>
             <li>
-                <span><a href='{{$url_title}}'>{{ $title }}</a></span>
+                <span> <a href='{{ $url_title }}'>{{ $title }}</a></span>
                 @if (!empty($sub_title))
                     <i class="fa fa-circle"></i>
                 @endif
             </li>
             @if (!empty($sub_title))
             <li>
-                <span><a href='{{$url_sub_title}}'>{{ $sub_title }}</a></span>
+                <span><a href='{{ $url_sub_title }}'>{{ $sub_title }}</a></span>
+                @if (!empty($list_sub_title))
+                    <i class="fa fa-circle"></i>
+                @endif
+            </li>
+            @endif
+            @if (!empty($list_sub_title))
+            <li>
+                <span><a href='{{ $url_list_sub_title }}'> {{ $list_sub_title }}</a></span>
+                 @if (!empty($detail_sub_title))
+                    <i class="fa fa-circle"></i>
+                @endif
+            </li>
+            @endif
+            @if (!empty($detail_sub_title))
+            <li>
+                <span>{{ $detail_sub_title }}</span>
             </li>
             @endif
         </ul>
@@ -332,30 +348,41 @@
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">{{$title}}</span>
+                <span class="caption-subject sbold uppercase font-blue">Outlet Activate</span>
             </div>
         </div>
         <div class="tabbable-line tabbable-full-width">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="#overview" data-toggle="tab"> Partner Overview </a>
+                    <a href="#overview" data-toggle="tab"> Outlet Overview </a>
                 </li>
-                @if($status == true)
                 <li>
-                    <a href="#create_temporary" data-toggle="tab"> Create Closure Temporary</a>
+                    <a href="#status" data-toggle="tab"> Status Outlet </a>
+                </li>
+                @if($result['status']=='Success')
+                <li>
+                    <a href="#new" data-toggle="tab"> Lokasi Baru </a>
+                </li>
+                <li>
+                    <a href="#old" data-toggle="tab"> Lokasi Lama</a>
                 </li>
                 @endif
             </ul>
-        <div class="tab-content">
-            <div class="tab-pane active" id="overview">
-                @include('businessdevelopment::close_temporary.overview')
+            <div class="tab-content">
+                <div class="tab-pane active" id="overview">
+                   @include('businessdevelopment::outlet_manage.close_temporary.change_location.overview')
+                </div>
+                <div class="tab-pane" id="status">
+                    @include('businessdevelopment::outlet_manage.close_temporary.change_location.status')
+                </div>
+                 @if($result['status']=='Success')
+                <div class="tab-pane" id="new">
+                    @include('businessdevelopment::outlet_manage.close_temporary.change_location.new')
+                </div>
+                <div class="tab-pane" id="old">
+                    @include('businessdevelopment::outlet_manage.close_temporary.change_location.old')
+                </div>
+                @endif
             </div>
-            <div class="tab-pane" id="create_temporary">
-                @include('businessdevelopment::close_temporary.create_temporary')
-            </div>
-
-        </div>
     </div>
-    
-
 @endsection

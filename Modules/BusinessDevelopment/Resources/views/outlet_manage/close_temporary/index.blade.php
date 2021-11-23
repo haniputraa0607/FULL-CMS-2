@@ -220,14 +220,22 @@
                 <i class="fa fa-circle"></i>
             </li>
             <li>
-                <span>{{ $title }}</span>
+                <span> <a href='{{ $url_title }}'>{{ $title }}</a></span>
                 @if (!empty($sub_title))
                     <i class="fa fa-circle"></i>
                 @endif
             </li>
             @if (!empty($sub_title))
             <li>
-                <span>{{ $sub_title }}</span>
+                <span><a href='{{ $url_sub_title }}'>{{ $sub_title }}</a></span>
+                @if (!empty($list_sub_title))
+                    <i class="fa fa-circle"></i>
+                @endif
+            </li>
+            @endif
+            @if (!empty($list_sub_title))
+            <li>
+                <span>{{ $list_sub_title }}</span>
             </li>
             @endif
         </ul>
@@ -241,62 +249,30 @@
                 <span class="caption-subject sbold uppercase font-blue">{{$sub_title}}</span>
             </div>
         </div>
-       
-<div class="portlet-body form">
-    <div style="white-space: nowrap;">
-        <div class="table-responsive">
-            <table class="table table-striped table-bordered table-hover" id="kt_datatable">
-                <thead>
-                <tr>
-                    <th class="text-nowrap text-center">No</th>
-                    <th class="text-nowrap text-center">Title</th>
-                    <th class="text-nowrap text-center">Note</th>
-                    <th class="text-nowrap text-center">Jenis</th>
-                    <th class="text-nowrap text-center">Status</th>
-                    <th class="text-nowrap text-center">Date Close</th>
-                    <th class="text-nowrap text-center">Created At</th>
-                    <th class="text-nowrap text-center">Action</th>
-                </tr>
-                </thead>
-                <tbody style="text-align:center">
-                        @php $i = 1;
-                        @endphp
-                        @foreach($result as $value)
-                           <tr data-id="{{ $value['id_outlet_close_temporary'] }}">
-                                <td>{{$i}}</td>
-                                <td>{{$value['title']}}</td>
-                                <td>{{$value['note']}}</td>
-                                <td>
-                                     @if($value['jenis']=='Close')
-                                     <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: red;padding: 5px 12px;color: #fff;">Close</span>
-                                        @else
-                                        <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: greenyellow;padding: 5px 12px;color: #fff;">Aktivasi</span>
-                                    @endif
-                                </td>
-                                <td>
-                                     @if($value['status']=='Process'||$value['status']=='Waiting')
-                                     <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: lightblue;padding: 5px 12px;color: #fff;">{{$value['status']}}</span>
-                                        @elseif($value['status']=='Process')
-                                        <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: greenyellow;padding: 5px 12px;color: #fff;">{{$value['status']}}</span>
-                                        @else
-                                        <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: red;padding: 5px 12px;color: #fff;">{{$value['status']}}</span>
-                                    @endif
-                                </td>
-                                <td>{{date('d F Y', strtotime($value['date']))}}</td>
-                                <td>{{date('d F Y', strtotime($value['created_at']))}}</td>
-                                
-                                <td>
-                                    <a class="btn btn-sm sweetalert-document-info btn-primary" href="{{$value['url_detail']}}"><i class="fa fa-search"></i> Detail</a>
-                                </td>
-                            </tr>
-                         @php $i++;
-                        @endphp
-                        @endforeach
-                    </tbody>
-            </table>
+       <div class="tabbable-line tabbable-full-width">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#overview" data-toggle="tab">History Close </a>
+                </li>
+                @if($outlet['outlet_status']!='Active')
+                <li>
+                    <a href="#active" data-toggle="tab"> Activate Outlet</a>
+                </li>
+                @endif
+            </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="overview">
+                @include('businessdevelopment::outlet_manage.close_temporary.overview')
+            </div>
+            <div class="tab-pane" id="active">
+                @if($result[0]['status']=='Process'||$result[0]['status']=='Waiting')
+                Terdapat Proses yang sedang berjalan
+                @else
+                @include('businessdevelopment::outlet_manage.close_temporary.create_active')
+                @endif
+            </div>
         </div>
     </div>
-</div>
     </div>
     
 

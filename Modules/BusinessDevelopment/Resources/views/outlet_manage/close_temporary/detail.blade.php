@@ -63,14 +63,30 @@
                 <i class="fa fa-circle"></i>
             </li>
             <li>
-                <span>{{ $title }}</span>
+                <span> <a href='{{ $url_title }}'>{{ $title }}</a></span>
                 @if (!empty($sub_title))
                     <i class="fa fa-circle"></i>
                 @endif
             </li>
             @if (!empty($sub_title))
             <li>
-                <span>{{ $sub_title }}</span>
+                <span><a href='{{ $url_sub_title }}'>{{ $sub_title }}</a></span>
+                @if (!empty($list_sub_title))
+                    <i class="fa fa-circle"></i>
+                @endif
+            </li>
+            @endif
+            @if (!empty($list_sub_title))
+            <li>
+                <span><a href='{{ $url_list_sub_title }}'> {{ $list_sub_title }}</a></span>
+                 @if (!empty($detail_sub_title))
+                    <i class="fa fa-circle"></i>
+                @endif
+            </li>
+            @endif
+            @if (!empty($detail_sub_title))
+            <li>
+                <span>{{ $detail_sub_title }}</span>
             </li>
             @endif
         </ul>
@@ -87,7 +103,7 @@
         <div class="tabbable-line tabbable-full-width">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="#overview" data-toggle="tab">Outlet Change Ownership</a>
+                    <a href="#overview" data-toggle="tab">Outlet Overview</a>
                 </li>
                 <li>
                     <a href="#document" data-toggle="tab"> Document </a>

@@ -17,7 +17,7 @@
                                     <option value="">Select Outlet</option>
                                     @if(isset($listoutlet))
                                             @foreach($listoutlet as $row)
-                                                    <option value="{{$row['id_outlet']}}">{{$row['outlet_name']}} </option>
+                                                    <option value="{{$row['id_outlet']}}">{{$row['outlet_name']}} ({{$row['outlet_code']}}) </option>
                                             @endforeach
                                     @endif
                             </select>
