@@ -67,7 +67,7 @@
                 <div class="caption">
                     <span class="caption-subject font-dark sbold uppercase font-yellow">Follow Up Data</span>
                 </div>
-                @if($result['status']=='Candidate'&&$result['status_steps']=='On Follow Up')
+                @if($result['status']=='Candidate'&&$result['status_steps']=='On Follow Up' || empty($result['status_steps']))
                     <a href="#form" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="input-follow-up">
                         Follow Up
                     </a>
