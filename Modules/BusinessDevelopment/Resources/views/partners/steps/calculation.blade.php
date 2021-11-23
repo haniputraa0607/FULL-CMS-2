@@ -47,7 +47,7 @@
                                 <input type="hidden" name="id_partner" value="{{$result['id_partner']}}">
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Step <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Pilih step" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Step yang sedang dilakukan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" id="follow_up" name="follow_up" value="Calculation" readonly required/>
                                     </div>
@@ -62,7 +62,7 @@
                                 </div>    
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan note" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Catatan untuk step in" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <textarea name="note" id="note" class="form-control" placeholder="Enter note here" @if ($calcu==true) readonly @endif >@if ($calcu==true) {{ $note }} @endif</textarea>
                                     </div>
@@ -70,11 +70,11 @@
                                 <div class="form-group">
                                     @if ($calcu==false) 
                                     <label for="example-search-input" class="control-label col-md-4">Import Attachment 
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan file" data-container="body"></i><br>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Unggah file jika ada lampiran yang diperlukan" data-container="body"></i><br>
                                         <span class="required" aria-required="true"> (PDF max 2 mb) </span></label>
                                         @else
                                     <label for="example-search-input" class="control-label col-md-4">Download Attachment 
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Download file" data-container="body"></i><br></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Download file yang dilampirkan pada step ini" data-container="body"></i><br></label>
                                         @endif
                                     <div class="col-md-5">
                                         @if ($calcu==false) 

@@ -374,21 +374,21 @@
                         <div class="form-body">
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Name <span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nama" data-container="body"></i></label>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Nama perusahaan/instansi yang menjalin kontrak kerja sama dengan IXOBOX" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <input class="form-control" type="text" id="input-name" name="name" value="{{$result['name']}}" placeholder="Enter name here"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Contact Person <span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nama kontak" data-container="body"></i></label>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Perwakilan dari perusahaan/instansi yang selalu dapat dihubungi" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <input class="form-control" type="text" id="input-cp" name="cp" value="{{$result['contact_person']}}" placeholder="Enter contact person here"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Partner Gender <span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Masukkan kelamin" data-container="body"></i></label>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Jenis kelamin dari contact person" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <select name="gender" class="form-control input-sm select2" placeholder="Select Gender" required>
                                         <option value="" selected disabled>Select Gender</option>
@@ -399,21 +399,21 @@
                             </div>
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Phone <span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Masukkan phone" data-container="body"></i></label>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Nomor telepon perusahaan/instansi yang dapat dihubungi" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <input class="form-control" type="text" id="input-phone" name="phone" value="{{$result['phone']}}" placeholder="Enter phone here"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Email <span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Masukkan email" data-container="body"></i></label>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Alamat email perusahaan/instansi yang dapat dihubungi" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <input class="form-control" type="email" id="input-email" name="email" value="{{$result['email']}}" placeholder="Enter email here"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Address <span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Masukkan address" data-container="body"></i></label>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Alamat lengkap perusahaan/instansi" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <textarea name="address" id="input-address" class="form-control" placeholder="Enter address here">{{$result['address']}}</textarea>
                                 </div>
@@ -430,35 +430,35 @@
                                         <input type="hidden" value="{{$result['partner_locations'][0]['id_location']}}" name="id_location" id="input-id_location">
                                         <div class="form-group">
                                             <label for="example-search-input" class="control-label col-md-4">Location Name <span class="required" aria-required="true">*</span>
-                                                <i class="fa fa-question-circle tooltips" data-original-title="Nama Calon Lokasi" data-container="body"></i></label>
+                                                <i class="fa fa-question-circle tooltips" data-original-title="Nama calon lokasi yang diajukan oleh perusahaan/instansi" data-container="body"></i></label>
                                             <div class="col-md-5">
                                                 <input class="form-control" type="text" id="input-name-location" name="nameLocation" value="{{$result['partner_locations'][0]['name']}}" placeholder="Enter location name here"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="example-search-input" class="control-label col-md-4">Location Address <span class="required" aria-required="true">*</span>
-                                                <i class="fa fa-question-circle tooltips" data-original-title="Address Calon Lokasi" data-container="body"></i></label>
+                                                <i class="fa fa-question-circle tooltips" data-original-title="Alamat lengkap calon lokasi yang diajukan" data-container="body"></i></label>
                                             <div class="col-md-5">
                                                 <textarea name="addressLocation" id="input-address-location" class="form-control" placeholder="Enter location name here">{{$result['partner_locations'][0]['address']}}</textarea>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="example-search-input" class="control-label col-md-4">Location Latitude <span class="required" aria-required="true">*</span>
-                                                <i class="fa fa-question-circle tooltips" data-original-title="Latitude Calon Lokasi" data-container="body"></i></label>
+                                                <i class="fa fa-question-circle tooltips" data-original-title="Garis lintang dari calon lokasi yang diajukan" data-container="body"></i></label>
                                             <div class="col-md-5">
                                                 <input class="form-control" type="text" id="input-latitude-location" name="latitudeLocation" value="{{$result['partner_locations'][0]['latitude']}}" placeholder="Enter location name here"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="example-search-input" class="control-label col-md-4">Location Longitude <span class="required" aria-required="true">*</span>
-                                                <i class="fa fa-question-circle tooltips" data-original-title="Longitude Calon Lokasi" data-container="body"></i></label>
+                                                <i class="fa fa-question-circle tooltips" data-original-title="Garis bujur dari calon lokasi yang diajukan" data-container="body"></i></label>
                                             <div class="col-md-5">
                                                 <input class="form-control" type="text" id="input-longitude-location" name="longitudeLocation" value="{{$result['partner_locations'][0]['longitude']}}" placeholder="Enter location name here"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="example-search-input" class="control-label col-md-4">Location City <span class="required" aria-required="true">*</span>
-                                                <i class="fa fa-question-circle tooltips" data-original-title="Kota Calon Lokasi" data-container="body"></i></label>
+                                                <i class="fa fa-question-circle tooltips" data-original-title="Kota/Kabupaten dari calon lokasi" data-container="body"></i></label>
                                             <div class="col-md-5">
                                                 <select class="form-control select2" name="id_cityLocation" id="id_cityLocation" required>
                                                     <option value="" selected disabled>Select City</option>
@@ -477,14 +477,14 @@
                             <input type="hidden" value="on" name="status">
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Ownership Status <span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Pilih Ownership Status" data-container="body"></i></label>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Stastus kepemilikan kontrak kerja sama dengan IXOBOX" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <input class="form-control" type="text" id="input-longitude-location" name="ownership_status" value="{{$result['ownership_status']}}" placeholder="Enter location name here" readonly/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Coopertaion Scheme<span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Pilih Coopertaion Scheme" data-container="body"></i></label>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Skema Pembagian hasil partner dengan IXOBOX" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <select name="cooperation_scheme" class="form-control input-sm select2" placeholder="Coopertaion Scheme">
                                         <option value="" selected disabled>Select Cooperation Scheme</option>
@@ -495,7 +495,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Start Date <span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Mulai menjadi Partner" data-container="body"></i></label>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai menjadi partner atau tanggal kerja sama dimulai" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <div class="input-group">
                                         <input type="text" id="start_date" class="datepicker form-control" name="start_date" value="{{ (!empty($result['start_date']) ? date('d F Y', strtotime($result['start_date'])) : '')}}" >
@@ -509,7 +509,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">End Date <span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Berakhir menjadi Partner" data-container="body"></i></label>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Tanggal berakhir menjadi partner atau tanggal kerja sama selesai" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <div class="input-group">
                                         <input type="text" id="end_date" class="datepicker form-control" name="end_date" value="{{ (!empty($result['end_date']) ? date('d F Y', strtotime($result['end_date'])) : '')}}" >
@@ -523,7 +523,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Confirmation Letter 
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Download file" data-container="body"></i><br></label>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Download file confirmation letter" data-container="body"></i><br></label>
                                 <div class="col-md-5">
                                     <label for="example-search-input" class="control-label">
                                         <a href="{{ $result['partner_confirmation'][0]['attachment'] }}">Download Confirmation Letter</a>
@@ -532,7 +532,7 @@
                             </div>    
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Form Survey Location 
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Download file" data-container="body"></i><br></label>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Download file form survey location" data-container="body"></i><br></label>
                                 <div class="col-md-5">
                                     <label for="example-search-input" class="control-label">
                                         <a href="{{ $result['partner_survey'][0]['attachment'] }}">Download Form Survey Location</a>
@@ -621,7 +621,7 @@
                                 <input type="hidden" name="id_partner" id="id_partner" value="{{$result['id_partner']}}">
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Bank Name <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Pilih Bank" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Pilih nama bank" data-container="body"></i></label>
                                     <div class="col-md-6">
                                         <select class="form-control select2" name="id_bank_name" id="id_bank_name" required>
                                             <option value="" selected disabled>Select Bank Name</option>
@@ -633,14 +633,14 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Beneficiary Name <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nama penerima" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama pemilik rekening" data-container="body"></i></label>
                                     <div class="col-md-6">
                                         <input class="form-control" type="text" id="input-beneficiary_name" name="beneficiary_name" value="<?php if(isset($result['partner_bank_account'])) echo $result['partner_bank_account']['beneficiary_name'] ?>" placeholder="Enter beneficiary name" required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Beneficiary Account <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukkan akun penerima" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Nomor rekening partner" data-container="body"></i></label>
                                     <div class="col-md-6">
                                         <input class="form-control" type="text" id="input-beneficiary_account" name="beneficiary_account" value="<?php if(isset($result['partner_bank_account'])) echo $result['partner_bank_account']['beneficiary_account'] ?>" placeholder="Enter beneficiary name" required/>
                                     </div>
@@ -755,14 +755,14 @@
                             <div class="form-body">
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">New PIN <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukkan pin baru" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukkan pin baru untuk partner" data-container="body"></i></label>
                                     <div class="col-md-6">
                                         <input class="form-control" type="password" id="input-new-pin" name="new-pin"  placeholder="Enter new pin" maxlength="6" required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Confirm PIN <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Ulangi pin baru" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Ketik ulang pin baru untuk konfirmasi" data-container="body"></i></label>
                                     <div class="col-md-6">
                                         <input class="form-control" type="password" id="input-confirm-pin" name="confirm-pin"  placeholder="Reenter new pin" maxlength="6" required/>
                                     </div>
@@ -999,7 +999,7 @@
                     <div class="form-group">
                         <div class="col-md-3">
                             <label for="example-search-input">Import Attachment
-                                <i class="fa fa-question-circle tooltips" data-original-title="Masukan file" data-container="body"></i><br>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Unggah file jika ada lampiran yang diperlukan" data-container="body"></i><br>
                                 <span class="required" aria-required="true"> (PDF max 2 mb) </span></label>
                         </div>
                         <div class="col-md-7" style="padding-left: 12px !important">

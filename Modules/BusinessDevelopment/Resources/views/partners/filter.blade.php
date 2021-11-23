@@ -158,3 +158,12 @@
         </div>
     </div>
 </div>
+@if(isset($rule) && $rule==true)
+<div class="alert alert-block alert-info fade in">
+	<button type="button" class="close" data-dismiss="alert"></button>
+	<h4 class="alert-heading">Displaying search result :</h4>
+	<p>{{$data_total}}</p><br>
+	<a class="btn btn-sm btn-warning" href="{{url()->current()}}">Reset</a>
+	<br>
+</div>
+@endif

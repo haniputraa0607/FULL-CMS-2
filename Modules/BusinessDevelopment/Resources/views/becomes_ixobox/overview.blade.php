@@ -148,7 +148,6 @@ $grantedFeature     = session('granted_features');
                     <th class="text-nowrap text-center">No</th>
                     <th class="text-nowrap text-center">Title</th>
                     <th class="text-nowrap text-center">Date</th>
-                    <th class="text-nowrap text-center">Jenis</th>
                     <th class="text-nowrap text-center">Status</th>
                     <th class="text-nowrap text-center">Action</th>
                 </tr>
@@ -164,12 +163,6 @@ $grantedFeature     = session('granted_features');
                                     {{date('d F Y', strtotime($value['close_date']))}}
                                     @else
                                     {{date('d F Y', strtotime($value['start_date']))}}
-                                    @endif
-                                </td>
-                                <td>@if($value['close_date']!=null)
-                                    <span class="btn-danger btn-sm text-nowrap" style="color: #ffffff">Close</span>
-                                    @else
-                                    <span class="btn-success btn-sm text-nowrap" style="color: #ffffff">Open</span>
                                     @endif
                                 </td>
                                 <td>

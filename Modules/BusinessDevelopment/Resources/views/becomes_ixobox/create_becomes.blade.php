@@ -14,15 +14,15 @@
                         <div class="form-body">
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Title<span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Title" data-container="body"></i></label>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Judul pengajuan" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <input class="form-control" type="text" id="input-name" name="title"  placeholder="Enter name here"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 @if($url == false)
-                                <label for="example-search-input" class="control-label col-md-4">Tanggal Close<span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Close" data-container="body"></i></label>
+                                <label for="example-search-input" class="control-label col-md-4">Submitted Date<span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Pengajuan tanggal partner beralih ke IXOBOX" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <div class="input-group">
                                         <input type="text" id="close_date"  class="datepicker form-control" name="close_date" >
@@ -34,8 +34,8 @@
                                     </div>
                                 </div>
                                 @else
-                                <label for="example-search-input" class="control-label col-md-4">Tanggal Mulai<span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Mulai" data-container="body"></i></label>
+                                <label for="example-search-input" class="control-label col-md-4">Start Date<span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Pengajuan tanggal partner beralih ke IXOBOX" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <input type="text" id="close_date" class="datepicker form-control" name="start_date"  >
@@ -50,7 +50,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Note
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Note" data-container="body"></i></label>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Catatan untuk pengajuan ini" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <input class="form-control" type="text" id="input-phone" name="note"  placeholder="Enter note" />
                                 </div>

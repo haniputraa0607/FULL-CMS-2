@@ -215,6 +215,12 @@ class AutocrmController extends Controller
                 $data['submenu_active'] = 'hairstylist-autoresponse-'.$subject;
                 $test['result'] = [];
                 break;
+            case 'approve-day-off-user-academy':
+            case 'reject-day-off-user-academy':
+                $data['menu_active'] = 'academy-transaction';
+                $data['submenu_active'] = 'academy-autoresponse-'.$subject;
+                $test['result'] = [];
+                break;
 		}
 
         $data['click_inbox'] = [
