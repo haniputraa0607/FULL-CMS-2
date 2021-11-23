@@ -67,7 +67,7 @@
                 <div class="caption">
                     <span class="caption-subject font-dark sbold uppercase font-yellow">Follow Up Data</span>
                 </div>
-                @if($result['status']=='Candidate'&&$result['status_steps']=='On Follow Up')
+                @if($result['status']=='Candidate'&&$result['status_steps']=='On Follow Up' || empty($result['status_steps']))
                     <a href="#form" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="input-follow-up">
                         Follow Up
                     </a>
@@ -152,6 +152,20 @@
                                     </div>
                                 </div>
                                 @if ($step_follow_up==1)
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Partner Code <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Kode yang akan digunakan partner kedepannya" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" type="text" id="partner_code" name="partner_code" placeholder="Enter partner code here" value="{{ old('partner_code') }}" required/>
+                                    </div>
+                                </div>   
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Mobile 
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Nomor telepon partner yang terintegrasi ke whats app, jika tidak diisi default nomor telepon yang terdaftar sebelumnya" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" type="text" id="mobile" name="mobile" placeholder="Enter mobile here" value="{{ old('mobile') }}" />
+                                    </div>
+                                </div>   
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">NPWP <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nomor NPWP partner" data-container="body"></i></label>
@@ -250,6 +264,13 @@
                                         <input class="form-control" type="text" id="follow-name-location" name="nameLocation" value="{{ old('nameLocation') ?? $result['partner_locations'][0]['name']}}" placeholder="Enter location name here" required/>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Location Code <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Kode yang akan digunakan lokasi milik partner kedepannya" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" type="text" id="location_code" name="location_code" placeholder="Enter location code here" value="{{ old('location_code') }}" required/>
+                                    </div>
+                                </div>   
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location Address <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Alamat lengkap calon lokasi yang diajukan" data-container="body"></i></label>

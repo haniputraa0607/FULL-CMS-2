@@ -620,6 +620,8 @@ class PartnersController extends Controller
         if(isset($request["follow_up"]) && $request["follow_up"]=='Follow Up 1'){
             $request->validate([
                 "mall" => "required",
+                "partner_code" => "required",
+                "location_code" => "required",
                 "location_large" => "required",
                 "rental_price" => "required",
                 "service_charge" => "required",
@@ -630,11 +632,11 @@ class PartnersController extends Controller
                 "npwp" => "required",
                 "npwp_name" => "required",
                 "termpayment" => "required",
-                "partner_note" => "required",
-                
+                "partner_note" => "required",    
             ]);
             $update_data_location = [
                 "id_location" => $request["id_location"],
+                "code" => $request["location_code"],
                 "name" => $request["nameLocation"],
                 "address" => $request["addressLocation"],  
                 "id_city" => $request["id_cityLocation"],  
@@ -648,12 +650,17 @@ class PartnersController extends Controller
                 "income" => $request["income"],   
                 "mall" => $request["mall"],   
             ];
-            $post_follow_up = [
+            if (isset($request["mobile"]) && !empty($request["mobile"])) {
+                $request->validate([
+                    "mobile" => "numeric|min:10|max:13",
+                ]);
+            }
+        }
+        $post_follow_up = [
             "id_partner" => $request["id_partner"],
             "follow_up" => "Follow Up",
             "note" => $request["note"],  
         ];
-        }
         
         if (isset($request["import_file"])) {
             $post_follow_up['attachment'] = MyHelper::encodeImage($request['import_file']);
@@ -677,6 +684,14 @@ class PartnersController extends Controller
         ];
         if (isset($request["npwp"]) && $request["follow_up"]=='Follow Up 1') {
             $update_partner['npwp'] = $request['npwp'];
+        }
+        if (isset($request["partner_code"]) && $request["follow_up"]=='Follow Up 1') {
+            $update_partner['code'] = $request['partner_code'];
+        }
+        if (isset($request["mobile"]) && $request["follow_up"]=='Follow Up 1' && !empty($request["mobile"])) {
+            $update_partner['mobile'] = $request['mobile'];
+        }elseif(empty($request["mobile"]) && $request["follow_up"]=='Follow Up 1') {
+            $update_partner['mobile'] = 'default';
         }
         if (isset($request["npwp_name"]) && $request["follow_up"]=='Follow Up 1') {
             $update_partner['npwp_name'] = $request['npwp_name'];
