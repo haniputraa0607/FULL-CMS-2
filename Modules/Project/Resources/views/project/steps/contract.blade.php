@@ -1,9 +1,9 @@
 <?php 
+    $nominal = "Rp " . number_format($result['project_locations']['total_payment'],2,',','.');
     $contract = false;
     $prog = false;
     $first_party = null;
     $second_party = null;
-    $nominal = null;
     $note = null;
     $attachment = null;
     $next_contract = false;
@@ -14,7 +14,6 @@
         $id_projects_contract = $result['project_contract']['id_projects_contract'];
         $first_party = $result['project_contract']['first_party'];
         $second_party = $result['project_contract']['second_party'];
-        $nominal = "Rp " . number_format($result['project_contract']['nominal'],2,',','.') ;
         $note = $result['project_contract']['note'];
         $attachment = $result['project_contract']['attachment'];
         $created_at = $result['project_contract']['updated_at'];
@@ -163,10 +162,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Nominal<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Nominal" data-container="body"></i></label>
+                                    <label for="example-search-input" class="control-label col-md-4">Nominal</label>
                                     <div class="col-md-5">
-                                        <input class="form-control" placeholder="Rp 1,000,000.00" data-type="currency"  type="text" id="nominal" name="nominal"  value="{{$nominal}}"  @if($result['status']!='Process') disabled @elseif($result['progres']!='Contract') disabled @endif   required/>
+                                        <input disabled class="form-control" placeholder="Rp 1,000,000.00" data-type="currency"  type="text" id="nominal" name="nominal"  value="{{$nominal}}"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
