@@ -655,12 +655,12 @@ class PartnersController extends Controller
                     "mobile" => "numeric|min:10|max:13",
                 ]);
             }
+            $post_follow_up = [
+                "id_partner" => $request["id_partner"],
+                "follow_up" => "Follow Up",
+                "note" => $request["note"],  
+            ];
         }
-        $post_follow_up = [
-            "id_partner" => $request["id_partner"],
-            "follow_up" => "Follow Up",
-            "note" => $request["note"],  
-        ];
         
         if (isset($request["import_file"])) {
             $post_follow_up['attachment'] = MyHelper::encodeImage($request['import_file']);
