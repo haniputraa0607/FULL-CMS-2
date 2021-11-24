@@ -122,9 +122,10 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a data-toggle="modal" href="#{{$res['transaction_receipt_number']}}" class="btn btn-sm blue"><i class="fa fa-edit"></i></a>
+                                    @if($res['transaction_payment_status'] != 'Cancelled')<a data-toggle="modal" href="#{{$res['transaction_receipt_number']}}" class="btn btn-sm blue"><i class="fa fa-edit"></i></a>@endif
                                 </td>
                             </tr>
+                            @if($res['transaction_payment_status'] != 'Cancelled')
                             <div class="modal fade" id="{{$res['transaction_receipt_number']}}" tabindex="-1" role="basic" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -164,11 +165,20 @@
                                                         $string .= '</div>';
                                                         $string .= '</div>';
                                                         $string .= '<div class="col-md-5" style="margin-top: 6%">';
-                                                        $string .= '<select class="form-control select2" id="status_'.($i+1).'" name="date['.($i+1).'][transaction_academy_schedule_status]" style="color:'.$color[$userSchedule[$search]['transaction_academy_schedule_status']].';" onchange="changeColor('.($i+1).' ,this.value)">';
-                                                        $string .= '<option '.($userSchedule[$search]['transaction_academy_schedule_status'] == 'Not Started' ? 'selected':'').' value="Not Started" style="color: grey">Not Started</option>';
-                                                        $string .= '<option '.($userSchedule[$search]['transaction_academy_schedule_status'] == 'Attend' ? 'selected':'').' value="Attend" style="color: green">Attend</option>';
-                                                        $string .= '<option '.($userSchedule[$search]['transaction_academy_schedule_status'] == 'Absent' ? 'selected':'').' value="Absent" style="color: red">Absent</option>';
-                                                        $string .= '</select>';
+                                                        if($search !== false){
+                                                            $string .= '<select class="form-control select2" id="status_'.($i+1).'" name="date['.($i+1).'][transaction_academy_schedule_status]" style="color:'.$color[$userSchedule[$search]['transaction_academy_schedule_status']].';" onchange="changeColor('.($i+1).' ,this.value);">';
+                                                            $string .= '<option '.($userSchedule[$search]['transaction_academy_schedule_status'] == 'Not Started' ? 'selected':'').' value="Not Started" style="color: grey">Not Started</option>';
+                                                            $string .= '<option '.($userSchedule[$search]['transaction_academy_schedule_status'] == 'Attend' ? 'selected':'').' value="Attend" style="color: green">Attend</option>';
+                                                            $string .= '<option '.($userSchedule[$search]['transaction_academy_schedule_status'] == 'Absent' ? 'selected':'').' value="Absent" style="color: red">Absent</option>';
+                                                            $string .= '</select>';
+                                                        }else{
+                                                            $string .= '<select class="form-control select2" id="status_'.($i+1).'" name="date['.($i+1).'][transaction_academy_schedule_status]" style="color: grey;" onchange="changeColor('.($i+1).' ,this.value);">';
+                                                            $string .= '<option value="Not Started" style="color: grey">Not Started</option>';
+                                                            $string .= '<option value="Attend" style="color: green">Attend</option>';
+                                                            $string .= '<option value="Absent" style="color: red">Absent</option>';
+                                                            $string .= '</select>';
+                                                        }
+
                                                         $string .= '</div>';
                                                         $string .= '</div>';
                                                     }
@@ -192,6 +202,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
                         @endforeach
                     </tbody>
                 </table>
