@@ -5,16 +5,31 @@
     $first_party = null;
     $second_party = null;
     $note = null;
+    $nomor_loi = null;
+    $tanggal_loi = null;
+    $tanggal_serah_terima = null;
+    $tanggal_buka_loi = null;
+    $nama_pic = null;
+    $kontak_pic = null;
+    $lokasi_pic = null;
     $attachment = null;
     $next_contract = false;
     if($result['progres']=='Contract'){
         $contract = true;
     }
     if ($result['project_contract']!=null){
+        $spk = url('project/excel/contract').'/'.$result['id_project'];
         $id_projects_contract = $result['project_contract']['id_projects_contract'];
         $first_party = $result['project_contract']['first_party'];
         $second_party = $result['project_contract']['second_party'];
         $note = $result['project_contract']['note'];
+        $nomor_loi = $result['project_contract']['nomor_loi'];
+        $tanggal_loi = $result['project_contract']['tanggal_loi'];
+        $tanggal_serah_terima = $result['project_contract']['tanggal_serah_terima'];
+        $tanggal_buka_loi = $result['project_contract']['tanggal_buka_loi'];
+        $nama_pic = $result['project_contract']['nama_pic'];
+        $kontak_pic = $result['project_contract']['kontak_pic'];
+        $lokasi_pic = $result['project_contract']['lokasi_pic'];
         $attachment = $result['project_contract']['attachment'];
         $created_at = $result['project_contract']['updated_at'];
         if($result['project_contract']['status']=='Process'){
@@ -161,6 +176,76 @@
                                         <input class="form-control" type="text" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif id="second_party" name="second_party" value="{{$second_party}} " required/>
                                     </div>
                                 </div>
+                               <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Nomor LOI<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Nomor Letter Of Intens" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" type="text" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif id="nomor_loi" name="nomor_loi" value="{{$nomor_loi}} " required/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Tanggal LOI<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal LOI" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <div class="input-group">
+                                            <input type="text" id="tanggal_loi" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif class="datepicker form-control" name="tanggal_loi" value="{{ (!empty($tanggal_loi) ? date('d F Y', strtotime($tanggal_loi)) : '')}}" >
+                                            <span class="input-group-btn">
+                                                <button class="btn default" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Tanggal Serah Terima<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Serah Terima" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <div class="input-group">
+                                            <input type="text" id="tanggal_serah_terima" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif class="datepicker form-control" name="tanggal_serah_terima" value="{{ (!empty($tanggal_serah_terima) ? date('d F Y', strtotime($tanggal_serah_terima)) : '')}}" >
+                                            <span class="input-group-btn">
+                                                <button class="btn default" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Tanggal Buka LOI<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal buka menurut LOI" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <div class="input-group">
+                                            <input type="text" id="tanggal_buka_loi" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif class="datepicker form-control" name="tanggal_buka_loi" value="{{ (!empty($tanggal_buka_loi) ? date('d F Y', strtotime($tanggal_buka_loi)) : '')}}" >
+                                            <span class="input-group-btn">
+                                                <button class="btn default" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                               <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Nama PIC<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama Person in Charge" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" type="text" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif id="nama_pic" name="nama_pic" value="{{$nama_pic}} " required/>
+                                    </div>
+                                </div>
+                               <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Kontak PIC<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Kontak Person in Charge" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" type="text" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif id="kontak_pic" name="kontak_pic" value="{{$kontak_pic}} " required/>
+                                    </div>
+                                </div>
+                               <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Lokasi PIC<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Lokasi Person in Charge" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" type="text" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif id="lokasi_pic" name="lokasi_pic" value="{{$lokasi_pic}} " required/>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Nominal</label>
                                     <div class="col-md-5">
@@ -205,6 +290,16 @@
                                     </div>
                                 </div>
                                 @endif
+                                @if($next_contract!=false)
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Link Download SPK</label>
+                                    <div class="col-md-5">
+                                        <br>
+                                        <a target="_blank" target='blank' href="{{ $spk }}"><i class="fa fa-download" style="font-size:48px"></i></a>
+                                    </div>
+                                </div>
+                                @endif
+                                
                                 @if ($contract==true&&$result['status']=='Process') 
                                 <div class="form-actions">
                                     {{ csrf_field() }}

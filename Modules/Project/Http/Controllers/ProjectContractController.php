@@ -12,6 +12,7 @@ use Session;
 use Excel;
 use App\Imports\FirstSheetOnlyImport;
 use Illuminate\Support\Facades\Hash;
+use App\Exports\SPKExport;
 
 class ProjectContractController extends Controller
 {
@@ -39,5 +40,16 @@ class ProjectContractController extends Controller
         $post = $request->except('_token');
 	$query = MyHelper::post('project/delete/contract', $post);
 	return $query; 
+    }
+    public function excel($id){
+          $query = MyHelper::post('project/excel/contract', ['id_project'=>$id]);
+          if(isset($query['status']) && $query['status'] == 'success'){
+            $data['result']=$query['result'];
+//            return $data;
+            return Excel::download(new SPKExport($data), 'download.xlsx');
+	} else{
+            return back()->withErrors($query['messages']);
+	}
+       
     }
 }
