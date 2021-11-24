@@ -92,7 +92,6 @@ class BusinessDevelopmentServiceProvider extends ServiceProvider
         if (! app()->environment('production') && $this->app->runningInConsole() && ! app()->environment('staging')) {
             app(Factory::class)->load(__DIR__ . '/../Database/factories');
         }
-
     }
 
     /**
