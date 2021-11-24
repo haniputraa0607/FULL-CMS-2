@@ -32,6 +32,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'project'
     Route::post('create/contract', ['middleware' => 'feature_control:340', 'uses' => 'ProjectContractController@create']);
     Route::post('next/contract', ['middleware' => 'feature_control:340', 'uses' => 'ProjectContractController@next']);
     Route::post('delete/contract', ['middleware' => 'feature_control:340', 'uses' => 'ProjectContractController@delete']);
+    Route::get('excel/contract/{id}', ['middleware' => 'feature_control:340', 'uses' => 'ProjectContractController@excel']);
     //fitout
     Route::post('create/fitout', ['middleware' => 'feature_control:340', 'uses' => 'ProjectFitOutController@create']);
     Route::post('next/fitout', ['middleware' => 'feature_control:340', 'uses' => 'ProjectFitOutController@next']);
