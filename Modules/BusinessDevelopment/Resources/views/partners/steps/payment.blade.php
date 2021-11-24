@@ -68,9 +68,9 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Masukan note" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Catatan untuk step in" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <textarea name="note" id="note" class="form-control" placeholder="Catatan untuk step in" @if ($pay==true) readonly @endif >@if ($pay==true) {{ $note }} @endif</textarea>
+                                        <textarea name="note" id="note" class="form-control" placeholder="Enter note here" @if ($pay==true) readonly @endif >@if ($pay==true) {{ $note }} @endif</textarea>
                                     </div>
                                 </div>
                                 <input type="hidden" name="id_location" value="{{$result['partner_locations'][0]['id_location']}}">
