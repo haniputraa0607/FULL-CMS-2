@@ -162,6 +162,10 @@ class AcademyScheduleController extends Controller
     public function actionDayOffUserAcademy(Request $request){
         $post = $request->except('_token');
         $save = MyHelper::post('academy/transaction/user/schedule/day-off/action', $post);
+
+        if(!empty($post['status']) && $post['status'] == 'approve'){
+            return parent::redirect($save, 'Success approve day off.', 'academy/transaction/user/schedule/day-off');
+        }
         return $save;
     }
 }
