@@ -152,9 +152,9 @@
                                                         $string .= '<div class="input-group">';
                                                         $search = array_search(($i+1), $arrColumn);
                                                         if($search === false){
-                                                            $string .= '<input type="text" name="date['.($i+1).'][date]" class="form_datetime form-control" name="birthdate"  required autocomplete="off">';
+                                                            $string .= '<input type="text" name="date['.($i+1).'][date]" class="form_datetime form-control" required autocomplete="off">';
                                                         }else{
-                                                            $string .= '<input type="text" name="date['.($i+1).'][date]" class="form_datetime form-control" name="birthdate" value="'.date('d-M-Y H:i', strtotime($userSchedule[$search]['schedule_date'])).'" required autocomplete="off">';
+                                                            $string .= '<input type="text" name="date['.($i+1).'][date]" class="form_datetime form-control" value="'.date('d-M-Y H:i', strtotime($userSchedule[$search]['schedule_date'])).'" required autocomplete="off">';
                                                             $string .= '<input type="hidden" name="date['.($i+1).'][id_transaction_academy_schedule]" value="'.$userSchedule[$search]['id_transaction_academy_schedule'].'">';
                                                         }
                                                         $string .= '<span class="input-group-btn">';

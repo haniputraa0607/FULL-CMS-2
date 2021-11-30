@@ -81,7 +81,7 @@
                     render: function(value, type, row) {
                         if(row.approve_by == null && row.reject_by == null){
                             var html =
-                                '<a class="btn green-jungle btn-sm sweetalert-approve" data-id="'+row.id_transaction_academy_schedule_day_off+'" data-name="'+row.name+'" data-dateold="'+row.schedule_date_old+'" data-datenew="'+row.schedule_date_new+'"> Approve</a>'+
+                                '<a onclick="approve(this)"  class="btn green-jungle btn-sm" data-id="'+row.id_transaction_academy_schedule_day_off+'" data-name="'+row.name+'" data-dateold="'+row.schedule_date_old+'" data-datenew="'+row.schedule_date_new+'"> Approve</a>'+
                                 '<a class="btn red btn-sm sweetalert-reject" data-id="'+row.id_transaction_academy_schedule_day_off+'" data-name="'+row.name+'" data-dateold="'+row.schedule_date_old+'" data-datenew="'+row.schedule_date_new+'"> Reject</a>'
                             ;
                         }else if(row.approve_by !== null){
@@ -121,7 +121,6 @@
             searching: false,
             drawCallback: function( oSettings ) {
                 $('.tooltips').tooltip();
-                SweetAlertApprove.init();
                 SweetAlertReject.init();
             },
             order: [[ 1, "desc" ]]
@@ -130,71 +129,13 @@
 
         $(document).ready(function() {
             $(".form_datetime").datetimepicker({
-                format: "d-M-yyyy hh:ii",
+                format: "d M yyyy hh:ii",
                 autoclose: true,
                 todayBtn: true,
-                minuteStep: 1,
-                endDate: new Date()
+                minuteStep: 1
             });
-
-            SweetAlertApprove.init();
             SweetAlertReject.init();
         });
-
-        var SweetAlertApprove = function() {
-            return {
-                init: function() {
-                    $(".sweetalert-approve").each(function() {
-                        let id     	= $(this).data('id');
-                        let name    = $(this).data('name');
-                        let dateOld = $(this).data('dateold');
-                        let dateNew = $(this).data('datenew');
-
-                        var data = {
-                                '_token' : '{{csrf_token()}}',
-                                'id_transaction_academy_schedule_day_off':id,
-                                'status': 'approve'
-                            };
-                        $(this).click(function() {
-                            swal({
-                                    title: "<b>Name :</b> "+name+"<br><b>Schedule old :</b> "+dateOld+"<br><b>Schedule new :</b> "+dateNew+"<br><br>Are you sure want to approve this day off?",
-                                    text: "Your will not be able to recover this data!",
-                                    type: "warning",
-                                    html: true,
-                                    showCancelButton: true,
-                                    confirmButtonClass: "btn-success",
-                                    confirmButtonText: "Yes, approve it!",
-                                    closeOnConfirm: false
-                                },
-                                function(){
-                                    $.ajax({
-                                        type : "POST",
-                                        url : "{{url('academy/transaction/user/schedule/day-off/action')}}",
-                                        data : data,
-                                        success : function(response) {
-                                            if (response.status == 'success') {
-                                                swal({
-                                                    title: 'Success!',
-                                                    type: 'success',
-                                                    showCancelButton: false,
-                                                    showConfirmButton: false
-                                                });
-                                                window.location.reload();
-                                            }
-                                            else if(response.status == "fail"){
-                                                swal("Error!", "Failed.", "error")
-                                            }
-                                            else {
-                                                swal("Error!", "Something went wrong. Failed update data .", "error")
-                                            }
-                                        }
-                                    });
-                                });
-                        })
-                    })
-                }
-            }
-        }();
 
         var SweetAlertReject = function() {
             return {
@@ -250,6 +191,17 @@
                 }
             }
         }();
+
+        function approve(datas) {
+            var id = $(datas).data('id');
+            var scheduleNew = $(datas).data('datenew');
+            var scheduleOld = $(datas).data('dateold');
+
+            $('#old_date').val(scheduleOld);
+            $('#new_date').val(scheduleNew);
+            $('#id_transaction_academy_schedule_day_off').val(id);
+            $('#modal-approve').modal('show');
+        }
     </script>
 @endsection
 
@@ -299,4 +251,36 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modal-approve" tabindex="-1" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Approve Day Off</h4>
+                </div>
+                <form class="form-horizontal" role="form" action="{{url('academy/transaction/user/schedule/day-off/action')}}" method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Old Date</label>
+                            <div class="col-md-8">
+                                <input type="text" id="old_date" class="form_datetime form-control"  disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">New Date</label>
+                            <div class="col-md-8">
+                                <input type="text" name="new_date" id="new_date" class="form_datetime form-control"  required autocomplete="off">
+                            </div>
+                        </div>
+                        <input type="hidden" name="status" value="approve">
+                        <input type="hidden" name="id_transaction_academy_schedule_day_off" id="id_transaction_academy_schedule_day_off">
+                    </div>
+                    <div class="modal-footer">
+                        {{ csrf_field() }}
+                        <button type="button" class="btn primary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn green-jungle">Approve</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
