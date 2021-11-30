@@ -129,6 +129,7 @@
                 <th scope="col" width="10%"> Email </th>
                 <th scope="col" width="10%"> Phone </th>
                 <th scope="col" width="10%"> Gender </th>
+                <th scope="col" width="10%"> Outlet </th>
             </tr>
             </thead>
             <tbody>
@@ -151,6 +152,7 @@
                         <td>{{$val['email']}}</td>
                         <td>{{$val['phone_number']}}</td>
                         <td>{{$val['gender']}}</td>
+                        <td>{{($val['outlet'] ?? false) ? "{$val['outlet']['outlet_code']} - {$val['outlet']['outlet_name']}" : '-'}}</td>
                     </tr>
                 @endforeach
             @else
