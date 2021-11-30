@@ -630,6 +630,7 @@ class PartnersController extends Controller
                 "partnership_fee" => "required",
                 "income" => "required",
                 "npwp" => "required",
+                "title" => "required",
                 "npwp_name" => "required",
                 "termpayment" => "required",
                 "partner_note" => "required",    
@@ -684,6 +685,9 @@ class PartnersController extends Controller
         ];
         if (isset($request["npwp"]) && $request["follow_up"]=='Follow Up 1') {
             $update_partner['npwp'] = $request['npwp'];
+        }
+        if (isset($request["title"]) && $request["follow_up"]=='Follow Up 1') {
+            $update_partner['title'] = $request['title'];
         }
         if (isset($request["partner_code"]) && $request["follow_up"]=='Follow Up 1') {
             $update_partner['code'] = $request['partner_code'];
