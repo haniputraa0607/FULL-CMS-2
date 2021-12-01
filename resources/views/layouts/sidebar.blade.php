@@ -1953,6 +1953,11 @@
 								<span class="title">[Response] Reject Day Off</span>
 							</a>
 						</li>
+						<li class="nav-item {{($submenu_active == 'academy-autoresponse-payment-academy-installment') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/academy/payment-academy-installment')}}" class="nav-link ">
+								<span class="title">[Response] Payment Academy Installment</span>
+							</a>
+						</li>
 					</ul>
 				</li>
 			@endif

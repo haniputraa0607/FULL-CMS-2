@@ -21,6 +21,12 @@
 			autoclose: true,
 			showSeconds: false,
 		});
+
+		$('.datepicker').datepicker({
+			'format' : 'd-M-yyyy',
+			'todayHighlight' : true,
+			'autoclose' : true
+		});
 	</script>
 @endsection
 
@@ -91,6 +97,15 @@
 									<div class="input-group">
 										<input type="number" class="form-control" min="1" name="duration" value="{{$result['duration']}}">
 										<span class="input-group-addon">minutes</span>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-3 control-label">Installment Deadline Date</label>
+								<div class="col-md-4">
+									<div class="input-group">
+										<span class="input-group-addon">Every</span>
+										<input type="number" class="form-control" min="1" maxlength="2" name="installment_deadline" value="{{$result['installment_deadline']}}">
 									</div>
 								</div>
 							</div>
