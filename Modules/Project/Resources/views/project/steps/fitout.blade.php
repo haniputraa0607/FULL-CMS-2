@@ -1,4 +1,3 @@
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 
@@ -129,6 +128,16 @@
                 @endif
             </div>
             <div class="portlet-body form">
+                @if($result['progres']!='Fit Out' )
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#table_fitout" data-toggle="tab">Overview </a>
+                </li>
+                    <li>
+                        <a href="#invoice_bap" data-toggle="tab">Invoice BAP </a>
+                    </li>
+            </ul>
+             @endif
                 <div class="tab-content">
                     
                     <div class="tab-pane active" id="table_fitout">
@@ -157,7 +166,7 @@
                                                 <td>{{$step['note']}}</td>
                                                 <td>
                                                     @if(isset($step['attachment']))
-                                                    <a target="_blank" href="{{ $step['attachment'] }}">Link Download</a>
+                                                    <a target="_blank" href="{{ env('STORAGE_URL_API').$step['attachment'] }}">Link Download</a>
                                                     @else
                                                     No Attachment
                                                     @endif
@@ -236,6 +245,90 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="invoice_bap">
+                        <form class="form-horizontal" id="conract_form" role="form"  method="post" enctype="multipart/form-data">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">ID Sales Invoice</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" disabled  type="text" id="first_party" name="first_party" value="{{$result['invoice_bap']['id_sales_invoice']??''}}"required/>
+                                    </div>
+                                </div>
+                            
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Amount</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" disabled  type="text" id="first_party" name="first_party" value="Rp {{number_format($result['invoice_bap']['amount']??0,2,',','.')}}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">DPP</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" disabled  type="text" id="first_party" name="first_party" value="Rp {{number_format($result['invoice_bap']['dpp']??0,2,',','.')}}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">DPP Tax</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" disabled  type="text" id="first_party" name="first_party" value="Rp {{number_format($result['invoice_bap']['dpp_tax']??0,2,',','.')}}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Tax</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" disabled  type="text" id="first_party" name="first_party" value="{{$result['invoice_bap']['tax']??0}}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Tax Value</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" disabled  type="text" id="first_party" name="first_party" value="Rp {{number_format($result['invoice_bap']['tax_value']??0,2,',','.')}}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Netto</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" disabled  type="text" id="first_party" name="first_party" value="Rp {{number_format($result['invoice_bap']['netto']??0,2,',','.')}}"/>
+                                    </div>
+                                </div>
+                            <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Tax Date</label>
+                                    <div class="col-md-5">
+                                        <div class="input-group">
+                                            <input disabled type="text" id="grand_opening" class="form_datetime form-control" name="grand_opening" value="{{ (!empty( $result['invoice_bap']['tax_date']) ? date('d M Y H:i', strtotime( $result['invoice_bap']['tax_date'])) : '')}}" >
+                                            <span class="input-group-btn">
+                                                <button class="btn default" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                  @if(!empty($result['invoice_bap']['value_detail']))
+                                        @foreach(json_decode($result['invoice_bap']['value_detail'],true) as $st)
+                                             <div class="form-group">
+                                                <label for="example-search-input" class="control-label col-md-4">Sales Invoice Detail ID</label>
+                                                <div class="col-md-5">
+                                                    <input class="form-control" disabled  type="text" id="first_party" name="first_party" value="{{$st['SalesInvoiceDetailID']??0}}"/>
+                                                </div>
+                                            </div> 
+                                             <div class="form-group">
+                                                <label for="example-search-input" class="control-label col-md-4">ID Item</label>
+                                                <div class="col-md-5">
+                                                    <input class="form-control" disabled  type="text" id="first_party" name="first_party" value="{{$st['ItemID']??0}}"/>
+                                                </div>
+                                            </div> 
+                                             <div class="form-group">
+                                                <label for="example-search-input" class="control-label col-md-4">Quantity</label>
+                                                <div class="col-md-5">
+                                                    <input class="form-control" disabled  type="text" id="first_party" name="first_party" value="{{$st['Qty']??0}}"/>
+                                                </div>
+                                            </div> 
+                                        @endforeach
+                                    @endif
                             </div>
                         </form>
                     </div>

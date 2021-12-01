@@ -22,6 +22,7 @@ class ProjectHandoverController extends Controller
             $post['attachment'] = MyHelper::encodeImage($request['import_file']);
         }
 	$query = MyHelper::post('project/create/handover', $post);
+        
 	if(isset($query['status']) && $query['status'] == 'success'){
 				return back()->withSuccess(['Handover Success']);
 	} else{

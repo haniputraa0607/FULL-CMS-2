@@ -12,7 +12,7 @@ use Session;
 use Excel;
 use App\Imports\FirstSheetOnlyImport;
 use Illuminate\Support\Facades\Hash;
-
+use App\Exports\Handover;
 class ProjectController extends Controller
 {
     /**
@@ -177,12 +177,23 @@ class ProjectController extends Controller
             if($data['result']['project_fitout']==null){
                 $data['result']['project_fitout']=array();
             }
-//            return $data['result']['project_survey']['note'];
-            // dd($data);
-           
+            $data['id_enkripsi'] = MyHelper::createSlug($result['result']['id_project'], $result['result']['created_at']);
             return view('project::project.detail', $data);
         }else{
             return Redirect::back()->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
         }
+    }
+    public function excel($id){
+        $id = MyHelper::explodeSlug($id)[0]??'';
+        $query = MyHelper::post('project/excel', ['id_project'=>$id]);
+        if(isset($query['status']) && $query['status'] == 'success'){
+            $data['result']=$query['result'];
+//            return $data;
+//            return view('project::project.excel.fitout',$data);
+            return Excel::download(new Handover($data), 'SPK_OPENING_OUTLET_'.$data['result']['partner']['name'].'_'.strtotime(date('Y-m-d h:i:s')).'.xlsx');
+	} else{
+            return back()->withErrors($query['messages']);
+	}
+       
     }
 }
