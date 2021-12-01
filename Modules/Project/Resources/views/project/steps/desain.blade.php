@@ -1,9 +1,15 @@
 <?php 
   $step_desain = 1;
+  $status = false;
   if(!empty($result['project_desain'])){
     foreach($result['project_desain'] as $i => $step){
       $step_desain++; 
     }
+  }
+  foreach($result['project_desain'] as $s){
+      if($s['status']=='Success'){
+          $status = true;
+      }
   }
 ?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -123,13 +129,15 @@
                     <span class="caption-subject font-dark sbold uppercase font-yellow">Desain Location</span>
                 </div>
                 @if($result['status']=='Process'&&$result['progres']=="Desain Location")
-                    <a href="#form_desain" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="input-follow-up">
+                @if($status!=true)
+                     <a href="#form_desain" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="input-follow-up">
                          Desain {{ $step_desain }}
                     </a>
+                @endif
                     <a href="#table_desain" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="back-follow-up">
                         Back
                     </a>
-                @if($step_desain>1)
+                @if($step_desain>1&&$status==true)
                     <a class="btn btn-sm green sweetalert-desain-next btn-primary" type="button" style="float:right" data-toggle="tab" id="next-follow-up">
                         Next Step
                     </a>
@@ -144,7 +152,8 @@
                             <table class="table table-striped table-bordered table-hover" id="kt_datatable">
                                 <thead>
                                 <tr>
-                                    <th class="text-nowrap text-center">Created At</th>
+                                    <th class="text-nowrap text-center">Nama Designer</th>
+                                    <th class="text-nowrap text-center">Kontak Designer</th>
                                     <th class="text-nowrap text-center">Step</th>
                                     <th class="text-nowrap text-center">Note</th>
                                     <th class="text-nowrap text-center">Status</th>
@@ -159,7 +168,8 @@
                                     @if(!empty($result['project_desain']))
                                         @foreach($result['project_desain'] as $step)
                                                 <tr data-id="{{ $step['id_projects_desain'] }}">
-                                                <td>{{date('d F Y H:i', strtotime($step['created_at']))}}</td>
+                                                <td> {{$step['nama_designer']}}</td>
+                                                <td> {{$step['cp_designer']}}</td>
                                                 <td>Desain {{$step['desain']}}</td>
                                                 <td>{{$step['note']}}</td>
                                                 <td> @if($step['status'] == 'Success')
@@ -172,7 +182,7 @@
                                                 </td>
                                                 <td>
                                                     @if(isset($step['attachment']))
-                                                    <a target="_blank" href="{{ $step['attachment'] }}">Link Download</a>
+                                                    <a target="_blank" href="{{ env('STORAGE_URL_API').$step['attachment'] }}">Link Download</a>
                                                     @else
                                                     No Attachment
                                                     @endif
@@ -204,6 +214,20 @@
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" id="desain" name="desain" value="Desain {{ $step_desain }}" disabled required/>
                                         <input class="form-control" type="hidden" id="desain" name="desain" value="{{ $step_desain }}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Nama Designer<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama Designer" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" type="text" id="nama_designer" name="nama_designer" placeholder="Enter Nama Designer"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Kontak Designer<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Kontak Designer" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" type="text" id="cp_designer" name="cp_designer" placeholder="Enter Kontak Designer"/>
                                     </div>
                                 </div>
                                <div class="form-group">

@@ -214,6 +214,12 @@
             'todayHighlight' : true,
             'autoclose' : true
         });
+        $(".form_datetime").datetimepicker({
+			format: "dd MM yyyy hh:ii",
+			autoclose: true,
+			todayBtn: true,
+			minuteStep:1
+		});
         $('.select2').select2();
         $(document).ready(function() {
             $('#back-follow-up').hide();
@@ -368,7 +374,16 @@
                                     <input disabled class="form-control" type="text" id="input-phone" name="phone" value="{{$result['progres']}}" placeholder="Enter progres"/>
                                 </div>
                             </div>
-                           
+                           @if($result['status']=="Success")
+                           <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Link Download SPK Pembukaan Outlet<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Download file" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <br>
+                                        <a target="_blank" target='blank' href="{{url('project/excel/').'/'.$id_enkripsi}}"><i class="fa fa-download" style="font-size:48px"></i></a>
+                                    </div>
+                                </div>
+                           @endif
                         </div>
                         @if($result['status']=="Process")
                         <div class="form-actions">

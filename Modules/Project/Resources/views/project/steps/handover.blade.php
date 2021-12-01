@@ -12,7 +12,7 @@
         $id_id_projects_handover = $result['project_handover']['id_projects_handover'];
         $title = $result['project_handover']['title'];
         $note = $result['project_handover']['note'];
-        $attachment = $result['project_handover']['attachment'];
+        $attachment = env('STORAGE_URL_API').$result['project_handover']['attachment'];
         $created_at = $result['project_handover']['updated_at'];
         if($result['project_handover']['status']=='Process'){
            $next_handover = true;
@@ -73,7 +73,49 @@
                                     <label for="example-search-input" class="control-label col-md-4">Title<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="title" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" @if($result['status']!='Process' ) disabled @endif type="text" id="title" name="title" value="{{$title}} " required/>
+                                        <input class="form-control" @if($result['status']!='Process' ) disabled @endif type="text" id="title" name="title" value="{{$title}}" placeholder="Enter Title Handover" required/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Tanggal Serah Terima<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Serah Terima" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <div class="input-group">
+                                            <input placeholder="Enter Tanggal Serah Terima" type="text" id="tanggal_serah_terima" @if($result['status']!='Process' ) disabled  @endif class="datepicker form-control" name="tanggal_serah_terima" value="{{ (!empty( $result['project_handover']['tanggal_serah_terima']) ? date('d F Y', strtotime( $result['project_handover']['tanggal_serah_terima'])) : '')}}" >
+                                            <span class="input-group-btn">
+                                                <button class="btn default" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Tanggal Soft Opening<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Soft Opening" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <div class="input-group">
+                                            <input placeholder="Enter Tanggal Soft Opening" type="text" id="soft_opening" @if($result['status']!='Process' ) disabled  @endif class="form_datetime form-control" name="soft_opening" value="{{ (!empty( $result['project_handover']['soft_opening']) ? date('d M Y H:i', strtotime( $result['project_handover']['soft_opening'])) : '')}}" >
+                                            <span class="input-group-btn">
+                                                <button class="btn default" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Tanggal Grand Opening<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Grand Opening" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <div class="input-group">
+                                            <input placeholder="Enter Tanggal Grand Opening" type="text" id="grand_opening" @if($result['status']!='Process' ) disabled  @endif class="form_datetime form-control" name="grand_opening" value="{{ (!empty( $result['project_handover']['grand_opening']) ? date('d M Y H:i', strtotime( $result['project_handover']['grand_opening'])) : '')}}" >
+                                            <span class="input-group-btn">
+                                                <button class="btn default" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">

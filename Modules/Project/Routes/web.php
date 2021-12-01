@@ -19,7 +19,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'project'
     Route::get('detail/{id}', ['middleware' => 'feature_control:339', 'uses' => 'ProjectController@detail']);
     Route::post('update/detail', ['middleware' => 'feature_control:339', 'uses' => 'ProjectController@update']);
     Route::post('reject/data', ['middleware' => 'feature_control:339', 'uses' => 'ProjectController@reject']);
-    
+    Route::get('excel/{id}', ['middleware' => 'feature_control:340', 'uses' => 'ProjectController@excel']);
     //survey
     Route::post('create/survey_location', ['middleware' => 'feature_control:340', 'uses' => 'ProjectSurveyController@create']);
     Route::post('next/survey_location', ['middleware' => 'feature_control:340', 'uses' => 'ProjectSurveyController@next']);
@@ -32,7 +32,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'project'
     Route::post('create/contract', ['middleware' => 'feature_control:340', 'uses' => 'ProjectContractController@create']);
     Route::post('next/contract', ['middleware' => 'feature_control:340', 'uses' => 'ProjectContractController@next']);
     Route::post('delete/contract', ['middleware' => 'feature_control:340', 'uses' => 'ProjectContractController@delete']);
-    Route::get('excel/contract/{id}', ['middleware' => 'feature_control:340', 'uses' => 'ProjectContractController@excel']);
+    
     //fitout
     Route::post('create/fitout', ['middleware' => 'feature_control:340', 'uses' => 'ProjectFitOutController@create']);
     Route::post('next/fitout', ['middleware' => 'feature_control:340', 'uses' => 'ProjectFitOutController@next']);
