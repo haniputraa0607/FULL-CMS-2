@@ -735,11 +735,11 @@ class PartnersController extends Controller
                 'date' => date("Y-m-d"),
                 'surveyor' => session('name'),
             ];
-            if($request["survey_potential"]=='OK'){
+            if(isset($request["survey_potential"]) && $request["survey_potential"]=='on'){
                 $form_survey['potential'] = 1;
             } else{
                 $form_survey['potential'] = 0;
-            }
+            };
             $index_cat = 1;
             foreach($request['category'] as $cat){
                 $name_cat = 'cat'.$index_cat;
