@@ -213,24 +213,17 @@
             }
 
         });
-        $('#modalSurvey').click(function(){
+        function formSurveyModal(){
             let note = $('#noteSurvey').val();
-            let sur_note = $('#surye_note').val();
-            if ($('#potential').is(":checked"))
-            {
-                $('#potentialModal').val('OK');
-            }else{
-                $('#potentialModal').val('NOT OK');
-            }
-            $('#surveynoteModal').val(sur_note);
+            $('#formSurvey').modal('show');
             $("#noteModal").val(note);
-
-        });
+        }
         $('.datepicker').datepicker({
             'format' : 'dd MM yyyy',
             'todayHighlight' : true,
             'autoclose' : true
         });
+        
         $('.select2').select2();
         $(document).ready(function() {
             $('#back-follow-up').hide();
@@ -963,8 +956,6 @@
                     <input type="hidden" name="id_partner" value="{{$result['id_partner']}}">
                     <input type="hidden" name='follow_up' id="followUpModal" value="Survey Location">
                     <input type="hidden" name='note' id="noteModal" value="">
-                    <input type="hidden" name='surye_note' id="surveynoteModal" value="">
-                    <input type="hidden" name='survey_potential' id="potentialModal" value="">
                     @php
                         $i = 0;
                     @endphp
@@ -982,8 +973,8 @@
                                 <label for="example-search-input">{{ $q }}</label>
                             </div>
                             <div class="col-md-2">
-                                <select name="category[{{ $i }}][question][{{ $x }}][answer]" class="form-control input-sm select2" required>
-                                    <option value="" selected disabled></option>
+                                <select name="category[{{ $i }}][question][{{ $x }}][answer]" class="form-control input-sm select2" aria-placeholder="" required>
+                                    <option value="" selected disabled> </option>
                                     <option value="a">A</option>
                                     <option value="b">B</option>
                                     <option value="c">C</option>
@@ -997,14 +988,34 @@
                     @endphp
                     @endforeach
                     <div class="form-group">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
+                            <label for="example-search-input">Survey Potential
+                                <i class="fa fa-question-circle tooltips" data-original-title="Hasil dari survey yang dilakukan, lokasi yang diajukan diterima atau tidak" data-container="body"></i><br>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="input-icon right">  
+                                <input type="checkbox" class="make-switch" data-size="small" data-on-color="info" data-on-text="OK" name="survey_potential" data-off-color="default" data-off-text="NOT OK" id="potential">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label for="example-search-input">Survey Note <span class="required" aria-required="true">*</span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Catatan dari survey lokasi yang telah dilakukan" data-container="body"></i><br>
+                        </div>
+                        <div class="col-md-8">
+                            <textarea style="height: 80px" name="surye_note" id="surye_note" class="form-control" placeholder="Enter survey note here" required></textarea>
+                        </div>
+                    </div> 
+                    <div class="form-group">
+                        <div class="col-md-4">
                             <label for="example-search-input">Import Attachment
                                 <i class="fa fa-question-circle tooltips" data-original-title="Unggah file jika ada lampiran yang diperlukan" data-container="body"></i><br>
                                 <span class="required" aria-required="true"> (PDF max 2 mb) </span></label>
                         </div>
-                        <div class="col-md-7" style="padding-left: 12px !important">
+                        <div class="col-md-8" >
                             <div class="fileinput fileinput-new text-left" data-provides="fileinput">
-                                <div class="input-group input-large">
+                                <div class="input-group input-small">
                                     <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
                                         <i class="fa fa-file fileinput-exists"></i>&nbsp;
                                         <span class="fileinput-filename"> </span>
@@ -1014,7 +1025,7 @@
                                                 <span class="fileinput-exists"> Change </span>
                                                 <input type="file" accept=".pdf, application/pdf, application/x-pdf,application/acrobat, applications/vnd.pdf, text/pdf, text/x-pdf" class="file" name="import_file" id="attSurv">
                                             </span>
-                                    <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                                    <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> X </a>
                                 </div>
                             </div>
                         </div>

@@ -735,11 +735,11 @@ class PartnersController extends Controller
                 'date' => date("Y-m-d"),
                 'surveyor' => session('name'),
             ];
-            if($request["survey_potential"]=='OK'){
+            if(isset($request["survey_potential"]) && $request["survey_potential"]=='on'){
                 $form_survey['potential'] = 1;
             } else{
                 $form_survey['potential'] = 0;
-            }
+            };
             $index_cat = 1;
             foreach($request['category'] as $cat){
                 $name_cat = 'cat'.$index_cat;
@@ -787,6 +787,17 @@ class PartnersController extends Controller
                 "status" => 'Active',
             ];
         }
+        if(isset($request["follow_up"]) && $request["follow_up"]=='Follow Up 1'){
+            $cek = [
+                "id_partner" => $request['id_partner'],
+                "partner_code" => $request['partner_code'],
+                "location_code" => $request['location_code']
+            ];
+            $cek_duplikat = MyHelper::post('partners/cek-duplikat', $cek);
+            if(isset($cek_duplikat['status']) && $cek_duplikat['status'] == 'duplicate_code'){
+                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($partner_step['messages'] ?? ['Failed create step '.$request["follow_up"].' Code must be different'])->withInput($request->except('partner_code','location_code'));
+            }
+        }        
         $partner_step = MyHelper::post('partners/update', $update_partner);
         if (isset($partner_step['status']) && $partner_step['status'] == 'success') {
             $post['post_follow_up'] = $post_follow_up;
@@ -830,6 +841,8 @@ class PartnersController extends Controller
             }
         }elseif(isset($partner_step['status']) && $partner_step['status'] == 'fail_date'){
             return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($partner_step['messages'] ?? ['Failed create step '.$request["follow_up"].''])->withInput( );
+        }elseif(isset($partner_step['status']) && $partner_step['status'] == 'duplicate_code'){
+            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($partner_step['messages'] ?? ['Failed create step '.$request["follow_up"].''])->withInput($request->except('partner_code','location_code'));
         }else{
             return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
         }

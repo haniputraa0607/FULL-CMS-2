@@ -176,8 +176,8 @@
                             <th class="text-nowrap text-center">Addres</th>
                             @if($title=='Candidate Partners')
                             <th class="text-nowrap text-center">Progress</th>
-                            <th class="text-nowrap text-center">Status</th>
                             @endif
+                            <th class="text-nowrap text-center">Status</th>
                             @if(MyHelper::hasAccess([339,340,341], $grantedFeature))
                             <th class="text-nowrap text-center">Action</th>
                             @endif
@@ -200,6 +200,7 @@
                                         <span class="badge" style="background-color: #2460e2; color: #ffffff">{{$dt['status_steps']}}</span>
                                         @endif
                                     </td>
+                                    @endif
                                     <td>
                                         @if($dt['status'] == 'Active')
                                         <span class="badge" style="background-color: #26C281; color: #ffffff">{{$dt['status']}}</span>
@@ -211,12 +212,11 @@
                                         <span class="badge" style="background-color: #EF1E31; color: #ffffff">{{$dt['status']}}</span>
                                         @endif
                                     </td>
-                                    @endif
                                     <td>
                                         @if(MyHelper::hasAccess([339,340], $grantedFeature))
                                         <a href="{{ url('businessdev/partners/detail/'.$dt['id_partner']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
                                         @endif
-                                        @if(MyHelper::hasAccess([341], $grantedFeature))
+                                        @if(MyHelper::hasAccess([341], $grantedFeature) && $dt['status'] == 'Candidate')
                                         <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $dt['id_partner'] }}" data-name="{{ $dt['name'] }}"><i class="fa fa-trash-o"></i> Delete</a>
                                         @endif
                                     </td>
