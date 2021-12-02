@@ -281,4 +281,28 @@ class TransactionSettingController extends Controller
             }
         }
     }
+
+    public function academySetting(Request $request){
+        if (empty($request->all())) {
+            $data = [
+                'title'          => 'Order',
+                'menu_active'    => 'home-service-setting',
+                'sub_title'      => 'Home Service Settings',
+                'submenu_active' => 'home-service-setting'
+            ];
+
+            $data['result'] = MyHelper::get('transaction/setting/academy')['result']??[];
+            return view('transaction::setting.academy', $data);
+
+        } else {
+
+            $update = MyHelper::post('transaction/setting/academy', $request->all());
+
+            if (($update['status'] ?? false) == 'success'){
+                return back()->with('success', ['Academy setting has been updated']);
+            }else{
+                return back()->withErrors($update['messages'] ?? ['Update failed']);
+            }
+        }
+    }
 }

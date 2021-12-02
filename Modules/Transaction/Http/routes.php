@@ -21,6 +21,8 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'transact
     Route::post('/setting/transaction-messages', 'TransactionSettingController@updateTransactionMessages');
     Route::get('/setting/home-service', 'TransactionSettingController@homeServiceSetting');
     Route::post('/setting/home-service', 'TransactionSettingController@homeServiceSetting');
+    Route::get('/setting/academy', 'TransactionSettingController@academySetting');
+    Route::post('/setting/academy', 'TransactionSettingController@academySetting');
 
     //===== setting delivery =====//
     Route::get('/setting/available-delivery', 'TransactionController@availableDelivery');

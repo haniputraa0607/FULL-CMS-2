@@ -1948,6 +1948,11 @@
 								<span class="title">Day Off</span>
 							</a>
 						</li>
+						<li class="nav-item {{($submenu_active == 'academy-transaction-setting') ? 'active open' : ''}}">
+							<a href="{{url('transaction/setting/academy')}}" class="nav-link ">
+								<span class="title">Installment Deadline Date</span>
+							</a>
+						</li>
 						<li class="nav-item {{($submenu_active == 'academy-autoresponse-approve-day-off-user-academy') ? 'active open' : ''}}">
 							<a href="{{url('autoresponse/academy/approve-day-off-user-academy')}}" class="nav-link ">
 								<span class="title">[Response] Approve Day Off</span>
@@ -1956,6 +1961,11 @@
 						<li class="nav-item {{($submenu_active == 'academy-autoresponse-reject-day-off-user-academy') ? 'active open' : ''}}">
 							<a href="{{url('autoresponse/academy/reject-day-off-user-academy')}}" class="nav-link ">
 								<span class="title">[Response] Reject Day Off</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'academy-autoresponse-payment-academy-installment') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/academy/payment-academy-installment')}}" class="nav-link ">
+								<span class="title">[Response] Payment Academy Installment</span>
 							</a>
 						</li>
 					</ul>
