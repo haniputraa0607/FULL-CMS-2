@@ -154,6 +154,8 @@ class LocationsController extends Controller
         if(isset($result['status']) && $result['status'] == 'success'){
             $data['result'] = $result['result']['location'];
             $data['cities'] = MyHelper::get('city/list')['result']??[];
+            $data['brands'] = MyHelper::get('partners/locations/brands')['result']??[];
+            // dd($data['result']);
             return view('businessdevelopment::locations.detail', $data);
         }else{
             return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
@@ -234,5 +236,97 @@ class LocationsController extends Controller
     {
         $result = MyHelper::post("partners/locations/delete", ['id_location' => $id]);
         return $result;
+    }
+
+    public function approved(Request $request) {
+        $update_status_step = [
+            "id_location" => $request["id_location"],
+            "step_loc" => "Finished Follow Up",
+            "status" => 'Candidate'
+        ];
+        $location_step = MyHelper::post('partners/locations/update', $update_status_step);
+        return $location_step; 
+    }
+
+    public function followUp(Request $request){
+        $request->validate([
+            "import_file" => "mimes:pdf|max:2000",
+            "note" => "required",
+        ]);
+        $post_follow_up = [
+            "id_location" => $request["id_location"],
+            "follow_up" => $request["follow_up"],
+            "note" => $request["note"],  
+        ];
+
+        if(isset($request["follow_up"]) && $request["follow_up"]=='Follow Up 1'){
+            $request->validate([
+                "mall" => "required",
+                "location_code" => "required",
+                "location_large" => "required",
+                "rental_price" => "required",
+                "service_charge" => "required",
+                "promotion_levy" => "required",
+                "renovation_cost" => "required",
+                "partnership_fee" => "required",
+                "income" => "required"    
+            ]);
+            $update_data_location = [
+                "id_location" => $request["id_location"],
+                "code" => $request["location_code"],
+                "name" => $request["nameLocation"],
+                "address" => $request["addressLocation"],  
+                "id_city" => $request["id_cityLocation"],  
+                "id_brand" => $request["id_brand"],  
+                "location_large" => $request["location_large"],  
+                "rental_price" => $request["rental_price"],  
+                "service_charge" => $request["service_charge"],  
+                "promotion_levy" => $request["promotion_levy"],  
+                "renovation_cost" => $request["renovation_cost"],  
+                "partnership_fee" => $request["partnership_fee"],  
+                "income" => $request["income"],   
+                "mall" => $request["mall"],   
+                "start_date" => date('Y-m-d', strtotime($request['start_date'])),  
+                "end_date" => date('Y-m-d', strtotime($request['end_date']))
+            ];
+            $post_follow_up = [
+                "id_location" => $request["id_location"],
+                "follow_up" => "Follow Up",
+                "note" => $request["note"],  
+            ];
+        }
+
+        $update_data_location['id_location'] = $request["id_location"];
+        $update_data_location['status'] = 'Candidate';
+        if($request["follow_up"]=='Payment'){
+            $update_data_location['step_loc'] = 'Payment';
+        }elseif($request["follow_up"]=='Confirmation Letter'){
+            $update_data_location['step_loc'] = 'Confirmation Letter';
+        }elseif($request["follow_up"]=='Calculation'){
+            $update_data_location['step_loc'] = 'Calculation';
+        }elseif($request["follow_up"]=='Survey Location'){
+            $update_data_location['step_loc'] = 'Survey Location';
+        }else{
+            $update_data_location['step_loc'] = 'On Follow Up';
+        }
+
+        if (isset($request["import_file"])) {
+            $post_follow_up['attachment'] = MyHelper::encodeImage($request['import_file']);
+        }
+
+        $location_update =  MyHelper::post('partners/locations/update', $update_data_location);
+        if (isset($location_update['status']) && $location_update['status'] == 'success') {
+            $post['post_follow_up'] = $post_follow_up;
+            $follow_up = MyHelper::post('partners/locations/create-follow-up', $post);
+            if (isset($follow_up['status']) && $follow_up['status'] == 'success') {
+                return redirect('businessdev/locations/detail/'.$request['id_location'])->withSuccess(['Success create step '.$request["follow_up"].'']);
+            }else{
+                return redirect('businessdev/locations/detail/'.$request['id_location'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
+            }
+        }elseif(isset($location_update['status']) && $location_update['status'] == 'fail_date'){
+            return redirect('businessdev/locations/detail/'.$request['id_location'])->withErrors($location_update['messages'] ?? ['Failed create step '.$request["follow_up"].''])->withInput();
+        }else{
+            return redirect('businessdev/locations/detail/'.$request['id_location'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
+        }
     }
 }

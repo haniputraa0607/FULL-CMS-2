@@ -124,6 +124,8 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'business
         Route::get('detail/{user_id}', ['middleware' => 'feature_control:343', 'uses' => 'LocationsController@detail']);
         Route::post('update/{user_id}', ['middleware' => 'feature_control:344', 'uses' => 'LocationsController@update']);
         Route::post('delete/{user_id}', ['middleware' => 'feature_control:345', 'uses' => 'LocationsController@destroy']);  
+        Route::post('create-follow-up', ['middleware' => 'feature_control:345', 'uses' => 'LocationsController@followUp']);  
+        Route::post('approved-follow-up', ['middleware' => 'feature_control:345', 'uses' => 'LocationsController@approved']);  
         Route::any('/{type?}', ['middleware' => 'feature_control:342', 'uses' => 'LocationsController@index']);
     });
     
