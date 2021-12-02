@@ -89,6 +89,52 @@
                 }
             }
         }();
+        var SweetAlertReject = function() {
+            return {
+                init: function() {
+                    $(".sweetalert-reject").each(function() {
+                        var token  	= "{{ csrf_token() }}";
+                        var pathname = window.location.pathname;
+                        let column 	= $(this).parents('tr');
+                        let id     	= $(this).data('id');
+                        let name    = $(this).data('name');
+                        $(this).click(function() {
+                            swal({
+                                    title: name+"\n\nAre you sure want to reject this candidate location?",
+                                    text: "You can continue to approve this candidate location later!",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonClass: "btn-danger",
+                                    confirmButtonText: "Yes, reject it!",
+                                    closeOnConfirm: false
+                                },
+                                function(){
+                                    $.ajax({
+                                        type : "POST",
+                                        url : "{{url('businessdev/locations/reject')}}/"+id,
+                                        data : {
+                                            '_token' : '{{csrf_token()}}'
+                                        },
+                                        success : function(response) {
+                                            if (response.status == 'success') {
+                                                swal("Rejected!", "Candidate Location has been rejected.", "success")
+                                                SweetAlert.init()
+                                                location.href = "{{url('businessdev/locations/detail')}}/"+id;
+                                            }
+                                            else if(response.status == "fail"){
+                                                swal("Error!", "Failed to rejecte candidate location.", "error")
+                                            }
+                                            else {
+                                                swal("Error!", "Something went wrong. Failed to reject candidate location.", "error")
+                                            }
+                                        }
+                                    });
+                                });
+                        })
+                    })
+                }
+            }
+        }();
 
         $('#modalPartner').click(function(){
             let namaPartner = $('#input-name-partner').val();
@@ -117,6 +163,11 @@
             'autoclose' : true
         });
         $('.select2').select2();
+        function formSurveyModal(){
+            let note = $('#noteSurvey').val();
+            $('#formSurvey').modal('show');
+            $("#noteModal").val(note);
+        }
         $(document).ready(function() {
             $('#back-follow-up').hide();
             $('#input-follow-up').click(function(){
@@ -128,6 +179,7 @@
                 $('#back-follow-up').hide();
             });
             SweetAlert.init();
+            SweetAlertReject.init();
             $('[data-switch=true]').bootstrapSwitch();
             $('#btn-submit').on('click', function(event) {
                 if(document.getElementById('auto_generate_pin').checked == false){
@@ -224,7 +276,7 @@
                 <li class="active">
                     <a href="#overview" data-toggle="tab"> Location Overview </a>
                 </li>
-                @if($title=='Candidate Location' && $result['location_partner']['status']=='Active') 
+                @if($title=='Candidate Location') 
                     <li>
                         <a href="#status" data-toggle="tab"> Status Locations </a>
                     </li>
@@ -273,7 +325,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">PIC Name Location 
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Nama penanggung jawan lokasi" data-container="body"></i></label>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Nama penanggung jawab lokasi" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <input class="form-control" type="text" id="input-pic_name" name="pic_name" value="{{$result['pic_name']}}" placeholder="Enter pic_name location here"/>
                                 </div>
@@ -345,6 +397,7 @@
             <div class="tab-pane" id="status">
                 <div style="white-space: nowrap;">
                     <div class="portlet-body form">
+                        @if ($result['location_partner']['status']=='Active')
                         <div class="tab-pane">
                             <div class="row">
                                 <div class="col-md-3">
@@ -371,7 +424,7 @@
                                         <div class="tab-pane @if($result['step_loc']=='On Follow Up' || $result['step_loc']==null || $result['step_loc']=='Finished Follow Up') active @endif" id="follow">
                                             @include('businessdevelopment::locations.steps.follow_up')
                                         </div>
-                                        {{--  <div class="tab-pane @if($result['step_loc']=='Survey Location') active @endif" id="survey">
+                                        <div class="tab-pane @if($result['step_loc']=='Survey Location') active @endif" id="survey">
                                             @include('businessdevelopment::locations.steps.survey_loc')
                                         </div>
                                         <div class="tab-pane @if($result['step_loc']=='Calculation') active @endif" id="calcu">
@@ -382,11 +435,29 @@
                                         </div>
                                         <div class="tab-pane @if($result['step_loc']=='Payment') active @endif" id="payment">
                                             @include('businessdevelopment::locations.steps.payment')
-                                        </div>  --}}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        @else
+                        <div class="portlet box red">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-gear"></i>Warning</div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse"> </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <p>The Partner from this location has not been approved and the status is still a candidate</p>
+                                <p>Please do partner approval first</p>
+                                <a href="{{url('businessdev/partners/detail')}}/{{$result['location_partner']['id_partner']}}#status" class="btn btn-sm yellow" style="float:center">
+                                    Approve Partner
+                                </a>
+                            </div>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -503,6 +574,115 @@
                 </div>
             </form>
           </div>
+        </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-sm" id="formSurvey" tabindex="-1" role="dialog" aria-labelledby="candidatePartnerModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="candidatePartnerModalLabel">Form Survey</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" action="{{url('businessdev/locations/create-follow-up')}}" method="post" enctype="multipart/form-data">
+                    @if (isset($formSurvey) && !empty($formSurvey))
+                    <div class="form-body">
+                        <input type="hidden" name="id_partner" value="{{$result['location_partner']['id_partner']}}">
+                        <input type="hidden" name="id_location" value="{{$result['id_location']}}">
+                        <input type="hidden" name='follow_up' id="followUpModal" value="Survey Location">
+                        <input type="hidden" name='note' id="noteModal" value="">
+                        @php
+                            $i = 0;
+                        @endphp
+                        @foreach ($formSurvey as $x => $form)
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="example-search-input"><span class="sbold uppercase font-black">{{ $form['category'] }}</span></label>
+                                    <input type="hidden" name="category[{{ $i }}][cat]" value="{{ $form['category'] }}">
+                                </div>
+                            </div>
+                            @foreach ($form["question"] as $x => $q )
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <input type="hidden" name="category[{{ $i }}][question][{{ $x }}][question]" value="{{ $q }}">
+                                    <label for="example-search-input">{{ $q }}</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <select name="category[{{ $i }}][question][{{ $x }}][answer]" class="form-control input-sm select2" aria-placeholder="" required>
+                                        <option value="" selected disabled> </option>
+                                        <option value="a">A</option>
+                                        <option value="b">B</option>
+                                        <option value="c">C</option>
+                                        <option value="d">D</option>
+                                    </select>
+                                </div>
+                            </div>
+                            @endforeach
+                        @php
+                            $i++;
+                        @endphp
+                        @endforeach
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <label for="example-search-input">Survey Potential
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Hasil dari survey yang dilakukan, lokasi yang diajukan diterima atau tidak" data-container="body"></i><br>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="input-icon right">  
+                                    <input type="checkbox" class="make-switch" data-size="small" data-on-color="info" data-on-text="OK" name="survey_potential" data-off-color="default" data-off-text="NOT OK" id="potential">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <label for="example-search-input">Survey Note <span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Catatan dari survey lokasi yang telah dilakukan" data-container="body"></i><br>
+                            </div>
+                            <div class="col-md-8">
+                                <textarea style="height: 80px" name="surye_note" id="surye_note" class="form-control" placeholder="Enter survey note here" required></textarea>
+                            </div>
+                        </div> 
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <label for="example-search-input">Import Attachment
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Unggah file jika ada lampiran yang diperlukan" data-container="body"></i><br>
+                                    <span class="required" aria-required="true"> (PDF max 2 mb) </span></label>
+                            </div>
+                            <div class="col-md-8" >
+                                <div class="fileinput fileinput-new text-left" data-provides="fileinput">
+                                    <div class="input-group input-small">
+                                        <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                            <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                            <span class="fileinput-filename"> </span>
+                                        </div>
+                                        <span class="input-group-addon btn default btn-file">
+                                                    <span class="fileinput-new"> Select file </span>
+                                                    <span class="fileinput-exists"> Change </span>
+                                                    <input type="file" accept=".pdf, application/pdf, application/x-pdf,application/acrobat, applications/vnd.pdf, text/pdf, text/x-pdf" class="file" name="import_file" id="attSurv">
+                                                </span>
+                                        <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> X </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @else
+                        <center>
+                            Form Survey for this brand has not been set yet
+                        </center>
+                    @endif
+                    <div class="modal-footer form-actions">
+                        {{ csrf_field() }}
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        @if (isset($formSurvey) && !empty($formSurvey))
+                        <button type="submit" class="btn blue">Submit</button>
+                        @endif
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 

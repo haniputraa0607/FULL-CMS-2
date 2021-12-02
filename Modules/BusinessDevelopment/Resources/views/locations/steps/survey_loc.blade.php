@@ -1,7 +1,7 @@
 <?php 
     $surv = false;
-    if(!empty($result['partner_step'])){
-        foreach($result['partner_step'] as $i => $step){
+    if(!empty($result['location_step'])){
+        foreach($result['location_step'] as $i => $step){
             if($step['follow_up']=='Survey Location'){
                 $surv = true;
                 $follow_up = $step['follow_up'];
@@ -44,7 +44,8 @@
                     <div class="tab-pane @if($result['status']=='Candidate' || $surv == true) active @endif" id="form_survey">
                         <form class="form-horizontal" role="form" action="javascript:formSurveyModal()" method="post" enctype="multipart/form-data">
                             <div class="form-body">
-                                <input type="hidden" name="id_partner" value="{{$result['id_partner']}}">
+                                <input type="hidden" name="id_partner" value="{{$result['location_partner']['id_partner']}}">
+                                <input type="hidden" name="id_location" value="{{$result['id_location']}}">
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Step <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Step yang sedang dilakukan" data-container="body"></i></label>
@@ -82,7 +83,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Download file form survey" data-container="body"></i><br></label>
                                     <div class="col-md-5">
                                         <label for="example-search-input" class="control-label col-md-4">
-                                            <a href="{{ $result['partner_survey'][0]['attachment'] }}">Download Form Survey</a>
+                                            <a href="{{ $result['location_survey'][0]['attachment'] }}">Download Form Survey</a>
                                         <label>
                                     </div>
                                 </div>    
@@ -92,9 +93,8 @@
                                     {{ csrf_field() }}
                                     <div class="row">
                                         <div class="col-md-offset-4 col-md-8">
-                                            {{-- <button type="button" class="btn blue" data-toggle="modal" data-target="#formSurvey" id="modalSurvey" onclick="myFunction()">Form Survey</button> --}}
                                             <button type="submit" class="btn blue">Form Survey</button>
-                                            <a class="btn red sweetalert-reject" data-id="{{ $result['id_partner'] }}" data-name="{{ $result['name'] }}">Reject</a>
+                                            <a class="btn red sweetalert-reject" data-id="{{ $result['id_location'] }}" data-name="{{ $result['name'] }}">Reject</a>
                                         </div>
                                     </div>
                                 </div>

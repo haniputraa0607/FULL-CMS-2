@@ -1,7 +1,7 @@
 <?php 
     $confir = false;
-    if(!empty($result['partner_step'])){
-        foreach($result['partner_step'] as $i => $step){
+    if(!empty($result['location_step'])){
+        foreach($result['location_step'] as $i => $step){
             if($step['follow_up']=='Confirmation Letter'){
                 $confir = true;
                 $follow_up = $step['follow_up'];
@@ -42,9 +42,9 @@
                         </div>
                     </div>
                     <div class="tab-pane @if($result['status']=='Candidate' || $confir == true) active @endif" id="form_confir">
-                        <form class="form-horizontal" role="form" action="{{url('businessdev/partners/create-follow-up')}}" method="post" enctype="multipart/form-data">
+                        <form class="form-horizontal" role="form" action="{{url('businessdev/locations/create-follow-up')}}" method="post" enctype="multipart/form-data">
                             <div class="form-body">
-                                <input type="hidden" name="id_partner" value="{{$result['id_partner']}}">
+                                <input type="hidden" name="id_partner" value="{{$result['location_partner']['id_partner']}}">
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Step <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Pilih step" data-container="body"></i></label>
@@ -143,22 +143,22 @@
                                     <label for="example-search-input" class="control-label col-md-4">Reference Number <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nomor surat yang akan dicantumkan di confirmation letter" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="no_letter" name="no_letter" placeholder="Enter reference number here" required @if ($confir==true) readonly value="{{$result['partner_confirmation'][0]['no_letter']}}" @endif/>
+                                        <input class="form-control" type="text" id="no_letter" name="no_letter" placeholder="Enter reference number here" required @if ($confir==true) readonly value="{{$result['location_confirmation'][0]['no_letter']}}" @endif/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location Letter <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Lokasi confirmation letter dibuat" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="location_letter" name="location_letter" placeholder="Enter location letter here" required @if ($confir==true) readonly value="{{$result['partner_confirmation'][0]['location']}}" @endif/>
+                                        <input class="form-control" type="text" id="location_letter" name="location_letter" placeholder="Enter location letter here" required @if ($confir==true) readonly value="{{$result['location_confirmation'][0]['location']}}" @endif/>
                                     </div>
                                 </div>
-                                <input type="hidden" name="id_location" value="{{$result['partner_locations'][0]['id_location']}}">
+                                <input type="hidden" name="id_location" value="{{$result['id_location']}}">
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Payment Note 
                                         <i class="fa fa-question-circle tooltips" data-original-title="Catatan pembayaran berisikan pilihan untuk pengansuran final payment, jika tidak diisi berarti final payment tanpa angsuran" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <textarea style="height: 200px" name="payment_note" id="payment_note" class="form-control" placeholder="Final Payment akan diangsur ..." @if ($confir==true) readonly @endif>{{ $result['partner_locations'][0]['notes'] }}</textarea>
+                                        <textarea style="height: 200px" name="payment_note" id="payment_note" class="form-control" placeholder="Final Payment akan diangsur ..." @if ($confir==true) readonly @endif>{{ $result['notes'] }}</textarea>
                                     </div>
                                 </div> 
                                 <div class="form-group">
@@ -210,7 +210,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Download file confirmation letter" data-container="body"></i><br></label>
                                     <div class="col-md-5">
                                         <label for="example-search-input" class="control-label col-md-4">
-                                            <a href="{{ $result['partner_confirmation'][0]['attachment'] }}">Download Confirmation Letter</a>
+                                            <a href="{{ $result['location_confirmation'][0]['attachment'] }}">Download Confirmation Letter</a>
                                         <label>
                                     </div>
                                 </div>    

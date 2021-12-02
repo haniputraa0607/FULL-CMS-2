@@ -1,7 +1,7 @@
 <?php 
     $pay = false;
-    if(!empty($result['partner_step'])){
-        foreach($result['partner_step'] as $i => $step){
+    if(!empty($result['location_step'])){
+        foreach($result['location_step'] as $i => $step){
             if($step['follow_up']=='Payment'){
                 $pay = true;
                 $follow_up = $step['follow_up'];
@@ -42,9 +42,9 @@
                         </div>
                     </div>
                     <div class="tab-pane @if($result['status']=='Candidate' || $pay == true) active @endif" id="form_pay">
-                        <form class="form-horizontal" role="form" action="{{url('businessdev/partners/create-follow-up')}}" method="post" enctype="multipart/form-data">
+                        <form class="form-horizontal" role="form" action="{{url('businessdev/locations/create-follow-up')}}" method="post" enctype="multipart/form-data">
                             <div class="form-body">
-                                <input type="hidden" name="id_partner" value="{{$result['id_partner']}}">
+                                <input type="hidden" name="id_partner" value="{{$result['location_partner']['id_partner']}}">
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Step <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Step yang sedang dilakukan" data-container="body"></i></label>
@@ -73,7 +73,7 @@
                                         <textarea name="note" id="note" class="form-control" placeholder="Enter note here" @if ($pay==true) readonly @endif >@if ($pay==true) {{ $note }} @endif</textarea>
                                     </div>
                                 </div>
-                                <input type="hidden" name="id_location" value="{{$result['partner_locations'][0]['id_location']}}">
+                                <input type="hidden" name="id_location" value="{{$result['id_location']}}">
                                 <div class="form-group">
                                     @if ($pay==false) 
                                     <label for="example-search-input" class="control-label col-md-4">Import Attachment 

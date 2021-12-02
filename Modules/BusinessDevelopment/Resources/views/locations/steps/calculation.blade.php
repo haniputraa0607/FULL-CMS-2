@@ -1,7 +1,7 @@
 <?php 
     $calcu = false;
-    if(!empty($result['partner_step'])){
-        foreach($result['partner_step'] as $i => $step){
+    if(!empty($result['location_step'])){
+        foreach($result['location_step'] as $i => $step){
             if($step['follow_up']=='Calculation'){
                 $calcu = true;
                 $follow_up = $step['follow_up'];
@@ -42,9 +42,9 @@
                         </div>
                     </div>
                     <div class="tab-pane @if($result['status']=='Candidate' || $calcu == true) active @endif" id="form_calcu">
-                        <form class="form-horizontal" role="form" action="{{url('businessdev/partners/create-follow-up')}}" method="post" enctype="multipart/form-data">
+                        <form class="form-horizontal" role="form" action="{{url('businessdev/locations/create-follow-up')}}" method="post" enctype="multipart/form-data">
                             <div class="form-body">
-                                <input type="hidden" name="id_partner" value="{{$result['id_partner']}}">
+                                <input type="hidden" name="id_location" value="{{$result['id_location']}}">
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Step <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Step yang sedang dilakukan" data-container="body"></i></label>
@@ -52,12 +52,11 @@
                                         <input class="form-control" type="text" id="follow_up" name="follow_up" value="Calculation" readonly required/>
                                     </div>
                                 </div>
-                                <input type="hidden" name="id_location" value="{{$result['partner_locations'][0]['id_location']}}">
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Total Payment <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nominal yang akan digunakan untuk perhitungan detail produk invoice" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="total_payment" name="total_payment" placeholder="Enter rental price here" @if ($calcu==true) value="{{ $result['partner_locations'][0]['total_payment'] }}" readonly @endif required/>
+                                        <input class="form-control" type="text" id="total_payment" name="total_payment" placeholder="Enter rental price here" @if ($calcu==true) value="{{ $result['total_payment'] }}" readonly @endif required/>
                                     </div>
                                 </div>    
                                 <div class="form-group">
@@ -109,7 +108,7 @@
                                     <div class="row">
                                         <div class="col-md-offset-4 col-md-8">
                                             <button type="submit" class="btn blue">Submit</button>
-                                            <a class="btn red sweetalert-reject" data-id="{{ $result['id_partner'] }}" data-name="{{ $result['name'] }}">Reject</a>
+                                            <a class="btn red sweetalert-reject" data-id="{{ $result['id_location'] }}" data-name="{{ $result['name'] }}">Reject</a>
                                         </div>
                                     </div>
                                 </div>

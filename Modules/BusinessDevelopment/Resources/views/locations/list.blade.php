@@ -197,7 +197,7 @@
                                             @if(MyHelper::hasAccess([343,344], $grantedFeature))
                                             <a href="{{ url('businessdev/locations/detail/'.$location['id_location']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
                                             @endif
-                                            @if(MyHelper::hasAccess([345], $grantedFeature))
+                                            @if(MyHelper::hasAccess([345], $grantedFeature) && $title=='Candidate Partners')
                                             <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $location['id_location'] }}" data-name="{{ $location['name'] }}"><i class="fa fa-trash-o"></i> Delete</a>
                                             @endif
                                         </td>

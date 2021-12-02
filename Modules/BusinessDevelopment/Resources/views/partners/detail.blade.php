@@ -954,6 +954,7 @@
                 @if (isset($formSurvey) && !empty($formSurvey))
                 <div class="form-body">
                     <input type="hidden" name="id_partner" value="{{$result['id_partner']}}">
+                    <input type="hidden" name="id_location" value="{{$result['partner_locations'][0]['id_partner']}}">
                     <input type="hidden" name='follow_up' id="followUpModal" value="Survey Location">
                     <input type="hidden" name='note' id="noteModal" value="">
                     @php
