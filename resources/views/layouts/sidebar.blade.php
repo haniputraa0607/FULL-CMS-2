@@ -1350,6 +1350,11 @@
 							<span class="title">All Transaction</span>
 						</a>
 					</li>
+					<li class="nav-item {{($submenu_active == 'manage-outlet-service') ? 'active open' : ''}}">
+						<a href="{{ url('transaction/outlet-service/manage') }}" class="nav-link">
+							<span class="title">Manage Outlet Service</span>
+						</a>
+					</li>
 {{-- 					<li class="nav-item {{($submenu_active == 'transactions-export') ? 'active open' : ''}}">
 						<a href="{{url('transaction/list-export')}}" class="nav-link ">
 							<span class="title">List Export</span>

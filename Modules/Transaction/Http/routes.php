@@ -114,6 +114,10 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'transact
     	Route::get('/', [ 'uses' => 'TransactionOutletServiceController@listOutletService']);
     	Route::post('/', [ 'uses' => 'TransactionOutletServiceController@filter']);
     	Route::get('detail/{id_transaction}', [ 'uses' => 'TransactionOutletServiceController@detailOutletService']);
+    	Route::get('manage', [ 'uses' => 'TransactionOutletServiceController@manageList']);
+    	Route::post('manage', [ 'uses' => 'TransactionOutletServiceController@manageFilter']);
+    	Route::get('manage/detail/{id_transaction}', [ 'uses' => 'TransactionOutletServiceController@manageDetail']);
+    	Route::post('manage/detail/{id_transaction}', [ 'uses' => 'TransactionOutletServiceController@manageDetailUpdate']);
     });
 
     Route::group(['prefix' => 'home-service'], function(){
