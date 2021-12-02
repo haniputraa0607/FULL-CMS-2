@@ -17,9 +17,10 @@
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}"></script>
 
 	<script type="text/javascript">
-		$('.timepicker').timepicker({
-			autoclose: true,
-			showSeconds: false,
+		$('.datepicker').datepicker({
+			'format' : 'd-M-yyyy',
+			'todayHighlight' : true,
+			'autoclose' : true
 		});
 	</script>
 @endsection
@@ -54,55 +55,21 @@
 					<div class="portlet-title">
 						<div class="caption font-blue ">
 							<i class="icon-settings font-blue "></i>
-							<span class="caption-subject bold uppercase">Home Service Setting</span>
+							<span class="caption-subject bold uppercase">Academy Setting</span>
 						</div>
 					</div>
 					<div class="portlet-body">
 						<form role="form" class="form-horizontal" action="{{url()->current()}}" method="POST">
 							<div class="form-group">
-								<label class="col-md-3 control-label">Outlet </label>
-								<div class="col-md-8">
-									<div class="input-icon right">
-										<select name="outlet" class="select2 form-control" data-placeholder="Select outlet">
-											<option></option>
-											@foreach($outlets as $o)
-												<option value="{{$o['id_outlet']}}" @if($o['id_outlet']==$result['outlet']) selected @endif>{{$o['outlet_code']}} - {{$o['outlet_name']}}</option>
-											@endforeach
-										</select>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-md-3 control-label">Time </label>
-								<div class="col-md-4">
-									<div class="input-icon right">
-										<input type="text" data-placeholder="select time" name="time_start" class="form-control mt-repeater-input-inline timepicker timepicker-no-seconds" data-show-meridian="false" value="{{$result['time_start']}}" readonly>
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="input-icon right">
-										<input type="text" data-placeholder="select time" name="time_end" class="form-control mt-repeater-input-inline timepicker timepicker-no-seconds" data-show-meridian="false" value="{{$result['time_end']}}" readonly>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-md-3 control-label">Time Duration </label>
+								<label class="col-md-3 control-label">Installment Deadline Date</label>
 								<div class="col-md-4">
 									<div class="input-group">
-										<input type="number" class="form-control" min="1" name="duration" value="{{$result['duration']}}">
-										<span class="input-group-addon">minutes</span>
+										<span class="input-group-addon">Every</span>
+										<input type="number" class="form-control" min="1" maxlength="2" name="installment_deadline" value="{{$result['installment_deadline']}}">
 									</div>
 								</div>
 							</div>
-							<div class="form-group">
-								<label class="col-md-3 control-label">Radius </label>
-								<div class="col-md-4">
-									<div class="input-group">
-										<span class="input-group-addon">maximum</span>
-										<input type="number" class="form-control" min="1" name="radius" value="{{$result['radius']}}">
-									</div>
-								</div>
-							</div>
+							<br>
 							<div class="form-actions" style="text-align:center">
 								{{ csrf_field() }}
 								<button type="submit" class="btn green"><i class="fa fa-check"></i> Submit</button>

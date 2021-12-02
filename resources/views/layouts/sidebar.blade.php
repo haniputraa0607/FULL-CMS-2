@@ -1943,6 +1943,11 @@
 								<span class="title">Day Off</span>
 							</a>
 						</li>
+						<li class="nav-item {{($submenu_active == 'academy-transaction-setting') ? 'active open' : ''}}">
+							<a href="{{url('transaction/setting/academy')}}" class="nav-link ">
+								<span class="title">Installment Deadline Date</span>
+							</a>
+						</li>
 						<li class="nav-item {{($submenu_active == 'academy-autoresponse-approve-day-off-user-academy') ? 'active open' : ''}}">
 							<a href="{{url('autoresponse/academy/approve-day-off-user-academy')}}" class="nav-link ">
 								<span class="title">[Response] Approve Day Off</span>
