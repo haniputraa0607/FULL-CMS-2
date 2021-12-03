@@ -1346,7 +1346,6 @@ class SettingController extends Controller
             'submenu_active' => 'maintenance-mode'
         ];
         if($post){
-            dd($post);
             if(isset($post['image']) && $post['image'] !== null){
                 $post['image']= MyHelper::encodeImage($post['image']);
             }
