@@ -499,6 +499,7 @@ class LocationsController extends Controller
             $update_data_location['trans_date'] = date('Y-m-d');
             $update_data_location['due_date'] = date('Y-m-d', strtotime($request['due_date']));
             $update_data_location["status"] = 'Active';
+            $post_follow_up['id_partner'] = $request['id_partner'];
         }
 
         // return [$form_survey, $post_follow_up, $update_data_location];
