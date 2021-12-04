@@ -760,6 +760,7 @@ class ProductController extends Controller
             }
 
             $data['brands'] = MyHelper::get('brand/be/list')['result']??[];
+            $data['items'] = MyHelper::get('product/be/list/icount')??[];
             $data['promo_categories'] = MyHelper::get('product/promo-category')['result']??[];
             $data['product'][0]['product_promo_categories'] = array_column($data['product'][0]['product_promo_categories'],'id_product_promo_category');
             $nextId = MyHelper::get('product/next/'.$data['product'][0]['id_product']);
@@ -779,10 +780,10 @@ class ProductController extends Controller
             $data['product_variant'] = MyHelper::get('product-variant')['result'] ?? [];
             $data['product_variant_group'] = MyHelper::post('product-variant-group',  ['product_code' => $code])['result'] ?? [];
             $data['count'] = count($data['product_variant_group']);
+      
             return view('product::product.detail', $data);
         }
         else {
-			// print_r($post);exit;
 
 			 /**
              * update info
@@ -800,7 +801,12 @@ class ProductController extends Controller
                 if (isset($post['product_photo_detail'])) {
                     $post['product_photo_detail']      = MyHelper::encodeImage($post['product_photo_detail']);
                 }
-
+                if (isset($post['item'])) {
+                    $items = explode(',', $post['item']);
+                    $post['ItemID'] = $items[0];
+                    $post['name_item'] = $items[1];
+                    unset($post['']);
+                }
                 // update data
                 $save = MyHelper::post('product/update', $post);
 

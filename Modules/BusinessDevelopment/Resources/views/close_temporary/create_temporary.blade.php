@@ -21,7 +21,7 @@
                             </div>
                             <div class="form-group">
                                 @if($url == false)
-                                <label for="example-search-input" class="control-label col-md-4">Tanggal Close<span class="required" aria-required="true">*</span>
+                                <label for="example-search-input" class="control-label col-md-4">Close Date<span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Close" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <div class="input-group">
@@ -34,7 +34,7 @@
                                     </div>
                                 </div>
                                 @else
-                                <label for="example-search-input" class="control-label col-md-4">Tanggal Mulai<span class="required" aria-required="true">*</span>
+                                <label for="example-search-input" class="control-label col-md-4">Open Date<span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Mulai" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">

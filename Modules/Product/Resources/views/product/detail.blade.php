@@ -1,7 +1,8 @@
 <?php
     use App\Lib\MyHelper;
     $grantedFeature     = session('granted_features');
-
+    
+    
  ?>
  @extends('layouts.main')
 

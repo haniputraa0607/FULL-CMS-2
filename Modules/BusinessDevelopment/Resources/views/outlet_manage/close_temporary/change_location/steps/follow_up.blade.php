@@ -104,7 +104,7 @@
                                                 <td>{{$step['note']}}</td>
                                                 <td>
                                                     @if(isset($step['attachment']))
-                                                    <a href="{{ $step['attachment'] }}">Link Download Attachment</a>
+                                                    <a href="{{ env('STORAGE_URL_API').$step['attachment'] }}">Link Download Attachment</a>
                                                     @else
                                                     No Attachment
                                                     @endif

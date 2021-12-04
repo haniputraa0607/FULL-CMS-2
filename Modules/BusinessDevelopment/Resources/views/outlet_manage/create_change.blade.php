@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-search-input" class="control-label col-md-4">Partner Tujuan<span class="required" aria-required="true">*</span>
+                <label for="example-search-input" class="control-label col-md-4">Partner Change Ownership<span class="required" aria-required="true">*</span>
                     <i class="fa fa-question-circle tooltips" data-original-title="Partner Tujuan" data-container="body"></i></label>
                 <div class="col-md-5">
                       <select name="to_id_partner" id="to_id_partner" class="form-control input-sm select2" placeholder="Search Partner Tujuan" data-placeholder="Pilih Partner Tujuan">
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-search-input" class="control-label col-md-4">Tanggal <span class="required" aria-required="true">*</span>
+                <label for="example-search-input" class="control-label col-md-4">Date Change Ownership<span class="required" aria-required="true">*</span>
                     <i class="fa fa-question-circle tooltips" data-original-title="Tanggal" data-container="body"></i></label>
                 <div class="col-md-5">
                     <div class="input-group">
