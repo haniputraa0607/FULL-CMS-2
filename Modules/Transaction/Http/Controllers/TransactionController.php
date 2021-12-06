@@ -88,6 +88,9 @@ class TransactionController extends Controller
                   'submenu_active'    => 'transaction-autoresponse-'.$subject,
                   'type'              => 'trx'  
 				];
+
+        $query = MyHelper::post('autocrm/list', ['autocrm_title' => $autocrmSubject]);
+        $test = MyHelper::get('autocrm/textreplace');
         switch ($subject) {
             case 'receive-inject-voucher':
                 $data['menu_active'] = 'inject-voucher';
@@ -272,6 +275,17 @@ class TransactionController extends Controller
                     ['value' => 'History Transaction','title' => 'History Transaction']
                 ];
                 break;
+            case 'home-service-mitra-get-order':
+                $data['menu_active'] = 'transaction';
+                $data['submenu_active'] = 'home-service-mitra-get-order';
+                $data['click_inbox'] = [
+                    ['value' => "History Transaction",'title' => 'History Transaction']
+                ];
+                $data['click_notification'] = [
+                    ['value' => 'History Transaction','title' => 'History Transaction']
+                ];
+                $test['result'] = [];
+                break;
             default:
                 $data['click_inbox'] = [
                     ['value' => "History Transaction",'title' => 'History Transaction']
@@ -281,8 +295,6 @@ class TransactionController extends Controller
                 ];
                 break;
         }
-        $query = MyHelper::post('autocrm/list', ['autocrm_title' => $autocrmSubject]);
-		$test = MyHelper::get('autocrm/textreplace');
 		$auto = null;
 		$post = $request->except('_token');
 		if(!empty($post)){
