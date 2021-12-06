@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-search-input" class="control-label col-md-4">Tanggal <span class="required" aria-required="true">*</span>
+                <label for="example-search-input" class="control-label col-md-4">Date Cut Off <span class="required" aria-required="true">*</span>
                     <i class="fa fa-question-circle tooltips" data-original-title="Tanggal" data-container="body"></i></label>
                 <div class="col-md-5">
                     <div class="input-group">

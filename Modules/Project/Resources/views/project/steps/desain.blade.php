@@ -152,8 +152,8 @@
                             <table class="table table-striped table-bordered table-hover" id="kt_datatable">
                                 <thead>
                                 <tr>
-                                    <th class="text-nowrap text-center">Nama Designer</th>
-                                    <th class="text-nowrap text-center">Kontak Designer</th>
+                                    <th class="text-nowrap text-center">Name Designer</th>
+                                    <th class="text-nowrap text-center">CP Designer</th>
                                     <th class="text-nowrap text-center">Step</th>
                                     <th class="text-nowrap text-center">Note</th>
                                     <th class="text-nowrap text-center">Status</th>
@@ -217,14 +217,14 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Nama Designer<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Name Designer<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nama Designer" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" id="nama_designer" name="nama_designer" placeholder="Enter Nama Designer"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Kontak Designer<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Contact Person Designer<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Kontak Designer" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" id="cp_designer" name="cp_designer" placeholder="Enter Kontak Designer"/>

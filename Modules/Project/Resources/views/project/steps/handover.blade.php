@@ -12,7 +12,7 @@
         $id_id_projects_handover = $result['project_handover']['id_projects_handover'];
         $title = $result['project_handover']['title'];
         $note = $result['project_handover']['note'];
-        $attachment = env('STORAGE_URL_API').$result['project_handover']['attachment'];
+        $attachment = $result['project_handover']['attachment'];
         $created_at = $result['project_handover']['updated_at'];
         if($result['project_handover']['status']=='Process'){
            $next_handover = true;
@@ -77,7 +77,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Tanggal Serah Terima<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Handover Date<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Serah Terima" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
@@ -91,7 +91,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Tanggal Soft Opening<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Soft Opening Date<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Soft Opening" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
@@ -105,7 +105,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Tanggal Grand Opening<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Grand Opening Date<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Grand Opening" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
@@ -152,7 +152,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Download file" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <br>
-                                        <a target="_blank" target='blank' href="{{ $attachment }}"><i class="fa fa-download" style="font-size:48px"></i></a>
+                                        <a target="_blank" target='blank' href="{{ env('STORAGE_URL_API').$attachment }}"><i class="fa fa-download" style="font-size:48px"></i></a>
                                     </div>
                                 </div>
                                 @endif

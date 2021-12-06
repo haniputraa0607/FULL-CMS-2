@@ -87,7 +87,7 @@ $grantedFeature     = session('granted_features');
                                 <td>{{date('d F Y', strtotime($value['created_at']))}}</td>
                                 <td>
                                     @if(isset($value['attachment']))
-                                                    <a target="_blank" href="{{ $value['attachment'] }}">Link Download</a>
+                                                    <a target="_blank" href="{{ env('STORAGE_URL_API').$value['attachment'] }}">Link Download</a>
                                                     @else
                                                     No Attachment
                                                     @endif

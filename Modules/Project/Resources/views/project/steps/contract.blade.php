@@ -28,7 +28,7 @@
         $nama_pic = $result['project_contract']['nama_pic'];
         $kontak_pic = $result['project_contract']['kontak_pic'];
         $lokasi_pic = $result['project_contract']['lokasi_pic'];
-        $attachment = env('STORAGE_URL_API').$result['project_contract']['attachment'];
+        $attachment = $result['project_contract']['attachment'];
         $created_at = $result['project_contract']['updated_at'];
 //        if($result['project_contract']['status']=='Process'){
 //           $next_contract = true;
@@ -175,28 +175,28 @@
                             <div class="form-body">
                                 <input type="hidden" name="id_project" value="{{$result['id_project']}}">
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Pihak 1<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">First Party<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Pihak 1" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif type="text" id="first_party" name="first_party" value="{{$first_party}}" placeholder="Enter Pihak 1" required/>
                                     </div>
                                 </div>
                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Pihak 2<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Second Party<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Pihak 2" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif id="second_party" name="second_party" value="{{$second_party}}" placeholder="Enter Pihak 2" required/>
                                     </div>
                                 </div>
                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Nomor SPK<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">No SPK<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nomor SPK" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif id="nomor_spk" name="nomor_spk" value="{{$result['project_contract']['nomor_spk']??''}}" placeholder="Enter Nomor SPK" required/>
                                     </div>
                                 </div>
                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Tanggal SPK<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Date SPK<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal SPK" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
@@ -210,21 +210,21 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Lampiran SPK<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Attachment SPK<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Lampiran SPK" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" placeholder="Lampiran (2 Lembar)" type="text" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif id="lampiran" name="lampiran" value="{{$result['project_contract']['lampiran']??''}}" required/>
                                     </div>
                                 </div>
                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Nomor LOI<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">No LOI<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nomor Letter Of Intens" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input placeholder="Enter Nomor LOI" class="form-control" type="text" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif id="nomor_loi" name="nomor_loi" value="{{$nomor_loi}}" required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Tanggal LOI<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Date LOI<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal LOI" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
@@ -238,7 +238,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Tanggal Buka LOI<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Open Date by LOI<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal buka menurut LOI" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
@@ -252,21 +252,21 @@
                                     </div>
                                 </div>
                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Nama PIC<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Name PIC<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nama Person in Charge" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif id="nama_pic" name="nama_pic" value="{{$nama_pic}}" placeholder="Nama PIC" required/>
                                     </div>
                                 </div>
                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Kontak PIC<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">contact PIC<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Kontak Person in Charge" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input  class="form-control" type="text" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif id="kontak_pic" name="kontak_pic" value="{{$kontak_pic}}" placeholder="Kontak PIC" required/>
                                     </div>
                                 </div>
                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Lokasi PIC<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Location PIC<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Lokasi Person in Charge" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input  class="form-control" type="text" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif id="lokasi_pic" name="lokasi_pic" value="{{$lokasi_pic}}" placeholder="Lokasi PIC" required/>
@@ -312,7 +312,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Download file" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <br>
-                                        <a target="_blank" target='blank' href="{{ $attachment }}"><i class="fa fa-download" style="font-size:48px"></i></a>
+                                        <a target="_blank" target='blank' href="{{ env('STORAGE_URL_API').$attachment }}"><i class="fa fa-download" style="font-size:48px"></i></a>
                                     </div>
                                 </div>
                                 @endif

@@ -128,8 +128,8 @@ $grantedFeature     = session('granted_features');
                             </div>
                             <div class="form-group">
                                 @if(!empty($result['close_date']))
-                                <label for="example-search-input" class="control-label col-md-4">Tanggal Close<span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Close" data-container="body"></i></label>
+                                <label for="example-search-input" class="control-label col-md-4">Close Date<span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Tutup" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <div class="input-group">
                                         <input type="text" id="close_date" @if($result['status']!='Process' ) disabled @endif class="datepicker form-control" name="close_date" value="{{ (!empty($result['close_date']) ? date('d F Y', strtotime($result['close_date'])) : '')}}" >
@@ -141,8 +141,8 @@ $grantedFeature     = session('granted_features');
                                     </div>
                                 </div>
                                 @else
-                                <label for="example-search-input" class="control-label col-md-4">Tanggal Mulai<span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Mulai" min='@php date("Y-m-d"); @endphp' data-container="body"></i></label>
+                                <label for="example-search-input" class="control-label col-md-4">Open Date<span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Tanggal buka" min='@php date("Y-m-d"); @endphp' data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <input type="text" id="close_date" @if($result['status']!='Process' ) disabled @endif class="datepicker form-control" name="start_date" value="{{ (!empty($result['start_date']) ? date('d F Y', strtotime($result['start_date'])) : '')}}" >

@@ -124,7 +124,7 @@ $grantedFeature     = session('granted_features');
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="example-search-input" class="control-label col-md-4">To Partner<span class="required" aria-required="true">*</span>
+                                <label for="example-search-input" class="control-label col-md-4">Partner Change Ownership<span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Title" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <input  disabled class="form-control" type="text" id="input-name"  value="{{$result['to_id_partner']['name']}}" placeholder="Enter name here"/>
@@ -138,7 +138,7 @@ $grantedFeature     = session('granted_features');
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="example-search-input" class="control-label col-md-4">Tanggal <span class="required" aria-required="true">*</span>
+                                <label for="example-search-input" class="control-label col-md-4">Date Change Ownership <span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Tanggal " data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <div class="input-group">
