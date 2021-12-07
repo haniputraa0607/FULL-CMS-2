@@ -3377,6 +3377,14 @@
 			</ul>
 		</li>
 		@endif
+        @if(MyHelper::hasAccess([392], $grantedFeature))
+		<li class="nav-item {{($menu_active == 'setting-icount') ? 'active open' : ''}}">
+			<a href="setting/setting-icount" class="nav-link nav-toggle">
+				<i class="fa fa-gear fa-spin"></i>
+				<span class="title">Icount Setting</span>
+			</a>
+		</li>
+		@endif
 
 		@if(MyHelper::hasAccess([85,86,87,88,89,154], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
