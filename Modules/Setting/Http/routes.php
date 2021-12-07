@@ -55,6 +55,9 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'setting'
     //logo confirmation letter
     Route::any('/logo-confir', ['middleware' => 'feature_control:343', 'uses' => 'SettingController@confirmationLogoPDF']);
 
+    //code icount
+    Route::any('/setting-icount', ['middleware' => 'feature_control:392', 'uses' => 'SettingController@setting_icount']);
+   
     Route::any('home', 'SettingController@homeSetting');
 	Route::any('date', 'SettingController@dateSetting');
     Route::get('{key}', 'SettingController@settingList');

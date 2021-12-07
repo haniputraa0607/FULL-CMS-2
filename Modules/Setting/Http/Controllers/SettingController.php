@@ -1571,4 +1571,26 @@ class SettingController extends Controller
             return view('setting::confirmation_logo', $data);
         }
     }
+    public function setting_icount(Request $request){
+        $post = $request->except('_token');
+        $data = [
+            'title'          => 'Setting Code Icount',
+            'menu_active'    => 'setting-icount',
+            'submenu_active'    => 'setting-icount',
+        ];
+        if($post){
+            $penjualan_outlet = MyHelper::post('setting/icount_setting_create', $post);
+            if(($penjualan_outlet['status']??'')=='success'){
+                return redirect('setting/setting-icount')->with('success',['Success update code icount']);
+            }else{
+                return redirect('setting/setting-icount')->withErrors([$penjualan_outlet['message']]);
+            }
+        }else{
+            $penjualan_outlet = MyHelper::get('setting/icount_setting');
+            $data['penjualan_outlet'] = $penjualan_outlet['penjualan_outlet'];
+            $data['revenue_sharing'] = $penjualan_outlet['revenue_sharing'];
+            $data['management_fee'] = $penjualan_outlet['management_fee'];
+            return view('setting::icount.setting_icount', $data);
+        }
+    }
 }
