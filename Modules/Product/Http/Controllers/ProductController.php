@@ -691,13 +691,21 @@ class ProductController extends Controller
     /**
      * detail
      */
-    function detail(Request $request, $code) {
+    function detail(Request $request, $code, $type = null) {
         $data = [
             'title'          => 'Product',
             'sub_title'      => 'Product Detail',
             'menu_active'    => 'product',
             'submenu_active' => 'product-list',
         ];
+        if($type=='icount'){
+            $data = [
+                'title'          => 'Product ICount',
+                'sub_title'      => 'Product ICount Detail',
+                'menu_active'    => 'product',
+                'submenu_active' => 'product-icount-list',
+            ];
+        }
 
         $product = MyHelper::post('product/be/list', ['product_code' => $code, 'outlet_prices' => 1]);
         // dd($product);
@@ -780,7 +788,7 @@ class ProductController extends Controller
             $data['product_variant'] = MyHelper::get('product-variant')['result'] ?? [];
             $data['product_variant_group'] = MyHelper::post('product-variant-group',  ['product_code' => $code])['result'] ?? [];
             $data['count'] = count($data['product_variant_group']);
-      
+            
             return view('product::product.detail', $data);
         }
         else {
@@ -822,8 +830,12 @@ class ProductController extends Controller
                         $saveRelation = app($this->tag)->createProductTag($post['id_product'], $post['id_tag']);
                     }
                 }
+                if($data['title']=='Product'){
+                    return parent::redirect($save, 'Product info has been updated.', 'product/detail/'.$post['product_code'].'#info');
+                }else{
+                    return parent::redirect($save, 'Product info has been updated.', 'product/detail/'.$post['product_code'].'/icount#info');
 
-                return parent::redirect($save, 'Product info has been updated.', 'product/detail/'.$post['product_code'].'#info');
+                }
             }
 
             /**
@@ -832,7 +844,12 @@ class ProductController extends Controller
 			if (isset($post['product_detail_visibility'])) {
 				$save = MyHelper::post('product/detail/update', $post);
 				// print_r($save);exit;
-                return parent::redirect($save, 'Visibility setting has been updated.', 'product/detail/'.$code.'?page='.$post['page'].'&type='.$post['type'].'#outletsetting');
+                if($data['title']=='Product'){
+                    return parent::redirect($save, 'Visibility setting has been updated.', 'product/detail/'.$code.'?page='.$post['page'].'&type='.$post['type'].'#outletsetting');
+                }else{
+                    return parent::redirect($save, 'Visibility setting has been updated.', 'product/detail/'.$code.'/icount?page='.$post['page'].'&type='.$post['type'].'#outletsetting');
+
+                }
 			}
 
             /**
@@ -842,7 +859,11 @@ class ProductController extends Controller
             if (isset($post['product_price'])) {
                 $save = MyHelper::post('product/detail/update/price', $post);
                 // print_r($save);exit;
-                return parent::redirect($save, 'Product price setting has been updated.', 'product/detail/'.$code.'?page='.$post['page'].'&type='.$post['type'].'#outletpricesetting');
+                if ($data['title']=='Product') {
+                    return parent::redirect($save, 'Product price setting has been updated.', 'product/detail/'.$code.'?page='.$post['page'].'&type='.$post['type'].'#outletpricesetting');
+                }else{
+                    return parent::redirect($save, 'Product price setting has been updated.', 'product/detail/'.$code.'/icount?page='.$post['page'].'&type='.$post['type'].'#outletpricesetting');
+                }
             }
 
 			/**
@@ -866,7 +887,12 @@ class ProductController extends Controller
                 }
 
                 $save = MyHelper::post('product/discount/create', $post);
-                return parent::redirect($save, 'Product discount has been added.', 'product/detail/'.$code.'#discount');
+                if($data['title']=='Product'){
+                    return parent::redirect($save, 'Product discount has been added.', 'product/detail/'.$code.'#discount');
+                }else{
+                    return parent::redirect($save, 'Product discount has been added.', 'product/detail/'.$code.'/icount#discount');
+
+                }
             }
 
             /**
@@ -878,7 +904,11 @@ class ProductController extends Controller
                  * save
                  */
                 $save          = MyHelper::post('product/photo/create', $post);
-                return parent::redirect($save, 'Product photo has been added.', 'product/detail/'.$code.'#photo');
+                if ($data['title']=='Product') {
+                    return parent::redirect($save, 'Product photo has been added.', 'product/detail/'.$code.'#photo');
+                }else{
+                    return parent::redirect($save, 'Product photo has been added.', 'product/detail/'.$code.'/icount#photo');
+                }
             }
 
             /**
@@ -897,11 +927,18 @@ class ProductController extends Controller
                     $save = MyHelper::post('product/photo/update', $data);
 
                     if (!isset($save['status']) || $save['status'] != "success") {
-                        return redirect('product/detail/'.$code.'#photo')->witherrors(['Something went wrong. Please try again.']);
+                        if($data['title']=='Product'){
+                            return redirect('product/detail/'.$code.'#photo')->witherrors(['Something went wrong. Please try again.']);
+                        }else{
+                            return redirect('product/detail/'.$code.'/icount#photo')->witherrors(['Something went wrong. Please try again.']);
+                        }
                     }
                 }
-
-                return redirect('product/detail/'.$code.'#photo')->with('success', ['Photo\'s order has been updated']);
+                if($data['title']=='Product'){
+                    return redirect('product/detail/'.$code.'#photo')->with('success', ['Photo\'s order has been updated']);
+                }else{
+                    return redirect('product/detail/'.$code.'/icount#photo')->with('success', ['Photo\'s order has been updated']);
+                }
             }
 
         }
@@ -1492,4 +1529,34 @@ class ProductController extends Controller
         return $product;
     }
 
+     // ICOUNT
+    public function listProductIcount(Request $request){
+        $data = [
+            'title'          => 'Product ICount',
+            'sub_title'      => 'List Product ICount',
+            'menu_active'    => 'product',
+            'submenu_active' => 'product-icount-list',
+        ];
+
+        $product = MyHelper::post('product/be/list', ['admin_list' => 1]);
+        // return $product;
+        if (isset($product['status']) && $product['status'] == "success") {
+            $data['product'] = $product['result'];
+        }
+        else {
+            $data['product'] = [];
+        }
+        // dd($data);
+
+        return view('product::product.list_icount', $data);
+    }
+    public function syncIcount(Request $request){
+        //sync with item icount
+        $post = $request->except('_token');
+        $sync = MyHelper::post('product/be/sync', $post);
+        return $sync;
+
+        // return redirect('product/icount')->with('success', ['Product table is already synced with ICount']);
+        // return redirect('product/icount')->withErrors(['Failed to sync with ICount']);
+    }
 }

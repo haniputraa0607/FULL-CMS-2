@@ -22,7 +22,7 @@
                             <div class="form-group">
                                 @if($url == false)
                                 <label for="example-search-input" class="control-label col-md-4">Submitted Date<span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Pengajuan tanggal partner beralih ke IXOBOX" data-container="body"></i></label>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Pengajuan tanggal partner berhenti bekerja sama" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <div class="input-group">
                                         <input type="text" id="close_date"  class="datepicker form-control" name="close_date" >

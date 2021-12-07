@@ -953,7 +953,11 @@
     @php
         // print_r($product);die();
     @endphp
+    @if ($title == 'Product')
     <a href="{{url('product')}}" class="btn green" style="margin-bottom: 2%;"><i class="fa fa-arrow-left"></i> Back</a>
+    @else    
+    <a href="{{url('product/icount')}}" class="btn green" style="margin-bottom: 2%;"><i class="fa fa-arrow-left"></i> Back</a>
+    @endif
     <div class="portlet light bordered">
         <div class="portlet-title tabbable-line">
             <div class="caption">

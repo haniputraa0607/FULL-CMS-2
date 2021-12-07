@@ -23,7 +23,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'product'
 	Route::post('update/allow_sync', ['middleware' => 'feature_control:51', 'uses' => 'ProductController@updateAllowSync']);
 	Route::post('update/visibility/global', ['middleware' => 'feature_control:51', 'uses' => 'ProductController@updateVisibility']);
 	Route::any('delete', ['middleware' => 'feature_control:52', 'uses' => 'ProductController@delete']);
-	Route::any('detail/{product_code}', ['middleware' => 'feature_control:49', 'uses' => 'ProductController@detail']);
+	Route::any('detail/{product_code}/{type?}', ['middleware' => 'feature_control:49', 'uses' => 'ProductController@detail']);
 	Route::post('export/{type}', ['middleware' => ['feature_control:57', 'config_control:11'], 'uses' => 'ProductController@export']);
 	Route::post('import/{type}', ['middleware' => ['feature_control:56', 'config_control:10'], 'uses' => 'ProductController@import']);
 	Route::any('price/{key?}', ['middleware' => ['feature_control:62', 'config_control:11'], 'uses' => 'ProductController@price']);
@@ -41,6 +41,12 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'product'
 	Route::group(['prefix' => 'photo'], function() {
     	Route::any('delete', ['middleware' => 'feature_control:53', 'uses' => 'ProductController@deletePhoto']);
     	Route::any('default', ['middleware' => 'feature_control:53', 'uses' => 'ProductController@photoDefault']);
+	});
+
+	Route::group(['prefix' => 'icount'], function() {
+    	Route::any('/', ['middleware' => 'feature_control:48', 'uses' => 'ProductController@listProductIcount']);
+    	Route::any('delete', ['middleware' => 'feature_control:52', 'uses' => 'ProductController@delete']);
+    	Route::any('sync', ['middleware' => 'feature_control:52', 'uses' => 'ProductController@syncIcount']);
 	});
 
 	/**
