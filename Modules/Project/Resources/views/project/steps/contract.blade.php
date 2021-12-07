@@ -142,7 +142,23 @@
                 }
             }
         }();
+         function number(id){
+            $(id).inputmask("remove");
+            $(id).inputmask({
+                mask: "0999 9999 999999",
+                removeMaskOnSubmit: true,
+                placeholder:"",
+                prefix: "",
+                digits: 0,
+                // groupSeparator: '.',
+                rightAlign: false,
+                greedy: false,
+                autoGroup: true,
+                digitsOptional: false,
+            });
+        }
         jQuery(document).ready(function() {
+             number("#kontak_pic");
             SweetAlertSubmitContract.init()
         });
     </script>
@@ -252,14 +268,14 @@
                                     </div>
                                 </div>
                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Name PIC<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">PIC Name<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nama Person in Charge" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif id="nama_pic" name="nama_pic" value="{{$nama_pic}}" placeholder="Nama PIC" required/>
                                     </div>
                                 </div>
                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">contact PIC<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">CP PIC<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Kontak Person in Charge" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input  class="form-control" type="text" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif id="kontak_pic" name="kontak_pic" value="{{$kontak_pic}}" placeholder="Kontak PIC" required/>

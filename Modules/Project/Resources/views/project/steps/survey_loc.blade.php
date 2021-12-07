@@ -66,10 +66,30 @@
                 }
             }
         }();
+        function number(id){
+            $(id).inputmask("remove");
+            $(id).inputmask({
+                mask: "0999 9999 999999",
+                removeMaskOnSubmit: true,
+                placeholder:"",
+                prefix: "",
+                digits: 0,
+                // groupSeparator: '.',
+                rightAlign: false,
+                greedy: false,
+                autoGroup: true,
+                digitsOptional: false,
+            });
+        }
         jQuery(document).ready(function() {
+            
+        number("#cp_pic_mall");
+        number("#cp_kontraktor");
             SweetAlertSubmitSurvey.init()
         });
     </script>
+ 
+
 <div style="white-space: nowrap;">
     <div class="tab-pane">
         <div class="portlet light bordered">
@@ -92,28 +112,28 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Name PIC<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">PIC Name<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nama PIC Mall" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" @if($result['status']!='Process' ) disabled  @elseif($result['progres']!='Survey Location') disabled @endif type="text" id="nama_pic_mall" name="nama_pic_mall" value="{{$result['project_survey']['nama_pic_mall']??''}}" placeholder="Nama PIC" required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Contract Person PIC<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">CP PIC<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Kontak PIC Mall" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" @if($result['status']!='Process' ) disabled  @elseif($result['progres']!='Survey Location') disabled @endif type="text" id="cp_pic_mall" name="cp_pic_mall" value="{{$result['project_survey']['cp_pic_mall']??''}}" placeholder="Kontak PIC" required/>
+                                        <input class="form-control" @if($result['status']!='Process' ) disabled  @elseif($result['progres']!='Survey Location') disabled @endif type="text" id="cp_pic_mall" name="cp_pic_mall" value="{{$result['project_survey']['cp_pic_mall']??''}}" placeholder="Kontak PIC(0xxx xxxx xxxxx)" required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Name Kontraktor<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Contractor Name<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nama Kontraktor" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" @if($result['status']!='Process' ) disabled  @elseif($result['progres']!='Survey Location') disabled @endif type="text" id="nama_kontraktor" name="nama_kontraktor" value="{{$result['project_survey']['nama_kontraktor']??''}}" placeholder="Nama PIC" required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Contract Person Kontraktor<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">CP Contractor<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Kontak Kontraktor" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" @if($result['status']!='Process' ) disabled  @elseif($result['progres']!='Survey Location') disabled @endif type="text" id="cp_kontraktor" name="cp_kontraktor" value="{{$result['project_survey']['cp_kontraktor']??''}}" placeholder="Kontak PIC" required/>
@@ -280,7 +300,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Municipal Waterworks<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Water Source<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Air Lokasi" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <select @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif  name="air" class="form-control input-sm select2" placeholder="Status">
@@ -291,7 +311,7 @@
                                     </div>
                                 </div>
                                  <div class="form-group">
-                                     <label for="example-search-input" class="control-label col-md-4">Description Municipal Waterworks<span class="required" aria-required="true">*</span>
+                                     <label for="example-search-input" class="control-label col-md-4">Description Water Source<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Keterangan Air Lokasi" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <textarea maxlength="255" name="keterangan_air" id="keterangan_air" class="form-control" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif placeholder="Enter Keterangan Air">{{$result['project_survey']['keterangan_air']??''}}</textarea>
