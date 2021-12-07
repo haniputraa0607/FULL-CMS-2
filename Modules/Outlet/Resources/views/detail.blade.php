@@ -557,6 +557,8 @@
 
             $('.kelas-open').val(open);
             $('.kelas-close').val(close);
+            $('.shift-start-morning').val(shift_start_morning);
+            $('.shift-end-morning').val(shift_end_morning);
             $('.shift-start-middle').val(shift_start_middle);
             $('.shift-end-middle').val(shift_end_middle);
             $('.shift-start-evening').val(shift_start_evening);
