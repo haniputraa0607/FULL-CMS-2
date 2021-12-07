@@ -292,9 +292,9 @@
 		                                            @foreach($data['service'] ?? [] as $s)
 		                                                <option value="{{$s['detail']['transaction_product_service']['id_transaction_product_service']}}" 
 		                                                	data-date="{{ $s['detail']['transaction_product_service']['schedule_date'] }}"
-		                                                	data-time="{{ $s['detail']['transaction_product_service']['schedule_time'] }}"
+		                                                	data-time="{{ $s['schedule_time'] }}"
 		                                                	data-hs="{{ $s['detail']['transaction_product_service']['id_user_hair_stylist'] }}"
-		                                                >{{ $s['product_name'] }}</option>
+		                                                >{{ $s['product_name'] . ' (' . $s['order_id'] . ')' }}</option>
 		                                            @endforeach
 		                                        </select>
 		                                    </div>

@@ -1316,7 +1316,7 @@
         </li>
         @endif
 
-		@if(MyHelper::hasAccess([58,59,60,61,62,63,64,66,69,71,299], $grantedFeature))
+		@if(MyHelper::hasAccess([58,59,60,61,62,63,64,66,69,71,299,392], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
 				<h3 class="uppercase" style="color: #000;font-weight: 600;">Order</h3>
 			</li>
@@ -1350,11 +1350,13 @@
 							<span class="title">All Transaction</span>
 						</a>
 					</li>
-					<li class="nav-item {{($submenu_active == 'manage-outlet-service') ? 'active open' : ''}}">
-						<a href="{{ url('transaction/outlet-service/manage') }}" class="nav-link">
-							<span class="title">Manage Outlet Service</span>
-						</a>
-					</li>
+					@if(MyHelper::hasAccess([392,393,394], $grantedFeature))
+						<li class="nav-item {{($submenu_active == 'manage-outlet-service') ? 'active open' : ''}}">
+							<a href="{{ url('transaction/outlet-service/manage') }}" class="nav-link">
+								<span class="title">Manage Outlet Service</span>
+							</a>
+						</li>
+					@endif
 {{-- 					<li class="nav-item {{($submenu_active == 'transactions-export') ? 'active open' : ''}}">
 						<a href="{{url('transaction/list-export')}}" class="nav-link ">
 							<span class="title">List Export</span>

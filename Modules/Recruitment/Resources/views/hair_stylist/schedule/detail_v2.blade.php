@@ -216,7 +216,7 @@
 		                </div>
 		                <div class="form-group">
 		                    <label class="col-md-2">Outlet</label>
-		                    <div class="col-md-6">: {{ $data['detail']['outlet_code'].' - '.$data['detail']['outlet_name'] }}</div>
+		                    <div class="col-md-6">: <a href="{{ url('outlet/detail') }}/{{ $data['detail']['outlet_code'] }}">{{ $data['detail']['outlet_code'].' - '.$data['detail']['outlet_name'] }}</a></div>
 		                </div>
 						@php
 							$day = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
