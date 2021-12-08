@@ -28,25 +28,17 @@ class OutletManageController extends Controller
                 'submenu_active' => 'manage-outlet',
             ];
             foreach ($result['result'] as $value) {
-               if(!empty($value['cutoff'])){
-                   if($value['cutoff']['status']!='Reject'){
-                       $enkripsi = MyHelper::createSlug($value['cutoff']['id_outlet_cut_off'], $value['cutoff']['created_at']);
+              
+               if(!empty($value['name_button'])){
+                       $enkripsi = MyHelper::createSlug($value['url_detail'], $value['created_at']);
+                       if($value['name_button']=='Change'){
                        $value['url_detail'] = env('APP_URL').'businessdev/partners/outlet/cutoff/detail/'.$enkripsi;
-                   }else{
-                       $value['cutoff'] = false;
-                   }
+                       }else{
+                       $value['url_detail'] = env('APP_URL').'businessdev/partners/outlet/change/detail/'.$enkripsi;    
+                       }
                }
-               if(!empty($value['change'])){
-                   if($value['change']['status']!='Reject'){
-                       $enkripsi = MyHelper::createSlug($value['change']['id_outlet_change_ownership'], $value['change']['created_at']);
-                       $value['url_detail'] = env('APP_URL').'businessdev/partners/outlet/change/detail/'.$enkripsi;
-                       
-                   }else{
-                       $value['change'] = false;
-                   }
-               }
-               if(!empty($value['close'])){
-                       $enkripsi = MyHelper::createSlug($value['close']['id_outlet'], $value['close']['created_at']);
+               if(!empty($value['name_button_close'])){
+                       $enkripsi = MyHelper::createSlug($value['url_detail_close'], $value['created_at']);
                        $value['url_detail_close'] = env('APP_URL').'businessdev/partners/outlet/close/list/'.$enkripsi;
                }
                array_push($val,$value);

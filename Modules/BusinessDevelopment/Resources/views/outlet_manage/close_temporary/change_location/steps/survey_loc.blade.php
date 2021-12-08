@@ -103,7 +103,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Download file" data-container="body"></i><br></label>
                                     <div class="col-md-5">
                                         <label for="example-search-input" class="control-label col-md-4">
-                                            <a href="{{ $result['form'][0]['attachment'] }}">Download Form Survey</a>
+                                            <a href="{{  env('STORAGE_URL_API').$result['form'][0]['attachment'] }}">Download Form Survey</a>
                                         <label>
                                     </div>
                                 </div>    
