@@ -196,7 +196,7 @@
                                         @else
                                         <label for="example-search-input" class="control-label col-md-4">
                                             @if(isset($file))
-                                            <a href="{{  env('STORAGE_URL_API').$file }}">Link Download Attachment</a>
+                                            <a href="{{ $file }}">Link Download Attachment</a>
                                             @else
                                             No Attachment
                                             @endif
