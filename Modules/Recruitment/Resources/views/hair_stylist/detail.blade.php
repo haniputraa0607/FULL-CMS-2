@@ -4,6 +4,7 @@ $grantedFeature     = session('granted_features');
 ?>
 @extends('layouts.main-closed')
 @include('recruitment::hair_stylist.detail_schedule')
+@include('recruitment::hair_stylist.detail_box')
 
 @section('page-style')
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/datemultiselect/jquery-ui.css') }}" rel="stylesheet" type="text/css" />
@@ -17,6 +18,7 @@ $grantedFeature     = session('granted_features');
 	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" type="text/css" />
 
     @yield('detail-schedule-style')
+    @yield('detail-box-style')
 @endsection
 
 @section('page-script')
@@ -161,6 +163,9 @@ $grantedFeature     = session('granted_features');
                 @if($detail['user_hair_stylist_status'] == 'Active')
 	                <li>
 	                    <a href="#hs-schedule" data-toggle="tab"> Schedule </a>
+	                </li>
+	                <li>
+	                    <a href="#hs-box" data-toggle="tab"> Box </a>
 	                </li>
                 @endif
             </ul>
@@ -569,6 +574,9 @@ $grantedFeature     = session('granted_features');
 			@if($detail['user_hair_stylist_status'] == 'Active')
 				<div class="tab-pane" id="hs-schedule">
 					@yield('detail-schedule')
+				</div>
+				<div class="tab-pane form" id="hs-box">
+					@yield('detail-box')
 				</div>
 			@endif
 		</div>

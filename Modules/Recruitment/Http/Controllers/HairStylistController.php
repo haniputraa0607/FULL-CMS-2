@@ -199,6 +199,19 @@ class HairStylistController extends Controller
         }
     }
 
+    public function hsUpdateBox(Request $request, $id){
+        $post = $request->except('_token');
+        $post['id_user_hair_stylist'] = $id;
+
+        $update = MyHelper::post('recruitment/hairstylist/be/update-box',$post);
+
+        if(isset($update['status']) && $update['status'] == 'success'){
+            return redirect('recruitment/hair-stylist/detail/'.$id)->withSuccess(['Success update box hair stylist']);
+        }else{
+            return redirect('recruitment/hair-stylist/detail/'.$id)->withErrors($update['messages']??['Failed update box hair stylist']);
+        }
+    }
+
     public function updateStatus(Request $request){
         $post = $request->except('_token');
         $update = MyHelper::post('recruitment/hairstylist/be/update-status',[
