@@ -63,6 +63,7 @@
 				let date = serviceObj.data('date') ?? null;
 				let time = serviceObj.data('time') ?? null;
 				let hs = serviceObj.data('hs') ?? null;
+				let idTrxProduct = serviceObj.data('id_trx_product') ?? null;
 
 				$('#update-service-section').show();
 
@@ -72,8 +73,9 @@
 				$('#update-service-section [name="schedule_time"]').timepicker('setTime', time);
 	        	$('#update-service-section select[name="id_user_hair_stylist"]').val(hs).trigger('change');
 
+	        	$('#update-service-section [name="id_transaction_product"]').val(idTrxProduct);
+
 				$('.update-service-input').prop('required', true);
-				console.log(date, time, hs);
 			}
 		}
 
@@ -294,6 +296,7 @@
 		                                                	data-date="{{ $s['detail']['transaction_product_service']['schedule_date'] }}"
 		                                                	data-time="{{ $s['schedule_time'] }}"
 		                                                	data-hs="{{ $s['detail']['transaction_product_service']['id_user_hair_stylist'] }}"
+		                                                	data-id_trx_product="{{ $s['detail']['id_transaction_product'] }}"
 		                                                >{{ $s['product_name'] . ' (' . $s['order_id'] . ')' }}</option>
 		                                            @endforeach
 		                                        </select>
@@ -345,8 +348,9 @@
 				                                <div class="row">
 				                                    <div class="col-md-offset-4 col-md-8">
 				                                    	<input type="hidden" name="update_type" value="service">
-				                                        <button type="submit" class="btn blue" value="update">Update</button>
-				                                        <button type="submit" class="btn red" value="reject">Reject</button>
+				                                    	<input type="hidden" name="id_transaction_product" value="">
+				                                        <button type="submit" class="btn blue" name='submit_type' value="update">Update</button>
+				                                        <button type="submit" class="btn red" name='submit_type' value="reject">Reject</button>
 				                                    </div>
 				                                </div>
 				                            </div>
@@ -392,8 +396,8 @@
 		                                <div class="row">
 		                                	<div class="col-md-offset-4 col-md-8">
 		                                    	<input type="hidden" name="update_type" value="service">
-		                                        <button type="submit" class="btn blue" value="update">Confirm</button>
-		                                        <button type="submit" class="btn red" value="reject">Reject</button>
+		                                        <button type="submit" class="btn blue" name='submit_type' value="update">Confirm</button>
+		                                        <button type="submit" class="btn red" name='submit_type' value="reject">Reject</button>
 		                                    </div>
 		                                </div>
 		                            </div>
