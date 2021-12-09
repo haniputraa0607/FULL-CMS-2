@@ -53,7 +53,7 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
     <script>
 
-    	function changeTrigger () {
+    	function changeTriggerService() {
 			$('#update-service-section').hide();
 			$('.update-service-input').prop('required', false);
 			let serviceObj = $('select[name=id_transaction_product_service] option:selected');
@@ -79,8 +79,26 @@
 			}
 		}
 
+		function changeTriggerProduct() {
+			$('#update-product-section').hide();
+			$('.update-product-input').prop('required', false);
+			let serviceObj = $('select[name=id_product] option:selected');
+			let service = serviceObj.val();
+
+			if (service != '') {
+				let idTrxProduct = serviceObj.data('id_trx_product') ?? null;
+
+				$('#update-product-section').show();
+
+	        	$('#update-product-section [name="id_transaction_product"]').val(idTrxProduct);
+
+				$('.update-product-input').prop('required', true);
+			}
+		}
+
         $(document).ready(function() {
-        	changeTrigger();
+        	changeTriggerService();
+        	changeTriggerProduct();
 
 	        $('.datepicker').datepicker({
 	            'format' : 'dd MM yyyy',
@@ -112,7 +130,11 @@
 	        })
 
         	$('select[name=id_transaction_product_service]').on('change', function() {
-        		changeTrigger();
+        		changeTriggerService();
+	        })
+
+	        $('select[name=id_product]').on('change', function() {
+        		changeTriggerProduct();
 	        })
         });
 
@@ -369,37 +391,41 @@
 								</div>
 							</div>
 			                <div class="portlet-body form">
-				                <form class="form-horizontal" role="form" action="{{url('businessdev/partners/update')}}" method="post" enctype="multipart/form-data">
+				                <form class="form-horizontal" role="form" action="#" method="post" enctype="multipart/form-data">
 				            		<div class="form-body">
 		                                <div class="form-group">
 		                                    <label for="example-search-input" class="control-label col-md-4">Product <span class="required" aria-required="true">*</span>
 		                                        <i class="fa fa-question-circle tooltips" data-original-title="Pilih product" data-container="body"></i></label>
 		                                    <div class="col-md-5">
-		                                        <select class="form-control select2" name="id_bank_name" id="id_bank_name" required style="width: 100%">
+		                                        <select class="form-control select2 update-product-input" name="id_product" required style="width: 100%">
 		                                            <option value="" selected disabled>Select Product</option>
 		                                            @foreach($data['product'] ?? [] as $p)
-		                                                <option value="{{ $p['detail']['id_transaction_product'] }}">{{ $p['product_name'] }}</option>
+		                                                <option value="{{ $p['detail']['id_transaction_product'] }}"
+		                                                	data-id_trx_product="{{ $p['detail']['id_transaction_product'] }}"
+		                                                >{{ $p['product_name'] }}</option>
 		                                            @endforeach
 		                                        </select>
 		                                    </div>
 		                                </div>
-		                                <div class="form-group">
-			                                <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
-			                                    <i class="fa fa-question-circle tooltips" data-original-title="Catatan" data-container="body"></i></label>
-			                                <div class="col-md-5">
-			                                    <textarea name="note" id="input-address" class="form-control" placeholder="Enter address here">{{ $result['address'] ?? null }}</textarea>
-			                                </div>
+		                                <div id="update-product-section">
+			                                <div class="form-group">
+				                                <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
+				                                    <i class="fa fa-question-circle tooltips" data-original-title="Catatan" data-container="body"></i></label>
+				                                <div class="col-md-5">
+				                                    <textarea name="note" id="note" class="form-control update-product-input" placeholder="notes">{{ $result['address'] ?? null }}</textarea>
+				                                </div>
+				                            </div>
+				                            <div class="form-actions">
+				                                {{ csrf_field() }}
+				                                <div class="row">
+				                                	<div class="col-md-offset-4 col-md-8">
+				                                		<input type="hidden" name="id_transaction_product" value="">
+				                                    	<input type="hidden" name="update_type" value="product">
+				                                        <button type="submit" class="btn red" name='submit_type' value="reject">Reject</button>
+				                                    </div>
+				                                </div>
+				                            </div>
 			                            </div>
-		                            </div>
-		                            <div class="form-actions">
-		                                {{ csrf_field() }}
-		                                <div class="row">
-		                                	<div class="col-md-offset-4 col-md-8">
-		                                    	<input type="hidden" name="update_type" value="service">
-		                                        <button type="submit" class="btn blue" name='submit_type' value="update">Confirm</button>
-		                                        <button type="submit" class="btn red" name='submit_type' value="reject">Reject</button>
-		                                    </div>
-		                                </div>
 		                            </div>
 					            </form>
 				            </div>
