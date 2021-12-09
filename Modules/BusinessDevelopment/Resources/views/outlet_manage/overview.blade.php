@@ -29,18 +29,34 @@ $grantedFeature     = session('granted_features');
                                 <td>{{$value['outlet_code']}}</td>
                                 <td>{{$value['city_name']}}</td>
                                 <td>
-                                    <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: @if($value['status_warna']==2)red @elseif($value['status_warna']==1) blue @else #00FF00  @endif;padding: 5px 12px;color: #fff;">{{$value['status_outlet']}}</span>
+                                    @if(!empty($value['cutoff']))
+                                        @if($value['cutoff']['status']=="Success")
+                                            <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: #EF1E31;padding: 5px 12px;color: #fff;">Success Cut Off</span>
+                                        @else
+                                            <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: #EF1E31;padding: 5px 12px;color: #fff;">Proses Cut Off</span>
+                                        @endif
+                                    @elseif(!empty($value['change']))
+                                        <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: #e1e445;padding: 5px 12px;color: #fff;">Proses Change Owner</span>
+                                    @elseif(!empty($value['close']))
+                                      @if($value['close']['status']=="Success"&&$value['close']['jenis']=='Close')
+                                        <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: #e1e445;padding: 5px 12px;color: #fff;">Close Temporary</span>
+                                        @elseif($value['close']['status']=="Process"||$value['close']['status']=="Waiting")
+                                        <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: #e1e445;padding: 5px 12px;color: #fff;">Process Close Temporary</span>
+                                        @else
+                                        <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: #26C281;padding: 5px 12px;color: #fff;">{{$value['outlet_status']}}</span>
+                                        @endif
+                                    @else
+                                        <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: #26C281;padding: 5px 12px;color: #fff;">{{$value['outlet_status']}}</span>
+                                    @endif
                                     
                                 </td>
                                 <td>
-                                        @if(isset($value['name_button']))
-                                        <a href="{{$value['url_detail']}}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i>{{$value['name_button']}}</a>
-                                        @endif
-                                        @if(isset($value['name_button_close']))
-                                        <a href="{{$value['url_detail_close']}}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i>{{$value['name_button_close']}}</a>
-                                        @endif
-                                        @if(empty($value['name_button'])&&empty($value['name_button_close']))
-                                        <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: #808080;padding: 5px 12px;color: #fff;"> No Action</span>
+                                        @if(!empty($value['cutoff'])||!empty($value['change']))
+                                        <a href="{{$value['url_detail']}}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
+                                        @elseif(!empty($value['close']))
+                                        <a href="{{$value['url_detail_close']}}" class="btn btn-sm blue text-nowrap"><i class="fa fa-eye"></i> Detail Close</a>
+                                        @else
+                                        <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: #808080;padding: 5px 12px;color: #fff;">No Action</span>
                                         @endif
                                         
                                 </td>
