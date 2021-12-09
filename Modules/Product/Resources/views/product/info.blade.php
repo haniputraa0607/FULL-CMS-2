@@ -110,24 +110,6 @@
             </div>
         </div>
         <div class="form-group">
-            <div class="input-icon right">
-                <label class="col-md-3 control-label">
-                Item Icount
-                <span class="required" aria-required="true"> * </span>
-                <i class="fa fa-question-circle tooltips" data-original-title="Masukkan item icount" data-container="body"></i>
-                </label>
-            </div>
-            <div class="col-md-8">
-                <select class="select2 form-control" name="item" required>
-                    <option value="" selected disabled>Select Item</option>
-                    @foreach($items as $item)
-                    <option value="{{$item['ItemID'].','.$item['Name']}}" @if(isset($syu['ItemID']))@if($item['ItemID'] == $syu['ItemID']) selected="selected" @endif @endif @if(old('item')==$item['ItemID'].','.$item['Name']) selected="selected" @endif>{{$item['ItemID']}} - {{$item['Name']}}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group">
             <label class="col-md-3 control-label">Product Visible
                 <i class="fa fa-question-circle tooltips" data-original-title="Setting apakah produk akan ditampilkan di aplikasi" data-container="body"></i>
             </label>
