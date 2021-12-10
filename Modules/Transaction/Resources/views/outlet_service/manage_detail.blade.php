@@ -200,6 +200,22 @@
 							                <div class="portlet-body form">
 								                <div class="form-horizontal" role="form" action="{{url('businessdev/partners/update')}}" method="post" enctype="multipart/form-data">
 								                    <div class="form-body">
+								                    	<div class="form-group">
+							                                <label class="control-label col-md-4">Status </label>
+							                                <div class="col-md-5">
+							                                	@php
+							                                		$serviceStatus = 'Active';
+							                                		if ($s['detail']['transaction_product_service']['is_conflict']) {
+							                                			$serviceStatus =  'Conflict';
+							                                		} 
+							                                		if ($s['detail']['reject_at']) {
+							                                			$serviceStatus =  'Rejected';
+							                                		}
+							                                		$statusColor = ($serviceStatus == 'Active') ? '#26C281' : (($serviceStatus == 'Rejected') ? '#E7505A' : '#ffc107');
+							                                	@endphp
+											                    <span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: {{ $statusColor }}; padding: 5px 12px; color: #fff; margin-top: 5px">{{ $serviceStatus }}</span>
+							                                </div>
+							                            </div>
 							                    		<div class="form-group">
 							                                <label class="control-label col-md-4">Hair Stylist </label>
 							                                <div class="col-md-5">
@@ -255,6 +271,16 @@
 				                <div class="form-horizontal" role="form" action="{{url('businessdev/partners/update')}}" method="post" enctype="multipart/form-data">
 				            		@foreach ($data['product'] as $p)
 					                    <div class="form-body">
+					                    	<div class="form-group">
+				                                <label class="control-label col-md-4">Status </label>
+				                                <div class="col-md-5">
+				                                	@php
+				                                		$productStatus = $p['detail']['reject_at'] ? 'Rejected' : 'Active';
+				                                		$statusColor = ($productStatus == 'Active') ? '#26C281' : '#E7505A';
+				                                	@endphp
+								                    <span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: {{ $statusColor }}; padding: 5px 12px; color: #fff; margin-top: 5px">{{ $productStatus }}</span>
+				                                </div>
+				                            </div>
 				                            <div class="form-group">
 				                                <label for="example-search-input" class="control-label col-md-4">Product Name </label>
 				                                <div class="col-md-5">
@@ -278,7 +304,7 @@
 				                            <div class="form-group">
 				                                <label for="example-search-input" class="control-label col-md-4">Subtotal </label>
 				                                <div class="col-md-5">
-								                    <span class="form-control border-0 text-bold">{{ $p['transaction_product_subtotal'] }}</span>
+								                    <span class="form-control border-0 text-bold">{{ $p['subtotal'] }}</span>
 				                                </div>
 				                            </div>
 				                            <div class="form-group">
@@ -314,12 +340,23 @@
 		                                        <select class="form-control select2" name="id_transaction_product_service" id="id_transaction_product_service" required style="width: 100%">
 		                                            <option value="" selected disabled>Select Service</option>
 		                                            @foreach($data['service'] ?? [] as $s)
+		                                            	@php
+		                                            		$disabled = $s['detail']['reject_at'] ? 'disabled' : null;
+		                                            		$status = null;
+					                                		if ($s['detail']['transaction_product_service']['is_conflict']) {
+					                                			$status =  ' (Conflict)';
+					                                		} 
+					                                		if ($s['detail']['reject_at']) {
+					                                			$status =  ' (Rejected)';
+					                                		}
+		                                            	@endphp
 		                                                <option value="{{$s['detail']['transaction_product_service']['id_transaction_product_service']}}" 
 		                                                	data-date="{{ $s['detail']['transaction_product_service']['schedule_date'] }}"
 		                                                	data-time="{{ $s['schedule_time'] }}"
 		                                                	data-hs="{{ $s['detail']['transaction_product_service']['id_user_hair_stylist'] }}"
 		                                                	data-id_trx_product="{{ $s['detail']['id_transaction_product'] }}"
-		                                                >{{ $s['product_name'] . ' (' . $s['order_id'] . ')' }}</option>
+		                                                	{{ $disabled }}
+		                                                >{{ $s['product_name'] . ' (' . $s['order_id'] . ')' . $status }}</option>
 		                                            @endforeach
 		                                        </select>
 		                                    </div>
@@ -400,9 +437,14 @@
 		                                        <select class="form-control select2 update-product-input" name="id_product" required style="width: 100%">
 		                                            <option value="" selected disabled>Select Product</option>
 		                                            @foreach($data['product'] ?? [] as $p)
+		                                            	@php
+		                                            		$disabled = $p['detail']['reject_at'] ? 'disabled' : null;
+		                                            		$rejected = $p['detail']['reject_at'] ? 'Rejected' : null;
+		                                            	@endphp
 		                                                <option value="{{ $p['detail']['id_transaction_product'] }}"
 		                                                	data-id_trx_product="{{ $p['detail']['id_transaction_product'] }}"
-		                                                >{{ $p['product_name'] }}</option>
+		                                                	{{ $disabled }}
+		                                                >{{ $p['product_name'] }} {{ $rejected }}</option>
 		                                            @endforeach
 		                                        </select>
 		                                    </div>
