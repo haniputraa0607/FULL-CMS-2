@@ -318,6 +318,13 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Location Tax <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Apakah lokasi akan menggunakan PPN" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <input type="checkbox" class="make-switch" data-size="small" data-on-color="info" data-on-text="Use Tax" name="is_tax" data-off-color="default" data-off-text="Not Using Tax">
+                                    </div>
+                                </div>    
+                                <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location Large <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Luas dari lokasi yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">

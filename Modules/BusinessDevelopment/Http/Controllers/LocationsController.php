@@ -424,6 +424,11 @@ class LocationsController extends Controller
                 "follow_up" => "Follow Up",
                 "note" => $request["note"],  
             ];
+            if (isset($request["is_tax"]) && !empty($request["is_tax"])) {
+                $update_data_location['is_tax'] = 100;
+            }else{
+                $update_data_location['is_tax'] = 0;
+            }
         }
 
         $update_data_location['id_location'] = $request["id_location"];

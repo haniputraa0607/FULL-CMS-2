@@ -288,7 +288,14 @@ class OutletController extends Controller
                 if(isset($post['status_franchise'])){
                     $status_franchise = $post['status_franchise'];
                 }
+                
                 $post = array_filter($post);
+                if (isset($post["is_tax"]) && $post["is_tax"] == 'on') {
+                    $post['is_tax'] = 100;
+                }else{
+                    $post['is_tax'] = 0;
+                }
+
                 $post['status_franchise'] = $status_franchise;
 
                 $save = MyHelper::post('outlet/update', $post);
