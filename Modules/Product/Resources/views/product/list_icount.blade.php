@@ -95,7 +95,7 @@
             $.ajax({
                 type : "POST",
                 url : "{{ url('product/icount/delete') }}",
-                data : "_token="+token+"&id_product="+id,
+                data : "_token="+token+"&id_product_icount="+id,
                 success : function(result) {
                     if (result == "success") {
                         $('#sample_1').DataTable().row(column).remove().draw();
@@ -228,11 +228,7 @@
                         <th> Code </th>
                         <th> Category </th>
                         <th> Name </th>
-                        <th> Brand </th>
-                        <!-- <th> Allow Sync </th> -->
-                        <th >Default Visibility Product</th>
-                        <th> Override Visible </th>
-                        <th> Override Hidden </th>
+                        <th> Item Group </th>
                         @if(MyHelper::hasAccess([49,51,52], $grantedFeature))
                             <th> Action </th>
                         @endif
@@ -243,43 +239,18 @@
                         @foreach($product as $key => $value)
                             <tr>
                                 <td>{{ $key+1 }}</td>
-                                <td>{{ $value['product_code'] }}</td>
-                                @if (empty($value['category']))
+                                <td>{{ $value['code'] }}</td>
+                                @if (empty($value['id_category']))
                                     <td>Uncategorize</td>
                                 @else
                                     <td>{{ $value['category'][0]['product_category_name']??'Uncategories' }}</td>
                                 @endif
-                                <td>{{ $value['product_name'] }}</td>
-                                <td>
-                                    @foreach ($value['brands'] as $item)
-                                        {{$item['name_brand']}}
-                                    @endforeach
-                                </td>
-                                {{-- <td>
-                                    <div class="bootstrap-switch-container">
-                                        <span class="bootstrap-switch-handle-on bootstrap-switch-primary" style="width: 35px;"></span>
-                                        <span class="bootstrap-switch-label" style="width: 35px;">&nbsp;</span>
-                                        <span class="bootstrap-switch-handle-off bootstrap-switch-default" style="width: 35px;"></span>
-                                        <input type="checkbox" name="allow_sync" @if($value['product_allow_sync'] == '1') checked @endif data-id="{{ $value['id_product'] }}" class="make-switch switch-large switch-change" data-label-icon="fa fa-fullscreen" data-on-text="<i class='fa fa-check'></i>" data-off-text="<i class='fa fa-times'></i>">
-                                    </div>
-                                </td> --}}
-                                <td>
-                                    <div class="bootstrap-switch-container">
-                                        <span class="bootstrap-switch-handle-on bootstrap-switch-primary" style="width: 35px;"></span>
-                                        <span class="bootstrap-switch-label" style="width: 35px;">&nbsp;</span>
-                                        <span class="bootstrap-switch-handle-off bootstrap-switch-default" style="width: 35px;"></span>
-                                        <input type="checkbox" name="product_visibility" @if($value['product_visibility'] == 'Visible') checked @endif data-id="{{ $value['id_product'] }}" class="make-switch switch-large switch-change" data-on-text="Visible" data-off-text="Hidden">
-                                    </div>
-                                </td>
-                                <td><a href="{{ url('product/detail') }}/{{ $value['product_code'] }}/icount#visibility">{{ $value['product_detail_count'] }}</a></td>
-                                <td><a href="{{ url('product/detail') }}/{{ $value['product_code'] }}/icount#visibility">{{ $value['product_detail_hiddens_count'] }}</td>
+                                <td>{{ $value['name'] }}</td>
+                                <td>{{ $value['item_group'] }}</td>
                                 @if(MyHelper::hasAccess([49,51,52], $grantedFeature))
-                                    <td style="width: 80px;">
-                                        @if(MyHelper::hasAccess([52], $grantedFeature))
-                                            <a data-toggle="confirmation" data-popout="true" class="btn btn-sm red delete" data-id="{{ $value['id_product'] }}"><i class="fa fa-trash-o"></i></a>
-                                        @endif
+                                    <td class="text-center">
                                         @if(MyHelper::hasAccess([49,51], $grantedFeature))
-                                            <a href="{{ url('product/detail') }}/{{ $value['product_code'] }}/icount" class="btn btn-sm blue"><i class="fa fa-edit"></i></a>
+                                            <a href="{{ url('product/icount/detail') }}/{{ $value['id_item'] }}" class="btn btn-sm blue"><i class="fa fa-edit"></i></a>
                                         @endif
                                     </td>
                                 @endif
