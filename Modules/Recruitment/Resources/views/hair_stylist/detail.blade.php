@@ -473,6 +473,21 @@ $grantedFeature     = session('granted_features');
 								</div>
 							</div>
 						</div>
+                                                <div class="form-group">
+                                                        <label class="col-md-4 control-label">Group<span class="required" aria-required="true"> * </span>
+                                                                <i class="fa fa-question-circle tooltips" data-original-title="Group hair stylist" data-container="body"></i>
+                                                        </label>
+                                                        <div class="col-md-6">
+                                                                <div class="input-icon right">
+                                                                        <select  class="form-control select2" name="id_hairstylist_group" data-placeholder="Select Group" required>
+                                                                                <option></option>
+                                                                                @foreach($groups as $group)
+                                                                                        <option value="{{$group['id_hairstylist_group']}}" @if($group['id_hairstylist_group'] == $detail['id_hairstylist_group']) selected @endif>{{$group['hair_stylist_group_code']}} - {{$group['hair_stylist_group_name']}}</option>
+                                                                                @endforeach
+                                                                        </select>
+                                                                </div>
+                                                        </div>
+                                                </div>
 					</div>
 
 					@if(!empty($detail['documents']))

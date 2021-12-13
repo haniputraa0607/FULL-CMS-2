@@ -75,10 +75,13 @@
         <div class="tabbable-line tabbable-full-width">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="#overview" data-toggle="tab"> Project Overview </a>
+                    <a href="#overview" data-toggle="tab"> Group Overview </a>
                 </li>
                     <li>
-                        <a href="#status" data-toggle="tab"> Status Project </a>
+                        <a href="#status" data-toggle="tab">List Product</a>
+                    </li>
+                    <li>
+                        <a href="#hs" data-toggle="tab">List Hair Stylist</a>
                     </li>
             </ul>
         <div class="tab-content">
@@ -133,11 +136,11 @@
 				</form>
                 </div>
             </div>
-
-
-            {{-- tab step --}}
             <div class="tab-pane" id="status">
-                akan diisi list product yang termasuk dalam group
+                @include('recruitment::group.commission')
+            </div>
+            <div class="tab-pane" id="hs">
+                @include('recruitment::group.hs')
             </div>
         </div>
     </div>
