@@ -76,7 +76,10 @@
                         <a href="#tab_OutletApps" data-toggle="tab" aria-expanded="false"> Outlet Apps Setting </a>
                     </li> --}}
                     <li class="">
-                        <a href="#tab_MitraApps" data-toggle="tab" aria-expanded="false"> Mitra Apps Setting </a>
+                        <a href="#tab_MitraApps" data-toggle="tab" aria-expanded="false"> Mitra Apps Android Setting </a>
+                    </li>
+                    <li class="">
+                        <a href="#tab_MitraAppsIOS" data-toggle="tab" aria-expanded="false"> Mitra Apps IOS Setting </a>
                     </li>
                     <li class="dropdown">
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> Display Setting
@@ -447,7 +450,7 @@
                             <div class="form-group">
                                 <div class="input-icon right">
                                     <label class="col-md-4 control-label">
-                                        Mitra Apps Link
+                                        Mitra Apps Playstore Link
                                         <!-- <span class="required" aria-required="true"> * </span>   -->
                                         <i class="fa fa-question-circle tooltips" data-original-title="Link untuk download aplikasi Mitra Apps terbaru" data-container="body"></i>
                                     </label>
@@ -466,6 +469,82 @@
                                 </div>
                                 <div class="col-md-8">
                                     <input type="number" value="@if(isset($version['version_max_mitraapp'])){{ $version['version_max_mitraapp'] }}@endif" class="form-control" name="MitraApp[version_max_mitraapp]" placeholder="Input Jumlah">
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                {{ csrf_field() }}
+                                <div class="row">
+                                    <div class="col-md-offset-4 col-md-8">
+                                        <button type="submit" class="btn green">Save</button>
+                                        <button type="button" class="btn default">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="tab_MitraAppsIOS">
+                        <form class="form-horizontal" role="form" action="{{ url()->current() }}" method="post" enctype="multipart/form-data">
+                            <div class="portlet light">
+                                <div id="addMitraAppIOS">
+                                    <div class="mt-repeater" id="MitraAppIOS0">
+                                        <div class="mt-repeater-item mt-overflow">
+                                            <div class="mt-repeater-cell">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-1">
+                                                        <a href="javascript:;" data-repeater-delete="" class="btn btn-danger mt-repeater-delete mt-repeater-del-right mt-repeater-btn-inline" onclick="deleteCondition('MitraAppIOS0')">
+                                                            <i class="fa fa-close"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" name="MitraAppIOS[0][app_version]" required placeholder="Mitra Apps IOS Version">
+                                                            <span class="input-group-addon">
+                                                                <i style="color:#333" class="fa fa-question-circle tooltips" data-original-title="Versi Mitra IOS Apps terbaru" data-container="body"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="input-group">
+                                                            <select name="MitraAppIOS[0][rules]" class="form-control" placeholder="Rules For Different Verion" required="">
+                                                                <option disabled selected value="">Rules For Different Verion</option>
+                                                                <option value="1">Allowed</option>
+                                                                <option value="0">Not Allowed</option>
+                                                            </select>
+                                                            <span class="input-group-addon">
+                                                                <i style="color:#333" class="fa fa-question-circle tooltips" data-original-title="Aturan jika versi aplikasi Mitra Apps IOS yang digunakan berbeda dengan versi aplikasi Mitra Apps IOS terbaru" data-container="body"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="javascript:;" class="btn btn-success mt-repeater-add" onclick="addVersion('MitraAppIOS')">
+                                <i class="fa fa-plus"></i> Add New Version</a>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-icon right">
+                                    <label class="col-md-4 control-label">
+                                        Mitra Apps Appstore Link
+                                        <!-- <span class="required" aria-required="true"> * </span>   -->
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Link untuk download aplikasi Mitra Apps IOS terbaru" data-container="body"></i>
+                                    </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" name="MitraAppIOS[version_mitra_appstore]" value="@if(isset($version['version_mitra_appstore'])){{ $version['version_mitra_appstore'] }}@endif">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-icon right">
+                                    <label class="col-md-4 control-label">
+                                        Jumlah Versi Disupport
+                                        <!-- <span class="required" aria-required="true"> * </span>   -->
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Jumlah maksimum versi aplikasi yang disupport" data-container="body"></i>
+                                    </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="number" value="@if(isset($version['version_max_mitraapp_ios'])){{ $version['version_max_mitraapp_ios'] }}@endif" class="form-control" name="MitraAppIOS[version_max_mitraapp_ios]" placeholder="Input Jumlah">
                                 </div>
                             </div>
                             <div class="form-actions">
@@ -822,6 +901,7 @@
                 var noIOS = 1;
                 var noOutletApp = 1;
                 var noMitraApp = 1;
+                var noMitraAppIOS = 1;
                 var noWebApp = 1;
 
                 window.onload = function(event) {
@@ -829,6 +909,7 @@
                     var ios = JSON.parse('{!! json_encode($version["IOS"]) !!}');
                     var outlet = JSON.parse('{!! json_encode($version["OutletApp"]) !!}');
                     var mitra = JSON.parse('{!! json_encode($version["MitraApp"]) !!}');
+                    var mitraIos = JSON.parse('{!! json_encode($version["MitraAppIOS"]) !!}');
                     var web = JSON.parse('{!! json_encode($version["WebApp"]) !!}');
                     if (android.length != 0) {
                         android.forEach(function(entry) {
@@ -853,6 +934,12 @@
                             $('#MitraApp0').remove()
                             appendData('MitraApp', 'Mitra Apps', noMitraApp, 'version_mitraapp', entry.app_version, entry.rules);
                             noMitraApp++;
+                        });
+                    } if (mitraIos.length != 0) {
+                        mitraIos.forEach(function(entry) {
+                            $('#MitraAppIOS0').remove()
+                            appendData('MitraAppIOS', 'Mitra Apps IOS', noMitraAppIOS, 'version_mitraapp_ios', entry.app_version, entry.rules);
+                            noMitraAppIOS++;
                         });
                     } if (web.length != 0) {
                         web.forEach(function(entry) {
@@ -923,6 +1010,9 @@
                     } if (item.app_type == "MitraApp") {
                         appendDiv('MitraApp', 'Mitra Apps', noMitraApp, 'version_mitraapp')
                         noMitraApp++;
+                    } if (item.app_type == "MitraAppIOS") {
+                        appendDiv('MitraAppIOS', 'Mitra Apps IOS', noMitraAppIOS, 'version_mitraapp_ios')
+                        noMitraAppIOS++;
                     } if (item.app_type == "WebApp") {
                         appendDiv('WebApp', 'Web Apps', noWebApp, 'version_webapp')
                         noWebApp++;
@@ -942,6 +1032,9 @@
                     } if (id == "MitraApp") {
                         appendDiv('MitraApp', 'Mitra Apps', noMitraApp, 'version_mitraapp')
                         noMitraApp++;
+                    } if (id == "MitraAppIOS") {
+                        appendDiv('MitraAppIOS', 'Mitra Apps IOS', noMitraAppIOS, 'version_mitraapp_ios')
+                        noMitraAppIOS++;
                     } if (id == "WebApp") {
                         appendDiv('WebApp', 'Web Apps', noWebApp, 'version_webapp')
                         noWebApp++;
