@@ -214,8 +214,8 @@ class TransactionOutletServiceController extends Controller
         $data = [
             'title'          => 'Transaction',
             'menu_active'    => 'transaction',
-            'sub_title'      => 'Detail Transaction',
-            'submenu_active' => 'transaction-outlet-service'
+            'sub_title'      => 'Manage Outlet Service',
+            'submenu_active' => 'manage-outlet-service'
         ];
 
         $check = MyHelper::get('transaction/outlet-service/manage/detail/'. $id);
@@ -241,6 +241,19 @@ class TransactionOutletServiceController extends Controller
             return redirect()->back()->with('success',['Success update '.$post['update_type']]);
         } else {
             return redirect()->back()->withInput()->withErrors($update['messages'] ?? ['Failed update outlet service']);
+        }
+    }
+
+    public function rejectOutletService(Request $request)
+    {
+    	$post = $request->except('_token');
+
+    	$update = MyHelper::post('transaction/outlet-service/reject', $post);
+
+        if (($update['status'] ?? false) == 'success') {
+            return redirect()->back()->with('success',['Success reject '.$post['update_type']]);
+        } else {
+            return redirect()->back()->withInput()->withErrors($update['messages'] ?? ['Failed reject outlet service']);
         }
     }
 }
