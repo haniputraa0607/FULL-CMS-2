@@ -779,7 +779,7 @@ class ProductController extends Controller
             $data['product_variant'] = MyHelper::get('product-variant')['result'] ?? [];
             $data['product_variant_group'] = MyHelper::post('product-variant-group',  ['product_code' => $code])['result'] ?? [];
             $data['count'] = count($data['product_variant_group']);
-      
+            
             return view('product::product.detail', $data);
         }
         else {
@@ -816,8 +816,12 @@ class ProductController extends Controller
                         $saveRelation = app($this->tag)->createProductTag($post['id_product'], $post['id_tag']);
                     }
                 }
+                if($data['title']=='Product'){
+                    return parent::redirect($save, 'Product info has been updated.', 'product/detail/'.$post['product_code'].'#info');
+                }else{
+                    return parent::redirect($save, 'Product info has been updated.', 'product/detail/'.$post['product_code'].'/icount#info');
 
-                return parent::redirect($save, 'Product info has been updated.', 'product/detail/'.$post['product_code'].'#info');
+                }
             }
 
             /**
@@ -826,7 +830,12 @@ class ProductController extends Controller
 			if (isset($post['product_detail_visibility'])) {
 				$save = MyHelper::post('product/detail/update', $post);
 				// print_r($save);exit;
-                return parent::redirect($save, 'Visibility setting has been updated.', 'product/detail/'.$code.'?page='.$post['page'].'&type='.$post['type'].'#outletsetting');
+                if($data['title']=='Product'){
+                    return parent::redirect($save, 'Visibility setting has been updated.', 'product/detail/'.$code.'?page='.$post['page'].'&type='.$post['type'].'#outletsetting');
+                }else{
+                    return parent::redirect($save, 'Visibility setting has been updated.', 'product/detail/'.$code.'/icount?page='.$post['page'].'&type='.$post['type'].'#outletsetting');
+
+                }
 			}
 
             /**
@@ -836,7 +845,11 @@ class ProductController extends Controller
             if (isset($post['product_price'])) {
                 $save = MyHelper::post('product/detail/update/price', $post);
                 // print_r($save);exit;
-                return parent::redirect($save, 'Product price setting has been updated.', 'product/detail/'.$code.'?page='.$post['page'].'&type='.$post['type'].'#outletpricesetting');
+                if ($data['title']=='Product') {
+                    return parent::redirect($save, 'Product price setting has been updated.', 'product/detail/'.$code.'?page='.$post['page'].'&type='.$post['type'].'#outletpricesetting');
+                }else{
+                    return parent::redirect($save, 'Product price setting has been updated.', 'product/detail/'.$code.'/icount?page='.$post['page'].'&type='.$post['type'].'#outletpricesetting');
+                }
             }
 
 			/**
@@ -860,7 +873,12 @@ class ProductController extends Controller
                 }
 
                 $save = MyHelper::post('product/discount/create', $post);
-                return parent::redirect($save, 'Product discount has been added.', 'product/detail/'.$code.'#discount');
+                if($data['title']=='Product'){
+                    return parent::redirect($save, 'Product discount has been added.', 'product/detail/'.$code.'#discount');
+                }else{
+                    return parent::redirect($save, 'Product discount has been added.', 'product/detail/'.$code.'/icount#discount');
+
+                }
             }
 
             /**
@@ -872,7 +890,11 @@ class ProductController extends Controller
                  * save
                  */
                 $save          = MyHelper::post('product/photo/create', $post);
-                return parent::redirect($save, 'Product photo has been added.', 'product/detail/'.$code.'#photo');
+                if ($data['title']=='Product') {
+                    return parent::redirect($save, 'Product photo has been added.', 'product/detail/'.$code.'#photo');
+                }else{
+                    return parent::redirect($save, 'Product photo has been added.', 'product/detail/'.$code.'/icount#photo');
+                }
             }
 
             /**
@@ -891,11 +913,18 @@ class ProductController extends Controller
                     $save = MyHelper::post('product/photo/update', $data);
 
                     if (!isset($save['status']) || $save['status'] != "success") {
-                        return redirect('product/detail/'.$code.'#photo')->witherrors(['Something went wrong. Please try again.']);
+                        if($data['title']=='Product'){
+                            return redirect('product/detail/'.$code.'#photo')->witherrors(['Something went wrong. Please try again.']);
+                        }else{
+                            return redirect('product/detail/'.$code.'/icount#photo')->witherrors(['Something went wrong. Please try again.']);
+                        }
                     }
                 }
-
-                return redirect('product/detail/'.$code.'#photo')->with('success', ['Photo\'s order has been updated']);
+                if($data['title']=='Product'){
+                    return redirect('product/detail/'.$code.'#photo')->with('success', ['Photo\'s order has been updated']);
+                }else{
+                    return redirect('product/detail/'.$code.'/icount#photo')->with('success', ['Photo\'s order has been updated']);
+                }
             }
 
         }
@@ -1486,4 +1515,284 @@ class ProductController extends Controller
         return $product;
     }
 
+     // ICOUNT
+    public function listProductIcount(Request $request){
+        $post = $request->all();
+        $data = [
+            'title'          => 'Product ICount',
+            'sub_title'      => 'List Product ICount',
+            'menu_active'    => 'product',
+            'submenu_active' => 'product-icount-list',
+        ];
+
+        $product = MyHelper::post('product/be/icount/list', $post);
+        // return $product;
+        if (isset($product['status']) && $product['status'] == "success") {
+            $data['product'] = $product['result'];
+        }
+        else {
+            $data['product'] = [];
+        }
+        // dd($data);
+
+        return view('product::product.list_icount', $data);
+    }
+
+    public function syncIcount(Request $request){
+        //sync with item icount
+        $post = $request->except('_token');
+        $sync = MyHelper::post('product/be/sync', $post);
+        if(isset($sync['status']) && $sync['status'] == 'success'){
+            return redirect('product/icount')->with('success', ['Product table is already synced with ICount']);
+        }else{
+            return redirect('product/icount')->withErrors(['Failed to sync with ICount']);
+        }
+
+    }
+
+    public function deleteIcount(Request $request){
+        $post = $request->except('_token');
+        $delete = MyHelper::post('product/icount/delete', $post);
+
+        if (isset($delete['status']) && $delete['status'] == "success") {
+            return "success";
+        }
+        else {
+            return "fail";
+        }
+    }
+
+    public function detailIcount(Request $request, $id_item) {
+        $data = [
+            'title'          => 'Product ICount',
+            'sub_title'      => 'Product ICount Detail',
+            'menu_active'    => 'product',
+            'submenu_active' => 'product-icount-list',
+        ];
+
+        $product = MyHelper::post('product/be/icount/list', ['id_item' => $id_item, 'outlet_prices' => 1]);
+
+        if (isset($product['status']) && $product['status'] == "success") {
+            $data['product'] = $product['result'];
+        }
+        else {
+            $e = ['e' => 'Data product not found.'];
+            return back()->witherrors($e);
+        }
+        $post = $request->except('_token');
+
+
+        if (empty($post)) {
+            $data['parent'] = $this->category();
+            $tags = MyHelper::get('product/tag/list');
+            $data['tags'] = parent::getData($tags);
+            $data['page'] = $post['page']??1;
+            $dtDetail['id_product_icount'] = $data['product'][0]['id_product_icount'];
+            $dtDetail['page'] = 1;
+            $dtPrice['id_product_icount'] = $data['product'][0]['id_product_icount'];
+            $dtPrice['page'] = 1;
+
+            if(isset($post['type']) && $post['type'] == 'product_detail'){
+                $dtDetail['page'] = $post['page'];
+            }
+            if(isset($post['type']) && $post['type'] == 'product_special_price'){
+                $dtPrice['page'] = $post['page'];
+            }
+
+			$outlet = MyHelper::post('outlet/be/list/product-detail', $dtDetail);
+
+            if (isset($outlet['status']) && $outlet['status'] == "success") {
+                $data['outlet']          = $outlet['result']['data'];
+                $data['outletTotal']     = $outlet['result']['total'];
+                $data['outletPerPage']   = $outlet['result']['from'];
+                $data['outletUpTo']      = $outlet['result']['from'] + count($outlet['result']['data'])-1;
+                $data['outletPaginator'] = new LengthAwarePaginator($outlet['result']['data'], $outlet['result']['total'], $outlet['result']['per_page'], $outlet['result']['current_page'], ['path' => url()->current()]);
+            }else{
+                $data['outlet']          = [];
+                $data['outletTotal']     = 0;
+                $data['outletPerPage']   = 0;
+                $data['outletUpTo']      = 0;
+                $data['outletPaginator'] = false;
+            }
+
+            $outletsSpecialPrice = MyHelper::post('outlet/be/list/product-special-price', $dtPrice);
+            if (isset($outletsSpecialPrice['status']) && $outletsSpecialPrice['status'] == "success") {
+                $data['outletSpecialPrice']          = $outletsSpecialPrice['result']['data'];
+                $data['outletSpecialPriceTotal']     = $outletsSpecialPrice['result']['total'];
+                $data['outletSpecialPricePerPage']   = $outletsSpecialPrice['result']['from'];
+                $data['outletSpecialPriceUpTo']      = $outletsSpecialPrice['result']['from'] + count($outletsSpecialPrice['result']['data'])-1;
+                $data['outletSpecialPricePaginator'] = new LengthAwarePaginator($outletsSpecialPrice['result']['data'], $outletsSpecialPrice['result']['total'], $outletsSpecialPrice['result']['per_page'], $outletsSpecialPrice['result']['current_page'], ['path' => url()->current()]);
+            }else{
+                $data['outletSpecialPrice']          = [];
+                $data['outletSpecialPriceTotal']     = 0;
+                $data['outletSpecialPricePerPage']   = 0;
+                $data['outletSpecialPriceUpTo']      = 0;
+                $data['outletSpecialPricePaginator'] = false;
+            }
+
+            $data['brands'] = MyHelper::get('brand/be/list')['result']??[];
+            $nextId = MyHelper::get('product/next/'.$data['product'][0]['id_product_icount']);
+            if (isset($nextId['result']['code'])) {
+                $data['next_id'] = $nextId['result']['code'];
+            }
+            else {
+                $data['next_id'] = null;
+            }
+
+            $outletAll = MyHelper::post('outlet/be/list', ['admin' => 1, 'id_product_icount' => $data['product'][0]['id_product_icount']]);
+            $data['outlet_all'] = [];
+            if (isset($outletAll['status']) && $outletAll['status'] == 'success') {
+                $data['outlet_all'] = $outletAll['result'];
+            }
+
+            // return $data;
+            return view('product::product.detail_icount', $data);
+        }
+        else {
+
+			 /**
+             * update info
+             */
+            if (isset($post['id_product_category'])) {
+                // kalo 0 => uncategorize
+                if ($post['id_product_category'] == 0  || empty($post['id_product_category'])) {
+                    $post['id_product_category'] = null;
+                }
+
+                if (isset($post['photo'])) {
+                    $post['photo'] = MyHelper::encodeImage($post['photo']);
+                }
+
+                if (isset($post['product_photo_detail'])) {
+                    $post['product_photo_detail']      = MyHelper::encodeImage($post['product_photo_detail']);
+                }
+                
+                // update data
+                $save = MyHelper::post('product/update', $post);
+
+                unset($post['photo']);
+
+                // update product tag
+                if (isset($save['status']) && $save['status'] == 'success') {
+                    // delete dulu
+                    $deleteRelation = app($this->tag)->deleteAllProductTag($post['id_product']);
+					// print_r($deleteRelation);exit;
+                    // baru simpan
+                    if (isset($post['id_tag']))  {
+                        $saveRelation = app($this->tag)->createProductTag($post['id_product'], $post['id_tag']);
+                    }
+                }
+                if($data['title']=='Product'){
+                    return parent::redirect($save, 'Product info has been updated.', 'product/detail/'.$post['product_code'].'#info');
+                }else{
+                    return parent::redirect($save, 'Product info has been updated.', 'product/detail/'.$post['product_code'].'/icount#info');
+
+                }
+            }
+
+            /**
+             * jika outlet setting
+             */
+			if (isset($post['product_detail_visibility'])) {
+				$save = MyHelper::post('product/detail/update', $post);
+				// print_r($save);exit;
+                if($data['title']=='Product'){
+                    return parent::redirect($save, 'Visibility setting has been updated.', 'product/detail/'.$code.'?page='.$post['page'].'&type='.$post['type'].'#outletsetting');
+                }else{
+                    return parent::redirect($save, 'Visibility setting has been updated.', 'product/detail/'.$code.'/icount?page='.$post['page'].'&type='.$post['type'].'#outletsetting');
+
+                }
+			}
+
+            /**
+             * if price setting
+             */
+
+            if (isset($post['product_price'])) {
+                $save = MyHelper::post('product/detail/update/price', $post);
+                // print_r($save);exit;
+                if ($data['title']=='Product') {
+                    return parent::redirect($save, 'Product price setting has been updated.', 'product/detail/'.$code.'?page='.$post['page'].'&type='.$post['type'].'#outletpricesetting');
+                }else{
+                    return parent::redirect($save, 'Product price setting has been updated.', 'product/detail/'.$code.'/icount?page='.$post['page'].'&type='.$post['type'].'#outletpricesetting');
+                }
+            }
+
+			/**
+             * jika diskon
+             */
+            if (isset($post['type_disc'])) {
+                unset($post['type_disc']);
+
+                $post = array_filter($post);
+
+                if (isset($post['discount_days'])) {
+                    $post['discount_days'] = implode(",", $post['discount_days']);
+                }
+
+                if (isset($post['discount_time_start'])) {
+                    $post['discount_time_start'] = date('H:i:s', strtotime($post['discount_time_start']));
+                }
+
+                if (isset($post['discount_time_end'])) {
+                    $post['discount_time_end'] = date('H:i:s', strtotime($post['discount_time_end']));
+                }
+
+                $save = MyHelper::post('product/discount/create', $post);
+                if($data['title']=='Product'){
+                    return parent::redirect($save, 'Product discount has been added.', 'product/detail/'.$code.'#discount');
+                }else{
+                    return parent::redirect($save, 'Product discount has been added.', 'product/detail/'.$code.'/icount#discount');
+
+                }
+            }
+
+            /**
+             * jika foto
+             */
+            if (isset($post['photo'])) {
+                $post['photo'] = MyHelper::encodeImage($post['photo']);
+                /**
+                 * save
+                 */
+                $save          = MyHelper::post('product/photo/create', $post);
+                if ($data['title']=='Product') {
+                    return parent::redirect($save, 'Product photo has been added.', 'product/detail/'.$code.'#photo');
+                }else{
+                    return parent::redirect($save, 'Product photo has been added.', 'product/detail/'.$code.'/icount#photo');
+                }
+            }
+
+            /**
+             * jika ada id_product_photo => untuk sorting
+             */
+            if (isset($post['id_product_photo'])) {
+                for ($x= 0; $x < count($post['id_product_photo']); $x++) {
+                    $data = [
+                        'id_product_photo' => $post['id_product_photo'][$x],
+                        'product_photo_order' => $x+1,
+                    ];
+
+                    /**
+                     * save product photo
+                     */
+                    $save = MyHelper::post('product/photo/update', $data);
+
+                    if (!isset($save['status']) || $save['status'] != "success") {
+                        if($data['title']=='Product'){
+                            return redirect('product/detail/'.$code.'#photo')->witherrors(['Something went wrong. Please try again.']);
+                        }else{
+                            return redirect('product/detail/'.$code.'/icount#photo')->witherrors(['Something went wrong. Please try again.']);
+                        }
+                    }
+                }
+                if($data['title']=='Product'){
+                    return redirect('product/detail/'.$code.'#photo')->with('success', ['Photo\'s order has been updated']);
+                }else{
+                    return redirect('product/detail/'.$code.'/icount#photo')->with('success', ['Photo\'s order has been updated']);
+                }
+            }
+
+        }
+    }
 }

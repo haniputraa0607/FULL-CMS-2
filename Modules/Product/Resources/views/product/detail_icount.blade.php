@@ -17,6 +17,11 @@
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-select/css/bootstrap-select.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/icheck/skins/all.css')}}" rel="stylesheet" type="text/css" />
+    <style>
+        .zoom-in {
+            border: 1px solid grey;
+		}
+    </style>
 @endsection
 
 @section('page-script')
@@ -148,20 +153,7 @@
                 }
             });
 
-            @foreach($outlet_all as $key => $ou)
-            <?php $marker = 0; ?>
-                @foreach($ou['product_detail'] as $keyPrice => $price)
-                    @if($price['id_product'] == $product[0]['id_product'])
-                        @php $marker = 1; break; @endphp
-                    @endif
-                @endforeach
-                var option =  '<option class="option-visibility" data-id={{$product[0]["id_product"]}}/{{$ou["id_outlet"]}}>{{$ou["outlet_code"]}} - {{$ou["outlet_name"]}}</option>'
-                @if($marker == 1 && $price["product_detail_visibility"])
-                        $('#visibleglobal-{{lcfirst($price["product_detail_visibility"])}}').append(option)
-                @else
-                    $('#visibleglobal-default').append(option)
-                @endif
-            @endforeach
+
 
             $('#move-hiden').click(function() {
                 if($('#visibleglobal-visible').val() == null){
@@ -406,26 +398,6 @@
 			});
 		}
 
-		$( ".price" ).on( "blur", checkFormat);
-		function checkFormat(event){
-			var data = $( this ).val().replace(/[($)\s\._\-]+/g, '');
-			if(!$.isNumeric(data)){
-				$( this ).val("");
-			}
-		}
-		$( "#formWithPrice2" ).submit(function() {
-			$( "#submit" ).attr("disabled", true);
-			$( "#submit" ).addClass("m-loader m-loader--light m-loader--right");
-			$( ".price_float" ).each(function() {
-				var number = $( this ).val().replace(/[($)\s\._\-]+/g, '').replace(/[($)\s\,_\-]+/g, '.');
-				$(this).val(number);
-			});
-			$('.price').each(function() {
-				var number = $( this ).val().replace(/[($)\s\._\-]+/g, '');
-				$(this).val(number);
-			});
-
-		});
 
     </script>
     <script type="text/javascript">
@@ -516,113 +488,7 @@
             });
         });
 
-         $(".file").change(function(e) {
-            var widthImg  = 300;
-            var heightImg = 300;
-
-            var _URL = window.URL || window.webkitURL;
-            var image, file;
-
-            if ((file = this.files[0])) {
-                image = new Image();
-
-                image.onload = function() {
-                    if (this.width == widthImg && this.height == heightImg) {
-                        // image.src = _URL.createObjectURL(file);
-                    //    $('#formimage').submit()
-                    }
-                    else {
-                        toastr.warning("Please check dimension of your photo.");
-                        $('#imageproduct').children('img').attr('src', 'https://www.placehold.it/300x300/EFEFEF/AAAAAA&amp;text=no+image');
-                        $('#fieldphoto').val("");
-
-                    }
-                };
-
-                image.src = _URL.createObjectURL(file);
-            }
-
-        });
-        $(".filePhotoDetail").change(function(e) {
-            var widthImg  = 720;
-            var heightImg = 360;
-
-            var _URL = window.URL || window.webkitURL;
-            var image, file;
-
-            if ((file = this.files[0])) {
-                image = new Image();
-
-                image.onload = function() {
-                    if (this.width == widthImg && this.height == heightImg) {
-                        // image.src = _URL.createObjectURL(file);
-                    //    $('#formimage').submit()
-                    }
-                    else {
-                        toastr.warning("Please check dimension of your photo.");
-                        $('#imageproductDetail').children('img').attr('src', 'https://www.placehold.it/720x360/EFEFEF/AAAAAA&amp;text=no+image');
-                        $('#filePhotoDetail').val("");
-
-                    }
-                };
-
-                image.src = _URL.createObjectURL(file);
-            }
-
-        });
-        $('#select_tag').change(function(){
-			var value = $(this).val();
-            if(value !== null){
-                value.forEach(function(tag_selected,i){
-                    if(tag_selected == '+'){
-                        $('.bootstrap-select').removeClass('open')
-                        $('#m_modal_5').modal('show');
-                        value.splice (i, 1);
-                    }
-                })
-                $('#select_tag').val(value)
-                $('#select_tag').selectpicker('refresh')
-            }
-		})
-
-		$('#new_tag').click(function(){
-			var tag_name = $('#tag_name').val();
-			var token  = "{{ csrf_token() }}";
-            var tag_selected = $('#select_tag').val()
-			$.ajax({
-                type : "POST",
-                url : "{{ url('product/tag/create') }}",
-                data : "_token="+token+"&tag_name="+tag_name+"&ajax=1",
-                success : function(result) {
-                    if (result.status == "success") {
-                        toastr.info("New tag has been created.");
-						$('#option_new_tag').after(
-							'<option value="'+result.result.id_tag+'">'+result.result.tag_name+'</option>'
-						);
-						$('#select_tag').selectpicker('refresh');
-                        if(tag_selected !== null){
-                            tag_selected.splice (0, 0, result.result.id_tag);
-                            $('#select_tag').val(tag_selected)
-                        }else{
-                            $('#select_tag').val([result.result.id_tag])
-                        }
-                        $('#select_tag').selectpicker('refresh')
-                    }
-                    else if(result.status == "fail"){
-                        toastr.error(result.messages[0]);
-                    }else{
-                        toastr.warning('Failed to create tag.');
-                    }
-                    $('#m_modal_5').modal('hide');
-                }
-            });
-		})
-    $('#close_modal').click(function(){
-        var value = $('#select_tag').val();
-        value.splice (0, 0);
-        $('#select_tag').val(value)
-        $('#select_tag').selectpicker('refresh')
-	})
+         
     </script>
 
 <script type="text/javascript">
@@ -718,211 +584,6 @@
         }
     });
 
-    $('#checkbox-variant').on('ifChanged', function(event) {
-        if(this.checked) {
-            $('#nav-prod-variant').show();
-            $("input[name=product_global_price]").val('');
-            $("input[name=product_global_price]").prop('disabled', true);
-            $('input[name=product_global_price]').prop('required',false);
-        }else{
-            $('#nav-prod-variant').hide();
-            $("input[name=product_global_price]").val($("#old_global_price").val());
-            $("input[name=product_global_price]").prop('disabled', false);
-            $('input[name=product_global_price]').prop('required',true);
-        }
-    });
-
-    $('#select2-product-variant').change(function(e) {
-        var selected = $(e.target).val();
-        if(selected !== null){
-            var last = selected[selected.length-1];
-            var cek = 0;
-            for(var i=0;i<selected.length;i++){
-                var split = selected[i].split("|");
-                var split2 = last.split("|");
-
-                if(split[0] === split2[1]){
-                    cek = 1;
-                    selected.splice(i, 1);
-                }
-            }
-            if(cek === 1){
-                $("#select2-product-variant").val(selected).trigger('change');
-            }
-        }
-    });
-
-    var row = "{{$count}}";
-    function addProductVariantGroup() {
-        var product_variant = $('#select2-product-variant').val();
-        var product_variant_price = $('#product-variant-group-price').val();
-        var product_variant_group_code = $('#product-variant-group-code').val();
-        var product_variant_group_id = $('#product-variant-group-id').val();
-        var text = $('#select2-product-variant option:selected').toArray().map(item => item.text).join();
-        var visibility = $('input[name="product_variant_group_visibility"]:checked').val();
-        var msg_error = '';
-
-        if(product_variant.length <= 0){
-            msg_error += '-Please select one or more product variant <br>';
-        }
-
-        var check_level = '';
-        var id = [];
-        for(var i=0;i<product_variant.length;i++){
-            var split = product_variant[i].split("|");
-            id.push(split[0]);
-            if(check_level == split[1]){
-                msg_error += '-Can not select same level in product variant group<br>';
-            }
-            check_level = split[1];
-        }
-
-        var checkSameCombination = 0;
-        $('#table-product-variant > tbody  > tr').each(function(index, tr) {
-            if($('#product-variant-'+index).val()){
-                var arrProdVariantFromTable = $('#product-variant-'+index).val().split(",");
-                var flag = 0;
-                for(var i=0;i<arrProdVariantFromTable.length;i++){
-                    if(id.indexOf(arrProdVariantFromTable[i]) >= 0){
-                        flag++;
-                    }
-                }
-                if(flag > 1){
-                    checkSameCombination = 1;
-                }
-            }
-        });
-
-        if(checkSameCombination === 1){
-            msg_error += '-Combination "'+text+'" already exist<br>';
-        }
-
-        if(product_variant_group_code === ''){
-            msg_error += '-Please input code <br>';
-        }
-
-        if(product_variant_price === ''){
-            msg_error += '-Please input price <br>';
-        }
-
-        if(msg_error !== ""){
-            toastr.warning(msg_error);
-        }else{
-            var html = '';
-            html += '<tr>';
-            html += '<td>'+text+'</td>';
-            html += '<td>'+product_variant_group_code+'</td>';
-            html += '<td>'+product_variant_price+'</td>';
-            html += '<td>'+visibility+'</td>';
-            if(product_variant_group_id){
-                html += '<td><a  onclick="deleteRowProductVariant(this,'+product_variant_group_id+')" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Delete</a>' +
-                    '<a  onclick="editRowProductVariant(this,'+row+')" data-toggle="confirmation" class="btn btn-sm btn-primary" style="margin-left: 2%"><i class="fa fa-pen"></i> Edit</a></td>';
-            }else{
-                html += '<td><a  onclick="deleteRowProductVariant(this)" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Delete</a>' +
-                    '<a  onclick="editRowProductVariant(this,'+row+')" data-toggle="confirmation" class="btn btn-sm btn-primary" style="margin-left: 2%"><i class="fa fa-pen"></i> Edit</a></td>';
-            }
-
-            html += '<input type="hidden" id="product-variant-'+row+'" name="data['+row+'][id]" value="'+id+'">';
-            html += '<input type="hidden" id="product-variant-edit-'+row+'" name="data['+row+'][id-edit]" value="'+product_variant+'">';
-            html += '<input type="hidden" id="product-variant-group-code-'+row+'" name="data['+row+'][code]" value="'+product_variant_group_code+'">';
-            html += '<input type="hidden" id="product-variant-price-'+row+'" name="data['+row+'][price]" value="'+product_variant_price+'">';
-            html += '<input type="hidden" id="product-variant-group-id-'+row+'" name="data['+row+'][group_id]" value="'+product_variant_group_id+'">';
-            html += '<input type="hidden" id="product-variant-group-visibility-'+row+'" name="data['+row+'][visibility]" value="'+visibility+'">';
-            html += '</tr>';
-
-            $("#select2-product-variant").val(null).trigger('change');
-            $('#product-variant-group-price').val('');
-            $('#product-variant-group-code').val('');
-            $('#product-variant-group-id').val('');
-
-            $( "#product-variant-group-body" ).append(html);
-            row++;
-
-            var arr_tmp = [];
-            $("#table-product-variant > tbody > tr").each(function(index, tr) {
-                var price = document.getElementById("table-product-variant").rows[index+1].cells[1].innerHTML;
-                arr_tmp.push(price);
-            });
-
-            var min_price = Math.min.apply(Math,arr_tmp);
-            $('#product_base_price_pvg').val(min_price);
-        }
-    }
-
-    function deleteRowProductVariant(content, id = null) {
-        if(confirm('Are you sure you want to delete this product variant group?')) {
-
-            if(id !== null){
-                var token  = "{{ csrf_token() }}";
-                $.ajax({
-                    type : "POST",
-                    url : "{{ url('product/product-variant-group/delete') }}",
-                    data : "_token="+token+"&id_product_variant_group="+id,
-                    success : function(result) {
-                        if (result.status == "success") {
-                            $(content).parent().parent('tr').remove();
-                            toastr.info("Successfully delete the product variant group");
-                        }
-                        else {
-                            toastr.warning("Something went wrong. Failed to delete product variant group.");
-                        }
-                    }
-                });
-            }else{
-                $(content).parent().parent('tr').remove();
-                toastr.info("Successfully delete the product variant");
-            }
-        }
-    }
-
-    function editRowProductVariant(content,id) {
-        var product_variant = $('#select2-product-variant').val();
-        var product_variant_price = $('#product-variant-group-price').val();
-        var product_variant_group_code = $('#product-variant-group-code').val();
-
-        if(product_variant !== null || product_variant_price !== "" || product_variant_group_code !== ""){
-            toastr.warning("Please complete your edit process");
-        }else{
-            var data_id = $('#product-variant-edit-'+id).val().split(',');
-            var data_price = $('#product-variant-price-'+id).val();
-            var group_id = $('#product-variant-group-id-'+id).val();
-            var code = $('#product-variant-group-code-'+id).val();
-            var visibility = $('#product-variant-group-visibility-'+id).val();
-
-            if(visibility == 'Visible'){
-                document.getElementById("radio-variant-visibility1").checked = true;
-                document.getElementById("radio-variant-visibility2").checked = false;
-            }else{
-                document.getElementById("radio-variant-visibility1").checked = false;
-                document.getElementById("radio-variant-visibility2").checked = true;
-            }
-
-            $("#select2-product-variant").val(data_id).trigger('change');
-            $('#product-variant-group-price').val(data_price);
-            $('#product-variant-group-id').val(group_id);
-            $('#product-variant-group-code').val(code);
-            $(content).parent().parent('tr').remove();
-        }
-    }
-
-    function submitProductVariant() {
-        var product_variant = $('#select2-product-variant').val();
-        var product_variant_price = $('#product-variant-group-price').val();
-        var product_variant_group_code = $('#product-variant-group-code').val();
-
-        if(product_variant !== null || product_variant_price !== "" || product_variant_group_code !== ""){
-            toastr.warning("Please complete your edit process");
-        }else{
-            var tbody = $("#table-product-variant tbody");
-
-            if (tbody.children().length == 0) {
-                toastr.warning("Please add 1 or more product variant group.");
-            }else{
-                $( "#form_product_variant_group" ).submit();
-            }
-        }
-    }
-
   </script>
 
 @endsection
@@ -950,68 +611,24 @@
 
     @include('layouts.notifications')
 
-    @php
-        // print_r($product);die();
-    @endphp
-    @if ($title == 'Product')
-    <a href="{{url('product')}}" class="btn green" style="margin-bottom: 2%;"><i class="fa fa-arrow-left"></i> Back</a>
-    @else    
+
     <a href="{{url('product/icount')}}" class="btn green" style="margin-bottom: 2%;"><i class="fa fa-arrow-left"></i> Back</a>
-    @endif
     <div class="portlet light bordered">
         <div class="portlet-title tabbable-line">
             <div class="caption">
-                <span class="caption-subject bold uppercase font-blue">{{ $product[0]['product_name'] }}</span>
+                <span class="caption-subject bold uppercase font-blue">{{ $product[0]['name'] }}</span>
             </div>
             <ul class="nav nav-tabs">
 
                 <li class="active">
                     <a href="#info" data-toggle="tab"> Info </a>
                 </li>
-                <li id="nav-prod-variant" @if($product[0]['product_variant_status'] != 1 || true) style="display: none" @endif>
-                    <a href="#variant-group" data-toggle="tab"> Variant Group</a>
-                </li>
-                <!-- @if(MyHelper::hasAccess([53], $grantedFeature))
-                    <li>
-                        <a href="#photo" data-toggle="tab"> Photo </a>
-                    </li>
-                @endif -->
-                <li>
-                    <a href="#outletsetting" data-toggle="tab"> Outlet Setting</a>
-                </li>
-                <li>
-                    <a href="#outletpricesetting" data-toggle="tab"> Outlet Price Setting</a>
-                </li>
-                <li>
-                    <a href="#visibility" data-toggle="tab"> Visibility </a>
-                </li>
-				<!-- <li>
-                    <a href="#discount" data-toggle="tab"> Discount </a>
-                </li> -->
             </ul>
         </div>
         <div class="portlet-body">
             <div class="tab-content">
                 <div class="tab-pane active" id="info">
-                    @include('product::product.info')
-                </div>
-                <div class="tab-pane" id="variant-group">
-                    @include('product::product.product-variant-group')
-                </div>
-                <div class="tab-pane" id="photo">
-                    @include('product::product.photo')
-                </div>
-				<div class="tab-pane" id="outletsetting">
-                    @include('product::product.productDetail')
-                </div>
-                <div class="tab-pane" id="outletpricesetting">
-                    @include('product::product.productSpecialPriceDetail')
-                </div>
-                <div class="tab-pane" id="discount">
-                    @include('product::product.discount')
-                </div>
-                <div class="tab-pane" id="visibility">
-                    @include('product::product.visibility_global')
+                    @include('product::product.info_icount')
                 </div>
             </div>
         </div>

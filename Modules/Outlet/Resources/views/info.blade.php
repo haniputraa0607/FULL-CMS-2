@@ -221,6 +221,18 @@
                 <input type="text" class="form-control" name="outlet_email" value="{{ $val['outlet_email'] }}" placeholder="Outlet Email">
             </div>
         </div>
+        <div class="form-group">
+            <div class="input-icon right">
+                <label class="col-md-3 control-label">
+                Tax
+                <i class="fa fa-question-circle tooltips" data-original-title="Outlet menggunakan PNN" data-container="body"></i>
+                </label>
+            </div>
+            <div class="col-md-9">
+                <input type="checkbox" class="make-switch" data-size="small" data-on-color="info" data-on-text="Use Tax" name="is_tax" data-off-color="default" data-off-text="Not Using Tax" @if($val['is_tax']==100) checked @endif>
+            </div>
+        </div>
+        
         {{--
         <div class="form-group">
             <div class="input-icon right">

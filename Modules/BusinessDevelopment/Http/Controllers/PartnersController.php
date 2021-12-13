@@ -661,6 +661,11 @@ class PartnersController extends Controller
                 "follow_up" => "Follow Up",
                 "note" => $request["note"],  
             ];
+            if (isset($request["is_tax"]) && !empty($request["is_tax"])) {
+                $update_data_location['is_tax'] = 100;
+            }else{
+                $update_data_location['is_tax'] = 0;
+            }
         }
         
         if (isset($request["import_file"])) {

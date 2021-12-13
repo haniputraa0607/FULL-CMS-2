@@ -72,6 +72,17 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-md-3 control-label">Type
+                <i class="fa fa-question-circle tooltips" data-original-title="Jenis dari produk ada 2, produk/servis" data-container="body"></i>
+            </label>
+            <div class="col-md-8">
+                <select class="select2 form-control" name="product_type">
+                    <option value="product" @if($syu['product_type'] == 'product') selected="selected" @endif>Product</option>
+                    <option value="service" @if($syu['product_type'] == 'service') selected="selected" @endif>Service</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-md-3 control-label">Global Price <span class="required" aria-required="true"> * </span>
                 <i class="fa fa-question-circle tooltips" data-original-title="Global Price Product" data-container="body"></i>
             </label>
