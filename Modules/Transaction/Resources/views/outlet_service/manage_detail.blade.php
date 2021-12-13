@@ -53,7 +53,7 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
     <script>
 
-    	function changeTrigger () {
+    	function changeTriggerService() {
 			$('#update-service-section').hide();
 			$('.update-service-input').prop('required', false);
 			let serviceObj = $('select[name=id_transaction_product_service] option:selected');
@@ -63,6 +63,7 @@
 				let date = serviceObj.data('date') ?? null;
 				let time = serviceObj.data('time') ?? null;
 				let hs = serviceObj.data('hs') ?? null;
+				let idTrxProduct = serviceObj.data('id_trx_product') ?? null;
 
 				$('#update-service-section').show();
 
@@ -72,13 +73,32 @@
 				$('#update-service-section [name="schedule_time"]').timepicker('setTime', time);
 	        	$('#update-service-section select[name="id_user_hair_stylist"]').val(hs).trigger('change');
 
+	        	$('#update-service-section [name="id_transaction_product"]').val(idTrxProduct);
+
 				$('.update-service-input').prop('required', true);
-				console.log(date, time, hs);
+			}
+		}
+
+		function changeTriggerProduct() {
+			$('#update-product-section').hide();
+			$('.update-product-input').prop('required', false);
+			let serviceObj = $('select[name=id_product] option:selected');
+			let service = serviceObj.val();
+
+			if (service != '') {
+				let idTrxProduct = serviceObj.data('id_trx_product') ?? null;
+
+				$('#update-product-section').show();
+
+	        	$('#update-product-section [name="id_transaction_product"]').val(idTrxProduct);
+
+				$('.update-product-input').prop('required', true);
 			}
 		}
 
         $(document).ready(function() {
-        	changeTrigger();
+        	changeTriggerService();
+        	changeTriggerProduct();
 
 	        $('.datepicker').datepicker({
 	            'format' : 'dd MM yyyy',
@@ -110,7 +130,11 @@
 	        })
 
         	$('select[name=id_transaction_product_service]').on('change', function() {
-        		changeTrigger();
+        		changeTriggerService();
+	        })
+
+	        $('select[name=id_product]').on('change', function() {
+        		changeTriggerProduct();
 	        })
         });
 
@@ -176,6 +200,22 @@
 							                <div class="portlet-body form">
 								                <div class="form-horizontal" role="form" action="{{url('businessdev/partners/update')}}" method="post" enctype="multipart/form-data">
 								                    <div class="form-body">
+								                    	<div class="form-group">
+							                                <label class="control-label col-md-4">Status </label>
+							                                <div class="col-md-5">
+							                                	@php
+							                                		$serviceStatus = 'Active';
+							                                		if ($s['detail']['transaction_product_service']['is_conflict']) {
+							                                			$serviceStatus =  'Conflict';
+							                                		} 
+							                                		if ($s['detail']['reject_at']) {
+							                                			$serviceStatus =  'Rejected';
+							                                		}
+							                                		$statusColor = ($serviceStatus == 'Active') ? '#26C281' : (($serviceStatus == 'Rejected') ? '#E7505A' : '#ffc107');
+							                                	@endphp
+											                    <span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: {{ $statusColor }}; padding: 5px 12px; color: #fff; margin-top: 5px">{{ $serviceStatus }}</span>
+							                                </div>
+							                            </div>
 							                    		<div class="form-group">
 							                                <label class="control-label col-md-4">Hair Stylist </label>
 							                                <div class="col-md-5">
@@ -231,6 +271,16 @@
 				                <div class="form-horizontal" role="form" action="{{url('businessdev/partners/update')}}" method="post" enctype="multipart/form-data">
 				            		@foreach ($data['product'] as $p)
 					                    <div class="form-body">
+					                    	<div class="form-group">
+				                                <label class="control-label col-md-4">Status </label>
+				                                <div class="col-md-5">
+				                                	@php
+				                                		$productStatus = $p['detail']['reject_at'] ? 'Rejected' : 'Active';
+				                                		$statusColor = ($productStatus == 'Active') ? '#26C281' : '#E7505A';
+				                                	@endphp
+								                    <span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: {{ $statusColor }}; padding: 5px 12px; color: #fff; margin-top: 5px">{{ $productStatus }}</span>
+				                                </div>
+				                            </div>
 				                            <div class="form-group">
 				                                <label for="example-search-input" class="control-label col-md-4">Product Name </label>
 				                                <div class="col-md-5">
@@ -254,7 +304,7 @@
 				                            <div class="form-group">
 				                                <label for="example-search-input" class="control-label col-md-4">Subtotal </label>
 				                                <div class="col-md-5">
-								                    <span class="form-control border-0 text-bold">{{ $p['transaction_product_subtotal'] }}</span>
+								                    <span class="form-control border-0 text-bold">{{ $p['subtotal'] }}</span>
 				                                </div>
 				                            </div>
 				                            <div class="form-group">
@@ -290,11 +340,23 @@
 		                                        <select class="form-control select2" name="id_transaction_product_service" id="id_transaction_product_service" required style="width: 100%">
 		                                            <option value="" selected disabled>Select Service</option>
 		                                            @foreach($data['service'] ?? [] as $s)
+		                                            	@php
+		                                            		$disabled = $s['detail']['reject_at'] ? 'disabled' : null;
+		                                            		$status = null;
+					                                		if ($s['detail']['transaction_product_service']['is_conflict']) {
+					                                			$status =  ' (Conflict)';
+					                                		} 
+					                                		if ($s['detail']['reject_at']) {
+					                                			$status =  ' (Rejected)';
+					                                		}
+		                                            	@endphp
 		                                                <option value="{{$s['detail']['transaction_product_service']['id_transaction_product_service']}}" 
 		                                                	data-date="{{ $s['detail']['transaction_product_service']['schedule_date'] }}"
-		                                                	data-time="{{ $s['detail']['transaction_product_service']['schedule_time'] }}"
+		                                                	data-time="{{ $s['schedule_time'] }}"
 		                                                	data-hs="{{ $s['detail']['transaction_product_service']['id_user_hair_stylist'] }}"
-		                                                >{{ $s['product_name'] }}</option>
+		                                                	data-id_trx_product="{{ $s['detail']['id_transaction_product'] }}"
+		                                                	{{ $disabled }}
+		                                                >{{ $s['product_name'] . ' (' . $s['order_id'] . ')' . $status }}</option>
 		                                            @endforeach
 		                                        </select>
 		                                    </div>
@@ -345,8 +407,9 @@
 				                                <div class="row">
 				                                    <div class="col-md-offset-4 col-md-8">
 				                                    	<input type="hidden" name="update_type" value="service">
-				                                        <button type="submit" class="btn blue" value="update">Update</button>
-				                                        <button type="submit" class="btn red" value="reject">Reject</button>
+				                                    	<input type="hidden" name="id_transaction_product" value="">
+				                                        <button type="submit" class="btn blue" name='submit_type' value="update">Update</button>
+				                                        <button type="submit" class="btn red" name='submit_type' value="reject">Reject</button>
 				                                    </div>
 				                                </div>
 				                            </div>
@@ -365,37 +428,46 @@
 								</div>
 							</div>
 			                <div class="portlet-body form">
-				                <form class="form-horizontal" role="form" action="{{url('businessdev/partners/update')}}" method="post" enctype="multipart/form-data">
+				                <form class="form-horizontal" role="form" action="#" method="post" enctype="multipart/form-data">
 				            		<div class="form-body">
 		                                <div class="form-group">
 		                                    <label for="example-search-input" class="control-label col-md-4">Product <span class="required" aria-required="true">*</span>
 		                                        <i class="fa fa-question-circle tooltips" data-original-title="Pilih product" data-container="body"></i></label>
 		                                    <div class="col-md-5">
-		                                        <select class="form-control select2" name="id_bank_name" id="id_bank_name" required style="width: 100%">
+		                                        <select class="form-control select2 update-product-input" name="id_product" required style="width: 100%">
 		                                            <option value="" selected disabled>Select Product</option>
 		                                            @foreach($data['product'] ?? [] as $p)
-		                                                <option value="{{ $p['detail']['id_transaction_product'] }}">{{ $p['product_name'] }}</option>
+		                                            	@php
+		                                            		$disabled = $p['detail']['reject_at'] ? 'disabled' : null;
+		                                            		$rejected = $p['detail']['reject_at'] ? 'Rejected' : null;
+		                                            	@endphp
+		                                                <option value="{{ $p['detail']['id_transaction_product'] }}"
+		                                                	data-id_trx_product="{{ $p['detail']['id_transaction_product'] }}"
+		                                                	{{ $disabled }}
+		                                                >{{ $p['product_name'] }} {{ $rejected }}</option>
 		                                            @endforeach
 		                                        </select>
 		                                    </div>
 		                                </div>
-		                                <div class="form-group">
-			                                <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
-			                                    <i class="fa fa-question-circle tooltips" data-original-title="Catatan" data-container="body"></i></label>
-			                                <div class="col-md-5">
-			                                    <textarea name="note" id="input-address" class="form-control" placeholder="Enter address here">{{ $result['address'] ?? null }}</textarea>
-			                                </div>
+		                                <div id="update-product-section">
+			                                <div class="form-group">
+				                                <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
+				                                    <i class="fa fa-question-circle tooltips" data-original-title="Catatan" data-container="body"></i></label>
+				                                <div class="col-md-5">
+				                                    <textarea name="note" id="note" class="form-control update-product-input" placeholder="notes">{{ $result['address'] ?? null }}</textarea>
+				                                </div>
+				                            </div>
+				                            <div class="form-actions">
+				                                {{ csrf_field() }}
+				                                <div class="row">
+				                                	<div class="col-md-offset-4 col-md-8">
+				                                		<input type="hidden" name="id_transaction_product" value="">
+				                                    	<input type="hidden" name="update_type" value="product">
+				                                        <button type="submit" class="btn red" name='submit_type' value="reject">Reject</button>
+				                                    </div>
+				                                </div>
+				                            </div>
 			                            </div>
-		                            </div>
-		                            <div class="form-actions">
-		                                {{ csrf_field() }}
-		                                <div class="row">
-		                                	<div class="col-md-offset-4 col-md-8">
-		                                    	<input type="hidden" name="update_type" value="service">
-		                                        <button type="submit" class="btn blue" value="update">Confirm</button>
-		                                        <button type="submit" class="btn red" value="reject">Reject</button>
-		                                    </div>
-		                                </div>
 		                            </div>
 					            </form>
 				            </div>
