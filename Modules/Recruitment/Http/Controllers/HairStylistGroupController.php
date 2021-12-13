@@ -43,9 +43,9 @@ class HairStylistGroupController extends Controller
             public function index(Request $request)
               {
                  $data = [ 'title'             => 'List Hair Stylist Group',
-                                  'menu_active'       => 'hair-stylist-group',
-                                  'submenu_active'    => 'list-hair-stylist-group'
-                                ];
+                           'menu_active'       => 'hair-stylist-group',
+                           'submenu_active'    => 'list-hair-stylist-group'
+                        ];
                 $query = MyHelper::get('recruitment/hairstylist/be/group/');
                 if(isset($query['status']) && $query['status'] == 'success'){
                        $val = array();
@@ -71,10 +71,59 @@ class HairStylistGroupController extends Controller
                 $query = MyHelper::post('recruitment/hairstylist/be/group/detail',['id_hairstylist_group'=>$id]);
                 if(isset($query['status']) && $query['status'] == 'success'){
                         $data['result'] = $query['result'];
+                        $data['hs'] = $query['result']['hs'];
+                        $data['commission'] = array();
+                        foreach ($data['result']['commission'] as $value) {
+                            $value['id_enkripsi'] = MyHelper::createSlug($value['id_hairstylist_group_commission'],date('Y-m-d H:i:s'));
+                            array_push($data['commission'],$value);
+                        }
+                        $data['product'] = MyHelper::post('recruitment/hairstylist/be/group/product',['id_hairstylist_group'=>$id]);
                         return view('recruitment::group.detail',$data);
                 } else{
                         return back()->withErrors($query['messages']);
                 }
+              }
+            public function create_commission(Request $request)
+              {
+                 $post = $request->except('_token');
+                 $query = MyHelper::post('recruitment/hairstylist/be/group/create_commission', $post);
+                        if(isset($query['status']) && $query['status'] == 'success'){
+                                return back()->withSuccess(['Hair Stylist Group Commission Create Success']);
+                        } else{
+                                return back()->withErrors($query['messages']);
+                        }
+                   
+              }
+            public function update_commission(Request $request)
+              {
+                 $post = $request->except('_token');
+                 $query = MyHelper::post('recruitment/hairstylist/be/group/update_commission', $post);
+                 
+                        if(isset($query['status']) && $query['status'] == 'success'){
+                                return back()->withSuccess(['Hair Stylist Group Commission Update Success']);
+                        } else{
+                                return back()->withErrors($query['messages']);
+                        }
+                   
+              }
+            public function detail_commission($id)
+            {
+                 $id = MyHelper::explodeSlug($id)[0]??'';
+                 $query = MyHelper::post('recruitment/hairstylist/be/group/detail_commission',['id_hairstylist_group_commission'=>$id]);
+              
+                    if(isset($query['status']) && $query['status'] == 'success'){
+                         $data = [ 
+                                  'title'             => 'Hair Stylist Group',
+                                  'sub_title'         => 'Detail Hair Stylist Group Commission',
+                                  'menu_active'       => 'hair-stylist-group',
+                                  'submenu_active'    => 'detail-hair-stylist-group-commission'
+                                ];
+                          $data['result']=$query['result'];
+                            return view('recruitment::group.update',$data);
+                    } else{
+                            return back()->withErrors($query['messages']);
+                    }
+                   
               }
 
 }
