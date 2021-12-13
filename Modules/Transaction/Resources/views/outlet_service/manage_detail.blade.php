@@ -169,15 +169,22 @@
             <div class="caption">
                 <span class="caption-subject sbold uppercase font-blue">{{ $title }}</span>
             </div>
+            <div class="text-left">
+            	@if (!empty($data['reject_at']))
+            		<span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: #E7505A; padding: 5px 12px; color: #fff; margin-top: 7px;margin-left: 10px">{{ 'Rejected' }}</span>
+            	@endif
+            </div>
         </div>
         <div class="tabbable-line tabbable-full-width">
             <ul class="nav nav-tabs">
                 <li class="active">
                     <a href="#detail" data-toggle="tab"> Detail </a>
                 </li>
-                <li>
-                    <a href="#update" data-toggle="tab"> Update </a>
-                </li>
+                @if (empty($data['reject_at']))
+	                <li>
+	                    <a href="#update" data-toggle="tab"> Update </a>
+	                </li>
+                @endif
             </ul>
 	        <div class="tab-content">
 	            <div class="tab-pane active" id="detail">
@@ -323,6 +330,12 @@
 	            </div>
 
 	            <div class="tab-pane" id="update">
+	            	@if (empty($data['need_manual_void']))
+		            	<div class="text-right">
+	        				<a data-toggle="modal" href="#reject-transaction" class="btn red" style="margin-bottom: 15px">Reject Transaction</a>
+		            	</div>
+	            	@endif
+
 	            	@if (!empty($data['service']))
 	                	<div class="portlet light bordered">
 							<div class="portlet-title">
@@ -477,6 +490,35 @@
 	        </div>
     	</div>
     </div>
+
+    {{-- Reject Transaction Modal --}}
+	<div id="reject-transaction" class="modal fade bs-modal-sm" tabindex="-1" aria-hidden="true">
+	    <div class="modal-dialog modal-sm">
+	        <div class="modal-content">
+	        	<form role="form" action="{{ url('transaction/outlet-service/reject') }}" method="post" enctype="multipart/form-data">
+	                <div class="modal-header">
+	                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+	                    <h4 class="modal-title">Reject Transaction</h4>
+	                </div>
+	                <div class="modal-body" style="padding-top: 0;padding-bottom: 0">
+	                	<div class="row">
+		                	<div class="form-group">
+		                		<label class="control-label"> Reason <span class="required" aria-required="true"> * </span> </label>
+                        		<textarea name="reject_reason" class="form-control" placeholder="Enter reject reason here" required></textarea>
+	                        </div>
+	                	</div>
+	                </div>
+	                <div class="modal-footer">
+	        			{{ csrf_field() }}
+	                    <input type="hidden" name="id_transaction" value="{{ $data['id_transaction'] }}">
+	                	<input type="hidden" name="update_type" value="transaction">
+	                    <button type="button" data-dismiss="modal" class="btn dark btn-outline">Cancel</button>
+	                    <button type="submit" class="btn red" name='submit_type' value="reject">Reject</button>
+	                </div>
+	            </form>
+	        </div>
+	    </div>
+	</div>
 
 
 @endsection
