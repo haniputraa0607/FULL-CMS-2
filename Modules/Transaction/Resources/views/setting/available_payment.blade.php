@@ -88,6 +88,7 @@
                         <th>Payment Gateway</th>
                         <th>Payment Method</th>
                         <th>Status</th>
+                        <th>Chart Of Account</th>
                     </tr>
                 </thead>
                 <tbody class="sortable">
@@ -98,6 +99,16 @@
                         <td>{{$payment['payment_method']}}</td>
                         <td>
                             <input type="checkbox" name="payments[{{$payment['code']}}][status]" class="make-switch brand_visibility" data-size="small" data-on-color="info" data-on-text="Enable" data-off-color="default" data-off-text="Disable" value="1" {{$payment['status']?'checked':''}}>
+                        </td>
+                        <td>
+                            <select name="payments[{{$payment['code']}}][id_chart_of_account]" id="payments" class="form-control input-sm select2" >
+                                           <option></option>
+                                            @if(isset($chart_of_account))
+                                                @foreach($chart_of_account as $row)
+                                                        <option value="{{$row['id_chart_of_account']}}" @if($payment['id_chart_of_account']==$row['id_chart_of_account']) selected @endif)>{{$row['ChartOfAccountID']}} - {{$row['Description']}}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
                         </td>
                         <input type="hidden" name="payments[{{$payment['code']}}][dummy]">
                     </tr>
