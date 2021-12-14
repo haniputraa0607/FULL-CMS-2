@@ -1,3 +1,4 @@
+@include('recruitment::group.filter')
 <?php
 use App\Lib\MyHelper;
 $configs    		= session('configs');
@@ -60,7 +61,7 @@ $grantedFeature     = session('granted_features');
     </div><br>
 
     @include('layouts.notifications')
-
+    @yield('filter')
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
@@ -94,6 +95,11 @@ $grantedFeature     = session('granted_features');
                         @endif
                         </tbody>
                     </table>
+            <div class="paginator-right">
+                 @if ($data_paginator)
+                    {{ $data_paginator->links() }}
+                @endif  
+            </div>
         </div>
     </div>
 
