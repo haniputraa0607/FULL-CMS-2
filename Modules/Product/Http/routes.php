@@ -20,6 +20,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'product'
 	Route::get('ajax/simple', ['uses' => 'ProductController@listProductAjaxSimple']);
 	Route::any('create', ['middleware' => 'feature_control:50', 'uses' => 'ProductController@create']);
 	Route::any('update', ['middleware' => 'feature_control:51', 'uses' => 'ProductController@update']);
+	Route::any('product-use/update', ['middleware' => 'feature_control:51', 'uses' => 'ProductController@updateProductUse']);
 	Route::post('update/allow_sync', ['middleware' => 'feature_control:51', 'uses' => 'ProductController@updateAllowSync']);
 	Route::post('update/visibility/global', ['middleware' => 'feature_control:51', 'uses' => 'ProductController@updateVisibility']);
 	Route::any('delete', ['middleware' => 'feature_control:52', 'uses' => 'ProductController@delete']);
