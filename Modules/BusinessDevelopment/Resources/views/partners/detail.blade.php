@@ -178,41 +178,7 @@
             $("#date-total").html('Name : ');
             $("#rule-total-2").removeClass("active");
         }
-        $('#modalPartner').click(function(){
-            let nama = $('#input-name').val();
-            let phone = $('#input-phone').val();
-            let email = $('#input-email').val();
-            let address = $('#input-address').val();
-            let id_location = $('#input-id_location').val();
-            let nameLocation = $('#input-name-location').val();
-            let addressLocation = $('#input-address-location').val();
-            let latitudeLocation = $('#input-latitude-location').val();
-            let longitudeLocation = $('#input-longitude-location').val();
-            let id_cityLocation = $('#id_cityLocation').val();
-            $("#nameModal").val(nama);
-            $("#phoneModal").val(phone);
-            $("#emailModal").val(email);
-            $("#addressModal").val(address);
-            if(id_location != undefined){
-                $("#id_locationModal").val(id_location);
-            }
-            if(nameLocation != undefined){
-                $("#nameLocationModal").val(nameLocation);
-            }
-            if(addressLocation != undefined){
-                $("#addressLocationModal").val(addressLocation);
-            }
-            if(latitudeLocation != undefined){
-                $("#latitudeLocationModal").val(latitudeLocation);
-            }
-            if(longitudeLocation != undefined){
-                $("#longitudeLocationModal").val(longitudeLocation);
-            }
-            if(id_cityLocation != undefined){
-                $("#id_cityLocationModal").val(id_cityLocation);
-            }
-
-        });
+        
         function formSurveyModal(){
             let note = $('#noteSurvey').val();
             $('#formSurvey').modal('show');
@@ -225,7 +191,51 @@
         });
         
         $('.select2').select2();
+        function number(id){
+            $(id).inputmask("remove");
+            $(id).inputmask({
+                mask: "0999 9999 999999",
+                removeMaskOnSubmit: true,
+                placeholder:"",
+                prefix: "",
+                digits: 0,
+                // groupSeparator: '.',
+                rightAlign: false,
+                greedy: false,
+                autoGroup: true,
+                digitsOptional: false,
+            });
+        }
+        function onlyNumber(id){
+            $(id).on("keypress keyup blur",function (event) {    
+                $(this).val($(this).val().replace(/[^\d].+/, ""));
+                 if ((event.which < 48 || event.which > 57)) {
+                     event.preventDefault();
+                 }
+            });
+        }
+        function isEmail(id_email) {
+            email = $(id_email).val();
+            var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            if(regex.test(email)) {
+                $('#invalidEmail').remove();
+                return true;
+            }else{
+                $('#col-email').append('<div class="invalid-feedback text-danger" id="invalidEmail">Invalid Format Email.</div>');
+                return false;
+            }
+        }
+        $('#submitUpdate').click(function(){
+            if(isEmail("#input-email")==false){
+                return false
+            }
+        });
         $(document).ready(function() {
+            number("#input-phone");
+            number("#mobile");
+            onlyNumber("#input-beneficiary_account");
+            onlyNumber("#location_large");
+            isEmail("#input-email");
             $('#back-follow-up').hide();
             $('#input-follow-up').click(function(){
                 $('#back-follow-up').show();
@@ -394,13 +404,13 @@
                                 <label for="example-search-input" class="control-label col-md-4">Phone <span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Nomor telepon perusahaan/instansi yang dapat dihubungi" data-container="body"></i></label>
                                 <div class="col-md-5">
-                                    <input class="form-control" type="number" id="input-phone" name="phone" value="{{$result['phone']}}" placeholder="Enter phone here"/>
+                                    <input class="form-control" type="text" id="input-phone" name="phone" value="{{$result['phone']}}" placeholder="Enter phone here"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Email <span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Alamat email perusahaan/instansi yang dapat dihubungi" data-container="body"></i></label>
-                                <div class="col-md-5">
+                                <div class="col-md-5" id="col-email">
                                     <input class="form-control" type="email" id="input-email" name="email" value="{{$result['email']}}" placeholder="Enter email here"/>
                                 </div>
                             </div>
@@ -538,7 +548,7 @@
                             {{ csrf_field() }}
                             <div class="row">
                                 <div class="col-md-offset-4 col-md-8">
-                                    <button type="submit" class="btn blue">Submit</button>
+                                    <button type="submit" id="submitUpdate" class="btn blue">Submit</button>
                                 </div>
                             </div>
                         </div>

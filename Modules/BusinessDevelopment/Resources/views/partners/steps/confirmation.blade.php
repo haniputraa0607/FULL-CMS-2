@@ -153,7 +153,7 @@
                                         <input class="form-control" type="text" id="location_letter" name="location_letter" placeholder="Enter location letter here" required @if ($confir==true) readonly value="{{$result['partner_confirmation'][0]['location']}}" @endif/>
                                     </div>
                                 </div>
-                                <<input type="hidden" name="id_location" value="{{$result['partner_locations'][0]['id_location']??''}}">
+                                <input type="hidden" name="id_location" value="{{$result['partner_locations'][0]['id_location']??''}}">
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Payment Note 
                                         <i class="fa fa-question-circle tooltips" data-original-title="Catatan pembayaran berisikan pilihan untuk pengansuran final payment, jika tidak diisi berarti final payment tanpa angsuran" data-container="body"></i></label>

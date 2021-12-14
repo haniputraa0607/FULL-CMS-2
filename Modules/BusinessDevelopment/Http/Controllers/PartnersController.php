@@ -643,12 +643,12 @@ class PartnersController extends Controller
                 "id_city" => $request["id_cityLocation"],  
                 "id_brand" => $request["id_brand"],  
                 "location_large" => $request["location_large"],  
-                "rental_price" => $request["rental_price"],  
-                "service_charge" => $request["service_charge"],  
-                "promotion_levy" => $request["promotion_levy"],  
-                "renovation_cost" => $request["renovation_cost"],  
-                "partnership_fee" => $request["partnership_fee"],  
-                "income" => $request["income"],   
+                "rental_price" => preg_replace("/[^0-9]/", "", $request["rental_price"]),
+                "service_charge" => preg_replace("/[^0-9]/", "", $request["service_charge"]),  
+                "promotion_levy" => preg_replace("/[^0-9]/", "", $request["promotion_levy"]),  
+                "renovation_cost" => preg_replace("/[^0-9]/", "", $request["renovation_cost"]),  
+                "partnership_fee" => preg_replace("/[^0-9]/", "", $request["partnership_fee"]),  
+                "income" => preg_replace("/[^0-9]/", "", $request["income"]),   
                 "mall" => $request["mall"],   
             ];
             if (isset($request["mobile"]) && !empty($request["mobile"])) {
@@ -764,7 +764,7 @@ class PartnersController extends Controller
             ]);
             $update_data_location = [
                 "id_location" => $request["id_location"],
-                "total_payment" => $request["total_payment"],
+                "total_payment" => preg_replace("/[^0-9]/", "", $request["total_payment"]),
             ];
         }
         if(isset($request["follow_up"]) && $request["follow_up"]=='Confirmation Letter'){
