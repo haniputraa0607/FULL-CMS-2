@@ -394,7 +394,7 @@
                                 <label for="example-search-input" class="control-label col-md-4">Phone <span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Nomor telepon perusahaan/instansi yang dapat dihubungi" data-container="body"></i></label>
                                 <div class="col-md-5">
-                                    <input class="form-control" type="text" id="input-phone" name="phone" value="{{$result['phone']}}" placeholder="Enter phone here"/>
+                                    <input class="form-control" type="number" id="input-phone" name="phone" value="{{$result['phone']}}" placeholder="Enter phone here"/>
                                 </div>
                             </div>
                             <div class="form-group">
