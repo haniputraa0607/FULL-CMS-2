@@ -116,7 +116,24 @@
                 }
             }
         }();
+         function number(id){
+            $(id).inputmask("remove");
+            $(id).inputmask({
+                mask: "0999 9999 999999",
+                removeMaskOnSubmit: true,
+                placeholder:"",
+                prefix: "",
+                digits: 0,
+                // groupSeparator: '.',
+                rightAlign: false,
+                greedy: false,
+                autoGroup: true,
+                digitsOptional: false,
+            });
+        }
         jQuery(document).ready(function() {
+            
+            number("#cp_designer");
             SweetAlertDesain.init()
             SweetAlertNextDesain.init()
         });
@@ -217,14 +234,14 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Name Designer<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Designer Name<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nama Designer" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" id="nama_designer" name="nama_designer" placeholder="Enter Nama Designer"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Contact Person Designer<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">CP Designer<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Kontak Designer" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" id="cp_designer" name="cp_designer" placeholder="Enter Kontak Designer"/>

@@ -75,7 +75,7 @@
 				</label>
 				<div class="col-md-6">
 					<div class="input-icon right">
-						<select  class="form-control select2" name="id_hairstylist_group" data-placeholder="Select Group" required>
+						<select  class="form-control select2" required name="id_hairstylist_group" data-placeholder="Select Group" required>
 							<option></option>
 							@foreach($groups as $group)
 								<option value="{{$group['id_hairstylist_group']}}">{{$group['hair_stylist_group_code']}} - {{$group['hair_stylist_group_name']}}</option>

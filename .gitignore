@@ -13,3 +13,4 @@ yarn-error.log
 
 bootstrap/
 /nbproject/private/
+/webpack.mix
