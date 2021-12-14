@@ -18,7 +18,7 @@ class ChartOfAccountController extends Controller
         $result = MyHelper::get('chartofaccount');
           $data = [
                 'title'          => 'Chart Of Account',
-                'menu_active'    => 'chart-of-account',
+                'menu_active'    => 'order',
                 'submenu_active'    => 'chart-of-account',
             ];
           $data['result'] = [];

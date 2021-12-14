@@ -64,9 +64,13 @@ $grantedFeature     = session('granted_features');
             <div class="caption">
                 <span class="caption-subject font-blue sbold uppercase">{{ $title }}</span>
             </div>
-            <button class="btn btn-sm green" type="button" style="float:right" data-toggle="tab" id="input-follow-up">
-                        <i class="fa fa-refresh"> Sync</i>
-                    </button>
+               <form class="form-horizontal" action="{{ url('chartofaccount/sync') }}" method="post" id="form">
+                    {{ csrf_field() }}
+                    
+                    <button class="btn btn-sm green" type="submit" style="float:right" >
+                                <i class="fa fa-refresh"> Sync</i>
+                            </button>
+               </form>
         </div>
         <div class="portlet-body form">
             <table class="table table-striped table-bordered table-hover" id="kt_datatable">
