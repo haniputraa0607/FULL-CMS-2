@@ -4,6 +4,7 @@ $grantedFeature     = session('granted_features');
 ?>
 @extends('layouts.main-closed')
 @include('recruitment::hair_stylist.detail_schedule')
+@include('recruitment::hair_stylist.detail_box')
 
 @section('page-style')
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/datemultiselect/jquery-ui.css') }}" rel="stylesheet" type="text/css" />
@@ -17,6 +18,7 @@ $grantedFeature     = session('granted_features');
 	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" type="text/css" />
 
     @yield('detail-schedule-style')
+    @yield('detail-box-style')
 @endsection
 
 @section('page-script')
@@ -161,6 +163,9 @@ $grantedFeature     = session('granted_features');
                 @if($detail['user_hair_stylist_status'] == 'Active')
 	                <li>
 	                    <a href="#hs-schedule" data-toggle="tab"> Schedule </a>
+	                </li>
+	                <li>
+	                    <a href="#hs-box" data-toggle="tab"> Box </a>
 	                </li>
                 @endif
             </ul>
@@ -468,6 +473,21 @@ $grantedFeature     = session('granted_features');
 								</div>
 							</div>
 						</div>
+                                                <div class="form-group">
+                                                        <label class="col-md-4 control-label">Group<span class="required" aria-required="true"> * </span>
+                                                                <i class="fa fa-question-circle tooltips" data-original-title="Group hair stylist" data-container="body"></i>
+                                                        </label>
+                                                        <div class="col-md-6">
+                                                                <div class="input-icon right">
+                                                                        <select  class="form-control select2" name="id_hairstylist_group" data-placeholder="Select Group" required>
+                                                                                <option></option>
+                                                                                @foreach($groups as $group)
+                                                                                        <option value="{{$group['id_hairstylist_group']}}" @if($group['id_hairstylist_group'] == $detail['id_hairstylist_group']) selected @endif>{{$group['hair_stylist_group_code']}} - {{$group['hair_stylist_group_name']}}</option>
+                                                                                @endforeach
+                                                                        </select>
+                                                                </div>
+                                                        </div>
+                                                </div>
 					</div>
 
 					@if(!empty($detail['documents']))
@@ -569,6 +589,9 @@ $grantedFeature     = session('granted_features');
 			@if($detail['user_hair_stylist_status'] == 'Active')
 				<div class="tab-pane" id="hs-schedule">
 					@yield('detail-schedule')
+				</div>
+				<div class="tab-pane form" id="hs-box">
+					@yield('detail-box')
 				</div>
 			@endif
 		</div>

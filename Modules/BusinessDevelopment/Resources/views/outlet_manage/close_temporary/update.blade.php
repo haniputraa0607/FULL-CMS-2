@@ -122,12 +122,14 @@ $grantedFeature     = session('granted_features');
                                     <input  disabled class="form-control" type="text" id="input-name"  value="{{$result['outlet_name']}}" placeholder="Enter name here"/>
                                 </div>
                             </div>
+                            @if($result['jenis']=='Active')
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Jenis Aktivasi</label>
                                 <div class="col-md-5">
                                     <input  disabled class="form-control" type="text" id="input-name"  value="{{$result['jenis_active']}}" placeholder="Enter name here"/>
                                 </div>
                             </div>
+                            @endif
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Title<span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Title" data-container="body"></i></label>
@@ -136,7 +138,7 @@ $grantedFeature     = session('granted_features');
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="example-search-input" class="control-label col-md-4">Tanggal <span class="required" aria-required="true">*</span>
+                                <label for="example-search-input" class="control-label col-md-4">@if($result['jenis']=='Active') Start Date @else Close Data  @endif <span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Tanggal " data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <div class="input-group">

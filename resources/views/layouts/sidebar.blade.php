@@ -1295,33 +1295,58 @@
 				</ul>
 			</li>
 		@endif
-        @if(MyHelper::hasAccess([379,380,381,382], $grantedFeature) || MyHelper::hasAccess([378], $grantedFeature))
-		<li class="nav-item {{($menu_active == 'req-hair-stylist') ? 'active open' : ''}}">
-			<a href="javascript:;" class="nav-link nav-toggle">
-				<i class="fa fa-male"></i>
-				<span class="title">Request Hair Stylist</span>
-				<span class="arrow {{($menu_active == 'req-hair-stylist') ? 'open' : ''}}"></span>
-			</a>
-            <ul class="sub-menu">
-                @if(MyHelper::hasAccess([378], $grantedFeature))
-                <li class="nav-item {{($submenu_active == 'new-req-hair-stylist') ? 'active open' : ''}}">
-                    <a href="{{url('recruitment/hair-stylist/request/new')}}" class="nav-link ">
-                        <span class="title">New Request Hair Stylist</span>
-                    </a>
+                @if(MyHelper::hasAccess([379,380,381,382], $grantedFeature) || MyHelper::hasAccess([378], $grantedFeature))
+                        <li class="nav-item {{($menu_active == 'req-hair-stylist') ? 'active open' : ''}}">
+                                <a href="javascript:;" class="nav-link nav-toggle">
+                                        <i class="fa fa-male"></i>
+                                        <span class="title">Request Hair Stylist</span>
+                                        <span class="arrow {{($menu_active == 'req-hair-stylist') ? 'open' : ''}}"></span>
+                                </a>
+                    <ul class="sub-menu">
+                        @if(MyHelper::hasAccess([378], $grantedFeature))
+                        <li class="nav-item {{($submenu_active == 'new-req-hair-stylist') ? 'active open' : ''}}">
+                            <a href="{{url('recruitment/hair-stylist/request/new')}}" class="nav-link ">
+                                <span class="title">New Request Hair Stylist</span>
+                            </a>
+                        </li>
+                        @endif
+                                        @if(MyHelper::hasAccess([379,380,381,382], $grantedFeature) || MyHelper::hasAccess([378], $grantedFeature) )
+                                        <li class="nav-item {{($submenu_active == 'list-req-hair-stylist') ? 'active open' : ''}}">
+                                                <a href="{{url('recruitment/hair-stylist/request')}}" class="nav-link ">
+                                                        <span class="title">List Request Hair Stylist</span>
+                                                </a>
+                                        </li>
+                                        @endif
+                    </ul>
                 </li>
                 @endif
-				@if(MyHelper::hasAccess([379,380,381,382], $grantedFeature) || MyHelper::hasAccess([378], $grantedFeature) )
-				<li class="nav-item {{($submenu_active == 'list-req-hair-stylist') ? 'active open' : ''}}">
-					<a href="{{url('recruitment/hair-stylist/request')}}" class="nav-link ">
-						<span class="title">List Request Hair Stylist</span>
-					</a>
-				</li>
-				@endif
-            </ul>
-        </li>
-        @endif
+                @if(MyHelper::hasAccess([393,394,395], $grantedFeature) || MyHelper::hasAccess([378], $grantedFeature))
+                        <li class="nav-item {{($menu_active == 'hair-stylist-group') ? 'active open' : ''}}">
+                                <a href="javascript:;" class="nav-link nav-toggle">
+                                        <i class="fa fa-life-ring"></i>
+                                        <span class="title">Hair Stylist Group</span>
+                                        <span class="arrow {{($menu_active == 'hair-stylist-group') ? 'open' : ''}}"></span>
+                                </a>
+                    <ul class="sub-menu">
+                        @if(MyHelper::hasAccess([394], $grantedFeature))
+                        <li class="nav-item {{($submenu_active == 'new-hair-stylist-group') ? 'active open' : ''}}">
+                            <a href="{{url('recruitment/hair-stylist/group/create')}}" class="nav-link ">
+                                <span class="title">New Hair Stylist Group</span>
+                            </a>
+                        </li>
+                        @endif
+                        @if(MyHelper::hasAccess([393], $grantedFeature) || MyHelper::hasAccess([378], $grantedFeature) )
+                        <li class="nav-item {{($submenu_active == 'list-hair-stylist-group') ? 'active open' : ''}}">
+                                <a href="{{url('recruitment/hair-stylist/group/')}}" class="nav-link ">
+                                        <span class="title">List Hair Stylist Group</span>
+                                </a>
+                        </li>
+                        @endif
+                    </ul>
+                </li>
+                @endif
 
-		@if(MyHelper::hasAccess([58,59,60,61,62,63,64,66,69,71,299], $grantedFeature))
+		@if(MyHelper::hasAccess([58,59,60,61,62,63,64,66,69,71,299,397], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
 				<h3 class="uppercase" style="color: #000;font-weight: 600;">Order</h3>
 			</li>
@@ -1355,11 +1380,13 @@
 							<span class="title">All Transaction</span>
 						</a>
 					</li>
-					<li class="nav-item {{($submenu_active == 'manage-outlet-service') ? 'active open' : ''}}">
-						<a href="{{ url('transaction/outlet-service/manage') }}" class="nav-link">
-							<span class="title">Manage Outlet Service</span>
-						</a>
-					</li>
+					@if(MyHelper::hasAccess([397,398,399], $grantedFeature))
+						<li class="nav-item {{($submenu_active == 'manage-outlet-service') ? 'active open' : ''}}">
+							<a href="{{ url('transaction/outlet-service/manage') }}" class="nav-link">
+								<span class="title">Manage Outlet Service</span>
+							</a>
+						</li>
+					@endif
 {{-- 					<li class="nav-item {{($submenu_active == 'transactions-export') ? 'active open' : ''}}">
 						<a href="{{url('transaction/list-export')}}" class="nav-link ">
 							<span class="title">List Export</span>
@@ -3385,7 +3412,7 @@
         @if(MyHelper::hasAccess([392], $grantedFeature))
 		<li class="nav-item {{($menu_active == 'setting-icount') ? 'active open' : ''}}">
 			<a href="setting/setting-icount" class="nav-link nav-toggle">
-				<i class="fa fa-gear fa-spin"></i>
+				<i class="fa fa-gear"></i>
 				<span class="title">Icount Setting</span>
 			</a>
 		</li>

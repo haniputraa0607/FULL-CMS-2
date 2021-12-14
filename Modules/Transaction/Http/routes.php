@@ -116,10 +116,11 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'transact
     	Route::get('/', [ 'uses' => 'TransactionOutletServiceController@listOutletService']);
     	Route::post('/', [ 'uses' => 'TransactionOutletServiceController@filter']);
     	Route::get('detail/{id_transaction}', [ 'uses' => 'TransactionOutletServiceController@detailOutletService']);
-    	Route::get('manage', [ 'uses' => 'TransactionOutletServiceController@manageList']);
-    	Route::post('manage', [ 'uses' => 'TransactionOutletServiceController@manageFilter']);
-    	Route::get('manage/detail/{id_transaction}', [ 'uses' => 'TransactionOutletServiceController@manageDetail']);
-    	Route::post('manage/detail/{id_transaction}', [ 'uses' => 'TransactionOutletServiceController@manageDetailUpdate']);
+    	Route::get('manage', ['middleware' => 'feature_control:397', 'uses' => 'TransactionOutletServiceController@manageList']);
+    	Route::post('manage', ['middleware' => 'feature_control:397', 'uses' => 'TransactionOutletServiceController@manageFilter']);
+    	Route::get('manage/detail/{id_transaction}', ['middleware' => 'feature_control:398', 'uses' => 'TransactionOutletServiceController@manageDetail']);
+    	Route::post('manage/detail/{id_transaction}', ['middleware' => 'feature_control:399', 'uses' => 'TransactionOutletServiceController@manageDetailUpdate']);
+    	Route::post('reject', ['middleware' => 'feature_control:399', 'uses' => 'TransactionOutletServiceController@rejectOutletService']);
     });
 
     Route::group(['prefix' => 'home-service'], function(){
