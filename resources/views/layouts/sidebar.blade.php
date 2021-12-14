@@ -1323,7 +1323,7 @@
                 @if(MyHelper::hasAccess([393,394,395], $grantedFeature) || MyHelper::hasAccess([378], $grantedFeature))
                         <li class="nav-item {{($menu_active == 'hair-stylist-group') ? 'active open' : ''}}">
                                 <a href="javascript:;" class="nav-link nav-toggle">
-                                        <i class="fa fa-life-ring fa-spin"></i>
+                                        <i class="fa fa-life-ring"></i>
                                         <span class="title">Hair Stylist Group</span>
                                         <span class="arrow {{($menu_active == 'hair-stylist-group') ? 'open' : ''}}"></span>
                                 </a>
@@ -3412,7 +3412,7 @@
         @if(MyHelper::hasAccess([392], $grantedFeature))
 		<li class="nav-item {{($menu_active == 'setting-icount') ? 'active open' : ''}}">
 			<a href="setting/setting-icount" class="nav-link nav-toggle">
-				<i class="fa fa-gear fa-spin"></i>
+				<i class="fa fa-gear"></i>
 				<span class="title">Icount Setting</span>
 			</a>
 		</li>

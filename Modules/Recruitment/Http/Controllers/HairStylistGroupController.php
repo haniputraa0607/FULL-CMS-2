@@ -40,6 +40,16 @@ class HairStylistGroupController extends Controller
                                 return back()->withErrors($query['messages']);
                         }
               }
+            public function invite_hs(Request $request)
+              {
+                  $post = $request->except('_token');
+                        $query = MyHelper::post('recruitment/hairstylist/be/group/invite_hs', $post);
+                        if(isset($query['status']) && $query['status'] == 'success'){
+                                return back()->withSuccess(['Invite Hair Stylist Success']);
+                        } else{
+                                return back()->withErrors($query['messages']);
+                        }
+              }
             public function index(Request $request)
               {
                  $data = [ 'title'             => 'List Hair Stylist Group',
@@ -77,7 +87,8 @@ class HairStylistGroupController extends Controller
                             $value['id_enkripsi'] = MyHelper::createSlug($value['id_hairstylist_group_commission'],date('Y-m-d H:i:s'));
                             array_push($data['commission'],$value);
                         }
-                        $data['product'] = MyHelper::post('recruitment/hairstylist/be/group/product',['id_hairstylist_group'=>$id]);
+                        $data['product'] = MyHelper::post('recruitment/hairstylist/be/group/product',['id_hairstylist_group'=>$id])??[];
+                        $data['lisths'] = MyHelper::post('recruitment/hairstylist/be/group/hs',['id_hairstylist_group'=>$id])??[];
                         return view('recruitment::group.detail',$data);
                 } else{
                         return back()->withErrors($query['messages']);

@@ -73,7 +73,7 @@
                                         <textarea name="note" id="note" class="form-control" placeholder="Enter note here" @if ($pay==true) readonly @endif >@if ($pay==true) {{ $note }} @endif</textarea>
                                     </div>
                                 </div>
-                                <input type="hidden" name="id_location" value="{{$result['partner_locations'][0]['id_location']}}">
+                                <input type="hidden" name="id_location" value="{{$result['partner_locations'][0]['id_location']??''}}">
                                 <div class="form-group">
                                     @if ($pay==false) 
                                     <label for="example-search-input" class="control-label col-md-4">Import Attachment 

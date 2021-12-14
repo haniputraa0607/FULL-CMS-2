@@ -5,17 +5,17 @@
                 <div class="caption">
                     <span class="caption-subject font-dark sbold uppercase font-yellow">List Commission</span>
                 </div>
-                     <a href="#form_desain" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="input-follow-up">
+                     <a href="#form_commission" class="btn btn-sm blue " type="button"  style="float:right" data-toggle="tab" id="input-follow-up">
                          Create
                     </a>
-                    <a href="#table_desain" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="back-follow-up">
+                    <a href="#table_commission" class="btn btn-sm yellow active" type="button" style="float:right" data-toggle="tab" id="back-follow-up">
                         List
                     </a>
             </div>
             <div class="portlet-body form">
                 <div class="tab-content">
                     
-                    <div class="tab-pane active" id="table_desain">
+                    <div class="tab-pane active" id="table_commission">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover" id="kt_datatable">
                                 <thead>
@@ -47,7 +47,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="tab-pane" id="form_desain">
+                    <div class="tab-pane" id="form_commission">
                         <form class="form-horizontal" role="form" action="{{url('recruitment/hair-stylist/group/commission/create')}}" method="post" enctype="multipart/form-data">
                             <div class="form-body">
                                 <input type="hidden" name="id_hairstylist_group" value="{{$result['id_hairstylist_group']}}">
