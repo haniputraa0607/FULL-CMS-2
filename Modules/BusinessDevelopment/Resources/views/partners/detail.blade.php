@@ -194,11 +194,11 @@
         function number(id){
             $(id).inputmask("remove");
             $(id).inputmask({
-                mask: "0999 9999 999999",
+                mask: "9999 9999 999999",
                 removeMaskOnSubmit: true,
                 placeholder:"",
                 prefix: "",
-                digits: 0,
+                //digits: 0,
                 // groupSeparator: '.',
                 rightAlign: false,
                 greedy: false,
