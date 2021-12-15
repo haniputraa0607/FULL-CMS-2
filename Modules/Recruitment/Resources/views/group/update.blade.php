@@ -1,3 +1,5 @@
+@include('recruitment::group.filter_commission')
+@include('recruitment::group.filter_hs')
 @extends('layouts.main')
 
 @section('page-style')
@@ -85,8 +87,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
+                                                    <label for="example-search-input" class="control-label col-md-4">Percent</label>
+                                                    <div class="col-md-5">
+                                                        <input type="checkbox" class="make-switch brand_visibility" data-size="small" data-on-color="info" data-on-text="Percent" data-off-color="default" name='percent' data-off-text="Nominal" {{$result['percent']?'checked':''}}>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
                                                     <label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>
-                                                        <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>
+                                                        <i class="fa fa-question-circle tooltips" data-original-title="Percent minimal 1% maksimal 99%" data-container="body"></i></label>
                                                     <div class="col-md-5">
                                                         <input class="form-control" required type="number" id="commission_percent" value="{{$result['commission_percent']??0}}" name="commission_percent" placeholder="Enter Commission"/>
                                                     </div>
@@ -95,7 +103,7 @@
                                         
 					<div class="form-actions" style="text-align:center;">
 						{{ csrf_field() }}
-						<button type="submit" class="btn blue" id="checkBtn">Create</button>
+						<button type="submit" class="btn blue" id="checkBtn">Update</button>
 					</div>
 				</form>
 			</div>

@@ -1,3 +1,4 @@
+@yield('filter_commission')
 <div style="white-space: nowrap;">
     <div class="tab-pane">
         <div class="portlet light bordered">
@@ -21,7 +22,7 @@
                                 <thead>
                                 <tr>
                                     <th class="text-nowrap text-center">Name Product</th>
-                                    <th class="text-nowrap text-center">Product Code</th>
+                                    <th class="text-nowrap text-center">Percent</th>
                                     <th class="text-nowrap text-center">Commission</th>
                                     <th class="text-nowrap text-center">Action</th>
                                     
@@ -30,16 +31,16 @@
                                 <tbody>
                                         @if(!empty($commission))
                                         @foreach($commission as $dt)
-                                            <tr data-id="{{ $dt['id_hairstylist_group_commission'] }}">
+                                        <tr style="text-align: center" data-id="{{ $dt['id_hairstylist_group_commission'] }}">
                                                 <td>{{$dt['product_name']}}</td>
-                                                <td>{{$dt['product_code']}}</td>
-                                                <td>{{"Rp " . number_format($dt['commission_percent'],2,',','.')}}</td>
+                                                <td><input  type="checkbox" class="make-switch brand_visibility" data-size="small" data-on-color="info" data-on-text="Percent" data-off-color="default" data-off-text="Nominal" value="1" {{$dt['percent']?'checked':''}}></td>
+                                                <td>@if($dt['percent']==0){{"Rp " . number_format($dt['commission_percent'],2,',','.')}} @else {{$dt['commission_percent']}} %  @endif</td>
                                                 <td><a href="{{ url('/recruitment/hair-stylist/group/commission/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a></td>
                                             </tr>
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="4" style="text-align: center">Data Not Available</td>
+                                            <td colspan="5" style="text-align: center">Data Not Available</td>
                                         </tr>
                                     @endif
                                 </tbody>
@@ -63,6 +64,16 @@
                                                 @endforeach
                                             @endif
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Percent<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Percent" data-container="body"></i>
+                                    </label>
+                                    <div class="col-md-5">
+                                        <div class="input-icon right">
+                                            <input type="checkbox" class="make-switch" data-size="small" data-on-color="success" data-on-text="Percent" name="percent" data-off-color="default" data-off-text="Nominal" id="percent">
+                                           </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
