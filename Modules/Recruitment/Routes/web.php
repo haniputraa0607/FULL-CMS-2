@@ -56,12 +56,14 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
 	Route::group(['prefix' => 'group'], function()
 	{
 	    Route::any('create', ['middleware' => 'feature_control:394', 'uses' => 'HairStylistGroupController@create']);	    
-	    Route::get('detail/{id}', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@detail']);	    
+	    Route::any('detail/{id}', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@detail']);	    
 	    Route::post('update', ['middleware' => 'feature_control:395', 'uses' => 'HairStylistGroupController@update']);	    
 	    Route::any('/', ['middleware' => 'feature_control:393', 'uses' => 'HairStylistGroupController@index']);	    
 	    Route::post('commission/create', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@create_commission']);	    
 	    Route::post('commission/update', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@update_commission']);	    
 	    Route::post('invite_hs', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@invite_hs']);	    
 	    Route::any('commission/detail/{id}', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@detail_commission']);	 	    
+	    Route::any('commission/filter_commission', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@filter_commission']);	 	    
+	    Route::any('commission/filter_hs', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@filter_hs']);	 	    
 	});
 });

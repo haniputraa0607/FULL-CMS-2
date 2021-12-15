@@ -31,8 +31,8 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                        @if(!empty($hs))
-                                        @foreach($hs as $dt)
+                                        @if(!empty($hs['data']))
+                                        @foreach($hs['data'] as $dt)
                                             <tr >
                                                 <td>{{$dt['nickname']}}</td>
                                                 <td>{{$dt['fullname']}}</td>
@@ -48,8 +48,12 @@
                                         </tr>
                                     @endif
                                 </tbody>
-                                
                             </table>
+                             <div class="paginator-right">
+                                @if ($hs['data_paginator'])
+                                   {{ $hs['data_paginator']->links() }}
+                               @endif  
+                           </div>
                         </div>
                     </div>
                     <div class="tab-pane" id="form_hs">
