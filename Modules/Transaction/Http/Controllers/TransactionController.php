@@ -1622,6 +1622,7 @@ class TransactionController extends Controller
             'submenu_active' => 'setting-payment-method'
         ];
         $data['payments'] = MyHelper::post('transaction/available-payment',['show_all' => 1])['result']??[];
+        $data['chart_of_account'] =  $result = MyHelper::get('chartofaccount/list')??[];
         return view('transaction::setting.available_payment', $data);
     }
     public function availablePaymentUpdate(Request $request) {
@@ -1630,7 +1631,8 @@ class TransactionController extends Controller
         foreach ($request->payments as $code => $payment) {
             $payments[] = [
                 'code' => $code,
-                'status' => $payment['status']??0
+                'status' => $payment['status']??0,
+                'id_chart_of_account' => $payment['id_chart_of_account']??null,
             ];
         }
         $data = MyHelper::post('transaction/available-payment/update',['payments' => $payments]);

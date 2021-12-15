@@ -12,5 +12,6 @@
 */
 
 Route::prefix('chartofaccount')->group(function() {
-    Route::get('/', 'ChartOfAccountController@index');
+    Route::any('/', ['middleware' => 'feature_control:400', 'uses' => 'ChartOfAccountController@index']);
+    Route::any('/sync', ['middleware' => 'feature_control:401', 'uses' => 'ChartOfAccountController@sync']);
 });

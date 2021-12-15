@@ -1,3 +1,4 @@
+@include('chartofaccount::filter')
 <?php
 use App\Lib\MyHelper;
 $configs    		= session('configs');
@@ -57,16 +58,20 @@ $grantedFeature     = session('granted_features');
         </ul>
     </div><br>
 
-    @include('layouts.notifications')
-
+    @include('layouts.notifications')   
+    @yield('filter')
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
                 <span class="caption-subject font-blue sbold uppercase">{{ $title }}</span>
             </div>
-            <button class="btn btn-sm green" type="button" style="float:right" data-toggle="tab" id="input-follow-up">
-                        <i class="fa fa-refresh"> Sync</i>
-                    </button>
+               <form class="form-horizontal" action="{{ url('chartofaccount/sync') }}" method="post" id="form">
+                    {{ csrf_field() }}
+                    
+                    <button class="btn btn-sm green" type="submit" style="float:right" >
+                                <i class="fa fa-refresh"> Sync</i>
+                            </button>
+               </form>
         </div>
         <div class="portlet-body form">
             <table class="table table-striped table-bordered table-hover" id="kt_datatable">
@@ -102,6 +107,9 @@ $grantedFeature     = session('granted_features');
                         </tbody>
                     </table>
             <div class="paginator-right">
+                @if ($data_paginator)
+                    {{ $data_paginator->links() }}
+                @endif  
             </div>
         </div>
     </div>

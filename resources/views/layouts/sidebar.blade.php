@@ -1197,7 +1197,7 @@
 			</ul>
 		</li>
 		@endif
-		@if(MyHelper::hasAccess([338,339,340,341], $grantedFeature))
+		@if(MyHelper::hasAccess([402], $grantedFeature))
 		<li class="nav-item {{($menu_active == 'project') ? 'active open' : ''}}">
 			<a href="javascript:;" class="nav-link nav-toggle">
 				<i class="fa fa-file"></i>
@@ -1205,21 +1205,14 @@
 				<span class="arrow {{($menu_active == 'project') ? 'open' : ''}}"></span>
 			</a>
 			<ul class="sub-menu">
-				@if(MyHelper::hasAccess([338], $grantedFeature) && false)
-				<li class="nav-item {{($submenu_active == 'project-new') ? 'active open' : ''}}">
-					<a href="{{url('project/create/new')}}" class="nav-link ">
-						<span class="title">New Project</span>
-					</a>
-				</li>
-				@endif
-				@if(MyHelper::hasAccess([338], $grantedFeature))
+				@if(MyHelper::hasAccess([402], $grantedFeature))
 				<li class="nav-item {{($submenu_active == 'list-project') ? 'active open' : ''}}">
 					<a href="{{url('project/')}}" class="nav-link ">
 						<span class="title">Project List</span>
 					</a>
 				</li>
 				@endif
-				@if(MyHelper::hasAccess([338], $grantedFeature))
+				@if(MyHelper::hasAccess([402], $grantedFeature))
 				<li class="nav-item {{($submenu_active == 'list-process-project') ? 'active open' : ''}}">
 					<a href="{{url('project/process')}}" class="nav-link ">
 						<span class="title">Ongoing Project</span>
@@ -1346,7 +1339,7 @@
                 </li>
                 @endif
 
-		@if(MyHelper::hasAccess([58,59,60,61,62,63,64,66,69,71,299,397], $grantedFeature))
+		@if(MyHelper::hasAccess([58,59,60,61,62,63,64,66,69,71,299,397,400], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
 				<h3 class="uppercase" style="color: #000;font-weight: 600;">Order</h3>
 			</li>
@@ -1590,7 +1583,7 @@
 				@endif
 			@endif
 
-			@if(MyHelper::hasAccess([58,59,60,61,62,63], $grantedFeature))
+			@if(MyHelper::hasAccess([58,59,60,61,62,63,400], $grantedFeature))
 			<li class="nav-item {{($menu_active == 'order') ? 'active' : ''}}">
 				<a href="javascript:;" class="nav-link nav-toggle">
 					<i class="fa fa-cogs"></i>
@@ -1598,6 +1591,13 @@
 					<span class="arrow {{($menu_active == 'order') ? 'open' : ''}}"></span>
 				</a>
 				<ul class="sub-menu">
+					@if(MyHelper::hasAccess([400], $grantedFeature))
+					<li class="nav-item {{($submenu_active == 'chart-of-account') ? 'active open' : ''}}">
+						<a href="{{url('chartofaccount')}}" class="nav-link ">
+							<span class="title">Chart Of Account</span>
+						</a>
+					</li>
+					@endif
 					@if(MyHelper::hasAccess([58,59,60,62], $grantedFeature))
 					<li class="nav-item {{($submenu_active == 'transaction-rule') ? 'active open' : ''}}">
 						<a href="{{url('transaction/setting/rule')}}" class="nav-link ">
