@@ -168,7 +168,16 @@
             $('#formSurvey').modal('show');
             $("#noteModal").val(note);
         }
+        function onlyNumber(id){
+            $(id).on("keypress keyup blur",function (event) {    
+                $(this).val($(this).val().replace(/[^\d].+/, ""));
+                 if ((event.which < 48 || event.which > 57)) {
+                     event.preventDefault();
+                 }
+            });
+        }
         $(document).ready(function() {
+            onlyNumber("#location_large");
             $('#back-follow-up').hide();
             $('#input-follow-up').click(function(){
                 $('#back-follow-up').show();

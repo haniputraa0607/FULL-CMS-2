@@ -409,12 +409,12 @@ class LocationsController extends Controller
                 "id_city" => $request["id_cityLocation"],  
                 "id_brand" => $request["id_brand"],  
                 "location_large" => $request["location_large"],  
-                "rental_price" => $request["rental_price"],  
-                "service_charge" => $request["service_charge"],  
-                "promotion_levy" => $request["promotion_levy"],  
-                "renovation_cost" => $request["renovation_cost"],  
-                "partnership_fee" => $request["partnership_fee"],  
-                "income" => $request["income"],   
+                "rental_price" => preg_replace("/[^0-9]/", "", $request["rental_price"]),
+                "service_charge" => preg_replace("/[^0-9]/", "", $request["service_charge"]),  
+                "promotion_levy" => preg_replace("/[^0-9]/", "", $request["promotion_levy"]),  
+                "renovation_cost" => preg_replace("/[^0-9]/", "", $request["renovation_cost"]),  
+                "partnership_fee" => preg_replace("/[^0-9]/", "", $request["partnership_fee"]),  
+                "income" => preg_replace("/[^0-9]/", "", $request["income"]), 
                 "mall" => $request["mall"],   
                 "start_date" => date('Y-m-d', strtotime($request['start_date'])),  
                 "end_date" => date('Y-m-d', strtotime($request['end_date']))
@@ -483,7 +483,7 @@ class LocationsController extends Controller
             $request->validate([
                 "total_payment" => "required",
             ]);
-            $update_data_location["total_payment"] = $request["total_payment"];
+            $update_data_location["total_payment"] = preg_replace("/[^0-9]/", "", $request["total_payment"]);
         }
 
         if(isset($request["follow_up"]) && $request["follow_up"]=='Confirmation Letter'){
