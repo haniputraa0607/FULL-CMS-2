@@ -1,3 +1,4 @@
+@yield('filter_hs')
 <div style="white-space: nowrap;">
     <div class="tab-pane">
         <div class="portlet light bordered">
