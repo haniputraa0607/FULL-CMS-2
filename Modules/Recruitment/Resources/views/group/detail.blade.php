@@ -133,7 +133,7 @@
                                         
 					<div class="form-actions" style="text-align:center;">
 						{{ csrf_field() }}
-						<button type="submit" class="btn blue" id="checkBtn">Create</button>
+						<button type="submit" class="btn blue" id="checkBtn">Update</button>
 					</div>
 				</form>
                 </div>

@@ -127,7 +127,7 @@ class HairStylistGroupController extends Controller
                         return back()->withErrors($query['messages']);
                 }
               }
-            public function detail($id)
+            public function detail($id,Request $request)
               {
                  $id = MyHelper::explodeSlug($id)[0]??'';
                  $data = [ 
@@ -138,15 +138,80 @@ class HairStylistGroupController extends Controller
                                 ];
                 $query = MyHelper::post('recruitment/hairstylist/be/group/detail',['id_hairstylist_group'=>$id]);
                 if(isset($query['status']) && $query['status'] == 'success'){
-                        $data['result'] = $query['result'];
-                        $data['hs'] = $query['result']['hs'];
-                        $data['commission'] = array();
-                        foreach ($data['result']['commission'] as $value) {
-                            $value['id_enkripsi'] = MyHelper::createSlug($value['id_hairstylist_group_commission'],date('Y-m-d H:i:s'));
-                            array_push($data['commission'],$value);
+                         $data['result'] = $query['result'];
+                        $post = $request->all();
+                        $session = 'hair-stylist-group-filter-commission';
+                        $post['id_hairstylist_group'] = $id;
+                        if( ($post['rule']??false) && !isset($post['draw']) ){
+                           session([$session => $post]);
+
+                        }elseif($post['clear']??false){
+                            session([$session => null]);
                         }
+                        if(isset($post['reset']) && $post['reset'] == 1){
+                            Session::forget($session);
+                        }elseif(Session::has($session) && !empty($post) && !isset($post['filter'])){
+                            $pageSession = 1;
+                            if(isset($post['page'])){
+                                $pageSession = $post['page'];
+                            }
+                            $post = Session::get($session);
+                            $post['page'] = $pageSession;
+                              $post['id_hairstylist_group'] = $id;
+                            
+                        }
+                        if(isset($post['rule'])){
+                           
+                                $data['rule'] = array_map('array_values', $post['rule']);
+                        }
+                        $page = '?page=1';
+                        if(isset($post['page'])){
+                            $page = '?page='.$post['page'];
+                        }
+                          $list = MyHelper::post('recruitment/hairstylist/be/group/commission'.$page,$post)??[];
+                          if(($list['status']??'')=='success'){
+                             $val = array();
+                                foreach ($list['result']['data'] as $value){
+                                    $value['id_enkripsi'] = MyHelper::createSlug($value['id_hairstylist_group'],date('Y-m-d H:i:s'));
+                                    array_push($val,$value);
+                                }  
+                           $data['commission']['data'] = $val;
+                           $data['commission']['data_total']     = $list['result']['total'];
+                           $data['commission']['data_per_page']   = $list['result']['from'];
+                           $data['commission']['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;
+                           $data['commission']['data_paginator'] = new LengthAwarePaginator($list['result']['data'], $list['result']['total'], $list['result']['per_page'], $list['result']['current_page'], ['path' => url()->current()]);
+                       }else{
+                           $data['commission']['data']          = [];
+                           $data['commission']['data_total']     = 0;
+                           $data['commission']['data_per_page']   = 0;
+                           $data['commission']['data_up_to']      = 0;
+                           $data['commission']['data_paginator'] = false;
+                       }
+                        if($post){
+                            Session::put($session,$post);
+                        }  
                         $data['product'] = MyHelper::post('recruitment/hairstylist/be/group/product',['id_hairstylist_group'=>$id])??[];
+                        
+                         $session2 = 'hair-stylist-group-filter-hs';
+                         $post2 = Session::get($session2);
+                         $post2['id_hairstylist_group'] = $id;
+                         $data['filter_hs'] = $post2;
+                          $list2 = MyHelper::post('recruitment/hairstylist/be/group/list_hs'.$page,$post2)??[];
+                          if(($list2['status']??'')=='success'){
+                           $data['hs']['data'] = $list2['result']['data'];
+                           $data['hs']['data_total']     = $list2['result']['total'];
+                           $data['hs']['data_per_page']   = $list2['result']['from'];
+                           $data['hs']['data_up_to']      = $list2['result']['from'] + count($list['result']['data'])-1;
+                           $data['hs']['data_paginator'] = new LengthAwarePaginator($list2['result']['data'], $list2['result']['total'], $list2['result']['per_page'], $list2['result']['current_page'], ['path' => url()->current()]);
+                       }else{
+                           $data['hs']['data']          = [];
+                           $data['hs']['data_total']     = 0;
+                           $data['hs']['data_per_page']   = 0;
+                           $data['hs']['data_up_to']      = 0;
+                           $data['hs']['data_paginator'] = false;
+                       }
                         $data['lisths'] = MyHelper::post('recruitment/hairstylist/be/group/hs',['id_hairstylist_group'=>$id])??[];
+//                        return $data;
                         return view('recruitment::group.detail',$data);
                 } else{
                         return back()->withErrors($query['messages']);
@@ -194,5 +259,72 @@ class HairStylistGroupController extends Controller
                     }
                    
               }
+            public function filter_commission(Request $request)
+            {
+                 $post = $request->all();
+                
+                 $session = 'hair-stylist-group-filter-commission';
+                 if( ($post['rule']??false) && !isset($post['draw']) ){
+                    session([$session => $post]);
+                    
+               }elseif($post['clear']??false){
+                   session([$session => null]);
+               }
+               if(isset($post['reset']) && $post['reset'] == 1){
+                   Session::forget($session);
+               }elseif(Session::has($session) && !empty($post) && !isset($post['filter'])){
+                   $pageSession = 1;
+                   if(isset($post['page'])){
+                       $pageSession = $post['page'];
+                   }
+                   $post = Session::get($session);
+                   $post['page'] = $pageSession;
+
+               }
+               if(isset($post['rule'])){
+                       $data['rule'] = array_map('array_values', $post['rule']);
+               }
+               $page = '?page=1';
+               if(isset($post['page'])){
+                   $page = '?page='.$post['page'];
+               }
+               if($post){
+                   Session::put($session,$post);
+               }    
+                return back();
+           }
+            public function filter_hs(Request $request)
+            {
+                 $post = $request->all();
+                $session = 'hair-stylist-group-filter-hs';
+                 if( ($post['rule']??false) && !isset($post['draw']) ){
+                    session([$session => $post]);
+                    
+               }elseif($post['clear']??false){
+                   session([$session => null]);
+               }
+               if(isset($post['reset']) && $post['reset'] == 1){
+                   Session::forget($session);
+               }elseif(Session::has($session) && !empty($post) && !isset($post['filter'])){
+                   $pageSession = 1;
+                   if(isset($post['page'])){
+                       $pageSession = $post['page'];
+                   }
+                   $post = Session::get($session);
+                   $post['page'] = $pageSession;
+
+               }
+               if(isset($post['rule'])){
+                       $data['rule'] = array_map('array_values', $post['rule']);
+               }
+               $page = '?page=1';
+               if(isset($post['page'])){
+                   $page = '?page='.$post['page'];
+               }
+               if($post){
+                   Session::put($session,$post);
+               }    
+               return back();
+           }
 
 }

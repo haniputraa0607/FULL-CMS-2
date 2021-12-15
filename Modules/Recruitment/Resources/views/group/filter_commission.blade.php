@@ -5,7 +5,7 @@ $configs  = session('configs');
 ?>
 <script>
 	rules={
-		hair_stylist_group_name:{
+		product_name:{
                                     display:'Name',
                                     operator:[
                                     ['=','='],
@@ -13,14 +13,7 @@ $configs  = session('configs');
                                     ],
                                     opsi:[]
                                 },
-		hair_stylist_group_code:{
-                                    display:'Code',
-                                    operator:[
-                                    ['=','='],
-                                    ['like','like']
-                                    ],
-                                    opsi:[]
-                                },
+		
 	};
 	database={
 		operator: 'or',
@@ -81,11 +74,6 @@ $configs  = session('configs');
 	function rowBuilder(val){
 		var html='<div class="mt-repeater-cell" style="padding-bottom:10px" data-id="::n::">\
 		<div class="col-md-12">\
-		<div class="col-md-1">\
-		<a href="javascript:;" data-repeater-delete class="btn btn-danger mt-repeater-delete mt-repeater-del-right mt-repeater-btn-inline btnDelete">\
-		<i class="fa fa-close"></i>\
-		</a>\
-		</div>\
 		<div class="col-md-4">\
 		::subjectOption::\
 		</div>\
@@ -191,21 +179,8 @@ $configs  = session('configs');
 						<div data-repeater-item class="mt-repeater-item mt-overflow" id="repeaterContainer">
 						</div>
 					</div>
-					<div class="form-action col-md-12">
-						<div class="col-md-12">
-							<button class="btn btn-success mt-repeater-add" type="button" id="addNewBtn">
-								<i class="fa fa-plus"></i> Add New Condition
-							</button>
-						</div>
-					</div>
-
 					<div class="form-action col-md-12" style="margin-top:15px">
-						<div class="col-md-5">
-							<select name="operator" class="form-control input-sm " placeholder="Search Rule" required>
-								<option value="and" @if (isset($operator) && $operator == 'and') selected @endif>Valid when all conditions are met</option>
-								<option value="or" @if (isset($operator) && $operator == 'or') selected @endif>Valid when minimum one condition is met</option>
-							</select>
-						</div>
+						
 						<div class="col-md-4">
 							{{ csrf_field() }}
 							<button type="submit" class="btn yellow"><i class="fa fa-search"></i> Search</button>
@@ -220,7 +195,7 @@ $configs  = session('configs');
 <div class="alert alert-block alert-info fade in">
 	<button type="button" class="close" data-dismiss="alert"></button>
 	<h4 class="alert-heading">Displaying search result :</h4>
-	<p>{{$data_total}}</p><br>
+	<p>{{$commission['data_total']}}</p><br>
 	<form action="{{$filter_action ?? '#'}}" method="post">
 		{{csrf_field()}}
 		<button class="btn btn-sm btn-warning" name="clear" value="session">Reset</button>

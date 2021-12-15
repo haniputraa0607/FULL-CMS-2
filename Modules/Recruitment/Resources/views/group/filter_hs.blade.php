@@ -176,7 +176,7 @@ $configs  = session('configs');
 </script>
 @endsection
 @section('filter_hs')
-<form action="{{$filter_action ?? '#'}}" method="post">
+<form action="{{url('recruitment/hair-stylist/group/commission/filter_hs')}}" method="post">
 	<div class="portlet light bordered">
 		<div class="portlet-title">
 			<div class="caption font-blue ">
@@ -189,26 +189,36 @@ $configs  = session('configs');
 				<div class="form-group mt-repeater">
 					<div data-repeater-list="conditions">
 						<div data-repeater-item class="mt-repeater-item mt-overflow" id="repeaterContainer1">
-						</div>
-					</div>
-					<div class="form-action col-md-12">
-						<div class="col-md-12">
-							<button class="btn btn-success mt-repeater-add" type="button" id="addNewBtn1">
-								<i class="fa fa-plus"></i> Add New Condition
-							</button>
-						</div>
-					</div>
+                                                    <div class="portlet-body form">
+                                                        <div class="form-body">
+                                                                <div class="form-group">
+                                                                        <div >
+                                                                                <div style="padding-bottom:10px">
+                                                                                <div class="col-md-12">
+                                                                                <div class="col-md-3">
+                                                                                    <input type="text" placeholder="Keyword" class="form-control" name="subject" value="Full Name" readonly required/>
+                                                                                    <input type="hidden" placeholder="Keyword" class="form-control" name="subject" value="Full Name"  required/>
+                                                                                </div>
+                                                                                <div class="col-md-3">
+                                                                                    <select name="operator" class="form-control input-sm " placeholder="Search Rule" required>
+                                                                                                <option @if($filter_hs['operator']??'' == '=') selected @endif value="=" >=</option>
+                                                                                                <option @if($filter_hs['operator']??'' == 'like') selected @endif value="like" >like</option>
+                                                                                        </select>
+                                                                                </div>
+                                                                                <div class="col-md-3">
+                                                                                    <input type="text" placeholder="Keyword" class="form-control" name="value" value="{{$filter_hs['value']??''}}"  required/>
+                                                                                </div>
+                                                                                    <div class="col-md-3">
+                                                                                        {{ csrf_field() }}
+                                                                                        <button type="submit" class="btn yellow"><i class="fa fa-search"></i> Search</button>
+                                                                                </div>
+                                                                                </div>
+                                                                                </div>
+                                                                        </div>
 
-					<div class="form-action col-md-12" style="margin-top:15px">
-						<div class="col-md-5">
-							<select name="operator" class="form-control input-sm " placeholder="Search Rule" required>
-								<option value="and" @if (isset($operator) && $operator == 'and') selected @endif>Valid when all conditions are met</option>
-								<option value="or" @if (isset($operator) && $operator == 'or') selected @endif>Valid when minimum one condition is met</option>
-							</select>
-						</div>
-						<div class="col-md-4">
-							{{ csrf_field() }}
-							<button type="submit" class="btn yellow"><i class="fa fa-search"></i> Search</button>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
 						</div>
 					</div>
 				</div>
@@ -216,12 +226,12 @@ $configs  = session('configs');
 		</div>
 	</div>
 </form>
-@if(isset($rule))
+@if(isset($filter_hs['value']))
 <div class="alert alert-block alert-info fade in">
 	<button type="button" class="close" data-dismiss="alert"></button>
 	<h4 class="alert-heading">Displaying search result :</h4>
-	<p>{{$data_total}}</p><br>
-	<form action="{{$filter_action ?? '#'}}" method="post">
+	<p>{{$hs['data_total']}}</p><br>
+	<form action="{{url('recruitment/hair-stylist/group/commission/filter_hs')}}" method="post">
 		{{csrf_field()}}
 		<button class="btn btn-sm btn-warning" name="clear" value="session">Reset</button>
 	</form>
