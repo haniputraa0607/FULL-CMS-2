@@ -57,7 +57,58 @@
             }
         }();
         jQuery(document).ready(function() {
-            SweetAlertNextSteps.init()
+            SweetAlertNextSteps.init();
+            $("input[data-type='currency']").on({
+                keyup: function() {
+                  formatCurrency($(this));
+                },
+                blur: function() { 
+                  formatCurrency($(this), "blur");
+                }
+            });
+            function formatNumber(n) {
+              // format number 1000000 to 1,234,567
+              return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            }
+            function formatCurrency(input, blur) {
+              // appends $ to value, validates decimal side
+              // and puts cursor back in right position.
+              // get input value
+              var input_val = input.val();
+              // don't validate empty input
+              if (input_val === "") { return; }
+              // original length
+              var original_len = input_val.length;
+              // initial caret position 
+              var caret_pos = input.prop("selectionStart");
+              // check for decimal
+              if (input_val.indexOf(".") >= 0) {
+                // get position of first decimal
+                // this prevents multiple decimals from
+                // being entered
+                var decimal_pos = input_val.indexOf(".");
+                // split number by decimal point
+                var left_side = input_val.substring(0, decimal_pos);
+                // add commas to left side of number
+                left_side = formatNumber(left_side);
+                // join number by .
+                input_val = left_side ;
+              } else {
+                // no decimal entered
+                // add commas to number
+                // remove all non-digits
+                input_val = formatNumber(input_val);
+                input_val = input_val;
+                // final formatting
+                
+              }
+              // send updated string to input
+              input.val(input_val);
+              // put caret back in the right position
+              var updated_len = input_val.length;
+              caret_pos = updated_len - original_len + caret_pos;
+              input[0].setSelectionRange(caret_pos, caret_pos);
+            }
         });
     </script>
 <div style="white-space: nowrap;">
@@ -216,49 +267,70 @@
                                     <label for="example-search-input" class="control-label col-md-4">Location Large <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Luas dari lokasi yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="location_large" name="location_large" placeholder="Enter location large here" value="{{ old('location_large') }}" required/>
+                                        <div class="input-group">
+                                            <input class="form-control" type="text" id="location_large" name="location_large" placeholder="Enter location large here" value="{{ old('location_large') }}" required/>
+                                            <span class="input-group-addon">m<sup>2</sup></span>
+                                        </div>
                                     </div>
                                 </div>    
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Rental Price <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Harga sewa dari lokasi per tahun" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="rental_price" name="rental_price" placeholder="Enter rental price here" value="{{ old('rental_price') }}" required/>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input class="form-control" type="text" data-type="currency" id="rental_price" name="rental_price" placeholder="Enter rental price here" value="{{ old('rental_price') }}" required/>
+                                        </div>
                                     </div>
                                 </div>    
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Service Charge <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Perkiraan biaya servis untuk lokasi yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="service_charge" name="service_charge" placeholder="Enter service charge here" value="{{ old('service_charge') }}" required/>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input class="form-control" type="text" data-type="currency" id="service_charge" name="service_charge" placeholder="Enter service charge here" value="{{ old('service_charge') }}" required/>
+                                        </div>
                                     </div>
                                 </div>    
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Promotion Levy <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Promosi yang nantinya akan dipakai" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="promotion_levy" name="promotion_levy" placeholder="Enter promotion levy here"  value="{{ old('promotion_levy') }}" required/>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input class="form-control" type="text" data-type="currency" id="promotion_levy" name="promotion_levy" placeholder="Enter promotion levy here"  value="{{ old('promotion_levy') }}" required/>
+                                        </div>
                                     </div>
                                 </div>    
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Contractor Price <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Biaya kontraktor untuk membangun lokasi" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="renovation_cost" name="renovation_cost" placeholder="Enter renovation cost here" value="{{ old('renovation_cost') }}" required/>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input class="form-control" type="text" data-type="currency" id="renovation_cost" name="renovation_cost" placeholder="Enter renovation cost here" value="{{ old('renovation_cost') }}" required/>
+                                        </div>
                                     </div>
                                 </div>    
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Partnership Fee <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Biaya kerja sama yang akan dibayarkan partner ke IXOBOX" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="partnership_fee" name="partnership_fee" placeholder="Enter partnership fee here" value="{{ old('partnership_fee') }}" required/>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input class="form-control" type="text" data-type="currency" id="partnership_fee" name="partnership_fee" placeholder="Enter partnership fee here" value="{{ old('partnership_fee') }}" required/>
+                                        </div>
                                     </div>
                                 </div>    
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Income <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Perkiraan permasukan per bulan" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="income" name="income" placeholder="Enter income here" value="{{ old('income') }}" required/>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Rp</span>
+                                            <input class="form-control" type="text" data-type="currency" id="income" name="income" placeholder="Enter income here" value="{{ old('income') }}" required/>
+                                        </div>
                                     </div>
                                 </div> 
                                 <div class="form-group">
