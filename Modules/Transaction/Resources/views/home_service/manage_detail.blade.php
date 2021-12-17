@@ -162,6 +162,13 @@
             </ul>
 	        <div class="tab-content">
 	        	<div class="tab-pane" id="detail">
+
+
+
+	        		{{-- Detail Here --}}
+
+
+
 	        	</div>
 	        	<div class="tab-pane active" id="update">
                 	<div class="portlet light bordered">
@@ -218,16 +225,18 @@
 			                                    <textarea name="note" class="form-control update-service-input" placeholder="Enter note here" required></textarea>
 			                                </div>
 			                            </div>
-			                            <div class="form-actions">
-			                                {{ csrf_field() }}
-			                                <div class="row">
-			                                    <div class="col-md-offset-4 col-md-8">
-			                                    	<input type="hidden" name="id_transaction" value="{{ $data['id_transaction'] }}">
-			                                        <button type="submit" class="btn blue" name='submit_type' value="update">Update</button>
-			                                        <button type="submit" class="btn red" name='submit_type' value="reject">Reject</button>
-			                                    </div>
-			                                </div>
-			                            </div>
+			                            @if (empty($data['reject_at']))
+				                            <div class="form-actions">
+				                                {{ csrf_field() }}
+				                                <div class="row">
+				                                    <div class="col-md-offset-4 col-md-8">
+				                                    	<input type="hidden" name="id_transaction" value="{{ $data['id_transaction'] }}">
+				                                        <button type="submit" class="btn blue" name='submit_type' value="update">Update</button>
+				                                        <button type="submit" class="btn red" name='submit_type' value="reject">Reject</button>
+				                                    </div>
+				                                </div>
+				                            </div>
+			                            @endif
 		                            </div>
 	                            </div>
 	                        </form>
