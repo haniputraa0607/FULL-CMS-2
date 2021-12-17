@@ -1380,6 +1380,11 @@
 							</a>
 						</li>
 					@endif
+					<li class="nav-item {{($submenu_active == 'manage-home-service') ? 'active open' : ''}}">
+						<a href="{{ url('transaction/home-service/manage') }}" class="nav-link">
+							<span class="title">Manage Home Service</span>
+						</a>
+					</li>					
 {{-- 					<li class="nav-item {{($submenu_active == 'transactions-export') ? 'active open' : ''}}">
 						<a href="{{url('transaction/list-export')}}" class="nav-link ">
 							<span class="title">List Export</span>
