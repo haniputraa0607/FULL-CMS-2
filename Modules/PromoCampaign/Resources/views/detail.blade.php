@@ -413,6 +413,21 @@
 	                                        {{ $result['brand_rule'] && $result['brand_rule'] == 'and' ? 'All selected brands' : 'One of the selected brands' }}
 	                                    </div>
 	                                </div>
+                                    <div class="row static-info">
+                                        <div class="col-md-4 name">Service</div>
+			                            <div class="col-md-8 value">: 
+                                            @php
+                                                foreach ($result['promo_campaign_services'] as $key => $value) {
+                                                    if ($key == 0) {
+                                                        $comma = '';
+                                                    }else{
+                                                        $comma = ', ';
+                                                    }
+                                                    echo $comma.$value['service'];
+                                                }
+                                            @endphp
+				                        </div>
+                                    </div>
 	                                <div class="row static-info">
 					                    <div class="col-md-4 name">Charged Central</div>
 					                    <div class="col-md-8 value">: {{$result['charged_central']}} %</div>

@@ -34,6 +34,8 @@ Route::group(['middleware' => ['web', 'validate_session', 'config_control:93'], 
     Route::any('step1/{slug}', 'PromoCampaignController@step1');
     Route::any('step2/{slug}', 'PromoCampaignController@step2');
 
+    Route::any('share-promo', 'PromoCampaignController@sharePromo');
+
 });
 
 Route::group(['middleware' => ['web', 'validate_session', 'config_control:93'], 'prefix' => 'referral'], function () {
