@@ -705,6 +705,20 @@
 								@endphp
 							</div>
 						</div>
+                        <div class="row static-info">
+                            <div class="col-md-4 name">Service</div>
+                            <div class="col-md-8 value">: 
+                            	@php
+                            		foreach ($result['promo_campaign_services'] as $key => $value) {
+	                            		if ($key == 0) {
+	                            			$comma = '';
+	                            		}else{
+	                            			$comma = ', ';
+	                            		}
+	                            		echo $comma.$value['service'];
+                            		}
+                            	@endphp</div>
+                        </div>
 						<div class="row static-info">
 							<div class="col-md-4 name">Tag</div>
 							@if(isset($result['promo_campaign_have_tags']))

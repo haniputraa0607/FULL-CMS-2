@@ -2369,6 +2369,11 @@
 								<span class="title">[Forward] Update Promo Campaign</span>
 							</a>
 						</li>
+						<li class="nav-item {{($submenu_active == 'promo-campaign-share-promo-code') ? 'active open' : ''}}">
+							<a href="{{url('promo-campaign/share-promo')}}" class="nav-link ">
+								<span class="title">Share Promo Code Message</span>
+							</a>
+						</li>
 						@endif
 					</ul>
 				</li>

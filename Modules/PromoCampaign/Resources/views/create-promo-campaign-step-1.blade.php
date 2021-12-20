@@ -592,6 +592,36 @@
 						</div>
 					</div>
 
+                    <div class="form-group">
+                        <div class="input-icon right">
+                            <label class="control-label">
+                            Service
+                            <span class="required" aria-required="true"> * </span>  
+                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih jenis servis yang dapat menggunakan promo campaign ini" data-container="body"></i>
+                            </label>
+                        </div>
+                        <div class="">
+                            <div class="input-icon right">
+                                <select class="form-control select2-multiple disable-input" data-placeholder="Select Service" name="service[]" multiple required>
+                                    <option></option>
+                                @php
+									$selected_service = [];
+									if (old('service')) {
+										$selected_service = old('service');
+									}
+									elseif (!empty($result['promo_campaign_services'])) {
+										$selected_service = array_column($result['promo_campaign_services'], 'service');
+									}
+								@endphp
+                                <option value="Outlet Service" @if ($selected_service) @if(in_array('Outlet Service', $selected_service)) selected @endif @endif>Outlet Service</option>
+                                <option value="Home Service" @if ($selected_service) @if(in_array('Home Service', $selected_service)) selected @endif @endif>Home Service</option>
+                                <option value="Online Shop" @if ($selected_service) @if(in_array('Online Shop', $selected_service)) selected @endif @endif>Online Shop</option>
+                                <option value="Academy" @if ($selected_service) @if(in_array('Academy', $selected_service)) selected @endif @endif>Academy</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
 					<div class="form-group">
 						<label class="control-label">Start Date</label>
 						<span class="required" aria-required="true"> * </span>

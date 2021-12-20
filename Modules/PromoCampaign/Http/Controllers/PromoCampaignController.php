@@ -191,7 +191,7 @@ class PromoCampaignController extends Controller
             if ($launch_modal) {
             	$data['launch_modal'] = 1;
             }
-
+            
             return view('promocampaign::detail', $data);
         }else{
             return redirect('promo-campaign')->withErrors(['Promo Campaign Not Found']);
@@ -314,7 +314,7 @@ class PromoCampaignController extends Controller
 	            $post['promo_image']         = MyHelper::encodeImage($post['promo_image']);
 	        }
             $action = MyHelper::post('promo-campaign/step1', $post);
-
+            
             if (isset($action['status']) && $action['status'] == 'success') 
             {
                 return redirect('promo-campaign/step2/' . ($slug?:MyHelper::createSlug($action['promo-campaign']['id_promo_campaign'],'')))->withSuccess($messages??['Promo Campaign has been created']);
@@ -533,5 +533,34 @@ class PromoCampaignController extends Controller
     		$redirect->withInput()->withErrors($action['messages'] ?? ['Failed to update promo description']);
     	}
     	return $redirect;
+    }
+
+    public function sharePromo(Request $request){
+        $data = [
+            'title'             => 'Share Promo Campaign Code Message',
+            'menu_active'       => 'promo-campaign',
+            'submenu_active'    => 'promo-campaign-share-promo-code'
+        ];
+        if($post=$request->except('_token')){
+            $data=[
+                'update'=>[
+                    'share_promo_code'=>['value_text',$post['share_promo_code']],
+                ]
+            ];
+
+            $result = MyHelper::post('setting/update2', $data);
+            if(($result['status']??'')=='success'){
+                return redirect('promo-campaign/share-promo')->with('success',['Share promo campaign code message has been updated']);
+            }else{
+                return back()->withErrors($result['messages']??['Something went wrong']);
+            }
+        }else{
+            $share_promo_code=MyHelper::post('setting',['key'=>'share_promo_code'])['result']['value_text']??'';
+            $data['msg']=[
+                'share_promo_code'=>$share_promo_code
+            ];
+
+            return view('promocampaign::share_promo_code',$data);
+        }
     }
 }
