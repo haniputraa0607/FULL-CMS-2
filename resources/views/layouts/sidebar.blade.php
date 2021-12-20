@@ -1363,6 +1363,11 @@
 							<span class="title">Transaction Home Service</span>
 						</a>
 					</li>
+					<li class="nav-item {{($submenu_active == 'transaction-shop') ? 'active open' : ''}}">
+						<a href="{{ url('transaction/shop') }}" class="nav-link">
+							<span class="title">Transaction Shop</span>
+						</a>
+					</li>
 					<li class="nav-item {{($submenu_active == 'transaction-academy') ? 'active open' : ''}}">
 						<a href="{{ url('transaction/academy') }}" class="nav-link">
 							<span class="title">Transaction Academy</span>

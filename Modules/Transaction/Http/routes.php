@@ -136,6 +136,12 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'transact
     	});
     });
 
+    Route::group(['prefix' => 'shop'], function(){
+        Route::get('/', [ 'uses' => 'TransactionShopController@listShop']);
+        Route::post('/', [ 'uses' => 'TransactionShopController@filter']);
+        Route::get('detail/{id_transaction}', [ 'uses' => 'TransactionShopController@detailShop']);
+    });
+
     Route::group(['prefix' => 'academy'], function(){
         Route::get('/', [ 'uses' => 'TransactionAcademyController@listAcademy']);
         Route::post('/', [ 'uses' => 'TransactionAcademyController@filter']);
