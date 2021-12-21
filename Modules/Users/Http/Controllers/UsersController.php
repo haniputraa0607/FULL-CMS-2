@@ -92,9 +92,9 @@ class UsersController extends Controller
                 $data = [ 
                   'title'             => 'Partners',
                   'sub_title'         => 'Partners Auto Response '.$autocrmSubject,
-				  'menu_active'       => 'partners',
-				  'submenu_active'    => 'partners-autoresponse-'.$subject
-				];
+                    'menu_active'       => 'partners',
+                    'submenu_active'    => 'partners-autoresponse-'.$subject
+                  ];
                 break;
             case 'updated-candidate-location-to-location':
                 $data = [ 
@@ -103,6 +103,38 @@ class UsersController extends Controller
 				  'menu_active'       => 'locations',
 				  'submenu_active'    => 'locations-autoresponse-'.$subject
 				];
+                break;    
+            case 'new-project':
+                $data = [ 
+                    'title'             => 'Project',
+                    'sub_title'         => 'Auto Response '.$autocrmSubject,
+                    'menu_active'       => 'project',
+                    'submenu_active'    => 'autoresponse-'.$subject
+                  ];
+                break;    
+            case 'update-project':
+                $data = [ 
+                    'title'             => 'Project',
+                    'sub_title'         => 'Auto Response '.$autocrmSubject,
+                    'menu_active'       => 'project',
+                    'submenu_active'    => 'autoresponse-'.$subject
+                  ];
+                break;    
+            case 'approve-project':
+                $data = [ 
+                    'title'             => 'Project',
+                    'sub_title'         => 'Auto Response '.$autocrmSubject,
+                    'menu_active'       => 'project',
+                    'submenu_active'    => 'autoresponse-'.$subject
+                  ];
+                break;    
+            case 'reject-project':
+                $data = [ 
+                    'title'             => 'Project',
+                    'sub_title'         => 'Auto Response '.$autocrmSubject,
+                    'menu_active'       => 'project',
+                    'submenu_active'    => 'autoresponse-'.$subject
+                  ];
                 break;    
 			default:
 				# code...
