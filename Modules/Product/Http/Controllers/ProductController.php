@@ -783,6 +783,9 @@ class ProductController extends Controller
             $data['product_icount_use'] = $data['product'][0]['product_icount_use'] ?? [];
             // return $data['product'][0]['id_product'];
             // return $data['product_icount_use'];
+            $data['commission'] = MyHelper::post('product/be/commission',['product_code' => $code])['result'] ?? [];
+            $data['product_code'] = $code;
+//            return $data;
             return view('product::product.detail', $data);
         }
         else {
@@ -1704,6 +1707,16 @@ class ProductController extends Controller
         }
         else {
             return redirect('product/detail/'.$post['product_code'].'#productuse')->witherrors(['Something went wrong. Please try again.']);
+        }
+    }
+    function submitCommission(Request $request){
+        $post = $request->except('_token');
+        $save = MyHelper::post('product/be/commission/create', $post);
+        if (isset($save['status']) && $save['status'] == "success") {
+            return redirect('product/detail/'.$post['product_code'].'#commission')->with('success', ['Commission has been save.']);
+        }
+        else {
+            return redirect('product/detail/'.$post['product_code'].'#commission')->witherrors(['Something went wrong. Please try again.']);
         }
     }
 }

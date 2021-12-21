@@ -1593,4 +1593,24 @@ class SettingController extends Controller
             return view('setting::icount.setting_icount', $data);
         }
     }
+    public function setting_global_commission(Request $request){
+        $post = $request->except('_token');
+        $data = [
+            'title'          => 'Setting Global Commission Engine',
+            'menu_active'    => 'comiisission-engine',
+            'submenu_active'    => 'comiisission-engine',
+        ];
+        if($post){
+            $query = MyHelper::post('setting/global_commission_product_create', $post);
+            if(($query['status']??'')=='success'){
+                return redirect('setting/setting-global-commission')->with('success',['Success update code icount']);
+            }else{
+                return redirect('setting/setting-global-commission')->withErrors([$penjualan_outlet['message']]);
+            }
+        }else{
+            $query = MyHelper::get('setting/global_commission_product');
+            $data['result'] = $query;
+            return view('setting::setting_global_commission', $data);
+        }
+    }
 }

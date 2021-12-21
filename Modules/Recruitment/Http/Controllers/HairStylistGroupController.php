@@ -172,7 +172,7 @@ class HairStylistGroupController extends Controller
                           if(($list['status']??'')=='success'){
                              $val = array();
                                 foreach ($list['result']['data'] as $value){
-                                    $value['id_enkripsi'] = MyHelper::createSlug($value['id_hairstylist_group'],date('Y-m-d H:i:s'));
+                                    $value['id_enkripsi'] = MyHelper::createSlug($value['id_hairstylist_group_commission'],date('Y-m-d H:i:s'));
                                     array_push($val,$value);
                                 }  
                            $data['commission']['data'] = $val;
@@ -191,7 +191,6 @@ class HairStylistGroupController extends Controller
                             Session::put($session,$post);
                         }  
                         $data['product'] = MyHelper::post('recruitment/hairstylist/be/group/product',['id_hairstylist_group'=>$id])??[];
-                        
                          $session2 = 'hair-stylist-group-filter-hs';
                          $post2 = Session::get($session2);
                          $post2['id_hairstylist_group'] = $id;
@@ -244,7 +243,6 @@ class HairStylistGroupController extends Controller
             {
                  $id = MyHelper::explodeSlug($id)[0]??'';
                  $query = MyHelper::post('recruitment/hairstylist/be/group/detail_commission',['id_hairstylist_group_commission'=>$id]);
-              
                     if(isset($query['status']) && $query['status'] == 'success'){
                          $data = [ 
                                   'title'             => 'Hair Stylist Group',
