@@ -192,6 +192,37 @@
             </div>
         </div>
 
+        {{-- Service --}}
+        <div class="form-group">
+            <div class="input-icon right">
+                <label class="col-md-3 control-label">
+                Service
+                <span class="required" aria-required="true"> * </span>  
+                <i class="fa fa-question-circle tooltips" data-original-title="Pilih brand untuk deal ini" data-container="body"></i>
+                </label>
+            </div>
+            <div class="col-md-9">
+                <div class="input-icon right">
+                    @php
+                        $selected_service = [];
+                        if (old('service')) {
+                            $selected_service = old('service');
+                        }
+                        elseif (!empty($deals['deals_services']??$deals['deals_promotion_services'])) {
+							$selected_service = array_column($deals['deals_services']??$deals['deals_promotion_services'], 'service');
+						}
+					@endphp
+                    <select class="form-control select2-multiple disable-input" data-placeholder="Select Service" name="service[]" multiple required>
+                        <option></option>
+                        <option value="Outlet Service" @if ($selected_service) @if(in_array('Outlet Service', $selected_service)) selected @endif @endif>Outlet Service</option>
+                        <option value="Home Service" @if ($selected_service) @if(in_array('Home Service', $selected_service)) selected @endif @endif>Home Service</option>
+                        <option value="Online Shop" @if ($selected_service) @if(in_array('Online Shop', $selected_service)) selected @endif @endif>Online Shop</option>
+                        <option value="Academy" @if ($selected_service) @if(in_array('Academy', $selected_service)) selected @endif @endif>Academy</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
         {{-- Title --}}
         <div class="form-group">
             <div class="input-icon right">

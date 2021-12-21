@@ -53,6 +53,20 @@
 							@endphp
 						</div>
 					</div>
+                    <div class="row static-info">
+		                <div class="col-md-4 name">Service</div>
+		                <div class="col-md-8 value">: 
+		                	@php
+		                		foreach ($result['deals_services']??$result['deals_promotion_services'] as $key => $value) {
+		                    		if ($key == 0) {
+		                    			$comma = '';
+		                    		}else{
+		                    			$comma = ', ';
+		                    		}
+		                    		echo $comma.$value['service'];
+		                		}
+		                	@endphp</div>
+		            </div>
 					<div class="row static-info">
 						<div class="col-md-4 name">Deals Title</div>
 						<div class="col-md-8 value">: {{ isset($result['deals_title']) ? $result['deals_title'] : '' }}</div>

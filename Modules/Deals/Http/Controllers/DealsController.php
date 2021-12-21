@@ -504,11 +504,11 @@ class DealsController extends Controller
 
             // DATA OUTLET
         	$data['outlets'] = parent::getData(MyHelper::get('outlet/be/list'));
-
+            
             if ($identifier == "deals-point") {
                 return view('deals::point.create', $data);
             }
-            
+
             return view('deals::deals.step1', $data);
         }
         else {
@@ -647,7 +647,7 @@ class DealsController extends Controller
         $post['deals_type'] 	= $data['deals_type'];
         // DEALS
         $data['deals']   = parent::getData(MyHelper::post('deals/be/detail', $post));
-
+        
         if($post['deals_type'] == 'Promotion' || $post['deals_type'] == 'promotion-deals'){
             $rpage = 'promotion/deals';
     	}elseif($post['deals_type'] == 'WelcomeVoucher'){
@@ -823,7 +823,7 @@ class DealsController extends Controller
 
 	        // DEALS
 	        $deals = MyHelper::post('deals/be/detail', $post);
-
+            
 	        if (isset($deals['status']) && $deals['status'] == 'success') {
 
 	            $data['result'] = $deals['result'];
