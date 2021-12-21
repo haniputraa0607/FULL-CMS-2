@@ -106,6 +106,21 @@ $grantedFeature     = session('granted_features');
                     </div>
                 </div>
                 <div class="row static-info">
+                    <div class="col-md-4 name">Service</div>
+                    <div class="col-md-8 value">: 
+                        @php
+                            foreach ($deals['deals_services'] as $key => $value) {
+                                if ($key == 0) {
+                                    $comma = '';
+                                }else{
+                                    $comma = ', ';
+                                }
+                                echo $comma.$value['service'];
+                            }
+                        @endphp
+                    </div>
+                </div>
+                <div class="row static-info">
                     <div class="col-md-4 name">Charged Central</div>
                     <div class="col-md-8 value">: {{$deals['charged_central']}} %</div>
                 </div>
