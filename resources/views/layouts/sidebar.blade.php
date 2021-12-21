@@ -2828,6 +2828,12 @@
 				</ul>
 			</li>
 			@endif
+			<li class="nav-item {{($menu_active == 'enquiries-setting-subject') ? 'active' : ''}}">
+				<a href="{{url('enquiries/setting/subject')}}" class="nav-link nav-toggle">
+					<i class="fa fa-phone"></i>
+					<span class="title">Contact CS Subject Setting</span>
+				</a>
+			</li>
 			@if(MyHelper::hasAccess([58], $configs) || MyHelper::hasAccess([59], $configs) || MyHelper::hasAccess([60], $configs))
 				@if(MyHelper::hasAccess([83], $grantedFeature))
 				<li class="nav-item {{($menu_active == 'enquiries') ? 'active' : ''}}">

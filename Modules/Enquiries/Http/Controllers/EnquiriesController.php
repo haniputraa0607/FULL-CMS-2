@@ -109,5 +109,35 @@ class EnquiriesController extends Controller
             return "fail";
         } 
     }
-    
+
+    /* DELETE */
+    function settingSubject(Request $request) {
+        $post = $request->except('_token');
+
+        $data = [
+            'title'          => 'Contact CS',
+            'sub_title'      => 'List',
+            'menu_active'    => 'enquiries-setting-subject',
+            'submenu_active' => 'enquiries-setting-subject'
+        ];
+
+        if(empty($post)){
+            $data['result'] = MyHelper::get('enquiries/setting-subject')['result']??[];
+            return view('enquiries::setting_subject', $data);
+        }else{
+            $datas = [];
+            foreach ($post['data'] as $key=>$data){
+                foreach ($data as $keyChild=>$value){
+                    $datas[$key][$keyChild] = array_values($value);
+                }
+            }
+
+            $update = MyHelper::post('enquiries/setting-subject', $datas);
+            if(!empty($update['status']) && $update['status'] == 'success'){
+                return redirect('enquiries/setting/subject')->withSuccess(['Success submit data']);
+            }else{
+                return redirect('enquiries/setting/subject')->withErrors(['Failed to submit']);
+            }
+        }
+    }
 }
