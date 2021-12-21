@@ -3428,7 +3428,7 @@
 		@endif
         @if(MyHelper::hasAccess([392], $grantedFeature))
 		<li class="nav-item {{($menu_active == 'setting-icount') ? 'active open' : ''}}">
-			<a href="setting/setting-icount" class="nav-link nav-toggle">
+			<a href="{{url('setting/setting-icount')}}" class="nav-link nav-toggle">
 				<i class="fa fa-gear"></i>
 				<span class="title">Icount Setting</span>
 			</a>

@@ -1078,6 +1078,9 @@
                 <li>
                     <a href="#visibility" data-toggle="tab"> Visibility </a>
                 </li>
+                <li>
+                    <a href="#commission" data-toggle="tab">Commission Default </a>
+                </li>
 				<!-- <li>
                     <a href="#discount" data-toggle="tab"> Discount </a>
                 </li> -->
@@ -1108,6 +1111,9 @@
                 </div>
                 <div class="tab-pane" id="visibility">
                     @include('product::product.visibility_global')
+                </div>
+                <div class="tab-pane" id="commission">
+                     @include('product::product.commission')
                 </div>
             </div>
         </div>

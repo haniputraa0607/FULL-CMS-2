@@ -57,6 +57,9 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'setting'
 
     //code icount
     Route::any('/setting-icount', ['middleware' => 'feature_control:392', 'uses' => 'SettingController@setting_icount']);
+    
+    //global commission
+    Route::any('/setting-global-commission', ['middleware' => 'feature_control:392', 'uses' => 'SettingController@setting_global_commission']);
    
     Route::any('home', 'SettingController@homeSetting');
 	Route::any('date', 'SettingController@dateSetting');
