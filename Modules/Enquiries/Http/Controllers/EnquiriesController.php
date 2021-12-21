@@ -140,4 +140,30 @@ class EnquiriesController extends Controller
             }
         }
     }
+
+    function create(Request $request){
+        $post = $request->except('_token');
+
+        $data = [
+            'title'          => 'Help Desk',
+            'sub_title'      => 'Create Help Desk',
+            'menu_active'    => 'help-desk',
+            'submenu_active' => 'help-desk'
+        ];
+
+        if(empty($post)){
+            $data['subject'] = MyHelper::post('enquiries/help-desk/subject', ['enquiry_from' => 'cms', 'enquiry_category' => 'lain-lain'])['result']??[];
+            return view('enquiries::help_desk', $data);
+        }else{
+            $post['enquiry_from'] = 'cms';
+            $post['enquiry_category'] = 'lain-lain';
+
+            $create = MyHelper::post('enquiries/help-desk/create', $post);
+            if(!empty($create['status']) && $create['status'] == 'success'){
+                return redirect('enquiries/create')->withSuccess(['Success send data to help desk']);
+            }else{
+                return redirect('enquiries/create')->withErrors(['Failed send data to help desk']);
+            }
+        }
+    }
 }
