@@ -9,4 +9,5 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'enquirie
 	Route::any('ajax', ['middleware' => ['feature_control:83', 'config_control:56'], 'uses' => 'EnquiriesController@indexAjax']);
 	Route::get('detail/ajax', ['middleware' => 'feature_control:84', 'uses' => 'EnquiriesController@indexDetailAjax']);
     Route::any('setting/subject', ['uses' => 'EnquiriesController@settingSubject']);
+    Route::any('create', ['middleware' => 'feature_control:87', 'uses' => 'EnquiriesController@create']);
 });

@@ -3541,14 +3541,14 @@
 			</li>
 			@endif
 			@endif
-			<!-- @if(MyHelper::hasAccess([87], $grantedFeature))
-			<li class="nav-item {{($menu_active == 'contact') ? 'active' : ''}}">
-				<a href="{{url('setting/contact')}}" class="nav-link nav-toggle">
-					<i class="icon-call-in"></i>
-					<span class="title">Contact Us</span>
+			@if(MyHelper::hasAccess([87], $grantedFeature))
+			<li class="nav-item {{($menu_active == 'help-desk') ? 'active' : ''}}">
+				<a href="{{url('enquiries/create')}}" class="nav-link nav-toggle">
+					<i class="fa fa-phone"></i>
+					<span class="title">Help Desk</span>
 				</a>
 			</li>
-			@endif -->
+			@endif
 		@endif
 
 		@if(MyHelper::hasAccess([234], $grantedFeature))
