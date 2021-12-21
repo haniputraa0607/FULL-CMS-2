@@ -1219,6 +1219,34 @@
 					</a>
 				</li>
 				@endif
+				@if(MyHelper::hasAccess([40,121], $configs))
+				<li class="nav-item {{($submenu_active == 'autoresponse-new-project') ? 'active open' : ''}}">
+					<a href="{{url('user/autoresponse/new-project')}}" class="nav-link ">
+						<span class="title">[Response] New Project</span>
+					</a>
+				</li>
+				@endif
+				@if(MyHelper::hasAccess([40,121], $configs))
+				<li class="nav-item {{($submenu_active == 'autoresponse-update-project') ? 'active open' : ''}}">
+					<a href="{{url('user/autoresponse/update-project')}}" class="nav-link ">
+						<span class="title">[Response] Update Steps Project</span>
+					</a>
+				</li>
+				@endif
+				@if(MyHelper::hasAccess([40,121], $configs))
+				<li class="nav-item {{($submenu_active == 'autoresponse-approve-project') ? 'active open' : ''}}">
+					<a href="{{url('user/autoresponse/approve-project')}}" class="nav-link ">
+						<span class="title">[Response] Approve Project</span>
+					</a>
+				</li>
+				@endif
+				@if(MyHelper::hasAccess([40,121], $configs))
+				<li class="nav-item {{($submenu_active == 'autoresponse-reject-project') ? 'active open' : ''}}">
+					<a href="{{url('user/autoresponse/reject-project')}}" class="nav-link ">
+						<span class="title">[Response] Reject Project</span>
+					</a>
+				</li>
+				@endif
 			</ul>
 		</li>
 		@endif
