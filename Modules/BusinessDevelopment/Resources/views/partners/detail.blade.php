@@ -45,6 +45,59 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/jquery-repeater/jquery.repeater.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/form-repeater.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        function myFunctions() {
+          var scema = $('#cooperation_scheme').val();
+            if(scema == 'Profit Sharing'){
+                @if($result['cooperation_scheme']=="Profit Sharing")
+                     var sharing_value = {{$result["sharing_value"]}}
+                    $('#sharing_value').val(sharing_value);
+                @endif
+                 var html   = '<input name="sharing_percent" type="hidden" value="on" /><div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
+                         <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
+                        <div class="col-md-5">\
+                          <input class="form-control" required type="number" id="sharing_value" name="sharing_value" value"{{$result["sharing_percent"]??0}}" min="1" max="99" placeholder="Enter Commission Percent 1% - 99%"/>\
+                        </div></div>'; 
+                    $("#id_percent").hide();    
+                     $('#id_commission_value').html(html);
+                  }else if(scema == 'Management Fee'){
+                  $("#id_percent").show();  
+                    myFunctionsPercent()
+                $('#id_commission_value').html(html);
+              }else{
+                  $('#id_commission_value').remove();
+                  $('#id_percent').hide();
+              }
+         
+           };
+        function myFunctionsPercent() {
+            var scema             = $('#cooperation_scheme').val();
+          var id_percent     	=  $("input[name='sharing_percent']:checked").val();
+          if(scema == 'Management Fee'){
+              if(id_percent == 'on'){
+                   @if($result['cooperation_scheme']=="Management Fee"&&$result['sharing_percent']==1)
+                @endif
+                 var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span><i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label><div class="col-md-5"><input class="form-control" required type="number" id="sharing_value" value"{{$result["sharing_value"]??0}}" name="sharing_value" min="1" max="99" placeholder="Enter Commission Percent"/></div></div>';
+              }else{
+                 var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
+                         <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
+                        <div class="col-md-5">\
+                          <input class="form-control" value"{{$result["sharing_value"]??0}}" required type="number" id="sharing_value" name="sharing_value"  placeholder="Enter Commission Nominal"/>\
+                        </div></div>'; 
+
+              }
+                $('#id_commission_value').html(html);
+            }
+        }
+        function visible() {
+            $("#id_percent").hide(); 
+           @if(isset($result['cooperation_scheme'])) 
+                @if($result['cooperation_scheme'] == 'Management Fee') 
+                    $("#id_percent").show(); 
+           @endif
+           @endif
+        }
+        </script>
     <script>
         var SweetAlert = function() {
             return {
@@ -231,6 +284,9 @@
             }
         });
         $(document).ready(function() {
+            visible()
+             var sharing_value = {{$result["sharing_value"]}}
+            $('#sharing_value').val(sharing_value);
             number("#input-phone");
             number("#mobile");
             onlyNumber("#input-beneficiary_account");
@@ -489,13 +545,29 @@
                                 <label for="example-search-input" class="control-label col-md-4">Coopertaion Scheme<span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Skema Pembagian hasil partner dengan IXOBOX" data-container="body"></i></label>
                                 <div class="col-md-5">
-                                    <select name="cooperation_scheme" class="form-control input-sm select2" placeholder="Coopertaion Scheme">
-                                        <option value="" selected disabled>Select Cooperation Scheme</option>
+                                    <select name="cooperation_scheme" id="cooperation_scheme" onchange="myFunctions()" class="form-control input-sm select2" placeholder="Coopertaion Scheme">
+                                        <option value="">Select Cooperation Scheme</option>
                                         <option value="Profit Sharing" @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Profit Sharing') selected @endif @endif>Profit Sharing</option>
                                         <option value="Management Fee" @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Management Fee') selected @endif @endif>Management Fee</option>
                                     </select>
                                 </div>
                             </div>
+                                <div id="id_percent">
+                                    <div class="form-group">
+                                                <label for="example-search-input" class="control-label col-md-4">Percent</label>
+                                                <div class="col-md-5">
+                                                    <input type="checkbox" class="make-switch brand_visibility" onchange="myFunctionsPercent()"  data-size="small" data-on-color="info" data-on-text="Percent" data-off-color="default" name='sharing_percent' data-off-text="Nominal" {{$result['sharing_percent']?'checked':''}}>
+                                                </div>
+                                            </div>
+                                    </div>
+                               
+                                <div id="id_commission_value">
+                                    <div class="form-group">
+                                        <label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span><i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>
+                                        <div class="col-md-5">
+                                            <input class="form-control" required type="number" id="sharing_value" value"{{$result['sharing_value']??0}}" name="sharing_value" @if($result['sharing_percent']??0 == 1) min="1" max="99" @endif placeholder="Enter Commission"/>
+                                        </div></div>
+                                </div>
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Start Date <span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai menjadi partner atau tanggal kerja sama dimulai" data-container="body"></i></label>
