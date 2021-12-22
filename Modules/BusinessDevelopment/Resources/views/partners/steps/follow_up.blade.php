@@ -371,12 +371,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <input type="hidden" name="id_location" value="{{$result['partner_locations'][0]['id_location']}}">
+                                <input type="hidden" name="id_location" value="{{$result['partner_locations'][0]['id_location']??''}}">
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location Name <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nama calon lokasi yang diajukan oleh perusahaan/instansi" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="follow-name-location" name="nameLocation" value="{{ old('nameLocation') ?? $result['partner_locations'][0]['name']}}" placeholder="Enter location name here" required/>
+                                        <input class="form-control" type="text" id="follow-name-location" name="nameLocation" value="{{ old('nameLocation') ?? $result['partner_locations'][0]['name']??''}}" placeholder="Enter location name here" required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -390,14 +390,14 @@
                                     <label for="example-search-input" class="control-label col-md-4">Location Address <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Alamat lengkap calon lokasi yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <textarea name="addressLocation" id="follow-address-location" class="form-control" placeholder="Enter location name here" required>{{ old('addressLocation') ?? $result['partner_locations'][0]['address']}}</textarea>
+                                        <textarea name="addressLocation" id="follow-address-location" class="form-control" placeholder="Enter location name here" required>{{ old('addressLocation') ?? $result['partner_locations'][0]['address']??''}}</textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location Short Addres <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Alamat singakt calon lokasi yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="follow-mall" name="mall" value="{{ old('mall') ?? $result['partner_locations'][0]['mall']}}" placeholder="Enter location mall here" required/>
+                                        <input class="form-control" type="text" id="follow-mall" name="mall" value="{{ old('mall') ?? $result['partner_locations'][0]['mall']??''}}" placeholder="Enter location mall here" required/>
                                     </div>
                                 </div>
                                 
@@ -408,7 +408,7 @@
                                         <select class="form-control select2" name="id_cityLocation" id="follow-id_cityLocation" required>
                                             <option value="" selected disabled>Select City</option>
                                             @foreach($cities as $city)
-                                                <option value="{{$city['id_city']}}" @if(old('id_cityLocation')) @if(old('id_cityLocation') == $city['id_city']) selected @endif @else @if($result['partner_locations'][0]['id_city'] == $city['id_city']) selected @endif @endif>{{$city['city_name']}}</option>
+                                                <option value="{{$city['id_city']}}" @if(old('id_cityLocation')) @if(old('id_cityLocation') == $city['id_city']) selected @endif @else @if($result['partner_locations'][0]['id_city']??'' == $city['id_city']) selected @endif @endif>{{$city['city_name']}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -420,7 +420,7 @@
                                         <select class="form-control select2" name="id_brand" id="follow-id_brand" required>
                                             <option value="" selected disabled>Select Brand</option>
                                             @foreach($brands as $brand)
-                                                <option value="{{$brand['id_brand']}}" @if(old('id_brand')) @if(old('id_brand') == $brand['id_brand']) selected @endif @else @if($result['partner_locations'][0]['id_brand'] == $brand['id_brand']) selected @endif @endif>{{$brand['name_brand']}}</option>
+                                                <option value="{{$brand['id_brand']}}" @if(old('id_brand')) @if(old('id_brand') == $brand['id_brand']) selected @endif @else @if($result['partner_locations'][0]['id_brand']??'' == $brand['id_brand']) selected @endif @endif>{{$brand['name_brand']}}</option>
                                             @endforeach
                                         </select>
                                     </div>
