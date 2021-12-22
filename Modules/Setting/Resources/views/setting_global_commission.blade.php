@@ -82,7 +82,7 @@ $configs     		= session('configs');
                                                 <div class="form-group">
                                                     <label for="example-search-input" class="control-label col-md-4">Percent</label>
                                                     <div class="col-md-5">
-                                                        <input type="checkbox" class="make-switch" data-size="small" onchange="myFunction()" data-on-color="success" data-on-text="Percent" name="percent" data-off-color="default" data-off-text="Nominal" {{$result['value']?'checked':''}} id="percent">
+                                                        <input type="checkbox" class="make-switch" data-size="small" onchange="myFunction()" data-on-color="success" data-on-text="Percent" name="percent" data-off-color="default" data-off-text="Nominal" @if($result['value']??0==1) checked @endif id="percent">
                                                     </div>
                                                 </div>
                                                
@@ -91,7 +91,7 @@ $configs     		= session('configs');
                                                     <label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>
                                                         <i class="fa fa-question-circle tooltips" data-original-title="Percent minimal 1% maksimal 99%" data-container="body"></i></label>
                                                     <div class="col-md-5">
-                                                        <input class="form-control" required type="number" id="commission" value="{{$result['value_text']??0}}" @if($result['value'] == 1) min="1" max="99" @endif name="commission" placeholder="Enter Commission"/>
+                                                        <input class="form-control" required type="number" id="commission" value="{{$result['value_text']??0}}" @if($result['value']??'' == 1) min="1" max="99" @endif name="commission" placeholder="Enter Commission"/>
                                                     </div>
                                                 </div>
                                                 </div>
@@ -114,25 +114,17 @@ $configs     		= session('configs');
                  var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
                          <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
                         <div class="col-md-6">\
-                          <input class="form-control" required type="number" id="commission" name="commission" value"<?= $result["value_text"]??0 ?>"  min="1" max="99" placeholder="Enter Commission Percent"/>\
+                          <input class="form-control" required type="number" id="commission" name="commission"   min="1" max="99" placeholder="Enter Commission Percent"/>\
                         </div></div>';
               }else{
                  var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
                          <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
                         <div class="col-md-6">\
-                          <input class="form-control" required type="number" id="commission" name="commission" value"<?= $result["value_text"]??0 ?>" placeholder="Enter Commission Nominal"/>\
+                          <input class="form-control" required type="number" id="commission" name="commission"  placeholder="Enter Commission Nominal"/>\
                         </div></div>'; 
 
               }
           $('#id_commission').html(html);
         }
-        $(document).ready(function () {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
-            });
         </script>
 @endsection
