@@ -414,9 +414,6 @@
                     </li>
                     @endif
                     <li>
-                        <a href="#status" data-toggle="tab">  </a>
-                    </li>
-                    <li>
                         <a href="#resetpass" data-toggle="tab"> Reset PIN </a>
                     </li>
                 @endif
