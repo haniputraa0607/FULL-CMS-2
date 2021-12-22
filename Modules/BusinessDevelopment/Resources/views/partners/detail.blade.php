@@ -414,9 +414,6 @@
                     </li>
                     @endif
                     <li>
-                        <a href="#status" data-toggle="tab">  </a>
-                    </li>
-                    <li>
                         <a href="#resetpass" data-toggle="tab"> Reset PIN </a>
                     </li>
                 @endif
@@ -486,33 +483,33 @@
                                 </div>
                                 <div class="portlet-body form">
                                     <div class="form-body">
-                                        <input type="hidden" value="{{$result['partner_locations'][0]['id_location']}}" name="id_location" id="input-id_location">
+                                        <input type="hidden" value="{{$result['partner_locations'][0]['id_location']??''}}" name="id_location" id="input-id_location">
                                         <div class="form-group">
                                             <label for="example-search-input" class="control-label col-md-4">Location Name <span class="required" aria-required="true">*</span>
                                                 <i class="fa fa-question-circle tooltips" data-original-title="Nama calon lokasi yang diajukan oleh perusahaan/instansi" data-container="body"></i></label>
                                             <div class="col-md-5">
-                                                <input class="form-control" type="text" id="input-name-location" name="nameLocation" value="{{$result['partner_locations'][0]['name']}}" placeholder="Enter location name here"/>
+                                                <input class="form-control" type="text" id="input-name-location" name="nameLocation" value="{{$result['partner_locations'][0]['name']??''}}" placeholder="Enter location name here"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="example-search-input" class="control-label col-md-4">Location Address <span class="required" aria-required="true">*</span>
                                                 <i class="fa fa-question-circle tooltips" data-original-title="Alamat lengkap calon lokasi yang diajukan" data-container="body"></i></label>
                                             <div class="col-md-5">
-                                                <textarea name="addressLocation" id="input-address-location" class="form-control" placeholder="Enter location name here">{{$result['partner_locations'][0]['address']}}</textarea>
+                                                <textarea name="addressLocation" id="input-address-location" class="form-control" placeholder="Enter location name here">{{$result['partner_locations'][0]['address']??''}}</textarea>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="example-search-input" class="control-label col-md-4">Location Latitude <span class="required" aria-required="true">*</span>
                                                 <i class="fa fa-question-circle tooltips" data-original-title="Garis lintang dari calon lokasi yang diajukan" data-container="body"></i></label>
                                             <div class="col-md-5">
-                                                <input class="form-control" type="text" id="input-latitude-location" name="latitudeLocation" value="{{$result['partner_locations'][0]['latitude']}}" placeholder="Enter location name here"/>
+                                                <input class="form-control" type="text" id="input-latitude-location" name="latitudeLocation" value="{{$result['partner_locations'][0]['latitude']??''}}" placeholder="Enter location name here"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="example-search-input" class="control-label col-md-4">Location Longitude <span class="required" aria-required="true">*</span>
                                                 <i class="fa fa-question-circle tooltips" data-original-title="Garis bujur dari calon lokasi yang diajukan" data-container="body"></i></label>
                                             <div class="col-md-5">
-                                                <input class="form-control" type="text" id="input-longitude-location" name="longitudeLocation" value="{{$result['partner_locations'][0]['longitude']}}" placeholder="Enter location name here"/>
+                                                <input class="form-control" type="text" id="input-longitude-location" name="longitudeLocation" value="{{$result['partner_locations'][0]['longitude']??''}}" placeholder="Enter location name here"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -522,7 +519,7 @@
                                                 <select class="form-control select2" name="id_cityLocation" id="id_cityLocation" required>
                                                     <option value="" selected disabled>Select City</option>
                                                     @foreach($cities as $city)
-                                                        <option value="{{$city['id_city']}}" @if($result['partner_locations'][0]['id_city'] == $city['id_city']) selected @endif>{{$city['city_name']}}</option>
+                                                        <option value="{{$city['id_city']}}" @if($result['partner_locations'][0]['id_city']??'' == $city['id_city']) selected @endif>{{$city['city_name']}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -601,7 +598,7 @@
                                     <i class="fa fa-question-circle tooltips" data-original-title="Download file confirmation letter" data-container="body"></i><br></label>
                                 <div class="col-md-5">
                                     <label for="example-search-input" class="control-label">
-                                        <a href="{{ $result['partner_confirmation'][0]['attachment'] }}">Download Confirmation Letter</a>
+                                        <a href="{{ $result['partner_confirmation'][0]['attachment']??'' }}">Download Confirmation Letter</a>
                                     <label>
                                 </div>
                             </div>    
@@ -610,7 +607,7 @@
                                     <i class="fa fa-question-circle tooltips" data-original-title="Download file form survey location" data-container="body"></i><br></label>
                                 <div class="col-md-5">
                                     <label for="example-search-input" class="control-label">
-                                        <a href="{{ $result['partner_survey'][0]['attachment'] }}">Download Form Survey Location</a>
+                                        <a href="{{ $result['partner_survey'][0]['attachment']??'' }}">Download Form Survey Location</a>
                                     <label>
                                 </div>
                             </div>    
@@ -1033,7 +1030,7 @@
                 @if (isset($formSurvey) && !empty($formSurvey))
                 <div class="form-body">
                     <input type="hidden" name="id_partner" value="{{$result['id_partner']}}">
-                    <input type="hidden" name="id_location" value="{{$result['partner_locations'][0]['id_partner']}}">
+                    <input type="hidden" name="id_location" value="{{$result['partner_locations'][0]['id_partner']??''}}">
                     <input type="hidden" name='follow_up' id="followUpModal" value="Survey Location">
                     <input type="hidden" name='note' id="noteModal" value="">
                     @php
