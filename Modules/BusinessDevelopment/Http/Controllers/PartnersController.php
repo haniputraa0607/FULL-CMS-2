@@ -369,7 +369,9 @@ class PartnersController extends Controller
             $post['gender'] = $request['gender'];
         } 
         if (isset($request['sharing_percent'])){
-            $post['sharing_percent'] = $request['sharing_percent'];
+            $post['sharing_percent'] = 1;
+        }else{
+            $post['sharing_percent'] = 0;
         } 
         if (isset($request['sharing_value'])){
             $post['sharing_value'] = $request['sharing_value'];
