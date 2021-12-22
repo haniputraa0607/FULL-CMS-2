@@ -1597,8 +1597,8 @@ class SettingController extends Controller
         $post = $request->except('_token');
         $data = [
             'title'          => 'Setting Global Commission Engine',
-            'menu_active'    => 'comiisission-engine',
-            'submenu_active'    => 'comiisission-engine',
+            'menu_active'    => 'setting-comiisission-engine',
+            'submenu_active'    => 'setting-comiisission-engine',
         ];
         if($post){
             $query = MyHelper::post('setting/global_commission_product_create', $post);

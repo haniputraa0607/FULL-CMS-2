@@ -3468,6 +3468,14 @@
 			</a>
 		</li>
 		@endif
+        @if(MyHelper::hasAccess([392], $grantedFeature))
+		<li class="nav-item {{($menu_active == 'setting-comiisission-engine') ? 'active open' : ''}}">
+			<a href="{{url('setting/setting-global-commission')}}" class="nav-link nav-toggle">
+				<i class="fa fa-money"></i>
+				<span class="title">Setting Global Commission</span>
+			</a>
+		</li>
+		@endif
 
 		@if(MyHelper::hasAccess([85,86,87,88,89,154], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
