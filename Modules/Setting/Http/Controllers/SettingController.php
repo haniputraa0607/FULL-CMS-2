@@ -1603,7 +1603,7 @@ class SettingController extends Controller
         if($post){
             $query = MyHelper::post('setting/global_commission_product_create', $post);
             if(($query['status']??'')=='success'){
-                return redirect('setting/setting-global-commission')->with('success',['Success update code icount']);
+                return redirect('setting/setting-global-commission')->with('success',['Success update data']);
             }else{
                 return redirect('setting/setting-global-commission')->withErrors([$penjualan_outlet['message']]);
             }
