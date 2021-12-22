@@ -129,14 +129,14 @@
                                     <label for="example-search-input" class="control-label col-md-4">Contractor Name<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nama Kontraktor" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" @if($result['status']!='Process' ) disabled  @elseif($result['progres']!='Survey Location') disabled @endif type="text" id="nama_kontraktor" name="nama_kontraktor" value="{{$result['project_survey']['nama_kontraktor']??''}}" placeholder="Nama PIC" required/>
+                                        <input class="form-control" @if($result['status']!='Process' ) disabled  @elseif($result['progres']!='Survey Location') disabled @endif type="text" id="nama_kontraktor" name="nama_kontraktor" value="{{$result['project_survey']['nama_kontraktor']??''}}" placeholder="Nama Kontraktor" required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">CP Contractor<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Kontak Kontraktor" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" @if($result['status']!='Process' ) disabled  @elseif($result['progres']!='Survey Location') disabled @endif type="text" id="cp_kontraktor" name="cp_kontraktor" value="{{$result['project_survey']['cp_kontraktor']??''}}" placeholder="Kontak PIC" required/>
+                                        <input class="form-control" @if($result['status']!='Process' ) disabled  @elseif($result['progres']!='Survey Location') disabled @endif type="text" id="cp_kontraktor" name="cp_kontraktor" value="{{$result['project_survey']['cp_kontraktor']??''}}" placeholder="Kontak Kontraktor (0xxx xxxx xxxxx)" required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
