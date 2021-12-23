@@ -96,6 +96,7 @@ class LocationsController extends Controller
         if($post){
             Session::put('filter-list-locations',$post);
         }
+
         return view('businessdevelopment::locations.list', $data);
     }
 

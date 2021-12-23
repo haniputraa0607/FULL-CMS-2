@@ -291,7 +291,7 @@ class OutletController extends Controller
                 
                 $post = array_filter($post);
                 if (isset($post["is_tax"]) && $post["is_tax"] == 'on') {
-                    $post['is_tax'] = 100;
+                    $post['is_tax'] = 10;
                 }else{
                     $post['is_tax'] = 0;
                 }

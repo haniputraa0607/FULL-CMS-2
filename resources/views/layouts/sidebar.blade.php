@@ -1169,7 +1169,7 @@
 		<li class="nav-item {{($menu_active == 'locations') ? 'active open' : ''}}">
 			<a href="javascript:;" class="nav-link nav-toggle">
 				<i class="fa fa-institution"></i>
-				<span class="title">Partner's Locations</span>
+				<span class="title">Partner Locations</span>
 				<span class="arrow {{($menu_active == 'locations') ? 'open' : ''}}"></span>
 			</a>
 			<ul class="sub-menu">
@@ -1263,81 +1263,107 @@
 			</ul>
 		@endif
 		@if(MyHelper::hasAccess([353,354,355], $grantedFeature))
-			<li class="nav-item {{ ($submenu_active == 'hairstylist-schedule') ? 'active open' : '' }}">
-				<a href="javascript:;" class="nav-link nav-toggle">
-					<i class="fa fa-calendar"></i>
-					<span class="title">Hair Stylist Schedule</span>
-					<span class="arrow"></span>
-				</a>
-				<ul class="sub-menu">
-					<li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-schedule-list') ? 'active open' : '' }}">
-						<a href="{{ url('recruitment/hair-stylist/schedule') }}" class="nav-link ">
-							<span class="title">Schedule List</span>
-						</a>
-					</li>
-					<li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-schedule-autoresponse-approve-hairstylist-schedule') ? 'active open' : '' }}">
-						<a href="{{ url('autoresponse/hairstylist-schedule/approve-hairstylist-schedule') }}" class="nav-link nav-toggle">
-							<span class="title">[Response] Approve Hairstylist Schedule</span>
-						</a>
-					</li>
-					<li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-schedule-autoresponse-reject-hairstylist-schedule') ? 'active open' : '' }}">
-						<a href="{{ url('autoresponse/hairstylist-schedule/reject-hairstylist-schedule') }}" class="nav-link nav-toggle">
-							<span class="title">[Response] Reject Hairstylist Schedule</span>
-						</a>
-					</li>
-				</ul>
-			</li>
-		@endif
-                @if(MyHelper::hasAccess([379,380,381,382], $grantedFeature) || MyHelper::hasAccess([378], $grantedFeature))
-                        <li class="nav-item {{($menu_active == 'req-hair-stylist') ? 'active open' : ''}}">
-                                <a href="javascript:;" class="nav-link nav-toggle">
-                                        <i class="fa fa-male"></i>
-                                        <span class="title">Request Hair Stylist</span>
-                                        <span class="arrow {{($menu_active == 'req-hair-stylist') ? 'open' : ''}}"></span>
-                                </a>
-                    <ul class="sub-menu">
-                        @if(MyHelper::hasAccess([378], $grantedFeature))
-                        <li class="nav-item {{($submenu_active == 'new-req-hair-stylist') ? 'active open' : ''}}">
-                            <a href="{{url('recruitment/hair-stylist/request/new')}}" class="nav-link ">
-                                <span class="title">New Request Hair Stylist</span>
-                            </a>
-                        </li>
-                        @endif
-                                        @if(MyHelper::hasAccess([379,380,381,382], $grantedFeature) || MyHelper::hasAccess([378], $grantedFeature) )
-                                        <li class="nav-item {{($submenu_active == 'list-req-hair-stylist') ? 'active open' : ''}}">
-                                                <a href="{{url('recruitment/hair-stylist/request')}}" class="nav-link ">
-                                                        <span class="title">List Request Hair Stylist</span>
-                                                </a>
-                                        </li>
-                                        @endif
-                    </ul>
+        <li class="nav-item {{ ($submenu_active == 'hairstylist-schedule') ? 'active open' : '' }}">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="fa fa-calendar"></i>
+                <span class="title">Hair Stylist Schedule</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub-menu">
+                <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-schedule-list') ? 'active open' : '' }}">
+                    <a href="{{ url('recruitment/hair-stylist/schedule') }}" class="nav-link ">
+                        <span class="title">Schedule List</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-schedule-autoresponse-approve-hairstylist-schedule') ? 'active open' : '' }}">
+                    <a href="{{ url('autoresponse/hairstylist-schedule/approve-hairstylist-schedule') }}" class="nav-link nav-toggle">
+                        <span class="title">[Response] Approve Hairstylist Schedule</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-schedule-autoresponse-reject-hairstylist-schedule') ? 'active open' : '' }}">
+                    <a href="{{ url('autoresponse/hairstylist-schedule/reject-hairstylist-schedule') }}" class="nav-link nav-toggle">
+                        <span class="title">[Response] Reject Hairstylist Schedule</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        @endif
+        @if(MyHelper::hasAccess([379,380,381,382], $grantedFeature) || MyHelper::hasAccess([378], $grantedFeature))
+        <li class="nav-item {{($menu_active == 'req-hair-stylist') ? 'active open' : ''}}">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                    <i class="fa fa-male"></i>
+                    <span class="title">Request Hair Stylist</span>
+                    <span class="arrow {{($menu_active == 'req-hair-stylist') ? 'open' : ''}}"></span>
+            </a>
+            <ul class="sub-menu">
+                @if(MyHelper::hasAccess([378], $grantedFeature))
+                <li class="nav-item {{($submenu_active == 'new-req-hair-stylist') ? 'active open' : ''}}">
+                    <a href="{{url('recruitment/hair-stylist/request/new')}}" class="nav-link ">
+                        <span class="title">New Request Hair Stylist</span>
+                    </a>
                 </li>
                 @endif
-                @if(MyHelper::hasAccess([393,394,395], $grantedFeature) || MyHelper::hasAccess([378], $grantedFeature))
-                        <li class="nav-item {{($menu_active == 'hair-stylist-group') ? 'active open' : ''}}">
-                                <a href="javascript:;" class="nav-link nav-toggle">
-                                        <i class="fa fa-life-ring"></i>
-                                        <span class="title">Hair Stylist Group</span>
-                                        <span class="arrow {{($menu_active == 'hair-stylist-group') ? 'open' : ''}}"></span>
-                                </a>
-                    <ul class="sub-menu">
-                        @if(MyHelper::hasAccess([394], $grantedFeature))
-                        <li class="nav-item {{($submenu_active == 'new-hair-stylist-group') ? 'active open' : ''}}">
-                            <a href="{{url('recruitment/hair-stylist/group/create')}}" class="nav-link ">
-                                <span class="title">New Hair Stylist Group</span>
-                            </a>
-                        </li>
-                        @endif
-                        @if(MyHelper::hasAccess([393], $grantedFeature) || MyHelper::hasAccess([378], $grantedFeature) )
-                        <li class="nav-item {{($submenu_active == 'list-hair-stylist-group') ? 'active open' : ''}}">
-                                <a href="{{url('recruitment/hair-stylist/group/')}}" class="nav-link ">
-                                        <span class="title">List Hair Stylist Group</span>
-                                </a>
-                        </li>
-                        @endif
-                    </ul>
+                @if(MyHelper::hasAccess([379,380,381,382], $grantedFeature) || MyHelper::hasAccess([378], $grantedFeature) )
+                <li class="nav-item {{($submenu_active == 'list-req-hair-stylist') ? 'active open' : ''}}">
+                        <a href="{{url('recruitment/hair-stylist/request')}}" class="nav-link ">
+                                <span class="title">List Request Hair Stylist</span>
+                        </a>
                 </li>
                 @endif
+            </ul>
+        </li>
+        @endif
+        @if(MyHelper::hasAccess([393,394,395], $grantedFeature) || MyHelper::hasAccess([378], $grantedFeature))
+        <li class="nav-item {{($menu_active == 'hair-stylist-group') ? 'active open' : ''}}">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                    <i class="fa fa-life-ring"></i>
+                    <span class="title">Hair Stylist Group</span>
+                    <span class="arrow {{($menu_active == 'hair-stylist-group') ? 'open' : ''}}"></span>
+            </a>
+            <ul class="sub-menu">
+                @if(MyHelper::hasAccess([394], $grantedFeature))
+                <li class="nav-item {{($submenu_active == 'new-hair-stylist-group') ? 'active open' : ''}}">
+                    <a href="{{url('recruitment/hair-stylist/group/create')}}" class="nav-link ">
+                        <span class="title">New Hair Stylist Group</span>
+                    </a>
+                </li>
+                @endif
+                @if(MyHelper::hasAccess([393], $grantedFeature) || MyHelper::hasAccess([378], $grantedFeature) )
+                <li class="nav-item {{($submenu_active == 'list-hair-stylist-group') ? 'active open' : ''}}">
+                        <a href="{{url('recruitment/hair-stylist/group/')}}" class="nav-link ">
+                                <span class="title">List Hair Stylist Group</span>
+                        </a>
+                </li>
+                @endif
+            </ul>
+        </li>
+        @endif
+
+        @if(MyHelper::hasAccess([410], $grantedFeature) || MyHelper::hasAccess([411], $grantedFeature))
+        <li class="nav-item {{($menu_active == 'request-product') ? 'active open' : ''}}">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="fa fa-dropbox"></i>
+                <span class="title">Request Product</span>
+                <span class="arrow {{($menu_active == 'request-product') ? 'open' : ''}}"></span>
+            </a>
+            <ul class="sub-menu">
+                @if(MyHelper::hasAccess([410], $grantedFeature))
+                <li class="nav-item {{($submenu_active == 'create-request-product') ? 'active open' : ''}}">
+                    <a href="{{url('req-product/create')}}" class="nav-link ">
+                        <span class="title">Create Request Product</span>
+                    </a>
+                </li>
+                @endif
+                @if(MyHelper::hasAccess([411], $grantedFeature))
+                <li class="nav-item {{($submenu_active == 'list-request-product') ? 'active open' : ''}}">
+                    <a href="{{url('req-product')}}" class="nav-link ">
+                        <span class="title">List Request Product</span>
+                    </a>
+                </li>
+                @endif
+            </ul>
+        </li>
+        @endif
 
 		@if(MyHelper::hasAccess([58,59,60,61,62,63,64,66,69,71,299,397,400], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">

@@ -508,7 +508,7 @@ class DealsController extends Controller
             if ($identifier == "deals-point") {
                 return view('deals::point.create', $data);
             }
-
+            
             return view('deals::deals.step1', $data);
         }
         else {
