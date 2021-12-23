@@ -670,7 +670,7 @@ class PartnersController extends Controller
                 "note" => $request["note"],  
             ];
             if (isset($request["is_tax"]) && !empty($request["is_tax"])) {
-                $update_data_location['is_tax'] = 100;
+                $update_data_location['is_tax'] = 10;
             }else{
                 $update_data_location['is_tax'] = 0;
             }

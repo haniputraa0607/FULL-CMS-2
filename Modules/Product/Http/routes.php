@@ -189,3 +189,18 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'product'
     /* ADVERT */
     Route::any('advert', 'AdvertController@index');
 });
+
+Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'req-product', 'namespace' => 'Modules\Product\Http\Controllers'], function()
+{
+    Route::any('/', 'RequestProductController@index');
+    Route::get('create', 'RequestProductController@create');
+    Route::post('store', 'RequestProductController@store');
+    Route::post('delete/{id}', 'RequestProductController@destroy');
+    Route::any('detail/{id}', 'RequestProductController@edit');
+    Route::any('update', 'RequestProductController@update');
+});
+
+Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'dev-product', 'namespace' => 'Modules\Product\Http\Controllers'], function()
+{
+    Route::any('create/{id}', 'RequestProductController@createDelivery');
+});

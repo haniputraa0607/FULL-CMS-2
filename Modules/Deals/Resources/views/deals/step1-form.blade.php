@@ -208,7 +208,7 @@
                         if (old('service')) {
                             $selected_service = old('service');
                         }
-                        elseif (!empty($deals['deals_services']??$deals['deals_promotion_services'])) {
+                        elseif (!empty($deals['deals_services']) || !empty($deals['deals_promotion_services'])) {
 							$selected_service = array_column($deals['deals_services']??$deals['deals_promotion_services'], 'service');
 						}
 					@endphp
