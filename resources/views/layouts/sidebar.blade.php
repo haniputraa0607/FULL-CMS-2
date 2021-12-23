@@ -2046,8 +2046,28 @@
 							</a>
 						</li>
 						<li class="nav-item {{($submenu_active == 'academy-autoresponse-payment-academy-installment') ? 'active open' : ''}}">
-							<a href="{{url('autoresponse/academy/payment-academy-installment')}}" class="nav-link ">
-								<span class="title">[Response] Payment Academy Installment</span>
+							<a href="{{url('autoresponse/academy/payment-academy-installment-completed')}}" class="nav-link ">
+								<span class="title">[Response] Payment Academy Installment Completed</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'academy-autoresponse-payment-academy-installment-completed') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/academy/payment-academy-installment-completed')}}" class="nav-link ">
+								<span class="title">[Response] Payment Academy Installment Cancelled</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'academy-autoresponse-payment-academy-installment-cancelled') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/academy/payment-academy-installment-cancelled')}}" class="nav-link ">
+								<span class="title">[Response] Payment Academy Installment Cancelled</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'academy-autoresponse-payment-academy-installment-reminder') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/academy/payment-academy-installment-reminder')}}" class="nav-link ">
+								<span class="title">[Response] Payment Academy Installment Reminder</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'academy-autoresponse-payment-academy-installment-due-date') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/academy/payment-academy-installment-due-date')}}" class="nav-link ">
+								<span class="title">[Response] Payment Academy Installment Due Date</span>
 							</a>
 						</li>
 					</ul>

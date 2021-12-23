@@ -173,6 +173,13 @@ class AutocrmController extends Controller
 			$data['attachment'] = '1';
 		}
 
+        $data['click_inbox'] = [
+            ['value' => "No Action",'title' => 'No Action']
+        ];
+        $data['click_notification'] = [
+            ['value' => 'Home','title' => 'Home']
+        ];
+
 		switch ($subject){
 			case 'report-point-reset':
 				$data['noUser'] = true;
@@ -220,15 +227,24 @@ class AutocrmController extends Controller
                 $data['menu_active'] = 'academy-transaction';
                 $data['submenu_active'] = 'academy-autoresponse-'.$subject;
                 $test['result'] = [];
+                $data['click_inbox'] = [
+                    ['value' => "history_academy",'title' => 'History Academy']
+                ];
+                break;
+            case 'payment-academy-installment-completed':
+            case 'payment-academy-installment-cancelled':
+            case 'payment-academy-installment-reminder':
+            case 'payment-academy-installment-due-date':
+                $data['menu_active'] = 'academy-transaction';
+                $data['submenu_active'] = 'academy-autoresponse-'.$subject;
+                $data['click_notification'] = [
+                    ['value' => "history_academy",'title' => 'History Academy']
+                ];
+                $data['click_inbox'] = [
+                    ['value' => "history_academy",'title' => 'History Academy']
+                ];
                 break;
 		}
-
-        $data['click_inbox'] = [
-            ['value' => "No Action",'title' => 'No Action']
-        ];
-        $data['click_notification'] = [
-            ['value' => 'Home','title' => 'Home']
-        ];
 
         switch ($subject) {
         	case 'receive-quest-point':
