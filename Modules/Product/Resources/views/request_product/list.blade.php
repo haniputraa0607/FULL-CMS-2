@@ -185,7 +185,7 @@
                                             @elseif($request['status'] == 'On Progress')
                                                 <span class="badge" style="background-color: #e1e445; color: #ffffff">{{$request['status']}}</span>
                                             @else
-                                                <span class="badge" style="background-color: #291ce2; color: #ffffff">{{$request['status']}}</span>
+                                                <span class="badge" style="background-color: #db1912; color: #ffffff">{{$request['status']}}</span>
                                             @endif
                                         </td>
                                         <td>

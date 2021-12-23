@@ -75,6 +75,7 @@
                 @else
         var count_product_service_use = {{count($conditions)}};
         @endif
+        
         function addProductServiceUse() {
             var html_select = '';
             <?php
@@ -84,6 +85,18 @@
             <?php
             }
             ?>
+
+            var status = ';'
+            @if(MyHelper::hasAccess([415], $grantedFeature))
+                status = '<select class="form-control select2" id="product_use_status_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][status]" required placeholder="Select product status" style="width: 100%">'+
+                '<option></option>'+
+                '<option value="Pending">Pending</option>'+
+                '<option value="Approved">Approved</option>'+
+                '<option value="Rejected">Rejected</option>'+
+                '</select>';
+            @else
+                status = '<input class="form-control" type="text" id="product_use_status_'+count_product_service_use+'" value="Pending" name="product_icount['+count_product_service_use+'][status]" required placeholder="Select product status" style="width: 100%" readonly/>';
+            @endif
 
             var html = '<div id="div_product_use_'+count_product_service_use+'">'+
             '<div class="form-group">'+
@@ -104,12 +117,7 @@
             '</div>'+
             '</div>'+
             '<div class="col-md-2">'+
-            '<select class="form-control select2" id="product_use_status_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][status]" required placeholder="Select product status" style="width: 100%">'+
-            '<option></option>'+
-            '<option value="Pending">Pending</option>'+
-            '<option value="Approved">Approved</option>'+
-            '<option value="Rejected">Rejected</option>'+
-            '</select>'+
+            status+
             '</div>'+
             '<div class="col-md-1" style="margin-left: 2%">'+
             '<a class="btn btn-danger btn" onclick="deleteProductServiceUse('+count_product_service_use+')">&nbsp;<i class="fa fa-trash"></i></a>'+
@@ -272,6 +280,27 @@
                             <textarea name="note_approve" id="input-note" class="form-control" placeholder="Enter note here" required>{{ $result['note_approve'] }}</textarea>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="example-search-input" class="control-label col-md-4">Status 
+                            <i class="fa fa-question-circle tooltips" data-original-title="Status dari permintaan produk yang diajukan" data-container="body"></i></label>
+                        <div class="col-md-5">
+                            @if($result['status'] == 'Completed')
+                                <span class="badge" style="background-color: #26C281; color: #ffffff; margin-top: 8px">{{$result['status']}}</span>
+                            @elseif($result['status'] == 'On Progress')
+                                <span class="badge" style="background-color: #e1e445; color: #ffffff; margin-top: 8px">{{$result['status']}}</span>
+                            @else
+                                <span class="badge" style="background-color: #db1912; color: #ffffff; margin-top: 8px">{{$result['status']}}</span>
+                            @endif
+                        </div>
+                    </div>
+                    @if ($result['status']!='Pending')
+                    <div class="form-group">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                            <a class="btn btn-primary" href="{{ url('dev-product/create/'.$result['id_request_product']) }}">Create Product Delivery </a>
+                        </div>
+                    </div>
+                    @endif
                     <div class="portlet light" style="margin-bottom: 0; padding-bottom: 0">
                         <div class="portlet-title">
                             <div class="caption">
@@ -298,7 +327,7 @@
                                 <div id="div_product_use_{{$key}}">
                                     <div class="form-group">
                                         <div class="col-md-4">
-                                            @if($result['status'] =='Pending') readonly 
+                                            @if(MyHelper::hasAccess([413], $grantedFeature))
                                             <select class="form-control select2" id="product_use_code_{{$key}}" name="product_icount[{{$key}}][id_product_icount]" required placeholder="Select product use" style="width: 100%" onchange="changeUnit({{$key}},this.value)">
                                                 <option></option>
                                                 @foreach($products as $product_use)
@@ -315,29 +344,37 @@
                                             @endif
                                         </div>
                                         <div class="col-md-2">
-                                          <select class="form-control select2" id="product_use_unit_{{$key}}" name="product_icount[{{$key}}][unit]" required placeholder="Select unit" style="width: 100%">
-                                              <option></option>
-                                              @foreach($products as $use)
-                                                  @if ($use['id_product_icount'] == $value['id_product_icount'])
-                                                      @if($use['unit1']) <option value="{{ $use['unit1'] }}" @if($use['unit1'] == $value['unit']) selected @endif>{{ $use['unit1'] }}</option> @endif
-                                                      @if($use['unit2']) <option value="{{ $use['unit2'] }}" @if($use['unit2'] == $value['unit']) selected @endif>{{ $use['unit2'] }}</option> @endif
-                                                      @if($use['unit3']) <option value="{{ $use['unit3'] }}" @if($use['unit3'] == $value['unit']) selected @endif>{{ $use['unit3'] }}</option> @endif
-                                                  @endif
-                                              @endforeach
-                                          </select>
+                                            @if(MyHelper::hasAccess([413], $grantedFeature))
+                                            <select class="form-control select2" id="product_use_unit_{{$key}}" name="product_icount[{{$key}}][unit]" required placeholder="Select unit" style="width: 100%">
+                                                <option></option>
+                                                @foreach($products as $use)
+                                                    @if ($use['id_product_icount'] == $value['id_product_icount'])
+                                                        @if($use['unit1']) <option value="{{ $use['unit1'] }}" @if($use['unit1'] == $value['unit']) selected @endif>{{ $use['unit1'] }}</option> @endif
+                                                        @if($use['unit2']) <option value="{{ $use['unit2'] }}" @if($use['unit2'] == $value['unit']) selected @endif>{{ $use['unit2'] }}</option> @endif
+                                                        @if($use['unit3']) <option value="{{ $use['unit3'] }}" @if($use['unit3'] == $value['unit']) selected @endif>{{ $use['unit3'] }}</option> @endif
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                            @else
+                                            <input class="form-control" type="text" id="product_use_unit_{{$key}}" value="{{$value['unit']}}" name="product_icount[{{$key}}][unit]" required placeholder="Select unit" style="width: 100%" readonly/>
+                                            @endif
                                         </div>
                                         <div class="col-md-2">
                                             <div class="input-group">
-                                                <input type="text" class="form-control price" id="product_use_qty_{{$key}}" name="product_icount[{{$key}}][qty]" required value="{{$value['value']}}">
+                                                <input type="text" class="form-control price" id="product_use_qty_{{$key}}" name="product_icount[{{$key}}][qty]" required value="{{$value['value']}}" @if(!MyHelper::hasAccess([413], $grantedFeature)) readonly @endif>
                                             </div>
                                         </div>
                                         <div class="col-md-2">
+                                            @if(MyHelper::hasAccess([415], $grantedFeature))
                                             <select class="form-control select2" id="product_use_status_{{$key}}" name="product_icount[{{$key}}][status]" required placeholder="Select product status" style="width: 100%">
                                                 <option></option>
                                                 <option value="Pending" @if($value['status']=='Pending') selected @endif>Pending</option>
                                                 <option value="Approved" @if($value['status']=='Approved') selected @endif>Approved</option>
                                                 <option value="Rejected" @if($value['status']=='Rejected') selected @endif>Rejected</option>
                                             </select>
+                                            @else
+                                            <input class="form-control" type="text" id="product_use_status_{{$key}}" value="{{$value['status']}}" name="product_icount[{{$key}}][status]" required placeholder="Select product status" style="width: 100%" readonly/>
+                                            @endif
                                         </div>
                                         <div class="col-md-1" style="margin-left: 2%">
                                             <a class="btn btn-danger btn" onclick="deleteProductServiceUse({{$key}})">&nbsp;<i class="fa fa-trash"></i></a>
@@ -346,9 +383,8 @@
                                 </div>
                             @endforeach
                             </div>
-                            @if ($result['status']=='Pending')
+                            @if ($result['status']=='Pending' && MyHelper::hasAccess([413], $grantedFeature))
                             <div class="form-group">
-                                <div class="col-md-1"></div>
                                 <div class="col-md-4">
                                     <a class="btn btn-primary" onclick="addProductServiceUse()">&nbsp;<i class="fa fa-plus-circle"></i> Add Product </a>
                                 </div>
@@ -359,13 +395,11 @@
                 </div>
                 <div class="form-actions">
                     {{ csrf_field() }}
-                    @if(MyHelper::hasAccess([413], $grantedFeature))
                     <div class="row">
                         <div class="col-md-12 text-center">
                             <button type="submit" class="btn blue">Submit</button>
                         </div>
                     </div>
-                    @endif
                 </div>
             </form>
         </div>

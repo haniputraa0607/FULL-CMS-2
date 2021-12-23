@@ -198,3 +198,8 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'req-prod
     Route::any('detail/{id}', 'RequestProductController@edit');
     Route::any('update', 'RequestProductController@update');
 });
+
+Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'dev-product', 'namespace' => 'Modules\Product\Http\Controllers'], function()
+{
+    Route::any('create/{id}', 'RequestProductController@createDelivery');
+});

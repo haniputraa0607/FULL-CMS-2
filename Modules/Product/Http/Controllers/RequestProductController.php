@@ -188,4 +188,11 @@ class RequestProductController extends Controller
         $result = MyHelper::post("req-product/delete", ['id_request_product' => $id]);
         return $result;
     }
+
+    public function createDelivery($id)
+    {
+        return $id;
+        $result = MyHelper::post("req-product/delete", ['id_request_product' => $id]);
+        return $result;
+    }
 }
