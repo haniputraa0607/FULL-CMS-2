@@ -61,11 +61,12 @@
                             <div class="form-body">
                                 <input type="hidden" name="id_hairstylist_group" value="{{$result['id_hairstylist_group']}}">
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Hair Stylist<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Pilih Hair Stylist" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <select required name="id_user_hair_stylist" id="id_user_hair_stylist" class="form-control input-sm select2" >
-                                            <option value="">Select Product</option>
+                                    <label class="col-md-4 control-label">Hair Stylist<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Pilih Hair Stylist" data-container="body"></i>
+                                    </label>
+                                    <div class="col-md-6">
+                                             <select required name="id_user_hair_stylist" id="id_user_hair_stylist"  class="select2" >
+                                             <option value=""></option>
                                             @if(isset($lisths))
                                                 @foreach($lisths as $row)
                                                         <option value="{{$row['id_user_hair_stylist']}}">{{$row['nickname']}} - {{$row['fullname']}}</option>
@@ -74,7 +75,6 @@
                                         </select>
                                     </div>
                                 </div>
-                                
                                 <div class="form-actions">
                                     {{ csrf_field() }}
                                     <div class="row">

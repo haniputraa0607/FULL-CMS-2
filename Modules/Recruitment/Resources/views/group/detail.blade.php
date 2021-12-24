@@ -1,5 +1,7 @@
 @include('recruitment::group.filter_commission')
 @include('recruitment::group.filter_hs')
+@include('recruitment::group.filter_insentif')
+@include('recruitment::group.filter_potongan')
 <?php
     use App\Lib\MyHelper;
     $grantedFeature     = session('granted_features');
@@ -79,12 +81,18 @@
                 <li class="active">
                     <a href="#overview" data-toggle="tab"> Group Overview </a>
                 </li>
-                    <li>
-                        <a href="#status" data-toggle="tab">List Product</a>
-                    </li>
-                    <li>
-                        <a href="#hs" data-toggle="tab">List Hair Stylist</a>
-                    </li>
+                <li>
+                    <a href="#status" data-toggle="tab">List Product</a>
+                </li>
+                <li>
+                    <a href="#hs" data-toggle="tab">List Hair Stylist</a>
+                </li>
+                <li>
+                    <a href="#insentif" data-toggle="tab">List Insentif</a>
+                </li>
+                <li>
+                    <a href="#potongan" data-toggle="tab">List Potongan</a>
+                </li>
             </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="overview">
@@ -143,6 +151,12 @@
             </div>
             <div class="tab-pane" id="hs">
                 @include('recruitment::group.hs')
+            </div>
+            <div class="tab-pane" id="insentif">
+                @include('recruitment::group.insentif')
+            </div>
+            <div class="tab-pane" id="potongan">
+                @include('recruitment::group.potongan')
             </div>
         </div>
     </div>
