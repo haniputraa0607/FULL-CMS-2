@@ -87,7 +87,7 @@
             ?>
 
             var status = ';'
-            @if(MyHelper::hasAccess([415], $grantedFeature))
+            @if(MyHelper::hasAccess([419], $grantedFeature))
                 status = '<select class="form-control select2" id="product_use_status_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][status]" required placeholder="Select product status" style="width: 100%">'+
                 '<option></option>'+
                 '<option value="Pending">Pending</option>'+
@@ -203,9 +203,9 @@
             </div>
         </div>
         <div class="portlet-body form">
-            <form class="form-horizontal" role="form" action="{{ url('req-product/update') }}" method="post" enctype="multipart/form-data">
+            <form class="form-horizontal" role="form" action="{{ url('dev-product/update') }}" method="post" enctype="multipart/form-data">
                 <div class="form-body">
-                    <input class="form-control" type="hidden" id="input-code" name="id_request_product" value="{{$result['id_request_product']}}" readonly/>
+                    <input class="form-control" type="hidden" id="input-code" name="id_delivery_product" value="{{$result['id_delivery_product']}}" readonly/>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Code 
                             <i class="fa fa-question-circle tooltips" data-original-title="Kode unik permintaan produk" data-container="body"></i></label>
@@ -214,70 +214,85 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">User Request 
-                            <i class="fa fa-question-circle tooltips" data-original-title="User yang membuat permintaan produk" data-container="body"></i></label>
+                        <label for="example-search-input" class="control-label col-md-4">User Delivery 
+                            <i class="fa fa-question-circle tooltips" data-original-title="User yang membuat pengeriman produk" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <input class="form-control" type="text" id="input-code" value="{{$result['request_product_user_request']['name']}}" readonly/>
-                            <input class="form-control" type="hidden" id="input-code" name="id_user_request" value="{{$result['id_user_request']}}" readonly/>
+                            <input class="form-control" type="text" id="input-code" value="{{$result['delivery_product_user_delivery']['name']}}" readonly/>
+                            <input class="form-control" type="hidden" id="input-code" name="id_user_delivery" value="{{$result['id_user_delivery']}}" readonly/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Outlet Name <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Nama outlet yang membuat permintaan produk" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <select class="form-control select2 approvedForm" name="id_outlet" required>
+                            {{--  <select class="form-control select2 approvedForm" name="id_outlet" required>
                                 <option value="" selected disabled>Select Outlet</option>
                                 @foreach($outlets as $o => $ol)
                                     <option value="{{$ol['id_outlet']}}" @if($result['id_outlet']==$ol['id_outlet']) selected @endif>{{$ol['outlet_name']}}</option>
                                 @endforeach
-                            </select>
+                            </select>  --}}
+                            <input class="form-control" type="text" value="{{$result['delivery_product_outlet']['outlet_name']}}" readonly/>
+                            <input class="form-control" type="hidden" id="input-id_outlet" name="id_outlet" value="{{$result['id_outlet']}}" readonly/>
+
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Request Type <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Jenis permintaan barang yang akan digunakan" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <select class="form-control select2 approvedForm" name="type" required>
+                            {{--  <select class="form-control select2 approvedForm" name="type" required>
                                 <option value="" selected disabled>Select Outlet</option>
                                 <option value="Sell" @if($result['type']=='Sell') selected @endif>For Sale</option>
                                 <option value="Use" @if($result['type']=='Use') selected @endif>To Uses</option>
+                            </select>  --}}
+                            @php
+                                if($result['type']=='Sell'){
+                                    $type = 'For Sale';
+                                }elseif($result['type']=='Use'){
+                                    $type = 'To Uses';
+                                }
+                            @endphp
+                            <input class="form-control" type="text" id="input-type" value="{{$type}}" readonly/>
+                            <input class="form-control" type="hidden" id="input-type" name="type" value="{{$result['type']}}" readonly/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="example-search-input" class="control-label col-md-4">Delivery Charged <span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Biaya dibebankan kepada" data-container="body"></i></label>
+                        <div class="col-md-5">
+                            <select class="form-control select2 approvedForm" name="charged" required>
+                                <option value="" selected disabled>Select Outlet</option>
+                                <option value="Outlet" @if($result['charged']=='Outlet') selected @endif>Outlet</option>
+                                <option value="Central" @if($result['charged']=='Central') selected @endif>Central</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Requirement Date <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Tanggal barang akan dibutuhkan" data-container="body"></i></label>
+                        <label for="example-search-input" class="control-label col-md-4">Reference Request 
+                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih permintaan yang direspon" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <div class="input-group">
-                                <input type="text" id="start_date" class="datepicker form-control" name="requirement_date" value="{{date('d F Y', strtotime($result['requirement_date']))}}" required>
-                                <span class="input-group-btn">
-                                    <button class="btn default" type="button">
-                                        <i class="fa fa-calendar"></i>
-                                    </button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Request Notes <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Catatan dari pembuat permintaan produk" data-container="body"></i></label>
-                        <div class="col-md-5">
-                            <textarea name="note_request" id="input-note" class="form-control" placeholder="Enter note here" required>{{ $result['note_request'] }}</textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">User Approved <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="User yang membuat permintaan produk" data-container="body"></i></label>
-                        <div class="col-md-5">
-                            <input class="form-control" type="text" id="input-code" value="{{session('name')}}" readonly/>
-                            <input class="form-control" type="hidden" id="input-code" name="id_user_approve" value="{{session('id_user')}}" readonly/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Approve Notes <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Catatan dari yang menyetujui permintaan produk" data-container="body"></i></label>
-                        <div class="col-md-5">
-                            <textarea name="note_approve" id="input-note" class="form-control" placeholder="Enter note here" required>{{ $result['note_approve'] }}</textarea>
+                            @php
+                                $selected_request = [];
+                                if (old('request')) {
+                                    $selected_request = old('request');
+                                }
+                                elseif (!empty($result['request'])) {
+                                    $selected_request = array_column($result['request'], 'id_request_product');
+                                }
+                            @endphp
+                            <select class="form-control select2-multiple approvedForm" name="request[]" multiple >
+                                <option value=""></option>
+                                @if (!empty($requests))
+                                    @foreach($requests as $request)
+                                        <option value="{{ $request['id_request_product'] }}" 
+                                            @if ($selected_request) 
+                                                @if(in_array($request['id_request_product'], $selected_request)) selected 
+                                                @endif 
+                                            @endif
+                                        >{{ $request['code'] }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -288,19 +303,13 @@
                                 <span class="badge" style="background-color: #26C281; color: #ffffff; margin-top: 8px">{{$result['status']}}</span>
                             @elseif($result['status'] == 'On Progress')
                                 <span class="badge" style="background-color: #e1e445; color: #ffffff; margin-top: 8px">{{$result['status']}}</span>
-                            @else
+                            @elseif($result['status'] == 'Cancelled')
                                 <span class="badge" style="background-color: #db1912; color: #ffffff; margin-top: 8px">{{$result['status']}}</span>
+                            @else
+                                <span class="badge" style="background-color: #1512db; color: #ffffff; margin-top: 8px">{{$result['status']}}</span>
                             @endif
                         </div>
                     </div>
-                    @if ($result['status']!='Pending' && MyHelper::hasAccess([415], $grantedFeature))
-                    <div class="form-group">
-                        <div class="col-md-4"></div>
-                        <div class="col-md-4">
-                            <a class="btn btn-primary" href="{{ url('dev-product/create/'.$result['id_request_product']) }}">Create Product Delivery </a>
-                        </div>
-                    </div>
-                    @endif
                     <div class="portlet light" style="margin-bottom: 0; padding-bottom: 0">
                         <div class="portlet-title">
                             <div class="caption">
@@ -323,28 +332,28 @@
                                 </div>
                             </div>
                             <div id="div_product_use">
-                                @foreach($result['request_product_detail'] as $key=>$value)
+                                @foreach($result['delivery_product_detail'] as $key=>$value)
                                 <div id="div_product_use_{{$key}}">
                                     <div class="form-group">
                                         <div class="col-md-4">
-                                            @if(MyHelper::hasAccess([413], $grantedFeature))
+                                            {{--  @if(MyHelper::hasAccess([419], $grantedFeature))
                                             <select class="form-control select2" id="product_use_code_{{$key}}" name="product_icount[{{$key}}][id_product_icount]" required placeholder="Select product use" style="width: 100%" onchange="changeUnit({{$key}},this.value)">
                                                 <option></option>
                                                 @foreach($products as $product_use)
                                                     <option value="{{$product_use['id_product_icount']}}" @if($product_use['id_product_icount'] == $value['id_product_icount']) selected @endif>{{$product_use['code']}} - {{$product_use['name']}}</option>
                                                 @endforeach
                                             </select>
-                                            @else
+                                            @else  --}}
                                             @foreach($products as $product_use)
                                                 @if($product_use['id_product_icount'] == $value['id_product_icount']) 
                                                     <input class="form-control" type="text" value="{{$product_use['code']}} - {{$product_use['name']}}" required placeholder="Select product use" style="width: 100%" readonly/>
                                                 @endif
                                             @endforeach
                                             <input class="form-control" type="hidden" id="product_use_code_{{$key}}" value="{{$value['id_product_icount']}}" name="product_icount[{{$key}}][id_product_icount]" required placeholder="Select product use" style="width: 100%" readonly/>
-                                            @endif
+                                            {{--  @endif  --}}
                                         </div>
                                         <div class="col-md-2">
-                                            @if(MyHelper::hasAccess([413], $grantedFeature))
+                                            {{--  @if(MyHelper::hasAccess([419], $grantedFeature))
                                             <select class="form-control select2" id="product_use_unit_{{$key}}" name="product_icount[{{$key}}][unit]" required placeholder="Select unit" style="width: 100%">
                                                 <option></option>
                                                 @foreach($products as $use)
@@ -355,13 +364,13 @@
                                                     @endif
                                                 @endforeach
                                             </select>
-                                            @else
+                                            @else  --}}
                                             <input class="form-control" type="text" id="product_use_unit_{{$key}}" value="{{$value['unit']}}" name="product_icount[{{$key}}][unit]" required placeholder="Select unit" style="width: 100%" readonly/>
-                                            @endif
+                                            {{--  @endif  --}}
                                         </div>
                                         <div class="col-md-2">
                                             <div class="input-group">
-                                                <input type="text" class="form-control price" id="product_use_qty_{{$key}}" name="product_icount[{{$key}}][qty]" required value="{{$value['value']}}" @if(!MyHelper::hasAccess([413], $grantedFeature)) readonly @endif>
+                                                <input type="text" class="form-control price" id="product_use_qty_{{$key}}" name="product_icount[{{$key}}][qty]" required value="{{$value['value']}}" @if(!MyHelper::hasAccess([419], $grantedFeature)) readonly @endif>
                                             </div>
                                         </div>
                                         <div class="col-md-2">
