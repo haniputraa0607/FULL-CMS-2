@@ -296,6 +296,20 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="example-search-input" class="control-label col-md-4">Delivery Date <span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Tanggal barang akan dikirim" data-container="body"></i></label>
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                <input type="text" id="start_date" class="datepicker form-control" name="delivery_date" @if(isset($result['delivery_date'])) value="{{date('d F Y', strtotime($result['delivery_date']))}}" @endif required>
+                                <span class="input-group-btn">
+                                    <button class="btn default" type="button">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Status 
                             <i class="fa fa-question-circle tooltips" data-original-title="Status dari permintaan produk yang diajukan" data-container="body"></i></label>
                         <div class="col-md-5">
