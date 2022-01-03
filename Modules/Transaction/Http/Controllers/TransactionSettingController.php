@@ -261,7 +261,7 @@ class TransactionSettingController extends Controller
         if (empty($request->all())) {
             $data = [
                 'title'          => 'Order',
-                'menu_active'    => 'home-service-setting',
+                'menu_active'    => 'home-service-transaction',
                 'sub_title'      => 'Home Service Settings',
                 'submenu_active' => 'home-service-setting'
             ];
