@@ -189,10 +189,159 @@ class RequestProductController extends Controller
         return $result;
     }
 
-    public function createDelivery($id)
+    public function createDelivery($id = null)
     {
-        return $id;
-        $result = MyHelper::post("req-product/delete", ['id_request_product' => $id]);
+        $data = [
+            'title'          => 'Delivery Product',
+            'sub_title'      => 'Create Delivery Product',
+            'menu_active'    => 'delivery-product',
+            'submenu_active' => 'create-delivery-product',
+        ];
+
+        if($id){
+            $result = MyHelper::post('req-product/detail', ['id_request_product' => $id]);
+            $data['result'] = $result['result']['request_product'] ?? [];
+            $data['requests'] = MyHelper::post('req-product/all',['id_outlet' => $data['result']['id_outlet'],'type' => $data['result']['type']])['result'] ?? [];
+        }else{
+            $result = ['status' => 'success'];
+            $data['result'] = [];
+            $data['requests'] = MyHelper::get('req-product/all')['result'] ?? [];
+        }
+
+        if(isset($result['status']) && $result['status'] == 'success'){
+            $data['products'] = MyHelper::post('product/be/icount/list', [])['result'] ?? [];
+            $data['outlets'] = MyHelper::get('mitra/request/outlet')['result'] ?? [];
+            $data['conditions'] = "";
+
+            return view('product::request_product.create_delivery', $data);
+        }else{
+            return redirect('req-product')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
+        }
+    }
+
+    public function storeDelivery(Request $request)
+    {
+        $post = $request->except('_token');
+        $result = MyHelper::post('dev-product/create', $post);
+        if(isset($result['status']) && $result['status'] == 'success'){
+            return redirect('dev-product/detail/'.$result['result']['id_delivery_product'])->withSuccess(['Success create delivery product']);
+        }else{
+            return redirect('dev-product/detail/'.$result['result']['id_delivery_product'])->withErrors($result['messages'] ?? ['Failed create delivery product']);
+        }
+    }
+
+    public function indexDelivery(Request $request)
+    {
+        $rule = false;
+        $post = $request->all();
+        $data = [
+            'title'          => 'Delivery Product',
+            'sub_title'      => 'List Delivery Product',
+            'menu_active'    => 'delivery-product',
+            'submenu_active' => 'list-delivery-product',
+        ];
+        
+        $order = 'created_at';
+        $orderType = 'desc';
+        $sorting = 0;
+        if(isset($post['sorting'])){
+            $sorting = 1;
+            $order = $post['order'];
+            $orderType = $post['order_type'];
+        }
+        if(isset($post['reset']) && $post['reset'] == 1){
+            Session::forget('filter-list-delivery-product');
+            $post['filter_type'] = 'today';
+        }elseif(Session::has('filter-list-delivery-product') && !empty($post) && !isset($post['filter'])){
+            $pageSession = 1;
+            if(isset($post['page'])){
+                $pageSession = $post['page'];
+            }
+            $post = Session::get('filter-list-delivery-product');
+            $post['page'] = $pageSession;
+            if($sorting == 0 && !empty($post['order'])){
+                $order = $post['order'];
+                $orderType = $post['order_type'];
+            }
+        }
+        $page = '?page=1';
+        if(isset($post['page'])){
+            $page = '?page='.$post['page'];
+        }
+        $data['order'] = $order;
+        $data['order_type'] = $orderType;
+        $post['order'] = $order;
+        $post['order_type'] = $orderType;
+
+        $list = MyHelper::post('dev-product'.$page, $post);
+
+        if(($list['status']??'')=='success'){
+            $data['data']          = $list['result']['data'];
+            $data['data_total']     = $list['result']['total'];
+            $data['data_per_page']   = $list['result']['from'];
+            $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;
+            $data['data_paginator'] = new LengthAwarePaginator($list['result']['data'], $list['result']['total'], $list['result']['per_page'], $list['result']['current_page'], ['path' => url()->current()]);
+            $data['rule'] = $rule;
+        }else{
+            $data['data']          = [];
+            $data['data_total']     = 0;
+            $data['data_per_page']   = 0;
+            $data['data_up_to']      = 0;
+            $data['data_paginator'] = false;
+            $data['rule'] = false;
+        }
+
+        if($post){
+            Session::put('filter-list-delivery-product',$post);
+        }
+
+        return view('product::request_product.list_dev', $data);
+    }
+
+    public function destroyDelivery($id)
+    {
+        $result = MyHelper::post("dev-product/delete", ['id_delivery_product' => $id]);
         return $result;
+    }
+
+    public function editDelivery($id)
+    {
+        $result = MyHelper::post('dev-product/detail', ['id_delivery_product' => $id]);
+        $data = [
+            'title'          => 'Delivery Product',
+            'sub_title'      => 'Detail Delivery Product',
+            'menu_active'    => 'delivery-product',
+            'submenu_active' => 'list-delivery-product',
+        ];
+        if(isset($result['status']) && $result['status'] == 'success'){
+            $data['result'] = $result['result']['delivery_product'];
+            $data['products'] = MyHelper::post('product/be/icount/list', [])['result'] ?? [];
+            $data['outlets'] = MyHelper::get('mitra/request/outlet')['result'] ?? [];
+            $data['requests'] = MyHelper::post('req-product/all',['id_outlet' => $data['result']['id_outlet'],'type' => $data['result']['type']])['result'] ?? [];
+            $data['conditions'] = "";
+
+            return view('product::request_product.detail_dev', $data);
+        }else{
+            return redirect('req-product')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
+        }
+    }
+
+    public function updateDelivery(Request $request)
+    {
+        $post = $request->except('_token');
+        $result = MyHelper::post('dev-product/update', $post);
+        
+        if(isset($result['status']) && $result['status'] == 'success'){
+            return redirect('dev-product/detail/'.$post['id_delivery_product'])->withSuccess(['Success update delivery product']);
+        }else{
+            return redirect('dev-product/detail/'.$post['id_delivery_product'])->withErrors($result['messages'] ?? ['Failed update delivery product']);
+        }
+    }
+
+    public function getRequest(Request $request){
+        
+        $post = $request->except('_token');
+        $request = MyHelper::post('req-product/all',$post)['result'] ?? [];
+        return $request;
     }
 }

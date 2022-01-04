@@ -53,7 +53,7 @@
                                 function(){
                                     $.ajax({
                                         type : "POST",
-                                        url : "{{url('req-product/delete')}}/"+id,
+                                        url : "{{url('dev-product/delete')}}/"+id,
                                         data : {
                                             '_token' : '{{csrf_token()}}'
                                         },
@@ -61,10 +61,10 @@
                                             if (response.status == 'success') {
                                                 swal("Deleted!", "Request Product has been deleted.", "success")
                                                 SweetAlert.init()
-                                                location.href = "{{url('req-product')}}";
+                                                location.href = "{{url('dev-product')}}";
                                             }
                                             else if(response.status == "fail"){
-                                                swal("Error!", "Failed to delete request product.", "error")
+                                                swal("Error!", "Failed to delete delivery product.", "error")
                                             }
                                             else {
                                                 swal("Error!", "Something went wrong. Failed to delete request product.", "error")
@@ -111,8 +111,8 @@
         $date_start = '';
         $date_end = '';
 
-        if(Session::has('filter-list-request-product')){
-            $search_param = Session::get('filter-list-request-product');
+        if(Session::has('filter-list-delivery-product')){
+            $search_param = Session::get('filter-list-delivery-product');
             if(isset($search_param['rule'])){
                 $rule = $search_param['rule'];
             }
@@ -165,36 +165,38 @@
                         <tr>
                             <th class="text-nowrap text-center">Created At</th>
                             <th class="text-nowrap text-center">Outlet</th>
-                            <th class="text-nowrap text-center">User Request</th>
+                            <th class="text-nowrap text-center">User Delivery</th>
                             <th class="text-nowrap text-center">Status</th>
-                            @if(MyHelper::hasAccess([412,413,414,415], $grantedFeature))
+                            @if(MyHelper::hasAccess([343,344,345], $grantedFeature))
                             <th class="text-nowrap text-center">Action</th>
                             @endif
                         </tr>
                         </thead>
                         <tbody>
                             @if(!empty($data))
-                                @foreach($data as $request)
-                                    <tr data-id="{{ $request['id_request_product'] }}">
-                                        <td>{{date('d F Y H:i', strtotime($request['created_at']))}}</td>
-                                        <td>{{$request['outlet_name']}}</td>
-                                        <td>{{$request['name']}}</td>
+                                @foreach($data as $delivery)
+                                    <tr data-id="{{ $delivery['id_delivery_product'] }}">
+                                        <td>{{date('d F Y H:i', strtotime($delivery['created_at']))}}</td>
+                                        <td>{{$delivery['outlet_name']}}</td>
+                                        <td>{{$delivery['name']}}</td>
                                         <td>
-                                            @if($request['status'] == 'Completed')
-                                                <span class="badge" style="background-color: #26C281; color: #ffffff">{{$request['status']}}</span>
-                                            @elseif($request['status'] == 'On Progress')
-                                                <span class="badge" style="background-color: #e1e445; color: #ffffff">{{$request['status']}}</span>
+                                            @if($delivery['status'] == 'Completed')
+                                                <span class="badge" style="background-color: #26C281; color: #ffffff">{{$delivery['status']}}</span>
+                                            @elseif($delivery['status'] == 'On Progress')
+                                                <span class="badge" style="background-color: #e1e445; color: #ffffff">{{$delivery['status']}}</span>
+                                            @elseif($delivery['status'] == 'Cancelled')
+                                                <span class="badge" style="background-color: #db1912; color: #ffffff">{{$delivery['status']}}</span>
                                             @else
-                                                <span class="badge" style="background-color: #db1912; color: #ffffff">{{$request['status']}}</span>
+                                                <span class="badge" style="background-color: #1512db; color: #ffffff">{{$delivery['status']}}</span>
                                             @endif
                                         </td>
                                         <td>
-                                            @if(MyHelper::hasAccess([412], $grantedFeature))
-                                            <a href="{{ url('req-product/detail/'.$request['id_request_product']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
+                                            @if(MyHelper::hasAccess([418], $grantedFeature))
+                                            <a href="{{ url('dev-product/detail/'.$delivery['id_delivery_product']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
                                             @endif
-                                            @if(MyHelper::hasAccess([414], $grantedFeature))
-                                                @if ($request['status'] == 'Pending')
-                                                <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $request['id_request_product'] }}" data-name="{{ $request['code'] }}"><i class="fa fa-trash-o"></i> Delete</a>
+                                            @if(MyHelper::hasAccess([420], $grantedFeature))
+                                                @if ($delivery['status'] == 'Draft')
+                                                <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $delivery['id_delivery_product'] }}" data-name="{{ $delivery['code'] }}"><i class="fa fa-trash-o"></i> Delete</a>
                                                 @endif
                                             @endif
                                         </td>

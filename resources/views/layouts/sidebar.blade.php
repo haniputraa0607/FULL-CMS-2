@@ -1393,6 +1393,32 @@
         </li>
         @endif
 
+        @if(MyHelper::hasAccess([416], $grantedFeature) || MyHelper::hasAccess([417], $grantedFeature))
+        <li class="nav-item {{($menu_active == 'delivery-product') ? 'active open' : ''}}">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="fa fa-truck"></i>
+                <span class="title">Delivery Product</span>
+                <span class="arrow {{($menu_active == 'delivery-product') ? 'open' : ''}}"></span>
+            </a>
+            <ul class="sub-menu">
+                @if(MyHelper::hasAccess([416], $grantedFeature))
+                <li class="nav-item {{($submenu_active == 'create-delivery-product') ? 'active open' : ''}}">
+                    <a href="{{url('dev-product/create')}}" class="nav-link ">
+                        <span class="title">Create Delivery Product</span>
+                    </a>
+                </li>
+                @endif
+                @if(MyHelper::hasAccess([417], $grantedFeature))
+                <li class="nav-item {{($submenu_active == 'list-delivery-product') ? 'active open' : ''}}">
+                    <a href="{{url('dev-product')}}" class="nav-link ">
+                        <span class="title">List Delivery Product</span>
+                    </a>
+                </li>
+                @endif
+            </ul>
+        </li>
+        @endif
+
 		@if(MyHelper::hasAccess([58,59,60,61,62,63,64,66,69,71,299,397,400], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
 				<h3 class="uppercase" style="color: #000;font-weight: 600;">Order</h3>

@@ -198,9 +198,15 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'req-prod
     Route::post('delete/{id}', 'RequestProductController@destroy');
     Route::any('detail/{id}', 'RequestProductController@edit');
     Route::any('update', 'RequestProductController@update');
-});
-
-Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'dev-product', 'namespace' => 'Modules\Product\Http\Controllers'], function()
-{
-    Route::any('create/{id}', 'RequestProductController@createDelivery');
+	});
+	
+	Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'dev-product', 'namespace' => 'Modules\Product\Http\Controllers'], function()
+	{
+		Route::any('create/{id?}', 'RequestProductController@createDelivery');
+    Route::any('/', 'RequestProductController@indexDelivery');
+    Route::post('store', 'RequestProductController@storeDelivery');
+		Route::post('delete/{id}', 'RequestProductController@destroyDelivery');
+		Route::any('detail/{id}', 'RequestProductController@editDelivery');
+		Route::any('update', 'RequestProductController@updateDelivery');
+		Route::post('request', 'RequestProductController@getRequest');
 });
