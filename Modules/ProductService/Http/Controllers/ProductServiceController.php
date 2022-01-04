@@ -109,7 +109,8 @@ class ProductServiceController extends Controller
 
             $data['brands'] = MyHelper::get('brand/be/list')['result']??[];
             $data['list_product_service_use'] = MyHelper::get('product-service/product-use/list')['result']??[];
-            $data['product_service_use'] = $data['product'][0]['product_service_use']??[];
+            $data['product_uses'] = MyHelper::post('product/be/icount/list', [])['result'] ?? [];
+            $data['product_icount_use'] = $data['product'][0]['product_icount_use'] ?? [];
 
             return view('productservice::detail', $data);
         }
@@ -138,7 +139,7 @@ class ProductServiceController extends Controller
 
     function productUseUpdate(Request $request){
         $post = $request->except('_token');
-        $save = MyHelper::post('product-service/product-use/update', $post);
+        $save = MyHelper::post('product/pivot/update', $post);
         return parent::redirect($save, 'Product use has been save.', 'product-service/detail/'.$post['product_code'].'#productuse');
     }
 
