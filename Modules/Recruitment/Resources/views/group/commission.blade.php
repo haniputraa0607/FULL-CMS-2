@@ -71,7 +71,7 @@ function myFunction() {
                                             @foreach($commission['data'] as $dt)
                                             <tr style="text-align: center" data-id="{{ $dt['id_hairstylist_group_commission'] }}">
                                                     <td>{{$dt['product_name']}}</td>
-                                                    <td><input  type="checkbox" class="make-switch brand_visibility" data-size="small" data-on-color="info" data-on-text="Percent" data-off-color="default" data-off-text="Nominal" value="1" {{$dt['percent']?'checked':''}}></td>
+                                                    <td><input disabled  type="checkbox" class="make-switch brand_visibility" data-size="small" data-on-color="info" data-on-text="Percent" data-off-color="default" data-off-text="Nominal" value="1" {{$dt['percent']?'checked':''}}></td>
                                                     <td>@if($dt['percent']==0){{"Rp " . number_format($dt['commission_percent'],2,',','.')}} @else {{$dt['commission_percent']}} %  @endif</td>
                                                     <td><a href="{{ url('/recruitment/hair-stylist/group/commission/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a></td>
                                                 </tr>

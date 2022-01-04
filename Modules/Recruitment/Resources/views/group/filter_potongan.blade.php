@@ -175,13 +175,13 @@ $configs  = session('configs');
 	})
 </script>
 @endsection
-@section('filter_hs')
-<form action="{{url('recruitment/hair-stylist/group/commission/filter_hs')}}" method="post">
+@section('filter_potongan')
+<form action="{{url('recruitment/hair-stylist/group/commission/filter_potongan')}}" method="post">
 	<div class="portlet light bordered">
 		<div class="portlet-title">
 			<div class="caption font-blue ">
 				<i class="icon-settings font-blue "></i>
-				<span class="caption-subject bold uppercase">Filter List</span>
+				<span class="caption-subject bold uppercase">Filter Potongan</span>
 			</div>
 		</div>
 		<div class="portlet-body form">
@@ -196,17 +196,17 @@ $configs  = session('configs');
                                                                                 <div style="padding-bottom:10px">
                                                                                 <div class="col-md-12">
                                                                                 <div class="col-md-3">
-                                                                                    <input type="text" placeholder="Keyword" class="form-control" name="subject" value="Full Name" readonly required/>
-                                                                                    <input type="hidden" placeholder="Keyword" class="form-control" name="subject" value="name_insentif"  required/>
+                                                                                    <input type="text" placeholder="Keyword" class="form-control" name="subject" value="Name" readonly required/>
+                                                                                    <input type="hidden" placeholder="Keyword" class="form-control" name="subject" value="Name"  required/>
                                                                                 </div>
                                                                                 <div class="col-md-3">
                                                                                     <select name="operator" class="form-control input-sm " placeholder="Search Rule" required>
-                                                                                                <option @if(isset($filter_hs['operator'])) @if($filter_hs['operator'] == '=') selected @endif @endif value="=" >=</option>
-                                                                                                <option @if(isset($filter_hs['operator'])) @if($filter_hs['operator'] == 'like') selected @endif @endif value="like" >Like</option>
+                                                                                                <option @if(isset($filter_potongan['operator'])) @if($filter_potongan['operator'] == '=') selected @endif @endif value="=" >=</option>
+                                                                                                <option @if(isset($filter_potongan['operator'])) @if($filter_potongan['operator'] == 'like') selected @endif @endif value="like" >Like</option>
                                                                                         </select>
                                                                                 </div>
                                                                                 <div class="col-md-3">
-                                                                                    <input type="text" placeholder="Keyword" class="form-control" name="value" value="{{$filter_hs['value']??''}}"  required/>
+                                                                                    <input type="text" placeholder="Keyword" class="form-control" name="value" value="{{$filter_potongan['value']??''}}"  required/>
                                                                                 </div>
                                                                                     <div class="col-md-3">
                                                                                         {{ csrf_field() }}
@@ -226,12 +226,12 @@ $configs  = session('configs');
 		</div>
 	</div>
 </form>
-@if(isset($filter_hs['value']))
+@if(isset($filter_potongan['value']))
 <div class="alert alert-block alert-info fade in">
 	<button type="button" class="close" data-dismiss="alert"></button>
 	<h4 class="alert-heading">Displaying search result :</h4>
-	<p>{{$hs['data_total']}}</p><br>
-	<form action="{{url('recruitment/hair-stylist/group/commission/filter_hs')}}" method="post">
+	<p>{{$potongan['data_total']}}</p><br>
+	<form action="{{url('recruitment/hair-stylist/group/commission/filter_potongan')}}" method="post">
 		{{csrf_field()}}
 		<button class="btn btn-sm btn-warning" name="clear" value="session">Reset</button>
 	</form>
