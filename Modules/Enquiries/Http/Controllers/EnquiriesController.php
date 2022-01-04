@@ -128,7 +128,7 @@ class EnquiriesController extends Controller
             $datas = [];
             foreach ($post['data'] as $key=>$data){
                 foreach ($data as $keyChild=>$value){
-                    $datas[$key][$keyChild] = array_values($value);
+                    $datas[$key][$keyChild] = array_values(array_filter($value));
                 }
             }
 
