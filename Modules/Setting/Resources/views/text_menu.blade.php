@@ -128,11 +128,11 @@ $configs     		= session('configs');
 
 						<div class="row" style="margin-top: 2%;">
 							<div class="col-md-4">
-								<img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/text_menu/main_menu_1.png" height="200px" onclick="window.open(this.src)"/>
+								<img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/text_menu/main_menu_1.PNG" height="200px" onclick="window.open(this.src)"/>
 								<p style="text-align: center">(a)</p>
 							</div>
 							<div class="col-md-4">
-								<img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/text_menu/main_menu_2.png" height="200px" onclick="window.open(this.src)"/>
+								<img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/text_menu/main_menu_2.PNG" height="200px" onclick="window.open(this.src)"/>
 								<p style="text-align: center">(b)</p>
 							</div>
 {{--							<div class="col-md-4">--}}
@@ -141,7 +141,7 @@ $configs     		= session('configs');
 {{--							</div>--}}
 							@if($config_main_menu['is_active'] == 1)
 							<div class="col-md-4">
-								<img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/text_menu/main_menu_4.png" height="200px" onclick="window.open(this.src)"/>
+								<img class="zoom-in" src="{{ env('STORAGE_URL_VIEW') }}images/text_menu/main_menu_4.PNG" height="200px" onclick="window.open(this.src)"/>
 								<p style="text-align: center">(c)</p>
 							</div>
 							@endif
