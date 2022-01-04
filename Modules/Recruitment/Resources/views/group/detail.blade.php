@@ -42,12 +42,86 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/datatables/datatables.min.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
+    
+<script>
+  $(document).ready(function () {
+        $("input[data-type='currency']").on({
+            keyup: function() {
+              formatCurrency($(this));
+            },
+            blur: function() { 
+              formatCurrency($(this), "blur");
+            }
+        });
 
+
+        function formatNumber(n) {
+          // format number 1000000 to 1,234,567
+          return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        }
+
+
+        function formatCurrency(input, blur) {
+          // appends $ to value, validates decimal side
+          // and puts cursor back in right position.
+
+          // get input value
+          var input_val = input.val();
+
+          // don't validate empty input
+          if (input_val === "") { return; }
+
+          // original length
+          var original_len = input_val.length;
+
+          // initial caret position 
+          var caret_pos = input.prop("selectionStart");
+
+          // check for decimal
+          if (input_val.indexOf(".") >= 0) {
+
+            // get position of first decimal
+            // this prevents multiple decimals from
+            // being entered
+            var decimal_pos = input_val.indexOf(".");
+
+            // split number by decimal point
+            var left_side = input_val.substring(0, decimal_pos);
+
+            // add commas to left side of number
+            left_side = formatNumber(left_side);
+
+
+            // join number by .
+            input_val = left_side ;
+
+          } else {
+            // no decimal entered
+            // add commas to number
+            // remove all non-digits
+            input_val = formatNumber(input_val);
+            input_val = input_val;
+
+            // final formatting
+            
+          }
+
+          // send updated string to input
+          input.val(input_val);
+
+          // put caret back in the right position
+          var updated_len = input_val.length;
+          caret_pos = updated_len - original_len + caret_pos;
+          input[0].setSelectionRange(caret_pos, caret_pos);
+        }
+    })
+    </script>
     
     @yield('child-script')
 @endsection
 
 @section('content')
+S
     <div class="page-bar">
         <ul class="page-breadcrumb">
             <li>
@@ -92,6 +166,12 @@
                 </li>
                 <li>
                     <a href="#potongan" data-toggle="tab">List Potongan</a>
+                </li>
+                <li>
+                    <a href="#rumus_insentif" data-toggle="tab">Rumus Insentif</a>
+                </li>
+                <li>
+                    <a href="#rumus_potongan" data-toggle="tab">Rumus Potongan</a>
                 </li>
             </ul>
         <div class="tab-content">
@@ -157,6 +237,12 @@
             </div>
             <div class="tab-pane" id="potongan">
                 @include('recruitment::group.potongan')
+            </div>
+            <div class="tab-pane" id="rumus_insentif">
+                @include('recruitment::group.rumus_insentif')
+            </div>
+            <div class="tab-pane" id="rumus_potongan">
+                @include('recruitment::group.rumus_potongan')
             </div>
         </div>
     </div>

@@ -32,6 +32,10 @@
                                            <tr style="text-align: center" data-id="{{ $dt['id_hairstylist_group_potongan'] }}">
                                                  <td>{{$dt['name_potongan']}}</td>
                                                 <td>{{"Rp " . number_format($dt['price_potongan'],2,',','.')}}</td>
+                                                <td>
+                                                    <a href="{{ url('/recruitment/hair-stylist/group/potongan/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
+                                                    <a class="btn btn-sm red btn-primary" href="{{url('recruitment/hair-stylist/group/potongan/delete/'.$dt['id_enkripsi'])}}"><i class="fa fa-trash-o"></i> Delete</a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     @else
@@ -41,11 +45,6 @@
                                     @endif
                                 </tbody>
                             </table>
-                             <div class="paginator-right">
-                                @if ($potongan['data_paginator'])
-                                   {{ $potongan['data_paginator']->links() }}
-                               @endif  
-                           </div>
                         </div>
                     </div>
                     <div class="tab-pane" id="form_potongan">
@@ -65,7 +64,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Besar Potongan" data-container="body"></i>
                                     </label>
                                     <div class="col-md-6">
-                                        <input type="text" name="price_potongan" placeholder="Masukkan nama potongan" class="form-control" required />
+                                        <input type="text" name="price_potongan" id='price_potongan' data-type="currency" placeholder="Masukkan nama potongan" class="form-control" required />
                                     </div>
                                 </div>
                                 <div class="form-actions">

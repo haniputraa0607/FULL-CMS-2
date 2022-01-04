@@ -220,12 +220,11 @@ class HairStylistGroupController extends Controller
                           $list4 = MyHelper::post('recruitment/hairstylist/be/group/potongan'.$page,$post4)??[];
                           if(($list4['status']??'')=='success'){
                               $val2 = array();
-                                foreach ($list3['result']['data'] as $value){
-                                    $value['id_enkripsi'] = MyHelper::createSlug($value['id_hairstylist_group_insentif'],date('Y-m-d H:i:s'));
+                                foreach ($list4['result']['data'] as $value){
+                                    $value['id_enkripsi'] = MyHelper::createSlug($value['id_hairstylist_group_potongan'],date('Y-m-d H:i:s'));
                                     array_push($val2,$value);
                                 }  
                            $data['potongan']['data'] = $val2;
-                           $data['potongan']['data'] = $list4['result']['data'];
                            $data['potongan']['data_total']     = $list4['result']['total'];
                            $data['potongan']['data_per_page']   = $list4['result']['from'];
                            $data['potongan']['data_up_to']      = $list4['result']['from'] + count($list['result']['data'])-1;
@@ -238,6 +237,53 @@ class HairStylistGroupController extends Controller
                            $data['potongan']['data_paginator'] = false;
                        }
                         $data['lisths'] = MyHelper::post('recruitment/hairstylist/be/group/hs',['id_hairstylist_group'=>$id])??[];
+                        $list_insentif = MyHelper::post('recruitment/hairstylist/be/group/insentif/list_insentif',['id_hairstylist_group'=>$id]);
+                        $data['list_insentif'] = $list_insentif['result']??[];
+                        //list rumus insentif
+                         $post5['id_hairstylist_group'] = $id;
+                         $list5 = MyHelper::post('recruitment/hairstylist/be/group/insentif/list-rumus-insentif',$post5)??[];
+                         $val5 = array();
+                            foreach ($list5['result'] as $value){
+                                $value['id_enkripsi'] = MyHelper::createSlug($value['id_hairstylist_group_insentif_rumus'],date('Y-m-d H:i:s'));
+                                array_push($val5,$value);
+                            }  
+                         $data['list_rumus_insentif'] = $val5;
+                         $data['rumus_insentif'] = '';
+                         $i = 0;
+                         foreach ($data['list_rumus_insentif'] as $value) {
+                             if($i==0){
+                             $b[] = '('.$value['name_insentif']. ' * Jumlah '.$value['name_insentif'].')';
+                              $data['rumus_insentif'] = implode(' ',$b);
+                             }else{
+                                 $b[] = '+ ('.$value['name_insentif']. ' * Jumlah '.$value['name_insentif'].')';
+                                  $data['rumus_insentif'] =  implode(' ',$b);
+                             }
+                             $i++;
+                         }
+                         
+                         $list_potongan = MyHelper::post('recruitment/hairstylist/be/group/potongan/list_potongan',['id_hairstylist_group'=>$id]);
+                        $data['list_potongan'] = $list_potongan['result']??[];
+                        //list rumus Potongan
+                         $post6['id_hairstylist_group'] = $id;
+                         $list6 = MyHelper::post('recruitment/hairstylist/be/group/potongan/list-rumus-potongan',$post6)??[];
+                         $val6 = array();
+                            foreach ($list6['result'] as $value){
+                                $value['id_enkripsi'] = MyHelper::createSlug($value['id_hairstylist_group_potongan_rumus'],date('Y-m-d H:i:s'));
+                                array_push($val6,$value);
+                            }  
+                         $data['list_rumus_potongan'] = $val6;
+                         $data['rumus_potongan'] = '';
+                         $i = 0;
+                         foreach ($data['list_rumus_potongan'] as $value) {
+                             if($i==0){
+                             $c[] = '('.$value['name_potongan']. ' * Jumlah '.$value['name_potongan'].')';
+                              $data['rumus_potongan'] = implode(' ',$c);
+                             }else{
+                                 $c[] = '+ ('.$value['name_potongan']. ' * Jumlah '.$value['name_potongan'].')';
+                                  $data['rumus_potongan'] =  implode(' ',$c);
+                             }
+                             $i++;
+                         }
                         return view('recruitment::group.detail',$data);
                 } else{
                         return back()->withErrors($query['messages']);
@@ -408,13 +454,47 @@ class HairStylistGroupController extends Controller
                         }
                    
               }
+              public function delete_insentif($id)
+              {
+                $id = MyHelper::explodeSlug($id)[0]??'';
+                 $query = MyHelper::post('recruitment/hairstylist/be/group/insentif/delete', ['id_hairstylist_group_insentif'=>$id]);
+                        if(isset($query['status']) && $query['status'] == 'success'){
+                                return back()->withSuccess(['Hair Stylist Group Insentif Delete Success']);
+                        } else{
+                                return back()->withErrors($query['messages']);
+                        }
+                   
+              }
+           public function create_rumus_insentif(Request $request)
+              {
+                 $post = $request->except('_token');
+                 $query = MyHelper::post('recruitment/hairstylist/be/group/insentif/create-rumus-insentif', $post);
+                        if(isset($query['status']) && $query['status'] == 'success'){
+                                return back()->withSuccess(['Rumus Hair Stylist Group Insentif Create Success']);
+                        } else{
+                                return back()->withErrors($query['messages']);
+                        }
+                   
+              }
+           public function delete_rumus_insentif($id)
+              {
+                $id = MyHelper::explodeSlug($id)[0]??'';
+                 $query = MyHelper::post('recruitment/hairstylist/be/group/insentif/delete-rumus-insentif', ['id_hairstylist_group_insentif_rumus'=>$id]);
+                        if(isset($query['status']) && $query['status'] == 'success'){
+                                return back()->withSuccess(['Rumus Hair Stylist Group Insentif Delete Success']);
+                        } else{
+                                return back()->withErrors($query['messages']);
+                        }
+                   
+              }
             public function update_insentif(Request $request)
               {
                  $post = $request->except('_token');
+                 $post['price_insentif'] = str_replace(',','', $post['price_insentif']??0);
                  $query = MyHelper::post('recruitment/hairstylist/be/group/insentif/update', $post);
-                 
                         if(isset($query['status']) && $query['status'] == 'success'){
-                                return back()->withSuccess(['Hair Stylist Group Insentif Update Success']);
+                             $id_enkripsi = MyHelper::createSlug($query['result']['id_hairstylist_group'],date('Y-m-d H:i:s'));
+                                return  redirect('recruitment/hair-stylist/group/detail/'.$id_enkripsi)->withSuccess(['Hair Stylist Group Insentif Update Success']);
                         } else{
                                 return back()->withErrors($query['messages']);
                         }
@@ -423,16 +503,16 @@ class HairStylistGroupController extends Controller
             public function detail_insentif($id)
             {
                  $id = MyHelper::explodeSlug($id)[0]??'';
-                 $query = MyHelper::post('recruitment/hairstylist/be/group/insentif/detail',['id_hairstylist_group_commission'=>$id]);
+                 $query = MyHelper::post('recruitment/hairstylist/be/group/insentif/detail',['id_hairstylist_group_insentif'=>$id]);
                     if(isset($query['status']) && $query['status'] == 'success'){
                          $data = [ 
                                   'title'             => 'Hair Stylist Group',
-                                  'sub_title'         => 'Detail Hair Stylist Group Commission',
+                                  'sub_title'         => 'Detail Hair Stylist Group Insentif',
                                   'menu_active'       => 'hair-stylist-group',
-                                  'submenu_active'    => 'detail-hair-stylist-group-commission'
+                                  'submenu_active'    => 'detail-hair-stylist-group-insentif'
                                 ];
                           $data['result']=$query['result'];
-                            return view('recruitment::group.update',$data);
+                            return view('recruitment::group.update_insentif',$data);
                     } else{
                             return back()->withErrors($query['messages']);
                     }
@@ -452,19 +532,20 @@ class HairStylistGroupController extends Controller
             public function update_potongan(Request $request)
               {
                  $post = $request->except('_token');
-                 $query = MyHelper::post('recruitment/hairstylist/be/group/potongan/update', $post);
-                 
-                        if(isset($query['status']) && $query['status'] == 'success'){
-                                return back()->withSuccess(['Hair Stylist Group Insentif Update Success']);
-                        } else{
-                                return back()->withErrors($query['messages']);
-                        }
+                 $post['price_potongan'] = str_replace(',','', $post['price_potongan']??0);
+                $query = MyHelper::post('recruitment/hairstylist/be/group/potongan/update', $post);
+                if(isset($query['status']) && $query['status'] == 'success'){
+                        $id_enkripsi = MyHelper::createSlug($query['result']['id_hairstylist_group'],date('Y-m-d H:i:s'));
+                        return redirect('recruitment/hair-stylist/group/detail/'.$id_enkripsi)->withSuccess(['Hair Stylist Group Potongan Update Success']);
+                } else{
+                        return back()->withErrors($query['messages']);
+                }
                    
               }
             public function detail_potongan($id)
             {
                  $id = MyHelper::explodeSlug($id)[0]??'';
-                 $query = MyHelper::post('recruitment/hairstylist/be/group/potongan/detail',['id_hairstylist_group_commission'=>$id]);
+                 $query = MyHelper::post('recruitment/hairstylist/be/group/potongan/detail',['id_hairstylist_group_potongan'=>$id]);
                     if(isset($query['status']) && $query['status'] == 'success'){
                          $data = [ 
                                   'title'             => 'Hair Stylist Group',
@@ -473,10 +554,43 @@ class HairStylistGroupController extends Controller
                                   'submenu_active'    => 'detail-hair-stylist-group-commission'
                                 ];
                           $data['result']=$query['result'];
-                            return view('recruitment::group.update',$data);
+                            return view('recruitment::group.update_potongan',$data);
                     } else{
                             return back()->withErrors($query['messages']);
                     }
+                   
+              }
+              public function delete_potongan($id)
+              {
+                $id = MyHelper::explodeSlug($id)[0]??'';
+                 $query = MyHelper::post('recruitment/hairstylist/be/group/potongan/delete', ['id_hairstylist_group_potongan'=>$id]);
+                        if(isset($query['status']) && $query['status'] == 'success'){
+                                return back()->withSuccess(['Hair Stylist Group Potongan Delete Success']);
+                        } else{
+                                return back()->withErrors($query['messages']);
+                        }
+                   
+              }
+              public function create_rumus_potongan(Request $request)
+              {
+                 $post = $request->except('_token');
+                 $query = MyHelper::post('recruitment/hairstylist/be/group/potongan/create-rumus-potongan', $post);
+                        if(isset($query['status']) && $query['status'] == 'success'){
+                                return back()->withSuccess(['Rumus Hair Stylist Group Potongan Create Success']);
+                        } else{
+                                return back()->withErrors($query['messages']);
+                        }
+                   
+              }
+           public function delete_rumus_potongan($id)
+              {
+                $id = MyHelper::explodeSlug($id)[0]??'';
+                 $query = MyHelper::post('recruitment/hairstylist/be/group/potongan/delete-rumus-potongan', ['id_hairstylist_group_potongan_rumus'=>$id]);
+                        if(isset($query['status']) && $query['status'] == 'success'){
+                                return back()->withSuccess(['Rumus Hair Stylist Group Potongan Delete Success']);
+                        } else{
+                                return back()->withErrors($query['messages']);
+                        }
                    
               }
 
