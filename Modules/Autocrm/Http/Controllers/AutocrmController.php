@@ -231,6 +231,7 @@ class AutocrmController extends Controller
                     ['value' => "history_academy",'title' => 'History Academy']
                 ];
                 break;
+            case 'academy-course-reminder':
             case 'payment-academy-installment-completed':
             case 'payment-academy-installment-cancelled':
             case 'payment-academy-installment-reminder':

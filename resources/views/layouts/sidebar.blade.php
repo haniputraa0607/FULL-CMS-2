@@ -2061,6 +2061,11 @@
 								<span class="title">Installment Deadline Date</span>
 							</a>
 						</li>
+						<li class="nav-item {{($submenu_active == 'academy-autoresponse-academy-course-reminder') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/academy/academy-course-reminder')}}" class="nav-link ">
+								<span class="title">[Response] Academy Course Reminder</span>
+							</a>
+						</li>
 						<li class="nav-item {{($submenu_active == 'academy-autoresponse-approve-day-off-user-academy') ? 'active open' : ''}}">
 							<a href="{{url('autoresponse/academy/approve-day-off-user-academy')}}" class="nav-link ">
 								<span class="title">[Response] Approve Day Off</span>
