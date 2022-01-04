@@ -1219,6 +1219,34 @@
 					</a>
 				</li>
 				@endif
+				@if(MyHelper::hasAccess([40,121], $configs))
+				<li class="nav-item {{($submenu_active == 'autoresponse-new-project') ? 'active open' : ''}}">
+					<a href="{{url('user/autoresponse/new-project')}}" class="nav-link ">
+						<span class="title">[Response] New Project</span>
+					</a>
+				</li>
+				@endif
+				@if(MyHelper::hasAccess([40,121], $configs))
+				<li class="nav-item {{($submenu_active == 'autoresponse-update-project') ? 'active open' : ''}}">
+					<a href="{{url('user/autoresponse/update-project')}}" class="nav-link ">
+						<span class="title">[Response] Update Steps Project</span>
+					</a>
+				</li>
+				@endif
+				@if(MyHelper::hasAccess([40,121], $configs))
+				<li class="nav-item {{($submenu_active == 'autoresponse-approve-project') ? 'active open' : ''}}">
+					<a href="{{url('user/autoresponse/approve-project')}}" class="nav-link ">
+						<span class="title">[Response] Approve Project</span>
+					</a>
+				</li>
+				@endif
+				@if(MyHelper::hasAccess([40,121], $configs))
+				<li class="nav-item {{($submenu_active == 'autoresponse-reject-project') ? 'active open' : ''}}">
+					<a href="{{url('user/autoresponse/reject-project')}}" class="nav-link ">
+						<span class="title">[Response] Reject Project</span>
+					</a>
+				</li>
+				@endif
 			</ul>
 		</li>
 		@endif
@@ -1415,6 +1443,11 @@
 							<span class="title">Transaction Home Service</span>
 						</a>
 					</li>
+					<li class="nav-item {{($submenu_active == 'transaction-shop') ? 'active open' : ''}}">
+						<a href="{{ url('transaction/shop') }}" class="nav-link">
+							<span class="title">Transaction Shop</span>
+						</a>
+					</li>
 					<li class="nav-item {{($submenu_active == 'transaction-academy') ? 'active open' : ''}}">
 						<a href="{{ url('transaction/academy') }}" class="nav-link">
 							<span class="title">Transaction Academy</span>
@@ -1431,6 +1464,13 @@
 								<span class="title">Manage Outlet Service</span>
 							</a>
 						</li>
+					@endif
+					@if(MyHelper::hasAccess([407,408,409], $grantedFeature))
+					<li class="nav-item {{($submenu_active == 'manage-home-service') ? 'active open' : ''}}">
+						<a href="{{ url('transaction/home-service/manage') }}" class="nav-link">
+							<span class="title">Manage Home Service</span>
+						</a>
+					</li>					
 					@endif
 {{-- 					<li class="nav-item {{($submenu_active == 'transactions-export') ? 'active open' : ''}}">
 						<a href="{{url('transaction/list-export')}}" class="nav-link ">
@@ -2058,8 +2098,28 @@
 							</a>
 						</li>
 						<li class="nav-item {{($submenu_active == 'academy-autoresponse-payment-academy-installment') ? 'active open' : ''}}">
-							<a href="{{url('autoresponse/academy/payment-academy-installment')}}" class="nav-link ">
-								<span class="title">[Response] Payment Academy Installment</span>
+							<a href="{{url('autoresponse/academy/payment-academy-installment-completed')}}" class="nav-link ">
+								<span class="title">[Response] Payment Academy Installment Completed</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'academy-autoresponse-payment-academy-installment-completed') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/academy/payment-academy-installment-completed')}}" class="nav-link ">
+								<span class="title">[Response] Payment Academy Installment Cancelled</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'academy-autoresponse-payment-academy-installment-cancelled') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/academy/payment-academy-installment-cancelled')}}" class="nav-link ">
+								<span class="title">[Response] Payment Academy Installment Cancelled</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'academy-autoresponse-payment-academy-installment-reminder') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/academy/payment-academy-installment-reminder')}}" class="nav-link ">
+								<span class="title">[Response] Payment Academy Installment Reminder</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'academy-autoresponse-payment-academy-installment-due-date') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/academy/payment-academy-installment-due-date')}}" class="nav-link ">
+								<span class="title">[Response] Payment Academy Installment Due Date</span>
 							</a>
 						</li>
 					</ul>
@@ -2868,6 +2928,12 @@
 				</ul>
 			</li>
 			@endif
+			<li class="nav-item {{($menu_active == 'enquiries-setting-subject') ? 'active' : ''}}">
+				<a href="{{url('enquiries/setting/subject')}}" class="nav-link nav-toggle">
+					<i class="fa fa-phone"></i>
+					<span class="title">Contact CS Subject Setting</span>
+				</a>
+			</li>
 			@if(MyHelper::hasAccess([58], $configs) || MyHelper::hasAccess([59], $configs) || MyHelper::hasAccess([60], $configs))
 				@if(MyHelper::hasAccess([83], $grantedFeature))
 				<li class="nav-item {{($menu_active == 'enquiries') ? 'active' : ''}}">
@@ -3468,9 +3534,17 @@
 		@endif
         @if(MyHelper::hasAccess([392], $grantedFeature))
 		<li class="nav-item {{($menu_active == 'setting-icount') ? 'active open' : ''}}">
-			<a href="setting/setting-icount" class="nav-link nav-toggle">
+			<a href="{{url('setting/setting-icount')}}" class="nav-link nav-toggle">
 				<i class="fa fa-gear"></i>
 				<span class="title">Icount Setting</span>
+			</a>
+		</li>
+		@endif
+        @if(MyHelper::hasAccess([392], $grantedFeature))
+		<li class="nav-item {{($menu_active == 'setting-comiisission-engine') ? 'active open' : ''}}">
+			<a href="{{url('setting/setting-global-commission')}}" class="nav-link nav-toggle">
+				<i class="fa fa-money"></i>
+				<span class="title">Setting Global Commission</span>
 			</a>
 		</li>
 		@endif
@@ -3547,14 +3621,14 @@
 			</li>
 			@endif
 			@endif
-			<!-- @if(MyHelper::hasAccess([87], $grantedFeature))
-			<li class="nav-item {{($menu_active == 'contact') ? 'active' : ''}}">
-				<a href="{{url('setting/contact')}}" class="nav-link nav-toggle">
-					<i class="icon-call-in"></i>
-					<span class="title">Contact Us</span>
+			@if(MyHelper::hasAccess([87], $grantedFeature))
+			<li class="nav-item {{($menu_active == 'help-desk') ? 'active' : ''}}">
+				<a href="{{url('enquiries/create')}}" class="nav-link nav-toggle">
+					<i class="fa fa-phone"></i>
+					<span class="title">Help Desk</span>
 				</a>
 			</li>
-			@endif -->
+			@endif
 		@endif
 
 		@if(MyHelper::hasAccess([234], $grantedFeature))

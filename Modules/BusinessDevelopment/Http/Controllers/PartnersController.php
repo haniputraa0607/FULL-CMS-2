@@ -322,7 +322,7 @@ class PartnersController extends Controller
      * @return Response
      */
     public function update(Request $request, $id)
-    {       
+    {        
         $request->validate([
             "name" => "required",
             "cp" => "required",
@@ -367,6 +367,14 @@ class PartnersController extends Controller
         ];
         if (isset($request['gender'])){
             $post['gender'] = $request['gender'];
+        } 
+        if (isset($request['sharing_percent'])){
+            $post['sharing_percent'] = 1;
+        }else{
+            $post['sharing_percent'] = 0;
+        } 
+        if (isset($request['sharing_value'])){
+            $post['sharing_value'] = $request['sharing_value'];
         } 
         if (isset($request['ownership_status']) && $status == 'on'){
             $post['ownership_status'] = $request['ownership_status'];
@@ -691,6 +699,15 @@ class PartnersController extends Controller
         if (isset($request["npwp"]) && $request["follow_up"]=='Follow Up 1') {
             $update_partner['npwp'] = $request['npwp'];
         }
+        if (isset($request["sharing_percent"]) && $request["follow_up"]=='Follow Up 1') {
+            $update_partner['sharing_percent'] = 1;
+        }elseif($request["follow_up"]=='Follow Up 1'){
+            $update_partner['sharing_percent'] = 0;
+        }
+        if (isset($request["sharing_value"]) && $request["follow_up"]=='Follow Up 1') {
+            $update_partner['sharing_value'] = $request['sharing_value'];
+        }
+        
         if (isset($request["title"]) && $request["follow_up"]=='Follow Up 1') {
             $update_partner['title'] = $request['title'];
         }
@@ -719,6 +736,7 @@ class PartnersController extends Controller
         } 
         if (isset($request['cooperation_scheme']) && $request['follow_up']=='Follow Up 1'){
             $update_partner['cooperation_scheme'] = $request['cooperation_scheme'];
+            
         } 
         if (isset($request['id_bank_account']) && $request['follow_up']=='Follow Up 1'){
             $update_partner['id_bank_account'] = $request['id_bank_account'];
@@ -811,7 +829,7 @@ class PartnersController extends Controller
         if(isset($form_survey) && !empty($form_survey)){
             $post['form_survey'] = $form_survey;
         }     
-
+        
         $partner_step = MyHelper::post('partners/update', $update_partner);
         if (isset($partner_step['status']) && $partner_step['status'] == 'success') {
             if (isset($update_data_location) && !empty($update_data_location)) {

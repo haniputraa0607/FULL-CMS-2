@@ -7,6 +7,51 @@
   }
 ?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+        function myFunction() {
+        
+          var scema             = $('#cooperation_scheme').val();
+              if(scema == 'Profit Sharing'){
+                 var html   = '<input name="sharing_percent" type="hidden" value="on" /><div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
+                         <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
+                        <div class="col-md-5">\
+                          <input class="form-control" required type="number" id="sharing_value" name="sharing_value" min="1" max="99" placeholder="Enter Commission Percent 1% - 99%"/>\
+                        </div></div>'; 
+                    $("#id_percent").hide();    
+                     $('#id_commission').html(html);
+                  }else if(scema == 'Management Fee'){
+                  $("#id_percent").show();  
+                  $('#id_commission').remove();
+                  myFunctionPercent();
+              }
+         
+           };
+        function myFunctionPercent() {
+            var scema             = $('#cooperation_scheme').val();
+          var id_percent     	=  $("input[name='sharing_percent']:checked").val();
+          if(scema == 'Management Fee'){
+              if(id_percent == 'on'){
+                 var htmls='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span><i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label><div class="col-md-5"><input class="form-control" required type="number" id="sharing_value" name="sharing_value" min="1" max="99" placeholder="Enter Commission Percent"/></div></div>';
+              }else{
+                 var htmls='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
+                         <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
+                        <div class="col-md-5">\
+                          <input class="form-control" required type="number" id="sharing_value" name="sharing_value"  placeholder="Enter Commission Nominal"/>\
+                        </div></div>'; 
+
+              }
+                $('#id_commissions').html(htmls);
+            }
+        }
+        $(document).ready(function () {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                myFunction()
+            });
+        </script>
 <script>
         var SweetAlertNextSteps = function() {
             return {
@@ -272,12 +317,24 @@
                                     <label for="example-search-input" class="control-label col-md-4">Coopertaion Scheme<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Skema Pembagian hasil partner dengan IXOBOX" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <select name="cooperation_scheme" class="form-control input-sm select2" placeholder="Coopertaion Scheme" required>
+                                        <select name="cooperation_scheme" id="cooperation_scheme" onchange="myFunction()" class="form-control input-sm select2" placeholder="Coopertaion Scheme" required>
                                             <option value="" selected disabled>Select Cooperation Scheme</option>
                                             <option value="Profit Sharing" @if(old('cooperation_scheme')) @if(old('cooperation_scheme')=='Profit Sharing') selected @endif @else @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Profit Sharing') selected @endif @endif @endif>Profit Sharing</option>
                                             <option value="Management Fee" @if(old('cooperation_scheme')) @if(old('cooperation_scheme')=='Management Fee') selected @endif @else @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Management Fee') selected @endif @endif @endif>Management Fee</option>
                                         </select>
                                     </div>
+                                </div>
+                                <div id="id_percent">
+                                    <div class="form-group">
+                                                <label for="example-search-input" class="control-label col-md-4">Percent</label>
+                                                <div class="col-md-5">
+                                                    <input type="checkbox" class="make-switch brand_visibility" onchange="myFunctionPercent()"  data-size="small" data-on-color="info" data-on-text="Percent" data-off-color="default" name='sharing_percent' data-off-text="Nominal">
+                                                </div>
+                                            </div>
+                                </div>
+                                <div id="id_commission">
+                                </div>
+                                <div id="id_commissions">
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Partner Note <span class="required" aria-required="true">*</span>
@@ -314,12 +371,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <input type="hidden" name="id_location" value="{{$result['partner_locations'][0]['id_location']}}">
+                                <input type="hidden" name="id_location" value="{{$result['partner_locations'][0]['id_location']??''}}">
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location Name <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nama calon lokasi yang diajukan oleh perusahaan/instansi" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="follow-name-location" name="nameLocation" value="{{ old('nameLocation') ?? $result['partner_locations'][0]['name']}}" placeholder="Enter location name here" required/>
+                                        <input class="form-control" type="text" id="follow-name-location" name="nameLocation" value="{{ old('nameLocation') ?? $result['partner_locations'][0]['name']??''}}" placeholder="Enter location name here" required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -333,14 +390,14 @@
                                     <label for="example-search-input" class="control-label col-md-4">Location Address <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Alamat lengkap calon lokasi yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <textarea name="addressLocation" id="follow-address-location" class="form-control" placeholder="Enter location name here" required>{{ old('addressLocation') ?? $result['partner_locations'][0]['address']}}</textarea>
+                                        <textarea name="addressLocation" id="follow-address-location" class="form-control" placeholder="Enter location name here" required>{{ old('addressLocation') ?? $result['partner_locations'][0]['address']??''}}</textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location Short Addres <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Alamat singakt calon lokasi yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="follow-mall" name="mall" value="{{ old('mall') ?? $result['partner_locations'][0]['mall']}}" placeholder="Enter location mall here" required/>
+                                        <input class="form-control" type="text" id="follow-mall" name="mall" value="{{ old('mall') ?? $result['partner_locations'][0]['mall']??''}}" placeholder="Enter location mall here" required/>
                                     </div>
                                 </div>
                                 
@@ -351,7 +408,7 @@
                                         <select class="form-control select2" name="id_cityLocation" id="follow-id_cityLocation" required>
                                             <option value="" selected disabled>Select City</option>
                                             @foreach($cities as $city)
-                                                <option value="{{$city['id_city']}}" @if(old('id_cityLocation')) @if(old('id_cityLocation') == $city['id_city']) selected @endif @else @if($result['partner_locations'][0]['id_city'] == $city['id_city']) selected @endif @endif>{{$city['city_name']}}</option>
+                                                <option value="{{$city['id_city']}}" @if(old('id_cityLocation')) @if(old('id_cityLocation') == $city['id_city']) selected @endif @else @if($result['partner_locations'][0]['id_city']??'' == $city['id_city']) selected @endif @endif>{{$city['city_name']}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -363,7 +420,7 @@
                                         <select class="form-control select2" name="id_brand" id="follow-id_brand" required>
                                             <option value="" selected disabled>Select Brand</option>
                                             @foreach($brands as $brand)
-                                                <option value="{{$brand['id_brand']}}" @if(old('id_brand')) @if(old('id_brand') == $brand['id_brand']) selected @endif @else @if($result['partner_locations'][0]['id_brand'] == $brand['id_brand']) selected @endif @endif>{{$brand['name_brand']}}</option>
+                                                <option value="{{$brand['id_brand']}}" @if(old('id_brand')) @if(old('id_brand') == $brand['id_brand']) selected @endif @else @if($result['partner_locations'][0]['id_brand']??'' == $brand['id_brand']) selected @endif @endif>{{$brand['name_brand']}}</option>
                                             @endforeach
                                         </select>
                                     </div>

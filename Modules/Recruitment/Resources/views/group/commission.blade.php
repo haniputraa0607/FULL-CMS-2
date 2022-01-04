@@ -1,5 +1,42 @@
 @yield('filter_commission')
-
+<script>
+function myFunction() {
+  var id_percent     	=  $("input[name='percent']:checked").val();
+  var id_product     	=  $('#id_product').find(':selected').data('id');
+  if(id_product != 0){
+      if(id_percent == 'on'){
+         var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
+		 <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
+		<div class="col-md-6">\
+		  <input class="form-control" required type="number" id="commission_percent" name="commission_percent" min="1" max="99" placeholder="Enter Commission"/>\
+		</div></div>';
+      }else{
+         var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
+		 <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
+		<div class="col-md-6">\
+		  <input class="form-control" required type="number" id="commission_percent" name="commission_percent" min="0" max="'+id_product+'" placeholder="Enter Commission"/>\
+		</div></div>'; 
+                      
+      }
+  }else{
+      if(id_percent == 'on'){
+         var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
+		 <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
+		<div class="col-md-6">\
+		  <input class="form-control" required type="number" id="commission_percent" name="commission_percent" min="1" max="99" placeholder="Enter Commission"/>\
+		</div></div>';
+      }else{
+         var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
+		 <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
+		 <div class="col-md-6">\
+		  <input class="form-control" required type="number" id="commission_percent" name="commission_percent" placeholder="Enter Commission"/>\
+		</div></div>'; 
+                      
+      }
+  }
+  $('#id_commission').html(html);
+}
+</script>
 <div style="white-space: nowrap;">
     <div class="tab-pane">
         <div class="portlet light bordered">
@@ -63,12 +100,11 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Product" data-container="body"></i>
                                     </label>
                                     <div class="col-md-6">
-                                       
-                                             <select required name="id_product" id="id_product" class="select2" >
+                                             <select required name="id_product" id="id_product"  onchange="myFunction()" class="select2" >
                                             <option value=""></option>
                                             @if(isset($product))
                                                 @foreach($product as $row)
-                                                        <option value="{{$row['id_product']}}">{{$row['product_name']}}</option>
+                                                        <option value="{{$row['id_product']}}" data-id="{{$row['price']}}">{{$row['product_name']}}</option>
                                                 @endforeach
                                             @endif
                                         </select>
@@ -80,16 +116,11 @@
                                     </label>
                                     <div class="col-md-5">
                                         <div class="input-icon right">
-                                            <input type="checkbox" class="make-switch" data-size="small" data-on-color="success" data-on-text="Percent" name="percent" data-off-color="default" data-off-text="Nominal" id="percent">
+                                            <input type="checkbox" class="make-switch" data-size="small" onchange="myFunction()" data-on-color="success" data-on-text="Percent" name="percent" data-off-color="default" data-off-text="Nominal" id="percent">
                                            </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>
-                                    <div class="col-md-6">
-                                        <input class="form-control" required type="number" id="commission_percent" name="commission_percent" placeholder="Enter Commission"/>
-                                    </div>
+                                <div id="id_commission">
                                 </div>
                                 
                                 <div class="form-actions">

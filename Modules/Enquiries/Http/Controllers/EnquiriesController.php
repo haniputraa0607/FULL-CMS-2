@@ -109,5 +109,61 @@ class EnquiriesController extends Controller
             return "fail";
         } 
     }
-    
+
+    /* DELETE */
+    function settingSubject(Request $request) {
+        $post = $request->except('_token');
+
+        $data = [
+            'title'          => 'Contact CS',
+            'sub_title'      => 'List',
+            'menu_active'    => 'enquiries-setting-subject',
+            'submenu_active' => 'enquiries-setting-subject'
+        ];
+
+        if(empty($post)){
+            $data['result'] = MyHelper::get('enquiries/setting-subject')['result']??[];
+            return view('enquiries::setting_subject', $data);
+        }else{
+            $datas = [];
+            foreach ($post['data'] as $key=>$data){
+                foreach ($data as $keyChild=>$value){
+                    $datas[$key][$keyChild] = array_values($value);
+                }
+            }
+
+            $update = MyHelper::post('enquiries/setting-subject', $datas);
+            if(!empty($update['status']) && $update['status'] == 'success'){
+                return redirect('enquiries/setting/subject')->withSuccess(['Success submit data']);
+            }else{
+                return redirect('enquiries/setting/subject')->withErrors(['Failed to submit']);
+            }
+        }
+    }
+
+    function create(Request $request){
+        $post = $request->except('_token');
+
+        $data = [
+            'title'          => 'Help Desk',
+            'sub_title'      => 'Create Help Desk',
+            'menu_active'    => 'help-desk',
+            'submenu_active' => 'help-desk'
+        ];
+
+        if(empty($post)){
+            $data['subject'] = MyHelper::post('enquiries/help-desk/subject', ['enquiry_from' => 'cms', 'enquiry_category' => 'lain-lain'])['result']??[];
+            return view('enquiries::help_desk', $data);
+        }else{
+            $post['enquiry_from'] = 'cms';
+            $post['enquiry_category'] = 'lain-lain';
+
+            $create = MyHelper::post('enquiries/help-desk/create', $post);
+            if(!empty($create['status']) && $create['status'] == 'success'){
+                return redirect('enquiries/create')->withSuccess(['Success send data to help desk']);
+            }else{
+                return redirect('enquiries/create')->withErrors(['Failed send data to help desk']);
+            }
+        }
+    }
 }
