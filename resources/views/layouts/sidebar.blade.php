@@ -1777,15 +1777,6 @@
 			</li>
 			@endif
 
-			@if(MyHelper::hasAccess([389], $grantedFeature))
-				<li class="nav-item {{($menu_active == 'home-service-setting') ? 'active' : ''}}">
-					<a href="{{url('transaction/setting/home-service')}}" class="nav-link nav-toggle">
-						<i class="fa fa-cut"></i>
-						<span class="title">Home Service Setting</span>
-					</a>
-				</li>
-			@endif
-
 			@if(MyHelper::hasAccess([250], $grantedFeature))
 				<li class="nav-item {{($menu_active == 'delivery-settings') ? 'active' : ''}}">
 					<a href="javascript:;" class="nav-link nav-toggle">
@@ -2064,11 +2055,40 @@
 			</li>
 			@endif
 
+			@if(MyHelper::hasAccess([421,422], $grantedFeature))
+			<li class="nav-item {{($menu_active == 'home-service-transaction') ? 'active' : ''}}">
+				<a href="javascript:;" class="nav-link nav-toggle">
+					<i class="fa fa-cut"></i>
+					<span class="title">Home Service</span>
+					<span class="arrow {{($menu_active == 'home-service-transaction') ? 'open' : ''}}"></span>
+				</a>
+				<ul class="sub-menu">
+					@if(MyHelper::hasAccess([389], $grantedFeature))
+						<li class="nav-item {{($submenu_active == 'home-service-setting') ? 'active open' : ''}}">
+							<a href="{{url('transaction/setting/home-service')}}" class="nav-link nav-toggle">
+								<span class="title">Setting</span>
+							</a>
+						</li>
+					@endif
+					<li class="nav-item {{($submenu_active == 'home-service-autoresponse-home-service-mitra-get-order') ? 'active open' : ''}}">
+						<a href="{{url('autoresponse/home-service/home-service-mitra-get-order')}}" class="nav-link ">
+							<span class="title">[Response] Mitra Get Order</span>
+						</a>
+					</li>
+					<li class="nav-item {{($submenu_active == 'home-service-autoresponse-home-service-update-status') ? 'active open' : ''}}">
+						<a href="{{url('autoresponse/home-service/home-service-update-status')}}" class="nav-link ">
+							<span class="title">[Response] Update Status</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+			@endif
+
 			@if(MyHelper::hasAccess([390,391], $grantedFeature))
 				<li class="nav-item {{($menu_active == 'academy-transaction') ? 'active' : ''}}">
 					<a href="javascript:;" class="nav-link nav-toggle">
 						<i class="fa fa-building-o"></i>
-						<span class="title">Academy Transaction</span>
+						<span class="title">Academy</span>
 						<span class="arrow {{($menu_active == 'academy-transaction') ? 'open' : ''}}"></span>
 					</a>
 					<ul class="sub-menu">

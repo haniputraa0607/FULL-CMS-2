@@ -245,6 +245,17 @@ class AutocrmController extends Controller
                     ['value' => "history_academy",'title' => 'History Academy']
                 ];
                 break;
+            case 'home-service-mitra-get-order':
+            case 'home-service-update-status':
+                $data['menu_active'] = 'home-service-transaction';
+                $data['submenu_active'] = 'home-service-autoresponse-'.$subject;
+                $data['click_notification'] = [
+                    ['value' => "history_home_service",'title' => 'History Home Service']
+                ];
+                $data['click_inbox'] = [
+                    ['value' => "history_home_service",'title' => 'History Home Service']
+                ];
+                break;
 		}
 
         switch ($subject) {
