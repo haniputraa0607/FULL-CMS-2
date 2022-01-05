@@ -1,21 +1,31 @@
-@yield('filter_insentif')
 <div style="white-space: nowrap;">
     <div class="tab-pane">
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption">
-                    <span class="caption-subject font-dark sbold uppercase font-yellow">List Insentif</span>
+                    <span class="caption-subject font-dark sbold uppercase font-yellow">Rumus Insentif = {{$rumus_insentif}}</span>
                 </div>
-                <a href="#form_insentif" class="btn btn-sm blue" type="button" style="float:right" data-toggle="tab" >
-                         Create Insentif
+            </div>
+        </div>
+    </div>
+</div>
+<div style="white-space: nowrap;">
+    <div class="tab-pane">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject font-dark sbold uppercase font-yellow">Rumus Insentif</span>
+                </div>
+                <a href="#form_rumus_insentif" class="btn btn-sm blue" type="button" style="float:right" data-toggle="tab" >
+                         Create Rumus Insentif
                     </a>
-                    <a href="#table_insentif" class="btn btn-sm yellow active" type="button" style="float:right" data-toggle="tab" >
-                        List Insentif
+                    <a href="#table_rumus_insentif" class="btn btn-sm yellow active" type="button" style="float:right" data-toggle="tab" >
+                        List Rumus Insentif
                     </a>
             </div>
             <div class="portlet-body form">
                 <div class="tab-content">
-                    <div class="tab-pane active" id="table_insentif">
+                    <div class="tab-pane active" id="table_rumus_insentif">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover" id="kt_datatable">
                                 <thead>
@@ -28,15 +38,12 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                        @if(!empty($insentif['data']))
-                                        @foreach($insentif['data'] as $dt)
+                                        @if(!empty($list_rumus_insentif))
+                                        @foreach($list_rumus_insentif as $dt)
                                             <tr style="text-align: center" data-id="{{ $dt['id_hairstylist_group_insentif'] }}">
                                                 <td>{{$dt['name_insentif']}}</td>
                                                 <td>{{"Rp " . number_format($dt['price_insentif'],2,',','.')}}</td>
-                                                <td>
-                                                    <a href="{{ url('/recruitment/hair-stylist/group/insentif/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
-                                                    <a class="btn btn-sm red btn-primary" href="{{url('recruitment/hair-stylist/group/insentif/delete/'.$dt['id_enkripsi'])}}"><i class="fa fa-trash-o"></i> Delete</a>
-                                                </td>
+                                                <td><a class="btn btn-sm red btn-primary" href="{{url('recruitment/hair-stylist/group/insentif/delete-rumus-insentif/'.$dt['id_enkripsi'])}}"><i class="fa fa-trash-o"></i> Delete</a></td>
                                             </tr>
                                         @endforeach
                                     @else
@@ -46,31 +53,25 @@
                                     @endif
                                 </tbody>
                             </table>
-                             <div class="paginator-right">
-                                @if ($insentif['data_paginator'])
-                                   {{ $insentif['data_paginator']->links() }}
-                               @endif  
-                           </div>
                         </div>
                     </div>
-                    <div class="tab-pane" id="form_insentif">
-                        <form class="form-horizontal" role="form" action="{{url('recruitment/hair-stylist/group/insentif/create')}}" method="post" enctype="multipart/form-data">
+                    <div class="tab-pane" id="form_rumus_insentif">
+                        <form class="form-horizontal" role="form" action="{{url('recruitment/hair-stylist/group/insentif/create-rumus-insentif')}}" method="post" enctype="multipart/form-data">
                             <div class="form-body">
                                 <input type="hidden" name="id_hairstylist_group" value="{{$result['id_hairstylist_group']}}">
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label">Name Insentif<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Insentif" data-container="body"></i>
+                                    <label class="col-md-4 control-label">Insentif<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Product" data-container="body"></i>
                                     </label>
                                     <div class="col-md-6">
-                                        <input type="text" name="name_insentif" placeholder="Masukkan nama insentif" class="form-control" required />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label">Price Insentif<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Besar Insentif" data-container="body"></i>
-                                    </label>
-                                    <div class="col-md-6">
-                                        <input type="text" name="price_insentif" id='price_insentif' data-type="currency" placeholder="Masukkan nama insentif" class="form-control" required />
+                                             <select required name="id_hairstylist_group_insentif" id="id_hairstylist_group_insentif" class="select2" >
+                                            <option value=""></option>
+                                            @if(isset($list_insentif))
+                                                @foreach($list_insentif as $row)
+                                                        <option value="{{$row['id_hairstylist_group_insentif']}}">{{$row['name_insentif']}} - {{"Rp " . number_format($row['price_insentif'],2,',','.')}}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-actions">
