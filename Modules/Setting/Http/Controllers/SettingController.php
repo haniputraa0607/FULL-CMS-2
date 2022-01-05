@@ -1605,12 +1605,32 @@ class SettingController extends Controller
             if(($query['status']??'')=='success'){
                 return redirect('setting/setting-global-commission')->with('success',['Success update data']);
             }else{
-                return redirect('setting/setting-global-commission')->withErrors([$penjualan_outlet['message']]);
+                return redirect('setting/setting-global-commission')->withErrors([$query['message']]);
             }
         }else{
             $query = MyHelper::get('setting/global_commission_product');
             $data['result'] = $query;
             return view('setting::setting_global_commission', $data);
+        }
+    }
+    public function salary_formula(Request $request){
+        $post = $request->except('_token');
+        $data = [
+            'title'          => 'Setting Salary Formula',
+            'menu_active'    => 'setting-salary-formula',
+            'submenu_active'    => 'setting-salary-formula',
+        ];
+        if($post){
+            $query = MyHelper::post('setting/salary_formula_create', $post);
+            if(($query['status']??'')=='success'){
+                return redirect('setting/setting-salary-formula')->with('success',['Success update data']);
+            }else{
+                return redirect('setting/setting-salary-formula')->withErrors([$query['message']]);
+            }
+        }else{
+            $query = MyHelper::get('setting/salary_formula');
+            $data['result'] = $query;
+            return view('setting::salary_formula', $data);
         }
     }
 }

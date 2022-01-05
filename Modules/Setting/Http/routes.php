@@ -59,7 +59,10 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'setting'
     Route::any('/setting-icount', ['middleware' => 'feature_control:392', 'uses' => 'SettingController@setting_icount']);
     
     //global commission
-    Route::any('/setting-global-commission', ['middleware' => 'feature_control:392', 'uses' => 'SettingController@setting_global_commission']);
+    Route::any('/setting-global-commission', ['middleware' => 'feature_control:423', 'uses' => 'SettingController@setting_global_commission']);
+    
+    //salary formula
+    Route::any('/setting-salary-formula', ['middleware' => 'feature_control:424', 'uses' => 'SettingController@salary_formula']);
    
     Route::any('home', 'SettingController@homeSetting');
 	Route::any('date', 'SettingController@dateSetting');
