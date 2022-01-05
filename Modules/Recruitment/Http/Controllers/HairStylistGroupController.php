@@ -446,6 +446,7 @@ class HairStylistGroupController extends Controller
            public function create_insentif(Request $request)
               {
                  $post = $request->except('_token');
+                 $post['price_insentif'] = str_replace(',','', $post['price_insentif']??0);
                  $query = MyHelper::post('recruitment/hairstylist/be/group/insentif/create', $post);
                         if(isset($query['status']) && $query['status'] == 'success'){
                                 return back()->withSuccess(['Hair Stylist Group Insentif Create Success']);
@@ -521,6 +522,7 @@ class HairStylistGroupController extends Controller
            public function create_potongan(Request $request)
               {
                  $post = $request->except('_token');
+                 $post['price_potongan'] = str_replace(',','', $post['price_potongan']??0);
                  $query = MyHelper::post('recruitment/hairstylist/be/group/potongan/create', $post);
                         if(isset($query['status']) && $query['status'] == 'success'){
                                 return back()->withSuccess(['Hair Stylist Group Insentif Create Success']);
