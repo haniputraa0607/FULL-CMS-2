@@ -89,7 +89,7 @@
 						</div>
 						<div class="col-md-8">
 							<div class="form-group">
-								<input type="text" class="datetime form-control" name="start_date" id="start_date">
+								<input type="text" class="datetime form-control" name="start_date" id="start_date" autocomplete="off">
 							</div>
 						</div>
 					</div>
@@ -99,7 +99,7 @@
 						</div>
 						<div class="col-md-8">
 							<div class="form-group">
-								<input type="text" class="datetime form-control" name="end_date" id="end_date">
+								<input type="text" class="datetime form-control" name="end_date" id="end_date" autocomplete="off">
 							</div>
 						</div>
 					</div>
@@ -145,7 +145,7 @@
 						</div>
 						<div class="col-md-8">
 							<div class="form-group">
-								<input type="text" class="datetime form-control" name="start_date">
+								<input type="text" class="datetime form-control" name="start_date" autocomplete="off">
 							</div>
 						</div>
 					</div>
@@ -155,7 +155,7 @@
 						</div>
 						<div class="col-md-8">
 							<div class="form-group">
-								<input type="text" class="datetime form-control" name="end_date">
+								<input type="text" class="datetime form-control" name="end_date" autocomplete="off">
 							</div>
 						</div>
 					</div>
