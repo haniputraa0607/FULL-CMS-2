@@ -36,7 +36,6 @@
                                                 window.location.reload();
                                             }
                                             else if(response.status == "fail"){
-                                              
                                                 swal("Error!", "Failed to delete.", "error")
                                             }
                                             else {
@@ -88,7 +87,7 @@
                                                 window.location.reload();;
                                             }
                                             else if(response.status == "fail"){
-                                                swal("Error!", "Failed.", "error")
+                                                swal("Error!", response.message, "error")
                                             }
                                             else {
                                                 swal("Error!", "Something went wrong. Failed to delete .", "error")
