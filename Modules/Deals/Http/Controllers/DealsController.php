@@ -647,7 +647,6 @@ class DealsController extends Controller
         $post['deals_type'] 	= $data['deals_type'];
         // DEALS
         $data['deals']   = parent::getData(MyHelper::post('deals/be/detail', $post));
-        return $data['deals'];
         if($post['deals_type'] == 'Promotion' || $post['deals_type'] == 'promotion-deals'){
             $rpage = 'promotion/deals';
     	}elseif($post['deals_type'] == 'WelcomeVoucher'){
