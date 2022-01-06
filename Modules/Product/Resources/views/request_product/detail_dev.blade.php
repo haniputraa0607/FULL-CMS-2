@@ -268,7 +268,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Reference Request 
+                        <label for="example-search-input" class="control-label col-md-4">Reference Request <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih permintaan yang direspon" data-container="body"></i></label>
                         <div class="col-md-5">
                             @php
@@ -280,7 +280,7 @@
                                     $selected_request = array_column($result['request'], 'id_request_product');
                                 }
                             @endphp
-                            <select class="form-control select2-multiple approvedForm" name="request[]" multiple >
+                            <select class="form-control select2-multiple approvedForm" name="request[]" multiple required>
                                 <option value=""></option>
                                 @if (!empty($requests))
                                     @foreach($requests as $request)
