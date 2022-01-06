@@ -329,9 +329,12 @@
                 <li class="active">
                     <a href="#overview" data-toggle="tab"> Project Overview </a>
                 </li>
-                    <li>
-                        <a href="#status" data-toggle="tab"> Status Project </a>
-                    </li>
+                <li>
+                    <a href="#confirmation" data-toggle="tab"> Confirmation Letter </a>
+                </li>
+                <li>
+                    <a href="#status" data-toggle="tab"> Status Project </a>
+                </li>
             </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="overview">
@@ -399,7 +402,71 @@
                 </div>
             </div>
 
+            <div class="tab-pane" id="confirmation">
+                <div class="portlet-body form">
+                    <form class="form-horizontal" role="form" method="post" enctype="multipart/form-data">
+                        <div class="form-body">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        <span class="caption-subject sbold uppercase font-black">Inisiasi Partner</span>
+                                    </div>
+                                </div>
+                                <div class="portlet-body form">
+                                    <div class="form-body">
+                                         <div class="form-group">
+                                            <label for="example-search-input" class="control-label col-md-4">Amount</label>
+                                            <div class="col-md-5">
+                                                <input class="form-control" disabled type="text"  value="{{"Rp " . number_format($initial['amount']??0,2,',','.')}}" placeholder="Enter location name here"/>
+                                            </div>
+                                        </div>
+                                         <div class="form-group">
+                                            <label for="example-search-input" class="control-label col-md-4">Tax</label>
+                                            <div class="col-md-5">
+                                                <input class="form-control" disabled type="text"  value="{{"Rp " . number_format($initial['tax_value']??0,2,',','.')}}" placeholder="Enter location name here"/>
+                                            </div>
+                                        </div>
+                                         <div class="form-group">
+                                            <label for="example-search-input" class="control-label col-md-4">Netto</label>
+                                            <div class="col-md-5">
+                                                <input class="form-control" disabled type="text"  value="{{"Rp " . number_format($initial['netto']??0,2,',','.')}}" placeholder="Enter location name here"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>     
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        <span class="caption-subject sbold uppercase font-black">Invoice Confirmation Latter</span>
+                                    </div>
+                                </div>
+                                <div class="portlet-body form">
+                                     <div class="form-body">
+                                         <div class="form-group">
+                                            <label for="example-search-input" class="control-label col-md-4">Amount</label>
+                                            <div class="col-md-5">
+                                                <input class="form-control" disabled type="text"  value="{{"Rp " . number_format($confirmation_letter['amount']??0,2,',','.')}}" placeholder="Enter location name here"/>
+                                            </div>
+                                        </div>
+                                         <div class="form-group">
+                                            <label for="example-search-input" class="control-label col-md-4">Tax</label>
+                                            <div class="col-md-5">
+                                                <input class="form-control" disabled type="text"  value="{{"Rp " . number_format($confirmation_letter['tax_value']??0,2,',','.')}}" placeholder="Enter location name here"/>
+                                            </div>
+                                        </div>
+                                         <div class="form-group">
+                                            <label for="example-search-input" class="control-label col-md-4">Netto</label>
+                                            <div class="col-md-5">
+                                                <input class="form-control" disabled type="text"  value="{{"Rp " . number_format($confirmation_letter['netto']??0,2,',','.')}}" placeholder="Enter location name here"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>    
+                            </div>
 
+                       
+                    </form>
+                </div>
+            </div>
+            
             {{-- tab step --}}
             <div class="tab-pane" id="status">
                 <div style="white-space: nowrap;">

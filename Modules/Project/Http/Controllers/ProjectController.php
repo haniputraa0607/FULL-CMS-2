@@ -165,6 +165,9 @@ class ProjectController extends Controller
         }
         if(isset($result['status']) && $result['status'] == 'success'){
             $data['result'] = $result['result'];
+            $value = json_decode($data['result']['project_locations']['value_detail'],true)??[];
+            $data['confirmation_letter'] = $value['Confirmation Letter (CL)']??[];
+            $data['initial'] = $value['Inisiasi Partner']??[];
             if($data['result']['project_survey']==null){
                 $data['result']['project_survey']=array();
             }
