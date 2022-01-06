@@ -90,8 +90,8 @@ class UsersController extends Controller
                 break;
             case 'updated-candidate-partner-to-partner':
                 $data = [ 
-                  'title'             => 'Partners',
-                  'sub_title'         => 'Partners Auto Response '.$autocrmSubject,
+                    'title'             => 'Partners',
+                    'sub_title'         => 'Partners Auto Response '.$autocrmSubject,
                     'menu_active'       => 'partners',
                     'submenu_active'    => 'partners-autoresponse-'.$subject
                   ];
@@ -134,6 +134,38 @@ class UsersController extends Controller
                     'sub_title'         => 'Auto Response '.$autocrmSubject,
                     'menu_active'       => 'project',
                     'submenu_active'    => 'autoresponse-'.$subject
+                  ];
+                break;    
+            case 'create-request-product':
+                $data = [ 
+                    'title'             => 'Request Product',
+                    'sub_title'         => 'Request Product Auto Response '.$autocrmSubject,
+                    'menu_active'       => 'request-product',
+                    'submenu_active'    => 'request-product-autoresponse-'.$subject
+                  ];
+                break;    
+            case 'update-request-product':
+                $data = [ 
+                    'title'             => 'Request Product',
+                    'sub_title'         => 'Request Product Auto Response '.$autocrmSubject,
+                    'menu_active'       => 'request-product',
+                    'submenu_active'    => 'request-product-autoresponse-'.$subject
+                  ];
+                break;    
+            case 'create-delivery-product':
+                $data = [ 
+                    'title'             => 'Delivery Product',
+                    'sub_title'         => 'Delivery Product Auto Response '.$autocrmSubject,
+                    'menu_active'       => 'delivery-product',
+                    'submenu_active'    => 'delivery-product-autoresponse-'.$subject
+                  ];
+                break;    
+            case 'confirmation-delivery-product':
+                $data = [ 
+                    'title'             => 'Delivery Product',
+                    'sub_title'         => 'Delivery Product Auto Response '.$autocrmSubject,
+                    'menu_active'       => 'delivery-product',
+                    'submenu_active'    => 'delivery-product-autoresponse-'.$subject
                   ];
                 break;    
 			default:

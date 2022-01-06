@@ -1389,6 +1389,18 @@
                     </a>
                 </li>
                 @endif
+                @if(MyHelper::hasAccess([40,91], $configs))
+				<li class="nav-item {{($submenu_active == 'request-product-autoresponse-create-request-product') ? 'active open' : ''}}">
+					<a href="{{url('user/autoresponse/create-request-product')}}" class="nav-link ">
+						<span class="title">[Response] Create Request Product</span>
+					</a>
+				</li>
+                <li class="nav-item {{($submenu_active == 'request-product-autoresponse-update-request-product') ? 'active open' : ''}}">
+					<a href="{{url('user/autoresponse/update-request-product')}}" class="nav-link ">
+						<span class="title">[Response] Update Request Product</span>
+					</a>
+				</li>
+				@endif
             </ul>
         </li>
         @endif
@@ -1415,6 +1427,18 @@
                     </a>
                 </li>
                 @endif
+                @if(MyHelper::hasAccess([40,91], $configs))
+				<li class="nav-item {{($submenu_active == 'delivery-product-autoresponse-create-delivery-product') ? 'active open' : ''}}">
+					<a href="{{url('user/autoresponse/create-delivery-product')}}" class="nav-link ">
+						<span class="title">[Response] Create Delivery Product</span>
+					</a>
+				</li>
+                <li class="nav-item {{($submenu_active == 'delivery-product-autoresponse-confirmation-delivery-product') ? 'active open' : ''}}">
+					<a href="{{url('user/autoresponse/confirmation-delivery-product')}}" class="nav-link ">
+						<span class="title">[Response] Confirmation Delivery Product</span>
+					</a>
+				</li>
+				@endif
             </ul>
         </li>
         @endif
