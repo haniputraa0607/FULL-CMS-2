@@ -3390,13 +3390,13 @@
 							</a>
 						</li>
 					@endif
-					@if(MyHelper::hasAccess([214], $grantedFeature))
-						<li class="nav-item {{($submenu_active == 'report-fraud-transaction-point') ? 'active open' : ''}}">
-							<a href="{{url('fraud-detection/report/transaction-point')}}" class="nav-link ">
-								<span class="title">Report Fraud Transaction Point</span>
-							</a>
-						</li>
-					@endif
+{{--					@if(MyHelper::hasAccess([214], $grantedFeature))--}}
+{{--						<li class="nav-item {{($submenu_active == 'report-fraud-transaction-point') ? 'active open' : ''}}">--}}
+{{--							<a href="{{url('fraud-detection/report/transaction-point')}}" class="nav-link ">--}}
+{{--								<span class="title">Report Fraud Transaction Point</span>--}}
+{{--							</a>--}}
+{{--						</li>--}}
+{{--					@endif--}}
 					@if(MyHelper::hasAccess([194], $grantedFeature))
 						<li class="nav-item {{($submenu_active == 'report-fraud-transaction-day') ? 'active open' : ''}}">
 							<a href="{{url('fraud-detection/report/transaction-day')}}" class="nav-link ">
