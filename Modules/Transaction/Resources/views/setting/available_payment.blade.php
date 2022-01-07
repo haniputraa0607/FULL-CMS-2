@@ -96,7 +96,7 @@
                     <tr>
                         <td class="sortable-handle"><i class="fa fa-ellipsis-h" style="transform: rotate(90deg);"></i></td>
                         <td>{{$payment['payment_gateway']}}</td>
-                        <td>{{$payment['payment_method']}}</td>
+                        <td>{{$payment['text']}}</td>
                         <td>
                             <input type="checkbox" name="payments[{{$payment['code']}}][status]" class="make-switch brand_visibility" data-size="small" data-on-color="info" data-on-text="Enable" data-off-color="default" data-off-text="Disable" value="1" {{$payment['status']?'checked':''}}>
                         </td>
