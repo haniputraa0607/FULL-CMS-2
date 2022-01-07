@@ -328,7 +328,7 @@
 			discount_value = $('input[name=discount_type]:checked').val();
 			$('#product-discount-div').show();
 			if (discount_value == 'Nominal') {
-				$('input[name=discount_value]').removeAttr('max').val('').attr('placeholder', '100.000').inputmask({removeMaskOnSubmit: "true", placeholder: "", alias: "currency", digits: 0, rightAlign: false});
+				$('input[name=discount_value]').removeAttr('max').val('').attr('placeholder', '').inputmask({removeMaskOnSubmit: "true", placeholder: "", alias: "currency", digits: 0, rightAlign: false, prefix: ""});
 				$('#product-discount-value').text('Discount Nominal');
 				$('#product-discount-addon, #product-discount-percent-max-div').hide();
 				$('#product-addon-rp').show();
@@ -343,7 +343,8 @@
 					min: '0',
 					max: '100',
 					allowMinus : false,
-					allowPlus : false
+					allowPlus : false,
+                    prefix : "",
 				});
 				$('#product-discount-value').text('Discount Percent Value');
 				$('#product-addon-rp').hide();
@@ -415,13 +416,14 @@
 		changeTriger();
 
 		$('.digit_mask').inputmask({
-			removeMaskOnSubmit: true, 
-			placeholder: "",
-			alias: "currency", 
-			digits: 0, 
-			rightAlign: false,
-			min: 0,
-			max: '999999999'
+            removeMaskOnSubmit: true, 
+            placeholder: "",
+            alias: "currency", 
+            digits: 0, 
+            rightAlign: false,
+            min: 0,
+            max: '999999999',
+            prefix : "",
 		});
 
 		$('input[name=deals_promo_id_type]').click(function() {
@@ -492,12 +494,13 @@
 			max: '100',
 			allowMinus : 'false',
 			allowPlus : 'false',
-			rightAlign: "false"
+			rightAlign: "false",
+            prefix: ""
 		});
 	</script>
 	@else
 	<script>
-		$('input[name=discount_value]').inputmask({placeholder: "", removeMaskOnSubmit: "true", alias: "currency", digits: 0, rightAlign: false});
+		$('input[name=discount_value]').inputmask({placeholder: "", removeMaskOnSubmit: "true", alias: "currency", digits: 0, rightAlign: false, prefix: ""});
 	</script>
 	@endif
 @endsection

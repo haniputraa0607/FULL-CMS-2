@@ -370,13 +370,13 @@
             ko.src        = cariImage
             // load image
             ko.onload     = function(){
-                if (this.naturalHeight === 375 && this.naturalWidth === 750) {
-                } else {
-                    mentah.attr('src', "{{ $result['url_promo_image'] ?? 'https://www.placehold.it/750x375/EFEFEF/AAAAAA&text=no+image' }}")
-                    $('#file').val("");
-                    toastr.warning("Please check dimension of your photo.");
-                }
-            };
+							if (this.naturalHeight === 375 && this.naturalWidth === 700) {
+							} else {
+									mentah.attr('src', "{{ $deals['url_deals_image']??'https://www.placehold.it/500x500/EFEFEF/AAAAAA&text=no+image' }}")
+									$('#file').val("");
+									toastr.warning("Please check dimension of your photo.");
+							}
+					};
         })
 	});
 	</script>

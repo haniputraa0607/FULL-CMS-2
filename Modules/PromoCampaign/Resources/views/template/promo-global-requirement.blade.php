@@ -10,7 +10,7 @@
 		</div>
 		<div class="portlet-body">
 			<div class="form-group" style="height: 55px;display: inline;">
-				@yield('promo-shipment-method')
+				{{-- @yield('promo-shipment-method') --}}
 				@yield('promo-payment-method')
 			</div>
 		</div>
