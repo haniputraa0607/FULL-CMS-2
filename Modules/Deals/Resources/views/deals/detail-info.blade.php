@@ -99,12 +99,12 @@ $grantedFeature     = session('granted_features');
                     	@endif
                     </div>
                 </div>
-                <div class="row static-info">
+                {{-- <div class="row static-info">
                     <div class="col-md-4 name">Brand Rule</div>
                     <div class="col-md-8 value">: 
                         {{ $deals['brand_rule'] && $deals['brand_rule'] == 'and' ? 'All selected brands' : 'One of the selected brands' }}
                     </div>
-                </div>
+                </div> --}}
                 <div class="row static-info">
                     <div class="col-md-4 name">Service</div>
                     <div class="col-md-8 value">: 
@@ -268,7 +268,7 @@ $grantedFeature     = session('granted_features');
             <div class="portlet-title"> 
             <span class="caption font-blue sbold uppercase">Voucher Online Rules : {{ $deals['promo_type']??'' }}</span>
             </div>
-            @if ( !empty($deals['product_rule'])
+            {{-- @if ( !empty($deals['product_rule'])
             	&& ((isset($deals['deals_product_discount_rules']['is_all_product']) 
             			&& $deals['deals_product_discount_rules']['is_all_product'] == 0)
                 	|| !empty($deals['deals_tier_discount_rules'])
@@ -283,7 +283,7 @@ $grantedFeature     = session('granted_features');
                     {{ $deals['product_rule'] && $deals['product_rule'] == 'and' ? 'All items must be present' : 'One of the items must exist' }}
                 </div>
             </div>
-            @endif
+            @endif --}}
             @include('promocampaign::template.promo-global-requirement-detail', ['promo_source' => 'deals'])
             @if ( 
             		!empty($deals['deals_product_discount_rules']) 

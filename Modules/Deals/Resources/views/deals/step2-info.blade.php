@@ -23,7 +23,7 @@
 		                		}
 		                	@endphp</div>
 		            </div>
-		            <div class="row static-info">
+		            {{-- <div class="row static-info">
 		                <div class="col-md-4 name">Brand Rule</div>
 		                <div class="col-md-8 value">: 
 		                    {{ $result['brand_rule'] && $result['brand_rule'] == 'and' ? 'All selected brands' : 'One of the selected brands' }}
@@ -52,7 +52,7 @@
 								echo $echo;
 							@endphp
 						</div>
-					</div>
+					</div> --}}
                     <div class="row static-info">
 		                <div class="col-md-4 name">Service</div>
 		                <div class="col-md-8 value">: 

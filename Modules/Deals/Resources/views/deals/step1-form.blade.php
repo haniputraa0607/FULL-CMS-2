@@ -96,7 +96,7 @@
         </div>
 
         {{-- Brand Rule --}}
-        <div class="form-group">
+        {{-- <div class="form-group">
             <div class="input-icon right">
                 <label class="col-md-3 control-label">
                 Brand Rule
@@ -122,7 +122,7 @@
 	            <div class="col-md-12">
 	                <div class="md-radio-inline">
 	                    <div class="md-radio">
-	                        <input type="radio" name="brand_rule" id="brand_rule_radio_or" value="or" class="md-radiobtn" required 
+	                        <input type="radio" name="pr" id="brand_rule_radio_or" value="or" class="md-radiobtn" required 
 	                        	@if ( (old('brand_rule')??$deals['brand_rule']??false) == "or" ) checked 
 	                    		@endif>
 	                        <label for="brand_rule_radio_or">
@@ -134,11 +134,11 @@
 	                </div>
 	            </div>
             </div>
-        </div>
+        </div> --}}
         @endif
 
         {{-- Product Type --}}
-        <div class="form-group">
+        {{-- <div class="form-group">
             <div class="input-icon right">
                 <label class="col-md-3 control-label">
                 Product Type
@@ -190,7 +190,7 @@
 	                </div>
 	            </div>
             </div>
-        </div>
+        </div> --}}
 
         {{-- Service --}}
         <div class="form-group">
@@ -335,7 +335,7 @@
                 <span class="required" aria-required="true"> * </span>
                 <i class="fa fa-question-circle tooltips" data-original-title="Gambar deals" data-container="body"></i>
                 <br>
-                <span class="required" aria-required="true"> (500*500) </span>
+                <span class="required" aria-required="true"> (750*375) </span>
                 </label>
             </div>
             <div class="col-md-9">
@@ -571,7 +571,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            {{-- <div class="col-md-3">
                 <div class="md-radio-inline">
                     <div class="md-radio">
                         <input type="radio" name="prices_by" id="radio8" value="money" class="prices md-radiobtn" required 
@@ -586,7 +586,7 @@
                             <span class="box"></span> Money </label>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
 
         <div class="form-group" id="prices"

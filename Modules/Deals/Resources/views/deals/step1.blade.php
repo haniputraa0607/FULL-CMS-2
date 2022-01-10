@@ -343,7 +343,8 @@ $brand_rule = $deals['brand_rule']??'and';
 				digits: 0, 
 				rightAlign: false,
 				min: 0,
-				max: '999999999'
+				max: '999999999',
+                prefix : "",
 			});
 
             $('#is_online, #is_offline').on('change', function(){
@@ -578,9 +579,9 @@ $brand_rule = $deals['brand_rule']??'and';
                 ko.src        = cariImage
                 // load image
                 ko.onload     = function(){
-                    if (this.naturalHeight === 500 && this.naturalWidth === 500) {
+                    if (this.naturalHeight === 375 && this.naturalWidth === 750) {
                     } else {
-                        mentah.attr('src', "{{ $deals['url_deals_image']??'https://www.placehold.it/500x500/EFEFEF/AAAAAA&text=no+image' }}")
+                        mentah.attr('src', "{{ $result['url_deals_image'] ?? 'https://www.placehold.it/750x375/EFEFEF/AAAAAA&text=no+image' }}")
                         $('#file').val("");
                         toastr.warning("Please check dimension of your photo.");
                     }

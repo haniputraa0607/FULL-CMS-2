@@ -141,7 +141,7 @@
 			discount_value = $('input[name=discount_type]:checked').val();
 			$('#discount-bill-div').show();
 			if (discount_value == 'Nominal') {
-				$('input[name=discount_value]').removeAttr('max').val('').attr('placeholder', '100.000').inputmask({removeMaskOnSubmit: "true", placeholder: "", alias: "currency", digits: 0, rightAlign: false});
+				$('input[name=discount_value]').removeAttr('max').val('').attr('placeholder', '100.000').inputmask({removeMaskOnSubmit: "true", placeholder: "", alias: "currency", digits: 0, rightAlign: false,prefix:""});
 				$('#discount-bill-value').text('Discount Nominal');
 				$('#discount-bill-addon, #discount-bill-percent-max-div').hide();
 				$('#bill-addon-rp').show();
@@ -156,7 +156,8 @@
 					min: '0',
 					max: '100',
 					allowMinus : false,
-					allowPlus : false
+					allowPlus : false,
+					prefix:""
 				});
 				$('#discount-bill-value').text('Discount Percent Value');
 				$('#bill-addon-rp').hide();

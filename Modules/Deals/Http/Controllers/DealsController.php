@@ -93,6 +93,9 @@ class DealsController extends Controller
             }
         }
 
+        $post['brand_rule'] = 'or';
+        $post['product_type'] = 'single + variant';
+
         $save = MyHelper::post('deals/create', $post);
 
         if (isset($save['status']) && $save['status'] == "success") {
@@ -956,7 +959,6 @@ class DealsController extends Controller
     /* UPDATE REQUEST */
     function updateReq(Create $request) {
         $post = $request->except('_token');
-
         if($post['deals_type'] == 'Promotion'){
             $rpage = 'promotion/deals';
     	}elseif($post['deals_type'] == 'WelcomeVoucher'){

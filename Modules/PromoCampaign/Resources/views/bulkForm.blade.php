@@ -210,7 +210,8 @@
 			digits: 0, 
 			rightAlign: false,
 			min: '0',
-			max: '999999999'
+			max: '999999999',
+			prefix: ""
 		});
 		$('.qty_mask').inputmask({
 			removeMaskOnSubmit: true, 
@@ -219,7 +220,8 @@
 			digits: 0, 
 			rightAlign: false,
 			min: '0',
-			max: '999999999'
+			max: '999999999',
+			prefix: ""
 		});
 		return status;
 	}
@@ -296,7 +298,8 @@
 			digits: 0, 
 			rightAlign: false,
 			min: '0',
-			max: '999999999'
+			max: '999999999',
+			prefix: ""
 		});
 		reOrder();
 	});

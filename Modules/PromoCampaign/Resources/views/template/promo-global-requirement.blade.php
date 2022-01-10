@@ -10,7 +10,8 @@
 		</div>
 		<div class="portlet-body">
 			<div class="form-group" style="height: 55px;display: inline;">
-				@yield('promo-shipment-method')
+				{{-- @yield('promo-shipment-method') --}}
+				<input type="hidden" name="filter_shipment" value="all_shipment">
 				@yield('promo-payment-method')
 			</div>
 		</div>
