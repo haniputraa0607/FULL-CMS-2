@@ -20,7 +20,7 @@
 	}
 @endphp
 
-<div class="row static-info">
+{{-- <div class="row static-info">
     <div class="col-md-4 name">Shipment Method</div>
     <div class="col-md-1 value">:</div>
     <div class="col-md-7 value" style="margin-left: -35px">
@@ -34,7 +34,7 @@
             -
         @endif
     </div>
-</div>
+</div> --}}
 
 <div class="row static-info">
     <div class="col-md-4 name">Payment Method</div>

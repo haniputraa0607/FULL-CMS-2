@@ -337,14 +337,14 @@ $brand_rule = $deals['brand_rule']??'and';
 			$('select[name="id_brand[]"]').change();
 
             $('.digit-mask').inputmask({
-				: true, 
+				removeMaskOnSubmit: true, 
 				placeholder: "",
 				alias: "currency", 
 				digits: 0, 
 				rightAlign: false,
 				min: 0,
 				max: '999999999',
-                prefix : ""removeMaskOnSubmit,
+                prefix : "",
 			});
 
             $('#is_online, #is_offline').on('change', function(){

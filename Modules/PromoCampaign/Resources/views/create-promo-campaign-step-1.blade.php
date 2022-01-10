@@ -48,7 +48,6 @@
 				$prefix_code 		= $result['prefix_code'];
 				$number_last_code 	= $result['number_last_code'];
 			}
-
 		} elseif (old() != "") {
 			$code_type = old('code_type');
 			if (old('code_type') == 'Multiple') {
@@ -58,7 +57,6 @@
 		}
 	@endphp
 	<script>
-
 	function permut(total_set, each){
 		total_set = parseInt(total_set);
 		each = parseInt(each);
@@ -70,10 +68,8 @@
 			total_set -= 1; 
 		}
 		while (total_set > limit);
-
 		return permut;
     }
-
 	function delay(callback, ms) {
 		var timer = 0;
 		return function() {
@@ -86,7 +82,6 @@
 	}
 	$(document).ready(function() {
 		promo_id = {!! $result['id_promo_campaign_decrypt']??"false" !!};
-
 		$('.digit_mask').inputmask({
 			removeMaskOnSubmit: true, 
 			placeholder: "",
@@ -94,9 +89,9 @@
 			digits: 0, 
 			rightAlign: false,
 			min: '0',
-			max: '999999999'
+			max: '999999999',
+			prefix: ""
 		});
-
 		$('.digit_random').inputmask({
 			removeMaskOnSubmit: true, 
 			placeholder: "",
@@ -104,9 +99,9 @@
 			digits: 0, 
 			rightAlign: false,
 			min: '1',
-			max: '20'
+			max: '20',
+			prefix: ""
 		});
-
 		$.ajax({
 			type: "GET",
 			url: "getTag",
@@ -252,18 +247,15 @@
 						$('#multipleNumberLastCode').attr('max', maxChar - this.value.length)
 					}
 				}, 1000));
-
 				$('#multipleNumberLastCode').keyup(function() {
 					prefix = ($('#multiplePrefixCode').val())
 					last_code = ($('#multipleNumberLastCode').val())
 					max = +$(this).attr('max');
 					val = +$(this).val();
-
 					if (val > max) {
 						$('#multipleNumberLastCode').val(max);
 						last_code = max;
 					}
-
 					if(val < 6) {
 						$(':input[type="submit"]').prop('disabled', true);
 						$('#number_last_code').addClass( "has-error" );
@@ -274,7 +266,6 @@
 						$('#number_last_code').removeClass( "has-error" );
 						$('#alertDigitRandom').hide();
 					}
-
 					var result           = '';
 					var result1          = '';
 					var result2          = '';
@@ -289,7 +280,6 @@
 					$('#exampleCode1').replaceWith("<span id='exampleCode1'>"+prefix+result1+"</span>")
 					$('#exampleCode2').replaceWith("<span id='exampleCode2'>"+prefix+result2+"</span>")
 				});
-
 				$('#multipleNumberLastCode').keyup(function() {
 					prefix = ($('#multiplePrefixCode').val())
 					last_code = ($('#multipleNumberLastCode').val())
@@ -300,7 +290,6 @@
 						$('#multipleNumberLastCode').val(max);
 					}
 				});
-
 				$('input[name=total_coupon], #multipleNumberLastCode').keyup(function() {
 					if (code == 'Multiple') {
 						let maxCharDigit = 28;
@@ -329,11 +318,9 @@
 			$('#multiplePrefixCode').val(prefix_code).trigger('keyup');
 			$('#multipleNumberLastCode').val(number_last_code).trigger('keyup');
 		}
-
 		$('input[name=charged_central]').keyup(function () {
             var outlet = $('input[name=charged_outlet]').val();
             var central = $('input[name=charged_central]').val();
-
             var check = Number(outlet) + Number(central);
             if(check !== 100){
                 document.getElementById('label_central').style.display = 'block';
@@ -345,11 +332,9 @@
                 $(':input[type="submit"]').prop('disabled', false);
             }
         });
-
         $('input[name=charged_outlet]').keyup(function (e) {
             var outlet = $('input[name=charged_outlet]').val();
             var central = $('input[name=charged_central]').val();
-
             var check = Number(outlet) + Number(central);
             if(check !== 100){
                 document.getElementById('label_central').style.display = 'block';
@@ -361,7 +346,6 @@
                 $(':input[type="submit"]').prop('disabled', false);
             }
         });
-
         $('.fileinput-preview').bind('DOMSubtreeModified', function() {
             var mentah    = $(this).find('img')
             // set image
@@ -370,13 +354,13 @@
             ko.src        = cariImage
             // load image
             ko.onload     = function(){
-							if (this.naturalHeight === 375 && this.naturalWidth === 700) {
-							} else {
-									mentah.attr('src', "{{ $deals['url_deals_image']??'https://www.placehold.it/500x500/EFEFEF/AAAAAA&text=no+image' }}")
-									$('#file').val("");
-									toastr.warning("Please check dimension of your photo.");
-							}
-					};
+                if (this.naturalHeight === 375 && this.naturalWidth === 750) {
+                } else {
+                    mentah.attr('src', "{{ $result['url_promo_image'] ?? 'https://www.placehold.it/750x375/EFEFEF/AAAAAA&text=no+image' }}")
+                    $('#file').val("");
+                    toastr.warning("Please check dimension of your photo.");
+                }
+            };
         })
 	});
 	</script>
@@ -551,7 +535,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group" style="height: 90px;">
+                    {{-- <div class="form-group" style="height: 90px;">
 						<label class="control-label">Brand Rule</label>
 						<span class="required" aria-required="true"> * </span>
 						<i class="fa fa-question-circle tooltips" data-original-title="Pilih rule yang akan digunakan untuk memilih outlet" data-container="body"></i>
@@ -567,9 +551,10 @@
 								<span></span>
 							</label>
 						</div>
-					</div>
+					</div> --}}
+                    <input type="hidden" value="or" name="brand_rule"/>
 
-					<div class="form-group" style="height: 125px;">
+					{{-- <div class="form-group" style="height: 125px;">
 						<label class="control-label">Product Type</label>
 						<span class="required" aria-required="true"> * </span>
 						<i class="fa fa-question-circle tooltips" data-original-title="Pilih tipe produk yang akan dikenakan promo jika promo yang dipilih menggunakan syarat produk" data-container="body"></i>
@@ -590,7 +575,10 @@
 								<span></span>
 							</label>
 						</div>
-					</div>
+					</div> --}}
+
+                    <input type="hidden" value="single + variant" name="product_type"/>
+
 
                     <div class="form-group">
                         <div class="input-icon right">
