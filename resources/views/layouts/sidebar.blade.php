@@ -1366,6 +1366,31 @@
             </ul>
         </li>
         @endif
+        @if(MyHelper::hasAccess([425,426], $grantedFeature) || MyHelper::hasAccess([378], $grantedFeature))
+        <li class="nav-item {{($menu_active == 'default-hair-stylist') ? 'active open' : ''}}">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                    <i class="fa fa-money"></i>
+                    <span class="title">Default Income HS</span>
+                    <span class="arrow {{($menu_active == 'default-hair-stylist') ? 'open' : ''}}"></span>
+            </a>
+            <ul class="sub-menu">
+                @if(MyHelper::hasAccess([394], $grantedFeature))
+                <li class="nav-item {{($submenu_active == 'default-hair-stylist-insentif') ? 'active open' : ''}}">
+                    <a href="{{url('recruitment/hair-stylist/default/insentif')}}" class="nav-link ">
+                        <span class="title">Salary Incentive Default HS</span>
+                    </a>
+                </li>
+                @endif
+                @if(MyHelper::hasAccess([393], $grantedFeature) || MyHelper::hasAccess([378], $grantedFeature) )
+                <li class="nav-item {{($submenu_active == 'default-hair-stylist-potongan') ? 'active open' : ''}}">
+                        <a href="{{url('recruitment/hair-stylist/default/potongan')}}" class="nav-link ">
+                                <span class="title">Salary Cuts Default HS</span>
+                        </a>
+                </li>
+                @endif
+            </ul>
+        </li>
+        @endif
 
         @if(MyHelper::hasAccess([410], $grantedFeature) || MyHelper::hasAccess([411], $grantedFeature))
         <li class="nav-item {{($menu_active == 'request-product') ? 'active open' : ''}}">

@@ -146,19 +146,27 @@
 					<div class="form-body">
 						<input type="hidden" name="id_hairstylist_group_potongan" value="{{$result['id_hairstylist_group_potongan']}}">
                                                 <div class="form-group">
-                                                <label class="col-md-4 control-label">Name Potongan<span class="required" aria-required="true">*</span>
-                                                    <i class="fa fa-question-circle tooltips" data-original-title="Potongan" data-container="body"></i>
+                                                <label class="col-md-4 control-label">Name<span class="required" aria-required="true">*</span>
+                                                    <i class="fa fa-question-circle tooltips" data-original-title="Nama potongan yang berasal dari data default potongan" data-container="body"></i>
                                                 </label>
                                                     <div class="col-md-6">
-                                                        <input type="text" value="{{$result['name_potongan']??''}}" name="name_potongan" placeholder="Masukkan nama potongan" class="form-control" required />
+                                                        <input disabled type="text" value="{{$result['name']??''}}" name="name_potongan" placeholder="Masukkan nama potongan" class="form-control" required />
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-md-4 control-label">Price Potongan<span class="required" aria-required="true">*</span>
-                                                        <i class="fa fa-question-circle tooltips" data-original-title="Besar Potongan" data-container="body"></i>
+                                                    <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
+                                                        <i class="fa fa-question-circle tooltips" data-original-title="Value potongan dari pergrup digunakan untuk perhitungan pendapatan hairstylist" data-container="body"></i>
                                                     </label>
                                                     <div class="col-md-6">
-                                                        <input type="text" name="price_potongan"  value="{{number_format($result['price_potongan']??0,0,',',',')}}" id='price_potongan' data-type="currency" placeholder="Masukkan nama potongan" class="form-control" required />
+                                                        <input type="text" name="value" value="{{number_format($result['value']??0,0,',',',')}}" id='value' data-type="currency" placeholder="Masukkan nama potongan" class="form-control" required />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label">Formula<span class="required" aria-required="true">*</span>
+                                                        <i class="fa fa-question-circle tooltips" data-original-title="Rumus perhitungan potongan pergrup (value * frekuensi)" data-container="body"></i>
+                                                    </label>
+                                                    <div class="col-md-6">
+                                                        <textarea name="formula" id="formula" class="form-control" placeholder="Enter rumus potongan">{{$result['formula']??''}}</textarea>
                                                     </div>
                                                 </div>
                                               

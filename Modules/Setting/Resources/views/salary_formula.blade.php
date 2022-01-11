@@ -56,14 +56,6 @@ $configs     		= session('configs');
 	</div>
 	<br>
 
-	<h1 class="page-title">
-		<div class="row">
-			<div class="col-md-6">
-				Setting 
-			</div>
-		</div>
-	</h1>
-
 	@include('layouts.notifications')
 	<br>
         <div class="row" style="margin-top:20px">
