@@ -31,7 +31,7 @@
                                                 <td style="text-align: center">
                                                     <input type="hidden" name="id_hairstylist_group[]" value="{{$id}}"/>
                                                     <input type="hidden" name="id_hairstylist_group_default_potongans[]" value="{{$dt['id_hairstylist_group_default_potongans']}}"/>
-                                                    <input type="text" name="value[]" value="{{number_format($dt['value']??0,0,',',',')}}" id='value' data-type="currency" placeholder="Masukkan nama potongan" class="form-control" required /></td>
+                                                    <textarea type="text" name="value[]" id='value' data-type="currency" placeholder="Masukkan nama potongan" class="form-control" required />{{number_format($dt['value']??0,0,',',',')}}</textarea></td>
                                                 <td style="text-align: center">
                                                     <textarea name="formula[]" id="formula" class="form-control" placeholder="Enter rumus potongan">{{$dt['formula']??''}}</textarea>
                                                 </td>
