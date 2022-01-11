@@ -46,6 +46,9 @@
             '<div class="col-md-8">'+
             '<input class="form-control" type="text" value="" name="category['+noRule+'][cat]" placeholder="Enter Category here" required/>'+
             '</div>'+
+            '<div>'+
+            '<a class="btn btn-danger btn" onclick="deleteRule('+noRule+')">Delete Category</a>'+
+            '</div>'+
             '</div>'+
             '<div class="mt-repeater">'+
             '<div class="mt-repeater-cell">'+
@@ -55,8 +58,11 @@
             '<label class="col-md-3 control-label">Question '+
             '<i class="fa fa-question-circle tooltips" data-original-title="Masukan Pertanyaan" data-container="body"></i>'+
             '</label>'+
-            '<div class="col-md-9">'+
+            '<div class="col-md-8">'+
             '<textarea class="form-control" placeholder="Enter Question here" name="category['+noRule+'][question][0]" required></textarea>'+
+            '</div>'+
+            '<div class="col-md-1">'+
+            '<a class="btn btn-danger btn" onclick="deleteCondition(`'+noRule.toString()+'0`,`'+noRule.toString()+'`)">&nbsp;<i class="fa fa-trash"></i></a>'+
             '</div>'+
             '</div>'+
             '</div>'+
@@ -76,6 +82,16 @@
 		noRule++;
 	}    
 
+    function deleteRule(no){
+		if(no==0){
+            alert('This Category cant be deleted');
+        }else{
+            if(confirm('Are you sure you want to delete this category?')) {
+                $('.rule'+no).remove()
+            }
+        }
+	}
+
     function addCondition(no, noCond){
         noCond = parseInt(noCond) + 1;
 		$(
@@ -84,14 +100,28 @@
             '<label class="col-md-3 control-label">Question '+
             '<i class="fa fa-question-circle tooltips" data-original-title="Masukan Pertanyaan" data-container="body"></i>'+
             '</label>'+
-            '<div class="col-md-9">'+
+            '<div class="col-md-8">'+
             '<textarea class="form-control" placeholder="Enter Question here" name="category['+no+'][question]['+noCond+']" required></textarea>'+
+            '</div>'+
+            '<div class="col-md-1">'+
+            '<a class="btn btn-danger btn" onclick="deleteCondition(`'+no+noCond+'`,`'+no+'`)">&nbsp;<i class="fa fa-trash"></i></a>'+
             '</div>'+
             '</div>'+
             '</div>'
 		).appendTo($('#div-category'+no)).slideDown("slow")
 		$('#btnAddCondition'+no).attr('onclick', 'changeSelect();addCondition('+no+','+noCond+')');
 	}
+
+    function deleteCondition(no, indexRule){
+        if(no==indexRule+0){
+            alert('This Question cant be deleted')
+        }else{
+            if(confirm('Are you sure you want to delete this question?')) {
+                $('#category'+no).remove()
+            }
+        }
+	}
+
     $(document).ready(function() {
         $(document).ready(function () {
             $('.colorpicker').minicolors({
@@ -210,6 +240,9 @@
                                         <div class="col-md-8">
                                             <input class="form-control" type="text" value="{{ $form['category'] }}" name="category[{{ $i }}][cat]" placeholder="Enter Category here" required/>
                                         </div>
+                                        <div>
+                                            <a class="btn btn-danger btn" onclick="deleteRule({{ $i }})">Delete Category</a>
+                                        </div>
                                     </div>
                                     <div class="mt-repeater">
                                         <div class="mt-repeater-cell">
@@ -220,8 +253,11 @@
                                                         <label class="col-md-3 control-label">Question
                                                             <i class="fa fa-question-circle tooltips" data-original-title="Masukan Pertanyaan" data-container="body"></i>
                                                         </label>
-                                                        <div class="col-md-9">
+                                                        <div class="col-md-8">
                                                             <textarea class="form-control" placeholder="Enter Question here" name="category[{{ $i }}][question][{{ $q }}]" required>{{ $question }}</textarea>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <a class="btn btn-danger btn" onclick="deleteCondition('{{ $i }}{{ $q }}','{{ $i }}')">&nbsp;<i class="fa fa-trash"></i></a>
                                                         </div>
                                                     </div>
                                                 </div>
