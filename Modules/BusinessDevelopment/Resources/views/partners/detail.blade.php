@@ -288,6 +288,7 @@
              var sharing_value = {{$result["sharing_value"]}}
             $('#sharing_value').val(sharing_value);
             number("#input-phone");
+            number("#input-mobile");
             number("#mobile");
             onlyNumber("#input-beneficiary_account");
             onlyNumber("#location_large");
@@ -429,6 +430,13 @@
                     <form class="form-horizontal" role="form" action="{{url('businessdev/partners/update')}}/{{$result['id_partner']}}" method="post" enctype="multipart/form-data">
                         <div class="form-body">
                             <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Title <span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Badan usaha perusahaan partner (PT/CV/Persero/dll)" data-container="body"></i></label>
+                                <div class="col-md-5">
+                                    <input class="form-control" type="text" id="input-title" name="title" value="{{$result['title']}}" placeholder="Enter title here"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Name <span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Nama perusahaan/instansi yang menjalin kontrak kerja sama dengan IXOBOX" data-container="body"></i></label>
                                 <div class="col-md-5">
@@ -461,6 +469,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Mobile <span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Nomor telepon partner yang terintegrasi ke whats app, jika tidak diisi default nomor telepon yang terdaftar sebelumnya" data-container="body"></i></label>
+                                <div class="col-md-5">
+                                    <input class="form-control" type="text" id="input-mobile" name="mobile" value="{{$result['mobile']}}" placeholder="Enter mobile here"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Email <span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Alamat email perusahaan/instansi yang dapat dihubungi" data-container="body"></i></label>
                                 <div class="col-md-5" id="col-email">
@@ -472,6 +487,13 @@
                                     <i class="fa fa-question-circle tooltips" data-original-title="Alamat lengkap perusahaan/instansi" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <textarea name="address" id="input-address" class="form-control" placeholder="Enter address here">{{$result['address']}}</textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Notes <span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Catatan tentang perusahaan/instansi partner" data-container="body"></i></label>
+                                <div class="col-md-5">
+                                    <textarea name="notes" id="input-notes" class="form-control" placeholder="Enter notes here">{{$result['notes']}}</textarea>
                                 </div>
                             </div>
                             @if ($title=='Candidate Partner' && !empty($result['partner_locations']))

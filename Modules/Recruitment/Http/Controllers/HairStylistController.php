@@ -230,7 +230,7 @@ class HairStylistController extends Controller
             if(empty($ext)){
                 return redirect('recruitment/hair-stylist')->withErrors(['Extention not found']);
             }
-            $filename = $data['result']['document_type'].'_'.strtotime(date('Ymdhis')).'.'.$ext;
+            $filename = str_replace('/','_',strtolower(str_replace(' ','_',$data['result']['document_type'])).'_'.strtotime(date('Ymdhis')).'.'.$ext);
             $temp = tempnam(sys_get_temp_dir(), $filename);
             copy($data['result']['attachment'], $temp);
             return response()->download($temp, $filename)->deleteFileAfterSend(true);

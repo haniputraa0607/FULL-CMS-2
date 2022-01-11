@@ -359,11 +359,14 @@ class PartnersController extends Controller
         }
         $post = [
             "id_partner" => $id,
+            "title" => $request["title"],
             "name" => $request["name"],
             "contact_person" => $request["cp"],
             "phone" => $request["phone"],
+            "mobile" => $request["mobile"],
             "email" => $request["email"],
             "address" => $request["address"],
+            "notes" => $request["notes"],
         ];
         if (isset($request['gender'])){
             $post['gender'] = $request['gender'];

@@ -473,26 +473,69 @@ $grantedFeature     = session('granted_features');
 								</div>
 							</div>
 						</div>
-                                                <div class="form-group">
-                                                        <label class="col-md-4 control-label">Group<span class="required" aria-required="true"> * </span>
-                                                                <i class="fa fa-question-circle tooltips" data-original-title="Group hair stylist" data-container="body"></i>
-                                                        </label>
-                                                        <div class="col-md-6">
-                                                                <div class="input-icon right">
-                                                                        <select  class="form-control select2" name="id_hairstylist_group" data-placeholder="Select Group" required>
-                                                                                <option></option>
-                                                                                @foreach($groups as $group)
-                                                                                        <option value="{{$group['id_hairstylist_group']}}" @if($group['id_hairstylist_group'] == $detail['id_hairstylist_group']) selected @endif>{{$group['hair_stylist_group_code']}} - {{$group['hair_stylist_group_name']}}</option>
-                                                                                @endforeach
-                                                                        </select>
-                                                                </div>
-                                                        </div>
-                                                </div>
+                        <div class="form-group">
+                                <label class="col-md-4 control-label">Group<span class="required" aria-required="true"> * </span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Group hair stylist" data-container="body"></i>
+                                </label>
+                                <div class="col-md-6">
+                                        <div class="input-icon right">
+                                                <select  class="form-control select2" name="id_hairstylist_group" data-placeholder="Select Group" required>
+                                                        <option></option>
+                                                        @foreach($groups as $group)
+                                                                <option value="{{$group['id_hairstylist_group']}}" @if($group['id_hairstylist_group'] == $detail['id_hairstylist_group']) selected @endif>{{$group['hair_stylist_group_code']}} - {{$group['hair_stylist_group_name']}}</option>
+                                                        @endforeach
+                                                </select>
+                                        </div>
+                                </div>
+                        </div>
+                        @if(!empty($detail['experiences']))
+                        <div class="form-group">
+							<label class="col-md-7 control-label" style="font-size: 18px; font-weight: bold; !important;">Work Experience</label>
+						</div>
+                            @foreach ($detail['experiences'] as $e => $experience)
+                            @if ($e!=0)
+                            <div class="row" style="margin-bottom: 15px">
+                                <div class="col-md-2">
+                                </div>
+                                <div class="col-md-8">
+                                    <hr style="border-top: 1px dashed;">
+                                </div>
+                            </div>
+                            @endif
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Barber / Salon Name
+                                </label>
+                                <div class="col-md-6">
+                                    <div class="input-icon right">
+                                        <input type="text" placeholder="Barber / Salon Name" class="form-control" value="{{ $experience['salon_name']}}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Position
+                                </label>
+                                <div class="col-md-6">
+                                    <div class="input-icon right">
+                                        <input type="text" placeholder="Position" class="form-control" value="{{ $experience['position']}}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Work Period
+                                </label>
+                                <div class="col-md-6">
+                                    <div class="input-icon right">
+                                        <input type="text" placeholder="Period" class="form-control" value="{{ $experience['period']}}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        @endif
 					</div>
 
 					@if(!empty($detail['documents']))
 						<br>
-						<div style="text-align: center"><h4>Log Update Status</h4></div>
+						<div style="text-align: center"><h4>Document Hair Stylist</h4></div>
 						<div class="form-group">
 							<div class="col-md-12">
 								<table class="table table-striped table-bordered table-hover">
