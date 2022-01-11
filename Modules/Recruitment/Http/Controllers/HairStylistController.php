@@ -72,7 +72,7 @@ class HairStylistController extends Controller
 
             $data['detail'] = $detail['result'];
             $data['outlets'] = MyHelper::get('outlet/be/list/simple')['result']??[];
-            $data['groups'] = MyHelper::get('recruitment/hairstylist/be/group/')['result']??[];
+            $data['groups'] = MyHelper::get('recruitment/hairstylist/be/group/')['result']['data']??[];
             return view('recruitment::hair_stylist.detail', $data);
         }else{
             return redirect('recruitment/hair-stylist/candidate')->withErrors($store['messages']??['Failed get detail candidate']);
@@ -171,7 +171,7 @@ class HairStylistController extends Controller
 
             $data['detail'] = $detail['result'];
             $data['outlets'] = MyHelper::get('outlet/be/list/simple')['result'] ?? [];
-            $data['groups'] = MyHelper::get('recruitment/hairstylist/be/group/list_group')['result']??[];
+            $data['groups'] = MyHelper::get('recruitment/hairstylist/be/group/')['result']['data']??[];
             $data['schedules'] = [];
             if (!empty($data['detail']['id_outlet']) && $data['detail']['user_hair_stylist_status'] == 'Active') {
             	$data['schedules'] = MyHelper::get('recruitment/hairstylist/be/schedule/outlet?id_outlet='.$data['detail']['id_outlet'])['result'] ?? [];

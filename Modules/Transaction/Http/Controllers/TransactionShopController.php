@@ -116,14 +116,15 @@ class TransactionShopController extends Controller
         ];
 
         $post['id_transaction'] = $id;
+        $post['admin'] = 1;
         $check = MyHelper::post('transaction/shop/detail', $post);
 
     	if (isset($check['status']) && $check['status'] == 'success') {
     		$data['data'] = $check['result'];
     	} elseif (isset($check['status']) && $check['status'] == 'fail') {
-            return view('error', ['msg' => 'Data failed']);
+            return redirect('transaction/shop')->withErrors(['Data failed']);
         } else {
-            return view('error', ['msg' => 'Something went wrong, try again']);
+            return redirect('transaction/shop')->withErrors(['Something went wrong, try again']);
         }
         return view('transaction::transactionDetailShop', $data);
     	
