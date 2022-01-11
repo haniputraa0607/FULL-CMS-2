@@ -143,16 +143,16 @@
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">Default Cuts Salary Hair Stylist</span>
+                <span class="caption-subject sbold uppercase font-blue">Salary Cuts Default Hair Stylis</span>
             </div>
         </div>
         <div class="tabbable-line tabbable-full-width">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="#overview" data-toggle="tab"> List Default Potongan</a>
+                    <a href="#overview" data-toggle="tab"> List Default Salary Cuts</a>
                 </li>
                 <li>
-                    <a href="#create" data-toggle="tab">Create Default Potongan</a>
+                    <a href="#create" data-toggle="tab">Create Default Salary Cuts</a>
                 </li>
             </ul>
         <div class="tab-content">
@@ -163,7 +163,7 @@
                 <div class="portlet light bordered">
                     <div class="portlet-title">
                         <div class="caption">
-                            <span class="caption-subject font-blue sbold uppercase">{{ $title }}</span>
+                            <span class="caption-subject font-blue sbold uppercase">{{ $sub_title }}</span>
                         </div>
                     </div>
                     <div class="portlet-body form">

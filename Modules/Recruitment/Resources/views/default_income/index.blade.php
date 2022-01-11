@@ -164,7 +164,7 @@
                 <div class="portlet light bordered">
                     <div class="portlet-title">
                         <div class="caption">
-                            <span class="caption-subject font-blue sbold uppercase">{{ $title }}</span>
+                            <span class="caption-subject font-blue sbold uppercase">{{ $sub_title }}</span>
                         </div>
                     </div>
                     <div class="portlet-body form">

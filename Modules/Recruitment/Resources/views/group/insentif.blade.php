@@ -4,7 +4,7 @@
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption">
-                    <span class="caption-subject font-dark sbold uppercase font-yellow">List Insentif</span>
+                    <span class="caption-subject font-dark sbold uppercase font-yellow">List Incentive</span>
                 </div>
             </div>
             <div class="portlet-body form">
@@ -17,7 +17,7 @@
                                 <tr>
                                  
                                         <th class="text-nowrap text-center"> Name </th>
-                                        <th class="text-nowrap text-center"> Insentif</th>
+                                        <th class="text-nowrap text-center"> Incentive</th>
                                         <th class="text-nowrap text-center"> Formula</th>
                                         <th class="text-nowrap text-center"> Action</th>
                                        
