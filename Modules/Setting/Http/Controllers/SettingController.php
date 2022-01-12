@@ -1633,4 +1633,24 @@ class SettingController extends Controller
             return view('setting::salary_formula', $data);
         }
     }
+    public function attendances_date(Request $request){
+        $post = $request->except('_token');
+        $data = [
+            'title'          => 'Setting Attendances Start Date',
+            'menu_active'    => 'setting-attendances-date',
+            'submenu_active'    => 'setting-attendances-date',
+        ];
+        if($post){
+            $query = MyHelper::post('setting/attendances_date_create', $post);
+            if(($query['status']??'')=='success'){
+                return redirect('setting/setting-attendances-date')->with('success',['Success update data']);
+            }else{
+                return redirect('setting/setting-attendances-date')->withErrors([$query['message']]);
+            }
+        }else{
+            $query = MyHelper::get('setting/attendances_date');
+            $data['result'] = $query;
+            return view('setting::attendances_date', $data);
+        }
+    }
 }
