@@ -528,7 +528,7 @@ $configs = session('configs');
 	                    @else
 							@if (isset($dt['is_discount']) && $dt['is_discount']==1)
 	                        <div class="col-6 text-13-3px WorkSans-Medium text-grey space-text">{{$dt['name']}}</div>
-	                        <div class="col-6 text-13-3px text-right WorkSans-Medium text-grey-red space-text">- {{ str_replace(',', '.', $dt['amount']) }}</div>
+	                        <div class="col-6 text-13-3px text-right WorkSans-Medium text-grey-red space-text">{{ str_replace(',', '.', $dt['amount']) }}</div>
                             @else
 	                        <div class="col-6 text-13-3px WorkSans-Medium text-grey-light space-text">{{$dt['name']}} ({{$dt['desc']}})</div>
 	                        <div class="col-6 text-13-3px text-right WorkSans-Medium text-grey-light space-text">{{ str_replace(',', '.', $dt['amount']) }}</div>
