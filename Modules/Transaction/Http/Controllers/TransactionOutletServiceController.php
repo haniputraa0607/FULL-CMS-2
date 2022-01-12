@@ -131,7 +131,7 @@ class TransactionOutletServiceController extends Controller
 
         $post['id_transaction'] = $id;
         $check = MyHelper::post('transaction/outlet-service/detail', $post);
-        // return $check;
+
     	if (isset($check['status']) && $check['status'] == 'success') {
     		$data['data'] = $check['result'];
     	} elseif (isset($check['status']) && $check['status'] == 'fail') {
