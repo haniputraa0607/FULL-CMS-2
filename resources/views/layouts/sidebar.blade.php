@@ -3625,6 +3625,14 @@
 			</a>
 		</li>
 		@endif
+        @if(MyHelper::hasAccess([427], $grantedFeature))
+		<li class="nav-item {{($menu_active == 'setting-attendances-date') ? 'active open' : ''}}">
+			<a href="{{url('setting/setting-attendances-date')}}" class="nav-link nav-toggle">
+				<i class="fa fa-location-arrow"></i>
+				<span class="title">Setting Attendances Date</span>
+			</a>
+		</li>
+		@endif
 
 		@if(MyHelper::hasAccess([85,86,87,88,89,154], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
