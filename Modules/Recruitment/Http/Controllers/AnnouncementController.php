@@ -13,8 +13,8 @@ class AnnouncementController extends Controller
 {
 	public function create(Request $request){
 		$data = [
-            'title'          	=> 'Recruitment',
-            'sub_title'      	=> 'Announcement',
+            'title'          	=> 'Announcement',
+            'sub_title'      	=> 'New Announcement',
             'menu_active'    	=> 'hairstylist-announcement',
             'submenu_active' 	=> 'hairstylist-announcement',
             'child_active' 		=> 'hairstylist-announcement-create',
@@ -60,8 +60,8 @@ class AnnouncementController extends Controller
         $post = $request->all();
 
         $data = [
-            'title'          	=> 'Recruitment',
-            'sub_title'      	=> 'Announcement',
+            'title'          	=> 'Announcement',
+            'sub_title'      	=> 'Announcement List',
             'menu_active'    	=> 'hairstylist-announcement',
             'submenu_active' 	=> 'hairstylist-announcement',
             'child_active' 		=> 'hairstylist-announcement-list'
@@ -136,8 +136,8 @@ class AnnouncementController extends Controller
 
     public function edit(Request $request, $id_hairstylist_announcement) {
 		$data = [
-            'title'          	=> 'Recruitment',
-            'sub_title'      	=> 'Announcement',
+            'title'          	=> 'Announcement',
+            'sub_title'      	=> 'Edit Announcement',
             'menu_active'    	=> 'hairstylist-announcement',
             'submenu_active' 	=> 'hairstylist-announcement',
             'child_active' 		=> 'hairstylist-announcement-list',
