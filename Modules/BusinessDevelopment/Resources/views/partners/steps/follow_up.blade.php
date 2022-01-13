@@ -244,10 +244,10 @@
                                     <label for="example-search-input" class="control-label col-md-4">Step <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Step yang sedang dilakukan" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="follow_up" name="follow_up" value="@if($step_follow_up<2)Follow Up {{ $step_follow_up }} @else Follow Up @endif" readonly required/>
+                                        <input class="form-control" type="text" id="follow_up" name="follow_up" value="" required/>
                                     </div>
                                 </div>
-                                @if ($step_follow_up==1)
+                                {{--  @if ($step_follow_up==1)
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Partner Title <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Badan usaha perusahaan partner (PT/CV/Persero/dll)" data-container="body"></i></label>
@@ -502,7 +502,7 @@
                                         </div>
                                     </div>
                                 </div>    
-                                @endif
+                                @endif  --}}
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Catatan untuk step ini" data-container="body"></i></label>

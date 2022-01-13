@@ -628,7 +628,8 @@ class PartnersController extends Controller
             "follow_up" => $request["follow_up"],
             "note" => $request["note"],  
         ];
-        if(isset($request["follow_up"]) && $request["follow_up"]=='Follow Up 1'){
+
+        if(isset($request["follow_up"]) && $request["follow_up"]=='Input Data Partner'){
             $request->validate([
                 "mall" => "required",
                 "partner_code" => "required",
@@ -693,61 +694,62 @@ class PartnersController extends Controller
             $status_steps = 'Survey Location';
         }else{
             $status_steps = 'On Follow Up';
+            $post_follow_up['follow_up'] = 'Follow Up';
         }
         $update_partner = [
             "id_partner" => $request["id_partner"],
             "status_steps" => $status_steps,
             "status" => 'Candidate'
         ];
-        if (isset($request["npwp"]) && $request["follow_up"]=='Follow Up 1') {
+        if (isset($request["npwp"]) && $request["follow_up"]=='Input Data Partner') {
             $update_partner['npwp'] = $request['npwp'];
         }
-        if (isset($request["sharing_percent"]) && $request["follow_up"]=='Follow Up 1') {
+        if (isset($request["sharing_percent"]) && $request["follow_up"]=='Input Data Partner') {
             $update_partner['sharing_percent'] = 1;
-        }elseif($request["follow_up"]=='Follow Up 1'){
+        }elseif($request["follow_up"]=='Input Data Partner'){
             $update_partner['sharing_percent'] = 0;
         }
-        if (isset($request["sharing_value"]) && $request["follow_up"]=='Follow Up 1') {
+        if (isset($request["sharing_value"]) && $request["follow_up"]=='Input Data Partner') {
             $update_partner['sharing_value'] = $request['sharing_value'];
         }
         
-        if (isset($request["title"]) && $request["follow_up"]=='Follow Up 1') {
+        if (isset($request["title"]) && $request["follow_up"]=='Input Data Partner') {
             $update_partner['title'] = $request['title'];
         }
-        if (isset($request["partner_code"]) && $request["follow_up"]=='Follow Up 1') {
+        if (isset($request["partner_code"]) && $request["follow_up"]=='Input Data Partner') {
             $update_partner['code'] = $request['partner_code'];
         }
-        if (isset($request["mobile"]) && $request["follow_up"]=='Follow Up 1' && !empty($request["mobile"])) {
+        if (isset($request["mobile"]) && $request["follow_up"]=='Input Data Partner' && !empty($request["mobile"])) {
             $update_partner['mobile'] = $request['mobile'];
-        }elseif(empty($request["mobile"]) && $request["follow_up"]=='Follow Up 1') {
+        }elseif(empty($request["mobile"]) && $request["follow_up"]=='Input Data Partner') {
             $update_partner['mobile'] = 'default';
         }
-        if (isset($request["npwp_name"]) && $request["follow_up"]=='Follow Up 1') {
+        if (isset($request["npwp_name"]) && $request["follow_up"]=='Input Data Partner') {
             $update_partner['npwp_name'] = $request['npwp_name'];
         }
-        if (isset($request["npwp_address"]) && $request["follow_up"]=='Follow Up 1') {
+        if (isset($request["npwp_address"]) && $request["follow_up"]=='Input Data Partner') {
             $update_partner['npwp_address'] = $request['npwp_address'];
         }
-        if (isset($request["termpayment"]) && $request["follow_up"]=='Follow Up 1') {
+        if (isset($request["termpayment"]) && $request["follow_up"]=='Input Data Partner') {
             $update_partner['id_term_payment'] = $request['termpayment'];
         }
-        if (isset($request["partner_note"]) && $request["follow_up"]=='Follow Up 1') {
+        if (isset($request["partner_note"]) && $request["follow_up"]=='Input Data Partner') {
             $update_partner['notes'] = $request['partner_note'];
         }
-        if (isset($request['ownership_status']) && $request['follow_up']=='Follow Up 1'){
+        if (isset($request['ownership_status']) && $request['follow_up']=='Input Data Partner'){
             $update_partner['ownership_status'] = $request['ownership_status'];
         } 
-        if (isset($request['cooperation_scheme']) && $request['follow_up']=='Follow Up 1'){
+        if (isset($request['cooperation_scheme']) && $request['follow_up']=='Input Data Partner'){
             $update_partner['cooperation_scheme'] = $request['cooperation_scheme'];
             
         } 
-        if (isset($request['id_bank_account']) && $request['follow_up']=='Follow Up 1'){
+        if (isset($request['id_bank_account']) && $request['follow_up']=='Input Data Partner'){
             $update_partner['id_bank_account'] = $request['id_bank_account'];
         }
-        if ($request['start_date']!=null && $request['follow_up']=='Follow Up 1'){
+        if ($request['start_date']!=null && $request['follow_up']=='Input Data Partner'){
             $update_partner['start_date'] = date('Y-m-d', strtotime($request['start_date']));
         } 
-        if ($request['end_date']!=null && $request['follow_up']=='Follow Up 1'){
+        if ($request['end_date']!=null && $request['follow_up']=='Input Data Partner'){
             $update_partner['end_date'] = date('Y-m-d', strtotime($request['end_date']));
         }
 
@@ -816,7 +818,7 @@ class PartnersController extends Controller
             ];
             $post_follow_up['id_location'] = $request["id_location"];
         }
-        if(isset($request["follow_up"]) && $request["follow_up"]=='Follow Up 1'){
+        if(isset($request["follow_up"]) && $request["follow_up"]=='Input Data Partner'){
             $cek = [
                 "id_partner" => $request['id_partner'],
                 "partner_code" => $request['partner_code'],
