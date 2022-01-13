@@ -138,7 +138,8 @@
                                             <label for="{{str_replace('&','_',str_replace(' ','-', strtolower($module)))}}_{{$x}}">
                                                 <span></span>
                                                 <span class="check" style="margin-top: 10px;"></span>
-                                                <span class="box" style="margin-top: 10px;"></span> {{$feature['feature_type']}}
+                                                <span class="box" style="margin-top: 10px;"></span>
+                                                <div style="margin-top: 10px;"> {{$feature['feature_type']}}</div>
                                             </label>
                                         </div>
                                         <?php $x++;?>
@@ -149,7 +150,8 @@
                                     <label for="module_{{str_replace('&','_',str_replace(' ','-', strtolower($module)))}}">
                                         <span></span>
                                         <span class="check" style="margin-top: 10px;" onChange="checkAll('{{str_replace('&','_',str_replace(' ','-', strtolower($module)))}}','{{$x-1}}')"></span>
-                                        <span class="box" style="margin-top: 10px;"></span> All {{$module}}
+                                        <span class="box" style="margin-top: 10px;"></span>
+                                        <div style="margin-top: 10px;">  All {{$module}}</div>
                                     </label>
                                 </div>
                             </div>
