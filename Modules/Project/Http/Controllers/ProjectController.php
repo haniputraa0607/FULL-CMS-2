@@ -88,11 +88,10 @@ class ProjectController extends Controller
         $getLokasi = MyHelper::get('project/select-list/lokasi');
         $data['partner']=array_map(function($var){
             return [$var['id_partner'],$var['name']];
-        }, $getPartner['result']);
+        }, $getPartner['result']??[]);
         $data['location']=array_map(function($var){
             return [$var['id_location'],$var['name']];
-        }, $getLokasi['result']);
-//        return $data;
+        }, $getLokasi['result']??[]);
         return view('project::project.list', $data);
     }
     
@@ -181,6 +180,8 @@ class ProjectController extends Controller
                 $data['result']['project_fitout']=array();
             }
             $data['id_enkripsi'] = MyHelper::createSlug($result['result']['id_project'], $result['result']['created_at']);
+            $data['nomor_loi'] = MyHelper::get('project/detail/no_loi')['result']??'';
+            $data['nomor_spk'] = MyHelper::get('project/detail/no_spk')['result']??'';
             return view('project::project.detail', $data);
         }else{
             return Redirect::back()->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
