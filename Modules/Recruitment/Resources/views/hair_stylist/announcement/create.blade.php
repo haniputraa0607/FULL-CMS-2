@@ -54,7 +54,7 @@
                 placeholder: "ex. Ixobox H20"
             },
             id_province:{
-                display:'province',
+                display:'Province',
                 operator:[],
                 opsi:{!!json_encode($provinces ?? [])!!},
                 placeholder: "ex. Jakarta"
