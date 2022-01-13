@@ -451,7 +451,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="example-search-input" class="control-label col-md-4">Partner Gender <span class="required" aria-required="true">*</span>
+                                <label for="example-search-input" class="control-label col-md-4">Contact Person Gender <span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Jenis kelamin dari contact person" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <select name="gender" class="form-control input-sm select2" placeholder="Select Gender" required>
@@ -496,7 +496,7 @@
                                     <textarea name="notes" id="input-notes" class="form-control" placeholder="Enter notes here">{{$result['notes']}}</textarea>
                                 </div>
                             </div>
-                            @if ($title=='Candidate Partner' && !empty($result['partner_locations']))
+                            {{--  @if ($title=='Candidate Partner' && !empty($result['partner_locations']))
                             <div class="portlet light" style="margin-bottom: 0; padding-bottom: 0">
                                 <div class="portlet-title">
                                     <div class="caption">
@@ -549,7 +549,7 @@
                                     </div>
                                 </div>    
                             </div>
-                            @endif
+                            @endif  --}}
 
                             @if($title=='Partner')
                             <input type="hidden" value="on" name="status">

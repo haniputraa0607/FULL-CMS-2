@@ -24,7 +24,7 @@
                         $(this).click(function() {
                             swal({
                                     title: "Approved?",
-                                    text: "Kamu akan diarahkan ke step selanjutnya!",
+                                    text: "You will be directed to the next step!",
                                     type: "warning",
                                     showCancelButton: true,
                                     confirmButtonClass: "btn-success",
@@ -211,12 +211,33 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">No LOI <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Nomor Surat pernyataan komitmen pengajuan calon lokasi" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" type="text" id="follow-name-location" name="no_loi" value="{{ old('no_loi') ?? $result['no_loi']}}" placeholder="Enter no loi here" required/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">LOI Date <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal surat LOI disetujui oleh kedua pihak" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <div class="input-group">
+                                            <input type="text" id="end_date" class="datepicker form-control" name="date_loi" value="{{ old('date_loi') ?? (!empty($result['date_loi']) ? date('d F Y', strtotime($result['date_loi'])) : '')}}" required>
+                                            <span class="input-group-btn">
+                                                <button class="btn default" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>   
+                                {{--  <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location Code <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Kode yang akan digunakan lokasi milik partner kedepannya" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" id="location_code" name="location_code" placeholder="Enter location code here" value="{{ old('location_code') }}" required/>
                                     </div>
-                                </div>   
+                                </div>     --}}
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location Address <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Alamat lengkap calon lokasi yang diajukan" data-container="body"></i></label>
@@ -256,19 +277,19 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                {{--  <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location Tax <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Apakah lokasi akan menggunakan PPN" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input type="checkbox" class="make-switch" data-size="small" data-on-color="info" data-on-text="Use Tax" name="is_tax" data-off-color="default" data-off-text="Not Using Tax">
                                     </div>
-                                </div>    
+                                </div>      --}}
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location Large <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Luas dari lokasi yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input class="form-control" type="text" id="location_large" name="location_large" placeholder="Enter location large here" value="{{ old('location_large') }}" required/>
+                                            <input class="form-control" type="text" id="location_large" name="location_large" placeholder="Enter location large here" value="{{ old('location_large') ?? $result['location_large']}}" required/>
                                             <span class="input-group-addon">m<sup>2</sup></span>
                                         </div>
                                     </div>
@@ -279,7 +300,7 @@
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="rental_price" name="rental_price" placeholder="Enter rental price here" value="{{ old('rental_price') }}" required/>
+                                            <input class="form-control" type="text" data-type="currency" id="rental_price" name="rental_price" placeholder="Enter rental price here" value="{{ old('rental_price') ?? $result['rental_price']}}" required/>
                                         </div>
                                     </div>
                                 </div>    
@@ -289,7 +310,7 @@
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="service_charge" name="service_charge" placeholder="Enter service charge here" value="{{ old('service_charge') }}" required/>
+                                            <input class="form-control" type="text" data-type="currency" id="service_charge" name="service_charge" placeholder="Enter service charge here" value="{{ old('service_charge') ?? $result['service_charge']}}" required/>
                                         </div>
                                     </div>
                                 </div>    
@@ -299,11 +320,11 @@
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="promotion_levy" name="promotion_levy" placeholder="Enter promotion levy here"  value="{{ old('promotion_levy') }}" required/>
+                                            <input class="form-control" type="text" data-type="currency" id="promotion_levy" name="promotion_levy" placeholder="Enter promotion levy here"  value="{{ old('promotion_levy') ?? $result['promotion_levy']}}" required/>
                                         </div>
                                     </div>
                                 </div>    
-                                <div class="form-group">
+                                {{--  <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Contractor Price <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Biaya kontraktor untuk membangun lokasi" data-container="body"></i></label>
                                     <div class="col-md-5">
@@ -312,8 +333,8 @@
                                             <input class="form-control" type="text" data-type="currency" id="renovation_cost" name="renovation_cost" placeholder="Enter renovation cost here" value="{{ old('renovation_cost') }}" required/>
                                         </div>
                                     </div>
-                                </div>    
-                                <div class="form-group">
+                                </div>      --}}
+                                {{--  <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Partnership Fee <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Biaya kerja sama yang akan dibayarkan partner ke IXOBOX" data-container="body"></i></label>
                                     <div class="col-md-5">
@@ -322,8 +343,8 @@
                                             <input class="form-control" type="text" data-type="currency" id="partnership_fee" name="partnership_fee" placeholder="Enter partnership fee here" value="{{ old('partnership_fee') }}" required/>
                                         </div>
                                     </div>
-                                </div>    
-                                <div class="form-group">
+                                </div>      --}}
+                                {{--  <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Income <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Perkiraan permasukan per bulan" data-container="body"></i></label>
                                     <div class="col-md-5">
@@ -332,13 +353,13 @@
                                             <input class="form-control" type="text" data-type="currency" id="income" name="income" placeholder="Enter income here" value="{{ old('income') }}" required/>
                                         </div>
                                     </div>
-                                </div> 
+                                </div>   --}}
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Start Date <span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Start Date
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai menjadi partner atau tanggal kerja sama dimulai" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input type="text" id="start_date" class="datepicker form-control" name="start_date" value="{{ (!empty($result['start_date']) ? date('d F Y', strtotime($result['start_date'])) : '')}}" required>
+                                            <input type="text" id="start_date" class="datepicker form-control" name="start_date" value="{{ old('start_date') ?? (!empty($result['start_date']) ? date('d F Y', strtotime($result['start_date'])) : '')}}">
                                             <span class="input-group-btn">
                                                 <button class="btn default" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -348,11 +369,11 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">End Date <span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">End Date
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal berakhir menjadi partner atau tanggal kerja sama selesai" data-container="body"></i><br><span class="required" aria-required="true">( must be more than 3 years )</span></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input type="text" id="end_date" class="datepicker form-control" name="end_date" value="{{ (!empty($result['end_date']) ? date('d F Y', strtotime($result['end_date'])) : '')}}" required>
+                                            <input type="text" id="end_date" class="datepicker form-control" name="end_date" value="{{ old('end_date') ?? (!empty($result['end_date']) ? date('d F Y', strtotime($result['end_date'])) : '')}}">
                                             <span class="input-group-btn">
                                                 <button class="btn default" type="button">
                                                     <i class="fa fa-calendar"></i>

@@ -296,14 +296,14 @@
                 <div class="portlet-body form">
                     <form class="form-horizontal" role="form" action="{{url('businessdev/locations/update')}}/{{$result['id_location']}}" method="post" enctype="multipart/form-data">
                         <div class="form-body">
-                            <input class="form-control" type="hidden" id="id_partner" name="id_partner" value="{{$result['id_partner']}}" readonly/>
-                            <div class="form-group">
+                            {{--  <input class="form-control" type="hidden" id="id_partner" name="id_partner" value="{{$result['id_partner']}}" readonly/>  --}}
+                            {{--  <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Name Partner <span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Nama partner pemilik lokasi" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <input class="form-control" type="text" id="input-name-partner" name="namePartner" value="{{$result['location_partner']['name']}}" readonly/>
                                 </div>
-                            </div>
+                            </div>  --}}
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Name Location <span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Nama Lokasi yang dimiliki partner" data-container="body"></i></label>
@@ -360,7 +360,7 @@
                             </div>
                             @if($title=='Location') 
                             <div class="form-group">
-                                <label for="example-search-input" class="control-label col-md-4">Start Date <span class="required" aria-required="true">*</span>
+                                <label for="example-search-input" class="control-label col-md-4">Start Date 
                                     <i class="fa fa-question-circle tooltips" data-original-title="Tanggal lokasi mulai disahkan" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <div class="input-group">
@@ -374,7 +374,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="example-search-input" class="control-label col-md-4">End Date <span class="required" aria-required="true">*</span>
+                                <label for="example-search-input" class="control-label col-md-4">End Date 
                                     <i class="fa fa-question-circle tooltips" data-original-title="Tanggal lokasi berhenti beroperasi" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <div class="input-group">
@@ -406,7 +406,6 @@
             <div class="tab-pane" id="status">
                 <div style="white-space: nowrap;">
                     <div class="portlet-body form">
-                        @if ($result['location_partner']['status']=='Active')
                         <div class="tab-pane">
                             <div class="row">
                                 <div class="col-md-3">
@@ -417,14 +416,8 @@
                                         <li class="@if($result['step_loc']=='Survey Location') active @endif" @if($result['step_loc']==null || $result['step_loc']=='On Follow Up') style="opacity: 0.4 !important" @endif>
                                             <a @if($result['step_loc']==null || $result['step_loc']=='On Follow Up') @else data-toggle="tab" @endif href="#survey"><i class="fa fa-cog"></i> Survey Location </a>
                                         </li>
-                                        <li class="@if($result['step_loc']=='Calculation') active @endif" @if($result['step_loc']==null || $result['step_loc']=='On Follow Up' || $result['step_loc']=='Finished Follow Up') style="opacity: 0.4 !important" @endif>
-                                            <a @if($result['step_loc']==null || $result['step_loc']=='On Follow Up' || $result['step_loc']=='Finished Follow Up') @else data-toggle="tab" @endif href="#calcu"><i class="fa fa-cog"></i> Calculation </a>
-                                        </li>
-                                        <li class="@if($result['step_loc']=='Confirmation Letter') active @endif" <a @if($result['step_loc']=='Calculation' || $result['step_loc']=='Confirmation Letter' || $result['step_loc']=='Payment') @else style="opacity: 0.4 !important" @endif>
-                                            <a @if($result['step_loc']=='Calculation' || $result['step_loc']=='Confirmation Letter' || $result['step_loc']=='Payment') data-toggle="tab" @endif href="#confirm"><i class="fa fa-cog"></i> Confirmation Letter </a>
-                                        </li>
-                                        <li class="@if($result['step_loc']=='Payment') active @endif" @if($result['step_loc']=='Confirmation Letter' || $result['step_loc']=='Payment') @else style="opacity: 0.4 !important" @endif>
-                                            <a @if($result['step_loc']=='Confirmation Letter' || $result['step_loc']=='Payment') data-toggle="tab" @endif href="#payment"><i class="fa fa-cog"></i> Payment </a>
+                                        <li class="@if($result['step_loc']=='Approved') active @endif" @if($result['step_loc']==null || $result['step_loc']=='On Follow Up' || $result['step_loc']=='Finished Follow Up') style="opacity: 0.4 !important" @endif>
+                                            <a @if($result['step_loc']==null || $result['step_loc']=='On Follow Up' || $result['step_loc']=='Finished Follow Up') @else data-toggle="tab" @endif href="#approved"><i class="fa fa-cog"></i> Approved </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -436,37 +429,13 @@
                                         <div class="tab-pane @if($result['step_loc']=='Survey Location') active @endif" id="survey">
                                             @include('businessdevelopment::locations.steps.survey_loc')
                                         </div>
-                                        <div class="tab-pane @if($result['step_loc']=='Calculation') active @endif" id="calcu">
-                                            @include('businessdevelopment::locations.steps.calculation') 
-                                        </div>
-                                        <div class="tab-pane @if($result['step_loc']=='Confirmation Letter') active @endif" id="confirm">
-                                            @include('businessdevelopment::locations.steps.confirmation')
-                                        </div>
-                                        <div class="tab-pane @if($result['step_loc']=='Payment') active @endif" id="payment">
+                                        <div class="tab-pane @if($result['step_loc']=='Approved') active @endif" id="approved">
                                             @include('businessdevelopment::locations.steps.payment')
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        @else
-                        <div class="portlet box red">
-                            <div class="portlet-title">
-                                <div class="caption">
-                                    <i class="fa fa-gear"></i>Warning</div>
-                                <div class="tools">
-                                    <a href="javascript:;" class="collapse"> </a>
-                                </div>
-                            </div>
-                            <div class="portlet-body">
-                                <p>The Partner from this location has not been approved and the status is still a candidate</p>
-                                <p>Please do partner approval first</p>
-                                <a href="{{url('businessdev/partners/detail')}}/{{$result['location_partner']['id_partner']}}#status" class="btn btn-sm yellow" style="float:center">
-                                    Approve Partner
-                                </a>
-                            </div>
-                        </div>
-                        @endif
                     </div>
                 </div>
             </div>
@@ -603,6 +572,34 @@
                         <input type="hidden" name="id_location" value="{{$result['id_location']}}">
                         <input type="hidden" name='follow_up' id="followUpModal" value="Survey Location">
                         <input type="hidden" name='note' id="noteModal" value="">
+                        <div class="form-group">
+                            <label for="example-search-input" class="col-form-label col-md-6">Survey Location Title <span class="required" aria-required="true">*</span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Judul dari survey lokasi yang telah dilakukan" data-container="body"></i></label>
+                            <div class="col-md-6">
+                                <input class="form-control" type="text" id="title" name="title" value="" placeholder="Enter title here" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="example-search-input" class="col-form-label col-md-6">Survey Location Date <span class="required" aria-required="true">*</span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Tanggal survey lokasi dilakukan" data-container="body"></i></label>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <input type="text" id="survey_date" class="datepicker form-control" name="survey_date" value="{{ old('survey_date') ?? (!empty($result['survey_date']) ? date('d F Y', strtotime($result['start_date'])) : '')}}">
+                                    <span class="input-group-btn">
+                                        <button class="btn default" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="example-search-input" class="col-form-label col-md-6">Surveyor Name <span class="required" aria-required="true">*</span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Nama dari yang melakukan survey terhadap lokasi" data-container="body"></i></label>
+                            <div class="col-md-6">
+                                <input class="form-control" type="text" id="surveyor" name="surveyor" value="" placeholder="Enter surveyor here" required/>
+                            </div>
+                        </div>
                         @php
                             $i = 0;
                         @endphp

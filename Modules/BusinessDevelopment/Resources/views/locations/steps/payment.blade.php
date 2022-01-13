@@ -2,7 +2,7 @@
     $pay = false;
     if(!empty($result['location_step'])){
         foreach($result['location_step'] as $i => $step){
-            if($step['follow_up']=='Payment'){
+            if($step['follow_up']=='Approved'){
                 $pay = true;
                 $follow_up = $step['follow_up'];
                 $note = $step['note'];
@@ -17,7 +17,7 @@
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption">
-                    <span class="caption-subject font-dark sbold uppercase font-yellow">Payment</span>
+                    <span class="caption-subject font-dark sbold uppercase font-yellow">Approved</span>
                 </div>
             </div>
             <div class="portlet-body form">
@@ -44,15 +44,15 @@
                     <div class="tab-pane @if($result['status']=='Candidate' || $pay == true) active @endif" id="form_pay">
                         <form class="form-horizontal" role="form" action="{{url('businessdev/locations/create-follow-up')}}" method="post" enctype="multipart/form-data">
                             <div class="form-body">
-                                <input type="hidden" name="id_partner" value="{{$result['location_partner']['id_partner']}}">
+                                {{--  <input type="hidden" name="id_partner" value="{{$result['location_partner']['id_partner']}}">  --}}
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Step <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Step yang sedang dilakukan" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="follow_up" name="follow_up" value="Payment" readonly required/>
+                                        <input class="form-control" type="text" id="follow_up" name="follow_up" value="Approved" readonly required/>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                {{--  <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Due Date <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal jatuh tempo atau tanggal terakhir pembayaran partnershi fee" data-container="body"></i></label>
                                     <div class="col-md-5">
@@ -65,7 +65,14 @@
                                             </span>
                                         </div>
                                     </div>
-                                </div>
+                                </div>  --}}
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Location Code <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Kode yang akan digunakan lokasi milik partner kedepannya" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" type="text" id="location_code" name="location_code" placeholder="Enter location code here" value="{{ old('location_code') }}" required/>
+                                    </div>
+                                </div>   
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Catatan untuk step in" data-container="body"></i></label>
