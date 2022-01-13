@@ -58,6 +58,7 @@
 										</div>
 									</div>
 								</div>
+								<input class="form-control" type="hidden" name="payment_messages_cash" value="{{ old('payment_messages_cash',$msg['payment_messages_cash']??'') }}" id="payment_messages_cash">
 {{-- 								<div class="form-group col-md-12">
 									<label class="control-label col-md-4">Confirmation Cash Messages
 										<span class="required" aria-required="true"> * </span>
