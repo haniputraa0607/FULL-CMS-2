@@ -23,7 +23,8 @@ class ProjectContractController extends Controller
         if (isset($request["import_file"])) {
             $post['attachment'] = MyHelper::encodeImage($request['import_file']);
         }
-	$query = MyHelper::post('project/create/contract', $post);
+        $post['renovation_cost'] = str_replace('.','', $post['renovation_cost']??0);
+        $query = MyHelper::post('project/create/contract', $post);
 	if(isset($query['status']) && $query['status'] == 'success'){
 				return back()->withSuccess(['Contract Success']);
 	} else{
