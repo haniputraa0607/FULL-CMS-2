@@ -337,9 +337,11 @@
 	                <div class="row" style="text-align: center">
 	                    @if(empty($data['detail']['approve_at']))
 	                        <a class="btn green-jungle approve-schedule" data-name="{{ $data['detail']['fullname'] }}">Approve</a>
-	                        @if(empty($data['detail']['reject_at']))
-	                        	<a class="btn red reject-schedule" data-name="{{ $data['detail']['fullname'] }}">Reject</a>
-	                        @endif
+	                        {{-- 
+		                        @if(empty($data['detail']['reject_at']))
+		                        	<a class="btn red reject-schedule" data-name="{{ $data['detail']['fullname'] }}">Reject</a>
+		                        @endif 
+	                        --}}
 	                    @else
 	                        <button type="submit" class="btn blue">Update</button>
 	                    @endif

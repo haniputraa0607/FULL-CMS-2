@@ -130,6 +130,33 @@ class AutocrmController extends Controller
                 'child_active'      => $type.'-autoresponse-'.$subject,
                 'type' 			    => $type
             ];
+        }elseif (in_array(
+        	$subject, 
+        	[
+	        	'mitra-hs---transaction-service-created',
+	    		'mitra-hs---transaction-service-rejected',
+	    		'mitra-hs---transaction-service-completed',
+	    		'mitra-spv---transaction-product-created',
+	    		'mitra-spv---transaction-product-rejected',
+	    		'mitra-spv---transaction-product-taken',
+	    		'transaction-service-completed',
+	    		'transaction-product-taken'
+		    ])
+	    ){
+			$autocrmSubject = ucwords(str_replace('---','%hyphen%',$subject));
+			$autocrmSubject = ucwords(str_replace('-',' ',$autocrmSubject));
+			$autocrmSubject = ucwords(str_replace('%hyphen%',' - ',$autocrmSubject));
+
+			$menuActive = explode('-', $type)[0];
+
+            $data = [
+                'title'             => ucfirst($type),
+                'sub_title'         => ' Auto Response '.$autocrmSubject,
+                'menu_active'       => $menuActive,
+                'submenu_active'    => $type,
+                'child_active'      => $type.'-'.$subject,
+                'type' 			    => $type
+            ];
         }else{
 			$data = [ 'title'             => ucfirst($type),
 					  'sub_title'         => ' Auto Response '.$autocrmSubject,
@@ -254,6 +281,42 @@ class AutocrmController extends Controller
                 ];
                 $data['click_inbox'] = [
                     ['value' => "history_home_service",'title' => 'History Home Service']
+                ];
+                break;
+            case 'mitra-hs---transaction-service-created':
+    			$data['click_inbox'] = [
+                    ['value' => "outlet_service_ongoing",'title' => 'Outlet Service Ongoing'],
+                    ['value' => "No Action",'title' => 'No Action']
+                ];
+                $data['click_notification'] = [
+                    ['value' => "outlet_service_ongoing",'title' => 'Outlet Service Ongoing'],
+                    ['value' => 'Home','title' => 'Home']
+                ];
+                break;
+
+    		case 'mitra-hs---transaction-service-rejected':
+    		case 'mitra-hs---transaction-service-completed':
+                $data['click_inbox'] = [
+                    ['value' => "outlet_service_history",'title' => 'Outlet Service history'],
+                    ['value' => "No Action",'title' => 'No Action']
+                ];
+                $data['click_notification'] = [
+                    ['value' => "outlet_service_history",'title' => 'Outlet Service history'],
+                    ['value' => 'Home','title' => 'Home']
+                ];
+                break;
+
+            case 'transaction-service-completed':
+            case 'transaction-product-taken':
+            case 'transaction-completed':
+            case 'transaction-rejected':
+                $data['click_inbox'] = [
+                    ['value' => "History Transaction",'title' => 'History Transaction'],
+                    ['value' => "No Action",'title' => 'No Action']
+                ];
+                $data['click_notification'] = [
+                    ['value' => "History Transaction",'title' => 'History Transaction'],
+                    ['value' => 'Home','title' => 'Home']
                 ];
                 break;
 		}

@@ -354,13 +354,17 @@
 		                                            <option value="" selected disabled>Select Service</option>
 		                                            @foreach($data['service'] ?? [] as $s)
 		                                            	@php
-		                                            		$disabled = $s['detail']['reject_at'] ? 'disabled' : null;
+		                                            		$disabled = ($s['detail']['reject_at'] || $s['detail']['transaction_product_completed_at']) ? 'disabled' : null;
 		                                            		$status = null;
 					                                		if ($s['detail']['transaction_product_service']['is_conflict']) {
 					                                			$status =  ' (Conflict)';
 					                                		} 
 					                                		if ($s['detail']['reject_at']) {
 					                                			$status =  ' (Rejected)';
+					                                		}
+
+					                                		if ($s['detail']['transaction_product_completed_at']) {
+					                                			$status =  ' (Completed)';
 					                                		}
 		                                            	@endphp
 		                                                <option value="{{$s['detail']['transaction_product_service']['id_transaction_product_service']}}" 
@@ -451,13 +455,14 @@
 		                                            <option value="" selected disabled>Select Product</option>
 		                                            @foreach($data['product'] ?? [] as $p)
 		                                            	@php
-		                                            		$disabled = $p['detail']['reject_at'] ? 'disabled' : null;
+		                                            		$disabled = ($p['detail']['reject_at'] || $p['detail']['transaction_product_completed_at']) ? 'disabled' : null;
 		                                            		$rejected = $p['detail']['reject_at'] ? 'Rejected' : null;
+		                                            		$completed = $p['detail']['transaction_product_completed_at'] ? 'Completed' : null;
 		                                            	@endphp
 		                                                <option value="{{ $p['detail']['id_transaction_product'] }}"
 		                                                	data-id_trx_product="{{ $p['detail']['id_transaction_product'] }}"
 		                                                	{{ $disabled }}
-		                                                >{{ $p['product_name'] }} {{ $rejected }}</option>
+		                                                >{{ $p['product_name'] }} {{ $rejected ?: $completed }}</option>
 		                                            @endforeach
 		                                        </select>
 		                                    </div>
