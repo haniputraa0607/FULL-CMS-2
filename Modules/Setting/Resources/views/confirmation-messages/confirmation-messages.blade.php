@@ -58,7 +58,8 @@
 										</div>
 									</div>
 								</div>
-								<div class="form-group col-md-12">
+								<input class="form-control" type="hidden" name="payment_messages_cash" value="{{ old('payment_messages_cash',$msg['payment_messages_cash']??'') }}" id="payment_messages_cash">
+{{-- 								<div class="form-group col-md-12">
 									<label class="control-label col-md-4">Confirmation Cash Messages
 										<span class="required" aria-required="true"> * </span>
 										<i class="fa fa-question-circle tooltips" data-original-title="Teks yang akan tampil saat konfirmasi pembelian deals menggunakan cash" data-container="body"></i>
@@ -74,7 +75,7 @@
 											</div>
 										</div>
 									</div>
-								</div>
+								</div> --}}
 								<div class="form-group col-md-12">
 									<label class="control-label col-md-4">Confirmation Point Messages
 										<span class="required" aria-required="true"> * </span>

@@ -39,7 +39,14 @@ $configs     		= session('configs');
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/components-multi-select.min.js') }}" type="text/javascript"></script>
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/components-date-time-pickers.min.js') }}" type="text/javascript"></script>
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/ui-confirmations.min.js') }}" type="text/javascript"></script>
-	
+        <script>
+        document.getElementById("value").onchange = function () {
+                var input = document.getElementById("value_text");
+                input.setAttribute("value", this.value-1);
+                var inputs = document.getElementById("hidden");
+                inputs.setAttribute("value", this.value-1);
+            }
+        </script>
 @endsection
 
 @section('content')
@@ -64,19 +71,31 @@ $configs     		= session('configs');
 			<div class="portlet-title">
 				<div class="caption font-blue ">
 					<i class="icon-settings font-blue "></i>
-					<span class="caption-subject bold uppercase">This menu is used to set a salary formula</span>
+					<span class="caption-subject bold uppercase">This menu is used to set a start date and end date from attendance</span>
 				</div>
 			</div>
 			<div class="portlet-body form">
-				<form role="form" class="form-horizontal" action="{{url('setting/setting-salary-formula')}}" method="POST" enctype="multipart/form-data">
+				<form role="form" class="form-horizontal" action="{{url('setting/setting-attendances-date')}}" method="POST" enctype="multipart/form-data">
 					{{ csrf_field() }}
 					<div class="form-body">
                                                 <div id="id_commission">
                                                      <div class="form-group">
-                                                    <label for="example-search-input" class="control-label col-md-4">Salary Formula <span class="required" aria-required="true">*</span>
-                                                        <i class="fa fa-question-circle tooltips" data-original-title="Rumus gaji" data-container="body"></i></label>
+                                                    <label for="example-search-input" class="control-label col-md-4">Start Date Attendance<span class="required" aria-required="true">*</span>
+                                                        <i class="fa fa-question-circle tooltips" data-original-title="Start date berisi data perhitungan absensi dimulai" data-container="body"></i></label>
                                                     <div class="col-md-5">
-                                                         <textarea name="value" id="value" class="form-control" placeholder="Enter salary formula">{{$result['value']??''}}</textarea>
+                                                        <input value="{{$result['value']??''}}" type="number" min="2" max="28" name="value" id="value" class="form-control" placeholder="Enter start date">
+                                                    </div>
+                                                </div>
+                                                </div>
+					</div>
+					<div class="form-body">
+                                                <div id="id_commission">
+                                                     <div class="form-group">
+                                                    <label for="example-search-input" class="control-label col-md-4">End Date Attendance<span class="required" aria-required="true">*</span>
+                                                        <i class="fa fa-question-circle tooltips" data-original-title="End date data untuk selesai perhitungan absensi. Tanggal selesai tidak boleh sama maupun melebihi tanggal mulai" data-container="body"></i></label>
+                                                    <div class="col-md-5">
+                                                        <input value="{{$result['value_text']??''}}" disabled type="number" min="1" max="27" name="hidden" id="hidden" class="form-control" placeholder="Enter end date">
+                                                        <input value="{{$result['value_text']??''}}" type="hidden" min="1" max="27" name="value_text" id="value_text" class="form-control" placeholder="Enter end date">
                                                     </div>
                                                 </div>
                                                 </div>

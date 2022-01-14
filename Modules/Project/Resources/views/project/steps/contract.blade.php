@@ -1,15 +1,16 @@
 <?php 
-    $nominal = "Rp " . number_format($result['project_locations']['total_payment'],2,',','.');
+    $nominal = number_format($result['project_locations']['renovation_cost']??0,0,',','.');
     $contract = false;
     $prog = false;
     $first_party = null;
     $second_party = null;
     $note = null;
-    $nomor_loi = null;
-    $tanggal_loi = null;
-    $tanggal_buka_loi = null;
-    $nama_pic = null;
-    $kontak_pic = null;
+    $nomor_loi = $nomor_loi;
+    $date_spk = date('Y-m-d');
+    $tanggal_loi = date('Y-m-d');
+    $tanggal_buka_loi = date('Y-m-d');
+    $nama_pic = $result['project_survey']['nama_pic_mall']??'';
+    $kontak_pic = $result['project_survey']['cp_pic_mall']??'';
     $lokasi_pic = null;
     $attachment = null;
     $next_contract = false;
@@ -30,6 +31,8 @@
         $lokasi_pic = $result['project_contract']['lokasi_pic'];
         $attachment = $result['project_contract']['attachment'];
         $created_at = $result['project_contract']['updated_at'];
+        $date_spk = $result['project_contract']['tanggal_spk'];
+        $nominal = number_format($result['project_contract']['renovation_cost']??0,0,',','.');
 //        if($result['project_contract']['status']=='Process'){
 //           $next_contract = true;
 //        }
@@ -159,6 +162,7 @@
         }
         jQuery(document).ready(function() {
              number("#kontak_pic");
+             number("#cp_kontraktor");
             SweetAlertSubmitContract.init()
         });
     </script>
@@ -204,11 +208,25 @@
                                         <input class="form-control" type="text" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif id="second_party" name="second_party" value="{{$second_party}}" placeholder="Enter Pihak 2" required/>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Contractor Name<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama Kontraktor" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" @if($result['status']!='Process' ) disabled  @elseif($result['progres']!='Contract') disabled @endif type="text" id="nama_kontraktor" name="nama_kontraktor" value="{{$result['project_contract']['nama_kontraktor']??''}}" placeholder="Nama Kontraktor" required/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">CP Contractor<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Kontak Kontraktor" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" @if($result['status']!='Process' ) disabled  @elseif($result['progres']!='Contract') disabled @endif type="text" id="cp_kontraktor" name="cp_kontraktor" value="{{$result['project_contract']['cp_kontraktor']??''}}" placeholder="Kontak Kontraktor (0xxx xxxx xxxxx)" required/>
+                                    </div>
+                                </div>
                                <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">No SPK<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nomor SPK" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif id="nomor_spk" name="nomor_spk" value="{{$result['project_contract']['nomor_spk']??''}}" placeholder="Enter Nomor SPK" required/>
+                                        <input class="form-control" type="text" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif id="nomor_spk" name="nomor_spk" value="{{$result['project_contract']['nomor_spk']??$nomor_spk}}" placeholder="Enter Nomor SPK" required/>
                                     </div>
                                 </div>
                                <div class="form-group">
@@ -216,7 +234,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal SPK" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input placeholder="Tanggal SPK" type="text" id="tanggal_spk" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif class="datepicker form-control" name="tanggal_spk" value="{{ (!empty($result['project_contract']['tanggal_spk']) ? date('d F Y', strtotime($result['project_contract']['tanggal_spk'])) : '')}}" >
+                                            <input placeholder="Tanggal SPK" type="text" id="tanggal_spk" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif class="datepicker form-control" name="tanggal_spk" value="{{ (!empty($date_spk) ? date('d F Y', strtotime($date_spk)) : '')}}" >
                                             <span class="input-group-btn">
                                                 <button class="btn default" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -229,7 +247,7 @@
                                     <label for="example-search-input" class="control-label col-md-4">Attachment SPK<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Lampiran SPK" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" placeholder="Lampiran (2 Lembar)" type="text" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif id="lampiran" name="lampiran" value="{{$result['project_contract']['lampiran']??''}}" required/>
+                                        <input class="form-control" placeholder="Lampiran (2 Lembar)" type="text" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif id="lampiran" name="lampiran" value="{{$result['project_contract']['lampiran']??'2 Lembar'}}" required/>
                                     </div>
                                 </div>
                                <div class="form-group">
@@ -289,9 +307,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Nominal</label>
+                                    <label for="example-search-input" class="control-label col-md-4">Renovation Cost<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Biaya renovasi lokasi" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input disabled class="form-control" placeholder="Rp 1,000,000.00" data-type="currency"  type="text" id="nominal" name="nominal"  value="{{$nominal}}"/>
+                                        <input class="form-control" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif  placeholder="Rp 1,000,000.00" data-type="currency"  type="text" id="renovation_cost" name="renovation_cost"  value="{{$nominal}}"/>
                                     </div>
                                 </div>
                                 <div class="form-group">

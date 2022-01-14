@@ -69,6 +69,7 @@ $grantedFeature     = session('granted_features');
             </div>
         </div>
         <div class="portlet-body form">
+            <div class="table-responsive">
             <table class="table table-striped table-bordered table-hover" id="kt_datatable">
                         <thead>
                         <tr>
@@ -100,6 +101,7 @@ $grantedFeature     = session('granted_features');
                     {{ $data_paginator->links() }}
                 @endif  
             </div>
+        </div>
         </div>
     </div>
 

@@ -81,7 +81,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Serah Terima" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input placeholder="Enter Tanggal Serah Terima" type="text" id="tanggal_serah_terima" @if($result['status']!='Process' ) disabled  @endif class="datepicker form-control" name="tanggal_serah_terima" value="{{ (!empty( $result['project_handover']['tanggal_serah_terima']) ? date('d F Y', strtotime( $result['project_handover']['tanggal_serah_terima'])) : '')}}" >
+                                            <input placeholder="Enter Tanggal Serah Terima" type="text" id="tanggal_serah_terima" @if($result['status']!='Process' ) disabled  @endif class="datepicker form-control" name="tanggal_serah_terima" value="{{ (!empty( $result['project_handover']['tanggal_serah_terima']) ? date('d F Y', strtotime( $result['project_handover']['tanggal_serah_terima'])) : date('d F Y'))}}" >
                                             <span class="input-group-btn">
                                                 <button class="btn default" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -95,7 +95,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Soft Opening" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input placeholder="Enter Tanggal Soft Opening" type="text" id="soft_opening" @if($result['status']!='Process' ) disabled  @endif class="form_datetime form-control" name="soft_opening" value="{{ (!empty( $result['project_handover']['soft_opening']) ? date('d M Y H:i', strtotime( $result['project_handover']['soft_opening'])) : '')}}" >
+                                            <input placeholder="Enter Tanggal Soft Opening" type="text" id="soft_opening" @if($result['status']!='Process' ) disabled  @endif class="form_datetime form-control" name="soft_opening" value="{{ (!empty( $result['project_handover']['soft_opening']) ? date('d M Y H:i', strtotime( $result['project_handover']['soft_opening'])) :  date('d F Y H:i'))}}" >
                                             <span class="input-group-btn">
                                                 <button class="btn default" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -109,7 +109,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Grand Opening" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input placeholder="Enter Tanggal Grand Opening" type="text" id="grand_opening" @if($result['status']!='Process' ) disabled  @endif class="form_datetime form-control" name="grand_opening" value="{{ (!empty( $result['project_handover']['grand_opening']) ? date('d M Y H:i', strtotime( $result['project_handover']['grand_opening'])) : '')}}" >
+                                            <input placeholder="Enter Tanggal Grand Opening" type="text" id="grand_opening" @if($result['status']!='Process' ) disabled  @endif class="form_datetime form-control" name="grand_opening" value="{{ (!empty( $result['project_handover']['grand_opening']) ? date('d M Y H:i', strtotime( $result['project_handover']['grand_opening'])) :  date('d F Y H:i'))}}" >
                                             <span class="input-group-btn">
                                                 <button class="btn default" type="button">
                                                     <i class="fa fa-calendar"></i>

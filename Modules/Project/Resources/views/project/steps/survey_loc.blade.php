@@ -1,11 +1,12 @@
 <?php 
     $surv = false;
     $prog = false;
-    $surveyor = null;
+    $surveyor = session::get('name');
     $attachment_surv = null;
     $location_length = 0.01;
     $location_width = 0.01;
     $location_large = 0.01;
+    $location_height = 0.01;
     $survey_date = null;
     $note = null;
     $next = false;
@@ -14,13 +15,14 @@
         $surv = true;
     }
     if ($result['project_survey']!=null){
-        $status = $result['project_survey']['status'];
-        $surveyor = $result['project_survey']['surveyor'];
-        $location_length = $result['project_survey']['location_length'];
-        $location_width = $result['project_survey']['location_width'];
-        $location_large = $result['project_survey']['location_large'];
-        $survey_date = $result['project_survey']['survey_date'];
-        $note = $result['project_survey']['note'];
+        $status = $result['project_survey']['status']??'';
+        $surveyor = $result['project_survey']['surveyor']??'';
+        $location_length = $result['project_survey']['location_length']??'';
+        $location_width = $result['project_survey']['location_width']??'';
+        $location_large = $result['project_survey']['location_large']??'';
+        $location_height = $result['project_survey']['location_height']??'';
+        $survey_date = $result['project_survey']['survey_date']??'';
+        $note = $result['project_survey']['note']??'';
         $attachment_surv = $result['project_survey']['attachment'];
         if($result['project_survey']['status']=='Process'){
            $next = true;
@@ -113,30 +115,16 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">PIC Name<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama PIC Mall" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama pemegang project" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" @if($result['status']!='Process' ) disabled  @elseif($result['progres']!='Survey Location') disabled @endif type="text" id="nama_pic_mall" name="nama_pic_mall" value="{{$result['project_survey']['nama_pic_mall']??''}}" placeholder="Nama PIC" required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">CP PIC<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Kontak PIC Mall" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Kontak pemegang project" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" @if($result['status']!='Process' ) disabled  @elseif($result['progres']!='Survey Location') disabled @endif type="text" id="cp_pic_mall" name="cp_pic_mall" value="{{$result['project_survey']['cp_pic_mall']??''}}" placeholder="Kontak PIC(0xxx xxxx xxxxx)" required/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Contractor Name<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama Kontraktor" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <input class="form-control" @if($result['status']!='Process' ) disabled  @elseif($result['progres']!='Survey Location') disabled @endif type="text" id="nama_kontraktor" name="nama_kontraktor" value="{{$result['project_survey']['nama_kontraktor']??''}}" placeholder="Nama Kontraktor" required/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">CP Contractor<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Kontak Kontraktor" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <input class="form-control" @if($result['status']!='Process' ) disabled  @elseif($result['progres']!='Survey Location') disabled @endif type="text" id="cp_kontraktor" name="cp_kontraktor" value="{{$result['project_survey']['cp_kontraktor']??''}}" placeholder="Kontak Kontraktor (0xxx xxxx xxxxx)" required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -151,6 +139,13 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Lebar Lokasi (m)" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif type='number' step='0.01' id="location_width" name="location_width" value="{{$location_width}}" placeholder="Lebar Lokasi (m)" required/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">location height (m)<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Tinggi Lokasi (m)" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif type='number' step='0.01' id="location_height" name="location_height" value="{{$location_height}}" placeholder="Tinggi Lokasi (m)" required/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -189,8 +184,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Finish date<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Selesai Pekerjaan" data-container="body"></i></label>
+                                    <label for="example-search-input" class="control-label col-md-4">Estimated Finish date<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Estimasi Tanggal Selesai Pekerjaan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <input type="text" id="tanggal_selesai_pekerjaan" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif class="datepicker form-control" name="tanggal_selesai_pekerjaan" value="{{ (!empty($result['project_survey']['tanggal_selesai_pekerjaan']) ? date('d F Y', strtotime($result['project_survey']['tanggal_selesai_pekerjaan'])) : '')}}" >
@@ -203,8 +198,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Loading date<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Loading Barang" data-container="body"></i></label>
+                                    <label for="example-search-input" class="control-label col-md-4">Estimated Loading date<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Estimasi Tanggal Loading Barang" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <input type="text" id="tanggal_loading_barang" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif class="datepicker form-control" name="tanggal_loading_barang" value="{{ (!empty($result['project_survey']['tanggal_loading_barang']) ? date('d F Y', strtotime($result['project_survey']['tanggal_loading_barang'])) : '')}}" >
@@ -217,8 +212,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Delivery Date<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Pengiriman Barang" data-container="body"></i></label>
+                                    <label for="example-search-input" class="control-label col-md-4">Estimated Delivery Date<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Estimasi Tanggal Pengiriman Barang" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <input type="text" id="tanggal_pengiriman_barang" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif class="datepicker form-control" name="tanggal_pengiriman_barang" value="{{ (!empty($result['project_survey']['tanggal_pengiriman_barang']) ? date('d F Y', strtotime($result['project_survey']['tanggal_pengiriman_barang'])) : '')}}" >
@@ -351,17 +346,6 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Keterangan Line Telepon" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <textarea maxlength="255" name="keterangan_line_telepon" id="keterangan_line_telepon" class="form-control" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif placeholder="Enter Keterangan Line Telepon">{{$result['project_survey']['keterangan_line_telepon']??''}}</textarea>
-                                    </div>
-                                </div>
-                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Area<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Area Lokasi" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <select @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif  name="area_lokasi" class="form-control input-sm select2" placeholder="Status">
-                                        <option value="" >Select Air</option>
-                                        <option value="Jabodetabek" @if(isset($result['project_survey']['area_lokasi'])) @if($result['project_survey']['area_lokasi'] == 'Jabodetabek') selected @endif @endif>Jabodetabek</option>
-                                        <option value="Non Jabodetabek" @if(isset($result['project_survey']['area_lokasi'])) @if($result['project_survey']['area_lokasi'] == 'Non Jabodetabek') selected @endif @endif>Non Jabodetabek</option>
-                                    </select>
                                     </div>
                                 </div>
                                 <div class="form-group">

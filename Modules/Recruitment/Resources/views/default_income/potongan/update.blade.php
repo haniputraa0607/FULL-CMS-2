@@ -137,38 +137,38 @@
 			<div class="portlet-title">
 				<div class="caption font-blue ">
 					<i class="icon-settings font-blue "></i>
-					<span class="caption-subject bold uppercase">Update Insentif Hair Stylist Group</span>
+					<span class="caption-subject bold uppercase">Update Default Potongan Hair Stylist</span>
 				</div>
 			</div>
 			<div class="portlet-body form">
-				<form role="form" class="form-horizontal" action="{{url('recruitment/hair-stylist/group/insentif/update')}}" method="POST" enctype="multipart/form-data">
+				<form role="form" class="form-horizontal" action="{{url('recruitment/hair-stylist/default/potongan/update')}}" method="POST" enctype="multipart/form-data">
 					{{ csrf_field() }}
 					<div class="form-body">
-						<input type="hidden" name="id_hairstylist_group_insentif" value="{{$result['id_hairstylist_group_insentif']}}">
+						<input type="hidden" name="id_hairstylist_group_default_potongans" value="{{$result['id_hairstylist_group_default_potongans']}}">
                                                 <div class="form-group">
-                                                <label class="col-md-4 control-label">Name<span class="required" aria-required="true">*</span>
-                                                    <i class="fa fa-question-circle tooltips" data-original-title="Nama insentif yang berasal dari data default insentif" data-container="body"></i>
-                                                </label>
-                                                    <div class="col-md-6">
-                                                        <input disabled type="text" value="{{$result['name']??''}}" name="name_insentif" placeholder="Masukkan nama insentif" class="form-control" required />
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
-                                                        <i class="fa fa-question-circle tooltips" data-original-title="Value insentif dari pergrup digunakan untuk perhitungan pendapatan hairstylist" data-container="body"></i>
-                                                    </label>
-                                                    <div class="col-md-6">
-                                                        <input type="text" name="value" value="{{number_format($result['value']??0,0,',',',')}}" id='value' data-type="currency" placeholder="Masukkan nama insentif" class="form-control" required />
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-md-4 control-label">Formula<span class="required" aria-required="true">*</span>
-                                                        <i class="fa fa-question-circle tooltips" data-original-title="Rumus perhitungan insentif pergrup (value * frekuensi)" data-container="body"></i>
-                                                    </label>
-                                                    <div class="col-md-6">
-                                                        <textarea name="formula" id="formula" class="form-control" placeholder="Enter rumus insentif">{{$result['formula']??''}}</textarea>
-                                                    </div>
-                                                </div>
+                                        <label class="col-md-4 control-label">Name<span class="required" aria-required="true">*</span>
+                                            <i class="fa fa-question-circle tooltips" data-original-title="Nama Potongan" data-container="body"></i>
+                                        </label>
+                                        <div class="col-md-6">
+                                            <input type="text" name="name" value='{{$result['name']??''}}' placeholder="Masukkan nama potongan" class="form-control" required />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
+                                            <i class="fa fa-question-circle tooltips" data-original-title="Besar potongan yang diterima oleh hairstylist" data-container="body"></i>
+                                        </label>
+                                        <div class="col-md-6">
+                                            <input type="text" value="{{number_format($result['value']??0,0,',',',')}}"  name="value" id='value' data-type="currency" placeholder="Masukkan besar potongan" class="form-control" required />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Formula<span class="required" aria-required="true">*</span>
+                                            <i class="fa fa-question-circle tooltips" data-original-title="Rumus potongan yang digunakan dalam perhitungan pendapatan hairstylist (value * frekuensi)" data-container="body"></i>
+                                        </label>
+                                        <div class="col-md-6">
+                                              <textarea name="formula" id="formula" class="form-control" placeholder="Enter rumus potongan">{{$result['formula']??''}}</textarea>
+                                        </div>
+                                    </div>
                                               
 					</div>
                                         

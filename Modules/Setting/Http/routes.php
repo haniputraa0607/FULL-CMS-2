@@ -63,6 +63,9 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'setting'
     
     //salary formula
     Route::any('/setting-salary-formula', ['middleware' => 'feature_control:424', 'uses' => 'SettingController@salary_formula']);
+    
+    //attendances_date
+    Route::any('/setting-attendances-date', ['middleware' => 'feature_control:427', 'uses' => 'SettingController@attendances_date']);
    
     Route::any('home', 'SettingController@homeSetting');
 	Route::any('date', 'SettingController@dateSetting');
