@@ -1651,6 +1651,47 @@
 							<span class="title">[Response] Generate Approval Code</span>
 						</a>
 					</li> -->
+
+					@if(MyHelper::hasAccess([120,122], $grantedFeature))
+						<li class="nav-item {{(strpos($submenu_active , 'transaction-outlet-service-autoresponse') !== false) ? 'active open' : ''}}">
+							<a href="javascript:;" class="nav-link nav-toggle">
+								<span class="title">Outlet Service Response</span>
+								<span class="arrow"></span>
+							</a>
+							<ul class="sub-menu">
+								<li class="nav-item {{(isset($child_active) && $child_active == 'transaction-outlet-service-autoresponse-mitra-hs---transaction-service-created') ? 'active open' : ''}}">
+									<a href="{{url('autoresponse/transaction-outlet-service-autoresponse/mitra-hs---transaction-service-created')}}" class="nav-link ">
+										<span class="title">[Response] HS - Transaction Service Created</span>
+									</a>
+								</li>
+								<li class="nav-item {{(isset($child_active) && $child_active == 'transaction-outlet-service-autoresponse-mitra-hs---transaction-service-rejected') ? 'active open' : ''}}">
+									<a href="{{url('autoresponse/transaction-outlet-service-autoresponse/mitra-hs---transaction-service-rejected')}}" class="nav-link ">
+										<span class="title">[Response] HS - Transaction Service Rejected</span>
+									</a>
+								</li>
+								<li class="nav-item {{(isset($child_active) && $child_active == 'transaction-outlet-service-autoresponse-mitra-hs---transaction-service-completed') ? 'active open' : ''}}">
+									<a href="{{url('autoresponse/transaction-outlet-service-autoresponse/mitra-hs---transaction-service-completed')}}" class="nav-link ">
+										<span class="title">[Response] HS - Transaction Service Completed</span>
+									</a>
+								</li>
+								<li class="nav-item {{(isset($child_active) && $child_active == 'transaction-outlet-service-autoresponse-mitra-spv---transaction-product-created') ? 'active open' : ''}}">
+									<a href="{{url('autoresponse/transaction-outlet-service-autoresponse/mitra-spv---transaction-product-created')}}" class="nav-link ">
+										<span class="title">[Response] SPV - Transaction Product Created</span>
+									</a>
+								</li>
+								<li class="nav-item {{(isset($child_active) && $child_active == 'transaction-outlet-service-autoresponse-mitra-spv---transaction-product-rejected') ? 'active open' : ''}}">
+									<a href="{{url('autoresponse/transaction-outlet-service-autoresponse/mitra-spv---transaction-product-rejected')}}" class="nav-link ">
+										<span class="title">[Response] SPV - Transaction Product Rejected</span>
+									</a>
+								</li>
+								<li class="nav-item {{(isset($child_active) && $child_active == 'transaction-outlet-service-autoresponse-mitra-spv---transaction-product-taken') ? 'active open' : ''}}">
+									<a href="{{url('autoresponse/transaction-outlet-service-autoresponse/mitra-spv---transaction-product-taken')}}" class="nav-link ">
+										<span class="title">[Response] SPV - Transaction Product Taken</span>
+									</a>
+								</li>
+							</ul>
+						</li>
+					@endif
 				</ul>
 			</li>
 			@endif
