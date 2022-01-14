@@ -1308,11 +1308,11 @@
                         <span class="title">[Response] Approve Hairstylist Schedule</span>
                     </a>
                 </li>
-                <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-schedule-autoresponse-reject-hairstylist-schedule') ? 'active open' : '' }}">
+                {{-- <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-schedule-autoresponse-reject-hairstylist-schedule') ? 'active open' : '' }}">
                     <a href="{{ url('autoresponse/hairstylist-schedule/reject-hairstylist-schedule') }}" class="nav-link nav-toggle">
                         <span class="title">[Response] Reject Hairstylist Schedule</span>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </li>
         @endif
