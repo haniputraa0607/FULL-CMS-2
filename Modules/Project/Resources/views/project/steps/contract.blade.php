@@ -1,5 +1,5 @@
 <?php 
-    $nominal = number_format($result['project_locations']['renovation_cost']??0,0,',','.');
+    $nominal = number_format($result['project_locations']['renovation_cost']??0,0,'.',',');
     $contract = false;
     $prog = false;
     $first_party = null;
@@ -32,7 +32,7 @@
         $attachment = $result['project_contract']['attachment'];
         $created_at = $result['project_contract']['updated_at'];
         $date_spk = $result['project_contract']['tanggal_spk'];
-        $nominal = number_format($result['project_contract']['renovation_cost']??0,0,',','.');
+        $nominal = number_format($result['project_contract']['renovation_cost']??0,0,'.',',');
 //        if($result['project_contract']['status']=='Process'){
 //           $next_contract = true;
 //        }
@@ -80,7 +80,7 @@
             // get position of first decimal
             // this prevents multiple decimals from
             // being entered
-            var decimal_pos = input_val.indexOf(".");
+            var decimal_pos = input_val.indexOf(",");
 
             // split number by decimal point
             var left_side = input_val.substring(0, decimal_pos);
