@@ -160,6 +160,12 @@ class PartnersController extends Controller
             $data['cities'] = MyHelper::get('city/list')['result']??[];
             $data['bankName'] = MyHelper::get('disburse/bank')['result']??[];
             $data['brands'] = MyHelper::get('partners/locations/brands')['result']??[];
+            $data['list_locations'] = MyHelper::get('partners/list-location')['result']['locations']??[];
+            $data['list_starters'] = MyHelper::get('partners/list-location')['result']['starters']??[];
+            $id_outlet_starter_bundling = $data['result']['partner_locations'][0]['id_outlet_starter_bundling']??null;
+            $data['starter_products'] = MyHelper::post('partners/detail-bundling',["id_outlet_starter_bundling" => $id_outlet_starter_bundling])['result']??[];
+            $data['products'] = MyHelper::post('product/be/icount/list', [])['result'] ?? [];
+            $data['conditions'] = "";
             $data['terms'] = MyHelper::get('partners/term')['result']??[];
             $data['confirmation'] = $this->dataConfirmation($result['result']['partner'],$data['cities']);
             if(isset($data['result']['partner_locations'][0]['id_brand'])){
@@ -662,6 +668,8 @@ class PartnersController extends Controller
             $status_steps = 'Calculation';
         }elseif($request["follow_up"]=='Survey Location'){
             $status_steps = 'Survey Location';
+        }elseif($request["follow_up"]=='Select Location'){
+            $status_steps = 'Select Location';
         }elseif($request["follow_up"]=='Input Data Partner'){
             $status_steps = 'Input Data Partner';
         }else{
@@ -752,6 +760,25 @@ class PartnersController extends Controller
         //     }
         //     $form_survey["value"] = json_encode($form);
         // }
+        if(isset($request["follow_up"]) && $request["follow_up"]=='Select Location'){
+            $update_data_location = [
+                "id_location" => $request["id_location"],
+                "id_outlet_starter_bundling" => $request["id_outlet_starter_bundling"],
+                "id_brand" => $request["id_brand"],
+                "renovation_cost" => preg_replace("/[^0-9]/", "", $request["renovation_cost"]),
+                "partnership_fee" => preg_replace("/[^0-9]/", "", $request["partnership_fee"]),
+                "income" => preg_replace("/[^0-9]/", "", $request["income"]),
+                "id_partner" => $request['id_partner'],
+                "total_box" => $request['total_box'],
+                "handover_date" => date('Y-m-d', strtotime($request['handover_date'])),
+            ];
+            if ($request['start_date']!=null){
+                $update_data_location['start_date'] = date('Y-m-d', strtotime($request['start_date']));
+            } 
+            if ($request['end_date']!=null){
+                $update_data_location['end_date'] = date('Y-m-d', strtotime($request['end_date']));
+            }
+        }
 
         if(isset($request["follow_up"]) && $request["follow_up"]=='Calculation'){
             $request->validate([
@@ -761,6 +788,11 @@ class PartnersController extends Controller
                 "id_location" => $request["id_location"],
                 "total_payment" => preg_replace("/[^0-9]/", "", $request["total_payment"]),
             ];
+            $product_starter = array_map(function($value) use($request){
+                $value['id_location'] = $request["id_location"];
+                return $value;
+            },$request['product_starter']);
+            $update_data_location['product_starter'] = $product_starter;
         }
 
         if(isset($request["follow_up"]) && $request["follow_up"]=='Confirmation Letter'){
@@ -861,7 +893,7 @@ class PartnersController extends Controller
         }elseif(isset($partner_step['status']) && $partner_step['status'] == 'duplicate_code'){
             return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($partner_step['messages'] ?? ['Failed create step '.$request["follow_up"].''])->withInput($request->except('partner_code','location_code'));
         }else{
-            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
+            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].''])->withInput( );
         }
     }
 
