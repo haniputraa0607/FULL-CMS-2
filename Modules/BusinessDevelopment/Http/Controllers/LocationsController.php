@@ -469,11 +469,17 @@ class LocationsController extends Controller
         }
 
         if(isset($request["follow_up"]) && $request["follow_up"]=='Approved'){
-            // $update_data_location['trans_date'] = date('Y-m-d');
-            // $update_data_location['due_date'] = date('Y-m-d', strtotime($request['due_date']));
-            // $post_follow_up['id_partner'] = $request['id_partner'];
             $update_data_location["status"] = 'Active';
             $update_data_location["code"] = $request['location_code'];
+            $cek = [
+                "id" => $request['id_location'],
+                "code" => $request['location_code'],
+                "table" => 'Locations'
+            ];
+            $cek_duplikat = MyHelper::post('partners/cek-duplikat', $cek);
+            if(isset($cek_duplikat['status']) && $cek_duplikat['status'] == 'duplicate_code'){
+                return redirect('businessdev/locations/detail/'.$request['id_location'])->withErrors($cek_duplikat['messages'] ?? ['Failed create step '.$request["follow_up"].' Code must be different'])->withInput($request->except('location_code'));
+            }
         }
 
         if(isset($update_data_location) && !empty($update_data_location)){

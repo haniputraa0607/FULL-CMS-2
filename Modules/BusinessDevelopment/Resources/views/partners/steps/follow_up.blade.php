@@ -69,7 +69,7 @@
                         $(this).click(function() {
                             swal({
                                     title: "Approved?",
-                                    text: "Kamu akan diarahkan ke step selanjutnya!",
+                                    text: "You will be directed to the next step!",
                                     type: "warning",
                                     showCancelButton: true,
                                     confirmButtonClass: "btn-success",
@@ -213,19 +213,21 @@
                                 <tbody>
                                     @if(!empty($result['partner_step']))
                                         @foreach($result['partner_step'] as $i => $step)
-                                            @php $i++; @endphp
-                                            <tr data-id="{{ $step['id_steps_log'] }}">
-                                                <td>{{date('d F Y H:i', strtotime($step['created_at']))}}</td>
-                                                <td>{{$step['follow_up']}} {{$i}} </td>
-                                                <td>{{$step['note']}}</td>
-                                                <td>
-                                                    @if(isset($step['attachment']))
-                                                    <a href="{{ $step['attachment'] }}">Link Download Attachment</a>
-                                                    @else
-                                                    No Attachment
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                            @if ($step['follow_up']=='Follow Up')
+                                                @php $i++; @endphp
+                                                <tr data-id="{{ $step['id_steps_log'] }}">
+                                                    <td>{{date('d F Y H:i', strtotime($step['created_at']))}}</td>
+                                                    <td>{{$step['follow_up']}} {{$i}} </td>
+                                                    <td>{{$step['note']}}</td>
+                                                    <td>
+                                                        @if(isset($step['attachment']))
+                                                        <a href="{{ $step['attachment'] }}">Link Download Attachment</a>
+                                                        @else
+                                                        No Attachment
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endif
                                         @endforeach
                                     @else
                                         <tr>
@@ -244,7 +246,7 @@
                                     <label for="example-search-input" class="control-label col-md-4">Step <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Step yang sedang dilakukan" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="follow_up" name="follow_up" value="" required/>
+                                        <input class="form-control" type="text" id="follow_up" name="follow_up" value="@if($step_follow_up<2)Follow Up {{ $step_follow_up }} @else Follow Up @endif" readonly required/>
                                     </div>
                                 </div>
                                 {{--  @if ($step_follow_up==1)
