@@ -35,6 +35,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'business
         Route::post('create-bank', ['middleware' => 'feature_control:352', 'uses' => 'PartnersController@createBankAccount']);
         Route::post('create-follow-up', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@followUp']);
         Route::post('approved-follow-up', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@approved']);
+        Route::post('approved-survey-loc', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@approvedSurvey']);
         Route::get('pdf', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@pdf']);
         Route::any('/{type?}', ['middleware' => 'feature_control:338', 'uses' => 'PartnersController@index']);
         //partner close temporary

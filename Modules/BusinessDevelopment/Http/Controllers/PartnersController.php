@@ -609,6 +609,7 @@ class PartnersController extends Controller
             return redirect('businessdev/partners/request-update/detail/'.$id)->withErrors($result['messages'] ?? ['Failed approve request update partner']);
         }
     }
+
     public function approved(Request $request) {
         $update_status_step = [
             "id_partner" => $request["id_partner"],
@@ -618,6 +619,17 @@ class PartnersController extends Controller
         $partner_step = MyHelper::post('partners/update', $update_status_step);
        return $partner_step; 
     }
+
+    public function approvedSurvey(Request $request) {
+        $update_status_step = [
+            "id_partner" => $request["id_partner"],
+            "status_steps" => "Finished Survey Location",
+            "status" => 'Candidate'
+        ];
+        $partner_step = MyHelper::post('partners/update', $update_status_step);
+       return $partner_step; 
+    }
+
     public function followUp(Request $request){
         $request->validate([
             "import_file" => "mimes:pdf|max:2000",
@@ -631,53 +643,11 @@ class PartnersController extends Controller
 
         if(isset($request["follow_up"]) && $request["follow_up"]=='Input Data Partner'){
             $request->validate([
-                "mall" => "required",
                 "partner_code" => "required",
-                "location_code" => "required",
-                "location_large" => "required",
-                "rental_price" => "required",
-                "service_charge" => "required",
-                "promotion_levy" => "required",
-                "renovation_cost" => "required",
-                "partnership_fee" => "required",
-                "income" => "required",
                 "npwp" => "required",
-                "title" => "required",
                 "npwp_name" => "required",
-                "termpayment" => "required",
-                "partner_note" => "required",    
+                "termpayment" => "required", 
             ]);
-            $update_data_location = [
-                "id_location" => $request["id_location"],
-                "code" => $request["location_code"],
-                "name" => $request["nameLocation"],
-                "address" => $request["addressLocation"],  
-                "id_city" => $request["id_cityLocation"],  
-                "id_brand" => $request["id_brand"],  
-                "location_large" => $request["location_large"],  
-                "rental_price" => preg_replace("/[^0-9]/", "", $request["rental_price"]),
-                "service_charge" => preg_replace("/[^0-9]/", "", $request["service_charge"]),  
-                "promotion_levy" => preg_replace("/[^0-9]/", "", $request["promotion_levy"]),  
-                "renovation_cost" => preg_replace("/[^0-9]/", "", $request["renovation_cost"]),  
-                "partnership_fee" => preg_replace("/[^0-9]/", "", $request["partnership_fee"]),  
-                "income" => preg_replace("/[^0-9]/", "", $request["income"]),   
-                "mall" => $request["mall"],   
-            ];
-            if (isset($request["mobile"]) && !empty($request["mobile"])) {
-                $request->validate([
-                    "mobile" => "numeric|min:10|max:13",
-                ]);
-            }
-            $post_follow_up = [
-                "id_partner" => $request["id_partner"],
-                "follow_up" => "Follow Up",
-                "note" => $request["note"],  
-            ];
-            if (isset($request["is_tax"]) && !empty($request["is_tax"])) {
-                $update_data_location['is_tax'] = 10;
-            }else{
-                $update_data_location['is_tax'] = 0;
-            }
         }
         
         if (isset($request["import_file"])) {
@@ -692,60 +662,61 @@ class PartnersController extends Controller
             $status_steps = 'Calculation';
         }elseif($request["follow_up"]=='Survey Location'){
             $status_steps = 'Survey Location';
+        }elseif($request["follow_up"]=='Input Data Partner'){
+            $status_steps = 'Input Data Partner';
         }else{
             $status_steps = 'On Follow Up';
             $post_follow_up['follow_up'] = 'Follow Up';
         }
+
         $update_partner = [
             "id_partner" => $request["id_partner"],
             "status_steps" => $status_steps,
             "status" => 'Candidate'
         ];
+
         if (isset($request["npwp"]) && $request["follow_up"]=='Input Data Partner') {
             $update_partner['npwp'] = $request['npwp'];
         }
+
         if (isset($request["sharing_percent"]) && $request["follow_up"]=='Input Data Partner') {
             $update_partner['sharing_percent'] = 1;
         }elseif($request["follow_up"]=='Input Data Partner'){
             $update_partner['sharing_percent'] = 0;
         }
+
         if (isset($request["sharing_value"]) && $request["follow_up"]=='Input Data Partner') {
             $update_partner['sharing_value'] = $request['sharing_value'];
         }
-        
-        if (isset($request["title"]) && $request["follow_up"]=='Input Data Partner') {
-            $update_partner['title'] = $request['title'];
-        }
+
         if (isset($request["partner_code"]) && $request["follow_up"]=='Input Data Partner') {
             $update_partner['code'] = $request['partner_code'];
         }
-        if (isset($request["mobile"]) && $request["follow_up"]=='Input Data Partner' && !empty($request["mobile"])) {
-            $update_partner['mobile'] = $request['mobile'];
-        }elseif(empty($request["mobile"]) && $request["follow_up"]=='Input Data Partner') {
-            $update_partner['mobile'] = 'default';
-        }
+
         if (isset($request["npwp_name"]) && $request["follow_up"]=='Input Data Partner') {
             $update_partner['npwp_name'] = $request['npwp_name'];
         }
+
         if (isset($request["npwp_address"]) && $request["follow_up"]=='Input Data Partner') {
             $update_partner['npwp_address'] = $request['npwp_address'];
         }
+
         if (isset($request["termpayment"]) && $request["follow_up"]=='Input Data Partner') {
             $update_partner['id_term_payment'] = $request['termpayment'];
         }
-        if (isset($request["partner_note"]) && $request["follow_up"]=='Input Data Partner') {
-            $update_partner['notes'] = $request['partner_note'];
-        }
+
         if (isset($request['ownership_status']) && $request['follow_up']=='Input Data Partner'){
             $update_partner['ownership_status'] = $request['ownership_status'];
         } 
+
         if (isset($request['cooperation_scheme']) && $request['follow_up']=='Input Data Partner'){
             $update_partner['cooperation_scheme'] = $request['cooperation_scheme'];
-            
         } 
-        if (isset($request['id_bank_account']) && $request['follow_up']=='Input Data Partner'){
-            $update_partner['id_bank_account'] = $request['id_bank_account'];
-        }
+
+        // if (isset($request['id_bank_account']) && $request['follow_up']=='Input Data Partner'){
+        //     $update_partner['id_bank_account'] = $request['id_bank_account'];
+        // }
+
         if ($request['start_date']!=null && $request['follow_up']=='Input Data Partner'){
             $update_partner['start_date'] = date('Y-m-d', strtotime($request['start_date']));
         } 
@@ -753,34 +724,35 @@ class PartnersController extends Controller
             $update_partner['end_date'] = date('Y-m-d', strtotime($request['end_date']));
         }
 
-        if(isset($request["follow_up"]) && $request["follow_up"]=='Survey Location'){
-            $request->validate([
-                "surye_note" => "required",
-            ]);
-            $form_survey = [
-                "id_partner"  => $request["id_partner"],
-                "id_location"  => $request["id_location"],
-                'note' => $request['surye_note'],
-                'date' => date("Y-m-d"),
-                'surveyor' => session('name'),
-            ];
-            if(isset($request["survey_potential"]) && $request["survey_potential"]=='on'){
-                $form_survey['potential'] = 1;
-            } else{
-                $form_survey['potential'] = 0;
-            };
-            $index_cat = 1;
-            foreach($request['category'] as $cat){
-                $name_cat = 'cat'.$index_cat;
-                $form[$name_cat]['category'] = $cat['cat'];
-                foreach($cat['question'] as $q => $que){
-                    $form[$name_cat]['value'][$q]['question'] = $que['question'];
-                    $form[$name_cat]['value'][$q]['answer'] = $que['answer'];
-                }
-                $index_cat++;
-            }
-            $form_survey["value"] = json_encode($form);
-        }
+        // if(isset($request["follow_up"]) && $request["follow_up"]=='Survey Location'){
+        //     $request->validate([
+        //         "surye_note" => "required",
+        //     ]);
+        //     $form_survey = [
+        //         "id_partner"  => $request["id_partner"],
+        //         "id_location"  => $request["id_location"],
+        //         'note' => $request['surye_note'],
+        //         'date' => date("Y-m-d"),
+        //         'surveyor' => session('name'),
+        //     ];
+        //     if(isset($request["survey_potential"]) && $request["survey_potential"]=='on'){
+        //         $form_survey['potential'] = 1;
+        //     } else{
+        //         $form_survey['potential'] = 0;
+        //     };
+        //     $index_cat = 1;
+        //     foreach($request['category'] as $cat){
+        //         $name_cat = 'cat'.$index_cat;
+        //         $form[$name_cat]['category'] = $cat['cat'];
+        //         foreach($cat['question'] as $q => $que){
+        //             $form[$name_cat]['value'][$q]['question'] = $que['question'];
+        //             $form[$name_cat]['value'][$q]['answer'] = $que['answer'];
+        //         }
+        //         $index_cat++;
+        //     }
+        //     $form_survey["value"] = json_encode($form);
+        // }
+
         if(isset($request["follow_up"]) && $request["follow_up"]=='Calculation'){
             $request->validate([
                 "total_payment" => "required",
@@ -790,6 +762,7 @@ class PartnersController extends Controller
                 "total_payment" => preg_replace("/[^0-9]/", "", $request["total_payment"]),
             ];
         }
+
         if(isset($request["follow_up"]) && $request["follow_up"]=='Confirmation Letter'){
             $request->validate([
                 "no_letter" => "required",
@@ -806,6 +779,7 @@ class PartnersController extends Controller
                 "notes" => $request["payment_note"],
             ];
         }
+        
         if(isset($request["follow_up"]) && $request["follow_up"]=='Payment'){
             $update_partner['status'] = 'Active';
             $update_partner['pin'] = rand(100000,999999);
@@ -818,19 +792,21 @@ class PartnersController extends Controller
             ];
             $post_follow_up['id_location'] = $request["id_location"];
         }
+
         if(isset($request["follow_up"]) && $request["follow_up"]=='Input Data Partner'){
             $cek = [
-                "id_partner" => $request['id_partner'],
-                "partner_code" => $request['partner_code'],
-                "location_code" => $request['location_code']
+                "id" => $request['id_partner'],
+                "code" => $request['partner_code'],
+                "table" => 'Partners'
             ];
             $cek_duplikat = MyHelper::post('partners/cek-duplikat', $cek);
             if(isset($cek_duplikat['status']) && $cek_duplikat['status'] == 'duplicate_code'){
-                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($partner_step['messages'] ?? ['Failed create step '.$request["follow_up"].' Code must be different'])->withInput($request->except('partner_code','location_code'));
+                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($cek_duplikat['messages'] ?? ['Failed create step '.$request["follow_up"].' Code must be different'])->withInput($request->except('partner_code'));
             }
         }   
 
         $post['post_follow_up'] = $post_follow_up;
+
         if(isset($form_survey) && !empty($form_survey)){
             $post['form_survey'] = $form_survey;
         }     
