@@ -451,7 +451,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="example-search-input" class="control-label col-md-4">Partner Gender <span class="required" aria-required="true">*</span>
+                                <label for="example-search-input" class="control-label col-md-4">Contact Person Gender <span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Jenis kelamin dari contact person" data-container="body"></i></label>
                                 <div class="col-md-5">
                                     <select name="gender" class="form-control input-sm select2" placeholder="Select Gender" required>
@@ -496,7 +496,7 @@
                                     <textarea name="notes" id="input-notes" class="form-control" placeholder="Enter notes here">{{$result['notes']}}</textarea>
                                 </div>
                             </div>
-                            @if ($title=='Candidate Partner' && !empty($result['partner_locations']))
+                            {{--  @if ($title=='Candidate Partner' && !empty($result['partner_locations']))
                             <div class="portlet light" style="margin-bottom: 0; padding-bottom: 0">
                                 <div class="portlet-title">
                                     <div class="caption">
@@ -549,7 +549,7 @@
                                     </div>
                                 </div>    
                             </div>
-                            @endif
+                            @endif  --}}
 
                             @if($title=='Partner')
                             <input type="hidden" value="on" name="status">
@@ -892,14 +892,17 @@
                                         <li class="@if($result['status_steps']=='On Follow Up' || $result['status_steps']==null || $result['status_steps']=='Finished Follow Up') active @endif">
                                             <a data-toggle="tab" href="#follow"><i class="fa fa-cog"></i> Follow Up </a>
                                         </li>
+                                        <li class="@if($result['status_steps']=='Input Data Partner') active @endif" @if($result['status_steps']==null || $result['status_steps']=='On Follow Up') style="opacity: 0.4 !important" @endif>
+                                            <a @if($result['status_steps']==null || $result['status_steps']=='On Follow Up') @else data-toggle="tab" @endif href="#survey"><i class="fa fa-cog"></i> Input Data Partner </a>
+                                        </li>
                                         <li class="@if($result['status_steps']=='Survey Location') active @endif" @if($result['status_steps']==null || $result['status_steps']=='On Follow Up') style="opacity: 0.4 !important" @endif>
                                             <a @if($result['status_steps']==null || $result['status_steps']=='On Follow Up') @else data-toggle="tab" @endif href="#survey"><i class="fa fa-cog"></i> Survey Location </a>
                                         </li>
-                                        <li class="@if($result['status_steps']=='Calculation') active @endif" @if($result['status_steps']==null || $result['status_steps']=='On Follow Up' || $result['status_steps']=='Finished Follow Up') style="opacity: 0.4 !important" @endif>
-                                            <a @if($result['status_steps']==null || $result['status_steps']=='On Follow Up' || $result['status_steps']=='Finished Follow Up') @else data-toggle="tab" @endif href="#calcu"><i class="fa fa-cog"></i> Calculation </a>
+                                        <li class="@if($result['status_steps']=='Select Location') active @endif" @if($result['status_steps']==null || $result['status_steps']=='On Follow Up' || $result['status_steps']=='Finished Follow Up') style="opacity: 0.4 !important" @endif>
+                                            <a @if($result['status_steps']==null || $result['status_steps']=='On Follow Up' || $result['status_steps']=='Finished Follow Up') @else data-toggle="tab" @endif href="#select"><i class="fa fa-cog"></i> Select Location </a>
                                         </li>
-                                        <li class="@if($result['status_steps']=='Confirmation Letter') active @endif" <a @if($result['status_steps']=='Calculation' || $result['status_steps']=='Confirmation Letter' || $result['status_steps']=='Payment') @else style="opacity: 0.4 !important" @endif>
-                                            <a @if($result['status_steps']=='Calculation' || $result['status_steps']=='Confirmation Letter' || $result['status_steps']=='Payment') data-toggle="tab" @endif href="#confirm"><i class="fa fa-cog"></i> Confirmation Letter </a>
+                                        <li class="@if($result['status_steps']=='Confirmation Letter') active @endif" <a @if($result['status_steps']=='Select Location' || $result['status_steps']=='Confirmation Letter' || $result['status_steps']=='Payment') @else style="opacity: 0.4 !important" @endif>
+                                            <a @if($result['status_steps']=='Select Location' || $result['status_steps']=='Confirmation Letter' || $result['status_steps']=='Payment') data-toggle="tab" @endif href="#confirm"><i class="fa fa-cog"></i> Confirmation Letter </a>
                                         </li>
                                         <li class="@if($result['status_steps']=='Payment') active @endif" @if($result['status_steps']=='Confirmation Letter' || $result['status_steps']=='Payment') @else style="opacity: 0.4 !important" @endif>
                                             <a @if($result['status_steps']=='Confirmation Letter' || $result['status_steps']=='Payment') data-toggle="tab" @endif href="#payment"><i class="fa fa-cog"></i> Payment </a>
@@ -914,7 +917,7 @@
                                         <div class="tab-pane @if($result['status_steps']=='Survey Location') active @endif" id="survey">
                                             @include('businessdevelopment::partners.steps.survey_loc')
                                         </div>
-                                        <div class="tab-pane @if($result['status_steps']=='Calculation') active @endif" id="calcu">
+                                        <div class="tab-pane @if($result['status_steps']=='Calculation') active @endif" id="select">
                                             @include('businessdevelopment::partners.steps.calculation') 
                                         </div>
                                         <div class="tab-pane @if($result['status_steps']=='Confirmation Letter') active @endif" id="confirm">

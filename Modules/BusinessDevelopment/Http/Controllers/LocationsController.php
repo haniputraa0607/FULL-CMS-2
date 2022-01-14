@@ -137,6 +137,7 @@ class LocationsController extends Controller
     public function detail($id_location)
     {
         $result = MyHelper::post('partners/locations/edit', ['id_location' => $id_location]);
+        // return $result;
         if($result['result']['location']['status']=='Candidate'){
             $data = [
                 'title'          => 'Candidate Location',
@@ -332,7 +333,7 @@ class LocationsController extends Controller
             "latitude" => $request["latitude"],
             "longitude" => $request["longitude"],
             "id_city" => $request["id_city"],
-            "id_partner" => $request["id_partner"],
+            // "id_partner" => $request["id_partner"],
         ];
         if (isset($request['pic_name']) && $request["pic_name"] != null){
             $post['pic_name'] = $request['pic_name'];
@@ -393,18 +394,13 @@ class LocationsController extends Controller
         if(isset($request["follow_up"]) && $request["follow_up"]=='Follow Up 1'){
             $request->validate([
                 "mall" => "required",
-                "location_code" => "required",
                 "location_large" => "required",
                 "rental_price" => "required",
                 "service_charge" => "required",
                 "promotion_levy" => "required",
-                "renovation_cost" => "required",
-                "partnership_fee" => "required",
-                "income" => "required"    
             ]);
             $update_data_location = [
                 "id_location" => $request["id_location"],
-                "code" => $request["location_code"],
                 "name" => $request["nameLocation"],
                 "address" => $request["addressLocation"],  
                 "id_city" => $request["id_cityLocation"],  
@@ -413,34 +409,25 @@ class LocationsController extends Controller
                 "rental_price" => preg_replace("/[^0-9]/", "", $request["rental_price"]),
                 "service_charge" => preg_replace("/[^0-9]/", "", $request["service_charge"]),  
                 "promotion_levy" => preg_replace("/[^0-9]/", "", $request["promotion_levy"]),  
-                "renovation_cost" => preg_replace("/[^0-9]/", "", $request["renovation_cost"]),  
-                "partnership_fee" => preg_replace("/[^0-9]/", "", $request["partnership_fee"]),  
-                "income" => preg_replace("/[^0-9]/", "", $request["income"]), 
                 "mall" => $request["mall"],   
-                "start_date" => date('Y-m-d', strtotime($request['start_date'])),  
-                "end_date" => date('Y-m-d', strtotime($request['end_date']))
+                "start_date" => (empty($request['start_date']) ? null : date('Y-m-d', strtotime($request['start_date']))),
+                "end_date" => (empty($request['start_date']) ? null : date('Y-m-d', strtotime($request['start_date']))),
+                "no_loi" => $request["no_loi"],   
+                "date_loi" => date('Y-m-d', strtotime($request['date_loi'])),
+                "is_tax" => 0
             ];
             $post_follow_up = [
                 "id_location" => $request["id_location"],
                 "follow_up" => "Follow Up",
                 "note" => $request["note"],  
             ];
-            if (isset($request["is_tax"]) && !empty($request["is_tax"])) {
-                $update_data_location['is_tax'] = 100;
-            }else{
-                $update_data_location['is_tax'] = 0;
-            }
         }
 
         $update_data_location['id_location'] = $request["id_location"];
         $update_data_location['status'] = 'Candidate';
         
-        if($request["follow_up"]=='Payment'){
-            $update_data_location['step_loc'] = 'Payment';
-        }elseif($request["follow_up"]=='Confirmation Letter'){
-            $update_data_location['step_loc'] = 'Confirmation Letter';
-        }elseif($request["follow_up"]=='Calculation'){
-            $update_data_location['step_loc'] = 'Calculation';
+        if($request["follow_up"]=='Approved'){
+            $update_data_location['step_loc'] = 'Approved';
         }elseif($request["follow_up"]=='Survey Location'){
             $update_data_location['step_loc'] = 'Survey Location';
         }else{
@@ -459,8 +446,9 @@ class LocationsController extends Controller
                 "id_partner"  => $request["id_partner"],
                 "id_location"  => $request["id_location"],
                 'note' => $request['surye_note'],
-                'date' => date("Y-m-d"),
-                'surveyor' => session('name'),
+                'title' => $request['title'],
+                'date' => date('Y-m-d', strtotime($request['survey_date'])),
+                'surveyor' => $request['surveyor'],
             ];
             if(isset($request["survey_potential"]) && $request["survey_potential"]=='on'){
                 $form_survey['potential'] = 1;
@@ -480,41 +468,18 @@ class LocationsController extends Controller
             $form_survey["value"] = json_encode($form);
         }
 
-        if(isset($request["follow_up"]) && $request["follow_up"]=='Calculation'){
-            $request->validate([
-                "total_payment" => "required",
-            ]);
-            $update_data_location["total_payment"] = preg_replace("/[^0-9]/", "", $request["total_payment"]);
-        }
-
-        if(isset($request["follow_up"]) && $request["follow_up"]=='Confirmation Letter'){
-            $request->validate([
-                "no_letter" => "required",
-                "location_letter" => "required",
-            ]);
-            $data_confir = [
-                "id_partner"  => $request["id_partner"],
-                "id_location" => $request["id_location"],
-                "no_letter" => $request["no_letter"],
-                "location" => $request["location_letter"],
-            ];
-            $update_data_location["notes"] = $request["payment_note"];
-        }
-
-        if(isset($request["follow_up"]) && $request["follow_up"]=='Payment'){
-            $update_data_location['trans_date'] = date('Y-m-d');
-            $update_data_location['due_date'] = date('Y-m-d', strtotime($request['due_date']));
+        if(isset($request["follow_up"]) && $request["follow_up"]=='Approved'){
+            // $update_data_location['trans_date'] = date('Y-m-d');
+            // $update_data_location['due_date'] = date('Y-m-d', strtotime($request['due_date']));
+            // $post_follow_up['id_partner'] = $request['id_partner'];
             $update_data_location["status"] = 'Active';
-            $post_follow_up['id_partner'] = $request['id_partner'];
+            $update_data_location["code"] = $request['location_code'];
         }
 
-        // return [$form_survey, $post_follow_up, $update_data_location];
         if(isset($update_data_location) && !empty($update_data_location)){
             $post_loc['update_data_location'] = $update_data_location;
         }
-        if (isset($data_confir) && !empty($data_confir)) {
-            $post_loc['data_confir'] = $data_confir;
-        }
+
         $location_update =  MyHelper::post('partners/locations/update', $post_loc);
         if (isset($location_update['status']) && $location_update['status'] == 'success') {
             $post['post_follow_up'] = $post_follow_up;
@@ -524,12 +489,7 @@ class LocationsController extends Controller
             $follow_up = MyHelper::post('partners/locations/create-follow-up', $post);
             if (isset($follow_up['status']) && $follow_up['status'] == 'success') {
                 if(isset($update_data_location['status']) && !empty($update_data_location['status']) && $update_data_location['status']=='Active'){
-                    $project = MyHelper::get('project/initProject/'.$request['id_partner'].'/'.$request['id_location']);
-                    if (isset($project['status']) && $project['status'] == 'success') {
-                        return redirect('businessdev/locations/detail/'.$request['id_location'])->withSuccess(['Success update candidate location to location']); 
-                    }else{
-                        return redirect('businessdev/locations/detail/'.$request['id_location'])->withErrors($result['messages'] ?? ['Failed to update candidate location to location']);
-                    }
+                    return redirect('businessdev/locations/detail/'.$request['id_location'])->withSuccess(['Success update candidate location to location']); 
                 }
                 return redirect('businessdev/locations/detail/'.$request['id_location'])->withSuccess(['Success create step '.$request["follow_up"].'']);
             }else{
