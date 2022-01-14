@@ -138,7 +138,9 @@ class AutocrmController extends Controller
 	    		'mitra-hs---transaction-service-completed',
 	    		'mitra-spv---transaction-product-created',
 	    		'mitra-spv---transaction-product-rejected',
-	    		'mitra-spv---transaction-product-taken'
+	    		'mitra-spv---transaction-product-taken',
+	    		'transaction-service-completed',
+	    		'transaction-product-taken'
 		    ])
 	    ){
 			$autocrmSubject = ucwords(str_replace('---','%hyphen%',$subject));
@@ -300,6 +302,20 @@ class AutocrmController extends Controller
                 ];
                 $data['click_notification'] = [
                     ['value' => "outlet_service_history",'title' => 'Outlet Service history'],
+                    ['value' => 'Home','title' => 'Home']
+                ];
+                break;
+
+            case 'transaction-service-completed':
+            case 'transaction-product-taken':
+            case 'transaction-completed':
+            case 'transaction-rejected':
+                $data['click_inbox'] = [
+                    ['value' => "History Transaction",'title' => 'History Transaction'],
+                    ['value' => "No Action",'title' => 'No Action']
+                ];
+                $data['click_notification'] = [
+                    ['value' => "History Transaction",'title' => 'History Transaction'],
                     ['value' => 'Home','title' => 'Home']
                 ];
                 break;

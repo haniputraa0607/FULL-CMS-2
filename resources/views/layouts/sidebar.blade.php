@@ -1612,6 +1612,16 @@
 							<span class="title">[Response] Rejected Order Point Refund</span>
 						</a>
 					</li>
+					<li class="nav-item {{($submenu_active == 'transaction-autoresponse-transaction-rejected') ? 'active' : ''}}">
+						<a href="{{url('autoresponse/transaction/transaction-rejected')}}" class="nav-link nav-toggle">
+							<span class="title">[Response] Transaction Rejected</span>
+						</a>
+					</li>
+					<li class="nav-item {{($submenu_active == 'transaction-autoresponse-transaction-completed') ? 'active' : ''}}">
+						<a href="{{url('autoresponse/transaction/transaction-completed')}}" class="nav-link nav-toggle">
+							<span class="title">[Response] Transaction Completed</span>
+						</a>
+					</li>
 					@if(MyHelper::hasAccess([80], $configs))
 						<li class="nav-item {{($submenu_active == 'delivery-status-update') ? 'active' : ''}}">
 							<a href="{{url('transaction/autoresponse/delivery-status-update')}}" class="nav-link nav-toggle">
@@ -1659,6 +1669,16 @@
 								<span class="arrow"></span>
 							</a>
 							<ul class="sub-menu">
+								<li class="nav-item {{(isset($child_active) && $child_active == 'transaction-outlet-service-autoresponse-transaction-service-completed') ? 'active open' : ''}}">
+									<a href="{{url('autoresponse/transaction-outlet-service-autoresponse/transaction-service-completed')}}" class="nav-link ">
+										<span class="title">[Response] Transaction Service Completed</span>
+									</a>
+								</li>
+								<li class="nav-item {{(isset($child_active) && $child_active == 'transaction-outlet-service-autoresponse-transaction-product-taken') ? 'active open' : ''}}">
+									<a href="{{url('autoresponse/transaction-outlet-service-autoresponse/transaction-product-taken')}}" class="nav-link ">
+										<span class="title">[Response] Transaction Product Taken</span>
+									</a>
+								</li>
 								<li class="nav-item {{(isset($child_active) && $child_active == 'transaction-outlet-service-autoresponse-mitra-hs---transaction-service-created') ? 'active open' : ''}}">
 									<a href="{{url('autoresponse/transaction-outlet-service-autoresponse/mitra-hs---transaction-service-created')}}" class="nav-link ">
 										<span class="title">[Response] HS - Transaction Service Created</span>
