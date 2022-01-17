@@ -72,7 +72,11 @@
                                     <td>{{$dt['status'] ? 'Active' : 'Inactive'}}</td>
                                     <td>
                                         <a href="{{ url('outlet-starter-bundling/detail/'.$dt['code']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
-                                        <button type="button" class="btn btn-sm red sweetalert-delete btn-primary" onclick="deleteBundling({{ $dt['id_outlet_starter_bundling'] }})" data-name="{{ $dt['name'] }}" data-toggle="confirmation"><i class="fa fa-trash-o"></i> Delete</button>
+                                        <form style="display:inline;" action="{{ url('outlet-starter-bundling/delete') }}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="id_outlet_starter_bundling" value="{{ $dt['id_outlet_starter_bundling'] }}">
+                                            <button type="submit" class="btn btn-sm red sweetalert-delete btn-primary" data-toggle="confirmation"><i class="fa fa-trash-o"></i> Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
