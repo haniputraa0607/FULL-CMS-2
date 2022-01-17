@@ -333,17 +333,17 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="example-search-input" class="control-label col-md-4">PIC Name Location 
+                                <label for="example-search-input" class="control-label col-md-4">PIC Name Location <span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Nama penanggung jawab lokasi" data-container="body"></i></label>
                                 <div class="col-md-5">
-                                    <input class="form-control" type="text" id="input-pic_name" name="pic_name" value="{{$result['pic_name']}}" placeholder="Enter pic_name location here"/>
+                                    <input class="form-control" type="text" id="input-pic_name" name="pic_name" value="{{$result['pic_name']}}" placeholder="Enter pic_name location here" required/>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="example-search-input" class="control-label col-md-4">PIC Contact Location 
+                                <label for="example-search-input" class="control-label col-md-4">PIC Contact Location <span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Kontak yang dapat dihubungi dari penanggung jawab lokasi" data-container="body"></i></label>
                                 <div class="col-md-5">
-                                    <input class="form-control" type="text" id="input-pic_contact" name="pic_contact" value="{{$result['pic_contact']}}" placeholder="Enter pic_contact location here"/>
+                                    <input class="form-control" type="text" id="input-pic_contact" name="pic_contact" value="{{$result['pic_contact']}}" placeholder="Enter pic_contact location here" required/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -497,14 +497,14 @@
                             <label for="example-search-input" class="control-label col-md-5">PIC Name Location <span class="required" aria-required="true">*</span>
                                 <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nama pic lokasi" data-container="body"></i></label>
                             <div class="col-md-5">
-                                <input class="form-control" type="text" id="pic_name-modal" name="pic_name" value="" readonly/>
+                                <input class="form-control" type="text" id="pic_name-modal" name="pic_name" value="" required readonly/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="example-search-input" class="control-label col-md-5">PIC Contact Location <span class="required" aria-required="true">*</span>
                                 <i class="fa fa-question-circle tooltips" data-original-title="Masukkan kontak pic lokasi" data-container="body"></i></label>
                             <div class="col-md-5">
-                                <input class="form-control" type="text" id="pic_contact-modal" name="pic_contact" value="" readonly/>
+                                <input class="form-control" type="text" id="pic_contact-modal" name="pic_contact" value="" required readonly/>
                             </div>
                         </div>
                         <div class="form-group">
