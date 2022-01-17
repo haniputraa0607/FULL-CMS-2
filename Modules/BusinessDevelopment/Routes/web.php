@@ -21,7 +21,7 @@ Route::group(['middleware' => ['web','validate_session'], 'prefix' => 'outlet-st
     Route::post('/create', 'OutletStarterBundlingController@store');
     Route::get('/detail/{code}', 'OutletStarterBundlingController@show');
     Route::post('/update', 'OutletStarterBundlingController@update');
-    Route::post('/delete', 'OutletStarterBundlingController@delete');
+    Route::post('/delete', 'OutletStarterBundlingController@destroy');
 });
 
 Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'businessdev'], function()
