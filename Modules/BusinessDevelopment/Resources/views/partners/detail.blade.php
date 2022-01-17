@@ -91,11 +91,11 @@
         }
         function visible() {
             $("#id_percent").hide(); 
-           @if(isset($result['cooperation_scheme'])) 
-                @if($result['cooperation_scheme'] == 'Management Fee') 
+                @if(isset($result['cooperation_scheme'])) 
+                    @if($result['cooperation_scheme'] == 'Management Fee') 
                     $("#id_percent").show(); 
-           @endif
-           @endif
+                @endif
+            @endif
         }
         </script>
     <script>
@@ -561,40 +561,6 @@
 
                             @if($title=='Partner')
                             <input type="hidden" value="on" name="status">
-                            <div class="form-group">
-                                <label for="example-search-input" class="control-label col-md-4">Ownership Status <span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Stastus kepemilikan kontrak kerja sama dengan IXOBOX" data-container="body"></i></label>
-                                <div class="col-md-5">
-                                    <input class="form-control" type="text" id="input-longitude-location" name="ownership_status" value="{{$result['ownership_status']}}" placeholder="Enter location name here" readonly/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="example-search-input" class="control-label col-md-4">Coopertaion Scheme<span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Skema Pembagian hasil partner dengan IXOBOX" data-container="body"></i></label>
-                                <div class="col-md-5">
-                                    <select name="cooperation_scheme" id="cooperation_scheme" onchange="myFunctions()" class="form-control input-sm select2" placeholder="Coopertaion Scheme">
-                                        <option value="">Select Cooperation Scheme</option>
-                                        <option value="Profit Sharing" @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Profit Sharing') selected @endif @endif>Profit Sharing</option>
-                                        <option value="Management Fee" @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Management Fee') selected @endif @endif>Management Fee</option>
-                                    </select>
-                                </div>
-                            </div>
-                                <div id="id_percent">
-                                    <div class="form-group">
-                                                <label for="example-search-input" class="control-label col-md-4">Percent</label>
-                                                <div class="col-md-5">
-                                                    <input type="checkbox" class="make-switch brand_visibility" onchange="myFunctionsPercent()"  data-size="small" data-on-color="info" data-on-text="Percent" data-off-color="default" name='sharing_percent' data-off-text="Nominal" {{$result['sharing_percent']?'checked':''}}>
-                                                </div>
-                                            </div>
-                                    </div>
-                               
-                                <div id="id_commission_value">
-                                    <div class="form-group">
-                                        <label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span><i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>
-                                        <div class="col-md-5">
-                                            <input class="form-control" required type="number" id="sharing_value" value"{{$result['sharing_value']??0}}" name="sharing_value" @if($result['sharing_percent']??0 == 1) min="1" max="99" @endif placeholder="Enter Commission"/>
-                                        </div></div>
-                                </div>
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Start Date <span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai menjadi partner atau tanggal kerja sama dimulai" data-container="body"></i></label>

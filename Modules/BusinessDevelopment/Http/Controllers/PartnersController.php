@@ -339,8 +339,6 @@ class PartnersController extends Controller
         if(isset($request["status"]) && $request["status"] == 'on'){
             $post['status'] = 'Active';
             $request->validate([
-                "ownership_status" => "required",
-                "cooperation_scheme" => "required",
                 "start_date" => "required",
                 "end_date" => "required",
             ]);
@@ -348,8 +346,6 @@ class PartnersController extends Controller
         }if(isset($request["status"]) && $request["status"] == 'Active'){
             $post['status'] = $request["status"];
             $request->validate([
-                "ownership_status" => "required",
-                "cooperation_scheme" => "required",
                 "pin" => "required|min:6",
                 "start_date" => "required",
                 "end_date" => "required",
@@ -379,20 +375,7 @@ class PartnersController extends Controller
         if (isset($request['gender'])){
             $post['gender'] = $request['gender'];
         } 
-        if (isset($request['sharing_percent'])){
-            $post['sharing_percent'] = 1;
-        }else{
-            $post['sharing_percent'] = 0;
-        } 
-        if (isset($request['sharing_value'])){
-            $post['sharing_value'] = $request['sharing_value'];
-        } 
-        if (isset($request['ownership_status']) && $status == 'on'){
-            $post['ownership_status'] = $request['ownership_status'];
-        } 
-        if (isset($request['cooperation_scheme']) && $status == 'on'){
-            $post['cooperation_scheme'] = $request['cooperation_scheme'];
-        } 
+        
         if (isset($request['id_bank_account']) && $status == 'on'){
             $post['id_bank_account'] = $request['id_bank_account'];
         }
@@ -794,11 +777,12 @@ class PartnersController extends Controller
                 "id_location" => $request["id_location"],
                 "total_payment" => preg_replace("/[^0-9]/", "", $request["total_payment"]),
             ];
-            $product_starter = array_map(function($value) use($request){
-                $value['id_location'] = $request["id_location"];
-                return $value;
-            },$request['product_starter']);
-            $update_data_location['product_starter'] = $product_starter;
+
+            // $product_starter = array_map(function($value) use($request){
+            //     $value['id_location'] = $request["id_location"];
+            //     return $value;
+            // },$request['product_starter']);
+            // $update_data_location['product_starter'] = $product_starter;
         }
 
         if(isset($request["follow_up"]) && $request["follow_up"]=='Confirmation Letter'){
