@@ -128,7 +128,7 @@
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption">
-                    <span class="caption-subject font-dark sbold uppercase font-yellow">Follow Up Data</span>
+                    <span class="caption-subject font-dark sbold uppercase font-yellow">Survey Location</span>
                 </div>
                 @if( $result['status']=='Candidate'&& $result['status_steps']=='Survey Location' || $result['status_steps']=='Input Data Partner')
                     <a href="#form_survey" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="input-survey-loc">
