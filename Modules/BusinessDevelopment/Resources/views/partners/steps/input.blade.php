@@ -15,41 +15,41 @@
 <script type="text/javascript">
         function myFunction() {
         
-          var scema             = $('#cooperation_scheme').val();
+          var scema             = $('#input-data-partner #cooperation_scheme').val();
               if(scema == 'Profit Sharing'){
                  var html   = '<input name="sharing_percent" type="hidden" value="on" /><div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
                          <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
                         <div class="col-md-5">\
-                          <input class="form-control" required type="number" id="sharing_value" name="sharing_value" min="1" max="99" placeholder="Enter Commission Percent 1% - 99%"/>\
+                          <input class="form-control" required type="number" id="sharing_value" name="sharing_value" min="1" max="99" placeholder="Enter Commission Percent 1% - 99%" value="{{$result['sharing_value']}}" {{$input ? 'disabled' : ''}}/>\
                         </div></div>'; 
-                    $("#id_percent").hide();    
-                     $('#id_commission').html(html);
+                    $("#input-data-partner #id_percent").hide();    
+                     $('#input-data-partner #id_commission').html(html);
                   }else if(scema == 'Management Fee'){
-                  $("#id_percent").show();  
-                  $('#id_commission').remove();
+                  $("#input-data-partner #id_percent").show();  
+                  $('#input-data-partner #id_commission').remove();
                   myFunctionPercent();
               }
          
            };
         function myFunctionPercent() {
-            var scema             = $('#cooperation_scheme').val();
-          var id_percent     	=  $("input[name='sharing_percent']:checked").val();
+            var scema             = $('#input-data-partner #cooperation_scheme').val();
+          var id_percent     	=  $("#input-data-partner input[name='sharing_percent']:checked").val();
           if(scema == 'Management Fee'){
               if(id_percent == 'on'){
                  var htmls='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
                         <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
                         <div class="col-md-5">\
-                            <input class="form-control" required type="number" id="sharing_value" name="sharing_value" min="1" max="99" placeholder="Enter Commission Percent" value="{{$result['sharing_value']}}" {{$input ? '' : 'disabled'}}/>\
+                            <input class="form-control" required type="number" id="sharing_value" name="sharing_value" min="1" max="99" placeholder="Enter Commission Percent" value="{{$result['sharing_value']}}" {{$input ? 'disabled' : ''}}/>\
                         </div></div>';
               }else{
                  var htmls='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
                          <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
                         <div class="col-md-5">\
-                          <input class="form-control" required type="number" id="sharing_value" name="sharing_value"  placeholder="Enter Commission Nominal" value="{{$result['sharing_value']}}" {{$input ? '' : 'disabled'}}/>\
+                          <input class="form-control" required type="number" id="sharing_value" name="sharing_value"  placeholder="Enter Commission Nominal" value="{{$result['sharing_value']}}" {{$input ? 'disabled' : ''}}/>\
                         </div></div>'; 
 
               }
-                $('#id_commissions').html(htmls);
+                $('#input-data-partner #id_commissions').html(htmls);
             }
         }
         $(document).ready(function () {
@@ -63,7 +63,7 @@
         </script>
 <script>
         jQuery(document).ready(function() {
-            $("input[data-type='currency']").on({
+            $("#input-data-partner input[data-type='currency']").on({
                 keyup: function() {
                   formatCurrency($(this));
                 },
@@ -117,7 +117,7 @@
         });
     </script>
 <div style="white-space: nowrap;">
-    <div class="tab-pane">
+    <div class="tab-pane" id="input-data-partner">
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption">
@@ -202,7 +202,7 @@
                                     <label for="example-search-input" class="control-label col-md-4">Term of Payment <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Pilih metode pembayaran partner" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <select class="form-control select2" name="termpayment" id="termpayment" required {{ $input ? '' : 'disabled'}}>
+                                        <select class="form-control select2" name="termpayment" id="termpayment" required {{ $input ? 'disabled' : ''}}>
                                             <option value="" selected disabled>Select Brand</option>
                                             @foreach($terms as $term)
                                                 <option value="{{$term['id_term_of_payment']}}" @if(old('termpayment')) @if(old('termpayment') == $term['id_term_of_payment']) selected @endif @else @if($result['id_term_payment'] == $term['id_term_of_payment']) selected @endif @endif>{{$term['name']}}</option>
@@ -214,7 +214,7 @@
                                     <label for="example-search-input" class="control-label col-md-4">Ownership Status <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Stastus kepemilikan kontrak kerja sama dengan IXOBOX" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <select name="ownership_status" class="form-control input-sm select2" placeholder="Ownership Status" required {{ $input ? '' : 'disabled'}}>
+                                        <select name="ownership_status" class="form-control input-sm select2" placeholder="Ownership Status" required {{ $input ? 'disabled' : ''}}>
                                             <option value="" selected disabled>Select Ownership Status</option>
                                             <option value="Central" @if(old('ownership_status')) @if(old('ownership_status')=='Central') selected @endif @else @if(isset($result['ownership_status'])) @if($result['ownership_status'] == 'Central') selected @endif @endif @endif>Central</option>
                                             <option value="Partner" @if(old('ownership_status')) @if(old('ownership_status')=='Partner') selected @endif @else @if(isset($result['ownership_status'])) @if($result['ownership_status'] == 'Partner') selected @endif @endif @endif>Partner</option>
@@ -225,7 +225,7 @@
                                     <label for="example-search-input" class="control-label col-md-4">Coopertaion Scheme<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Skema Pembagian hasil partner dengan IXOBOX" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <select name="cooperation_scheme" id="cooperation_scheme" onchange="myFunction()" class="form-control input-sm select2" placeholder="Coopertaion Scheme" required {{ $input ? '' : 'disabled'}}>
+                                        <select name="cooperation_scheme" id="cooperation_scheme" onchange="myFunction()" class="form-control input-sm select2" placeholder="Coopertaion Scheme" required {{ $input ? 'disabled' : ''}}>
                                             <option value="" selected disabled>Select Cooperation Scheme</option>
                                             <option value="Profit Sharing" @if(old('cooperation_scheme')) @if(old('cooperation_scheme')=='Profit Sharing') selected @endif @else @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Profit Sharing') selected @endif @endif @endif>Profit Sharing</option>
                                             <option value="Management Fee" @if(old('cooperation_scheme')) @if(old('cooperation_scheme')=='Management Fee') selected @endif @else @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Management Fee') selected @endif @endif @endif>Management Fee</option>
@@ -236,7 +236,7 @@
                                     <div class="form-group">
                                                 <label for="example-search-input" class="control-label col-md-4">Percent</label>
                                                 <div class="col-md-5">
-                                                    <input type="checkbox" class="make-switch brand_visibility" onchange="myFunctionPercent()"  data-size="small" data-on-color="info" data-on-text="Percent" data-off-color="default" name='sharing_percent' data-off-text="Nominal" {{ old('sharing_percent', $result['sharing_percent']) ? 'checked' : ''}} {{ $input ? '' : 'disabled'}}>
+                                                    <input type="checkbox" class="make-switch brand_visibility" onchange="myFunctionPercent()"  data-size="small" data-on-color="info" data-on-text="Percent" data-off-color="default" name='sharing_percent' data-off-text="Nominal" {{ old('sharing_percent', $result['sharing_percent']) ? 'checked' : ''}} {{ $input ? 'disabled' : ''}}>
                                                 </div>
                                             </div>
                                 </div>
