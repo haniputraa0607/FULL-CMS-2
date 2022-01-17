@@ -83,21 +83,6 @@
 		<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
 		<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
 	</tr>
-	{{--  <tr>
-			<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
-			<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
-		<td height="33" colspan='3' align="left" valign='middle'><b><font face="Century Gothic" size=3 color="#000000">Lampiran</font></b></td>
-		<td align="center" valign='middle'><font face="Century Gothic" size=3 color="#000000">:</font></td>
-                <td colspan="3" style="border-bottom: 2px solid #000000" align="left" valign='middle'><b><font face="Century Gothic" size=3 color="#000000">{{$result['contract']['lampiran']}}</font></b></td>
-		<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
-		<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
-		<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
-		<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
-		<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
-		<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
-		<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
-		<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
-	</tr>  --}}
 	<tr>
 			<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
 			<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
@@ -345,7 +330,7 @@
 		<td align="left" valign='middle' sdnum="1033;0;@"><font face="Century Gothic" size=3 color="#000000">11.</font></td>
 		<td colspan="3"  align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000">Contact Person PIC Lokasi</font></td>
 		<td align="center" valign='middle'><font face="Century Gothic" size=3 color="#000000">:</font></td>
-		<td colspan="5" style="border-bottom: 2px solid #000000" align="left" valign='middle'><font face="Century Gothic" size=4 color="#000000"><b>{{$result['location']['pic_name']}}, {{$result['location']['pic_contact']}}, {{$result['location']['address']}}</b></font></td>
+		<td colspan="5" style="border-bottom: 2px solid #000000" align="left" valign='middle'><font face="Century Gothic" size=4 color="#000000"><b>{{$result['location']['pic_name']}}, {{$result['location']['pic_contact']}}</b></font></td>
 	</tr>
 	<tr>
 			<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>

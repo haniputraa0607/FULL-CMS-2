@@ -180,8 +180,6 @@ class ProjectController extends Controller
                 $data['result']['project_fitout']=array();
             }
             $data['id_enkripsi'] = MyHelper::createSlug($result['result']['id_project'], $result['result']['created_at']);
-            $data['nomor_loi'] = MyHelper::get('project/detail/no_loi')['result']??'';
-            $data['nomor_spk'] = MyHelper::get('project/detail/no_spk')['result']??'';
             return view('project::project.detail', $data);
         }else{
             return Redirect::back()->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
