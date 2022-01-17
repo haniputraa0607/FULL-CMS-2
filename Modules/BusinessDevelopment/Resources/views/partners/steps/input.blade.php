@@ -198,7 +198,7 @@
                                         <textarea name="npwp_address" id="npwp_address" class="form-control" placeholder="Enter npwp address here" required @if ($input==true) readonly @endif>{{ old('npwp_address') ?? $result['npwp_address'] }}</textarea>
                                     </div>
                                 </div>   
-                                <div class="form-group">
+                                {{--  <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Term of Payment <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Pilih metode pembayaran partner" data-container="body"></i></label>
                                     <div class="col-md-5">
@@ -209,8 +209,8 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>     
-                                <div class="form-group">
+                                </div>       --}}
+                                {{--  <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Ownership Status <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Stastus kepemilikan kontrak kerja sama dengan IXOBOX" data-container="body"></i></label>
                                     <div class="col-md-5">
@@ -220,8 +220,8 @@
                                             <option value="Partner" @if(old('ownership_status')) @if(old('ownership_status')=='Partner') selected @endif @else @if(isset($result['ownership_status'])) @if($result['ownership_status'] == 'Partner') selected @endif @endif @endif>Partner</option>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="form-group">
+                                </div>  --}}
+                                {{--  <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Coopertaion Scheme<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Skema Pembagian hasil partner dengan IXOBOX" data-container="body"></i></label>
                                     <div class="col-md-5">
@@ -231,7 +231,7 @@
                                             <option value="Management Fee" @if(old('cooperation_scheme')) @if(old('cooperation_scheme')=='Management Fee') selected @endif @else @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Management Fee') selected @endif @endif @endif>Management Fee</option>
                                         </select>
                                     </div>
-                                </div>
+                                </div>  --}}
                                 <div id="id_percent">
                                     <div class="form-group">
                                                 <label for="example-search-input" class="control-label col-md-4">Percent</label>

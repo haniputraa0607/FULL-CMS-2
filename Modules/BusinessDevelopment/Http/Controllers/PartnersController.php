@@ -654,7 +654,6 @@ class PartnersController extends Controller
                 "partner_code" => "required",
                 "npwp" => "required",
                 "npwp_name" => "required",
-                "termpayment" => "required", 
             ]);
         }
         
@@ -689,16 +688,6 @@ class PartnersController extends Controller
             $update_partner['npwp'] = $request['npwp'];
         }
 
-        if (isset($request["sharing_percent"]) && $request["follow_up"]=='Input Data Partner') {
-            $update_partner['sharing_percent'] = 1;
-        }elseif($request["follow_up"]=='Input Data Partner'){
-            $update_partner['sharing_percent'] = 0;
-        }
-
-        if (isset($request["sharing_value"]) && $request["follow_up"]=='Input Data Partner') {
-            $update_partner['sharing_value'] = $request['sharing_value'];
-        }
-
         if (isset($request["partner_code"]) && $request["follow_up"]=='Input Data Partner') {
             $update_partner['code'] = $request['partner_code'];
         }
@@ -710,18 +699,6 @@ class PartnersController extends Controller
         if (isset($request["npwp_address"]) && $request["follow_up"]=='Input Data Partner') {
             $update_partner['npwp_address'] = $request['npwp_address'];
         }
-
-        if (isset($request["termpayment"]) && $request["follow_up"]=='Input Data Partner') {
-            $update_partner['id_term_payment'] = $request['termpayment'];
-        }
-
-        if (isset($request['ownership_status']) && $request['follow_up']=='Input Data Partner'){
-            $update_partner['ownership_status'] = $request['ownership_status'];
-        } 
-
-        if (isset($request['cooperation_scheme']) && $request['follow_up']=='Input Data Partner'){
-            $update_partner['cooperation_scheme'] = $request['cooperation_scheme'];
-        } 
 
         // if (isset($request['id_bank_account']) && $request['follow_up']=='Input Data Partner'){
         //     $update_partner['id_bank_account'] = $request['id_bank_account'];
@@ -774,6 +751,10 @@ class PartnersController extends Controller
                 "total_box" => $request['total_box'],
                 "handover_date" => date('Y-m-d', strtotime($request['handover_date'])),
             ];
+            $form_survey = [
+                "id_partner"  => $request["id_partner"],
+                "id_location"  => $request["id_location"],
+            ];
             if ($request['start_date']!=null){
                 $update_data_location['start_date'] = date('Y-m-d', strtotime($request['start_date']));
             } 
@@ -781,6 +762,29 @@ class PartnersController extends Controller
                 $update_data_location['end_date'] = date('Y-m-d', strtotime($request['end_date']));
             }
         }
+        
+        if (isset($request["termpayment"]) && $request["follow_up"]=='Select Location') {
+            $update_data_location['id_term_of_payment'] = $request['termpayment'];
+        }
+
+        if (isset($request['ownership_status']) && $request['follow_up']=='Select Location'){
+            $update_data_location['ownership_status'] = $request['ownership_status'];
+        } 
+
+        if (isset($request['cooperation_scheme']) && $request['follow_up']=='Select Location'){
+            $update_data_location['cooperation_scheme'] = $request['cooperation_scheme'];
+        } 
+
+        if (isset($request["sharing_percent"]) && $request["follow_up"]=='Select Location') {
+            $update_data_location['sharing_percent'] = 1;
+        }elseif($request["follow_up"]=='Select Location'){
+            $update_data_location['sharing_percent'] = 0;
+        }
+
+        if (isset($request["sharing_value"]) && $request["follow_up"]=='Select Location') {
+            $update_data_location['sharing_value'] = $request['sharing_value'];
+        }
+
 
         if(isset($request["follow_up"]) && $request["follow_up"]=='Calculation'){
             $request->validate([
@@ -845,7 +849,7 @@ class PartnersController extends Controller
         if(isset($form_survey) && !empty($form_survey)){
             $post['form_survey'] = $form_survey;
         }     
-        
+
         $partner_step = MyHelper::post('partners/update', $update_partner);
         if (isset($partner_step['status']) && $partner_step['status'] == 'success') {
             if (isset($update_data_location) && !empty($update_data_location)) {
@@ -863,17 +867,15 @@ class PartnersController extends Controller
                 if (isset($location_update['status']) && $location_update['status'] == 'success') {
                     $follow_up = MyHelper::post('partners/create-follow-up', $post);
                     if(isset($follow_up['status']) && $follow_up['status'] == 'success'){
-                        if(isset($update_data_location['status']) && !empty($update_data_location['status']) && $update_data_location['status']=='Active'){
+                        if(isset($update_partner['status']) && !empty($update_partner['status']) && $update_partner['status']=='Active'){
                             $project = MyHelper::get('project/initProject/'.$request['id_partner'].'/'.$request['id_location']);
                             if (isset($project['status']) && $project['status'] == 'success') {
-                                // $generate_spk = $this->generateSPK($request['id_partner']);
                                 return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success update candidate partner to partner']); 
                             }else{
                                 return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed to update candidate partner to partner']);
                             }
-                        }else{
-
                         }
+                        return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
                     }else{
                         return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
                     }
