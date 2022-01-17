@@ -1489,6 +1489,35 @@
         </li>
         @endif
 
+        @if(MyHelper::hasAccess([428,429,430], $grantedFeature))
+			<li class="nav-item {{($menu_active == 'hairstylist-update-data') ? 'active open' : ''}}">
+				<a href="javascript:;" class="nav-link nav-toggle">
+					<i class="fa fa-edit"></i>
+					<span class="title">Request Update Data</span>
+					<span class="arrow {{($menu_active == 'hairstylist-update-data') ? 'open' : ''}}"></span>
+				</a>
+				<ul class="sub-menu">
+					<li class="nav-item {{($submenu_active == 'hairstylist-update-data-list') ? 'active open' : ''}}">
+						<a href="{{url('recruitment/hair-stylist/update-data')}}" class="nav-link ">
+							<span class="title">List Request</span>
+						</a>
+					</li>
+					@if(MyHelper::hasAccess([120,122], $grantedFeature))
+						<li class="nav-item {{($submenu_active == 'hairstylist-update-data-autoresponse-approve-hairstylist-request-update-data') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/hairstylist-update-data/approve-hairstylist-request-update-data')}}" class="nav-link ">
+								<span class="title">[Response] Approve Request</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'hairstylist-update-data-autoresponse-reject-hairstylist-request-update-data') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/hairstylist-update-data/reject-hairstylist-request-update-data')}}" class="nav-link ">
+								<span class="title">[Response] Reject Request</span>
+							</a>
+						</li>
+					@endif
+				</ul>
+			</li>
+		@endif
+
 		@if(MyHelper::hasAccess([58,59,60,61,62,63,64,66,69,71,299,397,400], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
 				<h3 class="uppercase" style="color: #000;font-weight: 600;">Order</h3>

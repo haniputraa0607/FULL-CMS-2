@@ -53,6 +53,14 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
 	    Route::any('edit/{id}', ['middleware' => 'feature_control:369,371', 'uses' => 'AnnouncementController@edit']);
 		Route::any('delete/{id}', ['middleware' => 'feature_control:372', 'uses' => 'AnnouncementController@delete']);
 	});
+
+	Route::group(['prefix' => 'update-data'], function()
+	{
+	    Route::any('/', ['middleware' => 'feature_control:428,429,430', 'uses' => 'HairStylistUpdateDataController@list']);
+	    Route::get('detail/{id}', ['middleware' => 'feature_control:429', 'uses' => 'HairStylistUpdateDataController@detail']);
+	    Route::post('update/{id}', ['middleware' => 'feature_control:430', 'uses' => 'HairStylistUpdateDataController@update']);
+	});
+
 	Route::group(['prefix' => 'group'], function()
 	{
 	    Route::any('create', ['middleware' => 'feature_control:394', 'uses' => 'HairStylistGroupController@create']);	    
