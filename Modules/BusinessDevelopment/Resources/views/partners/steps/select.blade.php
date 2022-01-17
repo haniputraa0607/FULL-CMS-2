@@ -66,11 +66,15 @@
           caret_pos = updated_len - original_len + caret_pos;
           input[0].setSelectionRange(caret_pos, caret_pos);
         }
+
+        @if($select)
+        $('#flow-select-location').prop('disabled', true);
+        @endif
     })
 </script>
 
 <div style="white-space: nowrap;">
-    <div class="tab-pane">
+    <div class="tab-pane" id="flow-select-location">
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption">
@@ -113,12 +117,16 @@
                                     <label for="example-search-input" class="control-label col-md-4">Select Location <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Pilih lokasi yang akan didirikan oleh partner" data-container="body"></i></label>
                                     <div class="col-md-5">
+                                        @if($select)
+                                        <input class="form-control" type="text" name="location_name" value="{{$result['first_location']['name'] ?? ''}}" readonly required/>
+                                        @else
                                         <select class="form-control select2" name="id_location" id="id_location" required>
                                             <option value="" selected disabled>Select Location</option>
                                             @foreach($list_locations as $list_location)
                                                 <option value="{{$list_location['id_location']}}" @if(old('id_location')) @if(old('id_location') == $list_location['id_location']) selected @endif @else @if ($result['partner_locations']) @if($result['partner_locations'][0]['id_location'] == $list_location['id_location']) selected @endif @endif @endif>{{$list_location['name']}}</option>
                                             @endforeach
                                         </select>
+                                        @endif
                                     </div>
                                 </div>    
                                 <div class="form-group">
