@@ -641,6 +641,16 @@
                                     <label>
                                 </div>
                             </div>    
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Surat Perintah Kerja 
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Download file SPK" data-container="body"></i><br></label>
+                                <div class="col-md-5">
+                                    <label for="example-search-input" class="control-label">
+                                        {{--  <a href="{{ $result['partner_survey'][0]['attachment']??'' }}">Download SPK</a>  --}}
+                                        <a target="_blank" target='blank' href="{{url('businessdev/partners/generate-spk').'/'.$result['id_partner']}}">Download SPK</a>
+                                    <label>
+                                </div>
+                            </div>    
                             @endif
                         </div>
                         <div class="form-actions">

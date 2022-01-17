@@ -12,6 +12,8 @@ use Session;
 use Excel;
 use App\Imports\FirstSheetOnlyImport;
 use Illuminate\Support\Facades\Hash;
+use App\Exports\SPKPartner;
+
 
 class PartnersController extends Controller
 {
@@ -820,6 +822,8 @@ class PartnersController extends Controller
                 "id_location" => $request["id_location"],
                 "trans_date" => date('Y-m-d'),
                 "due_date" => date('Y-m-d', strtotime($request['due_date'])),
+                "no_spk" => $request["no_spk"],
+                "date_spk" => date('Y-m-d', strtotime($request['due_date'])),
             ];
             $post_follow_up['id_location'] = $request["id_location"];
         }
@@ -862,6 +866,7 @@ class PartnersController extends Controller
                         if(isset($update_data_location['status']) && !empty($update_data_location['status']) && $update_data_location['status']=='Active'){
                             $project = MyHelper::get('project/initProject/'.$request['id_partner'].'/'.$request['id_location']);
                             if (isset($project['status']) && $project['status'] == 'success') {
+                                // $generate_spk = $this->generateSPK($request['id_partner']);
                                 return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success update candidate partner to partner']); 
                             }else{
                                 return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed to update candidate partner to partner']);
@@ -904,6 +909,16 @@ class PartnersController extends Controller
         ];
         $partner_step = MyHelper::post('partners/update', $reject_partner);
         return $partner_step;
+    }
+
+    public function generateSPK($id){
+        $query = MyHelper::post('partners/generate-spk', ['id_partner'=>$id]);
+        if(isset($query['status']) && $query['status'] == 'success'){
+            $data['result']=$query['result'];
+            return Excel::download(new SPKPartner($data), 'SPK_OPENING_OUTLET_'.$data['result']['partner']['name'].'_'.strtotime(date('Y-m-d h:i:s')).'.xlsx');
+	    } else{
+            return back()->withErrors($query['messages']);
+	    }
     }
 
 }
