@@ -117,7 +117,7 @@
         }
 
         @if($select)
-        $('#flow-select-location').prop('disabled', true);
+        $('#flow-select-location :input').prop('disabled', true);
         @endif
     })
 </script>
