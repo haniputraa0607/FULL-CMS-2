@@ -42,6 +42,40 @@
                         </div>
                     </div>
                     <div class="tab-pane @if($result['status']=='Candidate' || $calcu == true) active @endif" id="form_pay">
+                        @php $total_payment = 0 @endphp
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th colspan="3">Outlet Starter</th>
+                                </tr>
+                                @foreach($result['first_location']['location_starter'] ?? [] as $starter)
+                                @php
+                                $price = $starter['unit'] == $starter['product']['unit1'] ? $starter['product']['unit_price_1'] : ($starter['unit'] == $starter['product']['unit2'] ? $starter['product']['unit_price_2'] : ($starter['unit'] == $starter['product']['unit3'] ? $starter['product']['unit_price_3'] : 0));
+                                $total_payment += $price * $starter['qty'];
+                                @endphp
+                                <tr>
+                                    <td>{{$starter['product']['name']}}</td>
+                                    <td>{{$starter['qty']}} {{$starter['unit']}}</td>
+                                    <td>{{number_format($price * $starter['qty'], 0, ',', '.')}}</td>
+                                </tr>
+                                @endforeach
+                                <tr>
+                                    <th colspan="3">Fees</th>
+                                </tr>
+                                <tr>
+                                    <td>Contractor Price</td>
+                                    <td></td>
+                                    <td>{{number_format($result['first_location']['renovation_cost'], 0, ',', '.')}}</td>
+                                    @php $total_payment += $result['first_location']['renovation_cost'] @endphp
+                                </tr>
+                                <tr>
+                                    <td>Partnership Fee</td>
+                                    <td></td>
+                                    <td>{{number_format($result['first_location']['partnership_fee'], 0, ',', '.')}}</td>
+                                    @php $total_payment += $result['first_location']['partnership_fee'] @endphp
+                                </tr>
+                            </tbody>
+                        </table>
                         <form class="form-horizontal" role="form" action="{{url('businessdev/partners/create-follow-up')}}" method="post" enctype="multipart/form-data">
                             <div class="form-body">
                                 <input type="hidden" name="id_partner" value="{{$result['id_partner']}}">
@@ -52,7 +86,7 @@
                                         <input class="form-control" type="text" id="follow_up" name="follow_up" value="Calculation" readonly required/>
                                     </div>
                                 </div>
-                                <div class="portlet light" style="margin-bottom: 0; padding-bottom: 0">
+                                <div class="portlet light" style="margin-bottom: 0; padding-bottom: 0;display:none;">
                                     <div class="portlet-body form">
                                         <div class="form-group">
                                             <div class="col-md-4">
@@ -134,7 +168,7 @@
                                                     </div>  --}}
                                                 </div>
                                             </div>
-                                        @endforeach
+                                            @endforeach
                                         </div>
                                         {{--  @if ($result['status']=='Pending' && MyHelper::hasAccess([413], $grantedFeature))  --}}
                                         {{--  <div class="form-group">
@@ -151,7 +185,7 @@
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="total_payment" name="total_payment" placeholder="Enter total payment here" value="{{ number_format($total_cost) }}" required/>
+                                            <input class="form-control" type="text" data-type="currency" id="total_payment" name="total_payment" placeholder="Enter total payment here" value="{{ number_format($result['first_location']['total_payment'] ?: $total_payment) }}" required {{$calcu ? 'disabled' : ''}}/>
                                         </div>
                                     </div>
                                 </div>    
