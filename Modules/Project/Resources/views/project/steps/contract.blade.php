@@ -5,10 +5,6 @@
     $first_party = null;
     $second_party = null;
     $note = null;
-    $nomor_loi = $nomor_loi;
-    $date_spk = date('Y-m-d');
-    $tanggal_loi = date('Y-m-d');
-    $tanggal_buka_loi = date('Y-m-d');
     $nama_pic = $result['project_survey']['nama_pic_mall']??'';
     $kontak_pic = $result['project_survey']['cp_pic_mall']??'';
     $lokasi_pic = null;
@@ -23,15 +19,13 @@
         $first_party = $result['project_contract']['first_party'];
         $second_party = $result['project_contract']['second_party'];
         $note = $result['project_contract']['note'];
-        $nomor_loi = $result['project_contract']['nomor_loi'];
-        $tanggal_loi = $result['project_contract']['tanggal_loi'];
-        $tanggal_buka_loi = $result['project_contract']['tanggal_buka_loi'];
+      
         $nama_pic = $result['project_contract']['nama_pic'];
         $kontak_pic = $result['project_contract']['kontak_pic'];
         $lokasi_pic = $result['project_contract']['lokasi_pic'];
         $attachment = $result['project_contract']['attachment'];
         $created_at = $result['project_contract']['updated_at'];
-        $date_spk = $result['project_contract']['tanggal_spk'];
+       
         $nominal = number_format($result['project_contract']['renovation_cost']??0,0,'.',',');
 //        if($result['project_contract']['status']=='Process'){
 //           $next_contract = true;
@@ -220,69 +214,6 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Kontak Kontraktor" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" @if($result['status']!='Process' ) disabled  @elseif($result['progres']!='Contract') disabled @endif type="text" id="cp_kontraktor" name="cp_kontraktor" value="{{$result['project_contract']['cp_kontraktor']??''}}" placeholder="Kontak Kontraktor (0xxx xxxx xxxxx)" required/>
-                                    </div>
-                                </div>
-                               <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">No SPK<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Nomor SPK" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <input class="form-control" type="text" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif id="nomor_spk" name="nomor_spk" value="{{$result['project_contract']['nomor_spk']??$nomor_spk}}" placeholder="Enter Nomor SPK" required/>
-                                    </div>
-                                </div>
-                               <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Date SPK<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal SPK" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <input placeholder="Tanggal SPK" type="text" id="tanggal_spk" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif class="datepicker form-control" name="tanggal_spk" value="{{ (!empty($date_spk) ? date('d F Y', strtotime($date_spk)) : '')}}" >
-                                            <span class="input-group-btn">
-                                                <button class="btn default" type="button">
-                                                    <i class="fa fa-calendar"></i>
-                                                </button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Attachment SPK<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Lampiran SPK" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <input class="form-control" placeholder="Lampiran (2 Lembar)" type="text" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif id="lampiran" name="lampiran" value="{{$result['project_contract']['lampiran']??'2 Lembar'}}" required/>
-                                    </div>
-                                </div>
-                               <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">No LOI<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Nomor Letter Of Intens" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <input placeholder="Enter Nomor LOI" class="form-control" type="text" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif id="nomor_loi" name="nomor_loi" value="{{$nomor_loi}}" required/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Date LOI<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal LOI" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <input placeholder="Enter Tanggal LOI" type="text" id="tanggal_loi" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif class="datepicker form-control" name="tanggal_loi" value="{{ (!empty($tanggal_loi) ? date('d F Y', strtotime($tanggal_loi)) : '')}}" >
-                                            <span class="input-group-btn">
-                                                <button class="btn default" type="button">
-                                                    <i class="fa fa-calendar"></i>
-                                                </button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Open Date by LOI<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal buka menurut LOI" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <input placeholder="Tanggal Buka Menurut LOI" type="text" id="tanggal_buka_loi" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Contract') disabled @endif class="datepicker form-control" name="tanggal_buka_loi" value="{{ (!empty($tanggal_buka_loi) ? date('d F Y', strtotime($tanggal_buka_loi)) : '')}}" >
-                                            <span class="input-group-btn">
-                                                <button class="btn default" type="button">
-                                                    <i class="fa fa-calendar"></i>
-                                                </button>
-                                            </span>
-                                        </div>
                                     </div>
                                 </div>
                                <div class="form-group">
