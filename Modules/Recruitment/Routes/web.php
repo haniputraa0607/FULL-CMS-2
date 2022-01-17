@@ -56,9 +56,9 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
 
 	Route::group(['prefix' => 'update-data'], function()
 	{
-	    Route::any('/', ['uses' => 'HairStylistUpdateDataController@list']);
-	    Route::get('detail/{id}', ['uses' => 'HairStylistUpdateDataController@detail']);
-	    Route::post('update/{id}', ['uses' => 'HairStylistUpdateDataController@update']);
+	    Route::any('/', ['middleware' => 'feature_control:428,429,430', 'uses' => 'HairStylistUpdateDataController@list']);
+	    Route::get('detail/{id}', ['middleware' => 'feature_control:429', 'uses' => 'HairStylistUpdateDataController@detail']);
+	    Route::post('update/{id}', ['middleware' => 'feature_control:430', 'uses' => 'HairStylistUpdateDataController@update']);
 	});
 
 	Route::group(['prefix' => 'group'], function()
