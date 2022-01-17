@@ -814,6 +814,27 @@
 					</ul>
 				</li>
 			@endif
+				<li class="nav-item {{($menu_active == 'outlet-starter-bundling') ? 'active' : ''}}">
+					<a href="javascript:;" class="nav-link nav-toggle">
+						<i class="fa fa-dropbox"></i>
+						<span class="title">Outlet Starter Bundling</span>
+						<span class="arrow {{($menu_active == 'outlet-starter-bundling') ? 'open' : ''}}"></span>
+					</a>
+					<ul class="sub-menu">
+						@if(MyHelper::hasAccess([376], $grantedFeature))
+							<li class="nav-item {{($submenu_active == 'outlet-starter-bundling-list') ? 'active open' : ''}}">
+								<a href="{{url('outlet-starter-bundling')}}" class="nav-link ">
+									<span class="title">Outlet Starter Bundling List</span>
+								</a>
+							</li>
+							<li class="nav-item {{($submenu_active == 'new-outlet-starter-bundling') ? 'active open' : ''}}">
+								<a href="{{url('outlet-starter-bundling/create')}}" class="nav-link ">
+									<span class="title">New Outlet Starter Bundling</span>
+								</a>
+							</li>
+						@endif
+					</ul>
+				</li>
 
 			@if(MyHelper::hasAccess([48,49,50,51,52], $grantedFeature) && false)
 				<li class="nav-item {{($menu_active == 'product-plastic') ? 'active' : ''}}">

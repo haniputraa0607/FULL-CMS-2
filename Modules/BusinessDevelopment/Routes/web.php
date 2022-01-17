@@ -14,6 +14,16 @@
 Route::prefix('BusinessDevelopment')->group(function() {
     Route::get('/', 'BusinessDevelopmentController@index');
 });
+
+Route::group(['middleware' => ['web','validate_session'], 'prefix' => 'outlet-starter-bundling'], function() {
+    Route::get('/', 'OutletStarterBundlingController@index');
+    Route::get('/create', 'OutletStarterBundlingController@create');
+    Route::post('/create', 'OutletStarterBundlingController@store');
+    Route::get('/detail/{code}', 'OutletStarterBundlingController@show');
+    Route::post('/update', 'OutletStarterBundlingController@update');
+    Route::post('/delete', 'OutletStarterBundlingController@delete');
+});
+
 Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'businessdev'], function()
 {
     //partners
