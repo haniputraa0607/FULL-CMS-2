@@ -2,7 +2,7 @@
     $calcu = false;
     if(!empty($result['partner_step'])){
         foreach($result['partner_step'] as $i => $step){
-            if($step['follow_up']=='Payment'){
+            if($step['follow_up']=='Calculation'){
                 $calcu = true;
                 $follow_up = $step['follow_up'];
                 $note = $step['note'];

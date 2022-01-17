@@ -7,7 +7,7 @@
                 $follow_up = $step['follow_up'];
                 $note = $step['note'];
                 $file = $step['attachment'];
-                $result['partner_locations'][0]['total_payment'] = number_format($result['partner_locations'][0]['total_payment']??0 ,0, '.' , '.' );
+                //$result['partner_locations'][0]['total_payment'] = number_format($result['partner_locations'][0]['total_payment']??0 ,0, '.' , '.' );
             }
         }
     }
@@ -218,7 +218,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal serah terima outlet/lokasi ke pihak partner" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input type="text" id="start_date" class="datepicker form-control" name="handover_date" value="{{ (!empty($result['partner_locations'][0]['handover_date']) ? date('d F Y', strtotime($result['partner_locations'][0]['handover_date'])) : '')}}" required>
+                                            <input type="text" id="handover_date" class="datepicker form-control" name="handover_date" value="{{ (!empty($result['partner_locations'][0]['handover_date']) ? date('d F Y', strtotime($result['partner_locations'][0]['handover_date'])) : '')}}" required>
                                             <span class="input-group-btn">
                                                 <button class="btn default" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -226,7 +226,7 @@
                                             </span>
                                         </div>
                                     </div>
-                                </div>
+                                </div>   
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Catatan untuk step in" data-container="body"></i></label>

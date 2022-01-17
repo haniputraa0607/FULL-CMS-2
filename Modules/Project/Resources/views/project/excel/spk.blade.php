@@ -58,7 +58,7 @@
 			<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
 		<td height="33" colspan='3' align="left" valign='middle'><b><font face="Century Gothic" size=3 color="#000000">Nomor</font></b></td>
 		<td align="center" style="width: 3;" valign='middle'><font face="Century Gothic" size=3 color="#000000">:</font></td>
-                <td colspan="3" style="border-bottom: 2px solid #000000" align="left" valign='middle'><b><font face="Century Gothic" size=3 color="#000000">{{$result['contract']['nomor_spk']}}</font></b></td>
+                <td colspan="3" style="border-bottom: 2px solid #000000" align="left" valign='middle'><b><font face="Century Gothic" size=3 color="#000000">{{$result['location']['no_spk']}}</font></b></td>
 		<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
 		<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
 		<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
@@ -73,7 +73,7 @@
 			<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
 		<td height="33" colspan='3' align="left" valign='middle'><b><font face="Century Gothic" size=3 color="#000000">Tanggal </font></b></td>
 		<td align="center" valign='middle'><font face="Century Gothic" size=3 color="#000000">:</font></td>
-		<td colspan="3" style="border-bottom: 2px solid #000000" align="left" valign='middle'><b><font face="Century Gothic" size=3 color="#000000">{{date('d F Y',strtotime($result['contract']['tanggal_spk']))}}</font></b></td>
+		<td colspan="3" style="border-bottom: 2px solid #000000" align="left" valign='middle'><b><font face="Century Gothic" size=3 color="#000000">{{date('d F Y',strtotime($result['location']['date_spk']))}}</font></b></td>
 		<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
 		<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
 		<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
@@ -83,7 +83,7 @@
 		<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
 		<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
 	</tr>
-	<tr>
+	{{--  <tr>
 			<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
 			<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
 		<td height="33" colspan='3' align="left" valign='middle'><b><font face="Century Gothic" size=3 color="#000000">Lampiran</font></b></td>
@@ -97,7 +97,7 @@
 		<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
 		<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
 		<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
-	</tr>
+	</tr>  --}}
 	<tr>
 			<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
 			<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
@@ -196,7 +196,7 @@
 		<td align="left" valign='middle' sdnum="1033;0;@"><font face="Century Gothic" size=3 color="#000000">1.</font></td>
 		<td colspan='3' align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000">Name Outlet</font></td>
 		<td align="center"  style="width: 3;" valign='middle'><font face="Century Gothic" size=3 color="#000000">:</font></td>
-		<td colspan='3' style="border-bottom: 2px solid #000000" align="left" valign='middle'><b><font face="Century Gothic" size=4 color="#000000">{{$result['outlet']['outlet_name']}}  </font></b></td>
+		<td colspan='3' style="border-bottom: 2px solid #000000" align="left" valign='middle'><b><font face="Century Gothic" size=4 color="#000000">{{$result['location']['name']}}  </font></b></td>
 	</tr>
 	<tr>
 			<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
@@ -214,7 +214,7 @@
 		<td align="left" valign='middle' sdnum="1033;0;@"><font face="Century Gothic" size=3 color="#000000">3.</font></td>
 		<td colspan='3' align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000">Jumlah Box</font></td>
 		<td align="center" valign='middle'><font face="Century Gothic" size=3 color="#000000">:</font></td>
-		<td colspan='3' style="border-bottom: 2px solid #000000" align="left" valign='middle' sdval="5" sdnum="1033;"><b><font face="Century Gothic" size=4 color="#000000">1</font></b></td>
+		<td colspan='3' style="border-bottom: 2px solid #000000" align="left" valign='middle' sdval="5" sdnum="1033;"><b><font face="Century Gothic" size=4 color="#000000">{{$result['location']['total_box']}}</font></b></td>
 	</tr>
 	<tr>
 			<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
@@ -311,7 +311,7 @@
 		<td align="left" valign='middle' sdnum="1033;0;@"><font face="Century Gothic" size=3 color="#000000">7.</font></td>
 		<td colspan="3" align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000">Nomor LOI</font></td>
 		<td align="center" valign='middle'><font face="Century Gothic" size=3 color="#000000">:</font></td>
-		<td colspan="5" style="border-bottom: 2px solid #000000" align="left" valign='middle'><b><font face="Century Gothic" size=4 color="#000000">{{$result['contract']['nomor_loi']}}</font></b></td>
+		<td colspan="5" style="border-bottom: 2px solid #000000" align="left" valign='middle'><b><font face="Century Gothic" size=4 color="#000000">{{$result['location']['no_loi']}}</font></b></td>
 	<tr>
 			<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
 			<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
@@ -319,7 +319,7 @@
 		<td align="left" valign='middle' sdnum="1033;0;@"><font face="Century Gothic" size=3 color="#000000">8.</font></td>
 		<td colspan="3"  align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000">Tanggal LOI</font></td>
 		<td align="center" valign='middle'><font face="Century Gothic" size=3 color="#000000">:</font></td>
-		<td  colspan="5" style="border-bottom: 2px solid #000000" align="left" valign='middle'><font face="Century Gothic" size=4 color="#000000"><b>{{date('d F Y', strtotime($result['contract']['tanggal_loi']))}}</b></font></td>
+		<td  colspan="5" style="border-bottom: 2px solid #000000" align="left" valign='middle'><font face="Century Gothic" size=4 color="#000000"><b>{{date('d F Y', strtotime($result['location']['date_loi']))}}</b></font></td>
 	</tr>
 	<tr>
 			<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
@@ -328,7 +328,7 @@
 		<td align="left" valign='middle' sdnum="1033;0;@"><font face="Century Gothic" size=3 color="#000000">9.</font></td>
 		<td colspan="3" align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000">Tanggal Serah terima</font></td>
 		<td align="center" valign='middle'><font face="Century Gothic" size=3 color="#000000">:</font></td>
-		<td  colspan="5"  style="border-bottom: 2px solid #000000" align="left" valign='middle'><font face="Century Gothic" size=4 color="#000000"><b>{{date('d F Y', strtotime($result['handover']['tanggal_serah_terima']))}}</b></font></td>
+		<td  colspan="5"  style="border-bottom: 2px solid #000000" align="left" valign='middle'><font face="Century Gothic" size=4 color="#000000"><b>{{date('d F Y', strtotime($result['location']['handover_date']))}}</b></font></td>
 	<tr>
 			<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
 			<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
@@ -336,7 +336,7 @@
 		<td align="left" valign='middle' sdnum="1033;0;@"><font face="Century Gothic" size=3 color="#000000">10.</font></td>
 		<td colspan="3"  align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000">Tanggal Buka Menurut LOI</font></td>
 		<td align="center" valign='middle'><font face="Century Gothic" size=3 color="#000000">:</font></td>
-		<td  colspan="5"  style="border-bottom: 2px solid #000000" align="left" valign='middle'><font face="Century Gothic" size=4 color="#000000"><b>{{date('d F Y', strtotime($result['contract']['tanggal_buka_loi']))}}</b></font></td>
+		<td  colspan="5"  style="border-bottom: 2px solid #000000" align="left" valign='middle'><font face="Century Gothic" size=4 color="#000000"><b>{{date('d F Y', strtotime($result['location']['start_date']))}}</b></font></td>
 	</tr>
 	<tr>
 			<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
@@ -345,7 +345,7 @@
 		<td align="left" valign='middle' sdnum="1033;0;@"><font face="Century Gothic" size=3 color="#000000">11.</font></td>
 		<td colspan="3"  align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000">Contact Person PIC Lokasi</font></td>
 		<td align="center" valign='middle'><font face="Century Gothic" size=3 color="#000000">:</font></td>
-		<td colspan="5" style="border-bottom: 2px solid #000000" align="left" valign='middle'><font face="Century Gothic" size=4 color="#000000"><b>{{$result['contract']['nama_pic']}}, {{$result['contract']['kontak_pic']}}, {{$result['contract']['lokasi_pic']}}</b></font></td>
+		<td colspan="5" style="border-bottom: 2px solid #000000" align="left" valign='middle'><font face="Century Gothic" size=4 color="#000000"><b>{{$result['location']['pic_name']}}, {{$result['location']['pic_contact']}}, {{$result['location']['address']}}</b></font></td>
 	</tr>
 	<tr>
 			<td align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000"><br></font></td>
