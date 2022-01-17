@@ -820,7 +820,6 @@ class PartnersController extends Controller
                 "id_location" => $request["id_location"],
                 "trans_date" => date('Y-m-d'),
                 "due_date" => date('Y-m-d', strtotime($request['due_date'])),
-                "status" => 'Active',
             ];
             $post_follow_up['id_location'] = $request["id_location"];
         }

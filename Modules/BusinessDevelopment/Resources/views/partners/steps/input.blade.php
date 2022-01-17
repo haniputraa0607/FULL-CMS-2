@@ -167,7 +167,7 @@
                                     <label for="example-search-input" class="control-label col-md-4">Partner Code <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Kode yang akan digunakan partner kedepannya" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="partner_code" name="partner_code" placeholder="Enter partner code here" value="{{ old('partner_code') ?? $result['code'] }}" @if ($input==true) readonly @endif required/>
+                                        <input class="form-control" type="text" id="partner_code" name="partner_code" placeholder="Enter partner code here" value="{{ old('partner_code') ?? $result['code  '] }}" @if ($input==true) readonly @endif required/>
                                     </div>
                                 </div>   
                                 {{--  <div class="form-group">

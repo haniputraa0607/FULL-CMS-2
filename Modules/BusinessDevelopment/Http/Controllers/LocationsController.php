@@ -411,7 +411,7 @@ class LocationsController extends Controller
                 "promotion_levy" => preg_replace("/[^0-9]/", "", $request["promotion_levy"]),  
                 "mall" => $request["mall"],   
                 "start_date" => (empty($request['start_date']) ? null : date('Y-m-d', strtotime($request['start_date']))),
-                "end_date" => (empty($request['start_date']) ? null : date('Y-m-d', strtotime($request['start_date']))),
+                "end_date" => (empty($request['start_date']) ? null : date('Y-m-d', strtotime($request['end_date']))),
                 "no_loi" => $request["no_loi"],   
                 "date_loi" => date('Y-m-d', strtotime($request['date_loi'])),
                 "is_tax" => 0
