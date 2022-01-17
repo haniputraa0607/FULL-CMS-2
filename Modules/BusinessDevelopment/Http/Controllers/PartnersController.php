@@ -208,9 +208,9 @@ class PartnersController extends Controller
             }
             if($data['partner_locations'][0]['partnership_fee'] != null){
                 $send['partnership_fee'] = $this->rupiah($data['partner_locations'][0]['total_payment']);
-                $send['dp'] = (int) $this->rupiah($data['partner_locations'][0]['total_payment']*0.2);
-                $send['dp2'] = (int) $this->rupiah($data['partner_locations'][0]['total_payment']*0.3);
-                $send['final'] = $data['partner_locations'][0]['total_payment'] - ($send['dp2'] + $send['dp']);
+                $send['dp'] = $this->rupiah($data['partner_locations'][0]['total_payment']*0.2);
+                $send['dp2'] = $this->rupiah($data['partner_locations'][0]['total_payment']*0.3);
+                $send['final'] =$this->rupiah($data['partner_locations'][0]['total_payment']*0.5);
             }
         }
         if($data['gender']=='Man'){
