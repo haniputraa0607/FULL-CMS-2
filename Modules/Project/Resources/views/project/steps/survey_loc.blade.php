@@ -280,7 +280,7 @@
                                     <label for="example-search-input" class="control-label col-md-4">Air Conditioning<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="AC Lokasi" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <select @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif  name="ac" class="form-control input-sm select2" placeholder="Status">
+                                        <select @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif  name="ac" class="form-control input-sm select2" placeholder="Ac location">
                                         <option value="" >Select AC</option>
                                         <option value="Ada" @if(isset($result['project_survey']['ac'])) @if($result['project_survey']['ac'] == 'Ada') selected @endif @endif>Ada</option>
                                         <option value="Tidak" @if(isset($result['project_survey']['ac'])) @if($result['project_survey']['ac'] == 'Tidak') selected @endif @endif>Tidak</option>
@@ -298,7 +298,7 @@
                                     <label for="example-search-input" class="control-label col-md-4">Water Source<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Air Lokasi" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <select @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif  name="air" class="form-control input-sm select2" placeholder="Status">
+                                        <select @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif  name="air" class="form-control input-sm select2" placeholder="Water Source">
                                         <option value="" >Select Air</option>
                                         <option value="Ada" @if(isset($result['project_survey']['air'])) @if($result['project_survey']['air'] == 'Ada') selected @endif @endif>Ada</option>
                                         <option value="Tidak" @if(isset($result['project_survey']['air'])) @if($result['project_survey']['air'] == 'Tidak') selected @endif @endif>Tidak</option>
@@ -327,7 +327,7 @@
                                      <label for="example-search-input" class="control-label col-md-4">Description Internet<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Keterangan Internet Lokasi" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <textarea maxlength="255" name="keterangan_internet" id="keterangan_internet" class="form-control" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif placeholder="Enter Keterangan Air">{{$result['project_survey']['keterangan_internet']??''}}</textarea>
+                                        <textarea maxlength="255" name="keterangan_internet" id="keterangan_internet" class="form-control" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif placeholder="Enter Keterangan Internet">{{$result['project_survey']['keterangan_internet']??''}}</textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
