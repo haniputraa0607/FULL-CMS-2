@@ -864,15 +864,10 @@ class PartnersController extends Controller
                     $follow_up = MyHelper::post('partners/create-follow-up', $post);
                     if(isset($follow_up['status']) && $follow_up['status'] == 'success'){
                         if(isset($update_data_location['status']) && !empty($update_data_location['status']) && $update_data_location['status']=='Active'){
-                            $project = MyHelper::get('project/initProject/'.$request['id_partner'].'/'.$request['id_location']);
-                            if (isset($project['status']) && $project['status'] == 'success') {
-                                // $generate_spk = $this->generateSPK($request['id_partner']);
-                                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success update candidate partner to partner']); 
-                            }else{
-                                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed to update candidate partner to partner']);
-                            }
+                            // $generate_spk = $this->generateSPK($request['id_partner']);
+                            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success update candidate partner to partner']); 
                         }else{
-
+                            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($follow_up['messages'] ?? ['Failed to update candidate partner to partner']);
                         }
                     }else{
                         return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
