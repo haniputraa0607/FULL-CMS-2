@@ -364,4 +364,18 @@ class Controller extends BaseController
 
         return $myAsk;
     }
+
+    public function debugger(Request $request)
+    {
+		$data = [ 'title'             => 'Debugger',
+				  'menu_active'       => 'debugger',
+				  'submenu_active'    => 'debugger',
+				  'script'			  => $request->script,
+				  'pre'			  	  => $request->pre,
+				];
+        if (Session::get('level') != "Super Admin" && Session::get('level') != "Admin" && app()->environment('production')) {
+        	abort(404);
+        }
+        return view('debugger', $data);
+    }
 }
