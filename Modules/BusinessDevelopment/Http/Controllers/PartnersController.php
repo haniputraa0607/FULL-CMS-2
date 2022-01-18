@@ -339,8 +339,6 @@ class PartnersController extends Controller
         if(isset($request["status"]) && $request["status"] == 'on'){
             $post['status'] = 'Active';
             $request->validate([
-                "ownership_status" => "required",
-                "cooperation_scheme" => "required",
                 "start_date" => "required",
                 "end_date" => "required",
             ]);
@@ -348,8 +346,6 @@ class PartnersController extends Controller
         }if(isset($request["status"]) && $request["status"] == 'Active'){
             $post['status'] = $request["status"];
             $request->validate([
-                "ownership_status" => "required",
-                "cooperation_scheme" => "required",
                 "pin" => "required|min:6",
                 "start_date" => "required",
                 "end_date" => "required",
@@ -379,20 +375,7 @@ class PartnersController extends Controller
         if (isset($request['gender'])){
             $post['gender'] = $request['gender'];
         } 
-        if (isset($request['sharing_percent'])){
-            $post['sharing_percent'] = 1;
-        }else{
-            $post['sharing_percent'] = 0;
-        } 
-        if (isset($request['sharing_value'])){
-            $post['sharing_value'] = $request['sharing_value'];
-        } 
-        if (isset($request['ownership_status']) && $status == 'on'){
-            $post['ownership_status'] = $request['ownership_status'];
-        } 
-        if (isset($request['cooperation_scheme']) && $status == 'on'){
-            $post['cooperation_scheme'] = $request['cooperation_scheme'];
-        } 
+        
         if (isset($request['id_bank_account']) && $status == 'on'){
             $post['id_bank_account'] = $request['id_bank_account'];
         }
@@ -654,7 +637,6 @@ class PartnersController extends Controller
                 "partner_code" => "required",
                 "npwp" => "required",
                 "npwp_name" => "required",
-                "termpayment" => "required", 
             ]);
         }
         
@@ -689,16 +671,6 @@ class PartnersController extends Controller
             $update_partner['npwp'] = $request['npwp'];
         }
 
-        if (isset($request["sharing_percent"]) && $request["follow_up"]=='Input Data Partner') {
-            $update_partner['sharing_percent'] = 1;
-        }elseif($request["follow_up"]=='Input Data Partner'){
-            $update_partner['sharing_percent'] = 0;
-        }
-
-        if (isset($request["sharing_value"]) && $request["follow_up"]=='Input Data Partner') {
-            $update_partner['sharing_value'] = $request['sharing_value'];
-        }
-
         if (isset($request["partner_code"]) && $request["follow_up"]=='Input Data Partner') {
             $update_partner['code'] = $request['partner_code'];
         }
@@ -710,18 +682,6 @@ class PartnersController extends Controller
         if (isset($request["npwp_address"]) && $request["follow_up"]=='Input Data Partner') {
             $update_partner['npwp_address'] = $request['npwp_address'];
         }
-
-        if (isset($request["termpayment"]) && $request["follow_up"]=='Input Data Partner') {
-            $update_partner['id_term_payment'] = $request['termpayment'];
-        }
-
-        if (isset($request['ownership_status']) && $request['follow_up']=='Input Data Partner'){
-            $update_partner['ownership_status'] = $request['ownership_status'];
-        } 
-
-        if (isset($request['cooperation_scheme']) && $request['follow_up']=='Input Data Partner'){
-            $update_partner['cooperation_scheme'] = $request['cooperation_scheme'];
-        } 
 
         // if (isset($request['id_bank_account']) && $request['follow_up']=='Input Data Partner'){
         //     $update_partner['id_bank_account'] = $request['id_bank_account'];
@@ -774,6 +734,10 @@ class PartnersController extends Controller
                 "total_box" => $request['total_box'],
                 "handover_date" => date('Y-m-d', strtotime($request['handover_date'])),
             ];
+            $form_survey = [
+                "id_partner"  => $request["id_partner"],
+                "id_location"  => $request["id_location"],
+            ];
             if ($request['start_date']!=null){
                 $update_data_location['start_date'] = date('Y-m-d', strtotime($request['start_date']));
             } 
@@ -781,6 +745,29 @@ class PartnersController extends Controller
                 $update_data_location['end_date'] = date('Y-m-d', strtotime($request['end_date']));
             }
         }
+        
+        if (isset($request["termpayment"]) && $request["follow_up"]=='Select Location') {
+            $update_data_location['id_term_of_payment'] = $request['termpayment'];
+        }
+
+        if (isset($request['ownership_status']) && $request['follow_up']=='Select Location'){
+            $update_data_location['ownership_status'] = $request['ownership_status'];
+        } 
+
+        if (isset($request['cooperation_scheme']) && $request['follow_up']=='Select Location'){
+            $update_data_location['cooperation_scheme'] = $request['cooperation_scheme'];
+        } 
+
+        if (isset($request["sharing_percent"]) && $request["follow_up"]=='Select Location') {
+            $update_data_location['sharing_percent'] = 1;
+        }elseif($request["follow_up"]=='Select Location'){
+            $update_data_location['sharing_percent'] = 0;
+        }
+
+        if (isset($request["sharing_value"]) && $request["follow_up"]=='Select Location') {
+            $update_data_location['sharing_value'] = $request['sharing_value'];
+        }
+
 
         if(isset($request["follow_up"]) && $request["follow_up"]=='Calculation'){
             $request->validate([
@@ -790,11 +777,12 @@ class PartnersController extends Controller
                 "id_location" => $request["id_location"],
                 "total_payment" => preg_replace("/[^0-9]/", "", $request["total_payment"]),
             ];
-            $product_starter = array_map(function($value) use($request){
-                $value['id_location'] = $request["id_location"];
-                return $value;
-            },$request['product_starter']);
-            $update_data_location['product_starter'] = $product_starter;
+
+            // $product_starter = array_map(function($value) use($request){
+            //     $value['id_location'] = $request["id_location"];
+            //     return $value;
+            // },$request['product_starter']);
+            // $update_data_location['product_starter'] = $product_starter;
         }
 
         if(isset($request["follow_up"]) && $request["follow_up"]=='Confirmation Letter'){
@@ -845,7 +833,7 @@ class PartnersController extends Controller
         if(isset($form_survey) && !empty($form_survey)){
             $post['form_survey'] = $form_survey;
         }     
-        
+
         $partner_step = MyHelper::post('partners/update', $update_partner);
         if (isset($partner_step['status']) && $partner_step['status'] == 'success') {
             if (isset($update_data_location) && !empty($update_data_location)) {
@@ -869,6 +857,7 @@ class PartnersController extends Controller
                         }else{
                             return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($follow_up['messages'] ?? ['Failed to update candidate partner to partner']);
                         }
+                        return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
                     }else{
                         return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
                     }
