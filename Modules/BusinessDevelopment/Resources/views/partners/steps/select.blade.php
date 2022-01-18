@@ -15,43 +15,49 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
     function myFunction() {
-      var scema             = $('#flow-select-location #cooperation_scheme').val();
-          if(scema == 'Profit Sharing'){
-             var html   = '<input name="sharing_percent" type="hidden" value="on" /><div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
-                     <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
-                    <div class="col-md-5">\
-                      <input class="form-control" required type="number" id="sharing_value" name="sharing_value" min="1" max="99" placeholder="Enter Commission Percent 1% - 99%" value="@if (old('sharing_value')) {{ old('sharing_value') }} @else @if (!empty($result['partner_locations'][0]['sharing_value'])) {{ $result['partner_locations'][0]['sharing_value'] }} @endif @endif" {{$select ? 'disabled' : ''}}/>\
-                    </div></div>'; 
-                $("#flow-select-location #id_percent").hide();    
-                 $('#flow-select-location #id_commission').html(html);
-            }else if(scema == 'Management Fee'){
-              $("#flow-select-location #id_percent").show();  
-              $('#flow-select-location #id_commission').remove();
-              myFunctionPercent();
-          }
-     
-       };
-    function myFunctionPercent() {
-        var scema             = $('#flow-select-location #cooperation_scheme').val();
-      var id_percent     	=  $("#flow-select-location input[name='sharing_percent']:checked").val();
-      if(scema == 'Management Fee'){
-          if(id_percent == 'on'){
-             var htmls='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
+        var scema = $('#flow-select-location #cooperation_scheme').val();
+            if(scema == 'Management Fee'){
+                var html   = '<input name="sharing_percent" type="hidden" value="on" /><div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
                     <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
                     <div class="col-md-5">\
-                        <input class="form-control" required type="number" id="sharing_value" name="sharing_value" min="1" max="99" placeholder="Enter Commission Percent" value="@if (old('sharing_value')) {{ old('sharing_value') }} @else @if (!empty($result['partner_locations'][0]['sharing_value'])) {{ $result['partner_locations'][0]['sharing_value'] }} @endif @endif" {{$select ? 'disabled' : ''}}/>\
-                    </div></div>';
-          }else{
-             var htmls='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
-                     <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
-                    <div class="col-md-5">\
-                      <input class="form-control" required type="number" id="sharing_value" name="sharing_value"  placeholder="Enter Commission Nominal" value="@if (old('sharing_value')) {{ old('sharing_value') }} @else @if (!empty($result['partner_locations'][0]['sharing_value'])) {{ $result['partner_locations'][0]['sharing_value'] }} @endif @endif" {{$select ? 'disabled' : ''}}/>\
-                    </div></div>'; 
+                    <div class="input-group">\
+                    <span class="input-group-addon">Rp</span>\
+                    <input class="form-control" type="text" data-type="currency" required id="sharing_value" name="sharing_value" value="@if (old('sharing_value')) {{ old('sharing_value') }} @else @if (!empty($result['partner_locations'][0]['sharing_value'])) {{ $result['partner_locations'][0]['sharing_value'] }} @endif @endif" {{$select ? 'disabled' : ''}}/>\
+                    </div></div></div>'; 
+                $("#flow-select-location #id_percent").hide();    
+                $('#flow-select-location #id_commission').html(html);
+            }else if(scema == 'Profit Sharing'){
+                $("#flow-select-location #id_percent").show();  
+                $('#flow-select-location #id_commission').remove();
+                myFunctionPercent();
+            }
+    };
 
-          }
+    function myFunctionPercent() {
+        var scema = $('#flow-select-location #cooperation_scheme').val();
+        var id_percent = $("#flow-select-location input[name='sharing_percent']:checked").val();
+        if(scema == 'Profit Sharing'){
+            if(id_percent == 'on'){
+                var htmls='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
+                    <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
+                    <div class="col-md-5">\
+                    <div class="input-group">\
+                    <input class="form-control" type="text" data-type="currency" required id="sharing_value" name="sharing_value" min="1" max="99" placeholder="Enter Commission Percent" value="@if (old('sharing_value')) {{ old('sharing_value') }} @else @if (!empty($result['partner_locations'][0]['sharing_value'])) {{ $result['partner_locations'][0]['sharing_value'] }} @endif @endif" {{$select ? 'disabled' : ''}}/>\
+                    <span class="input-group-addon">%</span>\
+                    </div></div></div>';
+            }else{
+                var htmls='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
+                    <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
+                    <div class="col-md-5">\
+                    <div class="input-group">\
+                    <span class="input-group-addon">Rp</span>\
+                    <input class="form-control" type="text" data-type="currency" required id="sharing_value" name="sharing_value"  placeholder="Enter Commission Nominal" value="@if (old('sharing_value')) {{ old('sharing_value') }} @else @if (!empty($result['partner_locations'][0]['sharing_value'])) {{ $result['partner_locations'][0]['sharing_value'] }} @endif @endif" {{$select ? 'disabled' : ''}}/>\
+                    </div></div></div>'; 
+            }
             $('#flow-select-location #id_commissions').html(htmls);
         }
     }
+
     $(document).ready(function () {
         $.ajaxSetup({
             headers: {
