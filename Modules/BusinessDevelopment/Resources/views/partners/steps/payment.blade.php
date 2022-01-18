@@ -78,7 +78,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal jatuh tempo atau tanggal terakhir pembayaran partnershi fee" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input type="text" id="due_date" class="datepicker form-control" name="due_date" @if ($pay==true) value="{{ (!empty($result['due_date']) ? date('d F Y', strtotime($result['due_date'])) : '')}}" readonly @endif required>
+                                            <input type="text" id="due_date" class="datepicker form-control" name="due_date" value="{{ (!empty($result['partner_locations'][0]['due_date']) ? date('d F Y', strtotime($result['partner_locations'][0]['due_date'])) : '')}}" required {{$pay ? 'disabled' : ''}}>
                                             <span class="input-group-btn">
                                                 <button class="btn default" type="button">
                                                     <i class="fa fa-calendar"></i>
