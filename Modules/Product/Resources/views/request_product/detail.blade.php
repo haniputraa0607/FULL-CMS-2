@@ -70,12 +70,11 @@
 
     <script type="text/javascript">
 
-        @if(!is_array($conditions) || count($conditions) <= 0)
+        @if(!is_array($result['request_product_detail']) || count($result['request_product_detail']) <= 0)
         var count_product_service_use = 1;
                 @else
-        var count_product_service_use = {{count($conditions)}};
+        var count_product_service_use = {{count($result['request_product_detail'])}};
         @endif
-        
         function addProductServiceUse() {
             var html_select = '';
             <?php
@@ -106,7 +105,7 @@
             '</select>'+
             '</div>'+
             '<div class="col-md-2">'+
-            '<select class="form-control select2" id="product_use_unit_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][unit]" required placeholder="Select unit" style="width: 100%">'+
+            '<select class="form-control select2" id="product_use_unit_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][unit]" required placeholder="Select unit" style="width: 100%" onchange="emptyQty('+count_product_service_use+',this.value)">'+
             '<option></option>'+
             '<option value="PCS">PCS</option>'+
             '</select>'+
@@ -167,6 +166,13 @@
                 placeholder: "Search"
             });
     
+        }
+
+        function emptyQty(no,value){
+            $('#product_use_qty_'+no).val('');
+            $(".select2").select2({
+                placeholder: "Search"
+            });
         }
     
     </script>
@@ -345,7 +351,7 @@
                                         </div>
                                         <div class="col-md-2">
                                             @if(MyHelper::hasAccess([413], $grantedFeature))
-                                            <select class="form-control select2" id="product_use_unit_{{$key}}" name="product_icount[{{$key}}][unit]" required placeholder="Select unit" style="width: 100%">
+                                            <select class="form-control select2" id="product_use_unit_{{$key}}" name="product_icount[{{$key}}][unit]" required placeholder="Select unit" style="width: 100%" onchange="emptyQty({{$key}},this.value)">
                                                 <option></option>
                                                 @foreach($products as $use)
                                                     @if ($use['id_product_icount'] == $value['id_product_icount'])

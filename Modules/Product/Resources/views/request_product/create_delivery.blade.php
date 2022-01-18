@@ -79,10 +79,10 @@
 
     <script type="text/javascript">
         
-        @if(!is_array($conditions) || count($conditions) <= 0)
+        @if(!is_array($result['request_product_detail'] ?? [] ) || count($result['request_product_detail'] ?? []) <= 0)
         var count_product_service_use = 1;
                 @else
-        var count_product_service_use = {{count($conditions)}};
+        var count_product_service_use = {{count($result['request_product_detail'])}};
         @endif
         
         function addProductServiceUse() {
@@ -104,7 +104,7 @@
             '</select>'+
             '</div>'+
             '<div class="col-md-2">'+
-            '<select class="form-control select2" id="product_use_unit_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][unit]" required placeholder="Select unit" style="width: 100%">'+
+            '<select class="form-control select2" id="product_use_unit_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][unit]" required placeholder="Select unit" style="width: 100%" onchange="emptyQty('+count_product_service_use+',this.value)">'+
             '<option></option>'+
             '<option value="PCS">PCS</option>'+
             '</select>'+
@@ -121,6 +121,7 @@
             '</div>';
 
             $("#div_product_use").append(html);
+            $('#div_product_use .select2').select2({placeholder: "Search"});
             count_product_service_use++;
         }
 
@@ -157,7 +158,17 @@
                 }
             ?>
             $(this_id).append(html_select);
+            $("#div_product_use .select2").select2({
+                placeholder: "Search"
+            });
     
+        }
+
+        function emptyQty(no,value){
+            $('#product_use_qty_'+no).val('');
+            $("#div_product_use .select2").select2({
+                placeholder: "Search"
+            });
         }
 
         function requestByOutlet(value){
@@ -370,7 +381,7 @@
                                         </div>
                                         <div class="col-md-2">
                                             @if(!isset($result['id_request_product']))
-                                            <select class="form-control select2" id="product_use_unit_{{$key}}" name="product_icount[{{$key}}][unit]" required placeholder="Select unit" style="width: 100%">
+                                            <select class="form-control select2" id="product_use_unit_{{$key}}" name="product_icount[{{$key}}][unit]" required placeholder="Select unit" style="width: 100%" onchange="emptyQty({{$key}},this.value)">
                                                 <option></option>
                                                 @foreach($products as $use)
                                                     @if ($use['id_product_icount'] == $value['id_product_icount'])
@@ -425,14 +436,12 @@
                                 </div>
                                 @endif
                             </div>
-                            @if (!  isset($result['id_request_product']))
                             <div class="form-group">
                                 <div class="col-md-1"></div>
                                 <div class="col-md-4">
                                     <a class="btn btn-primary" onclick="addProductServiceUse()">&nbsp;<i class="fa fa-plus-circle"></i> Add Product </a>
                                 </div>
                             </div>
-                            @endif
                         </div>
                     </div>
                 </div>

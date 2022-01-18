@@ -232,7 +232,7 @@
                                         </select>
                                     </div>
                                 </div>  --}}
-                                <div id="id_percent">
+                                {{--  <div id="id_percent">
                                     <div class="form-group">
                                                 <label for="example-search-input" class="control-label col-md-4">Percent</label>
                                                 <div class="col-md-5">
@@ -243,7 +243,7 @@
                                 <div id="id_commission">
                                 </div>
                                 <div id="id_commissions">
-                                </div>
+                                </div>  --}}
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Start Date <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai menjadi partner atau tanggal kerja sama dimulai" data-container="body"></i></label>

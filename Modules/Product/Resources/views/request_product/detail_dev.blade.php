@@ -70,10 +70,12 @@
 
     <script type="text/javascript">
 
-        @if(!is_array($conditions) || count($conditions) <= 0)
+        @if(!is_array($result['delivery_product_detail'] ?? [] ) || count($result['delivery_product_detail'] ?? []) <= 0)
         var count_product_service_use = 1;
+        var total = 1;
                 @else
-        var count_product_service_use = {{count($conditions)}};
+        var count_product_service_use = {{count($result['delivery_product_detail'])}};
+        var total = count_product_service_use;
         @endif
         
         function addProductServiceUse() {
@@ -100,13 +102,16 @@
 
             var html = '<div id="div_product_use_'+count_product_service_use+'">'+
             '<div class="form-group">'+
+            '@if($result['status']!='Completed')'+
+            '<div class="col-md-1"></div>'+
+            '@endif'+
             '<div class="col-md-4">'+
             '<select class="form-control select2" id="product_use_code_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][id_product_icount]" required placeholder="Select product use" style="width: 100%" onchange="changeUnit('+count_product_service_use+',this.value)">'+
             '<option></option>'+html_select+
             '</select>'+
             '</div>'+
             '<div class="col-md-2">'+
-            '<select class="form-control select2" id="product_use_unit_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][unit]" required placeholder="Select unit" style="width: 100%">'+
+            '<select class="form-control select2" id="product_use_unit_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][unit]" required placeholder="Select unit" style="width: 100%" onchange="emptyQty('+count_product_service_use+',this.value)">'+
             '<option></option>'+
             '<option value="PCS">PCS</option>'+
             '</select>'+
@@ -116,9 +121,11 @@
             '<input type="text" class="form-control price" id="product_use_qty_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][qty]" required>'+
             '</div>'+
             '</div>'+
+            '@if($result['status']=='Completed')'+
             '<div class="col-md-2">'+
             status+
             '</div>'+
+            '@endif'+
             '<div class="col-md-1" style="margin-left: 2%">'+
             '<a class="btn btn-danger btn" onclick="deleteProductServiceUse('+count_product_service_use+')">&nbsp;<i class="fa fa-trash"></i></a>'+
             '</div>'+
@@ -126,12 +133,14 @@
             '</div>';
 
             $("#div_product_use").append(html);
-            $('.select2').select2({placeholder: "Search"});
+            $('#div_product_use .select2').select2({placeholder: "Search"});
             count_product_service_use++;
+            total++;
         }
 
         function deleteProductServiceUse(number){
             $('#div_product_use_'+number).empty();
+            total--;
         }
 
         function changeUnit(no,value){
@@ -163,11 +172,68 @@
                 }
             ?>
             $(this_id).append(html_select);
-            $(".select2").select2({
+            $("#div_product_use .select2").select2({
                 placeholder: "Search"
             });
     
         }
+
+        function emptyQty(no,value){
+            $('#product_use_qty_'+no).val('');
+            $("#div_product_use .select2").select2({
+                placeholder: "Search"
+            });
+        }
+
+        $('#confirm').click(function(){
+            var id_delivery_product = {{$result['id_delivery_product']}};
+            var code = $('input[type=text][name=code]').val();
+            var id_user_delivery = {{$result['id_user_delivery']}};
+            var id_outlet = {{$result['id_outlet']}};
+            var type = $('input[type=hidden][name=type]').val();
+            var charged = $('#charged').val();
+            var request = $('#request').val();
+            var delivery_date = $('input[type=text][name=delivery_date]').val();
+            var status = 'On Progress';
+            var product_icounts = [];
+            for(var i = 0; i < count_product_service_use; i++){
+                product_icounts[i] = {
+                    id_product_icount : $('#product_use_code_'+i).val(),
+                    unit: $('#product_use_unit_'+i).val(),
+                    qty: $('#product_use_qty_'+i).val(),
+                }
+            }
+            var p = 0;
+            product_icounts.forEach(function(elemen){
+                if(elemen["id_product_icount"]==undefined){
+                    product_icounts.splice(p,1);
+                }
+                p++;
+            });
+            $.ajax({
+                type : "POST",
+                url : "{{ url('dev-product/update') }}",
+                data : {
+                    '_token' : '{{csrf_token()}}',
+                    'id_delivery_product' : id_delivery_product,
+                    'code' : code,
+                    'id_user_delivery' : id_user_delivery,
+                    'id_outlet' : id_outlet,
+                    'type' : type,
+                    'charged' : charged,
+                    'request' : request,
+                    'delivery_date' : delivery_date,
+                    'product_icount' : product_icounts,
+                    'status' : status,
+                },
+                success : function(result) {
+                    location.href = "{{url('dev-product/detail')}}/"+id_delivery_product;
+                },
+                error : function(result) {
+                    toastr.warning("Something went wrong. Failed to get list request product.");
+                }
+            });
+        });
     
     </script>
 
@@ -260,7 +326,7 @@
                         <label for="example-search-input" class="control-label col-md-4">Delivery Charged <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Biaya dibebankan kepada" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <select class="form-control select2 approvedForm" name="charged" required>
+                            <select class="form-control select2 approvedForm" id="charged" name="charged" required>
                                 <option value="" selected disabled>Select Outlet</option>
                                 <option value="Outlet" @if($result['charged']=='Outlet') selected @endif>Outlet</option>
                                 <option value="Central" @if($result['charged']=='Central') selected @endif>Central</option>
@@ -280,7 +346,7 @@
                                     $selected_request = array_column($result['request'], 'id_request_product');
                                 }
                             @endphp
-                            <select class="form-control select2-multiple approvedForm" name="request[]" multiple required>
+                            <select class="form-control select2-multiple approvedForm" id="request" name="request[]" multiple required>
                                 <option value=""></option>
                                 @if (!empty($requests))
                                     @foreach($requests as $request)
@@ -332,6 +398,9 @@
                         </div>
                         <div class="portlet-body form">
                             <div class="form-group">
+                                @if($result['status']!='Completed')
+                                <div class="col-md-1"></div>
+                                @endif
                                 <div class="col-md-4">
                                     <b>Product</b>
                                 </div>
@@ -341,14 +410,19 @@
                                 <div class="col-md-2">
                                     <b>Quantity</b>
                                 </div>
+                                @if($result['status']=='Completed')
                                 <div class="col-md-2">
                                     <b>Status</b>
                                 </div>
+                                @endif
                             </div>
                             <div id="div_product_use">
                                 @foreach($result['delivery_product_detail'] as $key=>$value)
                                 <div id="div_product_use_{{$key}}">
                                     <div class="form-group">
+                                        @if($result['status']!='Completed')
+                                        <div class="col-md-1"></div>
+                                        @endif
                                         <div class="col-md-4">
                                             {{--  @if(MyHelper::hasAccess([419], $grantedFeature))
                                             <select class="form-control select2" id="product_use_code_{{$key}}" name="product_icount[{{$key}}][id_product_icount]" required placeholder="Select product use" style="width: 100%" onchange="changeUnit({{$key}},this.value)">
@@ -368,7 +442,7 @@
                                         </div>
                                         <div class="col-md-2">
                                             {{--  @if(MyHelper::hasAccess([419], $grantedFeature))
-                                            <select class="form-control select2" id="product_use_unit_{{$key}}" name="product_icount[{{$key}}][unit]" required placeholder="Select unit" style="width: 100%">
+                                            <select class="form-control select2" id="product_use_unit_{{$key}}" name="product_icount[{{$key}}][unit]" required placeholder="Select unit" style="width: 100%" onchange="emptyQty({{$key}},this.value)">
                                                 <option></option>
                                                 @foreach($products as $use)
                                                     @if ($use['id_product_icount'] == $value['id_product_icount'])
@@ -387,6 +461,7 @@
                                                 <input type="text" class="form-control price" id="product_use_qty_{{$key}}" name="product_icount[{{$key}}][qty]" required value="{{$value['value']}}" @if(!MyHelper::hasAccess([419], $grantedFeature)) readonly @endif>
                                             </div>
                                         </div>
+                                        @if($result['status']=='Completed')
                                         <div class="col-md-2">
                                             @if(MyHelper::hasAccess([415], $grantedFeature))
                                             <select class="form-control select2" id="product_use_status_{{$key}}" name="product_icount[{{$key}}][status]" required placeholder="Select product status" style="width: 100%">
@@ -399,6 +474,7 @@
                                             <input class="form-control" type="text" id="product_use_status_{{$key}}" value="{{$value['status']}}" name="product_icount[{{$key}}][status]" required placeholder="Select product status" style="width: 100%" readonly/>
                                             @endif
                                         </div>
+                                        @endif
                                         <div class="col-md-1" style="margin-left: 2%">
                                             <a class="btn btn-danger btn" onclick="deleteProductServiceUse({{$key}})">&nbsp;<i class="fa fa-trash"></i></a>
                                         </div>
@@ -406,8 +482,11 @@
                                 </div>
                             @endforeach
                             </div>
-                            @if ($result['status']=='Pending' && MyHelper::hasAccess([413], $grantedFeature))
+                            @if ($result['status']!='Completed' && MyHelper::hasAccess([413], $grantedFeature))
                             <div class="form-group">
+                                @if($result['status']!='Completed')
+                                <div class="col-md-1"></div>
+                                @endif
                                 <div class="col-md-4">
                                     <a class="btn btn-primary" onclick="addProductServiceUse()">&nbsp;<i class="fa fa-plus-circle"></i> Add Product </a>
                                 </div>
@@ -421,6 +500,9 @@
                     <div class="row">
                         <div class="col-md-12 text-center">
                             <button type="submit" class="btn blue">Submit</button>
+                            @if($result['status']=='Draft')
+                            <a id="confirm" class="btn green">Confirm</a>
+                            @endif
                         </div>
                     </div>
                 </div>
