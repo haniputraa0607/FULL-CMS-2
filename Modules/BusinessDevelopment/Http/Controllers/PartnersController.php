@@ -855,7 +855,7 @@ class PartnersController extends Controller
                             // $generate_spk = $this->generateSPK($request['id_partner']);
                             return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success update candidate partner to partner']); 
                         }else{
-                            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($follow_up['messages'] ?? ['Failed to update candidate partner to partner']);
+                            // return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($follow_up['messages'] ?? ['Failed to update candidate partner to partner']);
                         }
                         return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
                     }else{
