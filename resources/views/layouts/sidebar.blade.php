@@ -814,7 +814,7 @@
 					</ul>
 				</li>
 			@endif
-			@if(MyHelper::hasAccess([431,432], $grantedFeature) && false)
+			@if(MyHelper::hasAccess([431,432], $grantedFeature))
 				<li class="nav-item {{($menu_active == 'outlet-starter-bundling') ? 'active' : ''}}">
 					<a href="javascript:;" class="nav-link nav-toggle">
 						<i class="fa fa-dropbox"></i>
