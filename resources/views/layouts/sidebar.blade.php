@@ -3428,7 +3428,7 @@
 
 		@endif
 
-        @if(MyHelper::hasAccess([15,16,17,18,144,145,146,147,148,273,241], $grantedFeature))
+        @if(MyHelper::hasAccess([15,16,17,18,144,145,146,147,148,273,241,338,339,340], $grantedFeature))
             <li class="heading" style="height: 50px;padding: 25px 15px 10px;">
                 <h3 class="uppercase" style="color: #000;font-weight: 600;">Settings</h3>
             </li>
