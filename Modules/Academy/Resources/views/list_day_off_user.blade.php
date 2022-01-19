@@ -260,13 +260,13 @@
                 <form class="form-horizontal" role="form" action="{{url('academy/transaction/user/schedule/day-off/action')}}" method="post">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Old Date</label>
+                            <label class="col-md-3 control-label">Previous Schedule</label>
                             <div class="col-md-8">
                                 <input type="text" id="old_date" class="form_datetime form-control"  disabled>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-3 control-label">New Date</label>
+                            <label class="col-md-3 control-label">New Schedule</label>
                             <div class="col-md-8">
                                 <input type="text" name="new_date" id="new_date" class="form_datetime form-control"  required autocomplete="off">
                             </div>

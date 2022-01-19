@@ -10,7 +10,7 @@
             <label for="multiple" class="control-label col-md-3">Home Service Status <span class="required" aria-required="true"> * </span>
                 <i class="fa fa-question-circle tooltips" data-original-title="Jika dicentang maka service ini akan muncul pada list home service saja dan tidak muncul pada outlet service" data-container="body"></i>
             </label>
-            <div class="col-md-8">
+            <div class="col-md-8" style="margin-top: 0.7%">
                 <div class="icheck-list">
                     <label><input type="checkbox" class="icheck" id="checkbox-variant" name="available_home_service" @if($syu['available_home_service'] == 1) checked @endif> </label>
                 </div>
