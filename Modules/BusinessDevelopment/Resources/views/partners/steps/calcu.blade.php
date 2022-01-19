@@ -74,6 +74,37 @@
                                     <td>{{number_format($result['first_location']['partnership_fee'], 0, ',', '.')}}</td>
                                     @php $total_payment += $result['first_location']['partnership_fee'] @endphp
                                 </tr>
+                                <tr>
+                                    <th colspan="3">Rent</th>
+                                </tr>
+                                <tr>
+                                    <td>Location Large</td>
+                                    <td></td>
+                                    <td>{{number_format($result['first_location']['location_large'], 0, ',', '.')}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Rental Price</td>
+                                    <td></td>
+                                    <td>{{number_format($result['first_location']['rental_price'], 0, ',', '.')}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Service Charge</td>
+                                    <td></td>
+                                    <td>{{number_format($result['first_location']['service_charge'], 0, ',', '.')}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Promotion Levy</td>
+                                    <td></td>
+                                    <td>{{number_format($result['first_location']['promotion_levy'], 0, ',', '.')}}</td>
+                                </tr>
+                                <tr>
+                                    <th colspan="3">Sale</th>
+                                </tr>
+                                <tr>
+                                    <td>Income</td>
+                                    <td></td>
+                                    <td>{{number_format($result['first_location']['income'], 0, ',', '.')}}</td>
+                                </tr>
                             </tbody>
                         </table>
                         <form class="form-horizontal" role="form" action="{{url('businessdev/partners/create-follow-up')}}" method="post" enctype="multipart/form-data">
