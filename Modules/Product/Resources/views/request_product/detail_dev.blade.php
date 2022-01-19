@@ -20,6 +20,7 @@
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <style>
         .datepicker{
             padding: 6px 12px;
@@ -48,6 +49,7 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js')}}"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
     <script>
         $('.select2').select2();
         function changeSelect(){
@@ -62,9 +64,85 @@
             'todayHighlight' : true,
             'autoclose' : true
         });
+        var SweetAlertConfirmData = function() {
+            return {
+                init: function() {
+                    $(".confirm").each(function() {
+                        var id_delivery_product = {{$result['id_delivery_product']}};
+                        var code = $('input[type=text][name=code]').val();
+                        var id_user_delivery = {{$result['id_user_delivery']}};
+                        var id_outlet = {{$result['id_outlet']}};
+                        var type = $('input[type=hidden][name=type]').val();
+                        var charged = $('#charged').val();
+                        var request = $('#request').val();
+                        var delivery_date = $('input[type=text][name=delivery_date]').val();
+                        var status = 'On Progress';
+                        var product_icounts = [];
+                        for(var i = 0; i < count_product_service_use; i++){
+                            product_icounts[i] = {
+                                id_product_icount : $('#product_use_code_'+i).val(),
+                                unit: $('#product_use_unit_'+i).val(),
+                                qty: $('#product_use_qty_'+i).val(),
+                            }
+                        }
+                        var p = 0;
+                        product_icounts.forEach(function(elemen){
+                            if(elemen["id_product_icount"]==undefined){
+                                product_icounts.splice(p,1);
+                            }
+                            p++;
+                        });
+                        var data = {
+                            '_token' : '{{csrf_token()}}',
+                            'id_delivery_product' : id_delivery_product,
+                            'code' : code,
+                            'id_user_delivery' : id_user_delivery,
+                            'id_outlet' : id_outlet,
+                            'type' : type,
+                            'charged' : charged,
+                            'request' : request,
+                            'delivery_date' : delivery_date,
+                            'product_icount' : product_icounts,
+                            'status' : status,
+                        };
+                        $(this).click(function() {
+                            swal({
+                                    title: "Confirm?",
+                                    text: "This delivery product will be sent to the outlet",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonClass: "btn-success",
+                                    confirmButtonText: "Yes, Send the product!",
+                                    closeOnConfirm: false
+                                },
+                                function(){
+                                    $.ajax({
+                                        type : "POST",
+                                        url : "{{url('dev-product/update')}}",
+                                        data : data,
+                                        success : function(response) {
+                                            if (response.status == 'success') {
+                                                swal("Sent!", "Product has been sent to outlet", "success")
+                                                location.href = "{{url('dev-product/detail')}}/"+id_delivery_product;
+                                            }
+                                            else if(response.status == "fail"){
+                                                swal("Error!", "Failed to send the product.", "error")
+                                            }
+                                            else {
+                                                swal("Error!", "Something went wrong. Failed to send the product.", "error")
+                                            }
+                                        }
+                                    });
+                                });
+                        })
+                    })
+                }
+            }
+        }();
     
         $(document).ready(function() {
             $('[data-switch=true]').bootstrapSwitch();
+            SweetAlertConfirmData.init();
         });
     </script>
 
@@ -184,57 +262,6 @@
                 placeholder: "Search"
             });
         }
-
-        $('#confirm').click(function(){
-            var id_delivery_product = {{$result['id_delivery_product']}};
-            var code = $('input[type=text][name=code]').val();
-            var id_user_delivery = {{$result['id_user_delivery']}};
-            var id_outlet = {{$result['id_outlet']}};
-            var type = $('input[type=hidden][name=type]').val();
-            var charged = $('#charged').val();
-            var request = $('#request').val();
-            var delivery_date = $('input[type=text][name=delivery_date]').val();
-            var status = 'On Progress';
-            var product_icounts = [];
-            for(var i = 0; i < count_product_service_use; i++){
-                product_icounts[i] = {
-                    id_product_icount : $('#product_use_code_'+i).val(),
-                    unit: $('#product_use_unit_'+i).val(),
-                    qty: $('#product_use_qty_'+i).val(),
-                }
-            }
-            var p = 0;
-            product_icounts.forEach(function(elemen){
-                if(elemen["id_product_icount"]==undefined){
-                    product_icounts.splice(p,1);
-                }
-                p++;
-            });
-            $.ajax({
-                type : "POST",
-                url : "{{ url('dev-product/update') }}",
-                data : {
-                    '_token' : '{{csrf_token()}}',
-                    'id_delivery_product' : id_delivery_product,
-                    'code' : code,
-                    'id_user_delivery' : id_user_delivery,
-                    'id_outlet' : id_outlet,
-                    'type' : type,
-                    'charged' : charged,
-                    'request' : request,
-                    'delivery_date' : delivery_date,
-                    'product_icount' : product_icounts,
-                    'status' : status,
-                },
-                success : function(result) {
-                    location.href = "{{url('dev-product/detail')}}/"+id_delivery_product;
-                },
-                error : function(result) {
-                    toastr.warning("Something went wrong. Failed to get list request product.");
-                }
-            });
-        });
-    
     </script>
 
 @endsection
@@ -326,7 +353,7 @@
                         <label for="example-search-input" class="control-label col-md-4">Delivery Charged <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Biaya dibebankan kepada" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <select class="form-control select2 approvedForm" id="charged" name="charged" required>
+                            <select class="form-control select2 approvedForm" id="charged" name="charged" required @if($result['status']=='Completed') disabled @endif>
                                 <option value="" selected disabled>Select Outlet</option>
                                 <option value="Outlet" @if($result['charged']=='Outlet') selected @endif>Outlet</option>
                                 <option value="Central" @if($result['charged']=='Central') selected @endif>Central</option>
@@ -346,7 +373,7 @@
                                     $selected_request = array_column($result['request'], 'id_request_product');
                                 }
                             @endphp
-                            <select class="form-control select2-multiple approvedForm" id="request" name="request[]" multiple required>
+                            <select class="form-control select2-multiple approvedForm" id="request" name="request[]" multiple required @if($result['status']=='Completed') disabled @endif>
                                 <option value=""></option>
                                 @if (!empty($requests))
                                     @foreach($requests as $request)
@@ -366,7 +393,7 @@
                             <i class="fa fa-question-circle tooltips" data-original-title="Tanggal barang akan dikirim" data-container="body"></i></label>
                         <div class="col-md-5">
                             <div class="input-group">
-                                <input type="text" id="start_date" class="datepicker form-control" name="delivery_date" @if(isset($result['delivery_date'])) value="{{date('d F Y', strtotime($result['delivery_date']))}}" @endif required>
+                                <input type="text" id="start_date" class="datepicker form-control" name="delivery_date" @if(isset($result['delivery_date'])) value="{{date('d F Y', strtotime($result['delivery_date']))}}" @endif required @if($result['status']=='Completed') disabled @endif>
                                 <span class="input-group-btn">
                                     <button class="btn default" type="button">
                                         <i class="fa fa-calendar"></i>
@@ -475,14 +502,16 @@
                                             @endif
                                         </div>
                                         @endif
+                                        @if($result['status']=='Draft')
                                         <div class="col-md-1" style="margin-left: 2%">
                                             <a class="btn btn-danger btn" onclick="deleteProductServiceUse({{$key}})">&nbsp;<i class="fa fa-trash"></i></a>
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
                             @endforeach
                             </div>
-                            @if ($result['status']!='Completed' && MyHelper::hasAccess([413], $grantedFeature))
+                            @if ($result['status']=='Draft' && MyHelper::hasAccess([413], $grantedFeature))
                             <div class="form-group">
                                 @if($result['status']!='Completed')
                                 <div class="col-md-1"></div>
@@ -501,7 +530,7 @@
                         <div class="col-md-12 text-center">
                             <button type="submit" class="btn blue">Submit</button>
                             @if($result['status']=='Draft')
-                            <a id="confirm" class="btn green">Confirm</a>
+                            <a id="confirm" class="btn green confirm">Confirm</a>
                             @endif
                         </div>
                     </div>
