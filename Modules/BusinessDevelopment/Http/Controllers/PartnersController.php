@@ -904,4 +904,10 @@ class PartnersController extends Controller
 	    }
     }
 
+    public function bundling($id){
+        $bundling = MyHelper::post('partners/detail-bundling',["id_outlet_starter_bundling" => $id])['result']??[];
+        return $bundling;
+
+    }
+
 }

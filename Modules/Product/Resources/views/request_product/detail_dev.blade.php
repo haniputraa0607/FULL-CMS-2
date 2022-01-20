@@ -425,9 +425,9 @@
                         </div>
                         <div class="portlet-body form">
                             <div class="form-group">
-                                @if($result['status']!='Completed')
+                                
                                 <div class="col-md-1"></div>
-                                @endif
+
                                 <div class="col-md-4">
                                     <b>Product</b>
                                 </div>
@@ -447,9 +447,9 @@
                                 @foreach($result['delivery_product_detail'] as $key=>$value)
                                 <div id="div_product_use_{{$key}}">
                                     <div class="form-group">
-                                        @if($result['status']!='Completed')
+
                                         <div class="col-md-1"></div>
-                                        @endif
+
                                         <div class="col-md-4">
                                             {{--  @if(MyHelper::hasAccess([419], $grantedFeature))
                                             <select class="form-control select2" id="product_use_code_{{$key}}" name="product_icount[{{$key}}][id_product_icount]" required placeholder="Select product use" style="width: 100%" onchange="changeUnit({{$key}},this.value)">
@@ -485,21 +485,21 @@
                                         </div>
                                         <div class="col-md-2">
                                             <div class="input-group">
-                                                <input type="text" class="form-control price" id="product_use_qty_{{$key}}" name="product_icount[{{$key}}][qty]" required value="{{$value['value']}}" @if(!MyHelper::hasAccess([419], $grantedFeature)) readonly @endif>
+                                                <input type="text" class="form-control price" id="product_use_qty_{{$key}}" name="product_icount[{{$key}}][qty]" required value="{{$value['value']}}" @if($result['status']=='Completed') disabled @endif @if(!MyHelper::hasAccess([419], $grantedFeature)) readonly @endif>
                                             </div>
                                         </div>
                                         @if($result['status']=='Completed')
                                         <div class="col-md-2">
-                                            @if(MyHelper::hasAccess([415], $grantedFeature))
-                                            <select class="form-control select2" id="product_use_status_{{$key}}" name="product_icount[{{$key}}][status]" required placeholder="Select product status" style="width: 100%">
-                                                <option></option>
-                                                <option value="Pending" @if($value['status']=='Pending') selected @endif>Pending</option>
-                                                <option value="Approved" @if($value['status']=='Approved') selected @endif>Approved</option>
-                                                <option value="Rejected" @if($value['status']=='Rejected') selected @endif>Rejected</option>
-                                            </select>
-                                            @else
-                                            <input class="form-control" type="text" id="product_use_status_{{$key}}" value="{{$value['status']}}" name="product_icount[{{$key}}][status]" required placeholder="Select product status" style="width: 100%" readonly/>
-                                            @endif
+                                            @php
+                                                if($value['status']=='Less'){
+                                                    $status_dev = 'Not Enough';
+                                                }elseif($value['status']=='More'){
+                                                    $status_dev = 'Too Many';
+                                                }else{
+                                                    $status_dev = 'Enough';
+                                                }
+                                            @endphp
+                                            <input class="form-control" type="text" id="product_use_status_{{$key}}" value="{{$status_dev}}" name="product_icount[{{$key}}][status]" required placeholder="Select product status" style="width: 100%" readonly/>
                                         </div>
                                         @endif
                                         @if($result['status']=='Draft')
@@ -513,9 +513,9 @@
                             </div>
                             @if ($result['status']=='Draft' && MyHelper::hasAccess([413], $grantedFeature))
                             <div class="form-group">
-                                @if($result['status']!='Completed')
+
                                 <div class="col-md-1"></div>
-                                @endif
+
                                 <div class="col-md-4">
                                     <a class="btn btn-primary" onclick="addProductServiceUse()">&nbsp;<i class="fa fa-plus-circle"></i> Add Product </a>
                                 </div>

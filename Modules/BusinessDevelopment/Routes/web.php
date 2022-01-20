@@ -48,6 +48,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'business
         Route::post('approved-survey-loc', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@approvedSurvey']);
         Route::get('pdf', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@pdf']);
         Route::get('generate-spk/{id}', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@generateSPK']);
+        Route::get('bundling/{id}', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@bundling']);
         Route::any('/{type?}', ['middleware' => 'feature_control:338', 'uses' => 'PartnersController@index']);
         //partner close temporary
         Route::group(['prefix' => 'close-temporary'], function()
