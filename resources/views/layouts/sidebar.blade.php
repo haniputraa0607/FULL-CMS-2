@@ -331,7 +331,7 @@
 			</li>
 		@endif
 
-		@if(MyHelper::hasAccess([19,21,24,26,32,33,34,43,45,48,50,56,57,164,165,166,167], $grantedFeature))
+		@if(MyHelper::hasAccess([19,21,24,26,32,33,34,43,45,48,50,56,57,164,165,166,167,431,432], $grantedFeature))
 			<li class="heading" style="height: 50px;padding: 25px 15px 10px;">
 				<h3 class="uppercase" style="color: #000;font-weight: 600;">Browse</h3>
 			</li>
@@ -814,6 +814,7 @@
 					</ul>
 				</li>
 			@endif
+			@if(MyHelper::hasAccess([431,432], $grantedFeature))
 				<li class="nav-item {{($menu_active == 'outlet-starter-bundling') ? 'active' : ''}}">
 					<a href="javascript:;" class="nav-link nav-toggle">
 						<i class="fa fa-dropbox"></i>
@@ -821,12 +822,14 @@
 						<span class="arrow {{($menu_active == 'outlet-starter-bundling') ? 'open' : ''}}"></span>
 					</a>
 					<ul class="sub-menu">
-						@if(MyHelper::hasAccess([376], $grantedFeature))
+						@if(MyHelper::hasAccess([431], $grantedFeature))
 							<li class="nav-item {{($submenu_active == 'outlet-starter-bundling-list') ? 'active open' : ''}}">
 								<a href="{{url('outlet-starter-bundling')}}" class="nav-link ">
 									<span class="title">Outlet Starter Bundling List</span>
 								</a>
 							</li>
+						@endif
+						@if(MyHelper::hasAccess([432], $grantedFeature))
 							<li class="nav-item {{($submenu_active == 'new-outlet-starter-bundling') ? 'active open' : ''}}">
 								<a href="{{url('outlet-starter-bundling/create')}}" class="nav-link ">
 									<span class="title">New Outlet Starter Bundling</span>
@@ -835,6 +838,7 @@
 						@endif
 					</ul>
 				</li>
+			@endif
 
 			@if(MyHelper::hasAccess([48,49,50,51,52], $grantedFeature) && false)
 				<li class="nav-item {{($menu_active == 'product-plastic') ? 'active' : ''}}">
@@ -3424,7 +3428,7 @@
 
 		@endif
 
-        @if(MyHelper::hasAccess([15,16,17,18,144,145,146,147,148,273,241], $grantedFeature))
+        @if(MyHelper::hasAccess([15,16,17,18,144,145,146,147,148,273,241,338,339,340], $grantedFeature))
             <li class="heading" style="height: 50px;padding: 25px 15px 10px;">
                 <h3 class="uppercase" style="color: #000;font-weight: 600;">Settings</h3>
             </li>

@@ -181,7 +181,7 @@ class PartnersController extends Controller
             $data['url_partners_close_total'] = url('businessdev/partners/close-permanent/').'/'.$enkripsi;
             $data['url_partners_becomes_ixobox'] = url('businessdev/partners/becomes-ixobox/').'/'.$enkripsi;
             // dd($data['confirmation']);
-//            return $data;
+            // return $data;
             return view('businessdevelopment::partners.detail', $data);
         }else{
             return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
@@ -811,7 +811,7 @@ class PartnersController extends Controller
                 "trans_date" => date('Y-m-d'),
                 "due_date" => date('Y-m-d', strtotime($request['due_date'])),
                 "no_spk" => $request["no_spk"],
-                "date_spk" => date('Y-m-d', strtotime($request['due_date'])),
+                "date_spk" => date('Y-m-d', strtotime($request['date_spk'])),
             ];
             $post_follow_up['id_location'] = $request["id_location"];
         }
@@ -852,7 +852,6 @@ class PartnersController extends Controller
                     $follow_up = MyHelper::post('partners/create-follow-up', $post);
                     if(isset($follow_up['status']) && $follow_up['status'] == 'success'){
                         if(isset($update_data_location['status']) && !empty($update_data_location['status']) && $update_data_location['status']=='Active'){
-                            // $generate_spk = $this->generateSPK($request['id_partner']);
                             return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success update candidate partner to partner']); 
                         }else{
                             // return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($follow_up['messages'] ?? ['Failed to update candidate partner to partner']);
@@ -903,6 +902,12 @@ class PartnersController extends Controller
 	    } else{
             return back()->withErrors($query['messages']);
 	    }
+    }
+
+    public function bundling($id){
+        $bundling = MyHelper::post('partners/detail-bundling',["id_outlet_starter_bundling" => $id])['result']??[];
+        return $bundling;
+
     }
 
 }

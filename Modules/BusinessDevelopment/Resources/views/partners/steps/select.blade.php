@@ -14,44 +14,91 @@
 ?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
-    function myFunction() {
-      var scema             = $('#flow-select-location #cooperation_scheme').val();
-          if(scema == 'Profit Sharing'){
-             var html   = '<input name="sharing_percent" type="hidden" value="on" /><div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
-                     <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
-                    <div class="col-md-5">\
-                      <input class="form-control" required type="number" id="sharing_value" name="sharing_value" min="1" max="99" placeholder="Enter Commission Percent 1% - 99%" value="@if (old('sharing_value')) {{ old('sharing_value') }} @else @if (!empty($result['partner_locations'][0]['sharing_value'])) {{ $result['partner_locations'][0]['sharing_value'] }} @endif @endif" {{$select ? 'disabled' : ''}}/>\
-                    </div></div>'; 
-                $("#flow-select-location #id_percent").hide();    
-                 $('#flow-select-location #id_commission').html(html);
-            }else if(scema == 'Management Fee'){
-              $("#flow-select-location #id_percent").show();  
-              $('#flow-select-location #id_commission').remove();
-              myFunctionPercent();
-          }
-     
-       };
-    function myFunctionPercent() {
-        var scema             = $('#flow-select-location #cooperation_scheme').val();
-      var id_percent     	=  $("#flow-select-location input[name='sharing_percent']:checked").val();
-      if(scema == 'Management Fee'){
-          if(id_percent == 'on'){
-             var htmls='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
-                    <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
-                    <div class="col-md-5">\
-                        <input class="form-control" required type="number" id="sharing_value" name="sharing_value" min="1" max="99" placeholder="Enter Commission Percent" value="@if (old('sharing_value')) {{ old('sharing_value') }} @else @if (!empty($result['partner_locations'][0]['sharing_value'])) {{ $result['partner_locations'][0]['sharing_value'] }} @endif @endif" {{$select ? 'disabled' : ''}}/>\
-                    </div></div>';
-          }else{
-             var htmls='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
-                     <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
-                    <div class="col-md-5">\
-                      <input class="form-control" required type="number" id="sharing_value" name="sharing_value"  placeholder="Enter Commission Nominal" value="@if (old('sharing_value')) {{ old('sharing_value') }} @else @if (!empty($result['partner_locations'][0]['sharing_value'])) {{ $result['partner_locations'][0]['sharing_value'] }} @endif @endif" {{$select ? 'disabled' : ''}}/>\
-                    </div></div>'; 
 
-          }
+    function myFunction() {
+        var scema = $('#flow-select-location #cooperation_scheme').val();
+            if(scema == 'Management Fee'){
+                var html   = '<input name="sharing_percent" type="hidden" value="on" />'+
+                    '<div class="form-group">'+
+                    '<label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>'+
+                    '<i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>'+
+                    '<div class="col-md-5">'+
+                    '<div class="input-group">'+
+                    '<span class="input-group-addon">Rp</span>'+
+                    '<input class="form-control" type="text" data-type="currency" id="sharing_value" name="sharing_value" placeholder="Enter sharing value here" value="@if (old('sharing_value')) {{ number_format(old('sharing_value')) }} @else @if (!empty($result['partner_locations'][0]['sharing_value'])) {{ number_format($result['partner_locations'][0]['sharing_value']) }} @endif @endif" {{$select ? 'disabled' : ''}} required/>'+
+                    '</div>'+
+                    '</div>'+
+                    '</div>'; 
+                $("#flow-select-location #id_percent").hide();    
+                $('#flow-select-location #id_commission').html(html);
+            }else if(scema == 'Profit Sharing'){
+                $("#flow-select-location #id_percent").show();  
+                $('#flow-select-location #id_commission').remove();
+                myFunctionPercent();
+            }
+    };
+
+    function myFunctionPercent() {
+        var scema = $('#flow-select-location #cooperation_scheme').val();
+        var id_percent = $("#flow-select-location input[name='sharing_percent']:checked").val();
+        if(scema == 'Profit Sharing'){
+            if(id_percent == 'on'){
+                var htmls='<div class="form-group">'+
+                    '<label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>'+
+                    '<i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>'+
+                    '<div class="col-md-5">'+
+                    '<div class="input-group">'+
+                    '<input class="form-control" type="text" data-type="currency" required id="sharing_value" name="sharing_value" min="1" max="99" placeholder="Enter Commission Percent" value="@if (old('sharing_value')) {{ old('sharing_value') }} @else @if (!empty($result['partner_locations'][0]['sharing_value'])) {{ $result['partner_locations'][0]['sharing_value'] }} @endif @endif" {{$select ? 'disabled' : ''}}/>'+
+                    '<span class="input-group-addon">%</span>'+
+                    '</div>'+
+                    '</div>'+
+                    '</div>';
+            }else{
+                var htmls='<div class="form-group">'+
+                    '<label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>'+
+                    '<i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>'+
+                    '<div class="col-md-5">'+
+                    '<div class="input-group">'+
+                    '<span class="input-group-addon">Rp</span>'+
+                    '<input class="form-control" type="text" data-type="currency" id="sharing_value" name="sharing_value" placeholder="Enter sharing value here" value="@if (old('sharing_value')) {{ number_format(old('sharing_value')) }} @else @if (!empty($result['partner_locations'][0]['sharing_value'])) {{ number_format($result['partner_locations'][0]['sharing_value']) }} @endif @endif" {{$select ? 'disabled' : ''}} required/>'+
+                    '</div>'+
+                    '</div>'+
+                    '</div>'; 
+            }
             $('#flow-select-location #id_commissions').html(htmls);
         }
     }
+
+    function bundling(id){
+        $.ajax({
+            type : "GET",
+            url : "{{ url('businessdev/partners/bundling') }}/"+id,
+            success : function(result) {
+                var html_product = '';
+                result.forEach(function(data, index){
+                    html_product += product(data,index);
+                })
+                console.log(html_product);
+            },
+            error : function(result) {
+                toastr.warning("Something went wrong. Failed to get data.");
+            }
+        });
+    }
+
+    function product(data, i){
+        var html = '<div id="div_product_use_'+i+'">'+
+            '<div class="form-group">'+
+            '<div class="col-md-4">'+
+                    
+            '</div>'+
+            '</div>'+
+            '</div>';
+        return html;
+    }
+
+
+
     $(document).ready(function () {
         $.ajaxSetup({
             headers: {
@@ -59,67 +106,9 @@
             }
         });
         $("#flow-select-location #id_percent").hide(); 
-        myFunction()
+        myFunction();
     });
-</script>
-<script>
-    $(document).ready(function () {
-        $("input[data-type='currency']").on({
-            keyup: function() {
-              formatCurrency($(this));
-            },
-            blur: function() { 
-              formatCurrency($(this), "blur");
-            }
-        });
-        function formatNumber(n) {
-          // format number 1000000 to 1,234,567
-          return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-        }
-        function formatCurrency(input, blur) {
-          // appends $ to value, validates decimal side
-          // and puts cursor back in right position.
-          // get input value
-          var input_val = input.val();
-          // don't validate empty input
-          if (input_val === "") { return; }
-          // original length
-          var original_len = input_val.length;
-          // initial caret position 
-          var caret_pos = input.prop("selectionStart");
-          // check for decimal
-          if (input_val.indexOf(".") >= 0) {
-            // get position of first decimal
-            // this prevents multiple decimals from
-            // being entered
-            var decimal_pos = input_val.indexOf(".");
-            // split number by decimal point
-            var left_side = input_val.substring(0, decimal_pos);
-            // add commas to left side of number
-            left_side = formatNumber(left_side);
-            // join number by .
-            input_val = left_side ;
-          } else {
-            // no decimal entered
-            // add commas to number
-            // remove all non-digits
-            input_val = formatNumber(input_val);
-            input_val = input_val;
-            // final formatting
-            
-          }
-          // send updated string to input
-          input.val(input_val);
-          // put caret back in the right position
-          var updated_len = input_val.length;
-          caret_pos = updated_len - original_len + caret_pos;
-          input[0].setSelectionRange(caret_pos, caret_pos);
-        }
 
-        @if($select)
-        $('#flow-select-location :input').prop('disabled', true);
-        @endif
-    })
 </script>
 
 <div style="white-space: nowrap;">
@@ -182,7 +171,7 @@
                                     <label for="example-search-input" class="control-label col-md-4">Select Outlet Starter <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Pilih paket persiapan yang akan digunakan untuk persiapan outlet" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <select class="form-control select2" name="id_outlet_starter_bundling" id="id_outlet_starter_bundling" required>
+                                        <select class="form-control select2" name="id_outlet_starter_bundling" id="id_outlet_starter_bundling" {{ $select ? 'disabled' : ''}} required">
                                             <option value="" selected disabled>Select Starter</option>
                                             @foreach($list_starters as $list_starter)
                                                 <option value="{{$list_starter['id_outlet_starter_bundling']}}" @if(old('id_outlet_starter_bundling')) @if(old('id_outlet_starter_bundling') == $list_starter['id_outlet_starter_bundling']) selected @endif @else @if ($result['partner_locations']) @if($result['partner_locations'][0]['id_outlet_starter_bundling'] == $list_starter['id_outlet_starter_bundling']) selected @endif @endif @endif>{{$list_starter['name']}}</option>
@@ -194,7 +183,7 @@
                                     <label for="example-search-input" class="control-label col-md-4">Location Brand <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Brand yang akan digunakan oleh lokasi partner" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <select class="form-control select2" name="id_brand" id="follow-id_brand" required>
+                                        <select class="form-control select2" name="id_brand" id="follow-id_brand" {{ $select ? 'disabled' : ''}} required>
                                             <option value="" selected disabled>Select Brand</option>
                                             @foreach($brands as $brand)
                                                 <option value="{{$brand['id_brand']}}" @if(old('id_brand')) @if(old('id_brand') == $brand['id_brand']) selected @endif @else @if ($result['partner_locations']) @if($result['partner_locations'][0]['id_brand'] == $brand['id_brand']) selected @endif @endif @endif>{{$brand['name_brand']}}</option>
@@ -254,7 +243,7 @@
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="renovation_cost" name="renovation_cost" placeholder="Enter renovation cost here" value="@if (old('renovation_cost')) {{ old('renovation_cost') }} @else @if (!empty($result['partner_locations'][0]['renovation_cost'])) {{ $result['partner_locations'][0]['renovation_cost'] }} @endif @endif" required/>
+                                            <input class="form-control" type="text" data-type="currency" id="renovation_cost" name="renovation_cost" placeholder="Enter renovation cost here" value="@if (old('renovation_cost')) {{ number_format(old('renovation_cost')) }} @else @if (!empty($result['partner_locations'][0]['renovation_cost'])) {{ number_format($result['partner_locations'][0]['renovation_cost']) }} @endif @endif" {{$select ? 'disabled' : ''}} required/>
                                         </div>
                                     </div>
                                 </div>  
@@ -264,7 +253,7 @@
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="partnership_fee" name="partnership_fee" placeholder="Enter partnership fee here" value="@if (old('partnership_fee')) {{ old('partnership_fee') }} @else @if (!empty($result['partner_locations'][0]['partnership_fee'])) {{ $result['partner_locations'][0]['partnership_fee'] }} @endif @endif" required/>
+                                            <input class="form-control" type="text" data-type="currency" id="partnership_fee" name="partnership_fee" placeholder="Enter partnership fee here" value="@if (old('partnership_fee')) {{ number_format(old('partnership_fee')) }} @else @if (!empty($result['partner_locations'][0]['partnership_fee'])) {{ number_format($result['partner_locations'][0]['partnership_fee']) }} @endif @endif" {{$select ? 'disabled' : ''}} required/>
                                         </div>
                                     </div>
                                 </div>    
@@ -274,7 +263,7 @@
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="income" name="income" placeholder="Enter income here" value="@if (old('income')) {{ old('income') }} @else @if (!empty($result['partner_locations'][0]['income'])) {{ $result['partner_locations'][0]['income'] }} @endif @endif" required/>
+                                            <input class="form-control" type="text" data-type="currency" id="income" name="income" placeholder="Enter income here" value="@if (old('income')) {{ number_format(old('income')) }} @else @if (!empty($result['partner_locations'][0]['income'])) {{ number_format($result['partner_locations'][0]['income']) }} @endif @endif" {{$select ? 'disabled' : ''}} required/>
                                         </div>
                                     </div>
                                 </div>   
@@ -283,7 +272,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Jumlah box yang dibutuhkan untuk pembuatan outlet" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input class="form-control" type="text" id="total_box" name="total_box" placeholder="Enter total box here" value="@if (old('total_box')) {{ old('total_box') }} @else @if (!empty($result['partner_locations'][0]['total_box'])) {{ $result['partner_locations'][0]['total_box'] }} @endif @endif" required/>
+                                            <input class="form-control" type="text" data-type="currency" id="total_box" name="total_box" placeholder="Enter total box here" value="@if (old('total_box')) {{ number_format(old('total_box')) }} @else @if (!empty($result['partner_locations'][0]['total_box'])) {{ number_format($result['partner_locations'][0]['total_box']) }} @endif @endif" {{$select ? 'disabled' : ''}} required/>
                                             <span class="input-group-addon">Box</span>
                                         </div>
                                     </div>
@@ -293,7 +282,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai menjadi partner atau tanggal kerja sama dimulai, bisa dikosongkan dan akan diisi tanggal mulai menjadi partner" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input type="text" id="start_date" class="datepicker form-control" name="start_date" value="{{ (!empty($result['partner_locations'][0]['start_date']) ? date('d F Y', strtotime($result['partner_locations'][0]['start_date'])) : '')}}">
+                                            <input type="text" id="start_date" class="datepicker form-control" name="start_date" value="{{ (!empty($result['partner_locations'][0]['start_date']) ? date('d F Y', strtotime($result['partner_locations'][0]['start_date'])) : '')}}" {{$select ? 'disabled' : ''}}>
                                             <span class="input-group-btn">
                                                 <button class="btn default" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -307,7 +296,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal berakhir menjadi partner atau tanggal kerja sama selesai, bisa dikosongkan dan akan diisi tanggal berakhir partner" data-container="body"></i><br><span class="required" aria-required="true">( must be more than 3 years )</span></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input type="text" id="end_date" class="datepicker form-control" name="end_date" value="{{ (!empty($result['partner_locations'][0]['end_date']) ? date('d F Y', strtotime($result['partner_locations'][0]['end_date'])) : '')}}">
+                                            <input type="text" id="end_date" class="datepicker form-control" name="end_date" value="{{ (!empty($result['partner_locations'][0]['end_date']) ? date('d F Y', strtotime($result['partner_locations'][0]['end_date'])) : '')}}" {{$select ? 'disabled' : ''}}>
                                             <span class="input-group-btn">
                                                 <button class="btn default" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -321,7 +310,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal serah terima outlet/lokasi ke pihak partner" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input type="text" id="handover_date" class="datepicker form-control" name="handover_date" value="{{ (!empty($result['partner_locations'][0]['handover_date']) ? date('d F Y', strtotime($result['partner_locations'][0]['handover_date'])) : '')}}" required>
+                                            <input type="text" id="handover_date" class="datepicker form-control" name="handover_date" value="{{ (!empty($result['partner_locations'][0]['handover_date']) ? date('d F Y', strtotime($result['partner_locations'][0]['handover_date'])) : '')}}" {{$select ? 'disabled' : ''}} required>
                                             <span class="input-group-btn">
                                                 <button class="btn default" type="button">
                                                     <i class="fa fa-calendar"></i>

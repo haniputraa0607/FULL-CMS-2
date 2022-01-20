@@ -330,7 +330,9 @@ class RequestProductController extends Controller
     {
         $post = $request->except('_token');
         $result = MyHelper::post('dev-product/update', $post);
-        
+        if(isset($post['status']) && $post['status'] == 'On Progress'){
+            return $result;
+        }
         if(isset($result['status']) && $result['status'] == 'success'){
             return redirect('dev-product/detail/'.$post['id_delivery_product'])->withSuccess(['Success update delivery product']);
         }else{

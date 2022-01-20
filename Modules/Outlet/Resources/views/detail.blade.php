@@ -714,6 +714,17 @@
 
     });
   </script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.appender').on('click','.appender-btn',function(){
+            var value=$(this).data('value');
+            var target=$(this).parents('.appender').data('target');
+            var newValue=$(target).val()+value;
+            $(target).val(newValue);
+            $(target).focus();
+        });
+    });
+</script>
 @endsection
 
 @section('content')

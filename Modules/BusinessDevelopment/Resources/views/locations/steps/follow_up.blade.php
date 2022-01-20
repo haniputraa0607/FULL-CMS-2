@@ -289,7 +289,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Luas dari lokasi yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input class="form-control" type="text" id="location_large" name="location_large" placeholder="Enter location large here" value="{{ old('location_large') ?? $result['location_large']}}" required/>
+                                            <input class="form-control" type="text" id="location_large" name="location_large" placeholder="Enter location large here" value="{{ old('location_large') ?  number_format(old('location_large')) : number_format($result['location_large'])}}" required/>
                                             <span class="input-group-addon">m<sup>2</sup></span>
                                         </div>
                                     </div>
@@ -300,7 +300,7 @@
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="rental_price" name="rental_price" placeholder="Enter rental price here" value="{{ old('rental_price') ?? $result['rental_price']}}" required/>
+                                            <input class="form-control" type="text" data-type="currency" id="rental_price" name="rental_price" placeholder="Enter rental price here" value="{{ old('rental_price') ?  number_format(old('rental_price')) : number_format($result['rental_price'])}}" required/>
                                         </div>
                                     </div>
                                 </div>    
@@ -310,7 +310,7 @@
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="service_charge" name="service_charge" placeholder="Enter service charge here" value="{{ old('service_charge') ?? $result['service_charge']}}" required/>
+                                            <input class="form-control" type="text" data-type="currency" id="service_charge" name="service_charge" placeholder="Enter service charge here" value="{{ old('service_charge') ?  number_format(old('service_charge')) : number_format($result['service_charge'])}}" required/>
                                         </div>
                                     </div>
                                 </div>    
@@ -320,7 +320,7 @@
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="promotion_levy" name="promotion_levy" placeholder="Enter promotion levy here"  value="{{ old('promotion_levy') ?? $result['promotion_levy']}}" required/>
+                                            <input class="form-control" type="text" data-type="currency" id="promotion_levy" name="promotion_levy" placeholder="Enter promotion levy here"  value="{{ old('promotion_levy') ?  number_format(old('promotion_levy')) : number_format($result['promotion_levy'])}}" required/>
                                         </div>
                                     </div>
                                 </div>    
