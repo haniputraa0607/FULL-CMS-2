@@ -76,7 +76,7 @@ class AcademyScheduleController extends Controller
         $data = [
             'title'          => 'Academy',
             'menu_active'    => 'academy-transaction',
-            'sub_title'      => 'User Schedule',
+            'sub_title'      => 'User Transaction Academy',
             'submenu_active' => 'academy-transaction-schedule'
         ];
 
@@ -86,7 +86,26 @@ class AcademyScheduleController extends Controller
         }else{
             return redirect('academy/transaction/user/schedule')->withErrors($res['messages']??['Failed get detail user schedule']);
         }
-        return view('academy::schedule', $data);
+        return view('academy::transaction_academy_user', $data);
+    }
+
+    public function listScheduleAcademy($id_transaction_academy){
+        $data = [
+            'title'          => 'Academy',
+            'menu_active'    => 'academy-transaction',
+            'sub_title'      => 'User Schedule',
+            'submenu_active' => 'academy-transaction-schedule'
+        ];
+
+        $res = MyHelper::post('academy/transaction/user/schedule/detail/list', ['id_transaction_academy' => $id_transaction_academy]);
+
+        if(!empty($res['result'])){
+            $data['res'] = $res['result'];
+        }else{
+            return redirect('academy/transaction/user/schedule')->withErrors($res['messages']??['Failed get detail list schedule']);
+        }
+
+        return view('academy::schedule_detail', $data);
     }
 
     public function updateScheduleUserAcademy(Request $request, $id_transaction_academy){
@@ -94,9 +113,9 @@ class AcademyScheduleController extends Controller
         $update = MyHelper::post('academy/transaction/user/schedule/update', array_merge($post, ['id_transaction_academy' => $id_transaction_academy]));
 
         if(isset($update['status']) && $update['status'] == 'success'){
-            return redirect('academy/transaction/user/schedule/detail/'.$post['id_user'])->withSuccess(['Success update user schedule']);
+            return redirect('academy/transaction/user/schedule/detail/list/'.$id_transaction_academy)->withSuccess(['Success update user schedule']);
         }else{
-            return redirect('academy/transaction/user/schedule/detail/'.$post['id_user'])->withErrors($update['messages']??['Failed update user schedule']);
+            return redirect('academy/transaction/user/schedule/detail/list/'.$id_transaction_academy)->withErrors($update['messages']??['Failed update user schedule']);
         }
     }
 

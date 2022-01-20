@@ -57,7 +57,6 @@
         };
 
         $('#table-user_academy').dataTable({
-            "ordering": false,
             "bLengthChange": false,
             ajax: {
                 url : "{{url()->current()}}",
@@ -100,6 +99,16 @@
                     data: 'email',
                     render: function(value, type, row) {
                         return `${row.email}`;
+                    }
+                },
+                {
+                    data: 'last_date_transaction',
+                    render: function(value, type, row) {
+                        var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                        var date = new Date(`${row.last_date_transaction}`);
+                        var date_string = date.getDate()  + " " + months[date.getMonth()] + " " + date.getFullYear() + " " +
+                            date.getHours() + ":" + date.getMinutes();
+                        return date_string;
                     }
                 }
             ],
@@ -160,6 +169,7 @@
                     <th>Name</th>
                     <th>Phone</th>
                     <th>Email</th>
+                    <th>Last Date Transaction</th>
                 </tr>
                 </thead>
                 <tbody>
