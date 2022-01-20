@@ -66,6 +66,7 @@
 									<div class="input-group">
 										<span class="input-group-addon">Every</span>
 										<input type="number" class="form-control" min="1" maxlength="2" name="installment_deadline" value="{{$result['installment_deadline']}}">
+										<span class="input-group-addon">th</span>
 									</div>
 								</div>
 							</div>

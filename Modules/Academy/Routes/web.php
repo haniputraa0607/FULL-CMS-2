@@ -20,6 +20,7 @@ Route::group(['middleware' => 'validate_session', 'prefix' => 'academy'], functi
     Route::get('transaction/user/schedule', ['middleware' => 'feature_control:390,391', 'uses' => 'AcademyScheduleController@listUserAcademy']);
     Route::post('transaction/user/schedule', ['middleware' => 'feature_control:390,391', 'uses' => 'AcademyScheduleController@filterListUserAcademy']);
     Route::get('transaction/user/schedule/detail/{id_user}', ['middleware' => 'feature_control:390,391', 'uses' => 'AcademyScheduleController@detailScheduleUserAcademy']);
+    Route::get('transaction/user/schedule/detail/list/{id_transaction_academy}', ['middleware' => 'feature_control:390,391', 'uses' => 'AcademyScheduleController@listScheduleAcademy']);
     Route::post('transaction/user/schedule/update/{id_transaction_academy}', ['middleware' => 'feature_control:390,391', 'uses' => 'AcademyScheduleController@updateScheduleUserAcademy']);
 
     Route::get('transaction/user/schedule/day-off', ['middleware' => 'feature_control:390,391', 'uses' => 'AcademyScheduleController@listDayOffUserAcademy']);

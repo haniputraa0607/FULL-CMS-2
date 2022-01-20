@@ -84,40 +84,58 @@ $configs = session('configs');
             </div>
         </div>
         <div class="portlet-body form">
-            <form class="form-horizontal" id="form-outlet-box" role="form" action="{{ url('enquiries/setting/subject') }}" method="post">
-                <div class="form-body">
+            <div class="tabbable-line">
+                <ul class="nav nav-tabs">
+                    <?php $i=0;?>
                     @foreach($result as $key=>$data)
-                        <p>{{ucfirst(str_replace('_', ' ', $key))}}</p>
-                        @foreach($data as $keyChild=>$dataChild)
-                            <?php
-                                $countSubject = count($dataChild['subject']);
-                                $idParent = $key.'_'.$keyChild;
-                            ?>
-                            <div style="margin-left: 5%" id="{{$key.'_'.$keyChild}}">
-                                <p><b>{{ucfirst(str_replace('_', ' ', $keyChild))}}</b> <a style="font-size: 18px;text-decoration:none" onclick="addSubject('{{$idParent}}', {{$countSubject}}, '{{$key}}', '{{$keyChild}}')">&nbsp;<i class="fa fa-plus-circle"></i></a></p>
+                        <li @if($i == 0) class="active" @endif>
+                            <a data-toggle="tab" href="#{{$key}}">{{ucfirst(str_replace('_', ' ', $key))}}</a>
+                        </li>
+                        <?php $i++;?>
+                    @endforeach
+                </ul>
+            </div>
+            <br>
+            <div class="tab-content">
+                <?php $j=0;?>
+                @foreach($result as $key=>$data)
+                    <div id="{{$key}}" class="tab-pane @if($j == 0) active @endif">
+                        <form class="form-horizontal" id="form-outlet-box" role="form" action="{{ url('enquiries/setting/subject') }}" method="post">
+                            <div class="form-body">
+                                @foreach($data as $keyChild=>$dataChild)
+                                    <?php
+                                    $countSubject = count($dataChild['subject']);
+                                    $idParent = $key.'_'.$keyChild;
+                                    ?>
+                                    <div style="margin-left: 5%" id="{{$key.'_'.$keyChild}}">
+                                        <p><b>{{ucfirst(str_replace('_', ' ', $keyChild))}}</b> <a style="font-size: 18px;text-decoration:none" onclick="addSubject('{{$idParent}}', {{$countSubject}}, '{{$key}}', '{{$keyChild}}')">&nbsp;<i class="fa fa-plus-circle"></i></a></p>
 
-                                @foreach($dataChild['subject'] as $inc=>$subject)
-                                    <div class="form-group" id="{{$key.'_'.$keyChild.'_'.$inc}}">
-                                        <div class="col-md-8">
-                                            <input class="form-control" type="text" required placeholder="Subject Name" name="data[{{$key}}][{{$keyChild}}][]" value="{{$subject}}">
-                                        </div>
-                                        <div class="col-md-2">
-                                            <a class="btn btn-danger btn" onclick="deleteSubject('{{$idParent.'_'.$inc}}')">&nbsp;<i class="fa fa-trash"></i></a>
-                                        </div>
+                                        @foreach($dataChild['subject'] as $inc=>$subject)
+                                            <div class="form-group" id="{{$key.'_'.$keyChild.'_'.$inc}}">
+                                                <div class="col-md-8">
+                                                    <input class="form-control" type="text" required placeholder="Subject Name" name="data[{{$key}}][{{$keyChild}}][]" value="{{$subject}}">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <a class="btn btn-danger btn" onclick="deleteSubject('{{$idParent.'_'.$inc}}')">&nbsp;<i class="fa fa-trash"></i></a>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                        <input type="hidden" id="count_{{$idParent}}" value="{{$countSubject}}">
                                     </div>
                                 @endforeach
-                                <input type="hidden" id="count_{{$idParent}}" value="{{$countSubject}}">
                             </div>
-                        @endforeach
-                    @endforeach
-                </div>
-                <div class="form-actions">
-                    {{ csrf_field() }}
-                    <div class="row" style="text-align: center;margin-top: 5%">
-                        <button type="submit" class="btn green">Save</button>
+                            <input type="hidden" name="page" value="{{$key}}">
+                            <div class="form-actions">
+                                {{ csrf_field() }}
+                                <div class="row" style="text-align: center;margin-top: 5%">
+                                    <button type="submit" class="btn green">Save</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                </div>
-            </form>
+                    <?php $j++;?>
+                @endforeach
+            </div>
         </div>
     </div>
 @endsection
