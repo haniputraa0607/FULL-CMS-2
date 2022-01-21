@@ -8,7 +8,7 @@
 				</label>
 				<div class="col-md-6">
 					<div class="input-icon right">
-						<input type="text" placeholder="Nickname" class="form-control" name="nickname" required>
+						<input type="text" placeholder="Nickname" class="form-control" name="nickname" autocomplete="new-nickname" required>
 					</div>
 				</div>
 			</div>
@@ -26,8 +26,8 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label  class="control-label col-md-4">Auto Generate Password <span class="required" aria-required="true">*</span>
-					<i class="fa fa-question-circle tooltips" data-original-title="Jika di centang maka password akan di generate otomatis oleh sistem" data-container="body"></i>
+				<label  class="control-label col-md-4">Auto Generate PIN <span class="required" aria-required="true">*</span>
+					<i class="fa fa-question-circle tooltips" data-original-title="Jika di centang maka pin akan di generate otomatis oleh sistem" data-container="body"></i>
 				</label>
 				<div class="col-md-6">
 					<label class="mt-checkbox mt-checkbox-outline">
@@ -38,19 +38,19 @@
 			</div>
 			<div id="div_password">
 				<div class="form-group">
-					<label for="example-search-input" class="control-label col-md-4">Password <span class="required" aria-required="true">*</span>
-						<i class="fa fa-question-circle tooltips" data-original-title="Masukkan password yang akan digunakan untuk login" data-container="body"></i>
+					<label for="example-search-input" class="control-label col-md-4">PIN <span class="required" aria-required="true">*</span>
+						<i class="fa fa-question-circle tooltips" data-original-title="Masukkan pin yang akan digunakan untuk login" data-container="body"></i>
 					</label>
 					<div class="col-md-6">
-						<input class="form-control" maxlength="6" type="password" name="pin" id="pin1" placeholder="Enter password" required/>
+						<input class="form-control" maxlength="6" type="password" name="pin" id="pin1" placeholder="Enter PIN" required autocomplete="new-password"/>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="example-search-input" class="control-label col-md-4">Re-type Password <span class="required" aria-required="true">*</span>
-						<i class="fa fa-question-circle tooltips" data-original-title="Ketik ulang password yang akan digunakan untuk login" data-container="body"></i>
+					<label for="example-search-input" class="control-label col-md-4">Re-type PIN <span class="required" aria-required="true">*</span>
+						<i class="fa fa-question-circle tooltips" data-original-title="Ketik ulang pin yang akan digunakan untuk login" data-container="body"></i>
 					</label>
 					<div class="col-md-6">
-						<input class="form-control" maxlength="6" type="password" name="pin2" id="pin2" placeholder="Re-type password" required/>
+						<input class="form-control" maxlength="6" type="password" name="pin2" id="pin2" placeholder="Re-type PIN" required autocomplete="new-password"/>
 					</div>
 				</div>
 			</div>

@@ -561,10 +561,10 @@ $grantedFeature     = session('granted_features');
 												@endif
 											</td>
 											<td>{{$doc['document_type']}}</td>
-											<td>{{(!empty($doc['process_date']) ? date('d F M H:i', strtotime($doc['process_date'])): '')}}</td>
+											<td>{{(!empty($doc['process_date']) ? date('d F Y H:i', strtotime($doc['process_date'])): '')}}</td>
 											<td>{{$doc['process_name_by']}}</td>
 											<td><p>{{$doc['process_notes']}}</p></td>
-											<td>{{date('d F M H:i', strtotime($doc['created_at']))}}</td>
+											<td>{{date('d F Y H:i', strtotime($doc['created_at']))}}</td>
 										</tr>
 									@endforeach
 									</tbody>

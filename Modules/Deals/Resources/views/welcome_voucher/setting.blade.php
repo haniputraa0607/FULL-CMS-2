@@ -478,31 +478,35 @@ $configs    		= session('configs');
                 .map(function(){return $(this).val();}).get();
             var id_deals = $('#id_all_deals').val();
 
-            var check_deals_exist = list_deals_id.indexOf(id_deals);
-
-            if(check_deals_exist >= 0){
-                confirm('Voucher already exist in list, please select another voucher?')
+            if(id_deals === ''){
+                confirm('Please select one voucher.')
             }else{
-                var data = $('#id_all_deals').select2('data');
-                var text = data[0].text;
-                var id_deals = $('#id_all_deals').val();
-                var html = '';
-                html += '<div class="row" id="div_'+id_deals+'" style="margin-bottom: 2%;">';
-                html += '<div class="col-md-1">';
-                html += '<a href="javascript:;" data-repeater-delete class="btn btn-danger mt-repeater-delete mt-repeater-del-right mt-repeater-btn-inline" onclick="deleteDeals('+id_deals+')">';
-                html += '<i class="fa fa-close"></i>';
-                html += '</a>';
-                html += '</div>';
-                html += '<div class="col-md-6">';
-                html += '<textarea class="form-control" type="text" value="'+text+'" disabled>'+text+'</textarea>';
-                html += '</div>';
-                html += '<div class="col-md-2">';
-                html += '<input class="form-control price input-required" placeholder="Total" name="list_deals_total[]" type="text" value="" required>';
-                html += '</div>';
-                html += '<input type="hidden" name="list_deals_id[]" value="'+id_deals+'">';
-                html += '</div>';
+                var check_deals_exist = list_deals_id.indexOf(id_deals);
 
-                $("#list").append(html);
+                if(check_deals_exist >= 0){
+                    confirm('Voucher already exist in list, please select another voucher?')
+                }else{
+                    var data = $('#id_all_deals').select2('data');
+                    var text = data[0].text;
+                    var id_deals = $('#id_all_deals').val();
+                    var html = '';
+                    html += '<div class="row" id="div_'+id_deals+'" style="margin-bottom: 2%;">';
+                    html += '<div class="col-md-1">';
+                    html += '<a href="javascript:;" data-repeater-delete class="btn btn-danger mt-repeater-delete mt-repeater-del-right mt-repeater-btn-inline" onclick="deleteDeals('+id_deals+')">';
+                    html += '<i class="fa fa-close"></i>';
+                    html += '</a>';
+                    html += '</div>';
+                    html += '<div class="col-md-6">';
+                    html += '<textarea class="form-control" type="text" value="'+text+'" disabled>'+text+'</textarea>';
+                    html += '</div>';
+                    html += '<div class="col-md-2">';
+                    html += '<input class="form-control price input-required" placeholder="Total" name="list_deals_total[]" type="text" value="" required>';
+                    html += '</div>';
+                    html += '<input type="hidden" name="list_deals_id[]" value="'+id_deals+'">';
+                    html += '</div>';
+
+                    $("#list").append(html);
+                }
             }
         }
 
@@ -585,7 +589,7 @@ $configs    		= session('configs');
             </div>
             <br>
 
-            <div class="portlet light bordered" id="div_list">
+            <div class="portlet light bordered" id="div_list" @if($setting['value'] == 0) style="display: none" @endif>
                 <div class="portlet-title">
                     <div class="caption">
                         <span class="caption-subject font-blue sbold uppercase ">List Voucher</span>
@@ -596,8 +600,9 @@ $configs    		= session('configs');
                         <div class="col-md-7">
                             @if(MyHelper::hasAccess([95], $configs))
                                 <select id="id_all_deals" class="form-control select2" placeholder="Search Deals">
+                                    <option></option>
                                     @foreach($all_deals as $val)
-                                        <option id="{{$val['id_deals']}}" value="{{$val['id_deals']}}">{{$val['name_brand']}} - {{$val['deals_title']}}</option>
+                                        <option id="{{$val['id_deals']}}" value="{{$val['id_deals']}}">{{$val['deals_title']}}</option>
                                     @endforeach
                                 </select>
                             @else
@@ -629,7 +634,7 @@ $configs    		= session('configs');
                                         </div>
                                         @endif
                                         <div class="col-md-6">
-                                            <textarea class="form-control" type="text" rows="2" disabled>{{$val['name_brand']}} - {{$val['deals_title']}}</textarea>
+                                            <textarea class="form-control" type="text" rows="2" disabled>{{$val['deals_title']}}</textarea>
                                         </div>
                                         <div class="col-md-2">
                                             <input class="form-control price input-required" placeholder="Total" name="list_deals_total[]" type="text" value="{{$val['deals_total']}}" required>
