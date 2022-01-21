@@ -347,6 +347,14 @@ $configs     		= session('configs');
 														<div class="row" style="margin-left: 1%;margin-right: 1%;">
 															<div class="row" style="margin-bottom: 3%;">
 																<div class="col-md-4">
+																	<p style="margin-top:2%;margin-bottom:1%;"> Visibility <span class="required" aria-required="true"> * </span></p>
+																</div>
+																<div class="col-md-8">
+																	<input type="checkbox" name="{{$key}}_visible" @if($value['visible'] == true) checked @endif class="make-switch switch-large switch-change" data-on-text="Visible" data-off-text="Hidden">
+																</div>
+															</div>
+															<div class="row" style="margin-bottom: 3%;">
+																<div class="col-md-4">
 																	<p style="margin-top:2%;margin-bottom:1%;"> Text Menu <span class="required" aria-required="true"> * </span></p>
 																</div>
 																<div class="col-md-8">
