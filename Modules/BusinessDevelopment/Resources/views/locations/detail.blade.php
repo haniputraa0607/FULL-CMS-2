@@ -285,11 +285,9 @@
                 <li class="active">
                     <a href="#overview" data-toggle="tab"> Location Overview </a>
                 </li>
-                @if($title=='Candidate Location') 
-                    <li>
-                        <a href="#status" data-toggle="tab"> Status Locations </a>
-                    </li>
-                @endif
+                <li>
+                    <a href="#status" data-toggle="tab"> Status Locations </a>
+                </li>
             </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="overview">

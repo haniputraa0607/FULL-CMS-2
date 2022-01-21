@@ -46,8 +46,9 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'business
         Route::post('create-follow-up', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@followUp']);
         Route::post('approved-follow-up', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@approved']);
         Route::post('approved-survey-loc', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@approvedSurvey']);
+        Route::post('new-follow-up', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@followUpNewLoc']);
         Route::get('pdf', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@pdf']);
-        Route::get('generate-spk/{id}', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@generateSPK']);
+        Route::get('generate-spk/{id_partner}/{id_location}', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@generateSPK']);
         Route::get('bundling/{id}', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@bundling']);
         Route::any('/{type?}', ['middleware' => 'feature_control:338', 'uses' => 'PartnersController@index']);
         //partner close temporary
