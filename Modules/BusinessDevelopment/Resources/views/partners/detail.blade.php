@@ -411,6 +411,9 @@
                     <a href="#overview" data-toggle="tab"> Partner Overview </a>
                 </li>
                 @if($title=='Partner') 
+                    <li>
+                        <a href="#document" data-toggle="tab"> Partner Document </a>
+                    </li>
                     @if(MyHelper::hasAccess([342], $grantedFeature))
                     <li>
                         <a href="#locations" data-toggle="tab"> Partner Locations </a>
@@ -431,6 +434,11 @@
                     <li>
                         <a href="#status" data-toggle="tab"> Status Partner </a>
                     </li>
+                @if($title=='Partner') 
+                    <li>
+                        <a href="#newloc" data-toggle="tab"> New Location </a>
+                    </li>
+                @endif
             </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="overview">
@@ -588,35 +596,7 @@
                                         </span>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="example-search-input" class="control-label col-md-4">Confirmation Letter 
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Download file confirmation letter" data-container="body"></i><br></label>
-                                <div class="col-md-5">
-                                    <label for="example-search-input" class="control-label">
-                                        <a href="{{ $result['partner_confirmation'][0]['attachment']??'' }}">Download Confirmation Letter</a>
-                                    <label>
-                                </div>
-                            </div>    
-                            <div class="form-group">
-                                <label for="example-search-input" class="control-label col-md-4">Form Survey Location 
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Download file form survey location" data-container="body"></i><br></label>
-                                <div class="col-md-5">
-                                    <label for="example-search-input" class="control-label">
-                                        <a href="{{ $result['partner_survey'][0]['attachment']??'' }}">Download Form Survey Location</a>
-                                    <label>
-                                </div>
-                            </div>    
-                            <div class="form-group">
-                                <label for="example-search-input" class="control-label col-md-4">Surat Perintah Kerja 
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Download file SPK" data-container="body"></i><br></label>
-                                <div class="col-md-5">
-                                    <label for="example-search-input" class="control-label">
-                                        {{--  <a href="{{ $result['partner_survey'][0]['attachment']??'' }}">Download SPK</a>  --}}
-                                        <a target="_blank" target='blank' href="{{url('businessdev/partners/generate-spk').'/'.$result['id_partner']}}">Download SPK</a>
-                                    <label>
-                                </div>
-                            </div>    
+                            </div>  
                             @endif
                         </div>
                         <div class="form-actions">
@@ -926,6 +906,252 @@
                     </div>
                 </div>
             </div>
+
+            {{--  tab new location  --}}
+            <div class="tab-pane" id="newloc">
+                <div style="white-space: nowrap;">
+                    <div class="portlet-body form">
+                        <div class="tab-pane">
+                            <div class="row">
+                                <?php 
+                                    if($result['partner_new_step'])
+                                    {
+                                        foreach($result['partner_new_step'] as $key => $new_steps){
+                                            $index_step = $new_steps['index'];
+                                            $new_location = $new_steps['follow_up'];
+                                        }
+                                        if($new_location == 'Payment'){
+                                            $index_step = $index_step+1;
+                                            $new_location = null;
+                                        }
+                                    }else{
+                                        $index_step = 1;
+                                        $new_location = null;
+                                    }
+                                ?>
+                                <div class="col-md-3">
+                                    <ul class="ver-inline-menu tabbable margin-bottom-10">
+                                        <li class="@if($new_location == null || $new_location =='Select Location') active @endif">
+                                            <a data-toggle="tab" href="#newselect"><i class="fa fa-cog"></i> Select Location </a>
+                                        </li>
+                                        <li class="@if($new_location=='Calculation') active @endif" @if($new_location==null) style="opacity: 0.4 !important" @endif>
+                                            <a @if($new_location==null) @else data-toggle="tab" @endif href="#newcalcu"><i class="fa fa-cog"></i> Calculation </a>
+                                        </li>
+                                        <li class="@if($new_location=='Confirmation Letter') active @endif" @if($new_location==null || $new_location=='Select Location') style="opacity: 0.4 !important" @endif>
+                                            <a @if($new_location==null || $new_location=='Select Location') @else data-toggle="tab" @endif href="#newsurvey"><i class="fa fa-cog"></i> Confirmation Letter </a>
+                                        </li>
+                                        <li class="@if($new_location=='Payment') active @endif" @if($new_location==null || $new_location=='Select Location' || $new_location=='Calculation') style="opacity: 0.4 !important" @endif>
+                                            <a @if($new_location==null || $new_location=='Select Location' || $new_location=='Calculation') @else data-toggle="tab" @endif href="#newpayment"><i class="fa fa-cog"></i> Payment </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="tab-content">
+                                        <div class="tab-pane @if($new_location == null || $new_location=='Select Location') active @endif" id="newselect">
+                                            @include('businessdevelopment::partners.new_steps.select') 
+                                        </div>
+                                        <div class="tab-pane @if($new_location=='Calculation') active @endif" id="newcalcu">
+                                            @include('businessdevelopment::partners.new_steps.calcu')
+                                        </div>
+                                        <div class="tab-pane @if($new_location=='Confirmation Letter') active @endif" id="newsurvey">
+                                            @include('businessdevelopment::partners.new_steps.confirmation')
+                                        </div>
+                                        <div class="tab-pane" id="newpayment">
+                                            @include('businessdevelopment::partners.new_steps.payment')
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- tab document --}}
+            <div class="tab-pane" id="document">
+                <div class="portlet-body form">
+                    <div style="white-space: nowrap;">
+                        <div class="portlet light bordered">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <span class="caption-subject font-dark sbold uppercase font-yellow">Confirmation Letter</span>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="kt_datatable">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-nowrap text-center">Created At</th>
+                                        <th class="text-nowrap text-center">No Letter</th>
+                                        <th class="text-nowrap text-center">Location</th>
+                                        <th class="text-nowrap text-center">Attachment</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if(!empty($result['partner_confirmation']))
+                                            @foreach($result['partner_confirmation'] as $confirmation_letter)
+                                                <tr data-id="{{ $confirmation_letter['id_confirmation_letter'] }}">
+                                                    <td>{{date('d F Y H:i', strtotime($confirmation_letter['created_at']))}}</td>
+                                                    <td>{{$confirmation_letter['no_letter']}}</td>
+                                                    @php
+                                                        if(!empty($result['partner_locations'])){
+                                                            foreach($result['partner_locations'] as $loc){
+                                                                if($loc['id_location']==$confirmation_letter['id_location']){
+                                                                    $name_loc = $loc['name'];
+                                                                }
+                                                            }
+                                                        }
+                                                    @endphp
+                                                    <td>{{$name_loc}}</td>
+                                                    <td>
+                                                        <a href="{{ $confirmation_letter['attachment']??'' }}">Download Confirmation Letter</a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                            <tr>
+                                                <td colspan="10" style="text-align: center">Data Not Available</td>
+                                            </tr>
+                                        @endif
+                                        </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="portlet light bordered">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <span class="caption-subject font-dark sbold uppercase font-yellow">Form Survey</span>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="kt_datatable">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-nowrap text-center">Created At</th>
+                                        <th class="text-nowrap text-center">Surveyor</th>
+                                        <th class="text-nowrap text-center">Location</th>
+                                        <th class="text-nowrap text-center">Attachment</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if(!empty($result['partner_survey']))
+                                            @foreach($result['partner_survey'] as $form_survey)
+                                                <tr data-id="{{ $form_survey['id_form_survey'] }}">
+                                                    <td>{{date('d F Y H:i', strtotime($form_survey['created_at']))}}</td>
+                                                    <td>{{$form_survey['surveyor']}}</td>
+                                                    @php
+                                                    if(!empty($result['partner_locations'])){
+                                                        foreach($result['partner_locations'] as $loc){
+                                                            if($loc['id_location']==$form_survey['id_location']){
+                                                                $name_loc = $loc['name'];
+                                                            }
+                                                        }
+                                                    }
+                                                    @endphp
+                                                    <td>{{$name_loc}}</td>
+                                                    <td>
+                                                        <a href="{{ $form_survey['attachment']??'' }}">Download Form Survey</a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                            <tr>
+                                                <td colspan="10" style="text-align: center">Data Not Available</td>
+                                            </tr>
+                                        @endif
+                                        </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="portlet light bordered">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <span class="caption-subject font-dark sbold uppercase font-yellow">Surat Perintah Kerja</span>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="kt_datatable">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-nowrap text-center">Date</th>
+                                        <th class="text-nowrap text-center">No SPK</th>
+                                        <th class="text-nowrap text-center">Location</th>
+                                        <th class="text-nowrap text-center">Attachment</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if(!empty($result['partner_locations']))
+                                            @foreach($result['partner_locations'] as $spk)
+                                                @if (!empty($spk['no_spk']))
+                                                <tr>
+                                                    <td>{{date('d F Y H:i', strtotime($spk['date_spk']))}}</td>
+                                                    <td>{{$spk['no_spk']}}</td>
+                                                    <td>{{$spk['name']}}</td>
+                                                    <td>
+                                                        <a target="_blank" target='blank' href="{{url('businessdev/partners/generate-spk').'/'.$result['id_partner'].'/'.$spk['id_location']}}">Download SPK</a>
+                                                    </td>
+                                                </tr>
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            <tr>
+                                                <td colspan="10" style="text-align: center">Data Not Available</td>
+                                            </tr>
+                                        @endif
+                                        </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="portlet light bordered">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <span class="caption-subject font-dark sbold uppercase font-yellow">Legal Agreement</span>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="kt_datatable">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-nowrap text-center">Created At</th>
+                                        <th class="text-nowrap text-center">No Letter</th>
+                                        <th class="text-nowrap text-center">Location</th>
+                                        <th class="text-nowrap text-center">Attachment</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if(!empty($result['partner_legal_agreement']))
+                                            @foreach($result['partner_legal_agreement'] as $legal)
+                                                <tr data-id="{{ $legal['id_legal_agreement'] }}">
+                                                    <td>{{date('d F Y H:i', strtotime($legal['created_at']))}}</td>
+                                                    <td>{{$legal['no_letter']}}</td>
+                                                    @php
+                                                    if(!empty($result['partner_locations'])){
+                                                        foreach($result['partner_locations'] as $loc){
+                                                            if($loc['id_location']==$legal['id_location']){
+                                                                $name_loc = $loc['name'];
+                                                            }
+                                                        }
+                                                    }
+                                                    @endphp
+                                                    <td>{{$name_loc}}</td>
+                                                    <td>
+                                                        <a href="{{ $legal['attachment']??'' }}">Download Legal Agreement</a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                            <tr>
+                                                <td colspan="10" style="text-align: center">Data Not Available</td>
+                                            </tr>
+                                        @endif
+                                        </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
     

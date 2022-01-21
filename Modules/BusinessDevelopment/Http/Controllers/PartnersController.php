@@ -138,7 +138,7 @@ class PartnersController extends Controller
      */
     public function detail($user_id)
     {
-        $result = MyHelper::post('partners/edit', ['id_partner' => $user_id]);
+        $result = MyHelper::post('partners/edit', ['id_partner' => $user_id]);  
         if($result['result']['partner']['status']=='Candidate' || $result['result']['partner']['status']=='Rejected'){
             $data = [
                 'title'          => 'Candidate Partner',
@@ -191,26 +191,29 @@ class PartnersController extends Controller
     public function dataConfirmation($data,$city){
         $send= [];
         if($data['partner_locations']){
-            foreach($city as $c){
-                if($c['id_city']==$data['partner_locations'][0]['id_city']){
-                    $city_name = $c['city_name'];
+            foreach($data['partner_locations'] as $key => $loc){
+                foreach($city as $c){
+                    if($c['id_city']==$loc['id_city']){
+                        $city_name = $c['city_name'];
+                    }
                 }
-            }
-            if($data['partner_locations'][0]['mall'] != null && $data['partner_locations'][0]['id_city'] != null){
-                $send['lokasi'] = strtoupper($data['partner_locations'][0]['mall']).' - '.strtoupper($city_name);
-            }
-            if($data['partner_locations'][0]['address'] != null){
-                $send['address'] = $data['partner_locations'][0]['address'];
-            }
-    
-            if($data['partner_locations'][0]['location_large'] != null){
-                $send['large'] = $data['partner_locations'][0]['location_large'];
-            }
-            if($data['partner_locations'][0]['partnership_fee'] != null){
-                $send['partnership_fee'] = $this->rupiah($data['partner_locations'][0]['total_payment']);
-                $send['dp'] = $this->rupiah($data['partner_locations'][0]['total_payment']*0.2);
-                $send['dp2'] = $this->rupiah($data['partner_locations'][0]['total_payment']*0.3);
-                $send['final'] =$this->rupiah($data['partner_locations'][0]['total_payment']*0.5);
+                if($loc['mall'] != null && $loc['id_city'] != null){
+                    $send['location'][$key]['lokasi'] = strtoupper($loc['mall']).' - '.strtoupper($city_name);
+                }
+                if($loc['address'] != null){
+                    $send['location'][$key]['address'] = $loc['address'];
+                }
+        
+                if($loc['location_large'] != null){
+                    $send['location'][$key]['large'] = $loc['location_large'];
+                }
+                if($loc['partnership_fee'] != null){
+                    $send['location'][$key]['partnership_fee'] = $this->rupiah($loc['total_payment']);
+                    $send['location'][$key]['dp'] = $this->rupiah($loc['total_payment']*0.2);
+                    $send['location'][$key]['dp2'] = $this->rupiah($loc['total_payment']*0.3);
+                    $send['location'][$key]['final'] =$this->rupiah($loc['total_payment']*0.5);
+                }
+                $send['location'][$key]['id_location'] = $loc['id_location'];
             }
         }
         if($data['gender']=='Man'){
@@ -753,6 +756,9 @@ class PartnersController extends Controller
         if (isset($request['ownership_status']) && $request['follow_up']=='Select Location'){
             $update_data_location['ownership_status'] = $request['ownership_status'];
         } 
+        if (isset($request['company_type']) && $request['follow_up']=='Select Location'){
+            $update_data_location['company_type'] = $request['company_type'];
+        } 
 
         if (isset($request['cooperation_scheme']) && $request['follow_up']=='Select Location'){
             $update_data_location['cooperation_scheme'] = $request['cooperation_scheme'];
@@ -894,8 +900,8 @@ class PartnersController extends Controller
         return $partner_step;
     }
 
-    public function generateSPK($id){
-        $query = MyHelper::post('partners/generate-spk', ['id_partner'=>$id]);
+    public function generateSPK($id_partner,$id_location){
+        $query = MyHelper::post('partners/generate-spk', ['id_partner'=>$id_partner,'id_location'=>$id_location]);
         if(isset($query['status']) && $query['status'] == 'success'){
             $data['result']=$query['result'];
             return Excel::download(new SPKPartner($data), 'SPK_OPENING_OUTLET_'.$data['result']['partner']['name'].'_'.strtotime(date('Y-m-d h:i:s')).'.xlsx');
@@ -907,6 +913,150 @@ class PartnersController extends Controller
     public function bundling($id){
         $bundling = MyHelper::post('partners/detail-bundling',["id_outlet_starter_bundling" => $id])['result']??[];
         return $bundling;
+
+    }
+
+    public function followUpNewLoc(Request $request){
+        $request->validate([
+            "import_file" => "mimes:pdf|max:2000",
+            "note" => "required",
+        ]);
+        $post_follow_up = [
+            "index" => $request["index"],
+            "id_partner" => $request["id_partner"],
+            "id_location" => $request["id_location"],
+            "follow_up" => $request["follow_up"],
+            "note" => $request["note"],  
+        ];
+        if (isset($request["import_file"])) {
+            $post_follow_up['attachment'] = MyHelper::encodeImage($request['import_file']);
+        }
+
+        if(isset($request["follow_up"]) && $request["follow_up"]=='Select Location'){
+            $update_data_location = [
+                "id_location" => $request["id_location"],
+                "id_outlet_starter_bundling" => $request["id_outlet_starter_bundling"],
+                "id_brand" => $request["id_brand"],
+                "renovation_cost" => preg_replace("/[^0-9]/", "", $request["renovation_cost"]),
+                "partnership_fee" => preg_replace("/[^0-9]/", "", $request["partnership_fee"]),
+                "income" => preg_replace("/[^0-9]/", "", $request["income"]),
+                "id_partner" => $request['id_partner'],
+                "total_box" => $request['total_box'],
+                "handover_date" => date('Y-m-d', strtotime($request['handover_date'])),
+            ];
+            $form_survey = [
+                "id_partner"  => $request["id_partner"],
+                "id_location"  => $request["id_location"],
+            ];
+            if ($request['start_date']!=null){
+                $update_data_location['start_date'] = date('Y-m-d', strtotime($request['start_date']));
+            } 
+            if ($request['end_date']!=null){
+                $update_data_location['end_date'] = date('Y-m-d', strtotime($request['end_date']));
+            }
+        }
+        
+        if (isset($request["termpayment"]) && $request["follow_up"]=='Select Location') {
+            $update_data_location['id_term_of_payment'] = $request['termpayment'];
+        }
+        if (isset($request['company_type']) && $request['follow_up']=='Select Location'){
+            $update_data_location['company_type'] = $request['company_type'];
+        } 
+
+        if (isset($request['ownership_status']) && $request['follow_up']=='Select Location'){
+            $update_data_location['ownership_status'] = $request['ownership_status'];
+        } 
+
+        if (isset($request['cooperation_scheme']) && $request['follow_up']=='Select Location'){
+            $update_data_location['cooperation_scheme'] = $request['cooperation_scheme'];
+        } 
+
+        if (isset($request["sharing_percent"]) && $request["follow_up"]=='Select Location') {
+            $update_data_location['sharing_percent'] = 1;
+        }elseif($request["follow_up"]=='Select Location'){
+            $update_data_location['sharing_percent'] = 0;
+        }
+
+        if (isset($request["sharing_value"]) && $request["follow_up"]=='Select Location') {
+            $update_data_location['sharing_value'] = $request['sharing_value'];
+        }
+
+        if(isset($request["follow_up"]) && $request["follow_up"]=='Calculation'){
+            $request->validate([
+                "total_payment" => "required",
+            ]);
+            $update_data_location = [
+                "id_location" => $request["id_location"],
+                "total_payment" => preg_replace("/[^0-9]/", "", $request["total_payment"]),
+            ];
+        }
+
+        if(isset($request["follow_up"]) && $request["follow_up"]=='Confirmation Letter'){
+            $request->validate([
+                "no_letter" => "required",
+                "location_letter" => "required",
+            ]);
+            $data_confir = [
+                "id_partner"  => $request["id_partner"],
+                "id_location" => $request["id_location"],
+                "no_letter" => $request["no_letter"],
+                "location" => $request["location_letter"],
+            ];
+            $update_data_location = [
+                "id_location" => $request["id_location"],
+                "notes" => $request["payment_note"],
+            ];
+        }
+
+        if(isset($request["follow_up"]) && $request["follow_up"]=='Payment'){
+            $update_data_location = [
+                "id_location" => $request["id_location"],
+                "trans_date" => date('Y-m-d'),
+                "due_date" => date('Y-m-d', strtotime($request['due_date'])),
+                "no_spk" => $request["no_spk"],
+                "date_spk" => date('Y-m-d', strtotime($request['date_spk'])),
+            ];
+            $post_follow_up['id_location'] = $request["id_location"];
+        }
+
+        $post['post_follow_up'] = $post_follow_up;
+
+        if(isset($form_survey) && !empty($form_survey)){
+            $post['form_survey'] = $form_survey;
+        }     
+
+        if (isset($update_data_location) && !empty($update_data_location)) {
+            if(isset($update_data_location) && !empty($update_data_location)){
+                $post_loc['update_data_location'] = $update_data_location;
+            }
+            if (isset($data_confir) && !empty($data_confir)) {
+                $post_loc['data_confir'] = $data_confir;
+            }
+            if(isset($update_data_location['status']) && !empty($update_data_location['status']) && $update_data_location['status']=='Active'){
+                $post_loc['partner'] = $request['id_partner'];
+                $post_loc['location'] = $request['id_location'];
+            }
+            $location_update =  MyHelper::post('partners/locations/update', $post_loc);
+            if (isset($location_update['status']) && $location_update['status'] == 'success') {
+                $follow_up = MyHelper::post('partners/new-follow-up', $post);
+                if(isset($follow_up['status']) && $follow_up['status'] == 'success'){
+                    return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
+                }else{
+                    return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
+                }
+            }else{
+                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
+            }
+        }else{
+            $follow_up = MyHelper::post('partners/new-follow-up', $post);
+            if(isset($follow_up['status']) && $follow_up['status'] == 'success'){
+                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
+            }else{
+                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
+            }
+        }
+        return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
+
 
     }
 

@@ -285,6 +285,36 @@
                                     </div>
                                 </div>      --}}
                                 <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Location Width <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Lebar dari lokasi yang diajukan" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <div class="input-group">
+                                            <input class="form-control" type="text" id="width" name="width" placeholder="Enter location width here" value="{{ old('width') ?  number_format(old('width')) : number_format($result['width'])}}" required/>
+                                            <span class="input-group-addon">m</span>
+                                        </div>
+                                    </div>
+                                </div>    
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Location Height <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Tinggi dari lokasi yang diajukan" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <div class="input-group">
+                                            <input class="form-control" type="text" id="height" name="height" placeholder="Enter location height here" value="{{ old('height') ?  number_format(old('height')) : number_format($result['height'])}}" required/>
+                                            <span class="input-group-addon">m</span>
+                                        </div>
+                                    </div>
+                                </div>    
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Location Length <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Panjang dari lokasi yang diajukan" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <div class="input-group">
+                                            <input class="form-control" type="text" id="length" name="length" placeholder="Enter location length here" value="{{ old('length') ?  number_format(old('length')) : number_format($result['length'])}}" required/>
+                                            <span class="input-group-addon">m</span>
+                                        </div>
+                                    </div>
+                                </div>    
+                                <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location Large <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Luas dari lokasi yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">
