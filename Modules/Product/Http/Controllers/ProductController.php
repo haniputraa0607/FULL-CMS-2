@@ -532,7 +532,12 @@ class ProductController extends Controller
             }
 
             if (isset($next)) {
-                return parent::redirect($save, 'Product has been created.', 'product/detail/'.$post['product_code'].'#photo');
+                $typemap = [
+                    'product' => 'product',
+                    'service' => 'product-service',
+                    'academy' => 'product-academy',
+                ];
+                return parent::redirect($save, 'Product has been created.', ($typemap[$request->product_type] ?? 'product') . '/detail/'.$post['product_code'].'#photo');
             }
             else {
                 return parent::redirect($save, 'Product has been created.');
