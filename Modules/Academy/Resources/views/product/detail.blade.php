@@ -426,6 +426,96 @@
 
 		});
 
+        var count_product_service_use = {{(empty($product_icount_use) ? 1: count($product_icount_use))}}
+        function addProductServiceUse() {
+            var html_select = '';
+            <?php
+            foreach($product_uses as $row){
+            ?>
+                html_select += "<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>";
+            <?php
+            }
+            ?>
+
+            var html = '<div id="div_product_use_'+count_product_service_use+'">'+
+            '<div class="form-group">'+
+            '<div class="col-md-1"></div>'+
+            '<div class="col-md-5">'+
+            '<select class="form-control select2" id="product_use_code_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][id_product_icount]" required placeholder="Select product use" style="width: 100%" onchange="changeUnit('+count_product_service_use+',this.value)">'+
+            '<option></option>'+html_select+
+            '</select>'+
+            '</div>'+
+            '<div class="col-md-2">'+
+            '<select class="form-control select2" id="product_use_unit_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][unit]" required placeholder="Select unit" style="width: 100%">'+
+            '<option></option>'+
+            '<option value="PCS">PCS</option>'+
+            '</select>'+
+            '</div>'+
+            '<div class="col-md-1">'+
+            '<div class="input-group">'+
+            '<input type="text" class="form-control price" id="product_use_qty_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][qty]" required>'+
+            '</div>'+
+            '</div>'+
+            '<div class="col-md-2" style="margin-left: 2%">'+
+            '<a class="btn btn-danger btn" onclick="deleteProductServiceUse('+count_product_service_use+')">&nbsp;<i class="fa fa-trash"></i></a>'+
+            '</div>'+
+            '</div>'+
+            '</div>';
+
+            $("#div_product_use").append(html);
+            $('.select2').select2({placeholder: "Search"});
+            count_product_service_use++;
+        }
+
+        function deleteProductServiceUse(number){
+            $('#div_product_use_'+number).empty();
+        }
+
+        function productServiceUseSubmit() {
+            var data = $('#form-product-service').serialize();
+
+            if (!$('form#form-product-service')[0].checkValidity()) {
+                toastr.warning("Incompleted Data. Please fill blank input.");
+            }else{
+                $('form#form-product-service').submit();
+            }
+        }
+
+        function changeUnit(no,value){
+            this_id = '#product_use_unit_'+no;
+            $(this_id).empty();
+            $('#product_use_unit_'+no).val('');
+            $('#product_use_qty_'+no).val('');
+            var html_select = '<option></option>';
+            var unit1 = '';
+            var unit2 = '';
+            var unit3 = '';
+            <?php 
+                foreach($product_uses as $row){ ?>
+                    if(value=={{ $row['id_product_icount'] }}){
+                        unit1 = '{{ $row['unit1'] }}'
+                        unit2 = '{{ $row['unit2'] }}'
+                        unit3 = '{{ $row['unit3'] }}'
+                        if(unit1!=''){
+                            html_select += "<option value='<?php echo $row['unit1']; ?>'><?php echo $row['unit1']; ?></option>";
+                        }
+                        if(unit2!=''){
+                            html_select += "<option value='<?php echo $row['unit2']; ?>'><?php echo $row['unit2']; ?></option>";
+                        }
+                        if(unit3!=''){
+                            html_select += "<option value='<?php echo $row['unit3']; ?>'><?php echo $row['unit3']; ?></option>";
+                        }
+                    }
+                <?php 
+                }
+            ?>
+            $(this_id).append(html_select);
+            $(".select2").select2({
+                placeholder: "Search"
+            });
+
+        }
+
     </script>
     <script type="text/javascript">
         $('#sample_1').dataTable({
@@ -680,6 +770,9 @@
                     <a href="#info" data-toggle="tab"> Info </a>
                 </li>
                 <li>
+                    <a href="#productuse" data-toggle="tab"> Product Icount </a>
+                </li>
+                <li>
                     <a href="#outletsetting" data-toggle="tab"> Outlet Setting</a>
                 </li>
                 <li>
@@ -694,6 +787,9 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="info">
                     @include('academy::product.info')
+                </div>
+                <div class="tab-pane" id="productuse">
+                    @include('product::product.product_use')
                 </div>
 				<div class="tab-pane" id="outletsetting">
                     @include('academy::product.product_detail')

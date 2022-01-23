@@ -108,6 +108,8 @@ class ProductAcademyController extends Controller
             if (isset($outletAll['status']) && $outletAll['status'] == 'success') {
                 $data['outlet_all'] = $outletAll['result'];
             }
+            $data['product_uses'] = MyHelper::post('product/be/icount/list', [])['result'] ?? [];
+            $data['product_icount_use'] = $data['product'][0]['product_icount_use'] ?? [];
 
             return view('academy::product.detail', $data);
         }

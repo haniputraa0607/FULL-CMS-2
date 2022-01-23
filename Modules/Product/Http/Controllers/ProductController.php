@@ -1708,10 +1708,10 @@ class ProductController extends Controller
         $post = $request->except('_token');
         $save = MyHelper::post('product/pivot/update', $post);
         if (isset($save['status']) && $save['status'] == "success") {
-            return redirect('product/detail/'.$post['product_code'].'#productuse')->with('success', ['Product use has been save.']);
+            return redirect(url()->previous().'#productuse')->with('success', ['Product use has been save.']);
         }
         else {
-            return redirect('product/detail/'.$post['product_code'].'#productuse')->witherrors(['Something went wrong. Please try again.']);
+            return redirect(url()->previous().'#productuse')->witherrors(['Something went wrong. Please try again.']);
         }
     }
     function submitCommission(Request $request){
