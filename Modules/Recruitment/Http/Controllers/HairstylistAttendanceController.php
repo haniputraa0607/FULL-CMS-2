@@ -114,62 +114,76 @@ class HairstylistAttendanceController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
-    public function create()
-    {
-        return view('recruitment::create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Show the specified resource.
      * @param int $id
      * @return Response
      */
-    public function show($id)
+    public function detail(Request $request, $id)
     {
-        return view('recruitment::show');
-    }
+        $data = [
+            'title'          => 'Hairstylist Schedule',
+            'sub_title'      => 'Attendance',
+            'menu_active'    => 'hairstylist',
+            'submenu_active' => 'hairstylist-schedule',
+            'child_active'   => 'hairstylist-attendance-list',
+            'filter_title'   => 'Filter Date',
+            'filter_date'    => true,
+        ];
+        $post = $request->all();
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        return view('recruitment::edit');
-    }
+        if(session('list_attendance_filter')){
+            $extra=session('list_attendance_filter');
+            $data['rule']=array_map('array_values', $extra['rule']);
+            $data['operator']=$extra['operator'];
+        } else{
+            $extra=[
+                'rule' => [
+                    9998 => [
+                        'subject' => 'transaction_date',
+                        'operator' => '>=',
+                        'parameter' => date('Y-m-01'),
+                        'hide' => '1',
+                    ],
+                    9999 => [
+                        'subject' => 'transaction_date',
+                        'operator' => '<=',
+                        'parameter' => date('Y-m-d'),
+                        'hide' => '1',
+                    ],
+                ],
+                'operator' => ''
+            ];
+            $data['rule']=array_map('array_values', $extra['rule']);
+            $data['operator']=$extra['operator'];
+            $data['hide_record_total']=1;
+        }
+        
+        $extra['rule'][] = [
+            'subject' => 'id_user_hair_stylist',
+            'operator' => '=',
+            'parameter' => $id,
+            'hide' => '1',
+        ];
 
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        if ($request->wantsJson()) {
+            $draw = $request->draw;
 
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        //
+            $list = MyHelper::post('recruitment/hairstylist/be/attendance/detail', $extra + $post);
+            if(isset($list['status']) && $list['status'] == 'success'){
+                $arr_result['draw'] = $draw;
+                $arr_result['recordsTotal'] = $list['result']['total'];
+                $arr_result['recordsFiltered'] = $list['result']['total'];
+                $arr_result['data'] = $list['result']['data'];
+            }else{
+                $arr_result['draw'] = $draw;
+                $arr_result['recordsTotal'] = 0;
+                $arr_result['recordsFiltered'] = 0;
+                $arr_result['data'] = array();
+            }
+
+            return response()->json($arr_result);
+        }
+
+        return view('recruitment::attendance.detail', $data);
     }
 }

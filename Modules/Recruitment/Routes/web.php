@@ -51,6 +51,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
 	    Route::get('/', ['middleware' => 'feature_control:353,354,355', 'uses' => 'HairstylistAttendanceController@index']);
 	    Route::post('/', ['middleware' => 'feature_control:353,354,355', 'uses' => 'HairstylistAttendanceController@filter']);
 	    Route::get('detail/{id}', ['middleware' => 'feature_control:354', 'uses' => 'HairstylistAttendanceController@detail']);
+	    Route::post('detail/{id}', ['middleware' => 'feature_control:354', 'uses' => 'HairstylistAttendanceController@filter']);
 	    Route::post('update/{id}', ['middleware' => 'feature_control:355', 'uses' => 'HairstylistAttendanceController@update']);
 	});
 
