@@ -1316,6 +1316,21 @@
                         <span class="title">Schedule List</span>
                     </a>
                 </li>
+                <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-attendance-list') ? 'active open' : '' }}">
+                    <a href="{{ url('recruitment/hair-stylist/attendance') }}" class="nav-link ">
+                        <span class="title">Attendance</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-attendance-pending') ? 'active open' : '' }}">
+                    <a href="{{ url('recruitment/hair-stylist/attendance-pending') }}" class="nav-link ">
+                        <span class="title">Attendance Pending</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-attendance-request') ? 'active open' : '' }}">
+                    <a href="{{ url('recruitment/hair-stylist/attendance-request') }}" class="nav-link ">
+                        <span class="title">Attendance Request</span>
+                    </a>
+                </li>
                 <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-schedule-autoresponse-approve-hairstylist-schedule') ? 'active open' : '' }}">
                     <a href="{{ url('autoresponse/hairstylist-schedule/approve-hairstylist-schedule') }}" class="nav-link nav-toggle">
                         <span class="title">[Response] Approve Hairstylist Schedule</span>
