@@ -15,7 +15,7 @@ class AcademyController extends Controller
         $data = [
             'title'          => 'Academy',
             'sub_title'      => 'Setting Installment',
-            'menu_active'    => 'academy',
+            'menu_active'    => 'academy-transaction',
             'submenu_active' => 'academy-installment'
         ];
 
@@ -38,7 +38,7 @@ class AcademyController extends Controller
         $data = [
             'title'          => 'Academy',
             'sub_title'      => 'Setting Banner',
-            'menu_active'    => 'academy',
+            'menu_active'    => 'academy-transaction',
             'submenu_active' => 'academy-banner'
         ];
 
