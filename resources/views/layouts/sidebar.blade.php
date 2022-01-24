@@ -1326,11 +1326,11 @@
                         <span class="title">Attendance Pending</span>
                     </a>
                 </li>
-                <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-attendance-request') ? 'active open' : '' }}">
+{{--                 <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-attendance-request') ? 'active open' : '' }}">
                     <a href="{{ url('recruitment/hair-stylist/attendance-request') }}" class="nav-link ">
                         <span class="title">Attendance Request</span>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-schedule-autoresponse-approve-hairstylist-schedule') ? 'active open' : '' }}">
                     <a href="{{ url('autoresponse/hairstylist-schedule/approve-hairstylist-schedule') }}" class="nav-link nav-toggle">
                         <span class="title">[Response] Approve Hairstylist Schedule</span>
