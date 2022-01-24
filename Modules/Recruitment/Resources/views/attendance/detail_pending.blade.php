@@ -10,6 +10,7 @@
 <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
 <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/datatables/datatables.min.js') }}" type="text/javascript"></script>
 <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') }}" type="text/javascript"></script>
+<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-confirmation/bootstrap-confirmation.min.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('page-script')
@@ -22,15 +23,6 @@
             operator:[],
             opsi:[]
         },
-        attendance_status:{
-            display:'Attendance Status',
-            operator:[],
-            opsi:[
-                ['ontime', 'On Time'],
-                ['late', 'Late'],
-                ['absent', 'Absent'],
-            ],
-        },
         shift:{
             display:'Shift',
             operator:[],
@@ -38,6 +30,14 @@
                 ['Morning', 'Morning'],
                 ['Middle', 'Middle'],
                 ['Evening', 'Evening'],
+            ],
+        },
+        type:{
+            display:'Type',
+            operator:[],
+            opsi:[
+                ['clock_in', 'Clock In'],
+                ['clock_out', 'Clock Out'],
             ],
         },
     };
@@ -87,41 +87,46 @@ $(document).ready(function() {
         },
         columns: [
             {
-                data: 'date',
-                render: data => new Date(data).toLocaleString('id-ID',{day:"2-digit",month:"short",year:"numeric"}),
+                data: 'datetime',
+                render: data => new Date(data).toLocaleString('id-ID',{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"}),
             },
             {data: 'shift'},
-            {data: 'clock_in'},
-            {data: 'clock_out'},
             {
-                data: 'status',
-                render: (data, type, full) => {
-                    let color = null;
-                    switch (data) {
-                        case 'Absent':
-                            color = 'danger';
-                            break;
-                        case 'On Time':
-                            color = 'success';
-                            break;
-                        case 'Late':
-                            color = 'warning';
-                            break;
-                    }
-
-                    return color ? `<div class="badge badge-${color}">${data}</div>` : '';
-                }
+                data: 'type',
+                render: data => data == 'clock_in' ? 'Clock In' : 'Clock Out',
             },
             {
-                data: 'id_user_hair_stylist',
+                data: 'type',
+                render: (data, type, full) => data == 'clock_in' ? full.clock_in_requirement : full.clock_out_requirement,
+            },
+            {
+                data: 'latitude',
+                render: (data, type, full) => full.latitude && full.longitude ? `<a href="https://maps.google.com/maps?q=${full.latitude},${full.longitude}" target="_blank">Show Location</a>` : '<em class="text-muted">No data</em>',
+            },
+            {
+                data: 'photo_url',
+                render: data => data ? `<a href="${data}" target="_blank">Show Photo</a>` : '<em class="text-muted">No data</em>',
+            },
+            {
+                data: 'notes',
+                render: data => data ? data : '-',
+            },
+            {
+                data: 'id_hairstylist_attendance_log',
                 orderable: false,
                 render: (data, type, full) => {
                     return `
-                        <button onclick="showDetail(this)" data-data='${JSON.stringify(full)}' class="btn btn-primary btn-sm">Detail</button>
+                        <form action="{{url()->current()}}/update" method="post">
+                        @csrf
+                        <input type="hidden" name="id_hairstylist_attendance_log" value="${data}"/>
+                        <button type="submit" name="status" value="Approved" class="btn btn-primary btn-sm btn-inline" data-toggle="confirmation"><i class="fa fa-check"></i></button>
+                        <button type="submit" name="status" value="Rejected" class="btn btn-danger btn-sm btn-inline" data-toggle="confirmation"><i class="fa fa-times"></i></button>
+                        </form>
                     `;
                 }
             },
-        ]
+        ],
+        drawCallback: item => $('[data-toggle=confirmation]').confirmation(),
     });
 });
 </script>
@@ -156,19 +161,21 @@ $(document).ready(function() {
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">List Hairstylist Attendance</span>
+                <span class="caption-subject sbold uppercase font-blue">List Pending Attendance</span>
             </div>
         </div>
         <div class="portlet-body form">
             <table class="table table-striped table-bordered table-hover" width="100%" id="main-table">
                 <thead>
                     <tr>
-                        <th>Date</th>
+                        <th>Datetime</th>
                         <th>Shift</th>
-                        <th>Clock In</th>
-                        <th>Clock Out</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                        <th>Type</th>
+                        <th>Requirement</th>
+                        <th>Location</th>
+                        <th>Photo</th>
+                        <th>Notes</th>
+                        <th width="70px">Action</th>
                     </tr>
                 </thead>
             </table>
