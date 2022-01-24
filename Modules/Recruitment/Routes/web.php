@@ -52,7 +52,15 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
 	    Route::post('/', ['middleware' => 'feature_control:353,354,355', 'uses' => 'HairstylistAttendanceController@filter']);
 	    Route::get('detail/{id}', ['middleware' => 'feature_control:354', 'uses' => 'HairstylistAttendanceController@detail']);
 	    Route::post('detail/{id}', ['middleware' => 'feature_control:354', 'uses' => 'HairstylistAttendanceController@filter']);
-	    Route::post('update/{id}', ['middleware' => 'feature_control:355', 'uses' => 'HairstylistAttendanceController@update']);
+	});
+
+	Route::group(['prefix' => 'attendance-pending'], function()
+	{
+	    Route::get('/', ['middleware' => 'feature_control:353,354,355', 'uses' => 'HairstylistAttendanceController@listPending']);
+	    Route::post('/', ['middleware' => 'feature_control:353,354,355', 'uses' => 'HairstylistAttendanceController@filterPending']);
+	    Route::get('detail/{id}', ['middleware' => 'feature_control:354', 'uses' => 'HairstylistAttendanceController@detailPending']);
+	    Route::post('detail/{id}', ['middleware' => 'feature_control:354', 'uses' => 'HairstylistAttendanceController@filterPending']);
+	    Route::post('detail/{id}/update', ['middleware' => 'feature_control:355', 'uses' => 'HairstylistAttendanceController@updatePending']);
 	});
 
 	Route::group(['prefix' => 'announcement'], function()
