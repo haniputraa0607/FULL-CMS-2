@@ -119,6 +119,9 @@
 		return input;
 	}
 	function rowBuilder(val){
+		if (!rules[val[0]] && !val[3]) {
+			return '';
+		}
 		if (val[3]) {
 			if (val[1] == '<=') {
 				$(['#', val[0], '_', 'loe'].join('')).val(val[2]);
@@ -179,12 +182,12 @@
 		return html;
 	}
 	function updateColumn(data){
-		if(data.length<1){
-			return add();
-		}
 		data.forEach(function(i){
 			add(i);
 		});
+		if($('#repeaterContainer').children().length < 1){
+			return add();
+		}
 		@if($filter_date ?? false)
 		if(data.length<3){
 			return add();

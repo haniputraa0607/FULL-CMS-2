@@ -775,18 +775,6 @@
 						<span class="arrow {{($menu_active == 'academy') ? 'open' : ''}}"></span>
 					</a>
 					<ul class="sub-menu">
-						@if(MyHelper::hasAccess([376], $grantedFeature))
-							<li class="nav-item {{($submenu_active == 'academy-banner') ? 'active open' : ''}}">
-								<a href="{{url('academy/setting/banner')}}" class="nav-link ">
-									<span class="title">Setting Banner</span>
-								</a>
-							</li>
-							<li class="nav-item {{($submenu_active == 'academy-installment') ? 'active open' : ''}}">
-								<a href="{{url('academy/setting/installment')}}" class="nav-link ">
-									<span class="title">Setting Installment</span>
-								</a>
-							</li>
-						@endif
 						@if(MyHelper::hasAccess([373,374,376,377], $grantedFeature))
 							<li class="nav-item {{($submenu_active == 'product-academy-list') ? 'active open' : ''}}">
 								<a href="{{url('product-academy')}}" class="nav-link ">
@@ -1326,6 +1314,21 @@
                 <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-schedule-list') ? 'active open' : '' }}">
                     <a href="{{ url('recruitment/hair-stylist/schedule') }}" class="nav-link ">
                         <span class="title">Schedule List</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-attendance-list') ? 'active open' : '' }}">
+                    <a href="{{ url('recruitment/hair-stylist/attendance') }}" class="nav-link ">
+                        <span class="title">Attendance</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-attendance-pending') ? 'active open' : '' }}">
+                    <a href="{{ url('recruitment/hair-stylist/attendance-pending') }}" class="nav-link ">
+                        <span class="title">Attendance Pending</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-attendance-request') ? 'active open' : '' }}">
+                    <a href="{{ url('recruitment/hair-stylist/attendance-request') }}" class="nav-link ">
+                        <span class="title">Attendance Request</span>
                     </a>
                 </li>
                 <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-schedule-autoresponse-approve-hairstylist-schedule') ? 'active open' : '' }}">
@@ -2256,6 +2259,18 @@
 						<span class="arrow {{($menu_active == 'academy-transaction') ? 'open' : ''}}"></span>
 					</a>
 					<ul class="sub-menu">
+						@if(MyHelper::hasAccess([376], $grantedFeature))
+							<li class="nav-item {{($submenu_active == 'academy-banner') ? 'active open' : ''}}">
+								<a href="{{url('academy/setting/banner')}}" class="nav-link ">
+									<span class="title">Setting Banner</span>
+								</a>
+							</li>
+							<li class="nav-item {{($submenu_active == 'academy-installment') ? 'active open' : ''}}">
+								<a href="{{url('academy/setting/installment')}}" class="nav-link ">
+									<span class="title">Setting Installment</span>
+								</a>
+							</li>
+						@endif
 						<li class="nav-item {{($submenu_active == 'academy-transaction-schedule') ? 'active open' : ''}}">
 							<a href="{{url('academy/transaction/user/schedule')}}" class="nav-link ">
 								<span class="title">Schedule</span>
