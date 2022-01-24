@@ -4,6 +4,24 @@
 			<div style="text-align: center"><h3>Approve Action</h3></div>
 			<hr style="border-top: 2px dashed;">
 			<div class="form-group">
+				<label class="col-md-4 control-label">
+					Photo<span class="required" aria-required="true"> <br>(300*300) </span>
+				</label>
+				<div class="col-md-8">
+					<div class="fileinput fileinput-new" data-provides="fileinput">
+						<div class="fileinput-preview fileinput-exists thumbnail" id="image" style="max-width: 200px; max-height: 200px;"></div>
+						<div>
+							<span class="btn default btn-file">
+							<span class="fileinput-new"> Select image </span>
+							<span class="fileinput-exists"> Change </span>
+							<input type="file" class="filePhoto" id="fieldphoto" accept="image/*" name="user_hair_stylist_photo">
+							</span>
+							<a href="javascript:;" id="removeImage" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="col-md-4 control-label">Nickname <span class="required" aria-required="true"> * </span>
 				</label>
 				<div class="col-md-6">
