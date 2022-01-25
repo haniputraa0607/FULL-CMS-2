@@ -243,7 +243,7 @@ $configs = session('configs');
 		<label class="col-md-2 control-label" style="text-align:left;">Date Start :</label>
 		<div class="col-md-4">
 			<div class="input-group">
-				<input type="text" class="form-control form-control-inline date-picker" name="date_start" id="date_start" data-date-format="dd-mm-yyyy" value="@if(isset($date_start)) {{$date_start}} @else {{date('d-m-Y')}} @endif" readonly>
+				<input type="text" class="form-control form-control-inline date-picker" name="date_start" id="date_start" data-date-format="dd-mm-yyyy" value="@if(isset($date_start)) {{$date_start}} @else {{'01-'.date('m-Y')}} @endif" readonly style="background-color: white">
 				<span class="input-group-btn">
 					<button class="btn default" type="button">
 						<i class="fa fa-calendar"></i>
@@ -255,7 +255,7 @@ $configs = session('configs');
 		<label class="col-md-2 control-label" style="text-align:left">Date End :</label>
 		<div class="col-md-4">
 			<div class="input-group">
-				<input type="text" class="form-control form-control-inline date-picker" name="date_end"  id="date_end"  data-date-format="dd-mm-yyyy" value="@if(isset($date_end)) {{$date_end}} @else {{date('d-m-Y')}} @endif" readonly>
+				<input type="text" class="form-control form-control-inline date-picker" name="date_end"  id="date_end"  data-date-format="dd-mm-yyyy" value="@if(isset($date_end)) {{$date_end}} @else {{date('d-m-Y')}} @endif" readonly style="background-color: white">
 				<span class="input-group-btn">
 					<button class="btn default" type="button">
 						<i class="fa fa-calendar"></i>

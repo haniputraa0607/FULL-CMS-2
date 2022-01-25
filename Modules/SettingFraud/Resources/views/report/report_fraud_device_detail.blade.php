@@ -54,7 +54,7 @@
             html += '<div class="col-md-8"></div>';
             html += '</div>';
             html += '<div class="margin-top-10">';
-            html += '<button type="submit" class="btn green">'+status_msg+'</button>';
+            html += '<button type="submit" class="btn green">Save</button>';
             html += '</div>';
             html += '</form>';
             html += '</div>';

@@ -95,7 +95,6 @@
         $search_param = array_filter($search_param['conditions']);
         ?>
         <div class="alert alert-block alert-success fade in">
-            <button type="button" class="close" data-dismiss="alert"></button>
             <h4 class="alert-heading">Displaying search result with parameter(s):</h4>
             @if(isset($search_param))
                 Start : {{date('d-m-Y', strtotime($start))}}<br>
@@ -140,10 +139,10 @@
                 <th width="5%"> Actions </th>
                 <th width="5%"> User Name </th>
                 <th width="5%"> User Phone </th>
-                <th width="5%"> Date </th>
-                <th width="8%"> Time </th>
+                <th width="5%"> Date Log Create </th>
+                <th width="8%"> Time Log Create</th>
                 <th width="5%"> Count Transaction </th>
-                <th width="30%"> Fraud Settings </th>
+                <th width="30%"> Fraud Settings &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
             </tr>
             </thead>
             <tbody>
@@ -155,8 +154,8 @@
                         </td>
                         <td>{{$value['name']}}</td>
                         <td>{{$value['phone']}}</td>
-                        <td>{{date("d F Y", strtotime($value['created_at']))}}</td>
-                        <td>{{date("H:i", strtotime($value['created_at']))}}</td>
+                        <td>{{date("d F Y", strtotime($value['log_date']))}}</td>
+                        <td>{{date("H:i", strtotime($value['log_date']))}}</td>
                         <td>{{$value['count_transaction_week']}}</td>
                         <td>
                             <div class="form-group row">
