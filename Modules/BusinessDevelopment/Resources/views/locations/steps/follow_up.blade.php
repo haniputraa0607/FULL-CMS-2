@@ -58,57 +58,7 @@
         }();
         jQuery(document).ready(function() {
             SweetAlertNextSteps.init();
-            $("input[data-type='currency']").on({
-                keyup: function() {
-                  formatCurrency($(this));
-                },
-                blur: function() { 
-                  formatCurrency($(this), "blur");
-                }
-            });
-            function formatNumber(n) {
-              // format number 1000000 to 1,234,567
-              return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-            }
-            function formatCurrency(input, blur) {
-              // appends $ to value, validates decimal side
-              // and puts cursor back in right position.
-              // get input value
-              var input_val = input.val();
-              // don't validate empty input
-              if (input_val === "") { return; }
-              // original length
-              var original_len = input_val.length;
-              // initial caret position 
-              var caret_pos = input.prop("selectionStart");
-              // check for decimal
-              if (input_val.indexOf(".") >= 0) {
-                // get position of first decimal
-                // this prevents multiple decimals from
-                // being entered
-                var decimal_pos = input_val.indexOf(".");
-                // split number by decimal point
-                var left_side = input_val.substring(0, decimal_pos);
-                // add commas to left side of number
-                left_side = formatNumber(left_side);
-                // join number by .
-                input_val = left_side ;
-              } else {
-                // no decimal entered
-                // add commas to number
-                // remove all non-digits
-                input_val = formatNumber(input_val);
-                input_val = input_val;
-                // final formatting
-                
-              }
-              // send updated string to input
-              input.val(input_val);
-              // put caret back in the right position
-              var updated_len = input_val.length;
-              caret_pos = updated_len - original_len + caret_pos;
-              input[0].setSelectionRange(caret_pos, caret_pos);
-            }
+        
         });
     </script>
 <div style="white-space: nowrap;">
@@ -289,7 +239,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Lebar dari lokasi yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input class="form-control" type="text" id="width" name="width" placeholder="Enter location width here" value="{{ old('width') ?  number_format(old('width')) : number_format($result['width'])}}" required/>
+                                            <input class="form-control numberonly" type="text" id="width" name="width" placeholder="Enter location width here" value="{{ old('width') ?  number_format(old('width')) : number_format($result['width'])}}" required/>
                                             <span class="input-group-addon">m</span>
                                         </div>
                                     </div>
@@ -299,7 +249,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tinggi dari lokasi yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input class="form-control" type="text" id="height" name="height" placeholder="Enter location height here" value="{{ old('height') ?  number_format(old('height')) : number_format($result['height'])}}" required/>
+                                            <input class="form-control numberonly" type="text" id="height" name="height" placeholder="Enter location height here" value="{{ old('height') ?  number_format(old('height')) : number_format($result['height'])}}" required/>
                                             <span class="input-group-addon">m</span>
                                         </div>
                                     </div>
@@ -309,7 +259,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Panjang dari lokasi yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input class="form-control" type="text" id="length" name="length" placeholder="Enter location length here" value="{{ old('length') ?  number_format(old('length')) : number_format($result['length'])}}" required/>
+                                            <input class="form-control numberonly" type="text" id="length" name="length" placeholder="Enter location length here" value="{{ old('length') ?  number_format(old('length')) : number_format($result['length'])}}" required/>
                                             <span class="input-group-addon">m</span>
                                         </div>
                                     </div>
@@ -319,7 +269,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Luas dari lokasi yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input class="form-control" type="text" id="location_large" name="location_large" placeholder="Enter location large here" value="{{ old('location_large') ?  number_format(old('location_large')) : number_format($result['location_large'])}}" required/>
+                                            <input class="form-control numberonly" type="text" id="location_large" name="location_large" placeholder="Enter location large here" value="{{ old('location_large') ?  number_format(old('location_large')) : number_format($result['location_large'])}}" required/>
                                             <span class="input-group-addon">m<sup>2</sup></span>
                                         </div>
                                     </div>
@@ -330,7 +280,7 @@
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="rental_price" name="rental_price" placeholder="Enter rental price here" value="{{ old('rental_price') ?  number_format(old('rental_price')) : number_format($result['rental_price'])}}" required/>
+                                            <input class="form-control numberonly" data-type="currency" type="text" id="rental_price" name="rental_price" placeholder="Enter rental price here" value="{{ old('rental_price') ?  number_format(old('rental_price')) : number_format($result['rental_price'])}}" required/>
                                         </div>
                                     </div>
                                 </div>    
@@ -340,7 +290,7 @@
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="service_charge" name="service_charge" placeholder="Enter service charge here" value="{{ old('service_charge') ?  number_format(old('service_charge')) : number_format($result['service_charge'])}}" required/>
+                                            <input class="form-control numberonly" data-type="currency" type="text" id="service_charge" name="service_charge" placeholder="Enter service charge here" value="{{ old('service_charge') ?  number_format(old('service_charge')) : number_format($result['service_charge'])}}" required/>
                                         </div>
                                     </div>
                                 </div>    
@@ -350,40 +300,10 @@
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="promotion_levy" name="promotion_levy" placeholder="Enter promotion levy here"  value="{{ old('promotion_levy') ?  number_format(old('promotion_levy')) : number_format($result['promotion_levy'])}}" required/>
+                                            <input class="form-control numberonly" data-type="currency" type="text" id="promotion_levy" name="promotion_levy" placeholder="Enter promotion levy here"  value="{{ old('promotion_levy') ?  number_format(old('promotion_levy')) : number_format($result['promotion_levy'])}}" required/>
                                         </div>
                                     </div>
                                 </div>    
-                                {{--  <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Contractor Price <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Biaya kontraktor untuk membangun lokasi" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="renovation_cost" name="renovation_cost" placeholder="Enter renovation cost here" value="{{ old('renovation_cost') }}" required/>
-                                        </div>
-                                    </div>
-                                </div>      --}}
-                                {{--  <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Partnership Fee <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Biaya kerja sama yang akan dibayarkan partner ke IXOBOX" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="partnership_fee" name="partnership_fee" placeholder="Enter partnership fee here" value="{{ old('partnership_fee') }}" required/>
-                                        </div>
-                                    </div>
-                                </div>      --}}
-                                {{--  <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Income <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Perkiraan permasukan per bulan" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="income" name="income" placeholder="Enter income here" value="{{ old('income') }}" required/>
-                                        </div>
-                                    </div>
-                                </div>   --}}
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Start Date
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai menjadi partner atau tanggal kerja sama dimulai, bisa dikosongkan dan diisi saat proses approve partner" data-container="body"></i></label>

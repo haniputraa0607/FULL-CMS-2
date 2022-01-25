@@ -12,7 +12,7 @@
         }
     }
 ?>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
 <script type="text/javascript">
 
     function myFunction() {
@@ -171,7 +171,7 @@
                                     <label for="example-search-input" class="control-label col-md-4">Select Outlet Starter <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Pilih paket persiapan yang akan digunakan untuk persiapan outlet" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <select class="form-control select2" name="id_outlet_starter_bundling" id="id_outlet_starter_bundling" {{ $select ? 'disabled' : ''}} required">
+                                        <select class="form-control select2" name="id_outlet_starter_bundling" id="id_outlet_starter_bundling" {{ $select ? 'disabled' : ''}} required>
                                             <option value="" selected disabled>Select Starter</option>
                                             @foreach($list_starters as $list_starter)
                                                 <option value="{{$list_starter['id_outlet_starter_bundling']}}" @if(old('id_outlet_starter_bundling')) @if(old('id_outlet_starter_bundling') == $list_starter['id_outlet_starter_bundling']) selected @endif @else @if ($result['partner_locations']) @if($result['partner_locations'][0]['id_outlet_starter_bundling'] == $list_starter['id_outlet_starter_bundling']) selected @endif @endif @endif>{{$list_starter['name']}}</option>

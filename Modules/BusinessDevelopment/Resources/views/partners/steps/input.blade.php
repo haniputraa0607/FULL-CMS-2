@@ -198,52 +198,6 @@
                                         <textarea name="npwp_address" id="npwp_address" class="form-control" placeholder="Enter npwp address here" required @if ($input==true) readonly @endif>{{ old('npwp_address') ?? $result['npwp_address'] }}</textarea>
                                     </div>
                                 </div>   
-                                {{--  <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Term of Payment <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Pilih metode pembayaran partner" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <select class="form-control select2" name="termpayment" id="termpayment" required {{ $input ? 'disabled' : ''}}>
-                                            <option value="" selected disabled>Select Brand</option>
-                                            @foreach($terms as $term)
-                                                <option value="{{$term['id_term_of_payment']}}" @if(old('termpayment')) @if(old('termpayment') == $term['id_term_of_payment']) selected @endif @else @if($result['id_term_payment'] == $term['id_term_of_payment']) selected @endif @endif>{{$term['name']}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>       --}}
-                                {{--  <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Ownership Status <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Stastus kepemilikan kontrak kerja sama dengan IXOBOX" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <select name="ownership_status" class="form-control input-sm select2" placeholder="Ownership Status" required {{ $input ? 'disabled' : ''}}>
-                                            <option value="" selected disabled>Select Ownership Status</option>
-                                            <option value="Central" @if(old('ownership_status')) @if(old('ownership_status')=='Central') selected @endif @else @if(isset($result['ownership_status'])) @if($result['ownership_status'] == 'Central') selected @endif @endif @endif>Central</option>
-                                            <option value="Partner" @if(old('ownership_status')) @if(old('ownership_status')=='Partner') selected @endif @else @if(isset($result['ownership_status'])) @if($result['ownership_status'] == 'Partner') selected @endif @endif @endif>Partner</option>
-                                        </select>
-                                    </div>
-                                </div>  --}}
-                                {{--  <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Coopertaion Scheme<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Skema Pembagian hasil partner dengan IXOBOX" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <select name="cooperation_scheme" id="cooperation_scheme" onchange="myFunction()" class="form-control input-sm select2" placeholder="Coopertaion Scheme" required {{ $input ? 'disabled' : ''}}>
-                                            <option value="" selected disabled>Select Cooperation Scheme</option>
-                                            <option value="Profit Sharing" @if(old('cooperation_scheme')) @if(old('cooperation_scheme')=='Profit Sharing') selected @endif @else @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Profit Sharing') selected @endif @endif @endif>Profit Sharing</option>
-                                            <option value="Management Fee" @if(old('cooperation_scheme')) @if(old('cooperation_scheme')=='Management Fee') selected @endif @else @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Management Fee') selected @endif @endif @endif>Management Fee</option>
-                                        </select>
-                                    </div>
-                                </div>  --}}
-                                {{--  <div id="id_percent">
-                                    <div class="form-group">
-                                                <label for="example-search-input" class="control-label col-md-4">Percent</label>
-                                                <div class="col-md-5">
-                                                    <input type="checkbox" class="make-switch brand_visibility" onchange="myFunctionPercent()"  data-size="small" data-on-color="info" data-on-text="Percent" data-off-color="default" name='sharing_percent' data-off-text="Nominal" {{ old('sharing_percent', $result['sharing_percent']) ? 'checked' : ''}} {{ $input ? 'disabled' : ''}}>
-                                                </div>
-                                            </div>
-                                </div>
-                                <div id="id_commission">
-                                </div>
-                                <div id="id_commissions">
-                                </div>  --}}
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Start Date <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai menjadi partner atau tanggal kerja sama dimulai" data-container="body"></i></label>
