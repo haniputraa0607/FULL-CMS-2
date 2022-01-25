@@ -178,6 +178,9 @@
         }
         $(document).ready(function() {
             onlyNumber("#location_large");
+            onlyNumber("#width");
+            onlyNumber("#height");
+            onlyNumber("#length");
             $('#back-follow-up').hide();
             $('#input-follow-up').click(function(){
                 $('#back-follow-up').show();
