@@ -41,6 +41,8 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/jquery-repeater/jquery.repeater.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/form-repeater.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/scripts/jquery.inputmask.min.js') }}" type="text/javascript"></script>
+
     <script>
         var SweetAlert = function() {
             return {
@@ -168,19 +170,17 @@
             $('#formSurvey').modal('show');
             $("#noteModal").val(note);
         }
-        function onlyNumber(id){
-            $(id).on("keypress keyup blur",function (event) {    
-                $(this).val($(this).val().replace(/[^\d].+/, ""));
-                 if ((event.which < 48 || event.which > 57)) {
-                     event.preventDefault();
-                 }
-            });
-        }
         $(document).ready(function() {
-            onlyNumber("#location_large");
-            onlyNumber("#width");
-            onlyNumber("#height");
-            onlyNumber("#length");
+            $('.numberonly').inputmask("remove");
+            $('.numberonly').inputmask({
+                removeMaskOnSubmit: true, 
+				placeholder: "",
+				alias: "currency", 
+				digits: 0, 
+				rightAlign: false,
+				max: '99999999999999',
+                prefix : "",
+            });
             $('#back-follow-up').hide();
             $('#input-follow-up').click(function(){
                 $('#back-follow-up').show();
