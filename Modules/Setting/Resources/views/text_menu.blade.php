@@ -358,7 +358,7 @@ $configs     		= session('configs');
 																	<p style="margin-top:2%;margin-bottom:1%;"> Text Menu <span class="required" aria-required="true"> * </span></p>
 																</div>
 																<div class="col-md-8">
-																	<input class="form-control" type="text" name="{{$key}}_text_menu" value="{{$value['text_menu']}}" maxlength="10" required>
+																	<input class="form-control" type="text" name="{{$key}}_text_menu" value="{{$value['text_menu']}}" maxlength="15" required>
 																</div>
 															</div>
 															<div class="row" style="margin-bottom: 3%;">
