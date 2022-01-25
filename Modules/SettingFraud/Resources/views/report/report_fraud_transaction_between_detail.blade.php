@@ -73,16 +73,17 @@
             var split = data.split('|');
             var name = split[1];
             var phone = split[0];
-            var id_fraud_log = split[2];
+            var id_user = split[2];
+            var trx_date = split[3];
 
             $( ".modal" ).remove();
             var status_msg = '';
 
             if(state == 1){
-                status_msg = 'Unsuspend';
+                status_msg = 'Suspend';
                 var status_input = 1;
             }else{
-                status_msg = 'Suspend';
+                status_msg = 'Unsuspend';
                 var status_input = 0;
             }
 
@@ -101,8 +102,9 @@
             html += '<div class="alert alert-danger">';
             html += 'Apakah Anda yakin untuk <strong>'+status_msg+' '+name+' ('+phone+')</strong> ? Jika iya, silahkan masukkan pin dan tekan tombol <strong>Save</strong>.</p>';
             html += '</div>';
-            html += '<input type="hidden" name="id_fraud_log" value="'+id_fraud_log+'">';
+            html += '<input type="hidden" name="id_user" value="'+id_user+'">';
             html += '<input type="hidden" name="is_suspended" value="'+status_input+'">';
+            html += '<input type="hidden" name="transaction_date" value="'+trx_date+'">';
             html += '<div class="form-group row">';
             html += '<label class="control-label col-md-12">Your PIN</label>';
             html += '<div class="col-md-6">';
@@ -111,7 +113,7 @@
             html += '<div class="col-md-8"></div>';
             html += '</div>';
             html += '<div class="margin-top-10">';
-            html += '<button type="submit" class="btn green">'+status_msg+'</button>';
+            html += '<button type="submit" class="btn green">Save</button>';
             html += '</div>';
             html += '</form>';
             html += '</div>';
@@ -149,10 +151,10 @@
     @include('layouts.notifications')
     <h1 class="page-title">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-7">
                 Detail Report Fraud Transaction In Between
             </div>
-            <div class="col-md-6" style="text-align: right">
+            <div class="col-md-5" style="text-align: right">
                 <a href="{{url('fraud-detection/report/transaction-between')}}" class="btn green" style="margin-bottom: 2%;"><i class="fa fa-arrow-left"></i> Back</a>
             </div>
         </div>
@@ -162,7 +164,7 @@
             <label class="col-md-3 control-label" style="text-align: left">Suspend/Unsuspend <i class="fa fa-question-circle tooltips" data-original-title="untuk mengatur status fraud menjadi status suspend user" data-container="body"></i></label>
 
             <div class="col-md-8" style="margin-left: -5%;">
-                <input type="checkbox" id="switch-change-device_id" name="fraud_settings_status" @if(isset($result['detail_user']) && $result['detail_user']['is_suspended'] == 1) checked @endif data-id="@if(isset($result['detail_user']) ){{ $result['detail_user']['phone'] }}|{{ $result['detail_user']['name'] }}}}@endif" class="make-switch switch-change" data-size="small" data-on-text="Suspend" data-off-text="Unsuspend">
+                <input type="checkbox" id="switch-change-device_id" name="fraud_settings_status" @if(isset($result['detail_user']) && $result['detail_user']['is_suspended'] == 1) checked @endif data-id="@if(isset($result['detail_user']) ){{ $result['detail_user']['phone'] }}|{{ $result['detail_user']['name'] }}|{{$id_user}}|{{$result['detail_log'][0]['transaction_date']}}@endif" class="make-switch switch-change" data-size="small" data-on-text="Suspend" data-off-text="Unsuspend">
                 @if(isset($result['detail_user'])  && $result['detail_user']['is_suspended'] == 1)
                     <strong class="font-red"> &nbsp;(Now, status user is Inactive)</strong>
                 @else
@@ -228,22 +230,17 @@
                         $fromTime = strtotime($data[$i+1]['transaction_date']);
                         $differentTime = abs($toTime - $fromTime) / 60;
 
-                        if(strtolower($data[$i]['trasaction_type']) == 'offline'){
-                            $url = url("transaction/detail/").'/'.$data[$i]['id_transaction']."/offline";
-                            $a = '<a target="_blank" href="'.$url.'">'.$data[$i]['transaction_receipt_number'].'</a>';
-                        }else{
-                            $url = url("transaction/detail/").'/'.$data[$i]['id_transaction']."/pickup order";
-                            $a = '<a target="_blank" href="'.$url.'">'.$data[$i]['transaction_receipt_number'].'</a>';
-                        }
+                        $url = url("transaction/".$data[$i]['transaction_from']."/detail").'/'.$data[$i]['id_transaction'];
+                        $a = '<a target="_blank" href="'.$url.'">'.$data[$i]['transaction_receipt_number'].'</a>';
 
                         $html .= '<li class="line-left">'.$a.'<br><b>Time : </b>'.date('H:i', strtotime($data[$i]['transaction_date'])).'</li>';
                         $html .= '<li class="line-right">';
                         $html .= '<div class="lr-content" style="color: red">';
-                        $html .= 'Different time : <b style="color: black">'.$differentTime.' minute</b>';
+                        $html .= 'Different time : <b style="color: black">'.number_format($differentTime, 2, ',', '.').' minute</b>';
                         $html .= '</div>';
                         $html .= '</li>';
                     }
-                        $url = url("transaction/detail/").'/'.$data[$count-1]['id_transaction']."/offline";
+                        $url = url("transaction/".$data[$count-1]['transaction_from']."/detail").'/'.$data[$count-1]['id_transaction'];
                         $a = '<a target="_blank" href="'.$url.'">'.$data[$count-1]['transaction_receipt_number'].'</a>';
                         $html .= '<li class="line-left">'.$a.'<br><b>Time : </b>'.date('H:i', strtotime($data[$count-1]['transaction_date'])).'</li>';
                     echo $html;
