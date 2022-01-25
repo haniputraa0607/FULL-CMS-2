@@ -49,10 +49,10 @@
         <div class="portlet-title">
             <div class="caption">Filter</div>
             <div class="tools">
-                <a href="javascript:;" class="@if(Session::has('filter-fraud-log-trx-minute'))  expand @else collapse @endif"> </a>
+                <a href="javascript:;" class="@if(Session::has('filter-fraud-log-trx-between'))  expand @else collapse @endif"> </a>
             </div>
         </div>
-        <div class="portlet-body" @if(Session::has('filter-fraud-log-trx-minute')) style="display: none;" @endif>
+        <div class="portlet-body" @if(Session::has('filter-fraud-log-trx-between')) style="display: none;" @endif>
             <form role="form" class="form-horizontal" action="{{url()->current()}}?filter=1" method="POST">
                 {{ csrf_field() }}
                 @include('filter-report-log-fraud')
@@ -60,15 +60,14 @@
         </div>
     </div>
 
-    @if(Session::has('filter-fraud-log-trx-minute'))
+    @if(Session::has('filter-fraud-log-trx-between'))
         <?php
-        $search_param = Session::get('filter-fraud-log-trx-minute');
+        $search_param = Session::get('filter-fraud-log-trx-between');
         $start = $search_param['date_start'];
         $end = $search_param['date_end'];
         $search_param = array_filter($search_param['conditions']);
         ?>
         <div class="alert alert-block alert-success fade in">
-            <button type="button" class="close" data-dismiss="alert"></button>
             <h4 class="alert-heading">Displaying search result with parameter(s):</h4>
             @if(isset($search_param))
                 Start : {{date('d-m-Y', strtotime($start))}}<br>
@@ -95,7 +94,7 @@
             @endif
             <br>
             <p>
-                <a href="{{ url('fraud-detection/filter/reset') }}/filter-fraud-log-trx-minute" class="btn yellow">Reset</a>
+                <a href="{{ url('fraud-detection/filter/reset') }}/filter-fraud-log-trx-between" class="btn yellow">Reset</a>
             </p>
         </div>
     @endif
