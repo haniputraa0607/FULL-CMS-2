@@ -178,7 +178,17 @@
 				alias: "currency", 
 				digits: 0, 
 				rightAlign: false,
-				max: '99999999999999',
+				max: '999999999999999',
+                prefix : "",
+            });
+            $('.meter').inputmask("remove");
+            $('.meter').inputmask({
+                removeMaskOnSubmit: true, 
+				placeholder: "",
+				alias: "currency", 
+				digits: 0, 
+				rightAlign: false,
+				max: '9999',
                 prefix : "",
             });
             $('#back-follow-up').hide();
