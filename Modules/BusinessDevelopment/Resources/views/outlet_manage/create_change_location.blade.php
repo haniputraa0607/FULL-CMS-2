@@ -1,14 +1,7 @@
 <div class="portlet-body form">
-    <form class="form-horizontal" role="form" action="{{url('businessdev/partners/outlet/close/createActive')}}" method="post" enctype="multipart/form-data">
+    <form class="form-horizontal" role="form" action="{{url('businessdev/partners/outlet/change_location/create')}}" method="post" enctype="multipart/form-data">
         <div class="form-body">
             <input class="form-control" type="hidden" id="id_partner" name="id_partner" value="{{$id_partner}}"/>
-            <div class="form-group">
-                <label for="example-search-input" class="control-label col-md-4">Title<span class="required" aria-required="true">*</span>
-                    <i class="fa fa-question-circle tooltips" data-original-title="Title" data-container="body"></i></label>
-                <div class="col-md-5">
-                    <input required class="form-control" type="text" id="input-name" name="title" placeholder="Enter title close temporary here"/>
-                </div>
-            </div>
             <div class="form-group">
                 <label for="example-search-input" class="control-label col-md-4">Outlet<span class="required" aria-required="true">*</span>
                     <i class="fa fa-question-circle tooltips" data-original-title="Pilih outlet yang akan berpindah lokasi. Outlet akan ditutup dan akan dibuat outlet baru" data-container="body"></i></label>
@@ -16,7 +9,7 @@
                       <select name="id_outlet" id="id_outlet" class="form-control input-sm select2" placeholder="Search Outlet" data-placeholder="Pilih Outlet">
                                     <option value="">Select Outlet</option>
                                     @if(isset($listoutlet))
-                                            @foreach($listactive as $row)
+                                            @foreach($listoutlet as $row)
                                                     <option value="{{$row['id_outlet']}}">{{$row['outlet_name']}} ({{$row['outlet_code']}}) </option>
                                             @endforeach
                                     @endif
@@ -24,8 +17,8 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-search-input" class="control-label col-md-4">Start Date<span class="required" aria-required="true">*</span>
-                    <i class="fa fa-question-circle tooltips" data-original-title="Tanggal" data-container="body"></i></label>
+                <label for="example-search-input" class="control-label col-md-4">Outlet Close Date<span class="required" aria-required="true">*</span>
+                    <i class="fa fa-question-circle tooltips" data-original-title="Tanggal outlet tutup. Outlet akan tutup ketika proses perubahan lokasi sudah selesai." data-container="body"></i></label>
                 <div class="col-md-5">
                     <div class="input-group">
                         <input type="text" id="date"  class="datepicker form-control" name="date" >
@@ -35,13 +28,6 @@
                             </button>
                         </span>
                     </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="example-search-input" class="control-label col-md-4">Note
-                    <i class="fa fa-question-circle tooltips" data-original-title="Note" data-container="body"></i></label>
-                <div class="col-md-5">
-                    <input class="form-control" type="text" id="input-phone" name="note" placeholder="Enter note"/>
                 </div>
             </div>
         <div class="form-actions">

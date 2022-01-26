@@ -377,6 +377,13 @@
                                     <input disabled class="form-control" type="text" id="input-phone" name="phone" value="{{$result['progres']}}" placeholder="Enter progres"/>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Status <span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Masukkan address" data-container="body"></i></label>
+                                <div class="col-md-5">
+                                    <input disabled class="form-control" type="text" id="input-phone" name="phone" value="{{$result['status']}}" placeholder="Enter progres"/>
+                                </div>
+                            </div>
                            @if($result['status']=="Success")
                            <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Link Download SPK Pembukaan Outlet<span class="required" aria-required="true">*</span>
@@ -487,7 +494,7 @@
                                         <li class="@if($result['progres']=='Fit Out') active @endif" @if($result['progres']==null || $result['progres']=='Desain Location' || $result['progres']=='Survey Location'|| $result['progres']=='Contract') style="opacity: 0.4 !important" @endif>
                                             <a @if($result['progres']==null || $result['progres']=='Desain Location' || $result['progres']=='Survey Location'|| $result['progres']=='Contract') @else data-toggle="tab" @endif href="#fitout"><i class="fa fa-cog"></i> Fit Out </a>
                                         </li>
-                                        <li class="@if($result['progres']=='Handover') active @endif" @if($result['progres']==null || $result['progres']=='Desain Location' || $result['progres']=='Survey Location'|| $result['progres']=='Contract'||$result['progres']=='Fit Out') style="opacity: 0.4 !important" @endif>
+                                        <li class="@if($result['progres']=='Handover' ||  $result['progres']=='Success') active @endif" @if($result['progres']==null || $result['progres']=='Desain Location' || $result['progres']=='Survey Location'|| $result['progres']=='Contract'||$result['progres']=='Fit Out') style="opacity: 0.4 !important" @endif>
                                             <a @if($result['progres']==null || $result['progres']=='Desain Location' || $result['progres']=='Survey Location'|| $result['progres']=='Contract'||$result['progres']=='Fit Out') @else data-toggle="tab" @endif href="#handover"><i class="fa fa-cog"></i> Handover </a>
                                         </li>
                                         
@@ -507,7 +514,7 @@
                                         <div class="tab-pane @if($result['progres']=='Fit Out') active @endif" id="fitout">
                                             @include('project::project.steps.fitout') 
                                         </div>
-                                        <div class="tab-pane @if($result['progres']=='Handover') active @endif" id="handover">
+                                        <div class="tab-pane @if($result['progres']=='Handover' || $result['progres']=='Success') active @endif" id="handover">
                                             @include('project::project.steps.handover') 
                                         </div>
                                     </div>

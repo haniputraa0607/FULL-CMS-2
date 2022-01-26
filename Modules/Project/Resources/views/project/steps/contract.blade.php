@@ -402,6 +402,7 @@
                             <table class="table table-striped table-bordered table-hover" id="kt_datatable">
                                 <thead>
                                 <tr>
+                                    <th class="text-nowrap text-center">Name</th>
                                     <th class="text-nowrap text-center">Detail ID</th>
                                     <th class="text-nowrap text-center">ID Purchase</th>
                                     <th class="text-nowrap text-center">Item ID</th>
@@ -416,14 +417,15 @@
                                     @if(!empty($result['purchase_spk']['value_detail']))
                                         @foreach(json_decode($result['purchase_spk']['value_detail'],true) as $step)
                                                 <tr>
-                                                <td> {{$step['PurchaseRequestDetailID']}}</td>
-                                                <td> {{$step['PurchaseRequestID']}}</td>
-                                                <td> {{$step['ItemID']}}</td>
-                                                <td> {{$step['Qty']}}</td>
-                                                <td> {{$step['Unit']}}</td>
-                                                <td> {{$step['BudgetCode']}}</td>
-                                                <td> {{$step['Ratio']}}</td>
-                                                <td> {{$step['UnitRatio']}}</td>
+                                                <td> {{$step['Name']??''}}</td>
+                                                <td> {{$step['PurchaseRequestDetailID']??''}}</td>
+                                                <td> {{$step['PurchaseRequestID']??''}}</td>
+                                                <td> {{$step['ItemID']??''}}</td>
+                                                <td> {{$step['Qty']??''}}</td>
+                                                <td> {{$step['Unit']??''}}</td>
+                                                <td> {{$step['BudgetCode']??''}}</td>
+                                                <td> {{$step['Ratio']??''}}</td>
+                                                <td> {{$step['UnitRatio']??''}}</td>
                                             </tr>
                                         @endforeach
                                     @else
