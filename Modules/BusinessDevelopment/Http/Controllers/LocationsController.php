@@ -431,10 +431,13 @@ class LocationsController extends Controller
         
         if($request["follow_up"]=='Approved'){
             $update_data_location['step_loc'] = 'Approved';
+            $tab = '#approved';
         }elseif($request["follow_up"]=='Survey Location'){
             $update_data_location['step_loc'] = 'Survey Location';
+            $tab = '#survey';
         }else{
             $update_data_location['step_loc'] = 'On Follow Up';
+            $tab = '#follow';
         }
 
         if (isset($request["import_file"])) {
@@ -498,16 +501,16 @@ class LocationsController extends Controller
             $follow_up = MyHelper::post('partners/locations/create-follow-up', $post);
             if (isset($follow_up['status']) && $follow_up['status'] == 'success') {
                 if(isset($update_data_location['status']) && !empty($update_data_location['status']) && $update_data_location['status']=='Active'){
-                    return redirect('businessdev/locations/detail/'.$request['id_location'])->withSuccess(['Success update candidate location to location']); 
+                    return redirect('businessdev/locations/detail/'.$request['id_location'].$tab)->withSuccess(['Success update candidate location to location']); 
                 }
-                return redirect('businessdev/locations/detail/'.$request['id_location'])->withSuccess(['Success create step '.$request["follow_up"].'']);
+                return redirect('businessdev/locations/detail/'.$request['id_location'].$tab)->withSuccess(['Success create step '.$request["follow_up"].'']);
             }else{
-                return redirect('businessdev/locations/detail/'.$request['id_location'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
+                return redirect('businessdev/locations/detail/'.$request['id_location'].$tab)->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
             }
         }elseif(isset($location_update['status']) && $location_update['status'] == 'fail_date'){
-            return redirect('businessdev/locations/detail/'.$request['id_location'])->withErrors($location_update['messages'] ?? ['Failed create step '.$request["follow_up"].''])->withInput();
+            return redirect('businessdev/locations/detail/'.$request['id_location'].$tab)->withErrors($location_update['messages'] ?? ['Failed create step '.$request["follow_up"].''])->withInput();
         }else{
-            return redirect('businessdev/locations/detail/'.$request['id_location'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
+            return redirect('businessdev/locations/detail/'.$request['id_location'].$tab)->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
         }
     }
 }

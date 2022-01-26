@@ -6,15 +6,7 @@
     }
   }
 ?>
-<script type="text/javascript">
-        $(document).ready(function () {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-            });
-        </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
         var SweetAlertNextSteps = function() {
             return {
@@ -66,6 +58,7 @@
         }();
         jQuery(document).ready(function() {
             SweetAlertNextSteps.init();
+        
         });
     </script>
 <div style="white-space: nowrap;">
