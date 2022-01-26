@@ -52,7 +52,7 @@
     <div class="portlet light portlet-fit bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject font-blue sbold uppercase">Schedule</span>
+                <span class="caption-subject font-blue sbold uppercase">Student Schedule</span>
             </div>
         </div>
         <div class="portlet-body">
@@ -71,48 +71,52 @@
                 </div>
                 <br>
                 <br>
-                <table class="table table-striped table-bordered table-hover" width="100%">
-                    <thead>
-                    <tr>
-                        <th>Transaction Date</th>
-                        <th>Recipt Number</th>
-                        <th>Outlet</th>
-                        <th>Course Name</th>
-                        <th>Payment Type</th>
-                        <th>Payment Status</th>
-                        <th>Schedule</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($result as $res)
-                            <tr>
-                                <td>{{date('d M Y H:i', strtotime($res['transaction_date']))}}</td>
-                                <td>{{$res['transaction_receipt_number']}}</td>
-                                <td>{{$res['outlet']['outlet_code']}} - {{$res['outlet']['outlet_name']}}</td>
-                                <td>{{$res['product_name']}}</td>
-                                <td>
-                                    @if($res['payment_method'] == 'one_time_payment')
-                                        One-time Payment
-                                    @else
-                                        Cicilan Bertahap
-                                    @endif
-                                </td>
-                                <td>
-                                    @if ($res['transaction_payment_status'] == 'Completed')
-                                        <div class="badge badge-success">Completed</div>
-                                    @elseif($res['transaction_payment_status'] == 'Cancelled')
-                                        <div class="badge badge-danger">Cancelled</div>
-                                    @else
-                                        <div class="badge badge-warning">Pending</div>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if($res['transaction_payment_status'] != 'Cancelled')<a href="{{url('academy/transaction/user/schedule/detail/list/'.$res['id_transaction_academy'])}}" target="_blank" class="btn btn-sm blue"><i class="fa fa-edit"></i></a>@endif
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div style="overflow-x: scroll; white-space: nowrap; overflow-y: hidden;">
+                    <table class="table table-striped table-bordered table-hover" width="100%">
+                        <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>Payment Status</th>
+                            <th>Transaction Date</th>
+                            <th>Recipt Number</th>
+                            <th>Outlet</th>
+                            <th>Course Name</th>
+                            <th>Payment Type</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($result as $res)
+                                <tr>
+                                    <td>
+                                        @if($res['transaction_payment_status'] != 'Cancelled')
+                                            <a href="{{url('academy/transaction/user/schedule/detail/list/'.$res['id_transaction_academy'])}}" target="_blank" class="btn btn-sm blue">Schedule</a>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($res['transaction_payment_status'] == 'Completed')
+                                            <div class="badge badge-success">Completed</div>
+                                        @elseif($res['transaction_payment_status'] == 'Cancelled')
+                                            <div class="badge badge-danger">Cancelled</div>
+                                        @else
+                                            <div class="badge badge-warning">Pending</div>
+                                        @endif
+                                    </td>
+                                    <td>{{date('d M Y H:i', strtotime($res['transaction_date']))}}</td>
+                                    <td>{{$res['transaction_receipt_number']}}</td>
+                                    <td>{{$res['outlet']['outlet_code']}} - {{$res['outlet']['outlet_name']}}</td>
+                                    <td>{{$res['product_name']}}</td>
+                                    <td>
+                                        @if($res['payment_method'] == 'one_time_payment')
+                                            One-time Payment
+                                        @else
+                                            Cicilan Bertahap
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             @else
                 <h3><b>Data Not Found</b></h3>
             @endif

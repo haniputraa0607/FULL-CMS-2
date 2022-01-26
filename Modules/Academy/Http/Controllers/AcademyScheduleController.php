@@ -15,9 +15,9 @@ class AcademyScheduleController extends Controller
         $data = [
             'title'          => 'Academy',
             'menu_active'    => 'academy-transaction',
-            'sub_title'      => 'User Academy',
+            'sub_title'      => 'Student List',
             'submenu_active' => 'academy-transaction-schedule',
-            'filter_title'   => 'Filter User',
+            'filter_title'   => 'Filter Student',
             'filter_date'    => true,
             'filter_date_today' => true,
         ];
@@ -93,7 +93,7 @@ class AcademyScheduleController extends Controller
         $data = [
             'title'          => 'Academy',
             'menu_active'    => 'academy-transaction',
-            'sub_title'      => 'User Schedule',
+            'sub_title'      => 'Student Schedule',
             'submenu_active' => 'academy-transaction-schedule'
         ];
 
