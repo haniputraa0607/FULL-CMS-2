@@ -50,6 +50,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'business
         Route::get('pdf', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@pdf']);
         Route::get('generate-spk/{id_partner}/{id_location}', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@generateSPK']);
         Route::get('bundling/{id}', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@bundling']);
+        Route::get('detail_location/{id}', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@detailForSelect']);
         Route::any('/{type?}', ['middleware' => 'feature_control:338', 'uses' => 'PartnersController@index']);
         //partner close temporary
         Route::group(['prefix' => 'close-temporary'], function()

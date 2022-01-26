@@ -138,6 +138,23 @@
         return html;
     }
 
+    function detailNewLocation(id){
+        $.ajax({
+            type : "GET",
+            url : "{{ url('businessdev/partners/detail_location') }}/"+id,
+            success : function(result) {
+                var start_date = $.datepicker.formatDate('dd MM yy', new Date(result["start_date"]));
+                $("#flow-select-new-location #start_date").val(start_date);
+                var end_date = $.datepicker.formatDate('dd MM yy', new Date(result["end_date"]));
+                $("#flow-select-new-location #end_date").val(end_date);
+            },
+            error : function(result) {
+                alert('error');
+            }
+            
+        });
+    }
+
 
 
     $(document).ready(function () {
@@ -205,7 +222,7 @@
                                         @if($select)
                                         <input class="form-control" type="text" name="location_name" value="{{$this_location['name'] ?? ''}}" readonly required/>
                                         @else
-                                        <select class="form-control select2" name="id_location" id="id_location" required>
+                                        <select class="form-control select2" name="id_location" id="id_location" onchange="detailNewLocation(this.value)" required>
                                             <option value="" selected disabled>Select Location</option>
                                             @foreach($list_locations as $list_location)
                                                 <option value="{{$list_location['id_location']}}" @if(old('id_location')) @if(old('id_location') == $list_location['id_location']) selected @endif @else @if ($this_location) @if($this_location['id_location'] == $list_location['id_location']) selected @endif @endif @endif>{{$list_location['name']}}</option>
@@ -337,7 +354,7 @@
                                 </div>    
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Start Date 
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai menjadi partner atau tanggal kerja sama dimulai, bisa dikosongkan dan akan diisi tanggal mulai menjadi partner" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai lokasi mulai dikontrak oleh partner, bisa dikosongkan dan akan diisi tanggal mulai menjadi partner" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <input type="text" id="start_date" class="datepicker form-control" name="start_date" value="{{ (!empty($this_location['start_date']) ? date('d F Y', strtotime($this_location['start_date'])) : '')}}" {{$select ? 'disabled' : ''}}>
@@ -351,7 +368,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">End Date 
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal berakhir menjadi partner atau tanggal kerja sama selesai, bisa dikosongkan dan akan diisi tanggal berakhir partner" data-container="body"></i><br><span class="required" aria-required="true">( must be more than 3 years )</span></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal berakhirnya kontrak lokasi dengan partner, bisa dikosongkan dan akan diisi tanggal berakhir partner" data-container="body"></i><br><span class="required" aria-required="true">( must be more than 3 years )</span></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <input type="text" id="end_date" class="datepicker form-control" name="end_date" value="{{ (!empty($this_location['end_date']) ? date('d F Y', strtotime($this_location['end_date'])) : '')}}" {{$select ? 'disabled' : ''}}>

@@ -70,7 +70,7 @@
                                     <label for="example-search-input" class="control-label col-md-4">Location Code <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Kode yang akan digunakan lokasi milik partner kedepannya" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="location_code" name="location_code" placeholder="Enter location code here" value="{{ old('location_code') }}" required/>
+                                        <input class="form-control" type="text" id="location_code" name="location_code" placeholder="Enter location code here" value="@if(old('location_code')){{ old('location_code') }}@else @if(!empty($result['code'])){{ $result['code'] }}@endif @endif" required {{$pay ? 'disabled' : ''}}/>
                                     </div>
                                 </div>   
                                 <div class="form-group">
