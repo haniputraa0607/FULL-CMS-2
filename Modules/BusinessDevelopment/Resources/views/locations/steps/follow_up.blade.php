@@ -239,7 +239,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Lebar dari lokasi yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input class="form-control numberonly" type="text" id="width" name="width" placeholder="Enter location width here" value="{{ old('width') ?  number_format(old('width')) : number_format($result['width'])}}" required/>
+                                            <input class="form-control meter" type="text" id="width" name="width" placeholder="Enter location width here" value="{{ old('width') ?  number_format(old('width')) : number_format($result['width'])}}" required/>
                                             <span class="input-group-addon">m</span>
                                         </div>
                                     </div>
@@ -249,7 +249,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tinggi dari lokasi yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input class="form-control numberonly" type="text" id="height" name="height" placeholder="Enter location height here" value="{{ old('height') ?  number_format(old('height')) : number_format($result['height'])}}" required/>
+                                            <input class="form-control meter" type="text" id="height" name="height" placeholder="Enter location height here" value="{{ old('height') ?  number_format(old('height')) : number_format($result['height'])}}" required/>
                                             <span class="input-group-addon">m</span>
                                         </div>
                                     </div>
@@ -259,7 +259,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Panjang dari lokasi yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input class="form-control numberonly" type="text" id="length" name="length" placeholder="Enter location length here" value="{{ old('length') ?  number_format(old('length')) : number_format($result['length'])}}" required/>
+                                            <input class="form-control meter" type="text" id="length" name="length" placeholder="Enter location length here" value="{{ old('length') ?  number_format(old('length')) : number_format($result['length'])}}" required/>
                                             <span class="input-group-addon">m</span>
                                         </div>
                                     </div>
@@ -269,7 +269,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Luas dari lokasi yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input class="form-control numberonly" type="text" id="location_large" name="location_large" placeholder="Enter location large here" value="{{ old('location_large') ?  number_format(old('location_large')) : number_format($result['location_large'])}}" required/>
+                                            <input class="form-control meter" type="text" id="location_large" name="location_large" placeholder="Enter location large here" value="{{ old('location_large') ?  number_format(old('location_large')) : number_format($result['location_large'])}}" required/>
                                             <span class="input-group-addon">m<sup>2</sup></span>
                                         </div>
                                     </div>
