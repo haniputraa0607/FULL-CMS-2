@@ -293,6 +293,17 @@
                                 <div id="id_commissions">
                                 </div>
                                 <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Company Type <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Lokasi akan akan bernaung dibawah perusahaan IXOBOX jenis yang mana" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <select name="company_type" class="form-control input-sm select2" placeholder="Company Type" required {{ $select ? 'disabled' : ''}}>
+                                            <option value="" selected disabled>Select Ownership Status</option>
+                                            <option value="PT IMA" @if(old('company_type')) @if(old('company_type')=='PT IMA') selected @endif @else @if(isset($result['partner_locations'][0]['company_type'])) @if($result['partner_locations'][0]['company_type'] == 'PT IMA') selected @endif @endif @endif>PT IMA</option>
+                                            <option value="PT IMS" @if(old('company_type')) @if(old('company_type')=='PT IMS') selected @endif @else @if(isset($result['partner_locations'][0]['company_type'])) @if($result['partner_locations'][0]['company_type'] == 'PT IMS') selected @endif @endif @endif>PT IMS</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Contractor Price <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Biaya kontraktor untuk membangun lokasi" data-container="body"></i></label>
                                     <div class="col-md-5">
