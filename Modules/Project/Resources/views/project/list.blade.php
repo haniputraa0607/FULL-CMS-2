@@ -145,6 +145,7 @@ $grantedFeature     = session('granted_features');
                             <th class="text-nowrap text-center">Note</th>
                             @if($title=='Process Project')
                             <th class="text-nowrap text-center">Progress</th>
+                            <th class="text-nowrap text-center">Status</th>
                             @endif
                             @if(MyHelper::hasAccess([339,340,341], $grantedFeature))
                             <th class="text-nowrap text-center">Action</th>
@@ -163,6 +164,9 @@ $grantedFeature     = session('granted_features');
                                     @if($title=='Process Project')
                                     <td>
                                         <span class="badge" style="background-color: #2460e2; color: #ffffff">{{$dt['progres']}}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge" style="background-color: #2460e2; color: #ffffff">{{$dt['status']}}</span>
                                     </td>
                                     @endif
                                     <td> 

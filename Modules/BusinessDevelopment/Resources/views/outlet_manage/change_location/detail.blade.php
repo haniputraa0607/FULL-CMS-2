@@ -71,6 +71,14 @@
             @if (!empty($sub_title))
             <li>
                 <span><a href='{{ $url_sub_title }}'>{{ $sub_title }}</a></span>
+                 @if (!empty($list_sub_title))
+                    <i class="fa fa-circle"></i>
+                @endif
+            </li>
+            @endif
+            @if (!empty($list_sub_title))
+            <li>
+                <span><a href='{{ $url_list_sub_title }}'>{{ $list_sub_title }}</a></span>
                  @if (!empty($detail_sub_title))
                     <i class="fa fa-circle"></i>
                 @endif
@@ -82,74 +90,41 @@
             </li>
             @endif
         </ul>
-    </div>
-<br>
+    </div><br>
 
     @include('layouts.notifications')
 
-    <div class="portlet light bordered">
-        <div class="portlet-title">
-            <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">{{$sub_title}}</span>
-            </div>
+         <div class="col-md-3">
+                <ul class="ver-inline-menu tabbable margin-bottom-10">
+                    <li class="@if($result['status_steps'] == null || $result['status_steps'] =='Select Location') active @endif">
+                        <a data-toggle="tab" href="#newselect"><i class="fa fa-cog"></i> Select Location </a>
+                    </li>
+                    <li class="@if($result['status_steps']=='Calculation') active @endif" @if($result['status_steps']==null) style="opacity: 0.4 !important" @endif>
+                        <a @if($result['status_steps']==null) @else data-toggle="tab" @endif href="#newcalcu"><i class="fa fa-cog"></i> Calculation </a>
+                    </li>
+                    <li class="@if($result['status_steps']=='Confirmation Letter') active @endif" @if($result['status_steps']==null || $result['status_steps']=='Select Location') style="opacity: 0.4 !important" @endif>
+                        <a @if($result['status_steps']==null || $result['status_steps']=='Select Location') @else data-toggle="tab" @endif href="#newsurvey"><i class="fa fa-cog"></i> Confirmation Letter </a>
+                    </li>
+                    <li class="@if($result['status_steps']=='Payment') active @endif" @if($result['status_steps']==null || $result['status_steps']=='Select Location' || $result['status_steps']=='Calculation') style="opacity: 0.4 !important" @endif>
+                        <a @if($result['status_steps']==null || $result['status_steps']=='Select Location' || $result['status_steps']=='Calculation') || $result['status_steps']=='Confirmation Letter') @else data-toggle="tab" @endif href="#newpayment"><i class="fa fa-cog"></i> Payment </a>
+                    </li>
+                </ul>
         </div>
-        <div class="tabbable-line tabbable-full-width">
-            
-        <div class="tab-content">
-            <div class="tab-pane active" id="overview">
-               <div class="portlet-body form">
-                        <div style="white-space: nowrap;">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover" id="kt_datatable">
-                                    <thead>
-                                    <tr>
-                                        <th class="text-nowrap text-center">No</th>
-                                        <th class="text-nowrap text-center">Name</th>
-                                        <th class="text-nowrap text-center">Code</th>
-                                        <th class="text-nowrap text-center">Kota</th>
-                                        <th class="text-nowrap text-center">Type</th>
-                                        <th class="text-nowrap text-center">Status</th>
-                                        <th class="text-nowrap text-center">Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody style="text-align:center">
-                                            @php $i = 1;
-                                            @endphp
-                                            @foreach($result as $value)
-                                                <tr data-id="{{ $value['id_outlet_manage'] }}">
-                                                    <td>{{$i}}</td>
-                                                    <td>{{$value['outlet_name']}}</td>
-                                                    <td>{{$value['outlet_code']}}</td>
-                                                    <td>{{$value['city_name']}}</td>
-                                                    <td>{{$value['type']}}</td>
-                                                    <td>
-                                                        <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: @if($value['status']=="Rejected")red @elseif($value['status']=="Process") blue @elseif($value['status']=="Waiting") #ffd700 @else #00FF00  @endif;padding: 5px 12px;color: #fff;">{{$value['status']}}</span>
-
-                                                    </td>
-                                                    <td>
-                                                        @if($value['type']=="Cut Off"){
-                                                            <a href="{{url('businessdev/partners/outlet/cutoff/detail/'.$value['id_enkripsi'])}}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"> </i> Detail</a>
-                                                        @elseif($value['type']=="Change Ownership") 
-                                                         <a href="{{url('businessdev/partners/outlet/change/detail/'.$value['id_enkripsi'])}}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"> </i> Detail</a>
-                                                        @elseif($value['type']=='Close Temporary') 
-                                                         <a href="{{url('businessdev/partners/outlet/close/detail/'.$value['id_enkripsi'])}}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"> </i> Detail</a>
-                                                        @elseif($value['type']=='Active Temporary') 
-                                                         <a href="{{url('businessdev/partners/outlet/close/detail/'.$value['id_enkripsi'])}}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"> </i> Detail</a>
-                                                        @elseif($value['type']=='Change Location') 
-                                                         <a href="{{url('businessdev/partners/outlet/change_location/detail/'.$value['id_enkripsi'])}}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"> </i> Detail</a>
-                                                        @endif   
-                                                    </td>
-                                                </tr> 
-                                             @php $i++;
-                                            @endphp
-                                            @endforeach
-                                        </tbody>
-                                </table>
-                            </div>
-                        </div>
+            <div class="col-md-9">
+                <div class="tab-content">
+                    <div class="tab-pane @if($result['status_steps'] == null || $result['status_steps']=='Select Location') active @endif" id="newselect">
+                        @include('businessdevelopment::outlet_manage.change_location.select') 
                     </div>
+                    <div class="tab-pane @if($result['status_steps']=='Calculation') active @endif" id="newcalcu">
+                        @include('businessdevelopment::outlet_manage.change_location.calcu')
+                    </div>
+                    <div class="tab-pane @if($result['status_steps']=='Confirmation Letter') active @endif" id="newsurvey">
+                        @include('businessdevelopment::outlet_manage.change_location.confirmation')
+                    </div>
+                    <div class="tab-pane @if($result['status_steps']=='Payment') active @endif" " id="newpayment">
+                        @include('businessdevelopment::outlet_manage.change_location.payment')
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
     
 @endsection

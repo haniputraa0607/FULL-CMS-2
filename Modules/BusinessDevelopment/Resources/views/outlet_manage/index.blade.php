@@ -349,6 +349,12 @@
                 <li>
                     <a href="#close" data-toggle="tab"> Close Temporary </a>
                 </li>
+                <li>
+                    <a href="#active" data-toggle="tab"> Active Outlet</a>
+                </li>
+                <li>
+                    <a href="#location" data-toggle="tab"> Change Location </a>
+                </li>
             </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="overview">
@@ -362,6 +368,12 @@
             </div>
             <div class="tab-pane" id="close">
                 @include('businessdevelopment::outlet_manage.create_close')
+            </div>
+            <div class="tab-pane" id="active">
+                @include('businessdevelopment::outlet_manage.close_temporary.create_active')
+            </div>
+            <div class="tab-pane" id="location">
+                @include('businessdevelopment::outlet_manage.create_change_location')
             </div>
         </div>
     </div>

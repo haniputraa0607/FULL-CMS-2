@@ -83,7 +83,7 @@ $configs     		= session('configs');
                                                      <div class="form-group">
                                                     <label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>
                                                         <i class="fa fa-question-circle tooltips" data-original-title="Percent minimal 1% maksimal 99%" data-container="body"></i></label>
-                                                    <div class="col-md-5">
+                                                    <div class="col-md-3">
                                                         <input class="form-control" required type="number" id="commission" value="{{$result['value_text']??0}}" @if($result['value']??'' == 1) min="1" max="99" @endif name="commission" placeholder="Enter Commission"/>
                                                     </div>
                                                 </div>
@@ -106,13 +106,13 @@ $configs     		= session('configs');
               if(id_percent == 'on'){
                  var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
                          <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
-                        <div class="col-md-6">\
+                        <div class="col-md-3">\
                           <input class="form-control" required type="number" id="commission" name="commission"   min="1" max="99" placeholder="Enter Commission Percent"/>\
                         </div></div>';
               }else{
                  var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
                          <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
-                        <div class="col-md-6">\
+                        <div class="col-md-3">\
                           <input class="form-control" required type="number" id="commission" name="commission"  placeholder="Enter Commission Nominal"/>\
                         </div></div>'; 
 
