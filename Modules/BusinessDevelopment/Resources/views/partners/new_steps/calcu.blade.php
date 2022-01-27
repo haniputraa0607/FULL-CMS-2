@@ -245,7 +245,7 @@
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="total_payment" name="total_payment" placeholder="Enter total payment here" value="@if(isset($this_location['total_payment'])) {{ number_format($this_location['total_payment']) }} @else {{ number_format($total_payment) }} @endif" required {{$calcu ? 'disabled' : ''}}/>
+                                            <input class="form-control numberonly" type="text" data-type="currency" id="total_payment" name="total_payment" placeholder="Enter total payment here" value="@if(isset($this_location['total_payment'])) {{ number_format($this_location['total_payment']) }} @else {{ number_format($total_payment) }} @endif" required {{$calcu ? 'disabled' : ''}}/>
                                         </div>
                                     </div>
                                 </div>    

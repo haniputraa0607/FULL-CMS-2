@@ -26,7 +26,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 
-    function myFunction() {
+    function coopertationNew() {
         var scema = $('#flow-select-new-location #cooperation_scheme').val();
             if(scema == 'Management Fee'){
                 var html   = '<input name="sharing_percent" type="hidden" value="on" />'+
@@ -36,7 +36,7 @@
                     '<div class="col-md-5">'+
                     '<div class="input-group">'+
                     '<span class="input-group-addon">Rp</span>'+
-                    '<input class="form-control" type="text" data-type="currency" id="sharing_value" name="sharing_value" placeholder="Enter sharing value here" value="@if (old('sharing_value')) {{ number_format(old('sharing_value')) }} @else @if (!empty($this_location['sharing_value'])) {{ number_format($this_location['sharing_value']) }} @endif @endif" {{$select ? 'disabled' : ''}} required/>'+
+                    '<input class="form-control commision" type="text" data-type="currency" id="sharing_value" name="sharing_value" placeholder="Enter sharing value here" value="@if (old('sharing_value')) {{ number_format(old('sharing_value')) }} @else @if (!empty($this_location['sharing_value'])) {{ number_format($this_location['sharing_value']) }} @endif @endif" {{$select ? 'disabled' : ''}} required/>'+
                     '</div>'+
                     '</div>'+
                     '</div>'; 
@@ -45,11 +45,21 @@
             }else if(scema == 'Profit Sharing'){
                 $("#flow-select-new-location #id_percent").show();  
                 $('#flow-select-new-location #id_commission').remove();
-                myFunctionPercent();
+                cooperationPercentNew();
             }
+            $('.commision').inputmask("remove");
+            $('.commision').inputmask({
+                removeMaskOnSubmit: true, 
+				placeholder: "",
+				alias: "currency", 
+				digits: 0, 
+				rightAlign: false,
+				max: '999999999999999',
+                prefix : "",
+            });
     };
 
-    function myFunctionPercent() {
+    function cooperationPercentNew() {
         var scema = $('#flow-select-new-location #cooperation_scheme').val();
         var id_percent = $("#flow-select-new-location input[name='sharing_percent']:checked").val();
         if(scema == 'Profit Sharing'){
@@ -59,7 +69,7 @@
                     '<i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>'+
                     '<div class="col-md-5">'+
                     '<div class="input-group">'+
-                    '<input class="form-control" type="text" data-type="currency" required id="sharing_value" name="sharing_value" min="1" max="99" placeholder="Enter Commission Percent" value="@if (old('sharing_value')) {{ old('sharing_value') }} @else @if (!empty($this_location['sharing_value'])) {{ $this_location['sharing_value'] }} @endif @endif" {{$select ? 'disabled' : ''}}/>'+
+                    '<input class="form-control commision-percent" type="text" data-type="currency" required id="sharing_value" name="sharing_value" min="1" max="99" placeholder="Enter Commission Percent" value="@if (old('sharing_value')) {{ old('sharing_value') }} @else @if (!empty($this_location['sharing_value'])) {{ $this_location['sharing_value'] }} @endif @endif" {{$select ? 'disabled' : ''}}/>'+
                     '<span class="input-group-addon">%</span>'+
                     '</div>'+
                     '</div>'+
@@ -71,13 +81,33 @@
                     '<div class="col-md-5">'+
                     '<div class="input-group">'+
                     '<span class="input-group-addon">Rp</span>'+
-                    '<input class="form-control" type="text" data-type="currency" id="sharing_value" name="sharing_value" placeholder="Enter sharing value here" value="@if (old('sharing_value')) {{ number_format(old('sharing_value')) }} @else @if (!empty($this_location['sharing_value'])) {{ number_format($this_location['sharing_value']) }} @endif @endif" {{$select ? 'disabled' : ''}} required/>'+
+                    '<input class="form-control commision" type="text" data-type="currency" id="sharing_value" name="sharing_value" placeholder="Enter sharing value here" value="@if (old('sharing_value')) {{ number_format(old('sharing_value')) }} @else @if (!empty($this_location['sharing_value'])) {{ number_format($this_location['sharing_value']) }} @endif @endif" {{$select ? 'disabled' : ''}} required/>'+
                     '</div>'+
                     '</div>'+
                     '</div>'; 
             }
             $('#flow-select-new-location #id_commissions').html(htmls);
         }
+        $('.commision').inputmask("remove");
+        $('.commision').inputmask({
+            removeMaskOnSubmit: true, 
+            placeholder: "",
+            alias: "currency", 
+            digits: 0, 
+            rightAlign: false,
+            max: '999999999999999',
+            prefix : "",
+        });
+        $('.commision-percent').inputmask("remove");
+        $('.commision-percent').inputmask({
+            removeMaskOnSubmit: true, 
+            placeholder: "",
+            alias: "currency", 
+            digits: 0, 
+            rightAlign: false,
+            max: '100',
+            prefix : "",
+        });
     }
 
     function bundling(id){
@@ -108,6 +138,23 @@
         return html;
     }
 
+    function detailNewLocation(id){
+        $.ajax({
+            type : "GET",
+            url : "{{ url('businessdev/partners/detail_location') }}/"+id,
+            success : function(result) {
+                var start_date = $.datepicker.formatDate('dd MM yy', new Date(result["start_date"]));
+                $("#flow-select-new-location #start_date").val(start_date);
+                var end_date = $.datepicker.formatDate('dd MM yy', new Date(result["end_date"]));
+                $("#flow-select-new-location #end_date").val(end_date);
+            },
+            error : function(result) {
+                alert('error');
+            }
+            
+        });
+    }
+
 
 
     $(document).ready(function () {
@@ -117,7 +164,12 @@
             }
         });
         $("#flow-select-new-location #id_percent").hide(); 
-        myFunction();
+        @if(isset($this_location['cooperation_scheme'])) 
+            @if($this_location['cooperation_scheme'] == 'Management Fee') 
+                $("#flow-select-new-location #id_percent").show(); 
+            @endif
+        @endif
+        coopertationNew();
     });
 
 </script>
@@ -170,7 +222,7 @@
                                         @if($select)
                                         <input class="form-control" type="text" name="location_name" value="{{$this_location['name'] ?? ''}}" readonly required/>
                                         @else
-                                        <select class="form-control select2" name="id_location" id="id_location" required>
+                                        <select class="form-control select2" name="id_location" id="id_location" onchange="detailNewLocation(this.value)" required>
                                             <option value="" selected disabled>Select Location</option>
                                             @foreach($list_locations as $list_location)
                                                 <option value="{{$list_location['id_location']}}" @if(old('id_location')) @if(old('id_location') == $list_location['id_location']) selected @endif @else @if ($this_location) @if($this_location['id_location'] == $list_location['id_location']) selected @endif @endif @endif>{{$list_location['name']}}</option>
@@ -230,7 +282,7 @@
                                     <label for="example-search-input" class="control-label col-md-4">Coopertaion Scheme<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Skema Pembagian hasil partner dengan IXOBOX" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <select name="cooperation_scheme" id="cooperation_scheme" onchange="myFunction()" class="form-control input-sm select2" placeholder="Coopertaion Scheme" required {{ $select ? 'disabled' : ''}}>
+                                        <select name="cooperation_scheme" id="cooperation_scheme" onchange="coopertationNew()" class="form-control input-sm select2" placeholder="Coopertaion Scheme" required {{ $select ? 'disabled' : ''}}>
                                             <option value="" selected disabled>Select Cooperation Scheme</option>
                                             <option value="Profit Sharing" @if(old('cooperation_scheme')) @if(old('cooperation_scheme')=='Profit Sharing') selected @endif @else @if(isset($this_location['cooperation_scheme'])) @if($this_location['cooperation_scheme'] == 'Profit Sharing') selected @endif @endif @endif>Profit Sharing</option>
                                             <option value="Management Fee" @if(old('cooperation_scheme')) @if(old('cooperation_scheme')=='Management Fee') selected @endif @else @if(isset($this_location['cooperation_scheme'])) @if($this_location['cooperation_scheme'] == 'Management Fee') selected @endif @endif @endif>Management Fee</option>
@@ -241,7 +293,7 @@
                                     <div class="form-group">
                                         <label for="example-search-input" class="control-label col-md-4">Percent</label>
                                         <div class="col-md-5">
-                                            <input type="checkbox" class="make-switch brand_visibility" onchange="myFunctionPercent()"  data-size="small" data-on-color="info" data-on-text="Percent" data-off-color="default" name='sharing_percent' data-off-text="Nominal" @if (old('sharing_percent')) checked @else @if (isset($this_location['sharing_percent'])) @if ($this_location['sharing_percent'] == 1) checked @endif @endif @endif{{ $select ? 'disabled' : ''}}>
+                                            <input type="checkbox" class="make-switch brand_visibility" onchange="cooperationPercentNew()"  data-size="small" data-on-color="info" data-on-text="Percent" data-off-color="default" name='sharing_percent' data-off-text="Nominal" @if (old('sharing_percent')) checked @else @if (isset($this_location['sharing_percent'])) @if ($this_location['sharing_percent'] == 1) checked @endif @endif @endif{{ $select ? 'disabled' : ''}}>
                                         </div>
                                     </div>
                                 </div>
@@ -266,7 +318,7 @@
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="renovation_cost" name="renovation_cost" placeholder="Enter renovation cost here" value="@if (old('renovation_cost')) {{ number_format(old('renovation_cost')) }} @else @if (!empty($this_location['renovation_cost'])) {{ number_format($this_location['renovation_cost']) }} @endif @endif" {{$select ? 'disabled' : ''}} required/>
+                                            <input class="form-control numberonly" type="text" data-type="currency" id="renovation_cost" name="renovation_cost" placeholder="Enter renovation cost here" value="@if (old('renovation_cost')) {{ number_format(old('renovation_cost')) }} @else @if (!empty($this_location['renovation_cost'])) {{ number_format($this_location['renovation_cost']) }} @endif @endif" {{$select ? 'disabled' : ''}} required/>
                                         </div>
                                     </div>
                                 </div>  
@@ -276,7 +328,7 @@
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="partnership_fee" name="partnership_fee" placeholder="Enter partnership fee here" value="@if (old('partnership_fee')) {{ number_format(old('partnership_fee')) }} @else @if (!empty($this_location['partnership_fee'])) {{ number_format($this_location['partnership_fee']) }} @endif @endif" {{$select ? 'disabled' : ''}} required/>
+                                            <input class="form-control numberonly" type="text" data-type="currency" id="partnership_fee" name="partnership_fee" placeholder="Enter partnership fee here" value="@if (old('partnership_fee')) {{ number_format(old('partnership_fee')) }} @else @if (!empty($this_location['partnership_fee'])) {{ number_format($this_location['partnership_fee']) }} @endif @endif" {{$select ? 'disabled' : ''}} required/>
                                         </div>
                                     </div>
                                 </div>    
@@ -286,7 +338,7 @@
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="income" name="income" placeholder="Enter income here" value="@if (old('income')) {{ number_format(old('income')) }} @else @if (!empty($this_location['income'])) {{ number_format($this_location['income']) }} @endif @endif" {{$select ? 'disabled' : ''}} required/>
+                                            <input class="form-control numberonly" type="text" data-type="currency" id="income" name="income" placeholder="Enter income here" value="@if (old('income')) {{ number_format(old('income')) }} @else @if (!empty($this_location['income'])) {{ number_format($this_location['income']) }} @endif @endif" {{$select ? 'disabled' : ''}} required/>
                                         </div>
                                     </div>
                                 </div>   
@@ -295,14 +347,14 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Jumlah box yang dibutuhkan untuk pembuatan outlet" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input class="form-control" type="text" data-type="currency" id="total_box" name="total_box" placeholder="Enter total box here" value="@if (old('total_box')) {{ number_format(old('total_box')) }} @else @if (!empty($this_location['total_box'])) {{ number_format($this_location['total_box']) }} @endif @endif" {{$select ? 'disabled' : ''}} required/>
+                                            <input class="form-control numberonly" type="text" data-type="currency" id="total_box" name="total_box" placeholder="Enter total box here" value="@if (old('total_box')) {{ number_format(old('total_box')) }} @else @if (!empty($this_location['total_box'])) {{ number_format($this_location['total_box']) }} @endif @endif" {{$select ? 'disabled' : ''}} required/>
                                             <span class="input-group-addon">Box</span>
                                         </div>
                                     </div>
                                 </div>    
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Start Date 
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai menjadi partner atau tanggal kerja sama dimulai, bisa dikosongkan dan akan diisi tanggal mulai menjadi partner" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai lokasi mulai dikontrak oleh partner, bisa dikosongkan dan akan diisi tanggal mulai menjadi partner" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <input type="text" id="start_date" class="datepicker form-control" name="start_date" value="{{ (!empty($this_location['start_date']) ? date('d F Y', strtotime($this_location['start_date'])) : '')}}" {{$select ? 'disabled' : ''}}>
@@ -316,7 +368,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">End Date 
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal berakhir menjadi partner atau tanggal kerja sama selesai, bisa dikosongkan dan akan diisi tanggal berakhir partner" data-container="body"></i><br><span class="required" aria-required="true">( must be more than 3 years )</span></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal berakhirnya kontrak lokasi dengan partner, bisa dikosongkan dan akan diisi tanggal berakhir partner" data-container="body"></i><br><span class="required" aria-required="true">( must be more than 3 years )</span></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <input type="text" id="end_date" class="datepicker form-control" name="end_date" value="{{ (!empty($this_location['end_date']) ? date('d F Y', strtotime($this_location['end_date'])) : '')}}" {{$select ? 'disabled' : ''}}>
