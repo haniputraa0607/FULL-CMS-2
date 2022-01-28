@@ -110,6 +110,8 @@ class ProductAcademyController extends Controller
             }
             $data['product_uses'] = MyHelper::post('product/be/icount/list', [])['result'] ?? [];
             $data['product_icount_use'] = $data['product'][0]['product_icount_use'] ?? [];
+            $data['product_academy_theory'] = $data['product'][0]['product_academy_theory'] ?? [];
+            $data['list_theory'] = MyHelper::get('theory')['result']??[];
 
             return view('academy::product.detail', $data);
         }
@@ -287,5 +289,20 @@ class ProductAcademyController extends Controller
         }
         $result = MyHelper::post('product/position/assign', $post);
         return parent::redirect($result, 'Position product academy has been save.', 'product-academy/position/assign');
+    }
+
+    public function theoryUpdate(Request $request){
+        $post = $request->except('_token');
+
+        if(!empty($post['theory'])){
+            $result = MyHelper::post('academy/product/theory/save', $post);
+            if(!empty($result['status']) && $result['status'] == 'success'){
+                return redirect('product-academy/detail/'.$post['product_code'].'#theory')->withSuccess(['Data ID can not be empty']);
+            }else{
+                return redirect('product-academy/detail/'.$post['product_code'].'#theory')->withErrors(['Failed save data theory']);
+            }
+        }else{
+            return redirect('product-academy/detail/'.$post['product_code'].'#theory')->withErrors(['Data ID can not be empty']);
+        }
     }
 }

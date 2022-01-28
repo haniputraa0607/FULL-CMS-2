@@ -828,6 +828,54 @@
 				</li>
 			@endif
 
+			@if(MyHelper::hasAccess([436,437,438,439,440], $grantedFeature))
+				<li class="nav-item {{($menu_active == 'theory') ? 'active' : ''}}">
+					<a href="javascript:;" class="nav-link nav-toggle">
+						<i class="fa fa-book"></i>
+						<span class="title">Theory</span>
+						<span class="arrow {{($menu_active == 'theory') ? 'open' : ''}}"></span>
+					</a>
+					<ul class="sub-menu">
+						<li class="nav-item {{($submenu_active == 'category-theory') ? 'active open' : ''}}">
+							<a href="javascript:;" class="nav-link nav-toggle">
+								<span class="title">Category Theory</span>
+								<span class="arrow"></span>
+							</a>
+							<ul class="sub-menu">
+								@if(MyHelper::hasAccess([438], $grantedFeature))
+									<li class="nav-item {{(isset($child_active) && $child_active == 'create-category-theory') ? 'active open' : ''}}">
+										<a href="{{url('theory/category/create')}}" class="nav-link ">
+											<span class="title">New Category Theory</span>
+										</a>
+									</li>
+								@endif
+								@if(MyHelper::hasAccess([436,437,439,440], $grantedFeature))
+									<li class="nav-item {{(isset($child_active) && $child_active == 'list-category-theory') ? 'active open' : ''}}">
+										<a href="{{url('theory/category')}}" class="nav-link ">
+											<span class="title">Category Theory List</span>
+										</a>
+									</li>
+								@endif
+							</ul>
+						</li>
+						@if(MyHelper::hasAccess([438], $grantedFeature))
+							<li class="nav-item {{($submenu_active == 'create-theory') ? 'active open' : ''}}">
+								<a href="{{url('theory/create')}}" class="nav-link ">
+									<span class="title">New Theory</span>
+								</a>
+							</li>
+						@endif
+						@if(MyHelper::hasAccess([436,437,439,440], $grantedFeature))
+							<li class="nav-item {{($submenu_active == 'list-theory') ? 'active open' : ''}}">
+								<a href="{{url('theory')}}" class="nav-link ">
+									<span class="title">Theory List</span>
+								</a>
+							</li>
+						@endif
+					</ul>
+				</li>
+			@endif
+
 			@if(MyHelper::hasAccess([48,49,50,51,52], $grantedFeature) && false)
 				<li class="nav-item {{($menu_active == 'product-plastic') ? 'active' : ''}}">
 					<a href="javascript:;" class="nav-link nav-toggle">

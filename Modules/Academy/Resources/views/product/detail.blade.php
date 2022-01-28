@@ -34,7 +34,7 @@
     <script type="text/javascript">
 
         $(document).ready(function(){
-            $('.select2').select2({placeholder: "Select product use"});
+            $('.select2').select2({placeholder: "Search ..."});
             $('.summernote').summernote({
                 placeholder: 'Product Description',
                 tabsize: 2,
@@ -516,6 +516,38 @@
 
         }
 
+        var count_theory = {{(empty($product_academy_theory) ? 1: count($product_academy_theory))}}
+        function addTheory() {
+            var html_select = '';
+            <?php
+            foreach($list_theory as $row){
+            ?>
+                html_select += "<option value='<?php echo $row['id_theory']; ?>'><?php echo $row['theory_title']; ?></option>";
+            <?php
+            }
+            ?>
+
+            var html =  '<div class="form-group" id="div_theory_'+count_theory+'">'+
+                        '<div class="col-md-1"></div>'+
+                        '<div class="col-md-8">'+
+                        '<select class="form-control select2" style=" width: 100%" name="theory['+count_theory+']" required>'+
+                        '<option value="" selected disabled>Select Theory</option>'+html_select+
+                        '</select>'+
+                        '</div>'+
+                        '<div class="col-md-2">'+
+                        '<a class="btn btn-danger btn" onclick="deleteTheory('+count_theory+')">&nbsp;<i class="fa fa-trash"></i></a>'+
+                        '</div>'+
+                        '</div>';
+
+            $("#div_theory").append(html);
+            $('.select2').select2();
+            count_theory++;
+        }
+
+        function deleteTheory(number){
+            $('#div_theory_'+number).remove();
+        }
+
     </script>
     <script type="text/javascript">
         $('#sample_1').dataTable({
@@ -773,6 +805,9 @@
                     <a href="#productuse" data-toggle="tab"> Product Icount </a>
                 </li>
                 <li>
+                    <a href="#theory" data-toggle="tab"> Theory </a>
+                </li>
+                <li>
                     <a href="#outletsetting" data-toggle="tab"> Outlet Setting</a>
                 </li>
                 <li>
@@ -790,6 +825,9 @@
                 </div>
                 <div class="tab-pane" id="productuse">
                     @include('product::product.product_use')
+                </div>
+                <div class="tab-pane" id="theory">
+                    @include('academy::product.theory')
                 </div>
 				<div class="tab-pane" id="outletsetting">
                     @include('academy::product.product_detail')
