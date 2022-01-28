@@ -157,6 +157,20 @@
             </div>
         </div>
 
+{{--        <div class="form-group">--}}
+{{--            <label for="multiple" class="control-label col-md-3">Maximum Step Installment <span class="required" aria-required="true"> * </span>--}}
+{{--                <i class="fa fa-question-circle tooltips" data-original-title="Maksimal jumlah step untuk cicilan" data-container="body"></i>--}}
+{{--            </label>--}}
+{{--            <div class="col-md-3">--}}
+{{--                <div class="input-group">--}}
+{{--                    <input name="product_academy_maximum_installment" maxlength="2" class="form-control" value="{{ $syu['product_academy_maximum_installment'] }}">--}}
+{{--                    <span class="input-group-addon">--}}
+{{--                        Step--}}
+{{--                    </span>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+
         <div class="form-group">
             <label for="multiple" class="control-label col-md-3">Short Description <span class="required" aria-required="true"> * </span>
                 <i class="fa fa-question-circle tooltips" data-original-title="Deskripsi Produk" data-container="body"></i>

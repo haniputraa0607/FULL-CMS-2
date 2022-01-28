@@ -89,7 +89,13 @@ class DealsController extends Controller
         if (isset($post['charged_central']) || isset($post['charged_outlet'])) {
             $checkValue = $post['charged_central'] + $post['charged_outlet'];
             if ((int)$checkValue != 100 ) {
-                return back()->withErrors(['Charged Center value and Charged Outlet value not valid']);
+                return back()->withErrors(['Charged Center value and Charged Outlet value not valid'])->withInput();
+            }
+        }
+
+        if (isset($post['user_limit']) || isset($post['total_deals_user'])) {
+            if($post['user_limit'] < $post['total_deals_user']){
+                return back()->withErrors(['Total Deals User cant be bigger than User Limit'])->withInput();
             }
         }
 

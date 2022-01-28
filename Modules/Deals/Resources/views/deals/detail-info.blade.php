@@ -177,6 +177,10 @@ $grantedFeature     = session('granted_features');
                     <div class="col-md-8 value">: {{ $deals['user_limit']??false ? number_format($deals['user_limit']).' Times usage' : 'Unlimited' }}</div>
                 </div>
                 <div class="row static-info">
+                    <div class="col-md-4 name">Total Deals User</div>
+                    <div class="col-md-8 value">: {{ number_format($deals['total_deals_user']??0).' Vouchers For User' }}</div>
+                </div>
+                <div class="row static-info">
                     <div class="col-md-4 name">Voucher Expiry</div>
                     <div class="col-md-8 value">: {{ ($deals['deals_voucher_duration']??false) ? 'By Duration ( '.number_format($deals['deals_voucher_duration']).' Days )' : (($deals['deals_voucher_expired']??false) ? 'By Date ( '.date("d M Y", strtotime($deals['deals_voucher_expired'])).' '.date("H:i", strtotime($deals['deals_voucher_expired'])).' )' : '-') }}</div>
                 </div>

@@ -896,6 +896,24 @@
             </div>
         </div>
 
+        {{-- Total Deals User --}}
+        <div class="form-group">
+            <div class="input-icon right">
+                <label class="col-md-3 control-label">
+                Total Deals For User
+                <span class="required" aria-required="true"> * </span>
+                <i class="fa fa-question-circle tooltips" data-original-title="Jumlah voucher yang akan didapatkan user dalam sekali claim voucher" data-container="body"></i>
+                </label>
+            </div>
+
+            <div class="col-md-4">
+                <div class="input-icon right">
+                    <input type="text" class="form-control digit-mask" min="0" name="total_deals_user" value="{{ old('total_deals_user')??$deals['total_deals_user']??'' }}" placeholder="Total Deals User" maxlength="30" autocomplete="off">
+                </div>
+                <p style="color: red;display: none" id="label_total">Invalid value, total deals user cant be bigger than user limit</p>
+            </div>
+        </div>
+
     </div>
 @else
     @include('deals::deals.info-point')
