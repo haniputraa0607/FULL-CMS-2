@@ -77,11 +77,11 @@
                         <tr>
                             <th>Action</th>
                             <th>Payment Status</th>
+                            <th>Payment Type</th>
                             <th>Transaction Date</th>
                             <th>Recipt Number</th>
                             <th>Outlet</th>
                             <th>Course Name</th>
-                            <th>Payment Type</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -97,14 +97,12 @@
                                             <div class="badge badge-success">Completed</div>
                                         @elseif($res['transaction_payment_status'] == 'Cancelled')
                                             <div class="badge badge-danger">Cancelled</div>
+                                        @elseif($res['payment_method'] != 'one_time_payment' && $res['transaction_payment_status'] == 'Pending')
+                                            <div class="badge badge-warning">Pending {{count($res['transaction_academy']['completed_installment'])}}/{{count($res['transaction_academy']['all_installment'])}}</div>
                                         @else
                                             <div class="badge badge-warning">Pending</div>
                                         @endif
                                     </td>
-                                    <td>{{date('d M Y H:i', strtotime($res['transaction_date']))}}</td>
-                                    <td>{{$res['transaction_receipt_number']}}</td>
-                                    <td>{{$res['outlet']['outlet_code']}} - {{$res['outlet']['outlet_name']}}</td>
-                                    <td>{{$res['product_name']}}</td>
                                     <td>
                                         @if($res['payment_method'] == 'one_time_payment')
                                             One-time Payment
@@ -112,6 +110,10 @@
                                             Cicilan Bertahap
                                         @endif
                                     </td>
+                                    <td>{{date('d M Y H:i', strtotime($res['transaction_date']))}}</td>
+                                    <td><a href="{{url('transaction/academy/detail/'.$res['id_transaction'])}}" target="_blank">{{$res['transaction_receipt_number']}}</a></td>
+                                    <td>{{$res['outlet']['outlet_code']}} - {{$res['outlet']['outlet_name']}}</td>
+                                    <td>{{$res['product_name']}}</td>
                                 </tr>
                             @endforeach
                         </tbody>
