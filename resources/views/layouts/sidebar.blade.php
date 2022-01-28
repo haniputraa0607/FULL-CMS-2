@@ -2273,7 +2273,7 @@
 						@endif
 						<li class="nav-item {{($submenu_active == 'academy-transaction-schedule') ? 'active open' : ''}}">
 							<a href="{{url('academy/transaction/user/schedule')}}" class="nav-link ">
-								<span class="title">Schedule</span>
+								<span class="title">Student List</span>
 							</a>
 						</li>
 						<li class="nav-item {{($submenu_active == 'academy-transaction-day-off') ? 'active open' : ''}}">

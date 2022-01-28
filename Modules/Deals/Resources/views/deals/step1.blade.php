@@ -142,6 +142,18 @@ $brand_rule = $deals['brand_rule']??'and';
             });
         });
 
+        $('input[name=total_deals_user]').keyup(function () {
+            var limit = Number($('input[name=user_limit]').val());
+            var total = Number($('input[name=total_deals_user]').val());
+
+            if(limit < total){
+                document.getElementById('label_total').style.display = 'block';
+            }else{
+                document.getElementById('label_total').style.display = 'none';
+
+            }
+        });
+
         $('input[name=charged_central]').keyup(function () {
             var outlet = $('input[name=charged_outlet]').val();
             var central = $('input[name=charged_central]').val();

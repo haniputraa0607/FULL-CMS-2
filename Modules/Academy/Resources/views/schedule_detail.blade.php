@@ -103,6 +103,11 @@
                 <div class="col-md-5">: {{date('d F Y H:i', strtotime($res['transaction_date']))}}</div>
             </div>
             <br>
+            @if($res['status_dp'] == false)
+                <div class="alert alert-block alert-danger fade in">
+                    <p class="alert-heading">Can not setting schedule because <b>Down Payment</b> has not reached 50%.</p>
+                </div>
+            @endif
             <form class="form-horizontal" role="form" action="{{url('academy/transaction/user/schedule/update/'.$res['id_transaction_academy'])}}" method="post">
                 <div class="form-body">
                     <?php
@@ -115,17 +120,17 @@
                             'Attend' => 'green',
                             'Absent' => 'red'
                         ];
-                        for($i=0;$i<$res['transaction_academy_total_meeting'];$i++){
+                        for($i=1;$i<=$res['transaction_academy_total_meeting'];$i++){
                             $string .= '<div class="row">';
-                            $string .= '<div class="col-md-5" style="margin-top: 2%">';
-                            $string .= '<b>Pertemuan '.($i+1).'</b>';
+                            $string .= '<div class="col-md-6" style="margin-top: 2%">';
+                            $string .= '<b>Pertemuan '.($i).'</b>';
                             $string .= '<div class="input-group">';
-                            $search = array_search(($i+1), $arrColumn);
+                            $search = array_search(($i), $arrColumn);
                             if($search === false){
-                                $string .= '<input type="text" name="date['.($i+1).'][date]" class="form_datetime form-control" required autocomplete="off">';
+                                $string .= '<input type="text" name="date['.($i).'][date]" class="form_datetime form-control" required autocomplete="off" readonly style="background-color:white;">';
                             }else{
-                                $string .= '<input type="text" name="date['.($i+1).'][date]" class="form_datetime form-control" value="'.date('d-M-Y H:i', strtotime($userSchedule[$search]['schedule_date'])).'" required autocomplete="off">';
-                                $string .= '<input type="hidden" name="date['.($i+1).'][id_transaction_academy_schedule]" value="'.$userSchedule[$search]['id_transaction_academy_schedule'].'">';
+                                $string .= '<input type="text" name="date['.($i).'][date]" class="form_datetime form-control" value="'.date('d-M-Y H:i', strtotime($userSchedule[$search]['schedule_date'])).'" required autocomplete="off" readonly style="background-color:white;">';
+                                $string .= '<input type="hidden" name="date['.($i).'][id_transaction_academy_schedule]" value="'.$userSchedule[$search]['id_transaction_academy_schedule'].'">';
                             }
                             $string .= '<span class="input-group-btn">';
                             $string .= '<button class="btn default" type="button">';
@@ -134,23 +139,29 @@
                             $string .= '</span>';
                             $string .= '</div>';
                             $string .= '</div>';
-                            $string .= '<div class="col-md-4" style="margin-top: 4.4%">';
-                            if($search !== false){
-                                $string .= '<select class="form-control select2" id="status_'.($i+1).'" name="date['.($i+1).'][transaction_academy_schedule_status]" style="color:'.$color[$userSchedule[$search]['transaction_academy_schedule_status']].';" onchange="changeColor('.($i+1).' ,this.value);">';
-                                $string .= '<option '.($userSchedule[$search]['transaction_academy_schedule_status'] == 'Not Started' ? 'selected':'').' value="Not Started" style="color: grey">Not Started</option>';
-                                $string .= '<option '.($userSchedule[$search]['transaction_academy_schedule_status'] == 'Attend' ? 'selected':'').' value="Attend" style="color: green">Attend</option>';
-                                $string .= '<option '.($userSchedule[$search]['transaction_academy_schedule_status'] == 'Absent' ? 'selected':'').' value="Absent" style="color: red">Absent</option>';
-                                $string .= '</select>';
-                            }else{
-                                $string .= '<select class="form-control select2" id="status_'.($i+1).'" name="date['.($i+1).'][transaction_academy_schedule_status]" style="color: grey;" onchange="changeColor('.($i+1).' ,this.value);">';
-                                $string .= '<option value="Not Started" style="color: grey">Not Started</option>';
-                                $string .= '<option value="Attend" style="color: green">Attend</option>';
-                                $string .= '<option value="Absent" style="color: red">Absent</option>';
-                                $string .= '</select>';
+
+                            if(($i+1) <= $res['transaction_academy_total_meeting']){
+                                $string .= '<div class="col-md-6" style="margin-top: 2%">';
+                                $string .= '<b>Pertemuan '.($i+1).'</b>';
+                                $string .= '<div class="input-group">';
+                                $search = array_search(($i+1), $arrColumn);
+                                if($search === false){
+                                    $string .= '<input type="text" name="date['.($i+1).'][date]" class="form_datetime form-control" required autocomplete="off" readonly style="background-color:white;">';
+                                }else{
+                                    $string .= '<input type="text" name="date['.($i+1).'][date]" class="form_datetime form-control" value="'.date('d-M-Y H:i', strtotime($userSchedule[$search]['schedule_date'])).'" required autocomplete="off" readonly style="background-color:white;">';
+                                    $string .= '<input type="hidden" name="date['.($i+1).'][id_transaction_academy_schedule]" value="'.$userSchedule[$search]['id_transaction_academy_schedule'].'">';
+                                }
+                                $string .= '<span class="input-group-btn">';
+                                $string .= '<button class="btn default" type="button">';
+                                $string .= '<i class="fa fa-calendar"></i>';
+                                $string .= '</button>';
+                                $string .= '</span>';
+                                $string .= '</div>';
+                                $string .= '</div>';
                             }
 
                             $string .= '</div>';
-                            $string .= '</div>';
+                            $i++;
                         }
 
                         echo $string;
@@ -160,10 +171,12 @@
                 <input type="hidden" name="id_user" value="{{$res['id_user']}}">
                 <br>
                 <br>
+                @if($res['status_dp'] == true)
                 <div class="form-actions" style="text-align: center">
                     {{ csrf_field() }}
                     <button type="submit" class="btn blue">Submit</button>
                 </div>
+                @endif
             </form>
         </div>
     </div>
