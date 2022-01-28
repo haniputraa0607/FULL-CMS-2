@@ -49,8 +49,10 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'business
         Route::post('new-follow-up', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@followUpNewLoc']);
         Route::get('pdf', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@pdf']);
         Route::get('generate-spk/{id_partner}/{id_location}', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@generateSPK']);
+        
         Route::get('bundling/{id}', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@bundling']);
         Route::get('detail_location/{id}', ['middleware' => 'feature_control:340', 'uses' => 'PartnersController@detailForSelect']);
+        
         Route::any('/{type?}', ['middleware' => 'feature_control:338', 'uses' => 'PartnersController@index']);
         //partner close temporary
         Route::group(['prefix' => 'close-temporary'], function()
@@ -150,10 +152,12 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'business
     Route::group(['prefix' => 'locations'], function()
     {
         Route::get('detail/{user_id}', ['middleware' => 'feature_control:343', 'uses' => 'LocationsController@detail']);
+        Route::get('detail-status/{user_id}', ['middleware' => 'feature_control:343', 'uses' => 'LocationsController@detailStatus']);
         Route::post('update/{user_id}', ['middleware' => 'feature_control:344', 'uses' => 'LocationsController@update']);
         Route::post('delete/{user_id}', ['middleware' => 'feature_control:345', 'uses' => 'LocationsController@destroy']);  
         Route::post('create-follow-up', ['middleware' => 'feature_control:345', 'uses' => 'LocationsController@followUp']);  
         Route::post('approved-follow-up', ['middleware' => 'feature_control:345', 'uses' => 'LocationsController@approved']);  
+        Route::get('detail_form_survey/{id}', ['middleware' => 'feature_control:340', 'uses' => 'LocationsController@detailFormSurvey']);
         Route::any('/{type?}', ['middleware' => 'feature_control:342', 'uses' => 'LocationsController@index']);
     });
     

@@ -142,10 +142,18 @@
             type : "GET",
             url : "{{ url('businessdev/partners/detail_location') }}/"+id,
             success : function(result) {
-                var start_date = $.datepicker.formatDate('dd MM yy', new Date(result["start_date"]));
-                $("#flow-select-location #start_date").val(start_date);
-                var end_date = $.datepicker.formatDate('dd MM yy', new Date(result["end_date"]));
-                $("#flow-select-location #end_date").val(end_date);
+                if(result["start_date"]!=null){
+                    var start_date = $.datepicker.formatDate('dd MM yy', new Date(result["start_date"]));
+                    $("#flow-select-location #start_date").val(start_date);
+                }else{
+                    $("#flow-select-location #start_date").val('');
+                }
+                if(result["end_date"]!=null){
+                    var end_date = $.datepicker.formatDate('dd MM yy', new Date(result["end_date"]));
+                    $("#flow-select-location #end_date").val(end_date);
+                }else{
+                    $("#flow-select-location #end_date").val('');
+                }
             },
             error : function(result) {
                 alert('error');
