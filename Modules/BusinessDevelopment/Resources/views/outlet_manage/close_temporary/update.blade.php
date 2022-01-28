@@ -122,14 +122,6 @@ $grantedFeature     = session('granted_features');
                                     <input  disabled class="form-control" type="text" id="input-name"  value="{{$result['outlet_name']}}" placeholder="Enter name here"/>
                                 </div>
                             </div>
-                            @if($result['jenis']=='Active')
-                            <div class="form-group">
-                                <label for="example-search-input" class="control-label col-md-4">Jenis Aktivasi</label>
-                                <div class="col-md-5">
-                                    <input  disabled class="form-control" type="text" id="input-name"  value="{{$result['jenis_active']}}" placeholder="Enter name here"/>
-                                </div>
-                            </div>
-                            @endif
                             <div class="form-group">
                                 <label for="example-search-input" class="control-label col-md-4">Title<span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Title" data-container="body"></i></label>
