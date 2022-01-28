@@ -1,5 +1,9 @@
 <?php 
     $calcu = false;
+    $calcus = false;
+    if($result['status']!='Process'){
+        $calcus = true;
+    }
     if(!empty($result['steps'])){
         foreach($result['steps'] as $i => $step){
             if($step['follow_up']=='Calculation'){
@@ -22,22 +26,14 @@
             </div>
             <div class="portlet-body form">
                 <div class="tab-content">
-                    <div class="tab-pane @if($result['status']=='Rejected') active @endif">
+                    <div class="tab-pane @if($result['status']=='Reject') active @endif">
                         <div class="portlet box red">
                             <div class="portlet-title">
                                 <div class="caption">
-                                    <i class="fa fa-gear"></i>Warning</div>
+                                    <i class="fa fa-gear"></i>Change Location Rejected</div>
                                 <div class="tools">
                                     <a href="javascript:;" class="collapse"> </a>
                                 </div>
-                            </div>
-                            <div class="portlet-body">
-                                <p>Candidate Partner Rejected </p>
-                                @if ($calcu==false)
-                                <a href="#form_pay" class="btn btn-sm yellow" type="button" style="float:center" data-toggle="tab" id="input-pay">
-                                    Calculation
-                                </a>
-                                @endif
                             </div>
                         </div>
                     </div>
@@ -65,14 +61,14 @@
                                 <tr>
                                     <td>Contractor Price</td>
                                     <td></td>
-                                    <td>{{number_format($result['first_location']['renovation_cost'], 0, ',', '.')}}</td>
-                                    @php $total_payment += $result['first_location']['renovation_cost'] @endphp
+                                    <td>{{number_format($result['first_location']['renovation_cost']??0, 0, ',', '.')}}</td>
+                                    @php $total_payment += $result['first_location']['renovation_cost']??0 @endphp
                                 </tr>
                                 <tr>
                                     <td>Partnership Fee</td>
                                     <td></td>
-                                    <td>{{number_format($result['first_location']['partnership_fee'], 0, ',', '.')}}</td>
-                                    @php $total_payment += $result['first_location']['partnership_fee'] @endphp
+                                    <td>{{number_format($result['first_location']['partnership_fee']??0, 0, ',', '.')}}</td>
+                                    @php $total_payment += $result['first_location']['partnership_fee']??0 @endphp
                                 </tr>
                                 <tr>
                                     <th colspan="3">Rent</th>
@@ -80,22 +76,22 @@
                                 <tr>
                                     <td>Location Large</td>
                                     <td></td>
-                                    <td>{{number_format($result['first_location']['location_large'], 0, ',', '.')}}</td>
+                                    <td>{{number_format($result['first_location']['location_large']??0, 0, ',', '.')}}</td>
                                 </tr>
                                 <tr>
                                     <td>Rental Price</td>
                                     <td></td>
-                                    <td>{{number_format($result['first_location']['rental_price'], 0, ',', '.')}}</td>
+                                    <td>{{number_format($result['first_location']['rental_price']??0, 0, ',', '.')}}</td>
                                 </tr>
                                 <tr>
                                     <td>Service Charge</td>
                                     <td></td>
-                                    <td>{{number_format($result['first_location']['service_charge'], 0, ',', '.')}}</td>
+                                    <td>{{number_format($result['first_location']['service_charge']??0, 0, ',', '.')}}</td>
                                 </tr>
                                 <tr>
                                     <td>Promotion Levy</td>
                                     <td></td>
-                                    <td>{{number_format($result['first_location']['promotion_levy'], 0, ',', '.')}}</td>
+                                    <td>{{number_format($result['first_location']['promotion_levy']??0, 0, ',', '.')}}</td>
                                 </tr>
                                 <tr>
                                     <th colspan="3">Sale</th>
@@ -103,7 +99,7 @@
                                 <tr>
                                     <td>Income</td>
                                     <td></td>
-                                    <td>{{number_format($result['first_location']['income'], 0, ',', '.')}}</td>
+                                    <td>{{number_format($result['first_location']['income']??0, 0, ',', '.')}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -125,7 +121,7 @@
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="total_payment" name="total_payment" placeholder="Enter total payment here" value="{{ number_format($result['first_location']['total_payment'] ?: $total_payment) }}" required {{$calcu ? 'disabled' : ''}}/>
+                                            <input class="form-control" type="text" data-type="currency" id="total_payment" name="total_payment" placeholder="Enter total payment here" value="{{ number_format($result['first_location']['total_payment'] ?? $total_payment) }}" required {{$calcu ? 'disabled' : ''}}/>
                                         </div>
                                     </div>
                                 </div>    
@@ -173,13 +169,13 @@
                                         @endif
                                     </div>
                                 </div>
-                                @if ($calcu==false) 
+                                @if ($calcus==false) 
                                 <div class="form-actions">
                                     {{ csrf_field() }}
                                     <div class="row">
                                         <div class="col-md-offset-4 col-md-8">
                                             <button type="submit" class="btn blue">Submit</button>
-                                            <a class="btn red sweetalert-reject" data-id="{{ $result['id_partner'] }}" data-name="{{ $partner['name'] }}">Reject</a>
+                                            <a class="btn red sweetalert-reject" data-id="{{ $result['id_outlet_change_location'] }}">Reject</a>
                                         </div>
                                     </div>
                                 </div>

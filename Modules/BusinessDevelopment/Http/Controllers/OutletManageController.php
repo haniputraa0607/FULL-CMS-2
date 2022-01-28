@@ -73,9 +73,9 @@ class OutletManageController extends Controller
     //cutoff
     public function detailCutoff(Request $request,$id){
         $id = MyHelper::explodeSlug($id)[0]??'';
-        $result = MyHelper::post('partners/outlet/cutoff/detail', ['id_outlet_cut_off' => $id]);
-        $resultlampiran = MyHelper::post('partners/outlet/cutoff/lampiran/data', ['id_outlet_cut_off' => $id]);
+        $result = MyHelper::post('partners/outlet/cutoff/detail', ['id_outlet_manage' => $id]);
         if(isset($result['status']) && $result['status'] == 'success' ){
+            $resultlampiran = MyHelper::post('partners/outlet/cutoff/lampiran/data', ['id_outlet_cut_off' => $result['result']['id_outlet_cut_off']]);
             $id_outlet = MyHelper::createSlug($result['result']['id_partner'], $result['result']['created_at']);
             $data = [
                 'title'             => 'Partner',
@@ -159,10 +159,10 @@ class OutletManageController extends Controller
     //change_ownership
     public function detailChange(Request $request,$id){
         $id = MyHelper::explodeSlug($id)[0]??'';
-        $result = MyHelper::post('partners/outlet/change/detail', ['id_outlet_change_ownership' => $id]);
-        $resultlampiran = MyHelper::post('partners/outlet/change/lampiran/data', ['id_outlet_change_ownership' => $id]);
+        $result = MyHelper::post('partners/outlet/change/detail', ['id_outlet_manage' => $id]);
         if(isset($result['status']) && $result['status'] == 'success' ){
-             $id_outlet = MyHelper::createSlug($result['result']['id_partner'], $result['result']['created_at']);
+            $resultlampiran = MyHelper::post('partners/outlet/change/lampiran/data', ['id_outlet_change_ownership' => $result['result']['id_outlet_change_ownership']]);
+            $id_outlet = MyHelper::createSlug($result['result']['id_partner'], $result['result']['created_at']);
             $data = [
                 'title'             => 'Partner',
                 'url_title'      => url('businessdev/partners/detail').'/'.$result['result']['id_partner'],
@@ -272,9 +272,9 @@ class OutletManageController extends Controller
     }
     public function detailClose(Request $request,$id){
         $id = MyHelper::explodeSlug($id)[0]??'';
-        $result = MyHelper::post('partners/outlet/close/detail', ['id_outlet_close_temporary' => $id]);
-        $resultlampiran = MyHelper::post('partners/outlet/close/lampiran/data', ['id_outlet_close_temporary' => $id]);
+        $result = MyHelper::post('partners/outlet/close/detail', ['id_outlet_manage' => $id]);
         if(isset($result['status']) && $result['status'] == 'success' ){
+            $resultlampiran = MyHelper::post('partners/outlet/close/lampiran/data', ['id_outlet_close_temporary' => $result['result']['id_outlet_close_temporary']]);
             $id_outlet = MyHelper::createSlug($result['result']['id_partner'], $result['result']['created_at']);
             $id_outlet_close_temporary = MyHelper::createSlug($result['result']['id_outlet'], $result['result']['created_at']);
              $data = [
@@ -561,7 +561,6 @@ class OutletManageController extends Controller
         $data['cities'] = MyHelper::get('city/list')['result']??[];
         $data['brands'] = MyHelper::get('partners/locations/brands')['result']??[];
         $data['confirmation'] = $this->dataConfirmation($partner['result'],$data['cities']);
-        
             return view('businessdevelopment::outlet_manage.change_location.detail', $data);
         }else{
             return redirect()->back()->withErrors($result['messages'] ?? ['Not Found']);
@@ -579,6 +578,10 @@ class OutletManageController extends Controller
         } else{
                 return back()->withErrors($query['messages']);
         }
+    }
+    public function rejectChangeLocation($id){
+         $query = MyHelper::post('partners/outlet/change_location/reject', ['id_outlet_change_location'=>$id]);
+         return $query;
     }
     public function followUp(Request $request){
     $request->validate([

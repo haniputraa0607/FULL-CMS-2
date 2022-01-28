@@ -1,7 +1,10 @@
 <?php 
     $select = false;
+    $selects = false;
     $this_location = [];
-
+    if($result['status']!='Process'){
+        $selects = true;
+    }
     if($result['steps'])
     {
         $id_this_location = null;
@@ -132,22 +135,14 @@
             </div>
             <div class="portlet-body form">
                 <div class="tab-content">
-                    <div class="tab-pane @if($result['status']=='Rejected') active @endif">
+                    <div class="tab-pane @if($result['status']=='Reject') active @endif">
                         <div class="portlet box red">
                             <div class="portlet-title">
                                 <div class="caption">
-                                    <i class="fa fa-gear"></i>Warning</div>
+                                    <i class="fa fa-gear"></i>Change Location Rejected</div>
                                 <div class="tools">
                                     <a href="javascript:;" class="collapse"> </a>
                                 </div>
-                            </div>
-                            <div class="portlet-body">
-                                <p>Candidate Partner Rejected </p>
-                                @if ($select==false)
-                                <a href="#form_calcu" class="btn btn-sm yellow" type="button" style="float:center" data-toggle="tab" id="input-calcu">
-                                    Select Location
-                                </a>
-                                @endif
                             </div>
                         </div>
                     </div>
@@ -385,12 +380,13 @@
                                         @endif
                                     </div>
                                 </div>
-                                @if ($select==false) 
+                                @if ($selects==false) 
                                 <div class="form-actions">
                                     {{ csrf_field() }}
                                     <div class="row">
                                         <div class="col-md-offset-4 col-md-8">
                                             <button type="submit" class="btn blue">Submit</button>
+                                             <a class="btn red sweetalert-reject" data-id="{{ $result['id_outlet_change_location'] }}">Reject</a>
                                         </div>
                                     </div>
                                 </div>

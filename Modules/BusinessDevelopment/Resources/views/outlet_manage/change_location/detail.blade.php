@@ -52,7 +52,59 @@
             'autoclose' : true
         });
     </script>
+    <script>
+        var SweetAlertReject = function() {
+            return {
+                init: function() {
+                    $(".sweetalert-reject").each(function() {
+                        var token  	= "{{ csrf_token() }}";
+                        var pathname = window.location.pathname;
+                        let column 	= $(this).parents('tr');
+                        let id     	= $(this).data('id');
+                        $(this).click(function() {
+                            swal({
+                                    title: "Are you sure want to reject this change location outlet?",
+                                    text: "You can't continue to approve this change location outlet!",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonClass: "btn-danger",
+                                    confirmButtonText: "Yes, reject it!",
+                                    closeOnConfirm: false
+                                },
+                                function(){
+                                    $.ajax({
+                                        type : "POST",
+                                        url : "{{url('/businessdev/partners/outlet/change_location/reject')}}/"+id,
+                                        data : {
+                                            '_token' : '{{csrf_token()}}'
+                                        },
+                                        success : function(response) {
+                                            if (response.status == 'success') {
+                                                swal("Rejected!", "Change location outlet has been rejected.", "success")
+                                                location.reload();
+                                            }
+                                            else if(response.status == "fail"){
+                                                swal("Error!", "Failed to reject outlet change location.", "error")
+                                            }
+                                            else {
+                                                swal("Error!", "Something went wrong. Failed to reject outlet change location.", "error")
+                                            }
+                                        }
+                                    });
+                                });
+                        })
+                    })
+                }
+            }
+        }();
+      
+        $(document).ready(function() {
+            SweetAlertReject.init();
+          
+        });
+
     
+    </script>
 @endsection
 
 @section('content')
@@ -71,14 +123,6 @@
             @if (!empty($sub_title))
             <li>
                 <span><a href='{{ $url_sub_title }}'>{{ $sub_title }}</a></span>
-                 @if (!empty($list_sub_title))
-                    <i class="fa fa-circle"></i>
-                @endif
-            </li>
-            @endif
-            @if (!empty($list_sub_title))
-            <li>
-                <span><a href='{{ $url_list_sub_title }}'>{{ $list_sub_title }}</a></span>
                  @if (!empty($detail_sub_title))
                     <i class="fa fa-circle"></i>
                 @endif
