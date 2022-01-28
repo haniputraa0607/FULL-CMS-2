@@ -123,11 +123,11 @@
                                                     <td>{{$value['city_name']}}</td>
                                                     <td>{{$value['type']}}</td>
                                                     <td>
-                                                        <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: @if($value['status']=="Rejected")red @elseif($value['status']=="Process") blue @elseif($value['status']=="Waiting") #ffd700 @else #00FF00  @endif;padding: 5px 12px;color: #fff;">{{$value['status']}}</span>
+                                                        <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: @if($value['status']=="Reject")red @elseif($value['status']=="Process") blue @elseif($value['status']=="Waiting") #ffd700 @else #00FF00  @endif;padding: 5px 12px;color: #fff;">{{$value['status']}}</span>
 
                                                     </td>
                                                     <td>
-                                                        @if($value['type']=="Cut Off"){
+                                                        @if($value['type']=="Cut Off")
                                                             <a href="{{url('businessdev/partners/outlet/cutoff/detail/'.$value['id_enkripsi'])}}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"> </i> Detail</a>
                                                         @elseif($value['type']=="Change Ownership") 
                                                          <a href="{{url('businessdev/partners/outlet/change/detail/'.$value['id_enkripsi'])}}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"> </i> Detail</a>

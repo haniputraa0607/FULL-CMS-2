@@ -121,6 +121,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'business
               Route::post('/create', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@createChangeLocation']);  
               Route::get('/detail/{id}', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@detailChangeLoation']); 
                Route::post('/create-follow-up', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@followUp']);
+               Route::any('/reject/{id}', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@rejectChangeLocation']);
 //              Route::post('/update', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@updateChange']);
 //              Route::post('/reject', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@rejectChange']);
 //              Route::post('/success', ['middleware' => 'feature_control:343', 'uses' => 'OutletManageController@successChange']);

@@ -1,5 +1,9 @@
 <?php 
     $confir = false;
+    $confirs = false;
+    if($result['status']!='Process'){
+        $confirs = true;
+    }
     if(!empty($result['steps'])){
         foreach($result['steps'] as $i => $step){
             if($step['follow_up']=='Confirmation Letter'){
@@ -22,7 +26,7 @@
             </div>
             <div class="portlet-body form">
                 <div class="tab-content">
-                    <div class="tab-pane @if($result['status']=='Rejected') active @endif">
+                    <div class="tab-pane @if($result['status']=='Reject') active @endif">
                         <div class="portlet box red">
                             <div class="portlet-title">
                                 <div class="caption">
@@ -30,14 +34,6 @@
                                 <div class="tools">
                                     <a href="javascript:;" class="collapse"> </a>
                                 </div>
-                            </div>
-                            <div class="portlet-body">
-                                <p>Candidate Partner Rejected </p>
-                                @if ($confir==false)
-                                <a href="#form_confir" class="btn btn-sm yellow" type="button" style="float:center" data-toggle="tab" id="input-confir">
-                                    Confirmation Letter
-                                </a>
-                                @endif
                             </div>
                         </div>
                     </div>
@@ -223,6 +219,7 @@
                                     <div class="row">
                                         <div class="col-md-offset-4 col-md-8">
                                             <button type="submit" class="btn blue">Submit</button>
+                                            <a class="btn red sweetalert-reject" data-id="{{ $result['id_outlet_change_location'] }}">Reject</a>
                                         </div>
                                     </div>
                                 </div>
