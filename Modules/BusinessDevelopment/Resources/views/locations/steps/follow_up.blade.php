@@ -2,10 +2,13 @@
   $step_follow_up = 1;
   if(!empty($result['location_step'])){
     foreach($result['location_step'] as $i => $step){
-      $step_follow_up = $i + 2; 
+        if($step['follow_up']=='Follow Up'){
+            $step_follow_up = $step_follow_up + 1; 
+        }
     }
   }
 ?>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
         var SweetAlertNextSteps = function() {
@@ -78,7 +81,7 @@
                 <div class="caption">
                     <span class="caption-subject font-dark sbold uppercase font-yellow">Follow Up Data</span>
                 </div>
-                @if($result['status']=='Candidate'&&$result['step_loc']=='On Follow Up' || empty($result['step_loc']))
+                @if($result['status']=='Candidate'&& $result['step_loc']=='On Follow Up')
                     <a href="#form" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="input-follow-up">
                         Follow Up
                     </a>
@@ -89,7 +92,7 @@
                 <a href="#table" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="back-finished-follow-up" onclick="hideBack()">
                     Back
                 </a>
-                @if($result['status']=='Candidate'&&$result['step_loc']=='On Follow Up' || empty($result['step_loc']))
+                @if($result['status']=='Candidate'&&$result['step_loc']=='On Follow Up')
                     @if($step_follow_up>1)
                     <a class="btn btn-sm green sweetalert-next-steps btn-primary" data-id="{{$result['id_location']}}" type="button" style="float:right" data-toggle="tab" id="next-follow-up">
                         Approved
@@ -133,9 +136,9 @@
                                 </thead>
                                 <tbody>
                                     @if(!empty($result['location_step']))
-                                        @foreach($result['location_step'] as $i => $step)
+                                        @php $i = 1; @endphp
+                                        @foreach($result['location_step'] as $step)
                                         @if ($step['follow_up']=='Follow Up')
-                                            @php $i++; @endphp
                                             <tr data-id="{{ $step['id_step_locations_log'] }}">
                                                 <td>{{date('d F Y H:i', strtotime($step['created_at']))}}</td>
                                                 <td>{{$step['follow_up']}} {{$i}} </td>
@@ -153,6 +156,7 @@
                                                     </a>
                                                 </td>
                                             </tr>
+                                            @php $i++; @endphp
                                         @endif
                                         @endforeach
                                     @else
@@ -172,190 +176,10 @@
                                     <label for="example-search-input" class="control-label col-md-4">Step <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Step yang sedang dilakukan" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="follow_up" name="follow_up" value="@if($step_follow_up<2)Follow Up {{ $step_follow_up }} @else Follow Up @endif" readonly required/>
+                                        <input class="form-control" type="text" value="Follow Up {{ $step_follow_up }}" readonly required/>
+                                        <input class="form-control" type="hidden" id="follow_up" name="follow_up" value="Follow Up" readonly required/>
                                     </div>
                                 </div>
-                                @if ($step_follow_up==1)
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Name <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama calon lokasi yang diajukan oleh perusahaan/instansi" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <input class="form-control" type="text" id="follow-name-location" name="nameLocation" value="{{ old('nameLocation') ?? $result['name']}}" placeholder="Enter location name here" required/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">No LOI <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Nomor Surat pernyataan komitmen pengajuan calon lokasi" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <input class="form-control" type="text" id="follow-name-location" name="no_loi" value="{{ old('no_loi') ?? $result['no_loi']}}" placeholder="Enter no loi here" required/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">LOI Date <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal surat LOI disetujui oleh kedua pihak" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <input type="text" id="end_date" class="datepicker form-control" name="date_loi" value="{{ old('date_loi') ?? (!empty($result['date_loi']) ? date('d F Y', strtotime($result['date_loi'])) : '')}}" required>
-                                            <span class="input-group-btn">
-                                                <button class="btn default" type="button">
-                                                    <i class="fa fa-calendar"></i>
-                                                </button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>   
-                                {{--  <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Code <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Kode yang akan digunakan lokasi milik partner kedepannya" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <input class="form-control" type="text" id="location_code" name="location_code" placeholder="Enter location code here" value="{{ old('location_code') }}" required/>
-                                    </div>
-                                </div>     --}}
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Address <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Alamat lengkap calon lokasi yang diajukan" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <textarea name="addressLocation" id="follow-address-location" class="form-control" placeholder="Enter location name here" required>{{ old('addressLocation') ?? $result['address']}}</textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Short Addres <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Alamat singakt calon lokasi yang diajukan" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <input class="form-control" type="text" id="follow-mall" name="mall" value="{{ old('mall') ?? $result['mall']}}" placeholder="Enter location mall here" required/>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location City <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Kota/Kabupaten dari calon lokasi" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <select class="form-control select2" name="id_cityLocation" id="follow-id_cityLocation" required>
-                                            <option value="" selected disabled>Select City</option>
-                                            @foreach($cities as $city)
-                                                <option value="{{$city['id_city']}}" @if(old('id_cityLocation')) @if(old('id_cityLocation') == $city['id_city']) selected @endif @else @if($result['id_city'] == $city['id_city']) selected @endif @endif>{{$city['city_name']}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Brand <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Brand yang akan digunakan oleh calon lokasi" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <select class="form-control select2" name="id_brand" id="follow-id_brand" required>
-                                            <option value="" selected disabled>Select Brand</option>
-                                            @foreach($brands as $brand)
-                                                <option value="{{$brand['id_brand']}}" @if(old('id_brand')) @if(old('id_brand') == $brand['id_brand']) selected @endif @else @if($result['id_brand'] == $brand['id_brand']) selected @endif @endif>{{$brand['name_brand']}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                {{--  <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Tax <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Apakah lokasi akan menggunakan PPN" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <input type="checkbox" class="make-switch" data-size="small" data-on-color="info" data-on-text="Use Tax" name="is_tax" data-off-color="default" data-off-text="Not Using Tax">
-                                    </div>
-                                </div>      --}}
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Width <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Lebar dari lokasi yang diajukan" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <input class="form-control meter" type="text" id="width" name="width" placeholder="Enter location width here" value="{{ old('width') ?  number_format(old('width')) : number_format($result['width'])}}" required/>
-                                            <span class="input-group-addon">m</span>
-                                        </div>
-                                    </div>
-                                </div>    
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Height <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tinggi dari lokasi yang diajukan" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <input class="form-control meter" type="text" id="height" name="height" placeholder="Enter location height here" value="{{ old('height') ?  number_format(old('height')) : number_format($result['height'])}}" required/>
-                                            <span class="input-group-addon">m</span>
-                                        </div>
-                                    </div>
-                                </div>    
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Length <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Panjang dari lokasi yang diajukan" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <input class="form-control meter" type="text" id="length" name="length" placeholder="Enter location length here" value="{{ old('length') ?  number_format(old('length')) : number_format($result['length'])}}" required/>
-                                            <span class="input-group-addon">m</span>
-                                        </div>
-                                    </div>
-                                </div>    
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Large <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Luas dari lokasi yang diajukan" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <input class="form-control meter" type="text" id="location_large" name="location_large" placeholder="Enter location large here" value="{{ old('location_large') ?  number_format(old('location_large')) : number_format($result['location_large'])}}" required/>
-                                            <span class="input-group-addon">m<sup>2</sup></span>
-                                        </div>
-                                    </div>
-                                </div>    
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Rental Price <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Harga sewa dari lokasi per tahun" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Rp</span>
-                                            <input class="form-control numberonly" data-type="currency" type="text" id="rental_price" name="rental_price" placeholder="Enter rental price here" value="{{ old('rental_price') ?  number_format(old('rental_price')) : number_format($result['rental_price'])}}" required/>
-                                        </div>
-                                    </div>
-                                </div>    
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Service Charge <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Perkiraan biaya servis untuk lokasi yang diajukan" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Rp</span>
-                                            <input class="form-control numberonly" data-type="currency" type="text" id="service_charge" name="service_charge" placeholder="Enter service charge here" value="{{ old('service_charge') ?  number_format(old('service_charge')) : number_format($result['service_charge'])}}" required/>
-                                        </div>
-                                    </div>
-                                </div>    
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Promotion Levy <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Promosi yang nantinya akan dipakai" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Rp</span>
-                                            <input class="form-control numberonly" data-type="currency" type="text" id="promotion_levy" name="promotion_levy" placeholder="Enter promotion levy here"  value="{{ old('promotion_levy') ?  number_format(old('promotion_levy')) : number_format($result['promotion_levy'])}}" required/>
-                                        </div>
-                                    </div>
-                                </div>    
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Start Date
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai menjadi partner atau tanggal kerja sama dimulai, bisa dikosongkan dan diisi saat proses approve partner" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <input type="text" id="start_date" class="datepicker form-control" name="start_date" value="{{ old('start_date') ?? (!empty($result['start_date']) ? date('d F Y', strtotime($result['start_date'])) : '')}}">
-                                            <span class="input-group-btn">
-                                                <button class="btn default" type="button">
-                                                    <i class="fa fa-calendar"></i>
-                                                </button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">End Date
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal berakhir menjadi partner atau tanggal kerja sama selesai, bisa dikosongkan dan diisi saat proses approve partner" data-container="body"></i><br><span class="required" aria-required="true">( must be more than 3 years )</span></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <input type="text" id="end_date" class="datepicker form-control" name="end_date" value="{{ old('end_date') ?? (!empty($result['end_date']) ? date('d F Y', strtotime($result['end_date'])) : '')}}">
-                                            <span class="input-group-btn">
-                                                <button class="btn default" type="button">
-                                                    <i class="fa fa-calendar"></i>
-                                                </button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>   
-                                @endif
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Catatan untuk step ini" data-container="body"></i></label>
@@ -397,9 +221,9 @@
                         </form>
                     </div>
                     @if(!empty($result['location_step']))
-                    @foreach($result['location_step'] as $i => $step)
+                    @php $i = 1; @endphp
+                    @foreach($result['location_step'] as $step)
                     @if ($step['follow_up']=='Follow Up')
-                    @php $i++; @endphp
                     <div class="tab-pane" id="detail{{ $i }}">
                         <form class="form-horizontal" role="form" action="{{url('businessdev/locations/create-follow-up')}}" method="post" enctype="multipart/form-data">
                             <div class="form-body">
@@ -411,180 +235,6 @@
                                         <input class="form-control" type="text" id="follow_up" name="follow_up" value="Follow Up {{ $i }}" readonly required/>
                                     </div>
                                 </div>
-                                @if ($i==1)
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Name <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama calon lokasi yang diajukan oleh perusahaan/instansi" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <input class="form-control" type="text" id="follow-name-location" name="nameLocation" value="{{ old('nameLocation') ?? $result['name']}}" placeholder="Enter location name here" required disabled/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">No LOI <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Nomor Surat pernyataan komitmen pengajuan calon lokasi" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <input class="form-control" type="text" id="follow-name-location" name="no_loi" value="{{ old('no_loi') ?? $result['no_loi']}}" placeholder="Enter no loi here" required disabled/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">LOI Date <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal surat LOI disetujui oleh kedua pihak" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <input type="text" id="end_date" class="datepicker form-control" name="date_loi" value="{{ old('date_loi') ?? (!empty($result['date_loi']) ? date('d F Y', strtotime($result['date_loi'])) : '')}}" required disabled>
-                                            <span class="input-group-btn">
-                                                <button class="btn default" type="button">
-                                                    <i class="fa fa-calendar"></i>
-                                                </button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>   
-                                {{--  <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Code <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Kode yang akan digunakan lokasi milik partner kedepannya" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <input class="form-control" type="text" id="location_code" name="location_code" placeholder="Enter location code here" value="{{ old('location_code') }}" required disabled/>
-                                    </div>
-                                </div>     --}}
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Address <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Alamat lengkap calon lokasi yang diajukan" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <textarea name="addressLocation" id="follow-address-location" class="form-control" placeholder="Enter location name here" required disabled>{{ old('addressLocation') ?? $result['address']}}</textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Short Addres <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Alamat singakt calon lokasi yang diajukan" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <input class="form-control" type="text" id="follow-mall" name="mall" value="{{ old('mall') ?? $result['mall']}}" placeholder="Enter location mall here" required disabled/>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location City <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Kota/Kabupaten dari calon lokasi" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <select class="form-control select2" name="id_cityLocation" id="follow-id_cityLocation" required disabled>
-                                            <option value="" selected disabled>Select City</option>
-                                            @foreach($cities as $city)
-                                                <option value="{{$city['id_city']}}" @if(old('id_cityLocation')) @if(old('id_cityLocation') == $city['id_city']) selected @endif @else @if($result['id_city'] == $city['id_city']) selected @endif @endif>{{$city['city_name']}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Brand <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Brand yang akan digunakan oleh calon lokasi" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <select class="form-control select2" name="id_brand" id="follow-id_brand" required disabled>
-                                            <option value="" selected disabled>Select Brand</option>
-                                            @foreach($brands as $brand)
-                                                <option value="{{$brand['id_brand']}}" @if(old('id_brand')) @if(old('id_brand') == $brand['id_brand']) selected @endif @else @if($result['id_brand'] == $brand['id_brand']) selected @endif @endif>{{$brand['name_brand']}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Width <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Lebar dari lokasi yang diajukan" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <input class="form-control meter" type="text" id="width" name="width" placeholder="Enter location width here" value="{{ old('width') ?  number_format(old('width')) : number_format($result['width'])}}" required disabled/>
-                                            <span class="input-group-addon">m</span>
-                                        </div>
-                                    </div>
-                                </div>    
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Height <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tinggi dari lokasi yang diajukan" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <input class="form-control meter" type="text" id="height" name="height" placeholder="Enter location height here" value="{{ old('height') ?  number_format(old('height')) : number_format($result['height'])}}" required disabled/>
-                                            <span class="input-group-addon">m</span>
-                                        </div>
-                                    </div>
-                                </div>    
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Length <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Panjang dari lokasi yang diajukan" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <input class="form-control meter" type="text" id="length" name="length" placeholder="Enter location length here" value="{{ old('length') ?  number_format(old('length')) : number_format($result['length'])}}" required disabled/>
-                                            <span class="input-group-addon">m</span>
-                                        </div>
-                                    </div>
-                                </div>    
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Large <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Luas dari lokasi yang diajukan" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <input class="form-control meter" type="text" id="location_large" name="location_large" placeholder="Enter location large here" value="{{ old('location_large') ?  number_format(old('location_large')) : number_format($result['location_large'])}}" required disabled/>
-                                            <span class="input-group-addon">m<sup>2</sup></span>
-                                        </div>
-                                    </div>
-                                </div>    
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Rental Price <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Harga sewa dari lokasi per tahun" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Rp</span>
-                                            <input class="form-control numberonly" data-type="currency" type="text" id="rental_price" name="rental_price" placeholder="Enter rental price here" value="{{ old('rental_price') ?  number_format(old('rental_price')) : number_format($result['rental_price'])}}" required disabled/>
-                                        </div>
-                                    </div>
-                                </div>    
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Service Charge <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Perkiraan biaya servis untuk lokasi yang diajukan" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Rp</span>
-                                            <input class="form-control numberonly" data-type="currency" type="text" id="service_charge" name="service_charge" placeholder="Enter service charge here" value="{{ old('service_charge') ?  number_format(old('service_charge')) : number_format($result['service_charge'])}}" required disabled/>
-                                        </div>
-                                    </div>
-                                </div>    
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Promotion Levy <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Promosi yang nantinya akan dipakai" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Rp</span>
-                                            <input class="form-control numberonly" data-type="currency" type="text" id="promotion_levy" name="promotion_levy" placeholder="Enter promotion levy here"  value="{{ old('promotion_levy') ?  number_format(old('promotion_levy')) : number_format($result['promotion_levy'])}}" required disabled/>
-                                        </div>
-                                    </div>
-                                </div>    
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Start Date
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai menjadi partner atau tanggal kerja sama dimulai, bisa dikosongkan dan diisi saat proses approve partner" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <input type="text" id="start_date" class="datepicker form-control" name="start_date" value="{{ old('start_date') ?? (!empty($result['start_date']) ? date('d F Y', strtotime($result['start_date'])) : '')}}" disabled>
-                                            <span class="input-group-btn">
-                                                <button class="btn default" type="button">
-                                                    <i class="fa fa-calendar"></i>
-                                                </button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">End Date
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal berakhir menjadi partner atau tanggal kerja sama selesai, bisa dikosongkan dan diisi saat proses approve partner" data-container="body"></i><br><span class="required" aria-required="true">( must be more than 3 years )</span></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <input type="text" id="end_date" class="datepicker form-control" name="end_date" value="{{ old('end_date') ?? (!empty($result['end_date']) ? date('d F Y', strtotime($result['end_date'])) : '')}}" disabled>
-                                            <span class="input-group-btn">
-                                                <button class="btn default" type="button">
-                                                    <i class="fa fa-calendar"></i>
-                                                </button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>   
-                                @endif
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Catatan untuk step in" data-container="body"></i></label>
@@ -609,6 +259,7 @@
                             </div>
                         </form>
                     </div>
+                    @php $i++; @endphp
                     @endif
                     @endforeach
                     @endif

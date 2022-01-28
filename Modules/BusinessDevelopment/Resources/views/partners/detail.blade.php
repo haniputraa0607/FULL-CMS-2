@@ -603,6 +603,11 @@
                                                 </td>
                                                 <td>
                                                     @if(MyHelper::hasAccess([343,344], $grantedFeature))
+                                                    <a href="{{ url('businessdev/locations/detail-status/'.$location['id_location']) }}" class="btn btn-sm green text-nowrap"><i class="fa fa-pencil"></i> Log Status</a>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if(MyHelper::hasAccess([343,344], $grantedFeature))
                                                     <a href="{{ url('businessdev/locations/detail/'.$location['id_location']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
                                                     @endif
                                                 </td>
