@@ -845,7 +845,7 @@
                                 </label>
                             </div>
                             <div class="col-md-9">
-                                <textarea name="news_content_short" id="field_content_short" class="form-control" placeholder="Content Short News" required>{ { old('news_content_short') } }</textarea>
+                                <textarea name="news_content_short" id="field_content_short" class="form-control" placeholder="Content Short News" required>{{ old('news_content_short') }}</textarea>
                             </div>
                         </div>
 
