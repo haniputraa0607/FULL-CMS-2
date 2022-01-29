@@ -265,7 +265,7 @@ class CustomPageController extends Controller
 
         $action = MyHelper::post('custom-page/delete', ['id_custom_page' => $id_custom_page_decrypt]);
 
-        return redirect('custom-page');
+        return redirect('custom-page')->withSuccess(['Success delete custom page']);
     }
 
     public function webviewCustomPage(Request $request, $id_custom_page)
