@@ -1741,16 +1741,6 @@
 							</a>
 						</li>
 					@endif
-					<li class="nav-item {{($submenu_active == 'home-service-update-status') ? 'active' : ''}}">
-						<a href="{{url('transaction/autoresponse/home-service-update-status')}}" class="nav-link nav-toggle">
-							<span class="title">[Response] Home Service Update Status</span>
-						</a>
-					</li>
-					<li class="nav-item {{($submenu_active == 'home-service-mitra-get-order') ? 'active' : ''}}">
-						<a href="{{url('transaction/autoresponse/home-service-mitra-get-order')}}" class="nav-link nav-toggle">
-							<span class="title">[Response] Home Service Mitra Get Order</span>
-						</a>
-					</li>
 					@endif
 
 					<!-- <li class="nav-item {{($submenu_active == 'transaction-autoresponse-topup-success') ? 'active open' : ''}}">
