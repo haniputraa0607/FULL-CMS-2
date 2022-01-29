@@ -65,6 +65,7 @@ var table;
 $(document).ready(function() {
     table = $('#main-table').DataTable({
         serverSide: true, 
+        searching: false,
         ajax: {
             url : "{{url()->current()}}",
             data: function (data) {
