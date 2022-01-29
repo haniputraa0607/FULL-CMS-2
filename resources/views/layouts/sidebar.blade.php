@@ -1711,6 +1711,7 @@
 							<span class="title">[Response] Transaction Point Achievement</span>
 						</a>
 					</li>
+					@if(MyHelper::hasAccess([126], $configs))
 					<li class="nav-item {{($submenu_active == 'transaction-failed-point-refund') ? 'active' : ''}}">
 						<a href="{{url('transaction/autoresponse/transaction-failed-point-refund')}}" class="nav-link nav-toggle">
 							<span class="title">[Response] Transaction Failed Point Refund</span>
@@ -1721,6 +1722,7 @@
 							<span class="title">[Response] Rejected Order Point Refund</span>
 						</a>
 					</li>
+					@endif
 					<li class="nav-item {{($submenu_active == 'transaction-autoresponse-transaction-rejected') ? 'active' : ''}}">
 						<a href="{{url('autoresponse/transaction/transaction-rejected')}}" class="nav-link nav-toggle">
 							<span class="title">[Response] Transaction Rejected</span>
