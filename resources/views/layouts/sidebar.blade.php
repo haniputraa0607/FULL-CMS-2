@@ -3380,7 +3380,7 @@
 						</li>
 					@endif
 					@if(MyHelper::hasAccess([205,206,208,209], $grantedFeature))
-						<li class="nav-item {{($submenu_active == 'point-injection-create') ? 'active open' : ''}}">
+						<li class="nav-item {{($submenu_active == 'point-injection-list') ? 'active open' : ''}}">
 							<a href="{{url('point-injection')}}" class="nav-link ">
 								<span class="title">List Point Injection</span>
 							</a>
