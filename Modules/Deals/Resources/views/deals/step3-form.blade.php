@@ -18,6 +18,7 @@ $configs = session('configs');
                         </div>
                     </div>
 
+                    @if(MyHelper::hasAccess([125], $configs))
                     <div class="form-group">
                         <div class="input-icon right">
                             <label class="col-md-3 control-label">
@@ -218,4 +219,5 @@ $configs = session('configs');
                             </div>
                         </div>
                     </div>
+                    @endif
 @endsection

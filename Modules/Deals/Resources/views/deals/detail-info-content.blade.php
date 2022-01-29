@@ -7,7 +7,7 @@ $grantedFeature     = session('granted_features');
     $datenow = date("Y-m-d H:i:s");
 @endphp
 <div class="row">
-	<div class="col-md-6">
+	<div class="col-md-{{MyHelper::hasAccess([125], $configs) ? '6' : '12'}}">
 		<div class="profile-info portlet light bordered">
 		    <div class="row static-info">
 	            <div class="col-md-6 name"> Description :</div>
@@ -20,13 +20,14 @@ $grantedFeature     = session('granted_features');
 						(MyHelper::hasAccess([190], $grantedFeature) && $deals_type == 'WelcomeVoucher') ||
 						(MyHelper::hasAccess([80], $grantedFeature) && $deals_type == 'Hidden'))
 						<div class="col-md-12">
-							<a class="btn blue" href="{{ url('/'.$rpage)}}/step3/{{$deals['id_deals']??$deals['id_deals_promotion_template']}}">Edit Description & Content</a>
+							<a class="btn blue" href="{{ url('/'.$rpage)}}/step3/{{$deals['id_deals']??$deals['id_deals_promotion_template']}}">Edit Description{{MyHelper::hasAccess([125], $configs) ? ' & Content' : ''}}</a>
 						</div>
 					@endif
 			    @endif
 	        </div>
 	    </div>
 	</div>
+	@if(MyHelper::hasAccess([125], $configs))
 	<div class="col-md-6">
 		<div class="profile-info portlet light bordered">
 		    <div class="row static-info">
@@ -90,5 +91,6 @@ $grantedFeature     = session('granted_features');
 			@endforeach
 		</div>
 	</div>
+	@endif
 </div>
 @endsection

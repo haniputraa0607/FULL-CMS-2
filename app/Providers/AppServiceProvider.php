@@ -18,10 +18,11 @@ class AppServiceProvider extends ServiceProvider
             $url->forceScheme('https');
         }
 
-        \View::share([
-            'configs' => session('configs'),
-            'grantedFeature' => session('granted_features'),
-        ]);
+        view()->composer('*', function ($view) 
+            {
+                $view->with('configs', session('configs'));
+                $view->with('grantedFeature', session('granted_features'));
+            });
     }
 
     /**
