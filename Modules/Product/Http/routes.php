@@ -28,7 +28,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'product'
 	Route::any('submitCommission', ['middleware' => 'feature_control:49', 'uses' => 'ProductController@submitCommission']);
 	Route::post('export/{type}', ['middleware' => ['feature_control:57', 'config_control:11'], 'uses' => 'ProductController@export']);
 	Route::post('import/{type}', ['middleware' => ['feature_control:56', 'config_control:10'], 'uses' => 'ProductController@import']);
-	Route::any('price/{key?}', ['middleware' => ['feature_control:62', 'config_control:11'], 'uses' => 'ProductController@price']);
+	Route::any('price/{key?}', ['middleware' => ['feature_control:62'], 'uses' => 'ProductController@price']);
     Route::any('outlet-detail/{key?}', ['middleware' => ['feature_control:62', 'config_control:11'], 'uses' => 'ProductController@productOutletDetail']);
 	Route::any('category/assign', ['middleware' => ['feature_control:44', 'config_control:11'], 'uses' => 'ProductController@categoryAssign']);
 
