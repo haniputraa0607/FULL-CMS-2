@@ -743,7 +743,7 @@
 							<div class="col-md-9">
 								<span class="m-switch">
 									<label>
-									<input name="custom_form_checkbox" type="checkbox" class="make-switch" id="featureImage" data-size="small" data-on-color="info" data-on-text="ON" data-off-color="default" data-off-text="OFF" @if (isset($detail['custom_page_image_header'])) checked disabled @elseif (isset($result['custom_page_image_header'])) checked @endif @if (!empty(old('custom_page_image_header'))) checked @endif>
+									<input name="custom_form_checkbox" type="checkbox" class="make-switch" id="featureImage" data-size="small" data-on-color="info" data-on-text="ON" data-off-color="default" data-off-text="OFF" @if ($detail['custom_page_image_header'] ?? false) checked disabled @elseif ($result['custom_page_image_header'] ?? false) checked @endif @if (!empty(old('custom_page_image_header'))) checked @endif>
 									<span></span>
 									</label>
 								</span>
@@ -1276,7 +1276,7 @@
                                     <label class="control-label" id="lable_button_form">Value<span class="required" aria-required=""> * </span> </label>
                                 </div>
                                 <div id="inputValue" class="col-md-8">
-                                    <input type="text" class="form-control" name="custom_page_button_form_text_value" @if (isset($detail['custom_page_button_form_text_value'])) value="{{$detail['custom_page_button_form_text_value']}}" disabled @elseif (isset($result['custom_page_button_form_text_value'])) value="{{$result['custom_page_button_form_text_value']}}" @else value="{{ old('custom_page_button_form_text_value') }}" @endif placeholder="Featured Button Value">
+                                    <input type="text" class="form-control" name="custom_page_button_form_text_value" @if (isset($detail['custom_page_button_form_text_value'])) value="{{$detail['custom_page_button_form_text_value']}}" disabled @elseif ($result['custom_page_button_form_text']['value'] ?? false) value="{{$result['custom_page_button_form_text']['value']}}" @else value="{{ old('custom_page_button_form_text_value') }}" @endif placeholder="Featured Button Value">
                                 </div>
                                 {{-- <div hidden id="selectValue" class="col-md-9">
                                     <select class="form-control" id="custom_page_button_form_text" name="custom_page_button_form_text" @if (isset($detail)) disabled @endif>
@@ -1301,7 +1301,7 @@
                                     <label class="control-label">Text Button<span class="required" aria-required=""> * </span> </label>
                                 </div>
                                 <div id="inputValue" class="col-md-8">
-                                    <input type="text" class="form-control" name="custom_page_button_form_text_button" @if (isset($detail['custom_page_button_form_text_button'])) value="{{$detail['custom_page_button_form_text_button']}}" disabled @elseif (isset($result['custom_page_button_form_text_button'])) value="{{$result['custom_page_button_form_text_button']}}" @else value="{{ old('custom_page_button_form_text_button') }}" @endif placeholder="Featured Button Value">
+                                    <input type="text" class="form-control" name="custom_page_button_form_text_button" @if (isset($detail['custom_page_button_form_text_button'])) value="{{$detail['custom_page_button_form_text_button']}}" disabled @elseif ($result['custom_page_button_form_text']['button'] ?? false) value="{{$result['custom_page_button_form_text']['button'] ?? ''}}" @else value="{{ old('custom_page_button_form_text_button') }}" @endif placeholder="Featured Button Value">
                                 </div>
                             </div>
                         </div>
