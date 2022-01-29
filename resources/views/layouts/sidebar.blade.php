@@ -358,6 +358,7 @@
 							</a>
 						</li>
 						@endif
+						@if(MyHelper::hasAccess([124], $configs))
 						@if(MyHelper::hasAccess([164,166,167], $grantedFeature))
 						<li class="nav-item {{($submenu_active == 'news-category') ? 'active open' : ''}}">
 							<a href="{{url('news/category')}}" class="nav-link ">
@@ -371,6 +372,7 @@
 								<span class="title">New News Category</span>
 							</a>
 						</li>
+						@endif
 						@endif
 						@if(MyHelper::hasAccess([22,166], $grantedFeature))
 							<li class="nav-item {{($submenu_active == 'news-manage-position') ? 'active open' : ''}}">

@@ -17,6 +17,11 @@ class AppServiceProvider extends ServiceProvider
         if(env('REDIRECT_HTTPS', 'false') == 'true') {
             $url->forceScheme('https');
         }
+
+        \View::share([
+            'configs' => session('configs'),
+            'grantedFeature' => session('granted_features'),
+        ]);
     }
 
     /**

@@ -758,6 +758,7 @@
                             </div>
                         </div>
 
+                        @if(MyHelper::hasAccess([124], $configs))
                         <div class="form-group" id="selectCategory">
                             <div class="input-icon right">
                                 <label class="col-md-3 control-label">
@@ -775,6 +776,7 @@
                                 </select>
                             </div>
                         </div>
+                        @endif
 
                         <div class="form-group">
                             <div class="input-icon right">
