@@ -1065,7 +1065,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <div class="col-md-6">
-                                        <input type="text" id="field_event_latitude" class="form-control" name="custom_page_event_latitude" @if (isset($detail['custom_page_event_latitude'])) value="{{$detail['custom_page_event_latitude']}}" disabled @elseif (isset($result['custom_page_event_latitude'])) value="{{$result['custom_page_event_latitude']}}" @else value="{{ old('custom_page_event_latitude') }}" @endif id="lat" readonly>
+                                        <input type="text" class="form-control" name="custom_page_event_latitude" @if (isset($detail['custom_page_event_latitude'])) value="{{$detail['custom_page_event_latitude']}}" disabled @elseif (isset($result['custom_page_event_latitude'])) value="{{$result['custom_page_event_latitude']}}" @else value="{{ old('custom_page_event_latitude') }}" @endif id="lat" readonly>
                                     </div>
                                     <div class="col-md-6">
                                         <input type="text" class="form-control" name="custom_page_event_longitude" @if (isset($detail['custom_page_event_longitude'])) value="{{$detail['custom_page_event_longitude']}}" disabled @elseif (isset($result['custom_page_event_longitude'])) value="{{$result['custom_page_event_longitude']}}" @else value="{{ old('custom_page_event_longitude') }}" @endif id="lng" readonly>
