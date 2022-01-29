@@ -2462,12 +2462,15 @@
 											<span class="title">[Response] Claim Free Deals Success</span>
 										</a>
 									</li>
+
+									@if(MyHelper::hasAccess([27], $configs))
 									<li class="nav-item {{($submenu_active == 'deals-autoresponse-claim-paid-deals-success') ? 'active open' : ''}}">
 										<a href="{{url('transaction/autoresponse/claim-paid-deals-success')}}" class="nav-link ">
 											<i class="fa fa-mail-forward"></i>
 											<span class="title">[Response] Claim Paid Deals Success</span>
 										</a>
 									</li>
+									@endif
 									<li class="nav-item {{($submenu_active == 'deals-autoresponse-claim-point-deals-success') ? 'active open' : ''}}">
 										<a href="{{url('transaction/autoresponse/claim-point-deals-success')}}" class="nav-link ">
 											<i class="fa fa-mail-forward"></i>
