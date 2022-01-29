@@ -932,7 +932,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="input-group">
-                                        <input type="time" class="form-control featureTimeForm field_event" name="news_event time_start" value="{{ date('h:i', strtotime($value['news_event_time_start'])) }}">
+                                        <input type="time" class="form-control featureTimeForm field_event" name="news_event time_start" value="{{ date('H:i', strtotime($value['news_event_time_start'])) }}">
                                         <span class="input-group-btn">
                                             <button class="btn default" type="button">
                                                 <i class="fa fa-clock-o"></i>
@@ -951,7 +951,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="input-group">
-                                        <input type="time" class="form-control featureTimeForm field_event" name="news_event_time_end" value="{{ date('h:i', strtotime($value['news_event_time_end'])) }}">
+                                        <input type="time" class="form-control featureTimeForm field_event" name="news_event_time_end" value="{{ date('H:i', strtotime($value['news_event_time_end'])) }}">
                                         <span class="input-group-btn">
                                             <button class="btn default" type="button">
                                                 <i class="fa fa-clock-o"></i>
