@@ -1674,6 +1674,7 @@
 							<span class="title">[Response] Transaction Expired</span>
 						</a>
 					</li>
+					@if(MyHelper::hasAccess([12], $configs))
 					<li class="nav-item {{($submenu_active == 'transaction-autoresponse-order-accepted') ? 'active open' : ''}}">
 						<a href="{{url('transaction/autoresponse/order-accepted')}}" class="nav-link ">
 							<span class="title">[Response] Order Accepted</span>
@@ -1689,6 +1690,7 @@
 							<span class="title">[Response] Order Taken</span>
 						</a>
 					</li>
+					@endif
 {{-- 					<li class="nav-item {{($submenu_active == 'transaction-autoresponse-order-taken-by-driver') ? 'active open' : ''}}">
 						<a href="{{url('transaction/autoresponse/order-taken-by-driver')}}" class="nav-link ">
 							<span class="title">[Response] Order Taken By Driver</span>
