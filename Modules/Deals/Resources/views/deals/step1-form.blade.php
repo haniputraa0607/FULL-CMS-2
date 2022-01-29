@@ -481,6 +481,7 @@
             </div>
         </div>
 
+        @if(MyHelper::hasAccess([125], $configs))
         {{-- Custom Outlet Text --}}
         <div class="form-group">
             <div class="input-icon right">
@@ -495,6 +496,9 @@
                 </div>
             </div>
         </div>
+        @else
+        <input type="hidden" name="custom_outlet_text" value="">
+        @endif
 
         {{-- Charged --}}
         <div class="form-group">

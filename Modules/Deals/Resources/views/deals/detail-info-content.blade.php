@@ -59,7 +59,7 @@ $grantedFeature     = session('granted_features');
 				$i = 1; 
 				$count_content = count($deals['deals_content']??$deals['deals_promotion_content']); 
 			@endphp
-			@foreach (($deals['deals_content']??$deals['deals_promotion_content']) as $content)
+			@foreach ($deals['deals_content']??$deals['deals_promotion_content'] as $content)
 				@if ($i == 1 || $i%3 == 1)
 					<div class="row">
 				@endif
@@ -74,7 +74,7 @@ $grantedFeature     = session('granted_features');
 					        @endif
 					        </div>
 				            <div class="portlet-body">
-				            	@foreach (($content['deals_content_details']??$content['deals_promotion_content_details']) as $content_detail)
+				            	@foreach ($content['deals_content_details']??$content['deals_promotion_content_details'] as $content_detail)
 					                <div class="row static-info">
 					                    <div class="col-md-2 name">{{$content_detail['order']}}</div>
 					                    <div class="col-md-10 value">{{$content_detail['content']}}</div>
