@@ -147,7 +147,9 @@
                         <th> No </th>
                         <th> Title </th>
                         <th> Date Publish </th>
+                        @if(MyHelper::hasAccess([124], $configs))
                         <th> Category </th>
+                        @endif
                         @if(MyHelper::hasAccess([20,22,23], $grantedFeature))
                             <th> Action </th>
                         @endif
@@ -172,7 +174,9 @@
                                         {{ date('d F Y', strtotime($value['news_publish_date'])) }} - {{ date('d F Y', strtotime($value['news_expired_date'])) }}
                                     @endif
                                 </td>
+                                @if(MyHelper::hasAccess([124], $configs))
                                 <td>{{ $value['news_category']['category_name'] }}</td>
+                                @endif
                                 @if(MyHelper::hasAccess([20,22,23], $grantedFeature))
                                     <td style="width: 125px;">
                                         @if(MyHelper::hasAccess([23], $grantedFeature))

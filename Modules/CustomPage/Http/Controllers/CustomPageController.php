@@ -127,7 +127,7 @@ class CustomPageController extends Controller
         $action = MyHelper::post('custom-page/create', $post);
 
         if (isset($action['status']) && $action['status'] == 'success') {
-            return redirect('custom-page/detail/' . MyHelper::createSlug($action['result']['id_custom_page'], $action['result']['created_at']));
+            return redirect('custom-page/edit/' . MyHelper::createSlug($action['result']['id_custom_page'], $action['result']['created_at']))->withSuccess(['Success create custom page']);
         } else {
             return back()->withInput()->withErrors($action['messages']);
         }
@@ -189,7 +189,7 @@ class CustomPageController extends Controller
 
         // get product
         $data['product']   = $this->getData(MyHelper::get('product/be/list'));
-
+        $data['result']['custom_page_button_form_text'] = json_decode($data['result']['custom_page_button_form_text'], true) ?? [];
         return view('custompage::form', $data);
     }
 
@@ -229,6 +229,14 @@ class CustomPageController extends Controller
             }
         }
 
+        if (isset($post['custom_page_button_form'])) {
+            if (isset($post['custom_page_button_form_text_button'])) {
+                $post['custom_page_button_form_text'] = json_encode(['value' => $post['custom_page_button_form_text_value'], 'button' => $post['custom_page_button_form_text_button']]);
+            } else {
+                $post['custom_page_button_form_text'] = json_encode(['value' => $post['custom_page_button_form_text_value']]);
+            }
+        }
+
         $post['custom_page_description'] = preg_replace('/(img style="width: )([0-9]+)(px)/', 'img style="width: 100%', $post['custom_page_description']);
 
         if (isset($post['custom_page_description'])) {
@@ -241,7 +249,7 @@ class CustomPageController extends Controller
         $action = MyHelper::post('custom-page/update', $post);
 
         if ($action['status'] == 'success') {
-            return redirect('custom-page/detail/' . $id_custom_page);
+            return redirect('custom-page/edit/' . $id_custom_page)->withSuccess(['Success update custom page']);
         } else {
             return back()->withErrors($action['messages']);
         }
@@ -257,7 +265,7 @@ class CustomPageController extends Controller
 
         $action = MyHelper::post('custom-page/delete', ['id_custom_page' => $id_custom_page_decrypt]);
 
-        return redirect('custom-page');
+        return redirect('custom-page')->withSuccess(['Success delete custom page']);
     }
 
     public function webviewCustomPage(Request $request, $id_custom_page)

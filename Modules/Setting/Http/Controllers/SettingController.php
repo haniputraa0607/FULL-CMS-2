@@ -133,6 +133,7 @@ class SettingController extends Controller
             $span = 'times';
             $colLabel = 7;
             $colInput = 2;
+            $keySet = 'value';
         } elseif ($key == 'point_reset') {
             $sub = 'point-reset';
             $active = 'point-reset';
@@ -177,7 +178,8 @@ class SettingController extends Controller
             'subTitle'       => $subTitle,
             'label'          => $label,
             'colLabel'       => $colLabel,
-            'colInput'       => $colInput
+            'colInput'       => $colInput,
+            'key'            => $keySet ?? null,
         ];
 
         if(isset($span)){
@@ -210,13 +212,14 @@ class SettingController extends Controller
                 $result = $request['result'];
                 $data['id'] = $result['id_setting'];
 
-                if (is_null($result['value'])) {
-                    $data['value'] = $result['value_text'];
-                    $data['key'] = 'value_text';
-                } else {
-                    $data['value'] = $result['value'];
-                    $data['key'] = 'value';
+                if (is_null($data['key'])) {
+                    if (is_null($result['value'])) {
+                        $data['key'] = 'value_text';
+                    } else {
+                        $data['key'] = 'value';
+                    }
                 }
+                $data['value'] = $result[$data['key']];
             } else {
                 return redirect('home')->withErrors($request['messages']);
             }
