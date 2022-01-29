@@ -2664,7 +2664,7 @@
 								</li>
 							@endif
 							@if(MyHelper::hasAccess([293], $grantedFeature))
-							<li class="nav-item {{($submenu_active == 'deals-autoresponse-welcome-voucher') ? 'active open' : ''}}">
+							<li class="nav-item {{($submenu_active == 'welcome-voucher-autoresponse-receive-welcome-voucher') ? 'active open' : ''}}">
 								<a href="{{url('autoresponse/welcome-voucher/receive-welcome-voucher')}}" class="nav-link ">
 									<span class="title">[Response] Welcome Voucher</span>
 								</a>
