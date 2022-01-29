@@ -773,7 +773,7 @@
 				<li class="nav-item {{($menu_active == 'academy') ? 'active' : ''}}">
 					<a href="javascript:;" class="nav-link nav-toggle">
 						<i class="fa fa-building-o"></i>
-						<span class="title">Academy</span>
+						<span class="title">Product Academy</span>
 						<span class="arrow {{($menu_active == 'academy') ? 'open' : ''}}"></span>
 					</a>
 					<ul class="sub-menu">
