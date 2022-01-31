@@ -115,6 +115,61 @@ $grantedFeature     = session('granted_features');
 				$('#pin2').prop('required', true);
 			}
 		}
+		
+		function submitScore() {
+			$("#list_data_training").hide();
+			$("#form_data_training").show();
+		}
+
+		function backToListTraining() {
+			$("#list_data_training").show();
+			$("#form_data_training").hide();
+		}
+
+		var prev_id_theory = '';
+		function changeCategoryTheory(value) {
+			$("#"+value).show();
+			if(prev_id_theory !== ''){
+				$("#"+prev_id_theory).hide();
+			}
+			prev_id_theory = value;
+		}
+		
+		function nextStepFromTrainingResult(id) {
+			var token  	= "{{ csrf_token() }}";
+			swal({
+				title: 'Are you sure want to next step "Approve"?',
+				text: "Your will not be able to recover this data!",
+				type: "info",
+				showCancelButton: true,
+				confirmButtonClass: "btn-info",
+				confirmButtonText: "Yes, to next step!",
+				closeOnConfirm: false
+			},
+			function(){
+				$.ajax({
+					type : "POST",
+					url : "{{ url('recruitment/hair-stylist/update-status') }}",
+					data : "_token="+token+"&id_user_hair_stylist="+id+"&user_hair_stylist_status=Training Completed",
+					success : function(result) {
+						if (result.status == "success") {
+							swal({
+								title: 'Updated!',
+								text: "Success updated status.",
+								type: "success",
+								showCancelButton: false,
+								showConfirmButton: false
+							});
+							SweetAlert.init()
+							location.href = "{{url('recruitment/hair-stylist/candidate/detail')}}"+"/"+id;
+						}
+						else {
+							toastr.warning(result.messages);
+						}
+					}
+				});
+			});
+		}
     </script>
 @endsection
 
@@ -194,11 +249,11 @@ $grantedFeature     = session('granted_features');
 						@if($detail['user_hair_stylist_status'] == 'Active' || $detail['user_hair_stylist_status'] == 'Inactive')
 							<div class="form-group">
 								<label class="col-md-4 control-label">Approve By</label>
-								<div class="col-md-6">{{$detail['approve_by_name']}}</div>
+								<div class="col-md-6" style="margin-top: 0.7%">{{$detail['approve_by_name']}}</div>
 							</div>
 							<div class="form-group">
 								<label class="col-md-4 control-label">Join Date</label>
-								<div class="col-md-6">{{date('d M Y H:i', strtotime($detail['join_date']))}}</div>
+								<div class="col-md-6" style="margin-top: 0.7%">{{date('d M Y H:i', strtotime($detail['join_date']))}}</div>
 							</div>
 							<div class="form-group">
 								<label class="col-md-4 control-label">Bank Account</label>
@@ -541,7 +596,7 @@ $grantedFeature     = session('granted_features');
 								<table class="table table-striped table-bordered table-hover">
 									<thead>
 									<tr>
-										<th scope="col" width="10%"> Attachment </th>
+										<th scope="col" width="10%"> Action </th>
 										<th scope="col" width="10%"> Process Type </th>
 										<th scope="col" width="10%"> Process Date </th>
 										<th scope="col" width="10%"> Name </th>
@@ -552,12 +607,55 @@ $grantedFeature     = session('granted_features');
 									<tbody>
 									@foreach($detail['documents'] as $doc)
 										<?php
-											$dataDoc[$doc['document_type']] = $doc;
+											if($doc['document_type'] == 'Training Completed'){
+												$dataDoc[$doc['document_type']][] = $doc;
+												$detailTheories = [];
+												foreach ($doc['theories'] as $theory){
+													$detailTheories[$theory['category_title']][] = $theory;
+												}
+											}else{
+												$dataDoc[$doc['document_type']] = $doc;
+											}
 										?>
 										<tr>
-											<td style="text-align: center">
+											<td>
 												@if(!empty($doc['attachment']))
-													<a class="btn blue btn-xs" href="{{url('recruitment/hair-stylist/detail/download-file', $doc['id_user_hair_stylist_document'])}}"><i class="fa fa-download"></i></a>
+													<a class="btn blue btn-xs" href="{{url('recruitment/hair-stylist/detail/download-file', $doc['id_user_hair_stylist_document'])}}">Attachment</a>
+												@endif
+												@if($doc['document_type'] == 'Training Completed')
+													<a data-toggle="modal" href="#detail_{{$doc['id_user_hair_stylist_document']}}" class="btn green-jungle btn-xs">Score</a>
+													<div id="detail_{{$doc['id_user_hair_stylist_document']}}" class="modal fade bs-modal-lg" tabindex="-1" aria-hidden="true">
+														<div class="modal-dialog modal-lg">
+															<div class="modal-content">
+																<div class="modal-header">
+																	<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+																	<h4 class="modal-title">Detail Score</h4>
+																</div>
+																<div class="modal-body" style="margin-top: -4%">
+																	@foreach($detailTheories as $keyT=>$t)
+																		<div class="row">
+																			<div class="col-md-12">
+																				<p><b>{{$keyT}}</b></p>
+																			</div>
+																		</div>
+																		@foreach($t as $data)
+																			<div class="row">
+																				<div class="col-md-9" style="margin-top: -2%;">
+																					<p>{{$data['theory_title']}}</p>
+																				</div>
+																				<div class="col-md-2">
+																					<div class="input-group">
+																						<input type="text" class="form-control" value="{{$data['score']}}" disabled>
+																						<span class="input-group-addon">/ {{$data['minimum_score']}}</span>
+																					</div>
+																				</div>
+																			</div>
+																		@endforeach
+																	@endforeach
+																</div>
+															</div>
+														</div>
+													</div>
 												@endif
 											</td>
 											<td>{{$doc['document_type']}}</td>
