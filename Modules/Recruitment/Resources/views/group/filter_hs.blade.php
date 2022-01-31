@@ -195,6 +195,7 @@ $configs  = session('configs');
                                                                         <div >
                                                                                 <div style="padding-bottom:10px">
                                                                                 <div class="col-md-12">
+                                                                                    <input type="hidden" placeholder="Keyword" class="form-control" name="id_before" value="{{$id_before}}"  required/>
                                                                                 <div class="col-md-3">
                                                                                     <input type="text" placeholder="Keyword" class="form-control" name="subject" value="Full Name" readonly required/>
                                                                                     <input type="hidden" placeholder="Keyword" class="form-control" name="subject" value="name_insentif"  required/>
@@ -232,6 +233,7 @@ $configs  = session('configs');
 	<h4 class="alert-heading">Displaying search result :</h4>
 	<p>{{$hs['data_total']}}</p><br>
 	<form action="{{url('recruitment/hair-stylist/group/commission/filter_hs')}}" method="post">
+                <input type="hidden" placeholder="Keyword" class="form-control" name="id_before" value="{{$id_before}}"  required/>
 		{{csrf_field()}}
 		<button class="btn btn-sm btn-warning" name="clear" value="session">Reset</button>
 	</form>
