@@ -784,6 +784,7 @@ class SettingFraudController extends Controller
         }else{
             $data['result'] = [];
         }
+        $data['id_user'] = $id_user;
 
         return view('settingfraud::report.report_fraud_transaction_between_detail', $data);
     }
@@ -826,8 +827,12 @@ class SettingFraudController extends Controller
         }elseif($type == 'transaction-week'){
             $id = $post['id_fraud_log'];
             $url = 'fraud-detection/report/detail/transaction-week/'.$id;
+        }elseif($type == 'transaction-between'){
+            $id = $post['id_user'];
+            $date = $post['transaction_date'];
+            $url = 'fraud-detection/report/detail/transaction-between/'.$id.'/'.date('Y-m-d', strtotime($date));
         }elseif($type == 'suspend-user'){
-            $url = 'fraud-detection/suspend-user/1';
+            $url = 'fraud-detection/suspend-user';
         }
 
         if(isset($update['status']) && isset($update['status']) == 'success'){

@@ -122,7 +122,7 @@
             <tr>
                 <th scope="col" width="10%"> Action </th>
                 <th scope="col" width="10%"> Join Date </th>
-                <th scope="col" width="10%"> Approve by </th>
+                <th scope="col" width="10%"> Level </th>
                 <th scope="col" width="10%"> Status </th>
                 <th scope="col" width="10%"> Nickname </th>
                 <th scope="col" width="10%"> Full Name </th>
@@ -142,7 +142,7 @@
                             @endif
                         </td>
                         <td>{{ date('d M Y H:i', strtotime($val['join_date'])) }}</td>
-                        <td>{{$val['approve_by_name']}}</td>
+                        <td>{{$val['level']}}</td>
                         <td class="middle-center">
                             <input type="checkbox" name="user_hair_stylist_status" @if($val['user_hair_stylist_status'] == 'Active') checked @endif data-id="{{ $val['id_user_hair_stylist'] }}" class="make-switch switch-change" data-size="small" data-on-text="Active" data-off-text="Inactive">
                             <p style="display: none" id="atr-{{$val['id_user_hair_stylist']}}">{{$val['user_hair_stylist_status']}}</p>

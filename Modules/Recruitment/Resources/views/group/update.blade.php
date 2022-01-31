@@ -1,5 +1,4 @@
-@include('recruitment::group.filter_commission')
-@include('recruitment::group.filter_hs')
+
 @extends('layouts.main')
 
 @section('page-style')
@@ -117,12 +116,12 @@
         function myFunction() {
           var id_percent     	=  $("input[name='percent']:checked").val();
               if(id_percent == 'on'){
-                 var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span><i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label><div class="col-md-6"><input class="form-control" required type="number" id="commission" name="commission" min="1" max="99" placeholder="Enter Commission Percent"/></div></div>';
+                 var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span><i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label><div class="col-md-6"><input class="form-control" required type="number" id="commission" name="commission_percent" min="1" max="99" placeholder="Enter Commission Percent"/></div></div>';
               }else{
                  var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
                          <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
                         <div class="col-md-6">\
-                          <input class="form-control" required type="number" id="commission" name="commission"  placeholder="Enter Commission Nominal"/>\
+                          <input class="form-control" required type="number" id="commission" name="commission_percent"  placeholder="Enter Commission Nominal"/>\
                         </div></div>'; 
 
               }

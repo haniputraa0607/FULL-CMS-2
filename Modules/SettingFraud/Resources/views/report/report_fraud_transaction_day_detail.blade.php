@@ -28,10 +28,10 @@
             var status_msg = '';
 
             if(state == 1){
-                status_msg = 'Unsuspend';
+                status_msg = 'Suspend';
                 var status_input = 1;
             }else{
-                status_msg = 'Suspend';
+                status_msg = 'Unsuspend';
                 var status_input = 0;
             }
 
@@ -60,7 +60,7 @@
             html += '<div class="col-md-8"></div>';
             html += '</div>';
             html += '<div class="margin-top-10">';
-            html += '<button type="submit" class="btn green">'+status_msg+'</button>';
+            html += '<button type="submit" class="btn green">Save</button>';
             html += '</div>';
             html += '</form>';
             html += '</div>';
@@ -189,11 +189,7 @@
 
                                         ?></td>
                                     <td>
-                                        @if(strtolower($val['trasaction_type']) == 'offline')
-                                            <a target="_blank" href="{{ url('transaction/detail/') }}/{{ $val['id_transaction'] }}/offline">{{$val['transaction_receipt_number']}}</a>
-                                        @else
-                                            <a target="_blank" href="{{ url('transaction/detail/') }}/{{ $val['id_transaction'] }}/pickup order">{{$val['transaction_receipt_number']}}</a>
-                                        @endif
+                                        <a target="_blank" href="{{ url('transaction/'.$val['transaction_from'].'/detail/') }}/{{ $val['id_transaction'] }}">{{$val['transaction_receipt_number']}}</a>
                                     </td>
                                     <td>{{$result['detail_user']['name']}}</td>
                                     <td>{{$result['detail_user']['phone']}}</td>

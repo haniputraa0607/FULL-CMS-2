@@ -82,7 +82,8 @@
             </li>
             @endif
         </ul>
-    </div><br>
+    </div>
+<br>
 
     @include('layouts.notifications')
 
@@ -93,31 +94,61 @@
             </div>
         </div>
         <div class="tabbable-line tabbable-full-width">
-            <ul class="nav nav-tabs">
-                <li class="active">
-                    <a href="#overview" data-toggle="tab">Outlet Cut Off</a>
-                </li>
-                <li>
-                    <a href="#document" data-toggle="tab"> Document </a>
-                </li>
-                @if($result['status']=="Process")
-                <li>
-                    <a href="#create" data-toggle="tab">Create Document </a>
-                </li>
-                @endif
-            </ul>
+            
         <div class="tab-content">
             <div class="tab-pane active" id="overview">
-               @include('businessdevelopment::outlet_manage.update')
+               <div class="portlet-body form">
+                        <div style="white-space: nowrap;">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="kt_datatable">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-nowrap text-center">No</th>
+                                        <th class="text-nowrap text-center">Name</th>
+                                        <th class="text-nowrap text-center">Code</th>
+                                        <th class="text-nowrap text-center">Kota</th>
+                                        <th class="text-nowrap text-center">Type</th>
+                                        <th class="text-nowrap text-center">Status</th>
+                                        <th class="text-nowrap text-center">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody style="text-align:center">
+                                            @php $i = 1;
+                                            @endphp
+                                            @foreach($result as $value)
+                                                <tr data-id="{{ $value['id_outlet_manage'] }}">
+                                                    <td>{{$i}}</td>
+                                                    <td>{{$value['outlet_name']}}</td>
+                                                    <td>{{$value['outlet_code']}}</td>
+                                                    <td>{{$value['city_name']}}</td>
+                                                    <td>{{$value['type']}}</td>
+                                                    <td>
+                                                        <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: @if($value['status']=="Reject")red @elseif($value['status']=="Process") blue @elseif($value['status']=="Waiting") #ffd700 @else #00FF00  @endif;padding: 5px 12px;color: #fff;">{{$value['status']}}</span>
+
+                                                    </td>
+                                                    <td>
+                                                        @if($value['type']=="Cut Off")
+                                                            <a href="{{url('businessdev/partners/outlet/cutoff/detail/'.$value['id_enkripsi'])}}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"> </i> Detail</a>
+                                                        @elseif($value['type']=="Change Ownership") 
+                                                         <a href="{{url('businessdev/partners/outlet/change/detail/'.$value['id_enkripsi'])}}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"> </i> Detail</a>
+                                                        @elseif($value['type']=='Close Temporary') 
+                                                         <a href="{{url('businessdev/partners/outlet/close/detail/'.$value['id_enkripsi'])}}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"> </i> Detail</a>
+                                                        @elseif($value['type']=='Active Temporary') 
+                                                         <a href="{{url('businessdev/partners/outlet/close/detail/'.$value['id_enkripsi'])}}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"> </i> Detail</a>
+                                                        @elseif($value['type']=='Change Location') 
+                                                         <a href="{{url('businessdev/partners/outlet/change_location/detail/'.$value['id_enkripsi'])}}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"> </i> Detail</a>
+                                                        @endif   
+                                                    </td>
+                                                </tr> 
+                                             @php $i++;
+                                            @endphp
+                                            @endforeach
+                                        </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
             </div>
-            <div class="tab-pane" id="document">
-                 @include('businessdevelopment::outlet_manage.document')
-            </div>
-            @if($result['status']=="Process")
-            <div class="tab-pane" id="create">
-                @include('businessdevelopment::outlet_manage.create_lampiran_cutoff')
-            </div>
-            @endif
         </div>
     </div>
     

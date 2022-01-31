@@ -193,7 +193,7 @@
                 	@foreach($ratingData['data'] as $rating)
                 	<tr>
                 		<td>{{date('d M Y',strtotime($rating['created_at']))}}</td>
-                		<td><a href="{{url('transaction/detail'.'/'.$rating['transaction']['id_transaction'].'/'.strtolower($rating['transaction']['trasaction_type']))}}">{{$rating['transaction']['transaction_receipt_number']}}</a></td>
+                		<td><a href="{{url('transaction/' .$rating['transaction']['transaction_from']. '/detail'.'/'.$rating['transaction']['id_transaction'].'/'.strtolower($rating['transaction']['trasaction_type']))}}">{{$rating['transaction']['transaction_receipt_number']}}</a></td>
                 		<td><a href="{{url('user/detail'.'/'.$rating['user']['phone'])}}">{{$rating['user']['name']}}</a></td>
                 		<td>Rp {{number_format($rating['transaction']['transaction_grandtotal'],0,',','.')}}</td>
                 		<td>{{ $rating['id_user_hair_stylist'] ? 'Hairstylist' : 'Outlet' }}</td>

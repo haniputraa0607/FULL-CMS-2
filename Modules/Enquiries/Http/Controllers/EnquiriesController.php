@@ -131,12 +131,14 @@ class EnquiriesController extends Controller
                     $datas[$key][$keyChild] = array_values(array_filter($value));
                 }
             }
+            $page = $post['page'];
+            unset($post['page']);
 
             $update = MyHelper::post('enquiries/setting-subject', $datas);
             if(!empty($update['status']) && $update['status'] == 'success'){
-                return redirect('enquiries/setting/subject')->withSuccess(['Success submit data']);
+                return redirect('enquiries/setting/subject#'.$page)->withSuccess(['Success submit data']);
             }else{
-                return redirect('enquiries/setting/subject')->withErrors(['Failed to submit']);
+                return redirect('enquiries/setting/subject#'.$page)->withErrors(['Failed to submit']);
             }
         }
     }

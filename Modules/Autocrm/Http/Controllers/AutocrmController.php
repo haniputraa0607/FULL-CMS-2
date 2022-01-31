@@ -273,6 +273,15 @@ class AutocrmController extends Controller
                 ];
                 break;
             case 'home-service-mitra-get-order':
+                $data['menu_active'] = 'home-service-transaction';
+                $data['submenu_active'] = 'home-service-autoresponse-'.$subject;
+                $data['click_notification'] = [
+                    ['value' => "home_service_history",'title' => 'History Home Service']
+                ];
+                $data['click_inbox'] = [
+                    ['value' => "home_service_history",'title' => 'History Home Service']
+                ];
+                break;
             case 'home-service-update-status':
                 $data['menu_active'] = 'home-service-transaction';
                 $data['submenu_active'] = 'home-service-autoresponse-'.$subject;

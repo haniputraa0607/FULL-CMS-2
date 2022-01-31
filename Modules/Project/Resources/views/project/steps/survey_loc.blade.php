@@ -3,10 +3,10 @@
     $prog = false;
     $surveyor = session::get('name');
     $attachment_surv = null;
-    $location_length = 0.01;
-    $location_width = 0.01;
-    $location_large = 0.01;
-    $location_height = 0.01;
+    $location_length = $result['project_locations']['length']??0.01;
+    $location_width = $result['project_locations']['width']??0.01;
+    $location_large = $result['project_locations']['location_large']??0.01;
+    $location_height = $result['project_locations']['height ']??0.01;
     $survey_date = null;
     $note = null;
     $next = false;
@@ -160,7 +160,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Survey" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input type="text" id="survey_date" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif class="datepicker form-control" name="survey_date" value="{{ (!empty($survey_date) ? date('d F Y', strtotime($survey_date)) : '')}}" >
+                                            <input type="text" id="survey_date" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif class="datepicker form-control" name="survey_date" value="{{ (!empty($survey_date) ? date('d F Y', strtotime($survey_date)) : date('d F Y'))}}" >
                                             <span class="input-group-btn">
                                                 <button class="btn default" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -174,7 +174,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Mulai Pekerjaan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input type="text" id="tanggal_mulai_pekerjaan" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif class="datepicker form-control" name="tanggal_mulai_pekerjaan" value="{{ (!empty($result['project_survey']['tanggal_mulai_pekerjaan']) ? date('d F Y', strtotime($result['project_survey']['tanggal_mulai_pekerjaan'])) : '')}}" >
+                                            <input type="text" id="tanggal_mulai_pekerjaan" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif class="datepicker form-control" name="tanggal_mulai_pekerjaan" value="{{ (!empty($result['project_survey']['tanggal_mulai_pekerjaan']) ? date('d F Y', strtotime($result['project_survey']['tanggal_mulai_pekerjaan'])) : date('d F Y'))}}" >
                                             <span class="input-group-btn">
                                                 <button class="btn default" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -188,7 +188,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Estimasi Tanggal Selesai Pekerjaan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input type="text" id="tanggal_selesai_pekerjaan" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif class="datepicker form-control" name="tanggal_selesai_pekerjaan" value="{{ (!empty($result['project_survey']['tanggal_selesai_pekerjaan']) ? date('d F Y', strtotime($result['project_survey']['tanggal_selesai_pekerjaan'])) : '')}}" >
+                                            <input type="text" id="tanggal_selesai_pekerjaan" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif class="datepicker form-control" name="tanggal_selesai_pekerjaan" value="{{ (!empty($result['project_survey']['tanggal_selesai_pekerjaan']) ? date('d F Y', strtotime($result['project_survey']['tanggal_selesai_pekerjaan'])) : date('d F Y'))}}" >
                                             <span class="input-group-btn">
                                                 <button class="btn default" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -202,7 +202,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Estimasi Tanggal Loading Barang" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input type="text" id="tanggal_loading_barang" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif class="datepicker form-control" name="tanggal_loading_barang" value="{{ (!empty($result['project_survey']['tanggal_loading_barang']) ? date('d F Y', strtotime($result['project_survey']['tanggal_loading_barang'])) : '')}}" >
+                                            <input type="text" id="tanggal_loading_barang" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif class="datepicker form-control" name="tanggal_loading_barang" value="{{ (!empty($result['project_survey']['tanggal_loading_barang']) ? date('d F Y', strtotime($result['project_survey']['tanggal_loading_barang'])) : date('d F Y'))}}" >
                                             <span class="input-group-btn">
                                                 <button class="btn default" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -216,7 +216,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Estimasi Tanggal Pengiriman Barang" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input type="text" id="tanggal_pengiriman_barang" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif class="datepicker form-control" name="tanggal_pengiriman_barang" value="{{ (!empty($result['project_survey']['tanggal_pengiriman_barang']) ? date('d F Y', strtotime($result['project_survey']['tanggal_pengiriman_barang'])) : '')}}" >
+                                            <input type="text" id="tanggal_pengiriman_barang" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif class="datepicker form-control" name="tanggal_pengiriman_barang" value="{{ (!empty($result['project_survey']['tanggal_pengiriman_barang']) ? date('d F Y', strtotime($result['project_survey']['tanggal_pengiriman_barang'])) : date('d F Y'))}}" >
                                             <span class="input-group-btn">
                                                 <button class="btn default" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -230,7 +230,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Estimasi Tiba Barang" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input type="text" id="estimasi_tiba" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif class="datepicker form-control" name="estimasi_tiba" value="{{ (!empty($result['project_survey']['estimasi_tiba']) ? date('d F Y', strtotime($result['project_survey']['estimasi_tiba'])) : '')}}" >
+                                            <input type="text" id="estimasi_tiba" @if($result['status']!='Process' ) disabled @elseif($result['progres']!='Survey Location') disabled @endif class="datepicker form-control" name="estimasi_tiba" value="{{ (!empty($result['project_survey']['estimasi_tiba']) ? date('d F Y', strtotime($result['project_survey']['estimasi_tiba'])) : date('d F Y'))}}" >
                                             <span class="input-group-btn">
                                                 <button class="btn default" type="button">
                                                     <i class="fa fa-calendar"></i>

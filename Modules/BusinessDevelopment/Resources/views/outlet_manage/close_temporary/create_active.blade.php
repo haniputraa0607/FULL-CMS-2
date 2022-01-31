@@ -1,8 +1,7 @@
 <div class="portlet-body form">
     <form class="form-horizontal" role="form" action="{{url('businessdev/partners/outlet/close/createActive')}}" method="post" enctype="multipart/form-data">
         <div class="form-body">
-            <input class="form-control" type="hidden" id="id_outlet" name="id_outlet" value="{{$outlet['id_outlet']}}"/>
-            <input class="form-control" type="hidden" id="id_partner" name="id_partner" value="{{$outlet['id_partner']}}"/>
+            <input class="form-control" type="hidden" id="id_partner" name="id_partner" value="{{$id_partner}}"/>
             <div class="form-group">
                 <label for="example-search-input" class="control-label col-md-4">Title<span class="required" aria-required="true">*</span>
                     <i class="fa fa-question-circle tooltips" data-original-title="Title" data-container="body"></i></label>
@@ -11,13 +10,16 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-search-input" class="control-label col-md-4">Lokasi<span class="required" aria-required="true">*</span>
-                    <i class="fa fa-question-circle tooltips" data-original-title="Lokasi" data-container="body"></i></label>
+                <label for="example-search-input" class="control-label col-md-4">Outlet<span class="required" aria-required="true">*</span>
+                    <i class="fa fa-question-circle tooltips" data-original-title="Pilih outlet yang akan berpindah lokasi. Outlet akan ditutup dan akan dibuat outlet baru" data-container="body"></i></label>
                 <div class="col-md-5">
-                      <select name="jenis_active" id="jenis_active" class="form-control input-sm select2" data-placeholder="Pilih Lokasi">
-                                    <option value="">Select</option>
-                                    <option value="Change Location">Pindah Lokasi</option>
-                                    <option value="No Change Location">Tidak Pindah Lokasi</option>
+                      <select name="id_outlet" id="id_outlet" class="form-control input-sm select2" placeholder="Search Outlet" data-placeholder="Pilih Outlet">
+                                    <option value="">Select Outlet</option>
+                                    @if(isset($listoutlet))
+                                            @foreach($listactive as $row)
+                                                    <option value="{{$row['id_outlet']}}">{{$row['outlet_name']}} ({{$row['outlet_code']}}) </option>
+                                            @endforeach
+                                    @endif
                             </select>
                 </div>
             </div>

@@ -203,6 +203,7 @@ class OutletController extends Controller
 
             // province
             $data['province'] = $this->getPropinsi();
+            $data['default_box_url'] = MyHelper::post('setting', ['key'=>'outlet_box_default_url'])['result']['value']??null;
             // return $data;
             // print_r($data); exit();
             return view('outlet::detail', $data);

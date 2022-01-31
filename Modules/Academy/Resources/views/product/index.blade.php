@@ -102,8 +102,7 @@ $configs    		= session('configs');
                         toastr.info("Product has been deleted.");
                     }
                     else {
-                        window.location.reload(true);
-                        toastr.info("Product has been deleted.");
+                        toastr.error("The product cannot be deleted because it has been used");
                     }
                 }
             });
@@ -226,7 +225,7 @@ $configs    		= session('configs');
                     <th> No </th>
                     <th> Code </th>
                     <th> Name </th>
-                    <th> Brand </th>
+                    {{-- <th> Brand </th> --}}
                     <th >Default Visibility Product</th>
                     <th> Override Visible </th>
                     <th> Override Hidden </th>
@@ -242,11 +241,11 @@ $configs    		= session('configs');
                             <td>{{ $key+1 }}</td>
                             <td>{{ $value['product_code'] }}</td>
                             <td>{{ $value['product_name'] }}</td>
-                            <td>
+{{--                             <td>
                                 @foreach ($value['brands'] as $item)
                                     {{$item['name_brand']}}
                                 @endforeach
-                            </td>
+                            </td> --}}
                             <td>
                                 <div class="bootstrap-switch-container">
                                     <span class="bootstrap-switch-handle-on bootstrap-switch-primary" style="width: 35px;"></span>

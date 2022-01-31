@@ -29,20 +29,12 @@ $grantedFeature     = session('granted_features');
                                 <td>{{$value['outlet_code']}}</td>
                                 <td>{{$value['city_name']}}</td>
                                 <td>
-                                    <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: @if($value['status_warna']==2)red @elseif($value['status_warna']==1) blue @else #00FF00  @endif;padding: 5px 12px;color: #fff;">{{$value['status_outlet']}}</span>
+                                    <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: @if($value['outlet_status']=="Inactive")red @else #00FF00  @endif;padding: 5px 12px;color: #fff;">{{$value['outlet_status']}}</span>
                                     
                                 </td>
                                 <td>
-                                        @if(isset($value['name_button']))
-                                        <a href="{{$value['url_detail']}}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i>{{$value['name_button']}}</a>
-                                        @endif
-                                        @if(isset($value['name_button_close']))
-                                        <a href="{{$value['url_detail_close']}}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i>{{$value['name_button_close']}}</a>
-                                        @endif
-                                        @if(empty($value['name_button'])&&empty($value['name_button_close']))
-                                        <span class="sale-num sbold badge badge-pill" style="font-size: 16px!important;height: 30px!important;background-color: #808080;padding: 5px 12px;color: #fff;"> No Action</span>
-                                        @endif
-                                        
+                                        <a href="{{url('businessdev/partners/outlet/detail/'.$value['id_enkripsi'])}}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"> </i> Detail</a>
+                                      
                                 </td>
                             </tr> 
                          @php $i++;

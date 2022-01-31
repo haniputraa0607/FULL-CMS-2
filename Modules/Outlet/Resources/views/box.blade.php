@@ -1,9 +1,19 @@
 <form class="form-horizontal" id="form-outlet-box" role="form" action="{{ url('outlet/box/save') }}" method="post">
   <div class="form-body">
+  	@if(false)
 	  <div class="form-group">
 		  <div class="col-md-4">
 			  <a class="btn btn-primary" onclick="addOutletBox()">&nbsp;<i class="fa fa-plus-circle"></i> Add Outlet Box </a>
 		  </div>
+	  </div>
+	  @endif
+	  <div class="alert alert-info">
+	  	Available variable to set in box url:
+	  	<ul>
+	  		<li><b>%box_code%</b>: will be replaced with box code</li>
+	  		<li><b>%status%</b>: will be replaced with on/off status. on=1; off=0</li>
+	  	</ul>
+	  	Leave the box url empty to use the default url. default url: {{$default_box_url ?? 'Not Set'}}
 	  </div>
 	  <br>
 	  <div class="form-group">
@@ -31,7 +41,15 @@
 						  <input class="form-control" type="text" maxlength="200" id="outlet_box_name_0" name="outlet_box_data[0][outlet_box_name]" required placeholder="Enter name"/>
 					  </div>
 					  <div class="col-md-4">
-						  <input class="form-control" type="text" maxlength="255" id="outlet_box_name_0" name="outlet_box_data[0][outlet_box_url]" required placeholder="Enter box URL"/>
+						  <input class="form-control" type="text" maxlength="255" id="outlet_box_url_0" name="outlet_box_data[0][outlet_box_url]" required placeholder="Enter box URL"/>
+							<div class="row appender" data-target="#outlet_box_url_0">
+								<div class="col-md-5" style="margin-bottom:5px;margin-top:5px;">
+									<span class="btn dark btn-xs btn-block btn-outline var appender-btn" data-toggle="tooltip" title="Text will be replace '%box_code%' with box code" data-value="%box_code%">%box_code%</span>
+								</div>
+								<div class="col-md-5" style="margin-bottom:5px;margin-top:5px;">
+									<span class="btn dark btn-xs btn-block btn-outline var appender-btn" data-toggle="tooltip" title="Text will be replace '%status%' with box status (on/off)" data-value="%status%">%status%</span>
+								</div>
+							</div>
 					  </div>
 					  <div class="col-md-3">
 						  <input data-switch="true" type="checkbox" name="outlet_box_data[0][outlet_box_status]" data-on-text="Active" data-off-text="Inactive" checked/>
@@ -53,6 +71,14 @@
 						  </div>
 						  <div class="col-md-4">
 							  <input class="form-control" type="text" maxlength="255" id="outlet_box_url_{{$key}}" name="outlet_box_data[{{$key}}][outlet_box_url]" required placeholder="Enter box URL" value="{{$val['outlet_box_url']}}"/>
+								<div class="row appender" data-target="#outlet_box_url_{{$key}}">
+									<div class="col-md-5" style="margin-bottom:5px;margin-top:5px;">
+										<span class="btn dark btn-xs btn-block btn-outline var appender-btn" data-toggle="tooltip" title="Text will be replace '%box_code%' with box code" data-value="%box_code%">%box_code%</span>
+									</div>
+									<div class="col-md-5" style="margin-bottom:5px;margin-top:5px;">
+										<span class="btn dark btn-xs btn-block btn-outline var appender-btn" data-toggle="tooltip" title="Text will be replace '%status%' with box status (on/off)" data-value="%status%">%status%</span>
+									</div>
+								</div>
 						  </div>
 						  <div class="col-md-3">
 							  <input data-switch="true" type="checkbox" name="outlet_box_data[{{$key}}][outlet_box_status]" data-on-text="Active" data-off-text="Inactive" @if($val['outlet_box_status'] == 'Active') checked @endif/>
@@ -69,7 +95,7 @@
       <div class="row" style="text-align: center;margin-top: 5%">
 		  <input type="hidden" name="id_outlet" value="{{ $outlet[0]['id_outlet'] }}">
 		  <input type="hidden" name="outlet_code" value="{{ $outlet[0]['outlet_code'] }}">
-		  <a onclick="outletBoxSubmit()" class="btn green">Submit</a>
+		  <a onclick="outletBoxSubmit()" class="btn green">Save</a>
       </div>
   </div>
 </form>

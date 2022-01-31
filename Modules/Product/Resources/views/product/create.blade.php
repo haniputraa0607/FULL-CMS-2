@@ -269,7 +269,7 @@
         <div class="portlet-body form">
             <form class="form-horizontal" role="form" action="{{ url()->current() }}" method="post" enctype="multipart/form-data">
                 <div class="form-body">
-                    <div class="form-group">
+{{--                     <div class="form-group">
                         <label for="multiple" class="control-label col-md-3">Category <span class="required" aria-required="true"> * </span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih Kategori Produk" data-container="body"></i>
                         </label>
@@ -292,7 +292,7 @@
                             </select>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group">
                         <label class="col-md-3 control-label">Name <span class="required" aria-required="true"> * </span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Nama Produk" data-container="body"></i>
@@ -304,16 +304,29 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-3 control-label">Code
+                        <label class="col-md-3 control-label">Code <span class="required" aria-required="true"> * </span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Kode Produk Bersifat Unik" data-container="body"></i>
                         </label>
                         <div class="col-md-8">
                             <div class="input-icon right">
-                                <input type="text" class="form-control" name="product_code" value="{{ old('product_code') }}" placeholder="Product code">
+                                <input type="text" class="form-control" name="product_code" value="{{ old('product_code') }}" placeholder="Product code" required>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-md-3 control-label">Type <span class="required" aria-required="true"> * </span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Jenis dari produk" data-container="body"></i>
+                        </label>
+                        <div class="col-md-8">
+                            <select class="select2 form-control" name="product_type" data-placeholder="Select type" required>
+                                <option></option>
+                                <option value="product" @if(old('product_type') == 'product') selected="selected" @endif>Product</option>
+                                <option value="service" @if(old('product_type') == 'service') selected="selected" @endif>Service</option>
+                                <option value="academy" @if(old('product_type') == 'academy') selected="selected" @endif>Academy</option>
+                            </select>
+                        </div>
+                    </div>
+{{--                     <div class="form-group">
                         <label class="col-md-3 control-label">Global Price <span class="required" aria-required="true"> * </span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Global Price Product" data-container="body"></i>
                         </label>
@@ -416,7 +429,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <!--<div class="form-group">-->
                     <!--    <label class="col-md-3 control-label">Video-->
@@ -443,7 +456,7 @@
                     <!--    </div>-->
                     <!--</div>-->
 
-                    <div class="form-group">
+{{--                     <div class="form-group">
                        <label for="multiple" class="control-label col-md-3">Description
                            <i class="fa fa-question-circle tooltips" data-original-title="Deskripsi Produk" data-container="body"></i>
                        </label>
@@ -452,7 +465,7 @@
                                <textarea name="product_description" id="text_pro" class="form-control">{{ old('product_description') }}</textarea>
                            </div>
                        </div>
-                    </div>
+                    </div> --}}
 
                     <!--<div class="form-group">-->
                     <!--    <label for="multiple" class="control-label col-md-3">Tag-->
@@ -477,6 +490,7 @@
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-offset-3 col-md-8">
+                            <input type="hidden" name="next" value="1">
                             <button type="submit" class="btn blue">Submit</button>
                             <!--<button type="submit" name="next" value="1" class="btn blue">Submit & Manage Photo</button>-->
                         </div>

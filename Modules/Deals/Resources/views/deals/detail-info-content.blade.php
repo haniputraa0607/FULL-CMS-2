@@ -7,7 +7,7 @@ $grantedFeature     = session('granted_features');
     $datenow = date("Y-m-d H:i:s");
 @endphp
 <div class="row">
-	<div class="col-md-6">
+	<div class="col-md-{{MyHelper::hasAccess([125], $configs) ? '6' : '12'}}">
 		<div class="profile-info portlet light bordered">
 		    <div class="row static-info">
 	            <div class="col-md-6 name"> Description :</div>
@@ -20,13 +20,14 @@ $grantedFeature     = session('granted_features');
 						(MyHelper::hasAccess([190], $grantedFeature) && $deals_type == 'WelcomeVoucher') ||
 						(MyHelper::hasAccess([80], $grantedFeature) && $deals_type == 'Hidden'))
 						<div class="col-md-12">
-							<a class="btn blue" href="{{ url('/'.$rpage)}}/step3/{{$deals['id_deals']??$deals['id_deals_promotion_template']}}">Edit Description & Content</a>
+							<a class="btn blue" href="{{ url('/'.$rpage)}}/step3/{{$deals['id_deals']??$deals['id_deals_promotion_template']}}">Edit Description{{MyHelper::hasAccess([125], $configs) ? ' & Content' : ''}}</a>
 						</div>
 					@endif
 			    @endif
 	        </div>
 	    </div>
 	</div>
+	@if(MyHelper::hasAccess([125], $configs))
 	<div class="col-md-6">
 		<div class="profile-info portlet light bordered">
 		    <div class="row static-info">
@@ -59,7 +60,7 @@ $grantedFeature     = session('granted_features');
 				$i = 1; 
 				$count_content = count($deals['deals_content']??$deals['deals_promotion_content']); 
 			@endphp
-			@foreach (($deals['deals_content']??$deals['deals_promotion_content']) as $content)
+			@foreach ($deals['deals_content']??$deals['deals_promotion_content'] as $content)
 				@if ($i == 1 || $i%3 == 1)
 					<div class="row">
 				@endif
@@ -74,7 +75,7 @@ $grantedFeature     = session('granted_features');
 					        @endif
 					        </div>
 				            <div class="portlet-body">
-				            	@foreach (($content['deals_content_details']??$content['deals_promotion_content_details']) as $content_detail)
+				            	@foreach ($content['deals_content_details']??$content['deals_promotion_content_details'] as $content_detail)
 					                <div class="row static-info">
 					                    <div class="col-md-2 name">{{$content_detail['order']}}</div>
 					                    <div class="col-md-10 value">{{$content_detail['content']}}</div>
@@ -90,5 +91,6 @@ $grantedFeature     = session('granted_features');
 			@endforeach
 		</div>
 	</div>
+	@endif
 </div>
 @endsection

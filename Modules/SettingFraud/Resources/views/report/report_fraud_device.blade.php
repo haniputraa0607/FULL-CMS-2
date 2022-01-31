@@ -87,7 +87,6 @@
         $search_param = array_filter($search_param['conditions']);
         ?>
         <div class="alert alert-block alert-success fade in">
-            <button type="button" class="close" data-dismiss="alert"></button>
             <h4 class="alert-heading">Displaying search result with parameter(s):</h4>
             @if(isset($search_param))
                 Start : {{date('d-m-Y', strtotime($start))}}<br>

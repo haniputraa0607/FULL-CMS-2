@@ -102,8 +102,7 @@
                         toastr.info("Product has been deleted.");
                     }
                     else {
-						window.location.reload(true);
-                        toastr.info("Product has been deleted.");
+                        toastr.error("The product cannot be deleted because it has been used");
                     }
                 }
             });
@@ -225,7 +224,7 @@
                     <tr>
                         <th> No </th>
                         <th> Code </th>
-                        <th> Category </th>
+                        {{-- <th> Category </th> --}}
                         <th> Name </th>
                         <th> Brand </th>
                         <!-- <th> Allow Sync </th> -->
@@ -243,11 +242,11 @@
                             <tr>
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $value['product_code'] }}</td>
-                                @if (empty($value['category']))
+{{--                                 @if (empty($value['category']))
                                     <td>Uncategorize</td>
                                 @else
                                     <td>{{ $value['category'][0]['product_category_name']??'Uncategories' }}</td>
-                                @endif
+                                @endif --}}
                                 <td>{{ $value['product_name'] }}</td>
                                 <td>
                                     @foreach ($value['brands'] as $item)

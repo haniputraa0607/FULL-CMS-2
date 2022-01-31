@@ -110,8 +110,9 @@ class HairStylistGroupController extends Controller
               }
             public function detail($id,Request $request)
               {
-                 $id = MyHelper::explodeSlug($id)[0]??'';
-                 $data = [ 
+                $id_before = $id;
+                $id = MyHelper::explodeSlug($id)[0]??'';
+                $data = [ 
                                   'title'             => 'Hair Stylist Group',
                                   'sub_title'         => 'Detail Hair Stylist Group',
                                   'menu_active'       => 'hair-stylist-group',
@@ -120,6 +121,7 @@ class HairStylistGroupController extends Controller
                 $query = MyHelper::post('recruitment/hairstylist/be/group/detail',['id_hairstylist_group'=>$id]);
                 if(isset($query['status']) && $query['status'] == 'success'){
                         $data['id']  = $id;
+                        $data['id_before']  = $id_before;
                          $data['result'] = $query['result'];
                         $post = $request->all();
                         $session = 'hair-stylist-group-filter-commission';
@@ -267,8 +269,7 @@ class HairStylistGroupController extends Controller
             public function update_commission(Request $request)
               {
                  $post = $request->except('_token');
-                 $query = MyHelper::post('recruitment/hairstylist/be/group/update_commission', $post);
-                 
+                 $query = MyHelper::post('recruitment/hairstylist/be/group/update_commission', $post);;
                         if(isset($query['status']) && $query['status'] == 'success'){
                                 return back()->withSuccess(['Hair Stylist Group Commission Update Success']);
                         } else{
@@ -354,8 +355,8 @@ class HairStylistGroupController extends Controller
                }
                 if($post){
                    Session::put($session,$post);
-               }      
-               return back();
+               }
+               return redirect('recruitment/hair-stylist/group/detail'.'/'.$post['id_before'].'#hs');
            }
             public function filter_insentif(Request $request)
             {
@@ -430,12 +431,12 @@ class HairStylistGroupController extends Controller
               public function delete_insentif($id)
               {
                 $id = MyHelper::explodeSlug($id)??'';
-                 $query = MyHelper::post('recruitment/hairstylist/be/group/insentif/delete', ['id_hairstylist_group_default_insentifs'=>$id[0]??'','id_hairstylist_group'=>$id[1]??'']);
-                        if(isset($query['status']) && $query['status'] == 'success'){
-                                return back()->withSuccess(['Incentive Default Success']);
-                        } else{
-                                return back()->withErrors($query['messages']);
-                        }
+                $query = MyHelper::post('recruitment/hairstylist/be/group/insentif/delete', ['id_hairstylist_group_default_insentifs'=>$id[0]??'','id_hairstylist_group'=>$id[1]??'']);
+                if(isset($query['status']) && $query['status'] == 'success'){
+                    return redirect(url()->previous().'#insentif')->withSuccess(['Incentive Default Success']);
+                } else{
+                    return redirect(url()->previous().'#insentif')->withErrors($query['messages']);
+                }
                    
               }
            public function create_rumus_insentif(Request $request)
@@ -544,13 +545,13 @@ class HairStylistGroupController extends Controller
               }
               public function delete_potongan($id)
               {
-                $id = MyHelper::explodeSlug($id)??'';
+                $id = MyHelper::explodeSlug($id)??[];
                  $query = MyHelper::post('recruitment/hairstylist/be/group/potongan/delete', ['id_hairstylist_group_default_potongans'=>$id[0]??'','id_hairstylist_group'=>$id[1]??'']);
-                        if(isset($query['status']) && $query['status'] == 'success'){
-                                return back()->withSuccess(['Hair Stylist Group Potongan Delete Success']);
-                        } else{
-                                return back()->withErrors($query['messages']);
-                        }
+                    if(isset($query['status']) && $query['status'] == 'success'){
+                            return redirect(url()->previous().'#potongan')->withSuccess(['Cuts Salary Default Success']);
+                    } else{
+                            return redirect(url()->previous().'#potongan')->withErrors($query['messages']);
+                    }
                    
               }
               public function create_rumus_potongan(Request $request)
@@ -584,7 +585,7 @@ class HairStylistGroupController extends Controller
                  $url = $request->url();
                  $data = [ 
                             'title'             => 'Default Income Hair Stylist',
-                            'sub_title'         => 'Default Hair Stylist Incentive',
+                            'sub_title'         => 'Default Incentive Salary Hairstylist',
                             'menu_active'       => 'default-hair-stylist',
                             'submenu_active'    => 'default-hair-stylist-insentif'
                         ];

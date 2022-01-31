@@ -332,7 +332,7 @@
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">{{$title}}</span>
+                <span class="caption-subject sbold uppercase font-blue">{{$sub_title}}</span>
             </div>
         </div>
         <div class="tabbable-line tabbable-full-width">

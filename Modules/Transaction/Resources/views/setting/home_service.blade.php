@@ -76,12 +76,12 @@
 								<label class="col-md-3 control-label">Time </label>
 								<div class="col-md-4">
 									<div class="input-icon right">
-										<input type="text" data-placeholder="select time" name="time_start" class="form-control mt-repeater-input-inline timepicker timepicker-no-seconds" data-show-meridian="false" value="{{$result['time_start']}}" readonly>
+										<input type="text" data-placeholder="select time" name="time_start" class="form-control mt-repeater-input-inline timepicker timepicker-no-seconds" data-show-meridian="false" value="{{$result['time_start']}}">
 									</div>
 								</div>
 								<div class="col-md-4">
 									<div class="input-icon right">
-										<input type="text" data-placeholder="select time" name="time_end" class="form-control mt-repeater-input-inline timepicker timepicker-no-seconds" data-show-meridian="false" value="{{$result['time_end']}}" readonly>
+										<input type="text" data-placeholder="select time" name="time_end" class="form-control mt-repeater-input-inline timepicker timepicker-no-seconds" data-show-meridian="false" value="{{$result['time_end']}}">
 									</div>
 								</div>
 							</div>
@@ -100,6 +100,7 @@
 									<div class="input-group">
 										<span class="input-group-addon">maximum</span>
 										<input type="number" class="form-control" min="1" name="radius" value="{{$result['radius']}}">
+										<span class="input-group-addon">km</span>
 									</div>
 								</div>
 							</div>

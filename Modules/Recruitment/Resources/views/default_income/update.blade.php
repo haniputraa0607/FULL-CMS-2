@@ -137,7 +137,7 @@
 			<div class="portlet-title">
 				<div class="caption font-blue ">
 					<i class="icon-settings font-blue "></i>
-					<span class="caption-subject bold uppercase">Update Default Insentif Hair Stylist</span>
+					<span class="caption-subject bold uppercase">Update Default Incentive Hair Stylist</span>
 				</div>
 			</div>
 			<div class="portlet-body form">

@@ -133,6 +133,7 @@ class SettingController extends Controller
             $span = 'times';
             $colLabel = 7;
             $colInput = 2;
+            $keySet = 'value';
         } elseif ($key == 'point_reset') {
             $sub = 'point-reset';
             $active = 'point-reset';
@@ -177,7 +178,8 @@ class SettingController extends Controller
             'subTitle'       => $subTitle,
             'label'          => $label,
             'colLabel'       => $colLabel,
-            'colInput'       => $colInput
+            'colInput'       => $colInput,
+            'key'            => $keySet ?? null,
         ];
 
         if(isset($span)){
@@ -210,13 +212,14 @@ class SettingController extends Controller
                 $result = $request['result'];
                 $data['id'] = $result['id_setting'];
 
-                if (is_null($result['value'])) {
-                    $data['value'] = $result['value_text'];
-                    $data['key'] = 'value_text';
-                } else {
-                    $data['value'] = $result['value'];
-                    $data['key'] = 'value';
+                if (is_null($data['key'])) {
+                    if (is_null($result['value'])) {
+                        $data['key'] = 'value_text';
+                    } else {
+                        $data['key'] = 'value';
+                    }
                 }
+                $data['value'] = $result[$data['key']];
             } else {
                 return redirect('home')->withErrors($request['messages']);
             }
@@ -1611,26 +1614,6 @@ class SettingController extends Controller
             $query = MyHelper::get('setting/global_commission_product');
             $data['result'] = $query;
             return view('setting::setting_global_commission', $data);
-        }
-    }
-    public function salary_formula(Request $request){
-        $post = $request->except('_token');
-        $data = [
-            'title'          => 'Setting Salary Formula',
-            'menu_active'    => 'setting-salary-formula',
-            'submenu_active'    => 'setting-salary-formula',
-        ];
-        if($post){
-            $query = MyHelper::post('setting/salary_formula_create', $post);
-            if(($query['status']??'')=='success'){
-                return redirect('setting/setting-salary-formula')->with('success',['Success update data']);
-            }else{
-                return redirect('setting/setting-salary-formula')->withErrors([$query['message']]);
-            }
-        }else{
-            $query = MyHelper::get('setting/salary_formula');
-            $data['result'] = $query;
-            return view('setting::salary_formula', $data);
         }
     }
     public function attendances_date(Request $request){
