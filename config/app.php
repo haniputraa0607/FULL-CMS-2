@@ -243,6 +243,7 @@ return [
         'GoogleReCaptchaV3'=> TimeHunter\LaravelGoogleReCaptchaV3\Facades\GoogleReCaptchaV3::class,
         'Mailgun' => Bogardo\Mailgun\Facades\Mailgun::class,
         'Location' => Stevebauman\Location\LocationServiceProvider::class,
+        'MyHelper' => App\Lib\MyHelper::class,
     ],
 
 ];

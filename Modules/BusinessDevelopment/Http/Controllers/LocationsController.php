@@ -163,7 +163,7 @@ class LocationsController extends Controller
                 $data['formSurvey'] = [];
             }
             $data['confirmation'] = $this->dataConfirmation($result['result']['location'],$data['cities']);
-            // dd($data['result']);
+            // return $data;
             return view('businessdevelopment::locations.detail', $data);
         }else{
             return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
@@ -390,41 +390,41 @@ class LocationsController extends Controller
             "follow_up" => $request["follow_up"],
             "note" => $request["note"],  
         ];
-
-        if(isset($request["follow_up"]) && $request["follow_up"]=='Follow Up 1'){
+        
+        if(isset($request["follow_up"]) && $request["follow_up"]=='Input Data Location'){
             $request->validate([
                 "mall" => "required",
+                "width" => "required",
+                "height" => "required",
+                "length" => "required",
                 "location_large" => "required",
-                "rental_price" => "required",
-                "service_charge" => "required",
-                "promotion_levy" => "required",
+                "id_cityLocation" => "required",
             ]);
             $update_data_location = [
                 "id_location" => $request["id_location"],
                 "name" => $request["nameLocation"],
                 "address" => $request["addressLocation"],  
                 "id_city" => $request["id_cityLocation"],  
-                "id_brand" => $request["id_brand"],  
                 "width" => $request["width"],  
                 "height" => $request["height"],  
                 "length" => $request["length"],  
-                "location_large" => $request["location_large"],  
-                "rental_price" => preg_replace("/[^0-9]/", "", $request["rental_price"]),
-                "service_charge" => preg_replace("/[^0-9]/", "", $request["service_charge"]),  
-                "promotion_levy" => preg_replace("/[^0-9]/", "", $request["promotion_levy"]),  
-                "mall" => $request["mall"],   
-                "start_date" => (empty($request['start_date']) ? null : date('Y-m-d', strtotime($request['start_date']))),
-                "end_date" => (empty($request['start_date']) ? null : date('Y-m-d', strtotime($request['end_date']))),
-                "no_loi" => $request["no_loi"],   
-                "date_loi" => date('Y-m-d', strtotime($request['date_loi'])),
-                "is_tax" => 0
-            ];
-            $post_follow_up = [
-                "id_location" => $request["id_location"],
-                "follow_up" => "Follow Up",
-                "note" => $request["note"],  
+                "location_large" => $request["location_large"],
+                "mall" => $request["mall"]
             ];
         }
+
+        // if(isset($request["follow_up"]) && $request["follow_up"]=='Follow Up'){
+        //     $update_data_location = [
+        //         "id_location" => $request["id_location"],
+        //         "name" => $request["nameLocation"],
+        //         "address" => $request["addressLocation"],  
+        //         "id_city" => $request["id_cityLocation"],  
+        //         "width" => $request["width"],  
+        //         "height" => $request["height"],  
+        //         "length" => $request["length"],  
+        //         "location_large" => $request["location_large"],  
+        //     ];
+        // }
 
         $update_data_location['id_location'] = $request["id_location"];
         $update_data_location['status'] = 'Candidate';
@@ -435,6 +435,9 @@ class LocationsController extends Controller
         }elseif($request["follow_up"]=='Survey Location'){
             $update_data_location['step_loc'] = 'Survey Location';
             $tab = '#survey';
+        }elseif($request["follow_up"]=='Input Data Location'){
+            $update_data_location['step_loc'] = 'Input Data Location';
+            $tab = '#input';
         }else{
             $update_data_location['step_loc'] = 'On Follow Up';
             $tab = '#follow';
@@ -447,9 +450,9 @@ class LocationsController extends Controller
         if(isset($request["follow_up"]) && $request["follow_up"]=='Survey Location'){
             $request->validate([
                 "surye_note" => "required",
+                "id_brand" => "required",
             ]);
             $form_survey = [
-                "id_partner"  => $request["id_partner"],
                 "id_location"  => $request["id_location"],
                 'note' => $request['surye_note'],
                 'title' => $request['title'],
@@ -472,11 +475,28 @@ class LocationsController extends Controller
                 $index_cat++;
             }
             $form_survey["value"] = json_encode($form);
+            $update_data_location["id_brand"] = $request['id_brand'];
         }
 
         if(isset($request["follow_up"]) && $request["follow_up"]=='Approved'){
+            $request->validate([
+                "location_code" => "required",
+                "no_loi" => "required",
+                "date_loi" => "required",
+                "rental_price" => "required",
+                "service_charge" => "required",
+                "promotion_levy" => "required",
+            ]);
             $update_data_location["status"] = 'Active';
             $update_data_location["code"] = $request['location_code'];
+            $update_data_location["rental_price" ] = preg_replace("/[^0-9]/", "", $request["rental_price"]);
+            $update_data_location["service_charge"]  = preg_replace("/[^0-9]/", "", $request["service_charge"]);  
+            $update_data_location["promotion_levy"]  = preg_replace("/[^0-9]/", "", $request["promotion_levy"]);  
+            $update_data_location["start_date"]  = (empty($request['start_date']) ? null : date('Y-m-d', strtotime($request['start_date'])));
+            $update_data_location["end_date"]  = (empty($request['start_date']) ? null : date('Y-m-d', strtotime($request['end_date'])));
+            $update_data_location["no_loi"]  = $request["no_loi"];
+            $update_data_location["date_loi"]  = date('Y-m-d', strtotime($request['date_loi']));
+            $update_data_location["is_tax"]  = 0;
             $cek = [
                 "id" => $request['id_location'],
                 "code" => $request['location_code'],
@@ -511,6 +531,35 @@ class LocationsController extends Controller
             return redirect('businessdev/locations/detail/'.$request['id_location'].$tab)->withErrors($location_update['messages'] ?? ['Failed create step '.$request["follow_up"].''])->withInput();
         }else{
             return redirect('businessdev/locations/detail/'.$request['id_location'].$tab)->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
+        }
+    }
+
+    public function detailFormSurvey($id){
+        $result = MyHelper::post('partners/form-survey',['id_brand' => $id]);
+        return $result;
+    }
+
+    public function detailStatus($id_location)
+    {
+        $result = MyHelper::post('partners/locations/edit', ['id_location' => $id_location]);
+        $data = [
+            'title'          => 'Partner',
+            'sub_title'      => 'Detail Status Location Partner',
+            'menu_active'    => 'partners',
+            'submenu_active' => 'list-partners',
+        ];
+        if(isset($result['status']) && $result['status'] == 'success'){
+            $data['result'] = $result['result']['location'];
+            $data['steps'] = MyHelper::post('partners/locations/new-status', ['id_partner' => $data['result']['location_partner']['id_partner'],'id_location' => $id_location])['result']??[];
+            $data['cities'] = MyHelper::get('city/list')['result']??[];
+            $data['brands'] = MyHelper::get('partners/locations/brands')['result']??[];
+            $data['list_starters'] = MyHelper::get('partners/list-location')['result']['starters']??[];
+            $data['terms'] = MyHelper::get('partners/term')['result']??[];
+            $data['confirmation'] = $this->dataConfirmation($result['result']['location'],$data['cities']);
+            // return $data;
+            return view('businessdevelopment::locations.detail_status', $data);
+        }else{
+            return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
         }
     }
 }

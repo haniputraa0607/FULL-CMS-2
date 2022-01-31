@@ -120,9 +120,9 @@
                         </label>
                         <div class="col-md-{{$colInput}}">
                             @if($key == 'value_text')
-                                <textarea class="form-control summernote" id="id_text" name="value">{!! $value !!}</textarea>
+                                <textarea class="form-control summernote" id="id_text" name="value" required>{!! $value !!}</textarea>
                             @elseif($submenu_active == 'credit_card_payment_gateway')
-                                <select class="select2" name="value">
+                                <select class="select2" name="value" required>
                                     <option value="Ipay88" {{ $value=='Ipay88' ? 'selected' : '' }}>IPay88</option>
                                     <option value="Midtrans" {{ $value=='Midtrans' ? 'selected' : '' }}>Midtrans</option>
                                 </select>
@@ -131,7 +131,7 @@
                                 @if(isset($span))
                                     <div class="input-group">
                                 @endif
-                                    <input type="text" name="value" class="form-control" value="{{ $value }}">
+                                    <input type="text" name="value" class="form-control" value="{{ $value }}" required>
                                 @if(isset($span))
                                     <span class="input-group-addon">
                                         {{$span}}

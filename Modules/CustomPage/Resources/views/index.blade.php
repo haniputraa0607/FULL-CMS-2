@@ -112,9 +112,6 @@
                                 @if(MyHelper::hasAccess([156,157], $grantedFeature))
                                     <td>
                                         @if(MyHelper::hasAccess([156], $grantedFeature))
-                                            <a href="{{ url('custom-page/detail', $res['id_custom_page']) }}" class="btn yellow"><i class="fa fa-list"></i></a>
-                                        @endif
-                                        @if(MyHelper::hasAccess([156], $grantedFeature))
                                             <a href="{{ url('custom-page/edit', $res['id_custom_page']) }}" class="btn blue"><i class="fa fa-edit"></i></a>
                                         @endif
                                         @if(MyHelper::hasAccess([157], $grantedFeature))

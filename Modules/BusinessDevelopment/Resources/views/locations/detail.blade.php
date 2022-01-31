@@ -165,10 +165,78 @@
             'autoclose' : true
         });
         $('.select2').select2();
+
+        function getBrand(val){
+            $.ajax({
+                type : "GET",
+                url : "{{ url('businessdev/locations/detail_form_survey') }}/"+val,
+                success : function(result) {
+                    if(Array.isArray(result)){
+                        var html = '';
+                        html = '<div id="null-form-survey">'+
+                        '<center>Form Survey for this brand has not been set yet</center>'+
+                        '<div class="modal-footer form-actions">'+
+                        '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>'+
+                        '</div>'+
+                        '</div>';
+                        
+                        $('#form-survey-available').hide();
+                        $("#modal-brand-form-survey").append(html);
+                    }else{
+                        $('#form-survey-available').show();
+                        $('#null-form-survey').remove();
+                        $("#answer-question").html('');
+                        var html = '';
+                        var i = 0;
+                        for (var key in result) {
+                            if (!result.hasOwnProperty(key)) continue;
+                            var obj = result[key];
+                            html += '<div class="form-group">'+
+                            '<div class="col-md-10">'+
+                            '<label for="example-search-input"><span class="sbold uppercase font-black">'+obj["category"]+'</span></label>'+
+                            '<input type="hidden" name="category['+i+'][cat]" value="'+obj["category"]+'">'+
+                            '</div>'+
+                            '</div>';
+                            
+                            var html_question = '';
+                            obj["question"].forEach(function(data, index){
+                                html_question += '<div class="form-group">'+
+                                '<div class="col-md-10">'+
+                                '<input type="hidden" name="category['+i+'][question]['+index+'][question]" value="'+data+'">'+
+                                '<label for="example-search-input">'+data+'</label>'+
+                                '</div>'+
+                                '<div class="col-md-2">'+
+                                '<select name="category[0][question][0][answer]" class="form-control input-sm select2" required style="padding: 0px; !important">'+
+                                '<option value="" selected disabled> </option>'+
+                                '<option value="a">A</option>'+
+                                '<option value="b">B</option>'+
+                                '<option value="c">C</option>'+
+                                '<option value="d">D</option>'+
+                                '</select>'+
+                                '</div>'+
+                                '</div>';
+                            })
+                            html = html + html_question;
+                            i++;
+                        }
+                        $("#answer-question").append(html);
+                    }
+                    $('.select2').select2();
+                    
+                },
+                error : function(result) {
+                    alert('error');
+                }
+                
+            });
+        }
+
         function formSurveyModal(){
             let note = $('#noteSurvey').val();
+            let id_brand = $('#survey-id_brand').val();
             $('#formSurvey').modal('show');
             $("#noteModal").val(note);
+            $("#idbrandModal").val(id_brand);
         }
         $(document).ready(function() {
             $('.numberonly').inputmask("remove");
@@ -421,24 +489,30 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <ul class="ver-inline-menu tabbable margin-bottom-10">
-                                        <li class="@if($result['step_loc']=='On Follow Up' || $result['step_loc']==null || $result['step_loc']=='Finished Follow Up') active @endif">
-                                            <a data-toggle="tab" href="#follow"><i class="fa fa-cog"></i> Follow Up </a>
+                                        <li class="@if($result['step_loc']=='Survey Location' || $result['step_loc']==null) active @endif">
+                                            <a data-toggle="tab" href="#survey"><i class="fa fa-cog"></i> Survey Location </a>
                                         </li>
-                                        <li class="@if($result['step_loc']=='Survey Location') active @endif" @if($result['step_loc']==null || $result['step_loc']=='On Follow Up') style="opacity: 0.4 !important" @endif>
-                                            <a @if($result['step_loc']==null || $result['step_loc']=='On Follow Up') @else data-toggle="tab" @endif href="#survey"><i class="fa fa-cog"></i> Survey Location </a>
+                                        <li class="@if($result['step_loc']=='Input Data Location') active @endif" @if($result['step_loc']==null) style="opacity: 0.4 !important" @endif>
+                                            <a @if($result['step_loc']==null) @else data-toggle="tab" @endif href="#input"><i class="fa fa-cog"></i> Input Data Location </a>
                                         </li>
-                                        <li class="@if($result['step_loc']=='Approved') active @endif" @if($result['step_loc']==null || $result['step_loc']=='On Follow Up' || $result['step_loc']=='Finished Follow Up') style="opacity: 0.4 !important" @endif>
-                                            <a @if($result['step_loc']==null || $result['step_loc']=='On Follow Up' || $result['step_loc']=='Finished Follow Up') @else data-toggle="tab" @endif href="#approved"><i class="fa fa-cog"></i> Approved </a>
+                                        <li class="@if($result['step_loc']=='On Follow Up' || $result['step_loc']=='Finished Follow Up') active @endif" @if($result['step_loc']=='Survey Location' || $result['step_loc']==null) style="opacity: 0.4 !important" @endif>
+                                            <a @if($result['step_loc']=='Survey Location' || $result['step_loc']==null) @else data-toggle="tab" @endif href="#follow"><i class="fa fa-cog"></i> Follow Up </a>
+                                        </li>
+                                        <li class="@if($result['step_loc']=='Approved') active @endif" @if($result['step_loc']==null || $result['step_loc']=='Survey Location' || $result['step_loc']=='Input Data Location' || $result['step_loc']=='On Follow Up') style="opacity: 0.4 !important" @endif>
+                                            <a @if($result['step_loc']==null || $result['step_loc']=='Survey Location' || $result['step_loc']=='Input Data Location' || $result['step_loc']=='On Follow Up') @else data-toggle="tab" @endif href="#approved"><i class="fa fa-cog"></i> Approved </a>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="col-md-9">
                                     <div class="tab-content">
-                                        <div class="tab-pane @if($result['step_loc']=='On Follow Up' || $result['step_loc']==null || $result['step_loc']=='Finished Follow Up') active @endif" id="follow">
-                                            @include('businessdevelopment::locations.steps.follow_up')
-                                        </div>
-                                        <div class="tab-pane @if($result['step_loc']=='Survey Location') active @endif" id="survey">
+                                        <div class="tab-pane @if($result['step_loc']=='Survey Location' || $result['step_loc']==null) active @endif" id="survey">
                                             @include('businessdevelopment::locations.steps.survey_loc')
+                                        </div>
+                                        <div class="tab-pane @if($result['step_loc']=='Input Data Location') active @endif" id="input">
+                                            @include('businessdevelopment::locations.steps.input')
+                                        </div>
+                                        <div class="tab-pane @if($result['step_loc']=='On Follow Up' || $result['step_loc']=='Finished Follow Up') active @endif" id="follow">
+                                            @include('businessdevelopment::locations.steps.follow_up')
                                         </div>
                                         <div class="tab-pane @if($result['step_loc']=='Approved') active @endif" id="approved">
                                             @include('businessdevelopment::locations.steps.payment')
@@ -453,120 +527,7 @@
         </div>
     </div>
 
-
-
-    <div class="modal fade" id="candidatePartnerModal" tabindex="-1" role="dialog" aria-labelledby="candidatePartnerModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="candidatePartnerModalLabel">Approve Candidate Location</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal" role="form" action="{{url('businessdev/locations/update')}}/{{$result['id_location']}}" method="post" enctype="multipart/form-data">
-                    <div class="form-body">
-                        <input type="hidden" name='status' value="Active">
-                        <input class="form-control" type="hidden" id="id_partner" name="id_partner" value="{{$result['id_partner']}}"/>
-                        <div class="form-group">
-                            <label for="example-search-input" class="control-label col-md-5">Nama Partner <span class="required" aria-required="true">*</span>
-                                <i class="fa fa-question-circle tooltips" data-original-title="Masukkan Password" data-container="body"></i></label>
-                            <div class="col-md-5">
-                                <input class="form-control" type="text" id="namePartner-modal" name="namePartner" value="" readonly/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="example-search-input" class="control-label col-md-5">Name Location <span class="required" aria-required="true">*</span>
-                                <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nama lokasi" data-container="body"></i></label>
-                            <div class="col-md-5">
-                                <input class="form-control" type="text" id="name-modal" name="name" value="" readonly/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="example-search-input" class="control-label col-md-5">Address Location <span class="required" aria-required="true">*</span>
-                                <i class="fa fa-question-circle tooltips" data-original-title="Masukkan alamat lokasi" data-container="body"></i></label>
-                            <div class="col-md-5">
-                                <textarea name="address" id="address-modal" class="form-control" readonly></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="example-search-input" class="control-label col-md-5">Latitude Location <span class="required" aria-required="true">*</span>
-                                <i class="fa fa-question-circle tooltips" data-original-title="Masukkan latitude lokasi" data-container="body"></i></label>
-                            <div class="col-md-5">
-                                <input class="form-control" type="text" id="latitude-modal" name="latitude" value="" readonly/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="example-search-input" class="control-label col-md-5">Longitude Location <span class="required" aria-required="true">*</span>
-                                <i class="fa fa-question-circle tooltips" data-original-title="Masukkan longitude lokasi" data-container="body"></i></label>
-                            <div class="col-md-5">
-                                <input class="form-control" type="text" id="longitude-modal" name="longitude" value="" readonly/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="example-search-input" class="control-label col-md-5">PIC Name Location <span class="required" aria-required="true">*</span>
-                                <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nama pic lokasi" data-container="body"></i></label>
-                            <div class="col-md-5">
-                                <input class="form-control" type="text" id="pic_name-modal" name="pic_name" value="" required readonly/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="example-search-input" class="control-label col-md-5">PIC Contact Location <span class="required" aria-required="true">*</span>
-                                <i class="fa fa-question-circle tooltips" data-original-title="Masukkan kontak pic lokasi" data-container="body"></i></label>
-                            <div class="col-md-5">
-                                <input class="form-control" type="text" id="pic_contact-modal" name="pic_contact" value="" required readonly/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="example-search-input" class="control-label col-md-5">City Location <span class="required" aria-required="true">*</span>
-                                <i class="fa fa-question-circle tooltips" data-original-title="Masukkan kota lokasi" data-container="body"></i></label>
-                            <div class="col-md-5">
-                                <input class="form-control" type="hidden" id="id_city-modal" name="id_city" value="" readonly/>
-                                <input class="form-control" type="text" id="city_name-modal" value="" readonly/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="example-search-input" class="control-label col-md-5">Start Date <span class="required" aria-required="true">*</span>
-                                <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Mulai Lokasi disetujui" data-container="body"></i></label>
-                            <div class="col-md-5">
-                                <div class="input-group">
-                                    <input type="text" id="start_date" class="datepicker form-control" name="start_date" value="">
-                                    <span class="input-group-btn">
-                                        <button class="btn default" type="button">
-                                            <i class="fa fa-calendar"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="example-search-input" class="control-label col-md-5">End Date <span class="required" aria-required="true">*</span>
-                                <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Akhir Lokasi" data-container="body"></i></label>
-                            <div class="col-md-5">
-                                <div class="input-group">
-                                    <input type="text" id="end_date" class="datepicker form-control" name="end_date" value="">
-                                    <span class="input-group-btn">
-                                        <button class="btn default" type="button">
-                                            <i class="fa fa-calendar"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer form-actions">
-                    {{ csrf_field() }}
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn blue">Submit</button>
-                </div>
-            </form>
-          </div>
-        </div>
-    </div>
-
-    <div class="modal fade bd-example-modal-sm" id="formSurvey" tabindex="-1" role="dialog" aria-labelledby="candidatePartnerModalLabel" aria-hidden="true">
+    <div class="modal fade bd-example-modal-lg" id="formSurvey" tabindex="-1" role="dialog" aria-labelledby="candidatePartnerModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -577,126 +538,97 @@
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form" action="{{url('businessdev/locations/create-follow-up')}}" method="post" enctype="multipart/form-data">
-                    @if (isset($formSurvey) && !empty($formSurvey))
-                    <div class="form-body">
-                        <input type="hidden" name="id_partner" value="{{$result['location_partner']['id_partner']}}">
-                        <input type="hidden" name="id_location" value="{{$result['id_location']}}">
-                        <input type="hidden" name='follow_up' id="followUpModal" value="Survey Location">
-                        <input type="hidden" name='note' id="noteModal" value="">
-                        <div class="form-group">
-                            <label for="example-search-input" class="col-form-label col-md-6">Survey Location Title <span class="required" aria-required="true">*</span>
-                                <i class="fa fa-question-circle tooltips" data-original-title="Judul dari survey lokasi yang telah dilakukan" data-container="body"></i></label>
-                            <div class="col-md-6">
-                                <input class="form-control" type="text" id="title" name="title" value="" placeholder="Enter title here" required/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="example-search-input" class="col-form-label col-md-6">Survey Location Date <span class="required" aria-required="true">*</span>
-                                <i class="fa fa-question-circle tooltips" data-original-title="Tanggal survey lokasi dilakukan" data-container="body"></i></label>
-                            <div class="col-md-6">
-                                <div class="input-group">
-                                    <input type="text" id="survey_date" class="datepicker form-control" name="survey_date" value="{{ old('survey_date') ?? (!empty($result['survey_date']) ? date('d F Y', strtotime($result['start_date'])) : '')}}">
-                                    <span class="input-group-btn">
-                                        <button class="btn default" type="button">
-                                            <i class="fa fa-calendar"></i>
-                                        </button>
-                                    </span>
+                    <div id="modal-brand-form-survey">
+                        <div id="form-survey-available">
+                            <div class="form-body">
+                                <input type="hidden" name="id_partner" value="{{$result['location_partner']['id_partner']}}">
+                                <input type="hidden" name="id_location" value="{{$result['id_location']}}">
+                                <input type="hidden" name='follow_up' id="followUpModal" value="Survey Location">
+                                <input type="hidden" name='note' id="noteModal" value="">
+                                <input type="hidden" name='id_brand' id="idbrandModal" value="">
+                                <div class="form-group">
+                                    <label for="example-search-input" class="col-form-label col-md-6">Survey Location Title <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Judul dari survey lokasi yang telah dilakukan" data-container="body"></i></label>
+                                    <div class="col-md-6">
+                                        <input class="form-control" type="text" id="title" name="title" value="" placeholder="Enter title here" required/>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="example-search-input" class="col-form-label col-md-6">Surveyor Name <span class="required" aria-required="true">*</span>
-                                <i class="fa fa-question-circle tooltips" data-original-title="Nama dari yang melakukan survey terhadap lokasi" data-container="body"></i></label>
-                            <div class="col-md-6">
-                                <input class="form-control" type="text" id="surveyor" name="surveyor" value="" placeholder="Enter surveyor here" required/>
-                            </div>
-                        </div>
-                        @php
-                            $i = 0;
-                        @endphp
-                        @foreach ($formSurvey as $x => $form)
-                            <div class="form-group">
-                                <div class="col-md-10">
-                                    <label for="example-search-input"><span class="sbold uppercase font-black">{{ $form['category'] }}</span></label>
-                                    <input type="hidden" name="category[{{ $i }}][cat]" value="{{ $form['category'] }}">
-                                </div>
-                            </div>
-                            @foreach ($form["question"] as $x => $q )
-                            <div class="form-group">
-                                <div class="col-md-10">
-                                    <input type="hidden" name="category[{{ $i }}][question][{{ $x }}][question]" value="{{ $q }}">
-                                    <label for="example-search-input">{{ $q }}</label>
-                                </div>
-                                <div class="col-md-2">
-                                    <select name="category[{{ $i }}][question][{{ $x }}][answer]" class="form-control input-sm select2" aria-placeholder="" required>
-                                        <option value="" selected disabled> </option>
-                                        <option value="a">A</option>
-                                        <option value="b">B</option>
-                                        <option value="c">C</option>
-                                        <option value="d">D</option>
-                                    </select>
-                                </div>
-                            </div>
-                            @endforeach
-                        @php
-                            $i++;
-                        @endphp
-                        @endforeach
-                        <div class="form-group">
-                            <div class="col-md-4">
-                                <label for="example-search-input">Survey Potential
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Hasil dari survey yang dilakukan, lokasi yang diajukan diterima atau tidak" data-container="body"></i><br>
-                            </div>
-                            <div class="col-md-7">
-                                <div class="input-icon right">  
-                                    <input type="checkbox" class="make-switch" data-size="small" data-on-color="info" data-on-text="OK" name="survey_potential" data-off-color="default" data-off-text="NOT OK" id="potential">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-4">
-                                <label for="example-search-input">Survey Note <span class="required" aria-required="true">*</span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Catatan dari survey lokasi yang telah dilakukan" data-container="body"></i><br>
-                            </div>
-                            <div class="col-md-8">
-                                <textarea style="height: 80px" name="surye_note" id="surye_note" class="form-control" placeholder="Enter survey note here" required></textarea>
-                            </div>
-                        </div> 
-                        <div class="form-group">
-                            <div class="col-md-4">
-                                <label for="example-search-input">Import Attachment
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Unggah file jika ada lampiran yang diperlukan" data-container="body"></i><br>
-                                    <span class="required" aria-required="true"> (PDF max 2 mb) </span></label>
-                            </div>
-                            <div class="col-md-8" >
-                                <div class="fileinput fileinput-new text-left" data-provides="fileinput">
-                                    <div class="input-group input-small">
-                                        <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
-                                            <i class="fa fa-file fileinput-exists"></i>&nbsp;
-                                            <span class="fileinput-filename"> </span>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="col-form-label col-md-6">Survey Location Date <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal survey lokasi dilakukan" data-container="body"></i></label>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <input type="text" id="survey_date" class="datepicker form-control" name="survey_date" value="{{ old('survey_date') ?? (!empty($result['survey_date']) ? date('d F Y', strtotime($result['start_date'])) : '')}}">
+                                            <span class="input-group-btn">
+                                                <button class="btn default" type="button">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
                                         </div>
-                                        <span class="input-group-addon btn default btn-file">
-                                                    <span class="fileinput-new"> Select file </span>
-                                                    <span class="fileinput-exists"> Change </span>
-                                                    <input type="file" accept=".pdf, application/pdf, application/x-pdf,application/acrobat, applications/vnd.pdf, text/pdf, text/x-pdf" class="file" name="import_file" id="attSurv">
-                                                </span>
-                                        <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> X </a>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="col-form-label col-md-6">Surveyor Name <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama dari yang melakukan survey terhadap lokasi" data-container="body"></i></label>
+                                    <div class="col-md-6">
+                                        <input class="form-control" type="text" id="surveyor" name="surveyor" value="" placeholder="Enter surveyor here" required/>
                                     </div>
                                 </div>
                             </div>
+
+                            <div id="answer-question">
+
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <label for="example-search-input">Survey Potential
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Hasil dari survey yang dilakukan, lokasi yang diajukan diterima atau tidak" data-container="body"></i><br>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="input-icon right">  
+                                        <input type="checkbox" class="make-switch" data-size="small" data-on-color="info" data-on-text="OK" name="survey_potential" data-off-color="default" data-off-text="NOT OK" id="potential">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <label for="example-search-input">Survey Note <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Catatan dari survey lokasi yang telah dilakukan" data-container="body"></i><br>
+                                </div>
+                                <div class="col-md-8">
+                                    <textarea style="height: 80px" name="surye_note" id="surye_note" class="form-control" placeholder="Enter survey note here" required></textarea>
+                                </div>
+                            </div> 
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <label for="example-search-input">Import Attachment
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Unggah file jika ada lampiran yang diperlukan" data-container="body"></i><br>
+                                        <span class="required" aria-required="true"> (PDF max 2 mb) </span></label>
+                                </div>
+                                <div class="col-md-8" >
+                                    <div class="fileinput fileinput-new text-left" data-provides="fileinput">
+                                        <div class="input-group input-small">
+                                            <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                                <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                                <span class="fileinput-filename"> </span>
+                                            </div>
+                                            <span class="input-group-addon btn default btn-file">
+                                                        <span class="fileinput-new"> Select file </span>
+                                                        <span class="fileinput-exists"> Change </span>
+                                                        <input type="file" accept=".pdf, application/pdf, application/x-pdf,application/acrobat, applications/vnd.pdf, text/pdf, text/x-pdf" class="file" name="import_file" id="attSurv">
+                                                    </span>
+                                            <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> X </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer form-actions">
+                                {{ csrf_field() }}
+                                <button type="submit" class="btn blue">Submit</button>
+                            </div>
                         </div>
-                    </div>
-                    @else
-                        <center>
-                            Form Survey for this brand has not been set yet
-                        </center>
-                    @endif
-                    <div class="modal-footer form-actions">
-                        {{ csrf_field() }}
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        @if (isset($formSurvey) && !empty($formSurvey))
-                        <button type="submit" class="btn blue">Submit</button>
-                        @endif
                     </div>
                 </form>
             </div>
