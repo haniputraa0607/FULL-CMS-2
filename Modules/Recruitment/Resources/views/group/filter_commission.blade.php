@@ -164,7 +164,7 @@ $configs  = session('configs');
 </script>
 @endsection
 @section('filter_commission')
-<form action="{{$filter_action ?? '#'}}" method="post">
+<form action="{{$filter_action ?? '#status'}}" method="post">
 	<div class="portlet light bordered">
 		<div class="portlet-title">
 			<div class="caption font-blue ">
@@ -196,7 +196,7 @@ $configs  = session('configs');
 	<button type="button" class="close" data-dismiss="alert"></button>
 	<h4 class="alert-heading">Displaying search result :</h4>
 	<p>{{$commission['data_total']}}</p><br>
-	<form action="{{$filter_action ?? '#'}}" method="post">
+	<form action="{{$filter_action ?? '#status'}}" method="post">
 		{{csrf_field()}}
 		<button class="btn btn-sm btn-warning" name="clear" value="session">Reset</button>
 	</form>

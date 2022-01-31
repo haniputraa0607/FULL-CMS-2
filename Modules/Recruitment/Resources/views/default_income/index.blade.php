@@ -144,16 +144,16 @@
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">Default Insentif Salary Hair Stylist</span>
+                <span class="caption-subject sbold uppercase font-blue">Default Incentive Salary Hair Stylist</span>
             </div>
         </div>
         <div class="tabbable-line tabbable-full-width">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="#overview" data-toggle="tab"> List Default Insentif</a>
+                    <a href="#overview" data-toggle="tab"> List Default Incentive</a>
                 </li>
                 <li>
-                    <a href="#create" data-toggle="tab">Create Default Insentif</a>
+                    <a href="#create" data-toggle="tab">Create Default Incentive</a>
                 </li>
             </ul>
             <div class="tab-content">
