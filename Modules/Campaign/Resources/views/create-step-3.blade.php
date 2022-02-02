@@ -157,8 +157,8 @@
 				</div>
 				<div class="col-md-4 mt-step-col ">
 					<div class="mt-step-number bg-white"><a href="{{url('/')}}/campaign/step2/{{$result['id_campaign']}}">2</a></div>
-					<div class="mt-step-title uppercase font-grey-cascade">Receipient & Content</div>
-					<div class="mt-step-content font-grey-cascade">Review Campaign Receipient</div>
+					<div class="mt-step-title uppercase font-grey-cascade">Recipient & Content</div>
+					<div class="mt-step-content font-grey-cascade">Review Campaign Recipient</div>
 				</div>
 				<div class="col-md-4 mt-step-col active last">
 					<div class="mt-step-number bg-white">3</div>
@@ -244,7 +244,7 @@
 						<div class="col-md-8 value">: @if($result['campaign_send_at'] != ''){{date("l, d F Y H:i", strtotime($result['campaign_send_at']))}}@else Now @endif</div>
 					</div>
 					<div class="row static-info">
-						<div class="col-md-4 name">Receipient generate</div>
+						<div class="col-md-4 name">Recipient generate</div>
 						<div class="col-md-8 value">: {{$result['campaign_generate_receipient']}}</div>
 					</div>
 					@if(isset($result['campaign_rule_parents']))
@@ -389,7 +389,7 @@
 				<div class="portlet-title">
 					<div class="caption font-blue ">
 						<i class="icon-settings font-blue "></i>
-						<span class="caption-subject bold uppercase">Receipient</span>
+						<span class="caption-subject bold uppercase">Recipient</span>
 					</div>
 					@if($result['campaign_generate_receipient']=='Now')
 					<div class="action-btn pull-right">
@@ -401,31 +401,31 @@
 					<div class="form-group">
 						@if($result['campaign_media_email'] == "Yes")
 						<div class="form-group">
-							<label>Email Receipient</label>
+							<label>Email Recipient</label>
 							<textarea class="form-control" rows="3" name="campaign_email_more_recipient" readonly>{{$result['campaign_email_more_recipient']}}</textarea>
 						</div>
 						@endif
 						@if($result['campaign_media_sms'] == "Yes")
 						<div class="form-group">
-							<label>SMS Receipient</label>
+							<label>SMS Recipient</label>
 							<textarea class="form-control" rows="3" name="campaign_sms_more_recipient" readonly>{{$result['campaign_email_more_recipient']}}</textarea>
 						</div>
 						@endif
 						@if($result['campaign_media_push'] == "Yes")
 						<div class="form-group">
-							<label>Push Receipient</label>
+							<label>Push Recipient</label>
 							<textarea class="form-control" rows="3" name="campaign_push_more_recipient" readonly>{{$result['campaign_push_more_recipient']}}</textarea>
 						</div>
 						@endif
 						@if($result['campaign_media_inbox'] == "Yes")
 						<div class="form-group">
-							<label>Inbox Receipient</label>
+							<label>Inbox Recipient</label>
 							<textarea class="form-control" rows="3" name="campaign_inbox_more_recipient" readonly>{{$result['campaign_inbox_more_recipient']}}</textarea>
 						</div>
 						@endif
 						@if($result['campaign_media_whatsapp'] == "Yes")
 						<div class="form-group">
-							<label>WhatsApp Receipient</label>
+							<label>WhatsApp Recipient</label>
 							<textarea class="form-control" rows="3" name="campaign_whatsapp_more_recipient" readonly>{{$result['campaign_whatsapp_more_recipient']}}</textarea>
 						</div>
 						@endif
@@ -433,7 +433,7 @@
 				</div>
 				@if($result['campaign_is_sent'] != 'Yes')
 				<div class="row static-info" style="text-align:center;">
-						<a class="btn blue" href="{{url('/')}}/campaign/step2/{{$result['id_campaign']}}">Edit Campaign Receipient & Content</a>
+						<a class="btn blue" href="{{url('/')}}/campaign/step2/{{$result['id_campaign']}}">Edit Campaign Recipient & Content</a>
 				</div>
 				@endif
 			</div>
