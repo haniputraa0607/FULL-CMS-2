@@ -111,8 +111,8 @@
         $date_start = '';
         $date_end = '';
 
-        if(Session::has('filter-list-partners')){
-            $search_param = Session::get('filter-list-partners');
+        if(Session::has('filter-list-req-hair-stylist')){
+            $search_param = Session::get('filter-list-req-hair-stylist');
             if(isset($search_param['rule'])){
                 $rule = $search_param['rule'];
             }
@@ -124,7 +124,7 @@
     ?>
 
     <form id="form-sorting" action="{{url()->current()}}?filter=1" method="POST">
-        @include('businessdevelopment::partners.filter')
+        @include('recruitment::request.filter')
     </form>
     <br>
   
@@ -142,9 +142,8 @@
                     <div class="col-md-3">
                         <select name="order" class="form-control select2" style="width: 100%">
                             <option value="created_at" @if(isset($order) && $order == 'created_at') selected @endif>Date</option>
-                            <option value="name" @if(isset($order) && $order == 'name') selected @endif>Name</option>
-                            <option value="email" @if(isset($order) && $order == 'email') selected @endif>Email</option>
-                            <option value="address" @if(isset($order) && $order == 'address') selected @endif>Address</option>
+                            <option value="outlet_name" @if(isset($order) && $order == 'outlet_name') selected @endif>Outlet Name</option>
+                            <option value="number_of_request" @if(isset($order) && $order == 'number_of_request') selected @endif>Number Of Request</option>
                         </select>
                     </div>
                     <div class="col-md-3 pl-0 pr-0">

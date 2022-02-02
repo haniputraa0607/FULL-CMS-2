@@ -160,6 +160,11 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'business
         Route::get('detail_form_survey/{id}', ['middleware' => 'feature_control:340', 'uses' => 'LocationsController@detailFormSurvey']);
         Route::any('/{type?}', ['middleware' => 'feature_control:342', 'uses' => 'LocationsController@index']);
     });
+
+    Route::group(['prefix' => 'setting'], function(){
+        Route::get('{key}', ['middleware' => 'feature_control:343', 'uses' => 'LocationsController@settingBeforeAfter']);
+        Route::post('update/{key}', ['middleware' => 'feature_control:343', 'uses' => 'LocationsController@settingUpdateBeforeAfter']);
+    });
     
     Route::group(['prefix' => 'form-survey'], function()
     {
