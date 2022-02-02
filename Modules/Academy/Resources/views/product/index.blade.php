@@ -102,8 +102,7 @@ $configs    		= session('configs');
                         toastr.info("Product has been deleted.");
                     }
                     else {
-                        window.location.reload(true);
-                        toastr.info("Product has been deleted.");
+                        toastr.error("The product cannot be deleted because it has been used");
                     }
                 }
             });
