@@ -37,7 +37,6 @@
             autoclose: true,
             minuteStep: 5,
             showSeconds: false,
-
         });
         // sortable
         $( "#sortable" ).sortable();

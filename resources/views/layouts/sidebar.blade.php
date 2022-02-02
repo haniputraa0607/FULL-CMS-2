@@ -2283,7 +2283,7 @@
 					@endif
 					<li class="nav-item {{($submenu_active == 'home-service-autoresponse-home-service-mitra-get-order') ? 'active open' : ''}}">
 						<a href="{{url('autoresponse/home-service/home-service-mitra-get-order')}}" class="nav-link ">
-							<span class="title">[Response] Mitra Get Order</span>
+							<span class="title">[Response] HS - Get Order</span>
 						</a>
 					</li>
 					<li class="nav-item {{($submenu_active == 'home-service-autoresponse-home-service-update-status') ? 'active open' : ''}}">
@@ -2345,7 +2345,7 @@
 								<span class="title">[Response] Reject Day Off</span>
 							</a>
 						</li>
-						<li class="nav-item {{($submenu_active == 'academy-autoresponse-payment-academy-installment') ? 'active open' : ''}}">
+						<li class="nav-item {{($submenu_active == 'academy-autoresponse-payment-academy-installment-completed') ? 'active open' : ''}}">
 							<a href="{{url('autoresponse/academy/payment-academy-installment-completed')}}" class="nav-link ">
 								<span class="title">[Response] Payment Academy Installment Completed</span>
 							</a>

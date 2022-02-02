@@ -8,6 +8,7 @@
 	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css')}}" rel="stylesheet" type="text/css" />
 	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet" type="text/css" />
 	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css')}}" rel="stylesheet" type="text/css" />
+	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('page-script')
@@ -15,6 +16,7 @@
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/components-select2.min.js') }}" type="text/javascript"></script>
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}"></script>
+	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
 
 	<script type="text/javascript">
 		$('.datepicker').datepicker({
@@ -22,6 +24,16 @@
 			'todayHighlight' : true,
 			'autoclose' : true
 		});
+		
+		function submit() {
+			var date = $('#deadline').val();
+
+			if(date > 28){
+				swal("Warning", "Please input date above 28.", "info")
+			}else{
+				$('form#form_setting').submit();
+			}
+		}
 	</script>
 @endsection
 
@@ -59,13 +71,16 @@
 						</div>
 					</div>
 					<div class="portlet-body">
-						<form role="form" class="form-horizontal" action="{{url()->current()}}" method="POST">
+						<form role="form" class="form-horizontal" id="form_setting" action="{{url()->current()}}" method="POST">
 							<div class="form-group">
-								<label class="col-md-3 control-label">Installment Deadline Date</label>
+								<label class="col-md-4 control-label">Installment Deadline Date
+									<span class="required" aria-required="true"> *</span>
+									<i class="fa fa-question-circle tooltips" data-original-title="Batas waktu pelunasan. Input maksimal adalah tanggal 28." data-container="body"></i>
+								</label>
 								<div class="col-md-4">
 									<div class="input-group">
 										<span class="input-group-addon">Every</span>
-										<input type="number" class="form-control" min="1" maxlength="2" name="installment_deadline" value="{{$result['installment_deadline']}}">
+										<input type="number" class="form-control" min="1" maxlength="2" id="deadline" name="installment_deadline" value="{{$result['installment_deadline']}}">
 										<span class="input-group-addon">th</span>
 									</div>
 								</div>
@@ -73,7 +88,7 @@
 							<br>
 							<div class="form-actions" style="text-align:center">
 								{{ csrf_field() }}
-								<button type="submit" class="btn green"><i class="fa fa-check"></i> Submit</button>
+								<a onclick="submit()" class="btn green"><i class="fa fa-check"></i> Submit</a>
 							</div>
 						</form>
 					</div>
