@@ -72,7 +72,8 @@ class HairStylistController extends Controller
 
             $data['detail'] = $detail['result'];
             $data['outlets'] = MyHelper::get('outlet/be/list/simple')['result']??[];
-            $data['groups'] = MyHelper::get('recruitment/hairstylist/be/group/')['result']['data']??[];
+            $data['groups'] = MyHelper::get('recruitment/hairstylist/be/group')['result']['data']??[];
+            $data['category_theories'] = MyHelper::get('theory/with-category')['result']??[];
             return view('recruitment::hair_stylist.detail', $data);
         }else{
             return redirect('recruitment/hair-stylist/candidate')->withErrors($store['messages']??['Failed get detail candidate']);
