@@ -206,7 +206,7 @@
                                 '<label for="example-search-input">'+data+'</label>'+
                                 '</div>'+
                                 '<div class="col-md-2">'+
-                                '<select name="category[0][question][0][answer]" class="form-control input-sm select2" required>'+
+                                '<select name="category['+i+'][question]['+index+'][answer]" class="form-control input-sm select2" required>'+
                                 '<option value="" selected disabled> Select Answer</option>'+
                                 '<option value="a">A</option>'+
                                 '<option value="b">B</option>'+

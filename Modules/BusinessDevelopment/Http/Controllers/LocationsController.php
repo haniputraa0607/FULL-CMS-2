@@ -431,7 +431,7 @@ class LocationsController extends Controller
         
         if($request["follow_up"]=='Approved'){
             $update_data_location['step_loc'] = 'Approved';
-            $tab = '#approved';
+            $tab = '';
         }elseif($request["follow_up"]=='Survey Location'){
             $update_data_location['step_loc'] = 'Survey Location';
             $tab = '#survey';

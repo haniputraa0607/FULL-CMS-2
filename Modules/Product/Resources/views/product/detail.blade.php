@@ -1059,6 +1059,9 @@
                     <a href="#info" data-toggle="tab"> Info </a>
                 </li>
                 <li>
+                    <a href="#stock_product" data-toggle="tab"> Stock </a>
+                </li>
+                <li>
                     <a href="#productuse" data-toggle="tab"> Product Icount </a>
                 </li>
                 <li id="nav-prod-variant" @if($product[0]['product_variant_status'] != 1 || true) style="display: none" @endif>
@@ -1090,6 +1093,9 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="info">
                     @include('product::product.info')
+                </div>
+                <div class="tab-pane" id="stock_product">
+                    @include('product::product.stock_product')
                 </div>
                 <div class="tab-pane" id="productuse">
                     @include('product::product.product_use')
