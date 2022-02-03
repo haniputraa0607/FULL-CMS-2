@@ -9,12 +9,20 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($prod['product_icount_outlet_stocks'] as $stock)
+        @foreach($prod['product_icount_outlet_stocks'] as $outlet_stock)
         <tr>
-            <td>{{$stock[$prod['unit1']]['outlet']['outlet_name']}}</td>
-            <td>{{$stock[$prod['unit1']]['stock']}}</td>
-            <td>{!! $prod['unit2'] ? $stock[$prod['unit2']]['stock'] : '' !!}</td>
-            <td>{!! $prod['unit2'] ? $stock[$prod['unit2']]['stock'] : '' !!}</td>
+            @php
+                $this_stock = [];
+                $units = explode(",",$outlet_stock['units']);
+                $stock = explode(",",$outlet_stock['stock']);
+                foreach($units as $key => $u){
+                    $this_stock[$u] = $stock[$key]; 
+                }
+            @endphp
+            <td>{{ $outlet_stock['outlet_name'] }}</td>
+            <td>{{ !isset($prod['unit1']) ? '-' : !isset($this_stock[$prod['unit1']]) ? '-' : $this_stock[$prod['unit1']] }}</td>
+            <td>{{ !isset($prod['unit2']) ? '-' : !isset($this_stock[$prod['unit2']]) ? '-' : $this_stock[$prod['unit2']] }}</td>
+            <td>{{ !isset($prod['unit3']) ? '-' : !isset($this_stock[$prod['unit3']]) ? '-' : $this_stock[$prod['unit3']] }}</td>
         </tr>
         @endforeach
     </tbody>

@@ -328,7 +328,11 @@ class RequestProductController extends Controller
 
     public function updateDelivery(Request $request)
     {
+        $request->validate([
+            "delivery_date" => "required"
+        ]);
         $post = $request->except('_token');
+
         $result = MyHelper::post('dev-product/update', $post);
         if(isset($post['status']) && $post['status'] == 'On Progress'){
             return $result;
