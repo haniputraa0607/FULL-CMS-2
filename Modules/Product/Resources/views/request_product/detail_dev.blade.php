@@ -75,7 +75,6 @@
                         var type = $('input[type=hidden][name=type]').val();
                         var charged = $('#charged').val();
                         var request = $('#request').val();
-                        var delivery_date = $('input[type=text][name=delivery_date]').val();
                         var status = 'On Progress';
                         var product_icounts = [];
                         for(var i = 0; i < count_product_service_use; i++){
@@ -92,6 +91,7 @@
                             }
                             p++;
                         });
+
                         var data = {
                             '_token' : '{{csrf_token()}}',
                             'id_delivery_product' : id_delivery_product,
@@ -101,39 +101,43 @@
                             'type' : type,
                             'charged' : charged,
                             'request' : request,
-                            'delivery_date' : delivery_date,
                             'product_icount' : product_icounts,
                             'status' : status,
                         };
                         $(this).click(function() {
-                            swal({
-                                    title: "Confirm?",
-                                    text: "This delivery product will be sent to the outlet",
-                                    type: "warning",
-                                    showCancelButton: true,
-                                    confirmButtonClass: "btn-success",
-                                    confirmButtonText: "Yes, Send the product!",
-                                    closeOnConfirm: false
-                                },
-                                function(){
-                                    $.ajax({
-                                        type : "POST",
-                                        url : "{{url('dev-product/update')}}",
-                                        data : data,
-                                        success : function(response) {
-                                            if (response.status == 'success') {
-                                                swal("Sent!", "Product has been sent to outlet", "success")
-                                                location.href = "{{url('dev-product/detail')}}/"+id_delivery_product;
+                            if($('#delivery_date').val() == ''){
+                                alert('Delivery Date is required')
+                            }else{
+                                data["delivery_date"] = $('#delivery_date').val();
+                                swal({
+                                        title: "Confirm?",
+                                        text: "This delivery product will be sent to the outlet",
+                                        type: "warning",
+                                        showCancelButton: true,
+                                        confirmButtonClass: "btn-success",
+                                        confirmButtonText: "Yes, Send the product!",
+                                        closeOnConfirm: false
+                                    },
+                                    function(){
+                                        $.ajax({
+                                            type : "POST",
+                                            url : "{{url('dev-product/update')}}",
+                                            data : data,
+                                            success : function(response) {
+                                                if (response.status == 'success') {
+                                                    swal("Sent!", "Product has been sent to outlet", "success")
+                                                    location.href = "{{url('dev-product/detail')}}/"+id_delivery_product;
+                                                }
+                                                else if(response.status == "fail"){
+                                                    swal("Error!", "Failed to send the product.", "error")
+                                                }
+                                                else {
+                                                    swal("Error!", "Something went wrong. Failed to send the product.", "error")
+                                                }
                                             }
-                                            else if(response.status == "fail"){
-                                                swal("Error!", "Failed to send the product.", "error")
-                                            }
-                                            else {
-                                                swal("Error!", "Something went wrong. Failed to send the product.", "error")
-                                            }
-                                        }
+                                        });
                                     });
-                                });
+                            }
                         })
                     })
                 }
@@ -393,7 +397,7 @@
                             <i class="fa fa-question-circle tooltips" data-original-title="Tanggal barang akan dikirim" data-container="body"></i></label>
                         <div class="col-md-5">
                             <div class="input-group">
-                                <input type="text" id="start_date" class="datepicker form-control" name="delivery_date" @if(isset($result['delivery_date'])) value="{{date('d F Y', strtotime($result['delivery_date']))}}" @endif required @if($result['status']=='Completed') disabled @endif>
+                                <input type="text" class="datepicker form-control" id="delivery_date" name="delivery_date" value="{{ $result['delivery_date'] ? date('d F Y', strtotime($result['delivery_date'])) : '' }}" required @if($result['status']=='Completed') disabled @endif>
                                 <span class="input-group-btn">
                                     <button class="btn default" type="button">
                                         <i class="fa fa-calendar"></i>

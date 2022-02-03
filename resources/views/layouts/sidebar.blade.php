@@ -1218,6 +1218,11 @@
 					</a>
 				</li>
 				@endif
+                <li class="nav-item {{($submenu_active == 'partners-content') ? 'active open' : ''}}">
+					<a href="{{url('businessdev/setting/partner')}}" class="nav-link ">
+						<span class="title">Content Header And Footer </span>
+					</a>
+				</li>
 				@if(MyHelper::hasAccess([40,121], $configs))
 				<li class="nav-item {{($submenu_active == 'partners-autoresponse-updated-candidate-partner-to-partner') ? 'active open' : ''}}">
 					<a href="{{url('user/autoresponse/updated-candidate-partner-to-partner')}}" class="nav-link ">
@@ -1250,6 +1255,11 @@
 					</a>
 				</li>
 				@endif
+                <li class="nav-item {{($submenu_active == 'locations-content') ? 'active open' : ''}}">
+					<a href="{{url('businessdev/setting/location')}}" class="nav-link ">
+						<span class="title">Content Header And Footer </span>
+					</a>
+				</li>
                 @if(MyHelper::hasAccess([40,121], $configs))
 				<li class="nav-item {{($submenu_active == 'locations-autoresponse-updated-candidate-location-to-location') ? 'active open' : ''}}">
 					<a href="{{url('user/autoresponse/updated-candidate-location-to-location')}}" class="nav-link ">
@@ -1329,6 +1339,11 @@
 				<li class="nav-item {{($submenu_active == 'hair-stylist-candidate') ? 'active open' : ''}}">
 					<a href="{{url('recruitment/hair-stylist/candidate')}}" class="nav-link ">
 						<span class="title">Candidate List</span>
+					</a>
+				</li>
+                <li class="nav-item {{($submenu_active == 'hair-stylist-content') ? 'active open' : ''}}">
+					<a href="{{url('businessdev/setting/hairstylist')}}" class="nav-link ">
+						<span class="title">Content Header And Footer </span>
 					</a>
 				</li>
 				<li class="nav-item {{($submenu_active == 'hairstylist-autoresponse-register-candidate-hair-stylist') ? 'active open' : ''}}">

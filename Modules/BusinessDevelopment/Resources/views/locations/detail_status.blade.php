@@ -1019,7 +1019,8 @@
                                                                             <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
                                                                                 <i class="fa fa-question-circle tooltips" data-original-title="Catatan untuk step in" data-container="body"></i></label>
                                                                             <div class="col-md-5">
-                                                                                <textarea name="note" id="note" class="form-control" placeholder="Enter note here" @if ($pay==true) readonly @endif >@if ($pay==true) {{ $note_pay }} @endif</textarea>
+                                                                                <textarea name="note" id="note" class="form-control" placeholder="Enter note here" @if ($pay==true) readonly @endif >@if ($pay==true) {{ $note_pay
+                                                                                 }} @endif</textarea>
                                                                             </div>
                                                                         </div>
                                                                         <input type="hidden" name="id_location" value="{{$result['id_location']??''}}">

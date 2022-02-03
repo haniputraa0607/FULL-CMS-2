@@ -705,7 +705,7 @@ class ProductController extends Controller
         ];
 
         $product = MyHelper::post('product/be/list', ['product_code' => $code, 'outlet_prices' => 1]);
-        // dd($product);
+
         if (isset($product['status']) && $product['status'] == "success") {
             $data['product'] = $product['result'];
         }
@@ -1656,7 +1656,6 @@ class ProductController extends Controller
                 $data['outlet_all'] = $outletAll['result'];
             }
 
-            // return $data;
             return view('product::product.detail_icount', $data);
         }
         else {

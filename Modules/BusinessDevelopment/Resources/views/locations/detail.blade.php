@@ -201,13 +201,13 @@
                             var html_question = '';
                             obj["question"].forEach(function(data, index){
                                 html_question += '<div class="form-group">'+
-                                '<div class="col-md-10">'+
+                                '<div class="col-md-9">'+
                                 '<input type="hidden" name="category['+i+'][question]['+index+'][question]" value="'+data+'">'+
                                 '<label for="example-search-input">'+data+'</label>'+
                                 '</div>'+
                                 '<div class="col-md-2">'+
-                                '<select name="category[0][question][0][answer]" class="form-control input-sm select2" required style="padding: 0px; !important">'+
-                                '<option value="" selected disabled> </option>'+
+                                '<select name="category['+i+'][question]['+index+'][answer]" class="form-control input-sm select2" required>'+
+                                '<option value="" selected disabled> Select Answer</option>'+
                                 '<option value="a">A</option>'+
                                 '<option value="b">B</option>'+
                                 '<option value="c">C</option>'+
@@ -220,8 +220,8 @@
                             i++;
                         }
                         $("#answer-question").append(html);
+                        $('.select2').select2({placeholder: "Answer"});
                     }
-                    $('.select2').select2();
                     
                 },
                 error : function(result) {
@@ -527,7 +527,7 @@
         </div>
     </div>
 
-    <div class="modal fade bd-example-modal-lg" id="formSurvey" tabindex="-1" role="dialog" aria-labelledby="candidatePartnerModalLabel" aria-hidden="true">
+    <div class="modal fade bd-example-modal-xl" id="formSurvey" tabindex="-1" role="dialog" aria-labelledby="candidatePartnerModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
