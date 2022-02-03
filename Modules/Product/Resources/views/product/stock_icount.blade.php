@@ -9,7 +9,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($prod['product_icount_outlet_stocks'] as $outlet_stock)
+        @foreach($prod['product_icount_outlet_stocks'] ?? [] as $outlet_stock)
         <tr>
             @php
                 $this_stock = [];
