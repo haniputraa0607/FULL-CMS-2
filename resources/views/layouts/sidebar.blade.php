@@ -1218,11 +1218,6 @@
 					</a>
 				</li>
 				@endif
-                <li class="nav-item {{($submenu_active == 'partners-content') ? 'active open' : ''}}">
-					<a href="{{url('businessdev/setting/partner')}}" class="nav-link ">
-						<span class="title">Content Header And Footer </span>
-					</a>
-				</li>
 				@if(MyHelper::hasAccess([40,121], $configs))
 				<li class="nav-item {{($submenu_active == 'partners-autoresponse-updated-candidate-partner-to-partner') ? 'active open' : ''}}">
 					<a href="{{url('user/autoresponse/updated-candidate-partner-to-partner')}}" class="nav-link ">
@@ -1255,11 +1250,6 @@
 					</a>
 				</li>
 				@endif
-                <li class="nav-item {{($submenu_active == 'locations-content') ? 'active open' : ''}}">
-					<a href="{{url('businessdev/setting/location')}}" class="nav-link ">
-						<span class="title">Content Header And Footer </span>
-					</a>
-				</li>
                 @if(MyHelper::hasAccess([40,121], $configs))
 				<li class="nav-item {{($submenu_active == 'locations-autoresponse-updated-candidate-location-to-location') ? 'active open' : ''}}">
 					<a href="{{url('user/autoresponse/updated-candidate-location-to-location')}}" class="nav-link ">
@@ -1339,11 +1329,6 @@
 				<li class="nav-item {{($submenu_active == 'hair-stylist-candidate') ? 'active open' : ''}}">
 					<a href="{{url('recruitment/hair-stylist/candidate')}}" class="nav-link ">
 						<span class="title">Candidate List</span>
-					</a>
-				</li>
-                <li class="nav-item {{($submenu_active == 'hair-stylist-content') ? 'active open' : ''}}">
-					<a href="{{url('businessdev/setting/hairstylist')}}" class="nav-link ">
-						<span class="title">Content Header And Footer </span>
 					</a>
 				</li>
 				<li class="nav-item {{($submenu_active == 'hairstylist-autoresponse-register-candidate-hair-stylist') ? 'active open' : ''}}">
@@ -3528,6 +3513,15 @@
 			</li>
 		@endif
 
+        @if(MyHelper::hasAccess([273], $grantedFeature))
+			<li class="nav-item {{($menu_active == 'setting-outlet-apps') ? 'active' : ''}}">
+				<a href="{{url('setting/outletapp')}}" class="nav-link">
+					<i class="fa fa-tablet"></i>
+					<span class="title">Setting Outlet Apps</span>
+				</a>
+			</li>
+		@endif
+
 		@if(MyHelper::hasAccess([346], $grantedFeature))
 			<li class="nav-item {{($menu_active == 'setting-mitra-apps') ? 'active' : ''}}">
 				<a href="{{url('setting/mitra-apps')}}" class="nav-link">
@@ -3547,6 +3541,39 @@
 			</li>
 		@endif
 		@endif
+
+		@if(MyHelper::hasAccess([338], $grantedFeature) || MyHelper::hasAccess([338], $grantedFeature) || MyHelper::hasAccess([338], $grantedFeature))
+        <li class="nav-item {{($menu_active == 'landing-page') ? 'active open' : ''}}">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="fa fa-tachometer n"></i>
+                <span class="title">Setting Landing Page</span>
+                <span class="arrow {{($menu_active == 'landing-page') ? 'open' : ''}}"></span>
+            </a>
+			<ul class="sub-menu">
+                @if(MyHelper::hasAccess([338], $grantedFeature))
+                <li class="nav-item {{($submenu_active == 'partners') ? 'active open' : ''}}">
+					<a href="{{url('businessdev/setting/partner')}}" class="nav-link ">
+						<span class="title">Content Header And Footer Partner</span>
+					</a>
+				</li>
+                @endif 
+                @if(MyHelper::hasAccess([342], $grantedFeature))
+                <li class="nav-item {{($submenu_active == 'locations') ? 'active open' : ''}}">
+					<a href="{{url('businessdev/setting/location')}}" class="nav-link ">
+						<span class="title">Content Header And Footer Location</span>
+					</a>
+				</li>
+                @endif
+                @if(MyHelper::hasAccess([347], $grantedFeature))
+                <li class="nav-item {{($submenu_active == 'hair-stylist') ? 'active open' : ''}}">
+					<a href="{{url('businessdev/setting/hairstylist')}}" class="nav-link ">
+						<span class="title">Content Header And Footer Hair Stylist</span>
+					</a>
+				</li>
+                @endif
+            </ul>    
+        </li>
+        @endif
 
 		@if(MyHelper::hasAccess([160], $grantedFeature))
 			<li class="nav-item {{($menu_active == 'setting-text-menu') ? 'active' : ''}}">

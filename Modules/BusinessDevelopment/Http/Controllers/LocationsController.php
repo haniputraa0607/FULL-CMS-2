@@ -568,26 +568,24 @@ class LocationsController extends Controller
         $colLabel = 2;
         $colInput = 10;
         $label = '';
+        $title = 'Setting Landing Page';
 
         if($key == 'partner') {
-            $title = 'Partners';
-            $sub_title = 'Content Header Footer Form Registration Partner';
-            $sub = 'partners-content';
-            $active = 'partners';
+            $sub_title = 'Form Registration Partner';
+            $sub = 'partners';
+            $active = 'landing-page';
             $label = 'Content';
             $key_setting = 'setting_partner_content';
         } elseif($key == 'location') {
-            $title = 'Locations';
-            $sub_title = 'Content Header Footer Form Registration Location';
-            $sub = 'locations-content';
-            $active = 'locations';
+            $sub_title = 'Form Registration Location';
+            $sub = 'locations';
+            $active = 'landing-page';
             $label = 'Content';
             $key_setting = 'setting_locations_content';
         } elseif($key == 'hairstylist') {
-            $title = 'Recruitment';
-            $sub_title = 'Content Header Footer Form Registration Hair Stylist';
-            $sub = 'hair-stylist-content';
-            $active = 'hair-stylist';
+            $sub_title = 'Form Registration Hair Stylist';
+            $sub = 'hair-stylist';
+            $active = 'landing-page';
             $label = 'Content';
             $key_setting = 'setting_hairstylist_content';
         }
