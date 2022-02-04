@@ -431,7 +431,7 @@ class LocationsController extends Controller
         
         if($request["follow_up"]=='Approved'){
             $update_data_location['step_loc'] = 'Approved';
-            $tab = '#approved';
+            $tab = '';
         }elseif($request["follow_up"]=='Survey Location'){
             $update_data_location['step_loc'] = 'Survey Location';
             $tab = '#survey';
@@ -543,7 +543,7 @@ class LocationsController extends Controller
     {
         $result = MyHelper::post('partners/locations/edit', ['id_location' => $id_location]);
         $data = [
-            'title'          => 'Partner',
+            'title'          => 'Partners',
             'sub_title'      => 'Detail Status Location Partner',
             'menu_active'    => 'partners',
             'submenu_active' => 'list-partners',
@@ -561,5 +561,90 @@ class LocationsController extends Controller
         }else{
             return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
         }
+    }
+
+    public function settingBeforeAfter($key){
+        $data = [];
+        $colLabel = 2;
+        $colInput = 10;
+        $label = '';
+
+        if($key == 'partner') {
+            $title = 'Partners';
+            $sub_title = 'Content Header Footer Form Registration Partner';
+            $sub = 'partners-content';
+            $active = 'partners';
+            $label = 'Content';
+            $key_setting = 'setting_partner_content';
+        } elseif($key == 'location') {
+            $title = 'Locations';
+            $sub_title = 'Content Header Footer Form Registration Location';
+            $sub = 'locations-content';
+            $active = 'locations';
+            $label = 'Content';
+            $key_setting = 'setting_locations_content';
+        } elseif($key == 'hairstylist') {
+            $title = 'Recruitment';
+            $sub_title = 'Content Header Footer Form Registration Hair Stylist';
+            $sub = 'hair-stylist-content';
+            $active = 'hair-stylist';
+            $label = 'Content';
+            $key_setting = 'setting_hairstylist_content';
+        }
+
+        $data = [
+            'title'          => $title,
+            'menu_active'    => $active,
+            'submenu_active' => $sub,
+            'sub_title'       => $sub_title,
+            'label'          => $label,
+            'colLabel'       => $colLabel,
+            'colInput'       => $colInput,
+            'key'            => $key_setting ?? null,
+        ];
+
+        $request['before'] = MyHelper::post('setting', ['key' => $key_setting.'_before']);
+        $request['after'] = MyHelper::post('setting', ['key' => $key_setting.'_after']);
+
+        if (isset($request['before']['status']) && $request['before']['status'] == 'success') {
+            $result['before'] = $request['before']['result'];
+            $data['before']['id'] = $result['before']['id_setting'];
+            $data['before']['value'] = $result['before']['value_text'];
+
+        }elseif(isset($request['before']['messages']) && $request['before']['messages'][0] == 'empty'){
+            $data['before'] = null;
+        }else {
+            return redirect('home')->withErrors($request['before']['messages']);
+        }
+
+        if(isset($request['after']['status']) && $request['after']['status'] == 'success'){
+            $result['after'] = $request['after']['result'];
+            $data['after']['id'] = $result['after']['id_setting'];
+            $data['after']['value'] = $result['after']['value_text'];
+
+        }elseif(isset($request['after']['messages']) && $request['after']['messages'][0] == 'empty'){
+            $data['after'] = null;
+        }else {
+            return redirect('home')->withErrors($request['after']['messages']);
+        }
+
+        return view('businessdevelopment::setting', $data);
+    }
+
+    public function settingUpdateBeforeAfter(Request $request, $key){
+        $post = $request->except('_token');
+
+        $update = MyHelper::post('partners/setting/update', ['key' => $key, 'value_before' => $post['value_before'], 'value_after' => $post['value_after']]);
+
+        if($key == 'setting_partner_content'){
+            $to = 'partner';
+        }elseif($key == 'setting_locations_content'){
+            $to = 'location';
+        }else{ 
+            $to = 'hairstylist';
+        }
+
+        return redirect('businessdev/setting/'.$to)->withSuccess(['Content Header and Footer has been updated.']);
+
     }
 }

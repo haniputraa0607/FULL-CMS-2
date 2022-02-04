@@ -37,7 +37,6 @@
             autoclose: true,
             minuteStep: 5,
             showSeconds: false,
-
         });
         // sortable
         $( "#sortable" ).sortable();
@@ -762,6 +761,12 @@
                 <li class="active" id="infoOutlet">
                     <a href="#info" data-toggle="tab" > Info </a>
                 </li>
+                <li>
+                    <a href="#product" data-toggle="tab" > Product Stock </a>
+                </li>
+                <li>
+                    <a href="#product_icount" data-toggle="tab" > Product Icount Stock </a>
+                </li>
 {{--                 <li id="pinOutlet">
                     <a href="#pin" data-toggle="tab" > Update Pin </a>
                 </li> --}}
@@ -801,6 +806,12 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="info">
                     @include('outlet::info')
+                </div>
+                <div class="tab-pane" id="product">
+                    @include('outlet::product')
+                </div>
+                <div class="tab-pane" id="product_icount">
+                    @include('outlet::product_icount')
                 </div>
                 <div class="tab-pane" id="pin">
                     @include('outlet::pin')

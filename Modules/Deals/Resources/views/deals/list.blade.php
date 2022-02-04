@@ -102,6 +102,8 @@ $grantedFeature     = session('granted_features');
                     [5, 10, 15, 20, "All"]
                 ],
                 pageLength: 10,
+                lengthChange: false,
+                searching: false,
                 dom: "<'row' <'col-md-12'B>><'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'>>"
         });
 

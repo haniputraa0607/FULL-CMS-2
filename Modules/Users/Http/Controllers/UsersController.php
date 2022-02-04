@@ -75,7 +75,9 @@ class UsersController extends Controller
 				  'submenu_active'    => 'user-autoresponse-'.$subject
 				];
 		switch ($subject) {
-
+            case 'login-first-time':
+                $data['active_response'] = ['sms', 'push', 'inbox', 'whatsapp', 'forward'];
+                break;
 			case 'complete-user-profile-point-bonus':
 				$data['menu_active'] = 'profile-completion';
 				$data['submenu_active'] = 'complete-user-profile-point-bonus';

@@ -86,7 +86,7 @@
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input class="form-control numberonly" data-type="currency" type="text" id="rental_price" name="rental_price" placeholder="Enter rental price here" value="{{ old('rental_price') ?  number_format(old('rental_price')) : number_format($result['rental_price'])}}" required {{$pay ? 'disabled' : ''}}/>
+                                            <input class="form-control numberonly" type="text" id="rental_price" name="rental_price" placeholder="Enter rental price here" value="{{ old('rental_price') ?  number_format(old('rental_price')) : number_format($result['rental_price'])}}" required {{$pay ? 'disabled' : ''}}/>
                                         </div>
                                     </div>
                                 </div>    
@@ -96,7 +96,7 @@
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input class="form-control numberonly" data-type="currency" type="text" id="service_charge" name="service_charge" placeholder="Enter service charge here" value="{{ old('service_charge') ?  number_format(old('service_charge')) : number_format($result['service_charge'])}}" required {{$pay ? 'disabled' : ''}}/>
+                                            <input class="form-control numberonly" type="text" id="service_charge" name="service_charge" placeholder="Enter service charge here" value="{{ old('service_charge') ?  number_format(old('service_charge')) : number_format($result['service_charge'])}}" required {{$pay ? 'disabled' : ''}}/>
                                         </div>
                                     </div>
                                 </div>    
@@ -106,7 +106,7 @@
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input class="form-control numberonly" data-type="currency" type="text" id="promotion_levy" name="promotion_levy" placeholder="Enter promotion levy here"  value="{{ old('promotion_levy') ?  number_format(old('promotion_levy')) : number_format($result['promotion_levy'])}}" required {{$pay ? 'disabled' : ''}}/>
+                                            <input class="form-control numberonly" type="text" id="promotion_levy" name="promotion_levy" placeholder="Enter promotion levy here"  value="{{ old('promotion_levy') ?  number_format(old('promotion_levy')) : number_format($result['promotion_levy'])}}" required {{$pay ? 'disabled' : ''}}/>
                                         </div>
                                     </div>
                                 </div>    
