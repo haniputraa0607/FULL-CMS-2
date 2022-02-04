@@ -268,7 +268,7 @@
     <div class="portlet light portlet-fit bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject font-blue sbold uppercase">Transaction Home Service</span>
+                <span class="caption-subject font-blue sbold uppercase">Transaction Academy</span>
             </div>
         </div>
         <div class="portlet-body">
