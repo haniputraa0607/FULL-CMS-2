@@ -1,18 +1,19 @@
+@php $out = $outlet[0]; @endphp
 <table class="table datatable">
     <thead>
         <tr>
-            <th>Outlet</th>
+            <th>Product</th>
             <th>Stock Status</th>
             <th>Stock</th>
         </tr>
     </thead>
     <tbody>
-        {{--  @foreach($prod['product_detail'] as $outlet_stock)
+        @foreach($out['product_detail'] ?? [] as $product)
         <tr>
-            <td>{{ $outlet_stock['outlet_name'] }}</td>
-            <td>{{ $outlet_stock['product_detail_stock_status'] }}</td>
-            <td>{{ $outlet_stock['product_detail_stock_item'] }}</td>
+            <td>{{ $product['product']['product_name'] }}</td>
+            <td>{{ $product['product_detail_stock_status'] }}</td>
+            <td>{{ $product['product_detail_stock_item'] }}</td>
         </tr>
-        @endforeach  --}}
+        @endforeach
     </tbody>
 </table>
