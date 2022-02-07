@@ -94,7 +94,7 @@ class HairStylistScheduleController extends Controller
     public function update(Request $request, $id){
         $post = $request->except('_token');
         $post['id_hairstylist_schedule'] = $id;
-        return $post;
+
         $update = MyHelper::post('recruitment/hairstylist/be/schedule/update',$post);
 
         if(isset($update['status']) && $update['status'] == 'success'){

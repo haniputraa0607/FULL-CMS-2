@@ -223,7 +223,7 @@
 		                    <div class="col-md-6">: <a href="{{ url('outlet/detail') }}/{{ $data['detail']['outlet_code'] }}">{{ $data['detail']['outlet_code'].' - '.$data['detail']['outlet_name'] }}</a></div>
 		                </div>
 						@php
-							$day = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+							$day = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 							$dayCount = count($day);
 							$hs_schedules = [];
 							foreach ($data['detail']['hairstylist_schedule_dates'] ?? [] as $val) {
@@ -247,7 +247,7 @@
 									<div class="col-md-1 custom-date-box-header">
 							        	<div class="card text-center">
 							        		<div class="card-body">
-							        			<h5 class="card-title fc-day-header fc-widget-header fc-sun"><b>{{ $day[$i] }}</b></h5>
+							        			<h5 class="card-title"><b>{{ $day[$i] }}</b></h5>
 							        		</div>
 							        	</div>
 							        </div>
@@ -291,7 +291,7 @@
 										        			@foreach ($schInfo['all_hs_schedule'] as $val)
 										        				@php
 										        					$status = !empty($val['approve_at']) ? 'approved' : (!empty($val['reject_at']) ? 'rejected' : 'pending');
-										        					$shift = ($val['shift'] == 'Morning') ? 'Pagi' : 'Sore';
+										        					$shift = ($val['shift'] == 'Morning') ? 'Morning' : 'Evening';
 										        					$color = ($status == 'approved') ? 'lightgreen' : (($status == 'rejected') ? 'orangered' : 'yellow');
 										        				@endphp
 																<p style='color: {{ $color }}; margin:0px;'> {{ $val['fullname'].' ('.$shift.') - '.$status }} </p>
@@ -305,7 +305,7 @@
 							        			<h4 class="card-title"><b>{{ date('j', strtotime($schInfo['date'])) }}</b></h4>
 
 						        				<div style="font-size: 12px; {{ $schInfo['is_closed'] ? 'margin-top: -10px' : 'margin-top: 16px' }};" >
-						        					{{ $schInfo['is_closed'] ? $schInfo['outlet_holiday'] ?? 'Tutup' : null }}
+						        					{{ $schInfo['is_closed'] ? $schInfo['outlet_holiday'] ?? 'Closed' : null }}
 						        				</div>
 
                                                
@@ -314,9 +314,9 @@
 							        				<option value=""></option>
 							        				@php
 							        					$shiftIndo = [
-							        						'Morning' => 'Pagi',
-							        						'Middle'  => 'Tengah',
-							        						'Evening' => 'Sore',
+							        						'Morning' => 'Morning',
+							        						'Middle'  => 'Middle',
+							        						'Evening' => 'Evening',
 							        					];
 							        				@endphp
 							        				@foreach ($schInfo['outlet_shift']['shift'] as $s)
