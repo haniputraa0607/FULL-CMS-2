@@ -429,6 +429,7 @@
 
     </script>
     <script type="text/javascript">
+        $('.datatable').dataTable();
         $('#sample_1').dataTable({
                 language: {
                     aria: {

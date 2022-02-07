@@ -49,6 +49,7 @@ class ProductServiceController extends Controller
         ];
 
         $product = MyHelper::post('product-service', ['product_code' => $code, 'outlet_prices' => 1]);
+
         if (isset($product['status']) && $product['status'] == "success") {
             $data['product'] = $product['result'];
         }else {
@@ -111,7 +112,6 @@ class ProductServiceController extends Controller
             $data['list_product_service_use'] = MyHelper::get('product-service/product-use/list')['result']??[];
             $data['product_uses'] = MyHelper::post('product/be/icount/list', [])['result'] ?? [];
             $data['product_icount_use'] = $data['product'][0]['product_icount_use'] ?? [];
-
             return view('productservice::detail', $data);
         }
         else {

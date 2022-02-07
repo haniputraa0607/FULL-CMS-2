@@ -72,6 +72,7 @@ class HairStylistScheduleController extends Controller
 
     public function detail(Request $request, $id){
         $detail = MyHelper::post('recruitment/hairstylist/be/schedule/detail',['id_hairstylist_schedule' => $id]);
+
         if(isset($detail['status']) && $detail['status'] == 'success'){
             $data = [
                 'title'          => 'Recruitment',
@@ -93,13 +94,40 @@ class HairStylistScheduleController extends Controller
     public function update(Request $request, $id){
         $post = $request->except('_token');
         $post['id_hairstylist_schedule'] = $id;
-
+        return $post;
         $update = MyHelper::post('recruitment/hairstylist/be/schedule/update',$post);
 
         if(isset($update['status']) && $update['status'] == 'success'){
             return redirect('recruitment/hair-stylist/schedule/detail/'.$id)->withSuccess(['Success update data schedule']);
         }else{
             return redirect('recruitment/hair-stylist/schedule/detail/'.$id)->withErrors($update['messages']??['Failed update data to approved']);
+        }
+    }
+
+    public function create(Request $request){
+        $data = [
+            'title'          	=> 'Recruitment',
+            'sub_title'      	=> 'Schedule',
+            'menu_active'    	=> 'hairstylist-schedule',
+            'submenu_active' 	=> 'hairstylist-schedule',
+            'child_active' 		=> 'hairstylist-schedule-create',
+        ];
+        
+        $data['hair_stylists'] = MyHelper::post('recruitment/hairstylist/be/list', [])['result']['data'];
+        return view('recruitment::hair_stylist.schedule.create', $data);
+    }
+
+    public function check(Request $request){
+        $post = $request->except('_token');
+        $data =  MyHelper::post('recruitment/hairstylist/be/schedule/create',$post);
+
+        if(isset($update['status']) && $update['status'] == 'success'){
+            return $data;
+        }else{
+            return [
+                'status' => $data['status'],
+                'messages' => $data['messages'] ?? 'Something went wrong. Failed to create the schedule.'
+            ];
         }
     }
 }

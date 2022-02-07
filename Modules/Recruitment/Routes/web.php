@@ -30,7 +30,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
 	Route::group(['prefix' => 'request'], function()
 	{
 	    Route::any('/', ['middleware' => 'feature_control:379', 'uses' => 'RequestHairStylistController@index']);
-	    Route::any('/new', ['middleware' => 'feature_control:378', 'uses' => 'RequestHairStylistController@create']);
+	    Route::any('/new', ['middleware' => 'feature_control:441', 'uses' => 'RequestHairStylistController@create']);
 	    Route::any('/detail/{id}', ['middleware' => 'feature_control:380', 'uses' => 'RequestHairStylistController@show']);
 	    Route::post('/store', ['middleware' => 'feature_control:378', 'uses' => 'RequestHairStylistController@store']);
 	    Route::post('/delete/{id}', ['middleware' => 'feature_control:379', 'uses' => 'RequestHairStylistController@destroy']);
@@ -42,8 +42,10 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
 	Route::group(['prefix' => 'schedule'], function()
 	{
 	    Route::any('/', ['middleware' => 'feature_control:353,354,355', 'uses' => 'HairStylistScheduleController@list']);
+	    Route::any('create', ['middleware' => 'feature_control:353,354,355', 'uses' => 'HairStylistScheduleController@create']);
 	    Route::get('detail/{id}', ['middleware' => 'feature_control:354', 'uses' => 'HairStylistScheduleController@detail']);
 	    Route::post('update/{id}', ['middleware' => 'feature_control:355', 'uses' => 'HairStylistScheduleController@update']);
+	    Route::post('/check', ['middleware' => 'feature_control:441', 'uses' => 'HairStylistScheduleController@check']);
 	});
 
 	Route::group(['prefix' => 'attendance'], function()

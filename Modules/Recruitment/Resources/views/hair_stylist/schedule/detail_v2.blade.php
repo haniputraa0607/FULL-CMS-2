@@ -13,6 +13,7 @@
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/fullcalendar/fullcalendar.min.css') }}" rel="stylesheet" type="text/css" />
 
     <style type="text/css">
 		@media (min-width: 768px) {
@@ -74,6 +75,9 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/jquery-repeater/jquery.repeater.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/form-repeater.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/moment.min.js') }}" type="text/javascript"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/fullcalendar/fullcalendar.min.js') }}" type="text/javascript"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/jquery-ui/jquery-ui.min.js') }}" type="text/javascript"></script>
     <script>
         $('.datepicker').datepicker({
             'format' : 'd-M-yyyy',
@@ -228,7 +232,8 @@
 								$date 	= date('j', strtotime($val['date']));
 								$hs_schedules[$year][$month][$date][$val['shift']] = $val;
 							}
-							$scheduleDate = date('Y-m-d', strtotime($data['detail']['hairstylist_schedule_dates'][0]['date'] ?? date('Y-m-d')));
+                            $implode_date = date($data['detail']['schedule_year'].'-'.$data['detail']['schedule_month'].'-01');
+							$scheduleDate = date('Y-m-d', strtotime($implode_date ?? date('Y-m-d')));
 							$thisMonth = date('m', strtotime($scheduleDate));
 							$thisMonthYear = date('Y', strtotime($scheduleDate));
 							$thisMonthDate = \App\Lib\MyHelper::getListDate($thisMonth, $thisMonthYear);
@@ -242,7 +247,7 @@
 									<div class="col-md-1 custom-date-box-header">
 							        	<div class="card text-center">
 							        		<div class="card-body">
-							        			<h5 class="card-title"><b>{{ $day[$i] }}</b></h5>
+							        			<h5 class="card-title fc-day-header fc-widget-header fc-sun"><b>{{ $day[$i] }}</b></h5>
 							        		</div>
 							        	</div>
 							        </div>
@@ -269,8 +274,13 @@
 								@if ($day[$i % 7] == ($data['list_date'][$index]['day'] ?? false))
 									@php
 										$schInfo = $data['list_date'][$index];
+                                        if($schInfo['date']>=date('Y-m-d')){
+                                            $can_update = true;
+                                        }else{
+                                            $can_update = false;
+                                        }
 									@endphp
-									<div class="col-md-1 custom-date-box">
+									<div class="col-md-1 custom-date-box" @if (!$can_update) style="background-color:rgb(230, 230, 230);" @endif>
 							        	<div class="card text-center">
 							        		<div class="card-body">
 								        		<div class="text-right" style="height:10px">
@@ -298,7 +308,9 @@
 						        					{{ $schInfo['is_closed'] ? $schInfo['outlet_holiday'] ?? 'Tutup' : null }}
 						        				</div>
 
-							        			<select name="schedule[{{ $schInfo['date'] }}]" style="font-size:12px">
+                                               
+
+							        			<select name="schedule[{{ $schInfo['date'] }}]" style="font-size:12px" {{ $can_update ? '' : 'disabled' }}>
 							        				<option value=""></option>
 							        				@php
 							        					$shiftIndo = [
@@ -318,7 +330,7 @@
 							        	$index++;
 							        @endphp
 								@else
-							        <div class="col-md-1 custom-date-box" style="background-color:lightgrey;">
+							        <div class="col-md-1 custom-date-box" style="background-color:rgb(172, 172, 172);">
 							        	<div class="card text-center">
 							        		<div class="card-body">
 							        		</div>
