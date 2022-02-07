@@ -42,9 +42,9 @@
                                                     <input type="hidden" name="id_hairstylist_group[]" value="{{$id}}"/>
                                                      <input type="hidden" name="code[]" value="{{$dt['code']}}"/>
                                                     <input type="hidden" name="id_hairstylist_group_default_potongans[]" value="{{$dt['id_hairstylist_group_default_potongans']}}"/>
-                                                    <input type="text" name="value[]" id='value' value="@if($dt['default']==1 && $dt['value'] != null) {{number_format($dt['value']??null,0,',',',')}} @endif" data-type="currency" placeholder="{{number_format($dt['default_value']??0,0,',',',')}}" class="form-control" /></input></td>
+                                                    <input type="text" name="value[]" id='value' value="@if($dt['default']==1 && $dt['value'] != null){{number_format($dt['value']??null,0,',',',')}}@endif" data-type="currency" placeholder="{{number_format($dt['default_value']??0,0,',',',')}}" class="form-control" /></input></td>
                                                 <td style="text-align: center">
-                                                    <textarea name="formulas[]" id="formulas{{$key}}" class="form-control" placeholder="{{$dt['default_formula']??''}}">@if($dt['default']==1 && $dt['formula'] != null) {{$dt['formula']??''}}  @endif</textarea>
+                                                    <textarea name="formulas[]" id="formulas{{$key}}" class="form-control" placeholder="{{$dt['default_formula']??''}}">@if($dt['default']==1 && $dt['formula'] != null){{$dt['formula']??''}}@endif</textarea>
                                                      <div class="row">
                                                             @foreach($textreplace as $row)
                                                                     <div class="col-md-4" style="margin-top: 5px;">
