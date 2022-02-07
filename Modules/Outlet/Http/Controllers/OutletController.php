@@ -180,10 +180,9 @@ class OutletController extends Controller
             ];
 
             $outlet = MyHelper::post('outlet/be/list', ['outlet_code' => $code,'admin' => 1, 'qrcode' => 1]);
-            return $outlet;
             $data['brands'] = MyHelper::get('brand/be/list')['result']??[];
             $data['delivery'] = MyHelper::get('transaction/be/available-delivery')['result']['delivery']??[];
-            // return $outlet;
+
 
             if (isset($outlet['status']) && $outlet['status'] == "success") {
                 $data['outlet']    = $outlet['result'];

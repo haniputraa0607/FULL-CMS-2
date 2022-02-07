@@ -60,13 +60,18 @@ $grantedFeature     = session('granted_features');
             }
 
             function buildItemAction(item) {
-
+                if(item.from_icount == 1){
+                    var edit = '<a onclick="return false" class="btn btn-sm btn-info" disabled><i class="fa fa-edit"></i></a>' +
+                    '<a onclick="return false" class="btn btn-sm btn-danger sweetalert-delete" style="margin-left:0.5%" disabled><i class="fa fa-trash"></i></a>';
+                }else{
+                    var edit = '<a href="{{ url("user/department/edit") }}/'+item.id_department+'" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>' +
+                    '<a onclick="deleteDepartment(\'' + item.id_department + '\',\'' + item.department_name + '\')" class="btn btn-sm btn-danger sweetalert-delete" style="margin-left:0.5%"><i class="fa fa-trash"></i></a>';
+                }
                 var html = "<li style='margin-top:1.2%;margin-bottom:1%;list-style-type:none;'>";
                 html += '<div class="row">' +
-                    '<a href="{{ url("user/department/edit") }}/'+item.id_department+'" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>' +
-                    '<a onclick="deleteDepartment(\'' + item.id_department + '\',\'' + item.department_name + '\')" class="btn btn-sm btn-danger sweetalert-delete" style="margin-left:0.5%"><i class="fa fa-trash"></i></a>' +
+                    edit+
                     '<div>';
-
+                
                 if (item.children) {
 
                     $.each(item.children, function (index, sub) {
@@ -210,6 +215,7 @@ $grantedFeature     = session('granted_features');
         <div class="portlet-title">
             <div class="caption">
                 <span class="caption-subject font-blue sbold uppercase">Department List</span>
+                <br><a href="{{ url('user/department/sync') }}" class="btn btn-sm green" style="padding-left: 3px;margin-top: 5px; !important"><i class="fa fa-refresh"></i> <span>Sync Department</span></a>
             </div>
         </div>
         <div class="portlet-body form">

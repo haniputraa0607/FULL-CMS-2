@@ -5,15 +5,14 @@ $id_product = $product[0]['id_product'];
   <div class="form-body">
 
   	<div class="form-group" style="padding-left:20px">
-		<label class="bold" style="width:20%">Outlet</label>
+		<label class="bold" style="width:40%">Outlet</label>
 		<label class="bold" style="width:25%">Visible</label>
-		<label class="bold" style="width:20%">Stock</label>
 		<label class="bold" style="width:10%">POS Status</label>
 	</div>
 		@foreach($outlet as $key => $ou)
 		<?php $marker = 0; ?>
         <div class="form-group" style="padding-left:20px">
-            <label class=""  style="width:20%">{{$ou['outlet_name']}}</label>
+            <label class=""  style="width:40%">{{$ou['outlet_name']}}</label>
 			@foreach($ou['product_detail'] as $keyDetail => $detail)
 				@if($detail['id_product'] == $id_product)
 					<?php $marker = 1;?>
@@ -27,13 +26,13 @@ $id_product = $product[0]['id_product'];
 						<input type="hidden" name="id_outlet[]" value="{{ $ou['id_outlet'] }}">
 						<input type="hidden" name="id_product_detail[]" value="{{ $detail['id_product_detail'] }}">
 					</div>
-					<div style="width:20%; display:inline-block">
+					{{--  <div style="width:20%; display:inline-block">
 						<select class="form-control product-stock" name="product_detail_stock_status[]">
 							<option value="Available" @if($detail['product_detail_stock_status'] == 'Available') selected @endif>Available</option>
 							<option value="Sold Out" @if($detail['product_detail_stock_status'] != 'Available') selected @endif>Sold Out</option>
 						</select>
 						<input type="hidden" value="{{$detail['product_detail_stock_status']}}" class="product-stock-value">
-					</div>
+					</div>  --}}
 					<div style="width:10%; display:inline-block">
 						<input type="text" class="form-control nominal" value="{{ $detail['product_detail_status'] }}" disabled>
 					</div>
@@ -50,13 +49,13 @@ $id_product = $product[0]['id_product'];
 					<input type="hidden" name="id_product_detail[]" value="0">
 					<input type="hidden" value="Hidden" class="product-visibility-value">
 				</div>
-				<div style="width:20%; display:inline-block">
+				{{--  <div style="width:20%; display:inline-block">
 					<select class="form-control product-stock" name="product_detail_stock_status[]">
 						<option value="Available" selected>Available</option>
 						<option value="Sold Out">Sold Out</option>
 					</select>
 					<input type="hidden" value="Available" class="product-stock-value">
-				</div>
+				</div>  --}}
 				<div style="width:10%; display:inline-block">
 					<input type="text" class="form-control nominal" value="Active" disabled>
 				</div>

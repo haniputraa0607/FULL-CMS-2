@@ -8,7 +8,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($prod['product_detail'] as $outlet_stock)
+        @foreach($prod['product_detail'] ?? [] as $outlet_stock)
         <tr>
             <td>{{ $outlet_stock['outlet_name'] }}</td>
             <td>{{ $outlet_stock['product_detail_stock_status'] }}</td>

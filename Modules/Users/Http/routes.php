@@ -48,6 +48,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'user', '
 	    Route::get('edit/{id}', ['middleware' => 'feature_control:330', 'uses' => 'DepartmentController@edit']);
 	   	Route::post('update/{id}', ['middleware' => 'feature_control:331', 'uses' => 'DepartmentController@update']);
 	    Route::any('delete/{id}', ['middleware' => 'feature_control:332', 'uses' => 'DepartmentController@destroy']);
+    	Route::any('sync', ['middleware' => 'feature_control:329', 'uses' => 'DepartmentController@syncIcount']);
 	});
 
 	Route::get('ajax/phone', 'UsersController@listPhoneUser');
