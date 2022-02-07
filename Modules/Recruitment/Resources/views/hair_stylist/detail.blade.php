@@ -1,6 +1,9 @@
 <?php
 use App\Lib\MyHelper;
 $grantedFeature     = session('granted_features');
+$step_approve = $step_approve??0;
+$allTotalScore = 0;
+$allMinScore = 0;
 ?>
 @extends('layouts.main-closed')
 @include('recruitment::hair_stylist.detail_schedule')
@@ -128,9 +131,9 @@ $grantedFeature     = session('granted_features');
 
 		var prev_id_theory = '';
 		function changeCategoryTheory(value) {
-			$("#"+value).show();
+			$("#cat_"+value).show();
 			if(prev_id_theory !== ''){
-				$("#"+prev_id_theory).hide();
+				$("#cat_"+prev_id_theory).hide();
 			}
 			prev_id_theory = value;
 		}
@@ -161,7 +164,7 @@ $grantedFeature     = session('granted_features');
 								showConfirmButton: false
 							});
 							SweetAlert.init()
-							location.href = "{{url('recruitment/hair-stylist/candidate/detail')}}"+"/"+id;
+							location.href = "{{url('recruitment/hair-stylist/candidate/detail')}}"+"/"+id+"?step_approve=1";
 						}
 						else {
 							toastr.warning(result.messages);
@@ -207,11 +210,11 @@ $grantedFeature     = session('granted_features');
 
         <div class="tabbable-line boxless tabbable-reversed">
         	<ul class="nav nav-tabs">
-                <li class="active">
+                <li @if($step_approve == 0) class="active" @endif>
                     <a href="#hs-info" data-toggle="tab"> Info </a>
                 </li>
 				@if(!in_array($detail['user_hair_stylist_status'], ['Active', 'Inactive', 'Rejected']))
-				<li>
+				<li @if($step_approve == 1) class="active" @endif>
 					<a href="#candidate-status" data-toggle="tab"> Candidate Status </a>
 				</li>
 				@endif
@@ -227,7 +230,7 @@ $grantedFeature     = session('granted_features');
         </div>
 
 		<div class="tab-content">
-			<div class="tab-pane active form" id="hs-info">
+			<div class="tab-pane @if($step_approve == 0) active @endif form" id="hs-info">
 				<form class="form-horizontal" id="form-submit" role="form" action="{{url($url_back.'/update/'.$detail['id_user_hair_stylist'])}}" method="post" enctype="multipart/form-data">
 					<div class="form-body">
 						<div class="form-group">
@@ -612,6 +615,8 @@ $grantedFeature     = session('granted_features');
 												$detailTheories = [];
 												foreach ($doc['theories'] as $theory){
 													$detailTheories[$theory['category_title']][] = $theory;
+													$allTotalScore = $allTotalScore + $theory['score'];
+													$allMinScore = $allMinScore + $theory['minimum_score'];
 												}
 											}else{
 												$dataDoc[$doc['document_type']] = $doc;
@@ -620,10 +625,10 @@ $grantedFeature     = session('granted_features');
 										<tr>
 											<td>
 												@if(!empty($doc['attachment']))
-													<a class="btn blue btn-xs" href="{{url('recruitment/hair-stylist/detail/download-file', $doc['id_user_hair_stylist_document'])}}">Attachment</a>
+													<a class="btn blue" href="{{url('recruitment/hair-stylist/detail/download-file', $doc['id_user_hair_stylist_document'])}}">Attachment</a>
 												@endif
 												@if($doc['document_type'] == 'Training Completed')
-													<a data-toggle="modal" href="#detail_{{$doc['id_user_hair_stylist_document']}}" class="btn green-jungle btn-xs">Score</a>
+													<a data-toggle="modal" href="#detail_{{$doc['id_user_hair_stylist_document']}}" class="btn green-jungle">Score</a>
 													<div id="detail_{{$doc['id_user_hair_stylist_document']}}" class="modal fade bs-modal-lg" tabindex="-1" aria-hidden="true">
 														<div class="modal-dialog modal-lg">
 															<div class="modal-content">
@@ -632,6 +637,10 @@ $grantedFeature     = session('granted_features');
 																	<h4 class="modal-title">Detail Score</h4>
 																</div>
 																<div class="modal-body" style="margin-top: -4%">
+																	<?php
+																	$totalScore = 0;
+																	$minScore = 0;
+																	?>
 																	@foreach($detailTheories as $keyT=>$t)
 																		<div class="row">
 																			<div class="col-md-12">
@@ -639,6 +648,10 @@ $grantedFeature     = session('granted_features');
 																			</div>
 																		</div>
 																		@foreach($t as $data)
+																			<?php
+																				$totalScore = $totalScore + $data['score'];
+																				$minScore = $minScore + $data['minimum_score'];
+																			?>
 																			<div class="row">
 																				<div class="col-md-9" style="margin-top: -2%;">
 																					<p>{{$data['theory_title']}}</p>
@@ -652,6 +665,17 @@ $grantedFeature     = session('granted_features');
 																			</div>
 																		@endforeach
 																	@endforeach
+																	<br>
+																	<hr style="border-top: 1px solid black;">
+																	<div class="row">
+																		<div class="col-md-9" style="text-align: right;margin-top: 0.7%"><b>Total Score</b></div>
+																		<div class="col-md-2">
+																			<div class="input-group">
+																				<input type="text" class="form-control" value="{{$totalScore}}" disabled>
+																				<span class="input-group-addon">/ {{$minScore}}</span>
+																			</div>
+																		</div>
+																	</div>
 																</div>
 															</div>
 														</div>
@@ -682,7 +706,7 @@ $grantedFeature     = session('granted_features');
 				</form>
 			</div>
 			@if(!in_array($detail['user_hair_stylist_status'], ['Active', 'Inactive', 'Rejected']))
-			<div class="tab-pane" id="candidate-status">
+			<div class="tab-pane @if($step_approve == 1) active @endif" id="candidate-status">
 				<br>
 				<br>
 				<div class="row">
