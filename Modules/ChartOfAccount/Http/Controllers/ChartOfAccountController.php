@@ -24,16 +24,27 @@ class ChartOfAccountController extends Controller
                 'menu_active'    => 'order',
                 'submenu_active' => 'chart-of-account',
             ];
+            
         $session = 'list-chart-of-account';
-         if( ($post['rule']??false) && !isset($post['draw']) ){
+        $order = 'created_at';
+        $orderType = 'desc';
+        $sorting = 0;
+        if(isset($post['sorting'])){
+            $sorting = 1;
+            $order = $post['order'];
+            $orderType = $post['order_type'];
+        }
+        
+        if( ($post['rule']??false) && !isset($post['draw']) ){
             session([$session => $post]);
 
-       }elseif($post['clear']??false){
+        }elseif($post['clear']??false){
            session([$session => null]);
-       }
-       if(isset($post['reset']) && $post['reset'] == 1){
+        }
+        
+        if(isset($post['reset']) && $post['reset'] == 1){
            Session::forget($session);
-       }elseif(Session::has($session) && !empty($post) && !isset($post['filter'])){
+        }elseif(Session::has($session) && !empty($post) && !isset($post['filter'])){
            $pageSession = 1;
            if(isset($post['page'])){
                $pageSession = $post['page'];
@@ -41,32 +52,32 @@ class ChartOfAccountController extends Controller
            $post = Session::get($session);
            $post['page'] = $pageSession;
 
-       }
-       if(isset($post['rule'])){
+        }
+        if(isset($post['rule'])){
                $data['rule'] = array_map('array_values', $post['rule']);
-       }
-       $page = '?page=1';
-       if(isset($post['page'])){
+        }
+        $page = '?page=1';
+        if(isset($post['page'])){
            $page = '?page='.$post['page'];
-       }
+        }
 
-       $list = MyHelper::post('chartofaccount/'.$page, $post);
-       if(($list['status']??'')=='success'){
+        $list = MyHelper::post('chartofaccount/'.$page, $post);
+        if(($list['status']??'')=='success'){
             $data['result'] = $list['result']['data'];
-           $data['data_total']     = $list['result']['total'];
-           $data['data_per_page']   = $list['result']['from'];
-           $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;
-           $data['data_paginator'] = new LengthAwarePaginator($list['result']['data'], $list['result']['total'], $list['result']['per_page'], $list['result']['current_page'], ['path' => url()->current()]);
-       }else{
-           $data['data']          = [];
-           $data['data_total']     = 0;
-           $data['data_per_page']   = 0;
-           $data['data_up_to']      = 0;
-           $data['data_paginator'] = false;
-       }
-       if($post){
-           Session::put($session,$post);
-       }
+            $data['data_total']     = $list['result']['total'];
+            $data['data_per_page']   = $list['result']['from'];
+            $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;
+            $data['data_paginator'] = new LengthAwarePaginator($list['result']['data'], $list['result']['total'], $list['result']['per_page'], $list['result']['current_page'], ['path' => url()->current()]);
+        }else{
+            $data['data']          = [];
+            $data['data_total']     = 0;
+            $data['data_per_page']   = 0;
+            $data['data_up_to']      = 0;
+            $data['data_paginator'] = false;
+        }
+        if($post){
+            Session::put($session,$post);
+        }
         return view('chartofaccount::list', $data);
     }
     public function indexold() 
