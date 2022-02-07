@@ -133,7 +133,7 @@
       <div class="row">
           <div class="col-md-offset-3 col-md-9">
             <input type="hidden" name="id_outlet" value="{{ $outlet[0]['id_outlet'] }}">
-            <a onclick="submitSchedule()" class="btn green">Submit</a>
+            <button type="submit" class="btn green">Submit</button>
           </div>
       </div>
   </div>
