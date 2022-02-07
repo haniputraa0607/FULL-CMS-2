@@ -1353,7 +1353,7 @@
 				</li>
 			</ul>
 		@endif
-		@if(MyHelper::hasAccess([353,354,355], $grantedFeature))
+		@if(MyHelper::hasAccess([353,354,355,441], $grantedFeature))
         <li class="nav-item {{ ($submenu_active == 'hairstylist-schedule') ? 'active open' : '' }}">
             <a href="javascript:;" class="nav-link nav-toggle">
                 <i class="fa fa-calendar"></i>
@@ -1361,6 +1361,11 @@
                 <span class="arrow"></span>
             </a>
             <ul class="sub-menu">
+                <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-schedule-create') ? 'active open' : '' }}">
+                    <a href="{{ url('recruitment/hair-stylist/schedule/create') }}" class="nav-link ">
+                        <span class="title">Create Schedule</span>
+                    </a>
+                </li>
                 <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-schedule-list') ? 'active open' : '' }}">
                     <a href="{{ url('recruitment/hair-stylist/schedule') }}" class="nav-link ">
                         <span class="title">Schedule List</span>
@@ -3545,7 +3550,7 @@
 		@if(MyHelper::hasAccess([338], $grantedFeature) || MyHelper::hasAccess([338], $grantedFeature) || MyHelper::hasAccess([338], $grantedFeature))
         <li class="nav-item {{($menu_active == 'landing-page') ? 'active open' : ''}}">
             <a href="javascript:;" class="nav-link nav-toggle">
-                <i class="fa fa-tachometer n"></i>
+                <i class="fa fa-user-plus"></i>
                 <span class="title">Setting Landing Page</span>
                 <span class="arrow {{($menu_active == 'landing-page') ? 'open' : ''}}"></span>
             </a>
