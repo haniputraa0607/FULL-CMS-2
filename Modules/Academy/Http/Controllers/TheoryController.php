@@ -87,7 +87,7 @@ class TheoryController extends Controller
         }
     }
 
-    public function theoryList(Request $request){
+    public function theoryList($idCat = null){
         $data = [
             'title'          => 'Theory',
             'sub_title'      => 'Theory List',
@@ -95,7 +95,9 @@ class TheoryController extends Controller
             'submenu_active' => 'list-theory'
         ];
 
-        $data['list'] = MyHelper::get('theory')['result']??[];
+        $data['list_category'] = MyHelper::get('theory/category')['result']??[];
+        $data['list'] = MyHelper::post('theory', ['id_category' => $idCat])['result']??[];
+        $data['id_category'] = $idCat;
         return view('academy::theory.list', $data);
     }
 

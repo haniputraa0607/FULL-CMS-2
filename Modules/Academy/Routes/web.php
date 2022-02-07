@@ -55,7 +55,7 @@ Route::group(['middleware' => 'validate_session', 'prefix' => 'theory'], functio
 
     Route::get('create', ['middleware' => 'feature_control:438', 'uses' => 'TheoryController@theoryCreate']);
     Route::post('create', ['middleware' => 'feature_control:438', 'uses' => 'TheoryController@theoryCreate']);
-    Route::get('/', 'TheoryController@theoryList');
+    Route::get('{id?}', 'TheoryController@theoryList');
     Route::post('delete', 'TheoryController@theoryDelete');
     Route::get('detail/{id}', 'TheoryController@theoryDetail');
     Route::post('update/{id}', 'TheoryController@theoryDetail');
