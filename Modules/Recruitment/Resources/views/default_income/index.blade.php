@@ -212,7 +212,15 @@
                 <form class="form-horizontal" role="form" action="{{url('recruitment/hair-stylist/default/insentif/create')}}" method="post" enctype="multipart/form-data">
                             <div class="form-body">
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label">Name<span class="required" aria-required="true">*</span>
+                                    <label class="col-md-3 control-label">Kode<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Kode insentif" data-container="body"></i>
+                                    </label>
+                                    <div class="col-md-6">
+                                        <input type="text" name="code" placeholder="Masukkan kode insentif" class="form-control" required />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Name<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nama insentif" data-container="body"></i>
                                     </label>
                                     <div class="col-md-6">
@@ -220,7 +228,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
+                                    <label class="col-md-3 control-label">Value<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Besar insentif yang diterima oleh hairstylist" data-container="body"></i>
                                     </label>
                                     <div class="col-md-6">
@@ -228,7 +236,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label">Formula<span class="required" aria-required="true">*</span>
+                                    <label class="col-md-3 control-label">Formula<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Rumus insentif yang digunakan dalam perhitungan pendapatan hairstylist (value * frekuensi)" data-container="body"></i>
                                     </label>
                                     <div class="col-md-6">
@@ -238,7 +246,7 @@
                                 <div class="form-actions">
                                     {{ csrf_field() }}
                                     <div class="row">
-                                        <div class="col-md-offset-4 col-md-8">
+                                        <div class="col-md-offset-3 col-md-8">
                                             <button type="submit" class="btn blue">Submit</button>
                                         </div>
                                     </div>
