@@ -83,8 +83,7 @@ class HairStylistGroupController extends Controller
                if(isset($post['page'])){
                    $page = '?page='.$post['page'];
                }
-              
-               $list = MyHelper::post('recruitment/hairstylist/be/group/'.$page, $post);
+               $list = MyHelper::post('recruitment/hairstylist/be/group'.$page, $post);
                if(($list['status']??'')=='success'){
                     $val = array();
                     foreach ($list['result']['data'] as $value){

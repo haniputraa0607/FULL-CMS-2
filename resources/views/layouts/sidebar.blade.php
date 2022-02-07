@@ -2383,6 +2383,57 @@
 					</ul>
 				</li>
 			@endif
+			@if(MyHelper::hasAccess([390,391], $grantedFeature))
+				<li class="nav-item {{($menu_active == 'online-shop') ? 'active' : ''}}">
+					<a href="javascript:;" class="nav-link nav-toggle">
+						<i class="fa fa-ship"></i>
+						<span class="title">Online Shop</span>
+						<span class="arrow {{($menu_active == 'online-shop') ? 'open' : ''}}"></span>
+					</a>
+					<ul class="sub-menu">
+						<li class="nav-item {{($submenu_active == 'online-shop-autoresponse-transaction-online-shop-created') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/online-shop/transaction-online-shop-created')}}" class="nav-link ">
+								<span class="title">[Response] Trasaction Online Shope Created</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'online-shop-autoresponse-transaction-online-shop-cancelled') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/online-shop/transaction-online-shop-cancelled')}}" class="nav-link ">
+								<span class="title">[Response] Trasaction Online Shope Cancelled</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'online-shop-autoresponse-transaction-online-shop-rejected') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/online-shop/transaction-online-shop-rejected')}}" class="nav-link ">
+								<span class="title">[Response] Trasaction Online Shope Rejected</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'online-shop-autoresponse-accepted-online-shop') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/online-shop/accepted-online-shop')}}" class="nav-link ">
+								<span class="title">[Response] Accepted Online Shop</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'online-shop-autoresponse-ready-online-shop') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/online-shop/ready-online-shop')}}" class="nav-link ">
+								<span class="title">[Response] Ready Online Shop</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'online-shop-autoresponse-delivery-online-shop-requested') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/online-shop/delivery-online-shop-requested')}}" class="nav-link ">
+								<span class="title">[Response] Delivery Online Shop Requested</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'online-shop-autoresponse-transaction-online-shop-complete') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/online-shop/transaction-online-shop-complete')}}" class="nav-link ">
+								<span class="title">[Response] Transaction Online Shop Complete</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'online-shop-autoresponse-point-received-online-shop') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/online-shop/point-received-online-shop')}}" class="nav-link ">
+								<span class="title">[Response] Point Received Online Shop</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+			@endif
 		@endif
 
 		@if(MyHelper::hasAccess([274,275,276], $grantedFeature))
