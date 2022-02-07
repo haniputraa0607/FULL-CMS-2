@@ -58,6 +58,7 @@ class HairStylistController extends Controller
     }
 
     public function candidateDetail(Request $request, $id){
+        $post = $request->all();
         $detail = MyHelper::post('recruitment/hairstylist/be/detail',['id_user_hair_stylist' => $id]);
 
         if(isset($detail['status']) && $detail['status'] == 'success'){
@@ -74,6 +75,7 @@ class HairStylistController extends Controller
             $data['outlets'] = MyHelper::get('outlet/be/list/simple')['result']??[];
             $data['groups'] = MyHelper::get('recruitment/hairstylist/be/group')['result']['data']??[];
             $data['category_theories'] = MyHelper::get('theory/with-category')['result']??[];
+            $data['step_approve'] = $post['step_approve']??0;
             return view('recruitment::hair_stylist.detail', $data);
         }else{
             return redirect('recruitment/hair-stylist/candidate')->withErrors($store['messages']??['Failed get detail candidate']);

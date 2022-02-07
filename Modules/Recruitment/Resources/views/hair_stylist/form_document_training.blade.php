@@ -11,7 +11,7 @@ $idCategoryUse = [];
 				@if(!empty($dataDoc['Training Completed']) && $detail['user_hair_stylist_status'] == 'Technical Tested')
 					<a class="btn blue" onclick="nextStepFromTrainingResult({{$detail['id_user_hair_stylist']}})">Next</a>
 				@endif
-				@if(count($dataDoc['Training Completed']??[]) < count($category_theories))
+				@if($detail['user_hair_stylist_status'] == 'Technical Tested' && count($dataDoc['Training Completed']??[]) < count($category_theories))
 				<a onclick="submitScore()" class="btn yellow">Submit Score</a>
 				@endif
 			</div>
@@ -42,8 +42,12 @@ $idCategoryUse = [];
 							<?php
 								$theories = [];
 								$idCategoryUse[] = $dataTraining['id_theory_category'];
+								$totalScore = 0;
+								$minScore = 0;
 								foreach ($dataTraining['theories'] as $theory){
 									$theories[$theory['category_title']][] = $theory;
+									$totalScore = $totalScore + $theory['score'];
+									$minScore = $minScore + $theory['minimum_score'];
 								}
 							?>
 							<div id="{{$dataTraining['id_user_hair_stylist_document']}}" class="modal fade bs-modal-lg" tabindex="-1" aria-hidden="true">
@@ -54,6 +58,7 @@ $idCategoryUse = [];
 											<h4 class="modal-title">Detail Score</h4>
 										</div>
 										<div class="modal-body" style="margin-top: -4%">
+											<br>
 											@foreach($theories as $keyT=>$t)
 												<div class="row">
 													<div class="col-md-12">
@@ -74,6 +79,17 @@ $idCategoryUse = [];
 													</div>
 												@endforeach
 											@endforeach
+											<br>
+											<hr style="border-top: 1px solid black;">
+											<div class="row">
+												<div class="col-md-9" style="text-align: right;margin-top: 0.7%"><b>Total Score</b></div>
+												<div class="col-md-2">
+													<div class="input-group">
+														<input type="text" class="form-control" value="{{$totalScore}}" disabled>
+														<span class="input-group-addon">/ {{$minScore}}</span>
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -136,7 +152,7 @@ $idCategoryUse = [];
 							$htmlSelect .= '<option value="'.$ct['id_theory_category'].'">'.$ct['theory_category_name'].'</option>';
 
 							if(empty($ct['child'])){
-								$htmlTheory .= '<div id="'.$ct['id_theory_category'].'" style="display: none">';
+								$htmlTheory .= '<div id="cat_'.$ct['id_theory_category'].'" style="display: none">';
 								foreach ($ct['theory'] as $noTheo=>$theory){
 									$htmlTheory .= '<div class="form-group">';
 									$htmlTheory .= '<div class="col-md-6" style="margin-top: -2%">';
@@ -156,7 +172,7 @@ $idCategoryUse = [];
 								}
 								$htmlTheory .= '</div>';
 							}else{
-								$htmlTheory .= '<div id="'.$ct['id_theory_category'].'" style="display: none">';
+								$htmlTheory .= '<div id="cat_'.$ct['id_theory_category'].'" style="display: none">';
 								foreach ($ct['child'] as $child){
 									if(!empty($child['theory'])){
 										$htmlTheory .= '<div class="form-group">';

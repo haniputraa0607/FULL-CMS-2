@@ -2335,6 +2335,11 @@
 								<span class="title">Student List</span>
 							</a>
 						</li>
+						<li class="nav-item {{($submenu_active == 'academy-transaction-outlet-course') ? 'active open' : ''}}">
+							<a href="{{url('academy/transaction/outlet/course')}}" class="nav-link ">
+								<span class="title">Course</span>
+							</a>
+						</li>
 						<li class="nav-item {{($submenu_active == 'academy-transaction-day-off') ? 'active open' : ''}}">
 							<a href="{{url('academy/transaction/user/schedule/day-off')}}" class="nav-link ">
 								<span class="title">Day Off</span>

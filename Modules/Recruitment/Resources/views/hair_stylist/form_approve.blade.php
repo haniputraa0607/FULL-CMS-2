@@ -3,6 +3,29 @@
 		<div class="form-body">
 			<div style="text-align: center"><h3>Approve Action</h3></div>
 			<hr style="border-top: 2px dashed;">
+			<div class="row">
+				<div class="col-md-8"></div>
+				<div class="col-md-4" style="text-align: center;">
+					<?php
+						$yellow = $allMinScore-15;
+						$red = (int) ($allMinScore/2);
+					?>
+					@if($allTotalScore <= $red)
+						<div style="border: solid 1px red;background-color: red">
+							<h4><b style="color: white">Total Score : {{$allTotalScore}}/{{$allMinScore}}</b></h4>
+						</div>
+					@elseif($allTotalScore < $yellow)
+						<div style="border: solid 1px #f5cb42;background-color: #f5cb42">
+							<h4><b style="color: white">Total Score : {{$allTotalScore}}/{{$allMinScore}}</b></h4>
+						</div>
+					@else
+					<div style="border: solid 1px #26C281;background-color: #26C281">
+						<h4><b style="color: white">Total Score : {{$allTotalScore}}/{{$allMinScore}}</b></h4>
+					</div>
+					@endif
+				</div>
+			</div>
+			<br>
 			<div class="form-group">
 				<label class="col-md-4 control-label">
 					Photo<span class="required" aria-required="true"> <br>(300*300) </span>

@@ -26,6 +26,13 @@ Route::group(['middleware' => 'validate_session', 'prefix' => 'academy'], functi
     Route::get('transaction/user/schedule/day-off', ['middleware' => 'feature_control:390,391', 'uses' => 'AcademyScheduleController@listDayOffUserAcademy']);
     Route::post('transaction/user/schedule/day-off', ['middleware' => 'feature_control:390,391', 'uses' => 'AcademyScheduleController@filterListDayOffUserAcademy']);
     Route::post('transaction/user/schedule/day-off/action', ['middleware' => 'feature_control:391', 'uses' => 'AcademyScheduleController@actionDayOffUserAcademy']);
+
+    Route::any('transaction/outlet/course/{key?}', ['middleware' => 'feature_control:390,391', 'uses' => 'AcademyScheduleController@outletCourseAcademy']);
+    Route::post('transaction/outlet/course/detail/attendace', ['middleware' => 'feature_control:390,391', 'uses' => 'AcademyScheduleController@saveAttendanceCourseAcademy']);
+    Route::post('transaction/outlet/course/detail/final-score', ['middleware' => 'feature_control:390,391', 'uses' => 'AcademyScheduleController@saveFinalScoreCourseAcademy']);
+    Route::get('transaction/outlet/course/detail/history/{id}', ['uses' => 'AcademyScheduleController@courseDetailHistory']);
+    Route::get('transaction/outlet/course/detail/{id_outlet}/{id_product}', ['middleware' => 'feature_control:390,391', 'uses' => 'AcademyScheduleController@detailOutletCourseAcademy']);
+    Route::post('transaction/outlet/course/detail/{id_outlet}/{id_product}', ['middleware' => 'feature_control:390,391', 'uses' => 'AcademyScheduleController@filterCourseDetailUser']);
 });
 
 Route::group(['middleware' => 'validate_session', 'prefix' => 'product-academy'], function(){
