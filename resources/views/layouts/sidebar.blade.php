@@ -3897,14 +3897,6 @@
 			</a>
 		</li>
 		@endif
-        @if(MyHelper::hasAccess([424], $grantedFeature))
-		<li class="nav-item {{($menu_active == 'setting-salary-formula') ? 'active open' : ''}}">
-			<a href="{{url('setting/setting-salary-formula')}}" class="nav-link nav-toggle">
-				<i class="fa fa-credit-card"></i>
-				<span class="title">Setting Salary Formula</span>
-			</a>
-		</li>
-		@endif
         @if(MyHelper::hasAccess([427], $grantedFeature))
 		<li class="nav-item {{($menu_active == 'setting-attendances-date') ? 'active open' : ''}}">
 			<a href="{{url('setting/setting-attendances-date')}}" class="nav-link nav-toggle">
