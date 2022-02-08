@@ -915,6 +915,7 @@
                     <input type="text" class="form-control digit-mask" min="0" name="total_deals_user" value="{{ old('total_deals_user')??$deals['total_deals_user']??'' }}" placeholder="Total Deals User" maxlength="30" autocomplete="off">
                 </div>
                 <p style="color: red;display: none" id="label_total">Invalid value, total deals user cant be bigger than user limit</p>
+                <p style="color: red;display: none" id="label_total_nol">Invalid value, minimum value for total deals user is 1</p>
             </div>
         </div>
 
