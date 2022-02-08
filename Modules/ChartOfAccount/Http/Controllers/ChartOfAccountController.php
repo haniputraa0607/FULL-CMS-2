@@ -101,11 +101,14 @@ class ChartOfAccountController extends Controller
      */
     public function sync()
     {
-       $result = MyHelper::get('chartofaccount/sync');
-       if(isset($result['status']) && $result['status'] == 'success'  ){
+        $result = MyHelper::get('chartofaccount/sync');
+        if(isset($result['status']) && $result['status'] == 'success'  ){
            return back()->withSuccess(['Sync Success']);
-           }
-           return back()->withErrors(['Sync Failed']);
+        }elseif(isset($result['status']) && $result['status'] == 'fail'){
+           return back()->withErrors([$result['messages']]); 
+        }else{
+            return back()->withErrors(['Sync Failed']);
+        }
     }
 
     /**
