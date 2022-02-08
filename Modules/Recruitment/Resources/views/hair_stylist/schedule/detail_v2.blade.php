@@ -49,17 +49,29 @@
 			margin: 10px;
 		}
 
-		.custom-date-box, .custom-date-box-header {
+		.custom-date-box  {
 			text-align: center;
-    		padding: 10px;
-			border: 1px solid;
+            padding: 4px;
+			border: 1px solid rgb(223, 222, 222);
 			margin-top: -1px;
     		margin-left: -1px;
 		}
 
+        .custom-date-box-header {
+            text-align: center;
+            padding: 0px;
+			border: 1px solid rgb(223, 222, 222);
+			margin-top: -1px;
+    		margin-left: -1px;
+        }
+
 		.custom-date-box {
     		height: 100px;
 		}
+
+        .month-year {
+            margin-bottom: 20px;    
+        }
 
 	</style>
 @endsection
@@ -78,6 +90,7 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/moment.min.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/fullcalendar/fullcalendar.min.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/jquery-ui/jquery-ui.min.js') }}" type="text/javascript"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{ ('assets/apps/scripts/calendar.min.js') }}" type="text/javascript"></script>
     <script>
         $('.datepicker').datepicker({
             'format' : 'd-M-yyyy',
@@ -235,12 +248,16 @@
                             $implode_date = date($data['detail']['schedule_year'].'-'.$data['detail']['schedule_month'].'-01');
 							$scheduleDate = date('Y-m-d', strtotime($implode_date ?? date('Y-m-d')));
 							$thisMonth = date('m', strtotime($scheduleDate));
+                            $update = false;
+                            if($thisMonth >= date('m')){
+                                $update = true;
+                            } 
 							$thisMonthYear = date('Y', strtotime($scheduleDate));
 							$thisMonthDate = \App\Lib\MyHelper::getListDate($thisMonth, $thisMonthYear);
 							$tmIndex = 0;
 							$index = 0;
 						@endphp
-						<div><h1>{{ date('F Y', strtotime($scheduleDate)) }}</h1></div>
+						<div class="month-year"><h2>{{ date('F Y', strtotime($scheduleDate)) }}</h1></div>
 						<div class="custom-date-container">
 							<div class="row seven-cols">
 								@for ($i = 0; $i < $dayCount ; $i++)
@@ -344,7 +361,7 @@
 							@endfor
 						</div>
 	                </div>
-	                @if(MyHelper::hasAccess([349], $grantedFeature))
+	                @if(MyHelper::hasAccess([349], $grantedFeature) && $update)
 	                {{ csrf_field() }}
 	                <div class="row" style="text-align: center">
 	                    @if(empty($data['detail']['approve_at']))
