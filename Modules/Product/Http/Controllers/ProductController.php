@@ -1555,6 +1555,8 @@ class ProductController extends Controller
         $sync = MyHelper::post('product/be/sync', $post);
         if(isset($sync['status']) && $sync['status'] == 'success'){
             return redirect('product/icount')->with('success', ['Product table is already synced with ICount']);
+        }elseif(isset($sync['status']) && $sync['status'] == 'fail'){
+            return redirect('product/icount')->withErrors([$sync['messages']]); 
         }else{
             return redirect('product/icount')->withErrors(['Failed to sync with ICount']);
         }
