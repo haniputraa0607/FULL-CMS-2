@@ -249,6 +249,15 @@ class HairStylistGroupController extends Controller
                              }
                              $a++;
                          }
+                        $textreplace = array();
+                        $text = ['value','total_attend','total_late','total_absen','+','-','*','/'];
+                        foreach ($text as $key => $value) {
+                            $da = array(
+                                'keyword'=>$value
+                            );
+                            array_push($textreplace,$da);
+                        }
+                        $data['textreplace'] = $textreplace;
                         return view('recruitment::group.detail',$data);
                 } else{
                         return back()->withErrors($query['messages']);
@@ -418,14 +427,14 @@ class HairStylistGroupController extends Controller
                          'id_hairstylist_group' => $post['id_hairstylist_group'][$key],
                          'value' => $post['value'][$key],
                          'formula' => $post['formula'][$key],
+                         'code' =>$post['code'][$key]
                      );
                      $query = MyHelper::post('recruitment/hairstylist/be/group/insentif/create', $b);
-                        if(!isset($query['status']) && $query['status'] != 'success'){
-                                return back()->withErrors($query['messages']);
+                        if(isset($query['status']) && $query['status'] != 'success'){
+                                return redirect(url()->previous().'#insentif')->withErrors($query['messages']);
                         }
                  }
-                 return back()->withSuccess(['Hair Stylist Group Incentive Create Success']);
-                   
+                   return redirect(url()->previous().'#insentif')->withSuccess(['Hair Stylist Group Incentive Create Success']);
               }
               public function delete_insentif($id)
               {
@@ -501,15 +510,16 @@ class HairStylistGroupController extends Controller
                          'id_hairstylist_group_default_potongans' => $value,
                          'id_hairstylist_group' => $post['id_hairstylist_group'][$key],
                          'value' => $post['value'][$key],
-                         'formula' => $post['formula'][$key],
+                         'formula' => $post['formulas'][$key],
+                         'code' =>$post['code'][$key]
                      );
                      $query = MyHelper::post('recruitment/hairstylist/be/group/potongan/create', $b);
                         if(!isset($query['status']) && $query['status'] != 'success'){
-                                return back()->withErrors($query['messages']);
+                                return redirect(url()->previous().'#potongan')->withErrors($query['messages']);
                         }
                  }
-                 return back()->withSuccess(['Hair Stylist Group Incentive Create Success']);
-                   
+                 return redirect(url()->previous().'#potongan')->withSuccess(['Hair Stylist Group Cuts Salary Create Success']);
+               
               }
             public function update_potongan(Request $request)
               {
@@ -636,6 +646,15 @@ class HairStylistGroupController extends Controller
                if($post){
                    Session::put($session,$post);
                }
+               $textreplace = array();
+               $text = ['value','total_attend','total_late','total_absen','+','-','*','/'];
+               foreach ($text as $value) {
+                   $da = array(
+                       'keyword'=>$value
+                   );
+                   array_push($textreplace,$da);
+               }
+               $data['textreplace'] = $textreplace;
                 return view('recruitment::default_income.index',$data);
                   }
               public function default_create_insentif(Request $request)
@@ -646,7 +665,7 @@ class HairStylistGroupController extends Controller
                         if(isset($query['status']) && $query['status'] == 'success'){
                                 return back()->withSuccess(['Hair Stylist Group Incentive Create Success']);
                         } else{
-                                return back()->withErrors($query['messages']);
+                                return back()->withInput($request->input())->withErrors($query['messages']);
                         }
                    
               }
@@ -678,13 +697,22 @@ class HairStylistGroupController extends Controller
                  $id = MyHelper::explodeSlug($id)[0]??'';
                  $query = MyHelper::post('recruitment/hairstylist/be/group/insentif/default/detail',['id_hairstylist_group_default_insentifs'=>$id]);
                     if(isset($query['status']) && $query['status'] == 'success'){
-                         $data = [ 
-                                   'title'             => 'Default Hair Stylist Incentive',
-                                    'sub_title'         => 'Detail Default Hair Stylist Incentive',
-                                    'menu_active'       => 'default-hair-stylist',
-                                    'submenu_active'    => 'default-hair-stylist-insentif'
-                                ];
-                          $data['result']=$query['result'];
+                        $data = [ 
+                                  'title'             => 'Default Hair Stylist Incentive',
+                                   'sub_title'         => 'Detail Default Hair Stylist Incentive',
+                                   'menu_active'       => 'default-hair-stylist',
+                                   'submenu_active'    => 'default-hair-stylist-insentif'
+                               ];
+                        $data['result']=$query['result'];
+                        $textreplace = array();
+                        $text = ['value','total_attend','total_late','total_absen','+','-','*','/'];
+                        foreach ($text as $value) {
+                            $da = array(
+                                'keyword'=>$value
+                            );
+                            array_push($textreplace,$da);
+                        }
+                        $data['textreplace'] = $textreplace;
                             return view('recruitment::default_income.update',$data);
                     } else{
                             return back()->withErrors($query['messages']);
@@ -751,6 +779,15 @@ class HairStylistGroupController extends Controller
                if($post){
                    Session::put($session,$post);
                }
+               $textreplace = array();
+               $text = ['value','total_attend','total_late','total_absen','+','-','*','/'];
+               foreach ($text as $key => $value) {
+                   $da = array(
+                       'keyword'=>$value
+                   );
+                   array_push($textreplace,$da);
+               }
+               $data['textreplace'] = $textreplace;
                 return view('recruitment::default_income.potongan.index',$data);
                   }
               public function default_create_potongan(Request $request)
@@ -761,7 +798,7 @@ class HairStylistGroupController extends Controller
                         if(isset($query['status']) && $query['status'] == 'success'){
                                 return back()->withSuccess(['Hair Stylist Group Potongan Create Success']);
                         } else{
-                                return back()->withErrors($query['messages']);
+                                return back()->withInput($request->input())->withErrors($query['messages']);
                         }
                    
               }
@@ -793,16 +830,25 @@ class HairStylistGroupController extends Controller
                  $id = MyHelper::explodeSlug($id)[0]??'';
                  $query = MyHelper::post('recruitment/hairstylist/be/group/potongan/default/detail',['id_hairstylist_group_default_potongans'=>$id]);
                     if(isset($query['status']) && $query['status'] == 'success'){
-                         $data = [ 
-                                   'title'             => 'Default Hair Stylist Potongan',
-                                    'sub_title'         => 'Detail Default Hair Stylist Potongan',
-                                    'menu_active'       => 'default-hair-stylist',
-                                    'submenu_active'    => 'default-hair-stylist-potongan'
-                                ];
-                          $data['result']=$query['result'];
-                            return view('recruitment::default_income.potongan.update',$data);
+                        $data = [ 
+                                  'title'             => 'Default Hair Stylist Potongan',
+                                   'sub_title'         => 'Detail Default Hair Stylist Potongan',
+                                   'menu_active'       => 'default-hair-stylist',
+                                   'submenu_active'    => 'default-hair-stylist-potongan'
+                               ];
+                        $data['result']=$query['result'];
+                        $textreplace = array();
+                        $text = ['value','total_attend','total_late','total_absen','+','-','*','/'];
+                        foreach ($text as $value) {
+                            $da = array(
+                                'keyword'=>$value
+                            );
+                            array_push($textreplace,$da);
+                        }
+                        $data['textreplace'] = $textreplace;
+                        return view('recruitment::default_income.potongan.update',$data);
                     } else{
-                            return back()->withErrors($query['messages']);
+                        return back()->withErrors($query['messages']);
                     }
                    
               }

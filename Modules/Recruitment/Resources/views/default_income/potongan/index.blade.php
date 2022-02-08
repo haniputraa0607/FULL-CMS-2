@@ -112,6 +112,11 @@
           input[0].setSelectionRange(caret_pos, caret_pos);
         }
     })
+    function addFormula(param){
+		var textvalue = $('#autocrm_sms_content').val();
+		var textvaluebaru = textvalue+" "+param;
+		$('#autocrm_sms_content').val(textvaluebaru);
+    }
     </script>
     
     @yield('child-script')
@@ -172,6 +177,7 @@
                                     <thead>
                                     <tr>
                                         <th class="text-nowrap text-center">Name</th>
+                                        <th class="text-nowrap text-center">Code</th>
                                         <th class="text-nowrap text-center">Value</th>
                                         <th class="text-nowrap text-center">Formula</th>
                                         <th class="text-nowrap text-center">Action</th>
@@ -182,6 +188,7 @@
                                         @foreach($data as $dt)
                                             <tr data-id="{{ $dt['id_hairstylist_group_default_potongans'] }}">
                                                 <td style="text-align: center;">{{$dt['name']}}</td>
+                                                <td style="text-align: center;">{{$dt['code']}}</td>
                                                 <td style="text-align: center;">{{"Rp " . number_format($dt['value']??0,2,',','.')}}</td>
                                                 <td style="text-align: center;">{{$dt['formula']}}</td>
                                                 <td style="text-align: center;">
@@ -215,7 +222,15 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nama potongan" data-container="body"></i>
                                     </label>
                                     <div class="col-md-6">
-                                        <input type="text" name="name" placeholder="Masukkan nama potongan" class="form-control" required />
+                                        <input type="text" name="name" value="{{old('name')}}" placeholder="Masukkan nama potongan" class="form-control" required />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Code<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Code potongan (unik)" data-container="body"></i>
+                                    </label>
+                                    <div class="col-md-6">
+                                        <input type="text" name="code" value="{{old('code')}}" placeholder="Masukkan code potongan" class="form-control" required />
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -223,7 +238,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Besar potongan yang diterima oleh hairstylist" data-container="body"></i>
                                     </label>
                                     <div class="col-md-6">
-                                        <input type="text" name="value" id='value' data-type="currency" placeholder="Masukkan besar potongan" class="form-control" required />
+                                        <input type="text" name="value" value="{{old('value')}}" id='value' data-type="currency" placeholder="Masukkan besar potongan" class="form-control" required />
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -231,7 +246,15 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Rumus potongan yang digunakan dalam perhitungan pendapatan hairstylist" data-container="body"></i>
                                     </label>
                                     <div class="col-md-6">
-                                          <textarea name="formula" id="formula" class="form-control" placeholder="Enter rumus potongan"></textarea>
+                                          <textarea name="formula" id="formula" class="form-control" placeholder="Enter rumus potongan">{{old('formula')}}</textarea>
+                                          <br>
+                                          <div class="row">
+                                                @foreach($textreplace as $key=>$row)
+                                                        <div class="col-md-4" style="margin-bottom:5px;">
+                                                                <span class="btn dark btn-xs btn-block btn-outline var" data-toggle="tooltip" title="Text will be replace '{{ $row['keyword'] }}'" onClick="addFormula('{{ $row['keyword'] }}');">{{ str_replace('_',' ',$row['keyword']) }}</span>
+                                                        </div>
+                                                @endforeach
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-actions">
