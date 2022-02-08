@@ -66,7 +66,7 @@ class ProductController extends Controller
         }
         $result = MyHelper::post('product/position/assign', $post);
 
-        return $result;
+        return parent::redirect($result, 'Position product has been save.', 'product/position/assign');
     }
 
     public function categoryAssign(Request $request) {
