@@ -385,7 +385,7 @@
 		<td style="border-left: 2px double #000000" align="left" valign=bottom><font face="Century Gothic" size=3 color="#000000"><br></font></td>
 		<td align="left" valign=bottom><font face="Century Gothic" size=3 color="#000000">Tanggal Buka</font></td>
 		<td align="center" valign='middle'><font face="Century Gothic" size=3 color="#000000">:</font></td>
-		<td colspan="12" style=" border-bottom: 3px solid #000000" align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000">{{date('d F Y',strtotime($result['handover']['tanggal_serah_terima']))}}</font></td>
+		<td colspan="12" style=" border-bottom: 3px solid #000000" align="left" valign='middle'><font face="Century Gothic" size=3 color="#000000">{{date('d F Y', strtotime($result['location']['handover_date']??null))}}</font></td>
 		<td style="border-right: 2px double #000000" align="left" valign=bottom><font face="Century Gothic" size=3 color="#000000"></font></td>
 	</tr>
 	<tr>

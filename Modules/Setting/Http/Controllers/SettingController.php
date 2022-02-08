@@ -1633,6 +1633,7 @@ class SettingController extends Controller
         }else{
             $query = MyHelper::get('setting/attendances_date');
             $data['result'] = $query;
+            return $data;
             return view('setting::attendances_date', $data);
         }
     }
