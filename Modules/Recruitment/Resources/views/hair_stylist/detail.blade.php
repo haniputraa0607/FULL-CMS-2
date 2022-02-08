@@ -4,6 +4,7 @@ $grantedFeature     = session('granted_features');
 $step_approve = $step_approve??0;
 $allTotalScore = 0;
 $allMinScore = 0;
+$totalTheories = 0;
 ?>
 @extends('layouts.main-closed')
 @include('recruitment::hair_stylist.detail_schedule')
@@ -173,6 +174,30 @@ $allMinScore = 0;
 				});
 			});
 		}
+		
+		function conclusionScore(id) {
+			var total = 0;
+			var j = 0;
+			$('#conclusion_score_'+id).val('');
+			$('.score_theory_'+id).each(function(i, obj) {
+				j++;
+				var score_id = obj.id;
+				var value = $('#'+score_id).val();
+				if(value){
+					total = total + parseInt(value);
+				}
+			});
+
+			var average = parseInt(total/j);
+			$('#conclusion_score_'+id).val(average);
+
+			var total_minimum_score = $('#conclusion_minimum_score_'+id).val();
+			if(average < total_minimum_score){
+				$('#conclusion_status_'+id).val('Not Passed').trigger("change");
+			}else{
+				$('#conclusion_status_'+id).val('Passed').trigger("change");
+			}
+		}
     </script>
 @endsection
 
@@ -248,6 +273,14 @@ $allMinScore = 0;
 									<span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: #faf21e;padding: 5px 12px;color: #fff;">{{$detail['user_hair_stylist_status'] }}</span>
 								@endif
 							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-4 control-label">Passed Status</label>
+							<div class="col-md-6" style="margin-top: 0.7%">{{$detail['user_hair_stylist_passed_status']}}</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-4 control-label">Score</label>
+							<div class="col-md-6" style="margin-top: 0.7%">{{$detail['user_hair_stylist_score']}}</div>
 						</div>
 						@if($detail['user_hair_stylist_status'] == 'Active' || $detail['user_hair_stylist_status'] == 'Inactive')
 							<div class="form-group">
@@ -617,6 +650,7 @@ $allMinScore = 0;
 													$detailTheories[$theory['category_title']][] = $theory;
 													$allTotalScore = $allTotalScore + $theory['score'];
 													$allMinScore = $allMinScore + $theory['minimum_score'];
+													$totalTheories++;
 												}
 											}else{
 												$dataDoc[$doc['document_type']] = $doc;
@@ -640,6 +674,7 @@ $allMinScore = 0;
 																	<?php
 																	$totalScore = 0;
 																	$minScore = 0;
+																	$detailTotalTheory = 0;
 																	?>
 																	@foreach($detailTheories as $keyT=>$t)
 																		<div class="row">
@@ -651,9 +686,10 @@ $allMinScore = 0;
 																			<?php
 																				$totalScore = $totalScore + $data['score'];
 																				$minScore = $minScore + $data['minimum_score'];
+																				$detailTotalTheory++;
 																			?>
 																			<div class="row">
-																				<div class="col-md-9" style="margin-top: -2%;">
+																				<div class="col-md-8" style="margin-top: -2%;">
 																					<p>{{$data['theory_title']}}</p>
 																				</div>
 																				<div class="col-md-2">
@@ -662,18 +698,24 @@ $allMinScore = 0;
 																						<span class="input-group-addon">/ {{$data['minimum_score']}}</span>
 																					</div>
 																				</div>
+																				<div class="col-md-2">
+																					<input type="text" class="form-control" value="{{$data['passed_status']}}" disabled>
+																				</div>
 																			</div>
 																		@endforeach
 																	@endforeach
 																	<br>
 																	<hr style="border-top: 1px solid black;">
 																	<div class="row">
-																		<div class="col-md-9" style="text-align: right;margin-top: 0.7%"><b>Total Score</b></div>
+																		<div class="col-md-8" style="margin-top: 0.7%"><b>Conclusion Score</b></div>
 																		<div class="col-md-2">
 																			<div class="input-group">
-																				<input type="text" class="form-control" value="{{$totalScore}}" disabled>
-																				<span class="input-group-addon">/ {{$minScore}}</span>
+																				<input type="text" class="form-control" value="{{(int)($totalScore/$detailTotalTheory)}}" disabled>
+																				<span class="input-group-addon">/ {{(int)($minScore/$detailTotalTheory)}}</span>
 																			</div>
+																		</div>
+																		<div class="col-md-2">
+																			<input type="text" class="form-control" value="{{$doc['conclusion_status']}}" disabled>
 																		</div>
 																	</div>
 																</div>
