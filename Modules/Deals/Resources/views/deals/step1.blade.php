@@ -146,12 +146,20 @@ $brand_rule = $deals['brand_rule']??'and';
             var limit = Number($('input[name=user_limit]').val());
             var total = Number($('input[name=total_deals_user]').val());
 
-            if(limit < total){
-                document.getElementById('label_total').style.display = 'block';
+            if(limit != 0){
+                if(limit < total){
+                    document.getElementById('label_total').style.display = 'block';
+                }else{
+                    document.getElementById('label_total').style.display = 'none';
+                }
+            }
+            if(total < 1){
+                document.getElementById('label_total_nol').style.display = 'block';
             }else{
-                document.getElementById('label_total').style.display = 'none';
+                document.getElementById('label_total_nol').style.display = 'none';
 
             }
+
         });
 
         $('input[name=charged_central]').keyup(function () {
