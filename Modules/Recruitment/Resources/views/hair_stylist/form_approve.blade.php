@@ -9,7 +9,7 @@
 					<?php
 						$avg = 0;
 						$avgMin = 0;
-						if(!empty($allTotalScore) && !empty($totalTheories)){
+						if(!empty($allTotalScore) && !empty($totalTheories) && !empty($allMinScore)){
 							$avg = (int)($allTotalScore/$totalTheories);
 							$avgMin = (int)($allMinScore/$totalTheories);
 						}

@@ -661,7 +661,7 @@ $totalTheories = 0;
 												@if(!empty($doc['attachment']))
 													<a class="btn blue" href="{{url('recruitment/hair-stylist/detail/download-file', $doc['id_user_hair_stylist_document'])}}">Attachment</a>
 												@endif
-												@if($doc['document_type'] == 'Training Completed')
+												@if($doc['document_type'] == 'Training Completed' && !empty($detailTheories))
 													<a data-toggle="modal" href="#detail_{{$doc['id_user_hair_stylist_document']}}" class="btn green-jungle">Score</a>
 													<div id="detail_{{$doc['id_user_hair_stylist_document']}}" class="modal fade bs-modal-lg" tabindex="-1" aria-hidden="true">
 														<div class="modal-dialog modal-lg">
