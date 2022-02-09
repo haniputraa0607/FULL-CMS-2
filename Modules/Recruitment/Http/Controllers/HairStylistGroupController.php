@@ -213,42 +213,8 @@ class HairStylistGroupController extends Controller
                                     $value['id_enkripsi'] = MyHelper::createSlug($value['id_hairstylist_group_default_potongans'],$id);
                                     array_push($val3,$value);
                                 }  
-                         $data['potongan'] = $val3;
+                        $data['potongan'] = $val3;
                         $data['lisths'] = MyHelper::post('recruitment/hairstylist/be/group/hs',['id_hairstylist_group'=>$id])??[];
-                        //list rumus insentif
-                         $post5['id_hairstylist_group'] = $id;
-                         $list5 = MyHelper::post('recruitment/hairstylist/be/group/insentif/list-rumus-insentif',$post5)['result']??[];
-                         $data['list_rumus_insentif'] = $list5;
-                         $data['rumus_insentif'] = '';
-                        $i = 0;
-                         foreach ($data['list_rumus_insentif'] as $val) {
-                             if($i==0){
-                             $c[] = "(".$val['formula'].")";
-                              $data['rumus_insentif'] = implode(' ',$c);
-                             }else{
-                                 $c[] = "+ (".$val['formula'].")";
-                                  $data['rumus_insentif'] =  implode(' ',$c);
-                             }
-                             $i++;
-                         }
-                         
-                         
-                        //list rumus Potongan
-                         $post6['id_hairstylist_group'] = $id;
-                         $list6 = MyHelper::post('recruitment/hairstylist/be/group/potongan/list-rumus-potongan',$post6)['result']??[];
-                         $data['list_rumus_potongan'] = $list6;
-                         $data['rumus_potongan'] = '';
-                         $a = 0;
-                         foreach ($data['list_rumus_potongan'] as $value) {
-                             if($a==0){
-                             $b[] = "(".$value['formula'].")";
-                              $data['rumus_potongan'] = implode(' ',$b);
-                             }else{
-                                 $b[] = "+ (".$value['formula'].")";
-                                  $data['rumus_potongan'] =  implode(' ',$b);
-                             }
-                             $a++;
-                         }
                         $textreplace = array();
                         $text = ['value','total_attend','total_late','total_absen','+','-','*','/'];
                         foreach ($text as $key => $value) {
