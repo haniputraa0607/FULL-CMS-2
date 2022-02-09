@@ -1624,7 +1624,7 @@ class SettingController extends Controller
             'submenu_active'    => 'setting-attendances-date',
         ];
         if($post){
-            $query = MyHelper::post('setting/attendances_date_create', $post);
+            $query = MyHelper::post('setting/attendances_date_create', $post);;
             if(($query['status']??'')=='success'){
                 return redirect('setting/setting-attendances-date')->with('success',['Success update data']);
             }else{
@@ -1633,7 +1633,8 @@ class SettingController extends Controller
         }else{
             $query = MyHelper::get('setting/attendances_date');
             $data['result'] = $query;
-            return $data;
+            $data['insentif'] = MyHelper::get('recruitment/hairstylist/be/group/setting_insentif')['result']??null;
+            $data['cuts_salary'] = MyHelper::get('recruitment/hairstylist/be/group/setting_potongan')['result']??null;
             return view('setting::attendances_date', $data);
         }
     }
