@@ -294,15 +294,15 @@ class ProductAcademyController extends Controller
     public function theoryUpdate(Request $request){
         $post = $request->except('_token');
 
-        if(!empty($post['theory'])){
+        if(!empty($post['id_product'])){
             $result = MyHelper::post('academy/product/theory/save', $post);
             if(!empty($result['status']) && $result['status'] == 'success'){
-                return redirect('product-academy/detail/'.$post['product_code'].'#theory')->withSuccess(['Data ID can not be empty']);
+                return redirect('product-academy/detail/'.$post['product_code'].'#theory')->withSuccess(['Success save data']);
             }else{
                 return redirect('product-academy/detail/'.$post['product_code'].'#theory')->withErrors(['Failed save data theory']);
             }
         }else{
-            return redirect('product-academy/detail/'.$post['product_code'].'#theory')->withErrors(['Data ID can not be empty']);
+            return redirect('product-academy/detail/'.$post['product_code'].'#theory')->withErrors(['Something went wrong']);
         }
     }
 }

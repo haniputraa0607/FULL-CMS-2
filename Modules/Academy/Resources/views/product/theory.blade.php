@@ -1,4 +1,4 @@
-<form class="form-horizontal" id="form-product-service" role="form" action="{{ url('product-academy/theory/save') }}" method="post">
+<form class="form-horizontal" role="form" action="{{ url('product-academy/theory/save') }}" method="post">
   <div class="form-body">
       <div class="form-group">
           <div class="col-md-1"></div>
