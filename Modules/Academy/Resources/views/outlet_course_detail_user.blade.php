@@ -44,10 +44,17 @@
     </div><br>
 
     @include('layouts.notifications')
+    <a href="{{url('academy/transaction/outlet/course/detail/'.$outlet['id_outlet'].'/'.$course['id_product'])}}" class="btn green" style="margin-bottom: 2%;"><i class="fa fa-arrow-left"></i> Back</a>
+
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
                 <span class="caption-subject sbold uppercase font-blue">Info</span>
+            </div>
+            <div class="actions">
+                <div style="border-bottom: solid 1px black;">
+                    <h4><b>Final Score : {{$final_score}}</b></h4>
+                </div>
             </div>
         </div>
         <div class="portlet-body form">
@@ -75,25 +82,22 @@
                 <div class="col-md-3"><b>Total Meeting</b></div>
                 <div class="col-md-6">: {{$course['product_academy_total_meeting']}} x @ {{$course['product_academy_hours_meeting']}} Hours</div>
             </div>
-            <div class="row">
-                @foreach($theories as $i=>$theory)
-                    @if($i == 0)
-                        <div class="col-md-3"><b>Theory</b></div>
-                    @else
-                        <div class="col-md-3"></div>
-                    @endif
-                    <div class="col-md-1">
-                        @if($theory['checked'] == 1)
-                            <i class="fa fa-check" style="color: green"></i>
-                        @else
-                            <i class="fa fa-minus" style="color: grey"></i>
-                        @endif
-                    </div>
-                    <div class="col-md-8" style="margin-left: -5%">
-                        {{$theory['theory_title']}}
-                    </div>
-                @endforeach
+        </div>
+    </div>
+
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <span class="caption-subject sbold uppercase font-blue">Theory Conclusion</span>
             </div>
+        </div>
+        <div class="portlet-body form">
+            @foreach($conclusion as $c)
+                <div class="row" style="margin-bottom: 1%">
+                    <div class="col-md-5"><b>{{$c['theory_category_name']}}</b></div>
+                    <div class="col-md-2"><input class="form-control" value="{{$c['conclusion_score']}}" disabled></div>
+                </div>
+            @endforeach
         </div>
     </div>
 
@@ -124,7 +128,7 @@
                             @if(!empty($data['theory']))
                                 <ul>
                                     @foreach($data['theory'] as $t)
-                                        <li>{{$t['theory_title']}}</li>
+                                        <li>{{$t['theory_title']}} : <b>{{$t['score']}}</b></li>
                                     @endforeach
                                 </ul>
                             @endif

@@ -241,7 +241,6 @@ class AcademyScheduleController extends Controller
         $data['outlet'] = $res['outlet']??[];
         $data['course'] = $res['course']??[];
         $data['users'] = $res['users']??[];
-        $data['theories'] = $res['theories']??[];
         $data['total'] = count($data['users']);
 
         if(empty($data['outlet'])){
@@ -266,14 +265,40 @@ class AcademyScheduleController extends Controller
         return abort(404);
     }
 
-    public function saveAttendanceCourseAcademy(Request $request){
+    public function attendanceCourseAcademy(Request $request, $id){
         $post = $request->except('_token');
 
-        $save = MyHelper::post('academy/transaction/outlet/course/attendance', $post);
-        if(isset($save['status']) && $save['status'] == 'success'){
-            return back()->withSuccess(['Update attendance success']);
-        } else{
-            return back()->withErrors($save['messages']??['Failed update attendance']);
+        if(empty($post)){
+            $data = [
+                'title'          => 'Academy',
+                'menu_active'    => 'academy-transaction',
+                'sub_title'      => 'Attendance',
+                'submenu_active' => 'academy-transaction-outlet-course'
+            ];
+            $detail = MyHelper::post('academy/transaction/outlet/course/detail/attendance', ['id_transaction_academy_schedule' => $id]);
+
+            if (isset($detail['status']) && $detail['status'] == 'success') {
+                $data['detail'] = $detail['result']['detail']??[];
+                $data['outlet'] = $detail['result']['outlet']??[];
+                $data['course'] = $detail['result']['course']??[];
+                $data['user'] = $detail['result']['user']??[];
+                $data['theory_category'] = $detail['result']['theory_category']??[];
+
+            } elseif (isset($detail['status']) && $detail['status'] == 'fail') {
+                return back()->witherrors([$detail['messages']]);
+            } else {
+                return back()->witherrors(['Detail Not Found']);
+            }
+
+            return view('academy::outlet_course_detail_attendance', $data);
+        }else{
+            $post['id_transaction_academy_schedule'] = $id;
+            $save = MyHelper::post('academy/transaction/outlet/course/attendance', $post);
+            if(isset($save['status']) && $save['status'] == 'success'){
+                return redirect('academy/transaction/outlet/course/detail/'.$post['id_outlet'].'/'.$post['id_product'])->withSuccess(['Update attendance success']);
+            } else{
+                return back()->withErrors($save['messages']??['Failed update attendance']);
+            }
         }
     }
 
@@ -301,8 +326,9 @@ class AcademyScheduleController extends Controller
             $data['outlet'] = $detail['result']['outlet']??[];
             $data['course'] = $detail['result']['course']??[];
             $data['user'] = $detail['result']['user']??[];
-            $data['theories'] = $detail['result']['theories']??[];
             $data['schedule'] = $detail['result']['schedule']??[];
+            $data['conclusion'] = $detail['result']['conclusion']??[];
+            $data['final_score'] = $detail['result']['final_score']??0;
         } elseif (isset($detail['status']) && $detail['status'] == 'fail') {
             return back()->witherrors([$detail['messages']]);
         } else {

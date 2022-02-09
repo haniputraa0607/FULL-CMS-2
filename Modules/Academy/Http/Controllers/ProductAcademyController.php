@@ -111,7 +111,7 @@ class ProductAcademyController extends Controller
             $data['product_uses'] = MyHelper::post('product/be/icount/list', [])['result'] ?? [];
             $data['product_icount_use'] = $data['product'][0]['product_icount_use'] ?? [];
             $data['product_academy_theory'] = $data['product'][0]['product_academy_theory'] ?? [];
-            $data['list_theory'] = MyHelper::get('theory')['result']??[];
+            $data['list_theory_category'] = MyHelper::get('theory/category')['result']??[];
 
             return view('academy::product.detail', $data);
         }
