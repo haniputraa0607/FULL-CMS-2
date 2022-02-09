@@ -180,8 +180,6 @@ class PartnersController extends Controller
             $data['url_outlet'] = url('businessdev/partners/outlet/').'/'.$enkripsi;
             $data['url_partners_close_total'] = url('businessdev/partners/close-permanent/').'/'.$enkripsi;
             $data['url_partners_becomes_ixobox'] = url('businessdev/partners/becomes-ixobox/').'/'.$enkripsi;
-            // dd($data['confirmation']);
-            // return $data;
             return view('businessdevelopment::partners.detail', $data);
         }else{
             return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
@@ -952,6 +950,8 @@ class PartnersController extends Controller
                 "id_partner" => $request['id_partner'],
                 "total_box" => $request['total_box'],
                 "handover_date" => date('Y-m-d', strtotime($request['handover_date'])),
+                'from' => 'Select Location',
+                'id_partner' => $request['id_partner']
             ];
             $form_survey = [
                 "id_partner"  => $request["id_partner"],

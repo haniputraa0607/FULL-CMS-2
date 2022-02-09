@@ -71,7 +71,7 @@
                                     <label for="example-search-input" class="control-label col-md-4">No SPK <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nomor Surat Perintah Kerja calon lokasi" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="no_spk" name="no_spk" placeholder="Enter total box here" value="@if (old('no_spk')) {{ old('no_spk') }} @else @if (!empty($this_location['no_spk'])) {{ $this_location['no_spk'] }} @endif @endif" required {{$pay ? 'disabled' : ''}}/>
+                                        <input class="form-control" type="text" id="no_spk" name="no_spk" placeholder="Enter total box here" value="@if (old('no_spk')) {{ old('no_spk') }} @else @if (!empty($this_location['no_spk'])) {{ $this_location['no_spk'] }} @endif @endif" readonly required {{$pay ? 'disabled' : ''}}/>
                                     </div>
                                 </div>
                                 <div class="form-group">
