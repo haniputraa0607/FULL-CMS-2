@@ -43,11 +43,14 @@ $idCategoryUse = [];
 								$theories = [];
 								$idCategoryUse[] = $dataTraining['id_theory_category'];
 								$minScore = 0;
+								$totalTheory = 0;
 								foreach ($dataTraining['theories'] as $theory){
 									$theories[$theory['category_title']][] = $theory;
 									$minScore = $minScore + $theory['minimum_score'];
+									$totalTheory++;
 								}
 							?>
+							@if(!empty($theories))
 							<div id="{{$dataTraining['id_user_hair_stylist_document']}}" class="modal fade bs-modal-lg" tabindex="-1" aria-hidden="true">
 								<div class="modal-dialog modal-lg">
 									<div class="modal-content">
@@ -87,7 +90,7 @@ $idCategoryUse = [];
 												<div class="col-md-2">
 													<div class="input-group">
 														<input type="text" class="form-control" value="{{$dataTraining['conclusion_score']}}" disabled>
-														<span class="input-group-addon">/ {{$minScore}}</span>
+														<span class="input-group-addon">/ {{(int)($minScore/$totalTheory)}}</span>
 													</div>
 												</div>
 												<div class="col-md-2">
@@ -98,6 +101,7 @@ $idCategoryUse = [];
 									</div>
 								</div>
 							</div>
+							@endif
 						</td>
 					</tr>
 				@endforeach
@@ -186,28 +190,30 @@ $idCategoryUse = [];
 									$totalMinimumScore = $totalMinimumScore + $theory['minimum_score'];
 									$j++;
 								}
-								$totalMinimumScore = (int)($totalMinimumScore/$j);
-								$htmlTheory .= '<br><hr style="border-top: 1px solid black;">';
 
-								$htmlTheory .= '<div class="form-group">';
-								$htmlTheory .= '<div class="col-md-6" style="margin-top: -2%">';
-								$htmlTheory .= '<p><b>Conclusion</b></p>';
-								$htmlTheory .= '</div>';
-								$htmlTheory .= '<div class="col-md-3">';
-								$htmlTheory .= '<div class="input-group">';
-								$htmlTheory .= '<input type="text" class="form-control" id="conclusion_score_'.$ct['id_theory_category'].'" name="data_document[conclusion_score]" placeholder="Score">';
-								$htmlTheory .= '<input type="hidden" id="conclusion_minimum_score_'.$ct['id_theory_category'].'" value="'.$totalMinimumScore.'">';
-								$htmlTheory .= '<span class="input-group-addon">/ '.$totalMinimumScore.'</span>';
-								$htmlTheory .= '</div>';
-								$htmlTheory .= '</div>';
-								$htmlTheory .= '<div class="col-md-3">';
-								$htmlTheory .= '<select class="form-control select2" id="conclusion_status_'.$ct['id_theory_category'].'" name="data_document[conclusion_status]">';
-								$htmlTheory .= '<option value="Passed">Passed<option>';
-								$htmlTheory .= '<option value="Not Passed">Not Passed<option>';
-								$htmlTheory .= '</select>';
-								$htmlTheory .= '</div>';
-								$htmlTheory .= '</div>';
+								if(!empty($j)){
+									$totalMinimumScore = (int)($totalMinimumScore/$j);
+									$htmlTheory .= '<br><hr style="border-top: 1px solid black;">';
 
+									$htmlTheory .= '<div class="form-group">';
+									$htmlTheory .= '<div class="col-md-6" style="margin-top: -2%">';
+									$htmlTheory .= '<p><b>Conclusion</b></p>';
+									$htmlTheory .= '</div>';
+									$htmlTheory .= '<div class="col-md-3">';
+									$htmlTheory .= '<div class="input-group">';
+									$htmlTheory .= '<input type="text" class="form-control" id="conclusion_score_'.$ct['id_theory_category'].'" name="data_document[conclusion_score]" placeholder="Score">';
+									$htmlTheory .= '<input type="hidden" id="conclusion_minimum_score_'.$ct['id_theory_category'].'" value="'.$totalMinimumScore.'">';
+									$htmlTheory .= '<span class="input-group-addon">/ '.$totalMinimumScore.'</span>';
+									$htmlTheory .= '</div>';
+									$htmlTheory .= '</div>';
+									$htmlTheory .= '<div class="col-md-3">';
+									$htmlTheory .= '<select class="form-control select2" id="conclusion_status_'.$ct['id_theory_category'].'" name="data_document[conclusion_status]">';
+									$htmlTheory .= '<option value="Passed">Passed<option>';
+									$htmlTheory .= '<option value="Not Passed">Not Passed<option>';
+									$htmlTheory .= '</select>';
+									$htmlTheory .= '</div>';
+									$htmlTheory .= '</div>';
+								}
 								$htmlTheory .= '</div>';
 							}else{
 								$htmlTheory .= '<div id="cat_'.$ct['id_theory_category'].'" style="display: none">';
@@ -248,28 +254,30 @@ $idCategoryUse = [];
 										$j++;
 									}
 								}
-								$totalMinimumScore = (int)($totalMinimumScore/$j);
-								$htmlTheory .= '<br><hr style="border-top: 1px solid black;">';
 
-								$htmlTheory .= '<div class="form-group">';
-								$htmlTheory .= '<div class="col-md-6" style="margin-top: -2%">';
-								$htmlTheory .= '<p><b>Conclusion</b></p>';
-								$htmlTheory .= '</div>';
-								$htmlTheory .= '<div class="col-md-3">';
-								$htmlTheory .= '<div class="input-group">';
-								$htmlTheory .= '<input type="text" class="form-control" id="conclusion_score_'.$ct['id_theory_category'].'" name="conclusion_score['.$ct['id_theory_category'].']" placeholder="Score">';
-								$htmlTheory .= '<input type="hidden" id="conclusion_minimum_score_'.$ct['id_theory_category'].'" value="'.$totalMinimumScore.'">';
-								$htmlTheory .= '<span class="input-group-addon">/ '.$totalMinimumScore.'</span>';
-								$htmlTheory .= '</div>';
-								$htmlTheory .= '</div>';
-								$htmlTheory .= '<div class="col-md-3">';
-								$htmlTheory .= '<select class="form-control select2" id="conclusion_status_'.$ct['id_theory_category'].'" name="conclusion_status['.$ct['id_theory_category'].']">';
-								$htmlTheory .= '<option value="Passed">Passed<option>';
-								$htmlTheory .= '<option value="Not Passed">Not Passed<option>';
-								$htmlTheory .= '</select>';
-								$htmlTheory .= '</div>';
-								$htmlTheory .= '</div>';
+								if(!empty($j)){
+									$totalMinimumScore = (int)($totalMinimumScore/$j);
+									$htmlTheory .= '<br><hr style="border-top: 1px solid black;">';
 
+									$htmlTheory .= '<div class="form-group">';
+									$htmlTheory .= '<div class="col-md-6" style="margin-top: -2%">';
+									$htmlTheory .= '<p><b>Conclusion</b></p>';
+									$htmlTheory .= '</div>';
+									$htmlTheory .= '<div class="col-md-3">';
+									$htmlTheory .= '<div class="input-group">';
+									$htmlTheory .= '<input type="text" class="form-control" id="conclusion_score_'.$ct['id_theory_category'].'" name="conclusion_score['.$ct['id_theory_category'].']" placeholder="Score">';
+									$htmlTheory .= '<input type="hidden" id="conclusion_minimum_score_'.$ct['id_theory_category'].'" value="'.$totalMinimumScore.'">';
+									$htmlTheory .= '<span class="input-group-addon">/ '.$totalMinimumScore.'</span>';
+									$htmlTheory .= '</div>';
+									$htmlTheory .= '</div>';
+									$htmlTheory .= '<div class="col-md-3">';
+									$htmlTheory .= '<select class="form-control select2" id="conclusion_status_'.$ct['id_theory_category'].'" name="conclusion_status['.$ct['id_theory_category'].']">';
+									$htmlTheory .= '<option value="Passed">Passed<option>';
+									$htmlTheory .= '<option value="Not Passed">Not Passed<option>';
+									$htmlTheory .= '</select>';
+									$htmlTheory .= '</div>';
+									$htmlTheory .= '</div>';
+								}
 								$htmlTheory .= '</div>';
 							}
 						}
