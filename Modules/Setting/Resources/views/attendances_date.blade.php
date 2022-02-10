@@ -92,6 +92,13 @@ $configs     		= session('configs');
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                            <label for="example-search-input" class="control-label col-md-4">Delivery date<span class="required" aria-required="true">*</span>
+                                                <i class="fa fa-question-circle tooltips" data-original-title="Tanggal pengiriman pendapatan tengah bulan" data-container="body"></i></label>
+                                            <div class="col-md-5">
+                                                <input value="{{$result['delivery_mid_date']??''}}" required type="number" min="1" max="28" name="delivery_mid_date" id="delivery_mid_date" class="form-control" placeholder="Enter date">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="example-search-input" class="control-label col-md-4">Product Commission
                                                 <i class="fa fa-question-circle tooltips" data-original-title="Pada pembayaran tengah bulan komisi produk bisa di pilih maupun tidak" data-container="body"></i></label>
                                             <div class="col-md-6">
@@ -109,7 +116,7 @@ $configs     		= session('configs');
                                                 <div class="mt-checkbox-inline">
                                                     @foreach($insentif as $key => $row)
                                                         @php $key++; @endphp
-                                                       <input type="checkbox" name="hs_income_calculation_mid[]" @if(array_search('incentive_'.$row['code'],$result['calculation_mid'])  !== false) checked @endif  value="incentive_{{$row['code']}}"> {{$row['name']}} - {{$row['code']}}
+                                                       <input type="checkbox" name="hs_income_calculation_mid[]" @if(array_search('incentive_'.$row['code'],$result['calculation_mid'])  !== false) checked @endif  value="incentive_{{$row['code']}}"> {{$row['name']}} ( {{$row['code']}} )
                                                        @if($key < $insen)
                                                        <br>
                                                        @endif
@@ -127,7 +134,7 @@ $configs     		= session('configs');
                                                 <div class="mt-checkbox-inline">
                                                     @foreach($cuts_salary as $keys => $rows)
                                                         @php $keys++; @endphp
-                                                       <input type="checkbox" name="hs_income_calculation_mid[]"  @if(array_search('salary_cut_'.$rows['code'],$result['calculation_mid'])  !== false) checked @endif value="salary_cut_{{$rows['code']}}"> {{$rows['name']}} - {{$rows['code']}}
+                                                       <input type="checkbox" name="hs_income_calculation_mid[]"  @if(array_search('salary_cut_'.$rows['code'],$result['calculation_mid'])  !== false) checked @endif value="salary_cut_{{$rows['code']}}"> {{$rows['name']}} ( {{$rows['code']}} )
                                                        @if($keys < $potong)
                                                        <br>
                                                        @endif
@@ -155,6 +162,13 @@ $configs     		= session('configs');
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                            <label for="example-search-input" class="control-label col-md-4">Delivery date<span class="required" aria-required="true">*</span>
+                                                <i class="fa fa-question-circle tooltips" data-original-title="Tanggal pengiriman pendapatan akhir bulan" data-container="body"></i></label>
+                                            <div class="col-md-5">
+                                                <input value="{{$result['delivery_end_date']??''}}" required type="number" min="1" max="28" name="delivery_end_date" id="delivery_end_date" class="form-control" placeholder="Enter date">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="example-search-input" class="control-label col-md-4">Product Commission
                                                 <i class="fa fa-question-circle tooltips" data-original-title="Pada pembayaran tengah bulan komisi produk bisa di pilih maupun tidak" data-container="body"></i></label>
                                             <div class="col-md-6">
@@ -172,7 +186,7 @@ $configs     		= session('configs');
                                                 <div class="mt-checkbox-inline">
                                                     @foreach($insentif as $key => $row)
                                                         @php $key++; @endphp
-                                                       <input type="checkbox" name="hs_income_calculation_end[]"  @if(array_search('incentive_'.$row['code'],$result['calculation_end'])  !== false) checked @endif  value="incentive_{{$row['code']}}"> {{$row['name']}} - {{$row['code']}}
+                                                       <input type="checkbox" name="hs_income_calculation_end[]"  @if(array_search('incentive_'.$row['code'],$result['calculation_end'])  !== false) checked @endif  value="incentive_{{$row['code']}}"> {{$row['name']}} ( {{$row['code']}} )
                                                        @if($key < $insen)
                                                        <br>
                                                        @endif
@@ -190,7 +204,7 @@ $configs     		= session('configs');
                                                 <div class="mt-checkbox-inline">
                                                     @foreach($cuts_salary as $keys => $rows)
                                                         @php $keys++; @endphp
-                                                       <input type="checkbox" name="hs_income_calculation_end[]" @if(array_search('salary_cut_'.$rows['code'],$result['calculation_end'])  !== false) checked @endif  value="salary_cut_{{$rows['code']}}"> {{$rows['name']}} - {{$rows['code']}}
+                                                       <input type="checkbox" name="hs_income_calculation_end[]" @if(array_search('salary_cut_'.$rows['code'],$result['calculation_end'])  !== false) checked @endif  value="salary_cut_{{$rows['code']}}"> {{$rows['name']}} ( {{$rows['code']}} )
                                                        @if($keys < $potong)
                                                        <br>
                                                        @endif
