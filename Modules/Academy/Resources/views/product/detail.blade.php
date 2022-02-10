@@ -520,9 +520,9 @@
         function addTheory() {
             var html_select = '';
             <?php
-            foreach($list_theory as $row){
+            foreach($list_theory_category as $row){
             ?>
-                html_select += "<option value='<?php echo $row['id_theory']; ?>'><?php echo $row['theory_title']; ?></option>";
+                html_select += "<option value='<?php echo $row['id_theory_category']; ?>'><?php echo $row['theory_category_name']; ?></option>";
             <?php
             }
             ?>
