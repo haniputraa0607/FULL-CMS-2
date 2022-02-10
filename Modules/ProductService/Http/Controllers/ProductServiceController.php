@@ -140,7 +140,13 @@ class ProductServiceController extends Controller
     function productUseUpdate(Request $request){
         $post = $request->except('_token');
         $save = MyHelper::post('product/pivot/update', $post);
-        return parent::redirect($save, 'Product use has been save.', 'product-service/detail/'.$post['product_code'].'#productuse');
+        if (isset($save['status']) && $save['status'] == "success") {
+            return redirect(url()->previous().'#productuse')->with('success', ['Product use has been save.']);
+        }
+        else {
+            return redirect(url()->previous().'#productuse')->witherrors(['Something went wrong. Please try again.']);
+        }
+        // return parent::redirect($save, 'Product use has been save.', 'product-service/detail/'.$post['product_code'].'#productuse');
     }
 
     public function visibility(Request $request, $key = null)
