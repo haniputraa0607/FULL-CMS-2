@@ -743,6 +743,8 @@ class PartnersController extends Controller
                 "id_partner" => $request['id_partner'],
                 "total_box" => $request['total_box'],
                 "handover_date" => date('Y-m-d', strtotime($request['handover_date'])),
+                'from' => 'Select Location',
+                'id_partner' => $request['id_partner']
             ];
             $form_survey = [
                 "id_partner"  => $request["id_partner"],

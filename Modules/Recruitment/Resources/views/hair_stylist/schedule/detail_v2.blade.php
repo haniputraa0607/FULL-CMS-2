@@ -291,7 +291,7 @@
 								@if ($day[$i % 7] == ($data['list_date'][$index]['day'] ?? false))
 									@php
 										$schInfo = $data['list_date'][$index];
-                                        if($schInfo['date']>=date('Y-m-d')){
+                                        if($schInfo['date']>date('Y-m-d')){
                                             $can_update = true;
                                         }else{
                                             $can_update = false;
@@ -340,6 +340,9 @@
 						        						<option value="{{ $s }}" {{ $s == $schInfo['selected_shift'] ? 'selected' : null }}> {{ $shiftIndo[$s] }}</option>
 							        				@endforeach
 							        			</select>
+                                                @if (!$can_update)
+                                                    <input type="hidden" name="schedule[{{ $schInfo['date'] }}]" value="{{ $schInfo['selected_shift'] }}">
+                                                @endif
 							        		</div>
 							        	</div>
 							        </div>

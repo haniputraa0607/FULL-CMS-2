@@ -47,7 +47,10 @@
 									<span class="btn dark btn-xs btn-block btn-outline var appender-btn" data-toggle="tooltip" title="Text will be replace '%box_code%' with box code" data-value="%box_code%">%box_code%</span>
 								</div>
 								<div class="col-md-5" style="margin-bottom:5px;margin-top:5px;">
-									<span class="btn dark btn-xs btn-block btn-outline var appender-btn" data-toggle="tooltip" title="Text will be replace '%status%' with box status (on/off)" data-value="%status%">%status%</span>
+									<span class="btn dark btn-xs btn-block btn-outline var appender-btn" data-toggle="tooltip" title="Text will be replace '%command%' with the command (on/off)" data-value="%command%">%command%</span>
+								</div>
+								<div class="col-md-5" style="margin-bottom:5px;margin-top:5px;">
+									<span class="btn dark btn-xs btn-block btn-outline var appender-btn" data-toggle="tooltip" title="Text will be replace '%time%' with the on time" data-value="%command%">%time%</span>
 								</div>
 							</div>
 					  </div>
@@ -71,12 +74,15 @@
 						  </div>
 						  <div class="col-md-4">
 							  <input class="form-control" type="text" maxlength="255" id="outlet_box_url_{{$key}}" name="outlet_box_data[{{$key}}][outlet_box_url]" required placeholder="Enter box URL" value="{{$val['outlet_box_url']}}"/>
-								<div class="row appender" data-target="#outlet_box_url_{{$key}}">
-									<div class="col-md-5" style="margin-bottom:5px;margin-top:5px;">
+								<div class="appender" data-target="#outlet_box_url_{{$key}}">
+									<div class="" style="display: inline-block; margin-bottom:5px;margin-top:5px;">
 										<span class="btn dark btn-xs btn-block btn-outline var appender-btn" data-toggle="tooltip" title="Text will be replace '%box_code%' with box code" data-value="%box_code%">%box_code%</span>
 									</div>
-									<div class="col-md-5" style="margin-bottom:5px;margin-top:5px;">
-										<span class="btn dark btn-xs btn-block btn-outline var appender-btn" data-toggle="tooltip" title="Text will be replace '%status%' with box status (on/off)" data-value="%status%">%status%</span>
+									<div class="" style="display: inline-block;margin-bottom:5px;margin-top:5px;">
+										<span class="btn dark btn-xs btn-block btn-outline var appender-btn" data-toggle="tooltip" title="Text will be replace '%command%' with the command (on/off)" data-value="%command%">%command%</span>
+									</div>
+									<div style="display: inline-block; margin-bottom:5px;margin-top:5px;">
+										<span class="btn dark btn-xs btn-block btn-outline var appender-btn" data-toggle="tooltip" title="Text will be replace '%time%' with the on time" data-value="%time%">%time%</span>
 									</div>
 								</div>
 						  </div>

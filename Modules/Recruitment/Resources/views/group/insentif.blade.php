@@ -48,7 +48,7 @@
                                                     <div class="row">
                                                             @foreach($textreplace as $row)
                                                                     <div class="col-md-4" style="margin-top: 5px;">
-                                                                            <span class="btn dark btn-xs btn-block btn-outline var" data-toggle="tooltip" title="Text will be replace '{{ $row['keyword'] }}'" onClick="addFormula('{{ $row['keyword'] }}','{{$key}}');">{{ str_replace('_',' ',$row['keyword']) }}</span>
+                                                                            <span class="btn dark btn-xs btn-block btn-outline var" data-toggle="tooltip" title="{{ $row['message'] }}" onClick="addFormula('{{ $row['keyword'] }}','{{$key}}');">{{ str_replace('_',' ',$row['keyword']) }}</span>
                                                                     </div>
                                                             @endforeach
                                                     </div>

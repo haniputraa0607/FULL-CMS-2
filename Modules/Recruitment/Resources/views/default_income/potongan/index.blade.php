@@ -113,9 +113,9 @@
         }
     })
     function addFormula(param){
-		var textvalue = $('#autocrm_sms_content').val();
+		var textvalue = $('#formula').val();
 		var textvaluebaru = textvalue+" "+param;
-		$('#autocrm_sms_content').val(textvaluebaru);
+		$('#formula').val(textvaluebaru);
     }
     </script>
     
@@ -251,7 +251,7 @@
                                           <div class="row">
                                                 @foreach($textreplace as $key=>$row)
                                                         <div class="col-md-4" style="margin-bottom:5px;">
-                                                                <span class="btn dark btn-xs btn-block btn-outline var" data-toggle="tooltip" title="Text will be replace '{{ $row['keyword'] }}'" onClick="addFormula('{{ $row['keyword'] }}');">{{ str_replace('_',' ',$row['keyword']) }}</span>
+                                                                <span class="btn dark btn-xs btn-block btn-outline var" data-toggle="tooltip" title="{{ $row['message'] }}" onClick="addFormula('{{ $row['keyword'] }}');">{{ str_replace('_',' ',$row['keyword']) }}</span>
                                                         </div>
                                                 @endforeach
                                         </div>
