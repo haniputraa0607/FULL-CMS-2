@@ -215,14 +215,40 @@ class HairStylistGroupController extends Controller
                                 }  
                         $data['potongan'] = $val3;
                         $data['lisths'] = MyHelper::post('recruitment/hairstylist/be/group/hs',['id_hairstylist_group'=>$id])??[];
-                        $textreplace = array();
-                        $text = ['value','total_attend','total_late','total_absen','+','-','*','/'];
-                        foreach ($text as $key => $value) {
-                            $da = array(
-                                'keyword'=>$value
-                            );
-                            array_push($textreplace,$da);
-                        }
+                        $textreplace = array(
+                            array(
+                                'keyword'=>'value',
+                                'message'=>'Value'
+                            ), 
+                            array(
+                                'keyword'=>'total_attend',
+                                'message'=>'Total of attendance at work'
+                            ), 
+                            array(
+                                'keyword'=>'total_late',
+                                'message'=>'Total of late at work'
+                            ), 
+                            array(
+                                'keyword'=>'total_absen',
+                                'message'=>'Total of unpaid leave at work'
+                            ), 
+                            array(
+                                'keyword'=>'+',
+                                'message'=>'Added'
+                            ), 
+                            array(
+                                'keyword'=>'-',
+                                'message'=>'Subtraction'
+                            ), 
+                            array(
+                                'keyword'=>'*',
+                                'message'=>'Multiplication'
+                            ), 
+                            array(
+                                'keyword'=>'/',
+                                'message'=>'Distribution'
+                            ), 
+                        );
                         $data['textreplace'] = $textreplace;
                         return view('recruitment::group.detail',$data);
                 } else{
@@ -612,14 +638,40 @@ class HairStylistGroupController extends Controller
                if($post){
                    Session::put($session,$post);
                }
-               $textreplace = array();
-               $text = ['value','total_attend','total_late','total_absen','+','-','*','/'];
-               foreach ($text as $value) {
-                   $da = array(
-                       'keyword'=>$value
-                   );
-                   array_push($textreplace,$da);
-               }
+               $textreplace = array(
+                            array(
+                                'keyword'=>'value',
+                                'message'=>'Value'
+                            ), 
+                            array(
+                                'keyword'=>'total_attend',
+                                'message'=>'Total of attendance at work'
+                            ), 
+                            array(
+                                'keyword'=>'total_late',
+                                'message'=>'Total of late at work'
+                            ), 
+                            array(
+                                'keyword'=>'total_absen',
+                                'message'=>'Total of unpaid leave at work'
+                            ), 
+                            array(
+                                'keyword'=>'+',
+                                'message'=>'Added'
+                            ), 
+                            array(
+                                'keyword'=>'-',
+                                'message'=>'Subtraction'
+                            ), 
+                            array(
+                                'keyword'=>'*',
+                                'message'=>'Multiplication'
+                            ), 
+                            array(
+                                'keyword'=>'/',
+                                'message'=>'Distribution'
+                            ), 
+                        );
                $data['textreplace'] = $textreplace;
                 return view('recruitment::default_income.index',$data);
                   }
@@ -670,14 +722,40 @@ class HairStylistGroupController extends Controller
                                    'submenu_active'    => 'default-hair-stylist-insentif'
                                ];
                         $data['result']=$query['result'];
-                        $textreplace = array();
-                        $text = ['value','total_attend','total_late','total_absen','+','-','*','/'];
-                        foreach ($text as $value) {
-                            $da = array(
-                                'keyword'=>$value
-                            );
-                            array_push($textreplace,$da);
-                        }
+                        $textreplace = array(
+                            array(
+                                'keyword'=>'value',
+                                'message'=>'Value'
+                            ), 
+                            array(
+                                'keyword'=>'total_attend',
+                                'message'=>'Total of attendance at work'
+                            ), 
+                            array(
+                                'keyword'=>'total_late',
+                                'message'=>'Total of late at work'
+                            ), 
+                            array(
+                                'keyword'=>'total_absen',
+                                'message'=>'Total of unpaid leave at work'
+                            ), 
+                            array(
+                                'keyword'=>'+',
+                                'message'=>'Added'
+                            ), 
+                            array(
+                                'keyword'=>'-',
+                                'message'=>'Subtraction'
+                            ), 
+                            array(
+                                'keyword'=>'*',
+                                'message'=>'Multiplication'
+                            ), 
+                            array(
+                                'keyword'=>'/',
+                                'message'=>'Distribution'
+                            ), 
+                        );
                         $data['textreplace'] = $textreplace;
                             return view('recruitment::default_income.update',$data);
                     } else{
@@ -745,14 +823,40 @@ class HairStylistGroupController extends Controller
                if($post){
                    Session::put($session,$post);
                }
-               $textreplace = array();
-               $text = ['value','total_attend','total_late','total_absen','+','-','*','/'];
-               foreach ($text as $key => $value) {
-                   $da = array(
-                       'keyword'=>$value
-                   );
-                   array_push($textreplace,$da);
-               }
+               $textreplace = array(
+                            array(
+                                'keyword'=>'value',
+                                'message'=>'Value'
+                            ), 
+                            array(
+                                'keyword'=>'total_attend',
+                                'message'=>'Total of attendance at work'
+                            ), 
+                            array(
+                                'keyword'=>'total_late',
+                                'message'=>'Total of late at work'
+                            ), 
+                            array(
+                                'keyword'=>'total_absen',
+                                'message'=>'Total of unpaid leave at work'
+                            ), 
+                            array(
+                                'keyword'=>'+',
+                                'message'=>'Added'
+                            ), 
+                            array(
+                                'keyword'=>'-',
+                                'message'=>'Subtraction'
+                            ), 
+                            array(
+                                'keyword'=>'*',
+                                'message'=>'Multiplication'
+                            ), 
+                            array(
+                                'keyword'=>'/',
+                                'message'=>'Distribution'
+                            ), 
+                        );
                $data['textreplace'] = $textreplace;
                 return view('recruitment::default_income.potongan.index',$data);
                   }
@@ -803,14 +907,40 @@ class HairStylistGroupController extends Controller
                                    'submenu_active'    => 'default-hair-stylist-potongan'
                                ];
                         $data['result']=$query['result'];
-                        $textreplace = array();
-                        $text = ['value','total_attend','total_late','total_absen','+','-','*','/'];
-                        foreach ($text as $value) {
-                            $da = array(
-                                'keyword'=>$value
-                            );
-                            array_push($textreplace,$da);
-                        }
+                        $textreplace = array(
+                            array(
+                                'keyword'=>'value',
+                                'message'=>'Value'
+                            ), 
+                            array(
+                                'keyword'=>'total_attend',
+                                'message'=>'Total of attendance at work'
+                            ), 
+                            array(
+                                'keyword'=>'total_late',
+                                'message'=>'Total of late at work'
+                            ), 
+                            array(
+                                'keyword'=>'total_absen',
+                                'message'=>'Total of unpaid leave at work'
+                            ), 
+                            array(
+                                'keyword'=>'+',
+                                'message'=>'Added'
+                            ), 
+                            array(
+                                'keyword'=>'-',
+                                'message'=>'Subtraction'
+                            ), 
+                            array(
+                                'keyword'=>'*',
+                                'message'=>'Multiplication'
+                            ), 
+                            array(
+                                'keyword'=>'/',
+                                'message'=>'Distribution'
+                            ), 
+                        );
                         $data['textreplace'] = $textreplace;
                         return view('recruitment::default_income.potongan.update',$data);
                     } else{
