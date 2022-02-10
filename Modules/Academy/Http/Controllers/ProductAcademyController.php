@@ -132,7 +132,7 @@ class ProductAcademyController extends Controller
                 }
 
                 $save = MyHelper::post('product/update', $post);
-                return parent::redirect($save, 'Product service detail has been updated.', 'product-academy/detail/'.$post['product_code']??$code.'#info');
+                return parent::redirect($save, 'Product academy detail has been updated.', 'product-academy/detail/'.$post['product_code']??$code.'#info');
             }
         }
     }

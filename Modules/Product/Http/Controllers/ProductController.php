@@ -41,7 +41,7 @@ class ProductController extends Controller
             $data['category'] = [];
         }
 
-        $product = MyHelper::get('product/be/list');
+        $product = MyHelper::post('product/be/list', ['admin_list' => 1, 'product_type' => 'product']);
 
         if (isset($product['status']) && $product['status'] == "success") {
             $data['product'] = $product['result'];
@@ -537,7 +537,7 @@ class ProductController extends Controller
                     'service' => 'product-service',
                     'academy' => 'product-academy',
                 ];
-                return parent::redirect($save, 'Product has been created.', ($typemap[$request->product_type] ?? 'product') . '/detail/'.$post['product_code'].'#photo');
+                return parent::redirect($save, 'Product has been created.', ($typemap[$request->product_type] ?? 'product') . '/detail/'.$save['result']['product_code'].'#photo');
             }
             else {
                 return parent::redirect($save, 'Product has been created.');
