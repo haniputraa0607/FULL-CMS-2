@@ -348,7 +348,7 @@
                                                                             <div class="col-md-5">
                                                                                 <select name="cooperation_scheme" id="cooperation_scheme" onchange="coopertationNew()" class="form-control input-sm select2" placeholder="Coopertaion Scheme" required {{ $select ? 'disabled' : ''}}>
                                                                                     <option value="" selected disabled>Select Cooperation Scheme</option>
-                                                                                    <option value="Profit Sharing" @if(old('cooperation_scheme')) @if(old('cooperation_scheme')=='Profit Sharing') selected @endif @else @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Profit Sharing') selected @endif @endif @endif>Profit Sharing</option>
+                                                                                    <option value="Revenue Sharing" @if(old('cooperation_scheme')) @if(old('cooperation_scheme')=='Revenue Sharing') selected @endif @else @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Revenue Sharing') selected @endif @endif @endif>Revenue Sharing</option>
                                                                                     <option value="Management Fee" @if(old('cooperation_scheme')) @if(old('cooperation_scheme')=='Management Fee') selected @endif @else @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Management Fee') selected @endif @endif @endif>Management Fee</option>
                                                                                 </select>
                                                                             </div>
@@ -556,20 +556,6 @@
                                                                 <table class="table">
                                                                     <tbody>
                                                                         <tr>
-                                                                            <th colspan="3">Outlet Starter</th>
-                                                                        </tr>
-                                                                        @foreach($result['location_starter'] ?? [] as $starter)
-                                                                        @php
-                                                                        $price = $starter['unit'] == $starter['product']['unit1'] ? $starter['product']['unit_price_1'] : ($starter['unit'] == $starter['product']['unit2'] ? $starter['product']['unit_price_2'] : ($starter['unit'] == $starter['product']['unit3'] ? $starter['product']['unit_price_3'] : 0));
-                                                                        $total_payment += $price * $starter['qty'];
-                                                                        @endphp
-                                                                        <tr>
-                                                                            <td>{{$starter['product']['name']}}</td>
-                                                                            <td>{{$starter['qty']}} {{$starter['unit']}}</td>
-                                                                            <td>{{number_format($price * $starter['qty'], 0, ',', '.')}}</td>
-                                                                        </tr>
-                                                                        @endforeach
-                                                                        <tr>
                                                                             <th colspan="3">Fees</th>
                                                                         </tr>
                                                                         @if (isset($result['renovation_cost']))
@@ -603,6 +589,7 @@
                                                                             <td>Rental Price</td>
                                                                             <td></td>
                                                                             <td>{{number_format($result['rental_price'], 0, ',', '.')}}</td>
+                                                                            @php $total_payment += $result['rental_price'] @endphp
                                                                         </tr>
                                                                         @endif
                                                                         @if (isset($result['service_charge']))

@@ -1157,7 +1157,7 @@
                             <div class="col-md-5">
                                 <select name="cooperation_scheme" class="form-control input-sm select2" placeholder="Coopertaion Scheme">
                                     <option value="" selected disabled>Select Cooperation Scheme</option>
-                                    <option value="Profit Sharing" @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Profit Sharing') selected @endif @endif>Profit Sharing</option>
+                                    <option value="Revenue Sharing" @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Revenue Sharing') selected @endif @endif>Revenue Sharing</option>
                                     <option value="Management Fee" @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Management Fee') selected @endif @endif>Management Fee</option>
                                 </select>
                             </div>
