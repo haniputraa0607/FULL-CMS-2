@@ -113,9 +113,9 @@
         }
     })
     function addFormula(param){
-		var textvalue = $('#autocrm_sms_content').val();
+		var textvalue = $('#formula').val();
 		var textvaluebaru = textvalue+" "+param;
-		$('#autocrm_sms_content').val(textvaluebaru);
+		$('#formula').val(textvaluebaru);
     }
     </script>
     
