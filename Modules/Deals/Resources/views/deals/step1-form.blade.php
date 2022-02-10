@@ -340,10 +340,10 @@
             </div>
             <div class="col-md-9">
                 <div class="fileinput fileinput-new" data-provides="fileinput">
-                    <div class="fileinput-new thumbnail" style="width: 200px; height: 200px;">
-                      <img src="{{ $deals['url_deals_image']??'https://www.placehold.it/500x500/EFEFEF/AAAAAA&amp;text=no+image' }}" alt="Image Deals">
+                    <div class="fileinput-new thumbnail" style="width: 200px; height: 100px;">
+                      <img src="{{ $deals['url_deals_image']??'https://www.placehold.it/750x375/EFEFEF/AAAAAA&amp;text=no+image' }}" alt="Image Deals">
                     </div>
-                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 200px;"></div>
+                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 100px;"></div>
                     <div>
                         <span class="btn default btn-file">
                         <span class="fileinput-new"> Select image </span>
@@ -481,6 +481,7 @@
             </div>
         </div>
 
+        @if(MyHelper::hasAccess([125], $configs))
         {{-- Custom Outlet Text --}}
         <div class="form-group">
             <div class="input-icon right">
@@ -495,6 +496,9 @@
                 </div>
             </div>
         </div>
+        @else
+        <input type="hidden" name="custom_outlet_text" value="">
+        @endif
 
         {{-- Charged --}}
         <div class="form-group">
@@ -893,6 +897,25 @@
                 <div class="input-icon right">
                     <input type="text" class="form-control digit-mask" min="0" name="user_limit" value="{{ old('user_limit')??$deals['user_limit']??'' }}" placeholder="User limit" maxlength="30" autocomplete="off">
                 </div>
+            </div>
+        </div>
+
+        {{-- Total Deals User --}}
+        <div class="form-group">
+            <div class="input-icon right">
+                <label class="col-md-3 control-label">
+                Total Deals For User
+                <span class="required" aria-required="true"> * </span>
+                <i class="fa fa-question-circle tooltips" data-original-title="Jumlah voucher yang akan didapatkan user dalam sekali claim voucher" data-container="body"></i>
+                </label>
+            </div>
+
+            <div class="col-md-4">
+                <div class="input-icon right">
+                    <input type="text" class="form-control digit-mask" min="0" name="total_deals_user" value="{{ old('total_deals_user')??$deals['total_deals_user']??'' }}" placeholder="Total Deals User" maxlength="30" autocomplete="off">
+                </div>
+                <p style="color: red;display: none" id="label_total">Invalid value, total deals user cant be bigger than user limit</p>
+                <p style="color: red;display: none" id="label_total_nol">Invalid value, minimum value for total deals user is 1</p>
             </div>
         </div>
 

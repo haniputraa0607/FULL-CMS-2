@@ -55,7 +55,7 @@ class RequestHairStylistController extends Controller
         $data['order_type'] = $orderType;
         $post['order'] = $order;
         $post['order_type'] = $orderType;
-        
+        // return $post;
         $list = MyHelper::post('mitra/request'.$page, $post);
         foreach($list['result']['data'] as $i => $req){
             if($req['id_hs']==null){

@@ -117,106 +117,13 @@
                                         <input class="form-control" type="text" id="follow_up" name="follow_up" value="Calculation" readonly required/>
                                     </div>
                                 </div>
-                                <div class="portlet light" style="margin-bottom: 0; padding-bottom: 0;display:none;">
-                                    <div class="portlet-body form">
-                                        <div class="form-group">
-                                            <div class="col-md-4">
-                                                <b>Product</b>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <b>Unit</b>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <b>Quantity</b>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <b>Cost</b>
-                                            </div>
-                                        </div>
-                                        <div id="div_product_use">
-                                            @php $total_cost = 0; @endphp
-                                            @foreach($starter_products as $key=>$value)
-                                            <div id="div_product_use_{{$key}}">
-                                                <div class="form-group">
-                                                    <input class="form-control" name="product_starter[{{$key}}][budget_code]" type="hidden" value="{{ $value['budget_code'] }}" required readonly/>
-                                                    <div class="col-md-4">
-                                                        <select class="form-control select2" id="product_use_code_{{$key}}" name="product_starter[{{$key}}][id_product_icount]" required placeholder="Select product use" style="width: 100%" onchange="changeUnit({{$key}},this.value)">
-                                                            <option></option>
-                                                            @foreach($products as $product_use)
-                                                                <option value="{{$product_use['id_product_icount']}}" @if($product_use['id_product_icount'] == $value['id_product_icount']) selected @endif>{{$product_use['code']}} - {{$product_use['name']}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                        {{--  @else
-                                                        @foreach($products as $product_use)
-                                                            @if($product_use['id_product_icount'] == $value['id_product_icount']) 
-                                                                <input class="form-control" type="text" value="{{$product_use['code']}} - {{$product_use['name']}}" required placeholder="Select product use" style="width: 100%" readonly/>
-                                                            @endif
-                                                        @endforeach
-                                                        <input class="form-control" type="hidden" id="product_use_code_{{$key}}" value="{{$value['id_product_icount']}}" name="product_icount[{{$key}}][id_product_icount]" required placeholder="Select product use" style="width: 100%" readonly/>
-                                                        @endif  --}}
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        {{--  @if(MyHelper::hasAccess([413], $grantedFeature))  --}}
-                                                        <select class="form-control select2" id="product_use_unit_{{$key}}" name="product_starter[{{$key}}][unit]" required placeholder="Select unit" style="width: 100%">
-                                                            <option></option>
-                                                            @foreach($products as $use)
-                                                                @if ($use['id_product_icount'] == $value['id_product_icount'])
-                                                                    @if($use['unit1']) <option value="{{ $use['unit1'] }}" @if($use['unit1'] == $value['unit']) selected @endif>{{ $use['unit1'] }}</option> @endif
-                                                                    @if($use['unit2']) <option value="{{ $use['unit2'] }}" @if($use['unit2'] == $value['unit']) selected @endif>{{ $use['unit2'] }}</option> @endif
-                                                                    @if($use['unit3']) <option value="{{ $use['unit3'] }}" @if($use['unit3'] == $value['unit']) selected @endif>{{ $use['unit3'] }}</option> @endif
-                                                                @endif
-                                                            @endforeach
-                                                        </select>
-                                                        {{--  @else
-                                                        <input class="form-control" type="text" id="product_use_unit_{{$key}}" value="{{$value['unit']}}" name="product_icount[{{$key}}][unit]" required placeholder="Select unit" style="width: 100%" readonly/>
-                                                        @endif  --}}
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <div class="input-group">
-                                                            <input type="text" class="form-control price" id="product_use_qty_{{$key}}" name="product_starter[{{$key}}][qty]" required value="{{$value['qty']}}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <div class="input-group">
-                                                            <input type="text" class="form-control price" id="product_use_cost_{{$key}}" required value="{{number_format($value['cost'])}}">
-                                                        </div>
-                                                    </div>
-                                                    @php $total_cost = $total_cost + $value['cost']; @endphp
-                                                    {{--  <div class="col-md-2">
-                                                        @if(MyHelper::hasAccess([415], $grantedFeature))
-                                                        <select class="form-control select2" id="product_use_status_{{$key}}" name="product_icount[{{$key}}][status]" required placeholder="Select product status" style="width: 100%">
-                                                            <option></option>
-                                                            <option value="Pending" @if($value['status']=='Pending') selected @endif>Pending</option>
-                                                            <option value="Approved" @if($value['status']=='Approved') selected @endif>Approved</option>
-                                                            <option value="Rejected" @if($value['status']=='Rejected') selected @endif>Rejected</option>
-                                                        </select>
-                                                        @else
-                                                        <input class="form-control" type="text" id="product_use_status_{{$key}}" value="{{$value['status']}}" name="product_icount[{{$key}}][status]" required placeholder="Select product status" style="width: 100%" readonly/>
-                                                        @endif
-                                                    </div>  --}}
-                                                    {{--  <div class="col-md-1" style="margin-left: 2%">
-                                                        <a class="btn btn-danger btn" onclick="deleteProductServiceUse({{$key}})">&nbsp;<i class="fa fa-trash"></i></a>
-                                                    </div>  --}}
-                                                </div>
-                                            </div>
-                                            @endforeach
-                                        </div>
-                                        {{--  @if ($result['status']=='Pending' && MyHelper::hasAccess([413], $grantedFeature))  --}}
-                                        {{--  <div class="form-group">
-                                            <div class="col-md-4">
-                                                <a class="btn btn-primary" onclick="addProductServiceUse()">&nbsp;<i class="fa fa-plus-circle"></i> Add Product </a>
-                                            </div>
-                                        </div>  --}}
-                                        {{--  @endif  --}}
-                                    </div>
-                                </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Total Payment <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Jumlah yang harus dibayarkan partner untuk menenuhi product persiapan outlet" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="total_payment" name="total_payment" placeholder="Enter total payment here" value="{{ number_format($result['first_location']['total_payment'] ?: $total_payment) }}" required {{$calcu ? 'disabled' : ''}}/>
+                                            <input class="form-control numberonly" type="text" data-type="currency" id="total_payment" name="total_payment" placeholder="Enter total payment here" value="{{ number_format($result['first_location']['total_payment'] ?: $total_payment) }}" required {{$calcu ? 'disabled' : ''}}/>
                                         </div>
                                     </div>
                                 </div>    

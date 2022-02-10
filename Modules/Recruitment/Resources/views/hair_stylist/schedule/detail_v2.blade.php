@@ -13,6 +13,7 @@
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/fullcalendar/fullcalendar.min.css') }}" rel="stylesheet" type="text/css" />
 
     <style type="text/css">
 		@media (min-width: 768px) {
@@ -48,17 +49,29 @@
 			margin: 10px;
 		}
 
-		.custom-date-box, .custom-date-box-header {
+		.custom-date-box  {
 			text-align: center;
-    		padding: 10px;
-			border: 1px solid;
+            padding: 4px;
+			border: 1px solid rgb(223, 222, 222);
 			margin-top: -1px;
     		margin-left: -1px;
 		}
 
+        .custom-date-box-header {
+            text-align: center;
+            padding: 0px;
+			border: 1px solid rgb(223, 222, 222);
+			margin-top: -1px;
+    		margin-left: -1px;
+        }
+
 		.custom-date-box {
     		height: 100px;
 		}
+
+        .month-year {
+            margin-bottom: 20px;    
+        }
 
 	</style>
 @endsection
@@ -74,6 +87,10 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/jquery-repeater/jquery.repeater.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/form-repeater.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/moment.min.js') }}" type="text/javascript"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/fullcalendar/fullcalendar.min.js') }}" type="text/javascript"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/jquery-ui/jquery-ui.min.js') }}" type="text/javascript"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{ ('assets/apps/scripts/calendar.min.js') }}" type="text/javascript"></script>
     <script>
         $('.datepicker').datepicker({
             'format' : 'd-M-yyyy',
@@ -219,7 +236,7 @@
 		                    <div class="col-md-6">: <a href="{{ url('outlet/detail') }}/{{ $data['detail']['outlet_code'] }}">{{ $data['detail']['outlet_code'].' - '.$data['detail']['outlet_name'] }}</a></div>
 		                </div>
 						@php
-							$day = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+							$day = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 							$dayCount = count($day);
 							$hs_schedules = [];
 							foreach ($data['detail']['hairstylist_schedule_dates'] ?? [] as $val) {
@@ -228,14 +245,19 @@
 								$date 	= date('j', strtotime($val['date']));
 								$hs_schedules[$year][$month][$date][$val['shift']] = $val;
 							}
-							$scheduleDate = date('Y-m-d', strtotime($data['detail']['hairstylist_schedule_dates'][0]['date'] ?? date('Y-m-d')));
+                            $implode_date = date($data['detail']['schedule_year'].'-'.$data['detail']['schedule_month'].'-01');
+							$scheduleDate = date('Y-m-d', strtotime($implode_date ?? date('Y-m-d')));
 							$thisMonth = date('m', strtotime($scheduleDate));
+                            $update = false;
+                            if($thisMonth >= date('m')){
+                                $update = true;
+                            } 
 							$thisMonthYear = date('Y', strtotime($scheduleDate));
 							$thisMonthDate = \App\Lib\MyHelper::getListDate($thisMonth, $thisMonthYear);
 							$tmIndex = 0;
 							$index = 0;
 						@endphp
-						<div><h1>{{ date('F Y', strtotime($scheduleDate)) }}</h1></div>
+						<div class="month-year"><h2>{{ date('F Y', strtotime($scheduleDate)) }}</h1></div>
 						<div class="custom-date-container">
 							<div class="row seven-cols">
 								@for ($i = 0; $i < $dayCount ; $i++)
@@ -269,8 +291,13 @@
 								@if ($day[$i % 7] == ($data['list_date'][$index]['day'] ?? false))
 									@php
 										$schInfo = $data['list_date'][$index];
+                                        if($schInfo['date']>date('Y-m-d')){
+                                            $can_update = true;
+                                        }else{
+                                            $can_update = false;
+                                        }
 									@endphp
-									<div class="col-md-1 custom-date-box">
+									<div class="col-md-1 custom-date-box" @if (!$can_update) style="background-color:rgb(230, 230, 230);" @endif>
 							        	<div class="card text-center">
 							        		<div class="card-body">
 								        		<div class="text-right" style="height:10px">
@@ -281,7 +308,7 @@
 										        			@foreach ($schInfo['all_hs_schedule'] as $val)
 										        				@php
 										        					$status = !empty($val['approve_at']) ? 'approved' : (!empty($val['reject_at']) ? 'rejected' : 'pending');
-										        					$shift = ($val['shift'] == 'Morning') ? 'Pagi' : 'Sore';
+										        					$shift = ($val['shift'] == 'Morning') ? 'Morning' : 'Evening';
 										        					$color = ($status == 'approved') ? 'lightgreen' : (($status == 'rejected') ? 'orangered' : 'yellow');
 										        				@endphp
 																<p style='color: {{ $color }}; margin:0px;'> {{ $val['fullname'].' ('.$shift.') - '.$status }} </p>
@@ -295,22 +322,27 @@
 							        			<h4 class="card-title"><b>{{ date('j', strtotime($schInfo['date'])) }}</b></h4>
 
 						        				<div style="font-size: 12px; {{ $schInfo['is_closed'] ? 'margin-top: -10px' : 'margin-top: 16px' }};" >
-						        					{{ $schInfo['is_closed'] ? $schInfo['outlet_holiday'] ?? 'Tutup' : null }}
+						        					{{ $schInfo['is_closed'] ? $schInfo['outlet_holiday'] ?? 'Closed' : null }}
 						        				</div>
 
-							        			<select name="schedule[{{ $schInfo['date'] }}]" style="font-size:12px">
+                                               
+
+							        			<select name="schedule[{{ $schInfo['date'] }}]" style="font-size:12px" {{ $can_update ? '' : 'disabled' }}>
 							        				<option value=""></option>
 							        				@php
 							        					$shiftIndo = [
-							        						'Morning' => 'Pagi',
-							        						'Middle'  => 'Tengah',
-							        						'Evening' => 'Sore',
+							        						'Morning' => 'Morning',
+							        						'Middle'  => 'Middle',
+							        						'Evening' => 'Evening',
 							        					];
 							        				@endphp
 							        				@foreach ($schInfo['outlet_shift']['shift'] as $s)
 						        						<option value="{{ $s }}" {{ $s == $schInfo['selected_shift'] ? 'selected' : null }}> {{ $shiftIndo[$s] }}</option>
 							        				@endforeach
 							        			</select>
+                                                @if (!$can_update)
+                                                    <input type="hidden" name="schedule[{{ $schInfo['date'] }}]" value="{{ $schInfo['selected_shift'] }}">
+                                                @endif
 							        		</div>
 							        	</div>
 							        </div>
@@ -318,7 +350,7 @@
 							        	$index++;
 							        @endphp
 								@else
-							        <div class="col-md-1 custom-date-box" style="background-color:lightgrey;">
+							        <div class="col-md-1 custom-date-box" style="background-color:rgb(172, 172, 172);">
 							        	<div class="card text-center">
 							        		<div class="card-body">
 							        		</div>
@@ -332,7 +364,7 @@
 							@endfor
 						</div>
 	                </div>
-	                @if(MyHelper::hasAccess([349], $grantedFeature))
+	                @if(MyHelper::hasAccess([349], $grantedFeature) && $update)
 	                {{ csrf_field() }}
 	                <div class="row" style="text-align: center">
 	                    @if(empty($data['detail']['approve_at']))

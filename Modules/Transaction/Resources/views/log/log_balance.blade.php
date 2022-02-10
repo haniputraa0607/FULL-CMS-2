@@ -141,7 +141,7 @@
 	                            		|| $res['source'] == 'Reversal'
 	                            		|| $res['source'] == 'Online Transaction'
 	                            	)
-	                            		<a href="{{ url('transaction/detail/'.$res['id_reference'].'/'.($res['transaction']['trasaction_type']??'')) }}">{{ $res['transaction']['transaction_receipt_number']??'' }}</a>
+	                            		<a href="{{ url('transaction/'. $res['transaction']['transaction_from'] .'/detail/'.$res['id_reference'].'/'.($res['transaction']['trasaction_type']??'')) }}">{{ $res['transaction']['transaction_receipt_number']??'' }}</a>
 	                            	@elseif ($res['source'] == 'Point Injection')
 	                            		<a href="{{ url('point-injection/report/'.$res['id_reference']) }}">{{ $res['point_injection']['title'] }}</a>
 	                            	@endif

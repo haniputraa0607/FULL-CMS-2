@@ -3,21 +3,44 @@
 		<div class="form-body">
 			<div style="text-align: center"><h3>Approve Action</h3></div>
 			<hr style="border-top: 2px dashed;">
+			<div class="row">
+				<div class="col-md-8"></div>
+				<div class="col-md-4" style="text-align: center;">
+					<?php
+						$avg = 0;
+						$avgMin = 0;
+						if(!empty($allTotalScore) && !empty($totalTheories) && !empty($allMinScore)){
+							$avg = (int)($allTotalScore/$totalTheories);
+							$avgMin = (int)($allMinScore/$totalTheories);
+						}
+					?>
+					@if($avg < $allMinScore)
+						<div style="border: solid 1px red;background-color: red">
+							<h4><b style="color: white">Total Score : {{$avg}}/{{$avgMin}}</b></h4>
+						</div>
+					@else
+						<div style="border: solid 1px #26C281;background-color: #26C281">
+							<h4><b style="color: white">Total Score : {{$avg}}/{{$avgMin}}</b></h4>
+						</div>
+					@endif
+				</div>
+			</div>
+			<br>
+			<br>
 			<div class="form-group">
 				<label class="col-md-4 control-label">
-					Photo<span class="required" aria-required="true"> <br>(300*300) </span>
+					Passed Status & Score<span class="required" aria-required="true"> * </span>
 				</label>
-				<div class="col-md-8">
-					<div class="fileinput fileinput-new" data-provides="fileinput">
-						<div class="fileinput-preview fileinput-exists thumbnail" id="image" style="max-width: 200px; max-height: 200px;"></div>
-						<div>
-							<span class="btn default btn-file">
-							<span class="fileinput-new"> Select image </span>
-							<span class="fileinput-exists"> Change </span>
-							<input type="file" class="filePhoto" id="fieldphoto" accept="image/*" name="user_hair_stylist_photo">
-							</span>
-							<a href="javascript:;" id="removeImage" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
-						</div>
+				<div class="col-md-3">
+					<select class="form-control select2" name="user_hair_stylist_passed_status">
+						<option value="Passed" @if($avg >= $avgMin) selected @endif>Passed</option>
+						<option value="Not Passed" @if($avg < $avgMin) selected @endif>Not Passed</option>
+					</select>
+				</div>
+				<div class="col-md-3">
+					<div class="input-group">
+						<input type="text" class="form-control" name="user_hair_stylist_score" value="{{$avg}}">
+						<span class="input-group-addon">/ {{$avgMin}}</span>
 					</div>
 				</div>
 			</div>
@@ -40,6 +63,24 @@
 							<option value="Supervisor">Supervisor</option>
 							<option value="Hairstylist">Hairstylist</option>
 						</select>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-4 control-label">
+					Photo<span class="required" aria-required="true"> <br>(300*300) </span>
+				</label>
+				<div class="col-md-8">
+					<div class="fileinput fileinput-new" data-provides="fileinput">
+						<div class="fileinput-preview fileinput-exists thumbnail" id="image" style="max-width: 200px; max-height: 200px;"></div>
+						<div>
+							<span class="btn default btn-file">
+							<span class="fileinput-new"> Select image </span>
+							<span class="fileinput-exists"> Change </span>
+							<input type="file" class="filePhoto" id="fieldphoto" accept="image/*" name="user_hair_stylist_photo">
+							</span>
+							<a href="javascript:;" id="removeImage" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -12,110 +12,7 @@
     }
 ?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript">
-        function myFunction() {
-        
-          var scema             = $('#input-data-partner #cooperation_scheme').val();
-              if(scema == 'Profit Sharing'){
-                 var html   = '<input name="sharing_percent" type="hidden" value="on" /><div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
-                         <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
-                        <div class="col-md-5">\
-                          <input class="form-control" required type="number" id="sharing_value" name="sharing_value" min="1" max="99" placeholder="Enter Commission Percent 1% - 99%" value="{{$result['sharing_value']}}" {{$input ? 'disabled' : ''}}/>\
-                        </div></div>'; 
-                    $("#input-data-partner #id_percent").hide();    
-                     $('#input-data-partner #id_commission').html(html);
-                  }else if(scema == 'Management Fee'){
-                  $("#input-data-partner #id_percent").show();  
-                  $('#input-data-partner #id_commission').remove();
-                  myFunctionPercent();
-              }
-         
-           };
-        function myFunctionPercent() {
-            var scema             = $('#input-data-partner #cooperation_scheme').val();
-          var id_percent     	=  $("#input-data-partner input[name='sharing_percent']:checked").val();
-          if(scema == 'Management Fee'){
-              if(id_percent == 'on'){
-                 var htmls='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
-                        <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
-                        <div class="col-md-5">\
-                            <input class="form-control" required type="number" id="sharing_value" name="sharing_value" min="1" max="99" placeholder="Enter Commission Percent" value="{{$result['sharing_value']}}" {{$input ? 'disabled' : ''}}/>\
-                        </div></div>';
-              }else{
-                 var htmls='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
-                         <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
-                        <div class="col-md-5">\
-                          <input class="form-control" required type="number" id="sharing_value" name="sharing_value"  placeholder="Enter Commission Nominal" value="{{$result['sharing_value']}}" {{$input ? 'disabled' : ''}}/>\
-                        </div></div>'; 
 
-              }
-                $('#input-data-partner #id_commissions').html(htmls);
-            }
-        }
-        $(document).ready(function () {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                myFunction()
-            });
-        </script>
-<script>
-        jQuery(document).ready(function() {
-            $("#input-data-partner input[data-type='currency']").on({
-                keyup: function() {
-                  formatCurrency($(this));
-                },
-                blur: function() { 
-                  formatCurrency($(this), "blur");
-                }
-            });
-            function formatNumber(n) {
-              // format number 1000000 to 1,234,567
-              return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-            }
-            function formatCurrency(input, blur) {
-              // appends $ to value, validates decimal side
-              // and puts cursor back in right position.
-              // get input value
-              var input_val = input.val();
-              // don't validate empty input
-              if (input_val === "") { return; }
-              // original length
-              var original_len = input_val.length;
-              // initial caret position 
-              var caret_pos = input.prop("selectionStart");
-              // check for decimal
-              if (input_val.indexOf(".") >= 0) {
-                // get position of first decimal
-                // this prevents multiple decimals from
-                // being entered
-                var decimal_pos = input_val.indexOf(".");
-                // split number by decimal point
-                var left_side = input_val.substring(0, decimal_pos);
-                // add commas to left side of number
-                left_side = formatNumber(left_side);
-                // join number by .
-                input_val = left_side ;
-              } else {
-                // no decimal entered
-                // add commas to number
-                // remove all non-digits
-                input_val = formatNumber(input_val);
-                input_val = input_val;
-                // final formatting
-                
-              }
-              // send updated string to input
-              input.val(input_val);
-              // put caret back in the right position
-              var updated_len = input_val.length;
-              caret_pos = updated_len - original_len + caret_pos;
-              input[0].setSelectionRange(caret_pos, caret_pos);
-            }
-        });
-    </script>
 <div style="white-space: nowrap;">
     <div class="tab-pane" id="input-data-partner">
         <div class="portlet light bordered">
@@ -167,7 +64,7 @@
                                     <label for="example-search-input" class="control-label col-md-4">Partner Code <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Kode yang akan digunakan partner kedepannya" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="partner_code" name="partner_code" placeholder="Enter partner code here" value="{{ old('partner_code') ?? $result['code'] }}" @if ($input==true) readonly @endif required/>
+                                        <input class="form-control" type="text" id="partner_code" name="partner_code" placeholder="Enter partner code here" value="{{ old('partner_code') ?? $result['code'] }}" readonly required/>
                                     </div>
                                 </div>   
                                 {{--  <div class="form-group">
@@ -198,52 +95,6 @@
                                         <textarea name="npwp_address" id="npwp_address" class="form-control" placeholder="Enter npwp address here" required @if ($input==true) readonly @endif>{{ old('npwp_address') ?? $result['npwp_address'] }}</textarea>
                                     </div>
                                 </div>   
-                                {{--  <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Term of Payment <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Pilih metode pembayaran partner" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <select class="form-control select2" name="termpayment" id="termpayment" required {{ $input ? 'disabled' : ''}}>
-                                            <option value="" selected disabled>Select Brand</option>
-                                            @foreach($terms as $term)
-                                                <option value="{{$term['id_term_of_payment']}}" @if(old('termpayment')) @if(old('termpayment') == $term['id_term_of_payment']) selected @endif @else @if($result['id_term_payment'] == $term['id_term_of_payment']) selected @endif @endif>{{$term['name']}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>       --}}
-                                {{--  <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Ownership Status <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Stastus kepemilikan kontrak kerja sama dengan IXOBOX" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <select name="ownership_status" class="form-control input-sm select2" placeholder="Ownership Status" required {{ $input ? 'disabled' : ''}}>
-                                            <option value="" selected disabled>Select Ownership Status</option>
-                                            <option value="Central" @if(old('ownership_status')) @if(old('ownership_status')=='Central') selected @endif @else @if(isset($result['ownership_status'])) @if($result['ownership_status'] == 'Central') selected @endif @endif @endif>Central</option>
-                                            <option value="Partner" @if(old('ownership_status')) @if(old('ownership_status')=='Partner') selected @endif @else @if(isset($result['ownership_status'])) @if($result['ownership_status'] == 'Partner') selected @endif @endif @endif>Partner</option>
-                                        </select>
-                                    </div>
-                                </div>  --}}
-                                {{--  <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Coopertaion Scheme<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Skema Pembagian hasil partner dengan IXOBOX" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <select name="cooperation_scheme" id="cooperation_scheme" onchange="myFunction()" class="form-control input-sm select2" placeholder="Coopertaion Scheme" required {{ $input ? 'disabled' : ''}}>
-                                            <option value="" selected disabled>Select Cooperation Scheme</option>
-                                            <option value="Profit Sharing" @if(old('cooperation_scheme')) @if(old('cooperation_scheme')=='Profit Sharing') selected @endif @else @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Profit Sharing') selected @endif @endif @endif>Profit Sharing</option>
-                                            <option value="Management Fee" @if(old('cooperation_scheme')) @if(old('cooperation_scheme')=='Management Fee') selected @endif @else @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Management Fee') selected @endif @endif @endif>Management Fee</option>
-                                        </select>
-                                    </div>
-                                </div>  --}}
-                                {{--  <div id="id_percent">
-                                    <div class="form-group">
-                                                <label for="example-search-input" class="control-label col-md-4">Percent</label>
-                                                <div class="col-md-5">
-                                                    <input type="checkbox" class="make-switch brand_visibility" onchange="myFunctionPercent()"  data-size="small" data-on-color="info" data-on-text="Percent" data-off-color="default" name='sharing_percent' data-off-text="Nominal" {{ old('sharing_percent', $result['sharing_percent']) ? 'checked' : ''}} {{ $input ? 'disabled' : ''}}>
-                                                </div>
-                                            </div>
-                                </div>
-                                <div id="id_commission">
-                                </div>
-                                <div id="id_commissions">
-                                </div>  --}}
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Start Date <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai menjadi partner atau tanggal kerja sama dimulai" data-container="body"></i></label>

@@ -792,8 +792,6 @@
 									<!--		</div>-->
 									<!--	</div>-->
 									<!--@endif-->
-									{{-- cek configs membership benefit promo id --}}
-									@if(MyHelper::hasAccess([24], $configs))
 										<div class="col-md-12" style="margin-top:20px">
 											<div class="input-icon right">
 												<div class="col-md-offset-2 col-md-3" style="padding-top: 5px;">
@@ -842,6 +840,8 @@
 											</div>
 										</div>
 
+									{{-- cek configs membership benefit promo id --}}
+									@if(MyHelper::hasAccess([24], $configs))
 										<div class="col-md-12" style="margin-top:20px">
 											<div class="input-icon right">
 												<div class="col-md-offset-2 col-md-3" style="padding-top: 5px;">

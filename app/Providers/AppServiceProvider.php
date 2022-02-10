@@ -17,6 +17,12 @@ class AppServiceProvider extends ServiceProvider
         if(env('REDIRECT_HTTPS', 'false') == 'true') {
             $url->forceScheme('https');
         }
+
+        view()->composer('*', function ($view) 
+            {
+                $view->with('configs', session('configs'));
+                $view->with('grantedFeature', session('granted_features'));
+            });
     }
 
     /**

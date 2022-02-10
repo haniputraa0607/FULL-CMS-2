@@ -107,6 +107,11 @@
           input[0].setSelectionRange(caret_pos, caret_pos);
         }
     })
+    function addFormula(param){
+		var textvalue = $('#formula').val();
+		var textvaluebaru = textvalue+" "+param;
+		$('#formula').val(textvaluebaru);
+        }
     </script>
 @endsection
 
@@ -137,7 +142,7 @@
 			<div class="portlet-title">
 				<div class="caption font-blue ">
 					<i class="icon-settings font-blue "></i>
-					<span class="caption-subject bold uppercase">Update Default Insentif Hair Stylist</span>
+					<span class="caption-subject bold uppercase">Update Default Incentive Hair Stylist</span>
 				</div>
 			</div>
 			<div class="portlet-body form">
@@ -154,6 +159,14 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                        <label class="col-md-4 control-label">Code<span class="required" aria-required="true">*</span>
+                                            <i class="fa fa-question-circle tooltips" data-original-title="Code insentif (unik)" data-container="body"></i>
+                                        </label>
+                                        <div class="col-md-6">
+                                            <input type="text" name="code" value='{{$result['code']??''}}' placeholder="Masukkan code insentif" class="form-control" required />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
                                             <i class="fa fa-question-circle tooltips" data-original-title="Besar insentif yang diterima oleh hairstylist" data-container="body"></i>
                                         </label>
@@ -166,7 +179,15 @@
                                             <i class="fa fa-question-circle tooltips" data-original-title="Rumus insentif yang digunakan dalam perhitungan pendapatan hairstylist (value * frekuensi)" data-container="body"></i>
                                         </label>
                                         <div class="col-md-6">
-                                              <textarea name="formula" id="formula" class="form-control" placeholder="Enter rumus insentif">{{$result['formula']??''}}</textarea>
+                                            <textarea name="formula" id="formula" class="form-control" placeholder="Enter rumus insentif">{{$result['formula']??''}}</textarea>
+                                            <br>
+                                            <div class="row">
+                                                  @foreach($textreplace as $key=>$row)
+                                                          <div class="col-md-4" style="margin-bottom:5px;">
+                                                                  <span class="btn dark btn-xs btn-block btn-outline var" data-toggle="tooltip" title="{{ $row['message'] }}" onClick="addFormula('{{ $row['keyword'] }}');">{{ str_replace('_',' ',$row['keyword']) }}</span>
+                                                          </div>
+                                                  @endforeach
+                                            </div>
                                         </div>
                                     </div>
                                               

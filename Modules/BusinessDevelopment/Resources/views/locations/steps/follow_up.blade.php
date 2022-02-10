@@ -2,10 +2,13 @@
   $step_follow_up = 1;
   if(!empty($result['location_step'])){
     foreach($result['location_step'] as $i => $step){
-      $step_follow_up = $i + 2; 
+        if($step['follow_up']=='Follow Up'){
+            $step_follow_up = $step_follow_up + 1; 
+        }
     }
   }
 ?>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
         var SweetAlertNextSteps = function() {
@@ -56,59 +59,19 @@
                 }
             }
         }();
+
+        function showBack(){
+            $('#back-finished-follow-up').show();
+            $('#input-follow-up').hide();
+        }
+
+        function hideBack(){
+            $('#back-finished-follow-up').hide();
+            $('#input-follow-up').show();
+        }
         jQuery(document).ready(function() {
             SweetAlertNextSteps.init();
-            $("input[data-type='currency']").on({
-                keyup: function() {
-                  formatCurrency($(this));
-                },
-                blur: function() { 
-                  formatCurrency($(this), "blur");
-                }
-            });
-            function formatNumber(n) {
-              // format number 1000000 to 1,234,567
-              return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-            }
-            function formatCurrency(input, blur) {
-              // appends $ to value, validates decimal side
-              // and puts cursor back in right position.
-              // get input value
-              var input_val = input.val();
-              // don't validate empty input
-              if (input_val === "") { return; }
-              // original length
-              var original_len = input_val.length;
-              // initial caret position 
-              var caret_pos = input.prop("selectionStart");
-              // check for decimal
-              if (input_val.indexOf(".") >= 0) {
-                // get position of first decimal
-                // this prevents multiple decimals from
-                // being entered
-                var decimal_pos = input_val.indexOf(".");
-                // split number by decimal point
-                var left_side = input_val.substring(0, decimal_pos);
-                // add commas to left side of number
-                left_side = formatNumber(left_side);
-                // join number by .
-                input_val = left_side ;
-              } else {
-                // no decimal entered
-                // add commas to number
-                // remove all non-digits
-                input_val = formatNumber(input_val);
-                input_val = input_val;
-                // final formatting
-                
-              }
-              // send updated string to input
-              input.val(input_val);
-              // put caret back in the right position
-              var updated_len = input_val.length;
-              caret_pos = updated_len - original_len + caret_pos;
-              input[0].setSelectionRange(caret_pos, caret_pos);
-            }
+            $('#back-finished-follow-up').hide();
         });
     </script>
 <div style="white-space: nowrap;">
@@ -118,13 +81,18 @@
                 <div class="caption">
                     <span class="caption-subject font-dark sbold uppercase font-yellow">Follow Up Data</span>
                 </div>
-                @if($result['status']=='Candidate'&&$result['step_loc']=='On Follow Up' || empty($result['step_loc']))
+                @if($result['status']=='Candidate' && $result['step_loc']=='On Follow Up' || $result['step_loc']=='Input Data Location')
                     <a href="#form" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="input-follow-up">
                         Follow Up
                     </a>
                     <a href="#table" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="back-follow-up">
                         Back
                     </a>
+                @endif
+                <a href="#table" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="back-finished-follow-up" onclick="hideBack()">
+                    Back
+                </a>
+                @if($result['status']=='Candidate'&&$result['step_loc']=='On Follow Up')
                     @if($step_follow_up>1)
                     <a class="btn btn-sm green sweetalert-next-steps btn-primary" data-id="{{$result['id_location']}}" type="button" style="float:right" data-toggle="tab" id="next-follow-up">
                         Approved
@@ -163,12 +131,14 @@
                                     <th class="text-nowrap text-center">Step</th>
                                     <th class="text-nowrap text-center">Note</th>
                                     <th class="text-nowrap text-center">Attachment</th>
+                                    <th class="text-nowrap text-center">Detail</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                     @if(!empty($result['location_step']))
-                                        @foreach($result['location_step'] as $i => $step)
-                                            @php $i++; @endphp
+                                        @php $i = 1; @endphp
+                                        @foreach($result['location_step'] as $step)
+                                        @if ($step['follow_up']=='Follow Up')
                                             <tr data-id="{{ $step['id_step_locations_log'] }}">
                                                 <td>{{date('d F Y H:i', strtotime($step['created_at']))}}</td>
                                                 <td>{{$step['follow_up']}} {{$i}} </td>
@@ -180,7 +150,14 @@
                                                     No Attachment
                                                     @endif
                                                 </td>
+                                                <td>
+                                                    <a href="#detail{{ $i }}" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" onclick="showBack()">
+                                                        Detail
+                                                    </a>
+                                                </td>
                                             </tr>
+                                            @php $i++; @endphp
+                                        @endif
                                         @endforeach
                                     @else
                                         <tr>
@@ -199,220 +176,10 @@
                                     <label for="example-search-input" class="control-label col-md-4">Step <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Step yang sedang dilakukan" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="follow_up" name="follow_up" value="@if($step_follow_up<2)Follow Up {{ $step_follow_up }} @else Follow Up @endif" readonly required/>
+                                        <input class="form-control" type="text" value="Follow Up {{ $step_follow_up }}" readonly required/>
+                                        <input class="form-control" type="hidden" id="follow_up" name="follow_up" value="Follow Up" readonly required/>
                                     </div>
                                 </div>
-                                @if ($step_follow_up==1)
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Name <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama calon lokasi yang diajukan oleh perusahaan/instansi" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <input class="form-control" type="text" id="follow-name-location" name="nameLocation" value="{{ old('nameLocation') ?? $result['name']}}" placeholder="Enter location name here" required/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">No LOI <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Nomor Surat pernyataan komitmen pengajuan calon lokasi" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <input class="form-control" type="text" id="follow-name-location" name="no_loi" value="{{ old('no_loi') ?? $result['no_loi']}}" placeholder="Enter no loi here" required/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">LOI Date <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal surat LOI disetujui oleh kedua pihak" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <input type="text" id="end_date" class="datepicker form-control" name="date_loi" value="{{ old('date_loi') ?? (!empty($result['date_loi']) ? date('d F Y', strtotime($result['date_loi'])) : '')}}" required>
-                                            <span class="input-group-btn">
-                                                <button class="btn default" type="button">
-                                                    <i class="fa fa-calendar"></i>
-                                                </button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>   
-                                {{--  <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Code <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Kode yang akan digunakan lokasi milik partner kedepannya" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <input class="form-control" type="text" id="location_code" name="location_code" placeholder="Enter location code here" value="{{ old('location_code') }}" required/>
-                                    </div>
-                                </div>     --}}
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Address <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Alamat lengkap calon lokasi yang diajukan" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <textarea name="addressLocation" id="follow-address-location" class="form-control" placeholder="Enter location name here" required>{{ old('addressLocation') ?? $result['address']}}</textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Short Addres <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Alamat singakt calon lokasi yang diajukan" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <input class="form-control" type="text" id="follow-mall" name="mall" value="{{ old('mall') ?? $result['mall']}}" placeholder="Enter location mall here" required/>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location City <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Kota/Kabupaten dari calon lokasi" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <select class="form-control select2" name="id_cityLocation" id="follow-id_cityLocation" required>
-                                            <option value="" selected disabled>Select City</option>
-                                            @foreach($cities as $city)
-                                                <option value="{{$city['id_city']}}" @if(old('id_cityLocation')) @if(old('id_cityLocation') == $city['id_city']) selected @endif @else @if($result['id_city'] == $city['id_city']) selected @endif @endif>{{$city['city_name']}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Brand <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Brand yang akan digunakan oleh calon lokasi" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <select class="form-control select2" name="id_brand" id="follow-id_brand" required>
-                                            <option value="" selected disabled>Select Brand</option>
-                                            @foreach($brands as $brand)
-                                                <option value="{{$brand['id_brand']}}" @if(old('id_brand')) @if(old('id_brand') == $brand['id_brand']) selected @endif @else @if($result['id_brand'] == $brand['id_brand']) selected @endif @endif>{{$brand['name_brand']}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                {{--  <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Tax <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Apakah lokasi akan menggunakan PPN" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <input type="checkbox" class="make-switch" data-size="small" data-on-color="info" data-on-text="Use Tax" name="is_tax" data-off-color="default" data-off-text="Not Using Tax">
-                                    </div>
-                                </div>      --}}
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Width <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Lebar dari lokasi yang diajukan" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <input class="form-control" type="text" id="width" name="width" placeholder="Enter location width here" value="{{ old('width') ?  number_format(old('width')) : number_format($result['width'])}}" required/>
-                                            <span class="input-group-addon">m</span>
-                                        </div>
-                                    </div>
-                                </div>    
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Height <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tinggi dari lokasi yang diajukan" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <input class="form-control" type="text" id="height" name="height" placeholder="Enter location height here" value="{{ old('height') ?  number_format(old('height')) : number_format($result['height'])}}" required/>
-                                            <span class="input-group-addon">m</span>
-                                        </div>
-                                    </div>
-                                </div>    
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Length <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Panjang dari lokasi yang diajukan" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <input class="form-control" type="text" id="length" name="length" placeholder="Enter location length here" value="{{ old('length') ?  number_format(old('length')) : number_format($result['length'])}}" required/>
-                                            <span class="input-group-addon">m</span>
-                                        </div>
-                                    </div>
-                                </div>    
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Location Large <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Luas dari lokasi yang diajukan" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <input class="form-control" type="text" id="location_large" name="location_large" placeholder="Enter location large here" value="{{ old('location_large') ?  number_format(old('location_large')) : number_format($result['location_large'])}}" required/>
-                                            <span class="input-group-addon">m<sup>2</sup></span>
-                                        </div>
-                                    </div>
-                                </div>    
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Rental Price <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Harga sewa dari lokasi per tahun" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="rental_price" name="rental_price" placeholder="Enter rental price here" value="{{ old('rental_price') ?  number_format(old('rental_price')) : number_format($result['rental_price'])}}" required/>
-                                        </div>
-                                    </div>
-                                </div>    
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Service Charge <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Perkiraan biaya servis untuk lokasi yang diajukan" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="service_charge" name="service_charge" placeholder="Enter service charge here" value="{{ old('service_charge') ?  number_format(old('service_charge')) : number_format($result['service_charge'])}}" required/>
-                                        </div>
-                                    </div>
-                                </div>    
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Promotion Levy <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Promosi yang nantinya akan dipakai" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="promotion_levy" name="promotion_levy" placeholder="Enter promotion levy here"  value="{{ old('promotion_levy') ?  number_format(old('promotion_levy')) : number_format($result['promotion_levy'])}}" required/>
-                                        </div>
-                                    </div>
-                                </div>    
-                                {{--  <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Contractor Price <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Biaya kontraktor untuk membangun lokasi" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="renovation_cost" name="renovation_cost" placeholder="Enter renovation cost here" value="{{ old('renovation_cost') }}" required/>
-                                        </div>
-                                    </div>
-                                </div>      --}}
-                                {{--  <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Partnership Fee <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Biaya kerja sama yang akan dibayarkan partner ke IXOBOX" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="partnership_fee" name="partnership_fee" placeholder="Enter partnership fee here" value="{{ old('partnership_fee') }}" required/>
-                                        </div>
-                                    </div>
-                                </div>      --}}
-                                {{--  <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Income <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Perkiraan permasukan per bulan" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Rp</span>
-                                            <input class="form-control" type="text" data-type="currency" id="income" name="income" placeholder="Enter income here" value="{{ old('income') }}" required/>
-                                        </div>
-                                    </div>
-                                </div>   --}}
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Start Date
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai menjadi partner atau tanggal kerja sama dimulai, bisa dikosongkan dan diisi saat proses approve partner" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <input type="text" id="start_date" class="datepicker form-control" name="start_date" value="{{ old('start_date') ?? (!empty($result['start_date']) ? date('d F Y', strtotime($result['start_date'])) : '')}}">
-                                            <span class="input-group-btn">
-                                                <button class="btn default" type="button">
-                                                    <i class="fa fa-calendar"></i>
-                                                </button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">End Date
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal berakhir menjadi partner atau tanggal kerja sama selesai, bisa dikosongkan dan diisi saat proses approve partner" data-container="body"></i><br><span class="required" aria-required="true">( must be more than 3 years )</span></label>
-                                    <div class="col-md-5">
-                                        <div class="input-group">
-                                            <input type="text" id="end_date" class="datepicker form-control" name="end_date" value="{{ old('end_date') ?? (!empty($result['end_date']) ? date('d F Y', strtotime($result['end_date'])) : '')}}">
-                                            <span class="input-group-btn">
-                                                <button class="btn default" type="button">
-                                                    <i class="fa fa-calendar"></i>
-                                                </button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>   
-                                @endif
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Catatan untuk step ini" data-container="body"></i></label>
@@ -453,6 +220,49 @@
                             </div>
                         </form>
                     </div>
+                    @if(!empty($result['location_step']))
+                    @php $i = 1; @endphp
+                    @foreach($result['location_step'] as $step)
+                    @if ($step['follow_up']=='Follow Up')
+                    <div class="tab-pane" id="detail{{ $i }}">
+                        <form class="form-horizontal" role="form" action="{{url('businessdev/locations/create-follow-up')}}" method="post" enctype="multipart/form-data">
+                            <div class="form-body">
+                                <input type="hidden" name="id_location" value="{{$result['id_location']}}">
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Step <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Step yang sedang dilakukan" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" type="text" id="follow_up" name="follow_up" value="Follow Up {{ $i }}" readonly required/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Catatan untuk step in" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <textarea name="note" id="note" class="form-control" placeholder="Enter note here" readonly> {{ $step['note'] }} </textarea>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="id_location" value="{{$result['id_location']}}">
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Download Attachment 
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Download file yang dilampirkan pada step ini" data-container="body"></i><br></label>
+                                    <div class="col-md-5">
+                                        <label for="example-search-input" class="control-label col-md-4">
+                                            @if(isset($step['attachment']))
+                                            <a href="{{ $step['attachment'] }}">Link Download Attachment</a>
+                                            @else
+                                            No Attachment
+                                            @endif
+                                        <label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    @php $i++; @endphp
+                    @endif
+                    @endforeach
+                    @endif
                 </div>
             </div>
         </div>

@@ -266,10 +266,6 @@
                                                         <a href="{{ url('brand/product') }}/{{ $value['id_brand'] }}">
                                                             <i class="icon-wallet"></i> Product </a>
                                                     </li>
-                                                    <li>
-                                                        <a href="{{ url('brand/deals') }}/{{ $value['id_brand'] }}">
-                                                            <i class="fa fa-gift"></i> Deals </a>
-                                                    </li>
                                                 </ul>
                                             </div>
                                         </td>

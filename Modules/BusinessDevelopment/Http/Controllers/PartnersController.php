@@ -649,19 +649,26 @@ class PartnersController extends Controller
         
         if($request["follow_up"]=='Payment'){
             $status_steps = 'Payment';
+            $tab = '#overview';
         }elseif($request["follow_up"]=='Confirmation Letter'){
             $status_steps = 'Confirmation Letter';
+            $tab = '#confirm';
         }elseif($request["follow_up"]=='Calculation'){
             $status_steps = 'Calculation';
+            $tab = '#calcu';
         }elseif($request["follow_up"]=='Survey Location'){
             $status_steps = 'Survey Location';
+            $tab = '#survey';
         }elseif($request["follow_up"]=='Select Location'){
             $status_steps = 'Select Location';
+            $tab = '#select';
         }elseif($request["follow_up"]=='Input Data Partner'){
             $status_steps = 'Input Data Partner';
+            $tab = '#input';
         }else{
             $status_steps = 'On Follow Up';
             $post_follow_up['follow_up'] = 'Follow Up';
+            $tab = '#follow';
         }
 
         $update_partner = [
@@ -736,6 +743,8 @@ class PartnersController extends Controller
                 "id_partner" => $request['id_partner'],
                 "total_box" => $request['total_box'],
                 "handover_date" => date('Y-m-d', strtotime($request['handover_date'])),
+                'from' => 'Select Location',
+                'id_partner' => $request['id_partner']
             ];
             $form_survey = [
                 "id_partner"  => $request["id_partner"],
@@ -858,35 +867,35 @@ class PartnersController extends Controller
                     $follow_up = MyHelper::post('partners/create-follow-up', $post);
                     if(isset($follow_up['status']) && $follow_up['status'] == 'success'){
                         if(isset($update_data_location['status']) && !empty($update_data_location['status']) && $update_data_location['status']=='Active'){
-                            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success update candidate partner to partner']); 
+                            return redirect('businessdev/partners/detail/'.$request['id_partner'].$tab)->withSuccess(['Success update candidate partner to partner']); 
                         }else{
                             // return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($follow_up['messages'] ?? ['Failed to update candidate partner to partner']);
                         }
-                        return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
+                        return redirect('businessdev/partners/detail/'.$request['id_partner'].$tab)->withSuccess(['Success create step '.$request["follow_up"].'']);    
                     }else{
-                        return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
+                        return redirect('businessdev/partners/detail/'.$request['id_partner'].$tab)->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
                     }
                 }else{
-                    return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
+                    return redirect('businessdev/partners/detail/'.$request['id_partner'].$tab)->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
                 }
             }else{
                 $follow_up = MyHelper::post('partners/create-follow-up', $post);
                 if(isset($follow_up['status']) && $follow_up['status'] == 'success'){
-                    return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
+                    return redirect('businessdev/partners/detail/'.$request['id_partner'].$tab)->withSuccess(['Success create step '.$request["follow_up"].'']);    
                 }else{
-                    return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
+                    return redirect('businessdev/partners/detail/'.$request['id_partner'].$tab)->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
                 }
             }
             if(isset($update_partner['status']) && !empty($update_partner['status']) && $update_partner['status'] == 'Active'){
-                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success update candidate partner to partner']); 
+                return redirect('businessdev/partners/detail/'.$request['id_partner'].$tab)->withSuccess(['Success update candidate partner to partner']); 
             }
-            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
+            return redirect('businessdev/partners/detail/'.$request['id_partner'].$tab)->withSuccess(['Success create step '.$request["follow_up"].'']);    
         }elseif(isset($partner_step['status']) && $partner_step['status'] == 'fail_date'){
-            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($partner_step['messages'] ?? ['Failed create step '.$request["follow_up"].''])->withInput( );
+            return redirect('businessdev/partners/detail/'.$request['id_partner'].$tab)->withErrors($partner_step['messages'] ?? ['Failed create step '.$request["follow_up"].''])->withInput( );
         }elseif(isset($partner_step['status']) && $partner_step['status'] == 'duplicate_code'){
-            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($partner_step['messages'] ?? ['Failed create step '.$request["follow_up"].''])->withInput($request->except('partner_code','location_code'));
+            return redirect('businessdev/partners/detail/'.$request['id_partner'].$tab)->withErrors($partner_step['messages'] ?? ['Failed create step '.$request["follow_up"].''])->withInput($request->except('partner_code','location_code'));
         }else{
-            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].''])->withInput( );
+            return redirect('businessdev/partners/detail/'.$request['id_partner'].$tab)->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].''])->withInput( );
         }
     }
 
@@ -954,6 +963,7 @@ class PartnersController extends Controller
             if ($request['end_date']!=null){
                 $update_data_location['end_date'] = date('Y-m-d', strtotime($request['end_date']));
             }
+            $tab = '#newselect';
         }
         
         if (isset($request["termpayment"]) && $request["follow_up"]=='Select Location') {
@@ -989,6 +999,7 @@ class PartnersController extends Controller
                 "id_location" => $request["id_location"],
                 "total_payment" => preg_replace("/[^0-9]/", "", $request["total_payment"]),
             ];
+            $tab = '#newcalcu';
         }
 
         if(isset($request["follow_up"]) && $request["follow_up"]=='Confirmation Letter'){
@@ -1006,6 +1017,7 @@ class PartnersController extends Controller
                 "id_location" => $request["id_location"],
                 "notes" => $request["payment_note"],
             ];
+            $tab = '#newsurvey';
         }
 
         if(isset($request["follow_up"]) && $request["follow_up"]=='Payment'){
@@ -1017,6 +1029,7 @@ class PartnersController extends Controller
                 "date_spk" => date('Y-m-d', strtotime($request['date_spk'])),
             ];
             $post_follow_up['id_location'] = $request["id_location"];
+            $tab = '#overview';
         }
 
         $post['post_follow_up'] = $post_follow_up;
@@ -1040,24 +1053,30 @@ class PartnersController extends Controller
             if (isset($location_update['status']) && $location_update['status'] == 'success') {
                 $follow_up = MyHelper::post('partners/new-follow-up', $post);
                 if(isset($follow_up['status']) && $follow_up['status'] == 'success'){
-                    return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
+                    return redirect('businessdev/partners/detail/'.$request['id_partner'].$tab)->withSuccess(['Success create step '.$request["follow_up"].'']);    
                 }else{
-                    return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
+                    return redirect('businessdev/partners/detail/'.$request['id_partner'].$tab)->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
                 }
             }else{
-                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
+                return redirect('businessdev/partners/detail/'.$request['id_partner'].$tab)->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
             }
         }else{
             $follow_up = MyHelper::post('partners/new-follow-up', $post);
             if(isset($follow_up['status']) && $follow_up['status'] == 'success'){
-                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
+                return redirect('businessdev/partners/detail/'.$request['id_partner'].$tab)->withSuccess(['Success create step '.$request["follow_up"].'']);    
             }else{
-                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
+                return redirect('businessdev/partners/detail/'.$request['id_partner'].$tab)->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
             }
         }
-        return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success create step '.$request["follow_up"].'']);    
+        return redirect('businessdev/partners/detail/'.$request['id_partner'].$tab)->withSuccess(['Success create step '.$request["follow_up"].'']);    
 
 
     }
+
+    public function detailForSelect($id)
+    {
+        $result = MyHelper::post('partners/locations/edit', ['id_location' => $id]);
+        return $result['result']['location'];
+    } 
 
 }

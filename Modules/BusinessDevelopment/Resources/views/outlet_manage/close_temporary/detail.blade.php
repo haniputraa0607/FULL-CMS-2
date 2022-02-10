@@ -71,15 +71,7 @@
             @if (!empty($sub_title))
             <li>
                 <span><a href='{{ $url_sub_title }}'>{{ $sub_title }}</a></span>
-                @if (!empty($list_sub_title))
-                    <i class="fa fa-circle"></i>
-                @endif
-            </li>
-            @endif
-            @if (!empty($list_sub_title))
-            <li>
-                <span><a href='{{ $url_list_sub_title }}'> {{ $list_sub_title }}</a></span>
-                 @if (!empty($detail_sub_title))
+                @if (!empty($detail_sub_title))
                     <i class="fa fa-circle"></i>
                 @endif
             </li>

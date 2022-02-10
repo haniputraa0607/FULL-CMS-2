@@ -143,4 +143,18 @@ class DepartmentController extends Controller
         $result = MyHelper::post('users/department/delete', ['id_department' => $id]);
         return $result;
     }
+
+    public function syncIcount(Request $request){
+        //sync with item icount
+        $post = $request->except('_token');
+        $sync = MyHelper::post('users/department/sync', $post);
+        if(isset($sync['status']) && $sync['status'] == 'success'){
+            return redirect('user/department')->with('success', ['Department table is already synced with ICount']);
+        }elseif(isset($sync['status']) && $sync['status'] == 'fail'){
+            return redirect('product/icount')->withErrors([$sync['messages']]); 
+        }else{
+            return redirect('user/department')->withErrors(['Failed to sync with ICount']);
+        }
+
+    }
 }

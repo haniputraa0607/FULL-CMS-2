@@ -1,4 +1,4 @@
-<form class="form-horizontal" role="form" action="{{ url('outlet/schedule/save') }}" method="post" enctype="multipart/form-data">
+<form class="form-horizontal" role="form" id="form_schedule" action="{{ url('outlet/schedule/save') }}" method="post" enctype="multipart/form-data">
   <div class="form-body">
   		<div class="form-group" id="parent">
   			@if (empty($outlet[0]['outlet_schedules']))
@@ -46,7 +46,7 @@
 						$html .= '<div class="row">';
 						$html .= '<div class="col-md-2" style="text-align: right">';
 						$html .= '<label style="margin-top: 5px;margin-left: 15px;">Shift '.$shift;
-						$html .= '<i class="fa fa-question-circle tooltips" data-original-title="Jika tidak ingin digunakan silahkan isi dengan 0:00" data-container="body"></i>';
+						$html .= ' <i class="fa fa-question-circle tooltips" data-original-title="Jika tidak ingin digunakan silahkan isi dengan 0:00" data-container="body"></i>';
 						$html .= '</label>';
 						$html .= '</div>';
 						$html .= '<div class="col-md-3">';

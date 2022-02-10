@@ -157,7 +157,9 @@ $configs    		= session('configs');
                 <table class="table table-striped table-bordered table-hover table-responsive" width="100%">
                     <thead>
                     <tr>
+                        @if(MyHelper::hasAccess([127], $configs))
                         <th> Category </th>
+                        @endif
                         <th> Product </th>
                         <th> Price </th>
                     </tr>
@@ -166,7 +168,9 @@ $configs    		= session('configs');
                     @if (!empty($product))
                         @foreach ($product as $col => $pro)
                             <tr>
+                                @if(MyHelper::hasAccess([127], $configs))
                                 <td>@if(isset($pro['category'][0]['product_category_name'])) {{ $pro['category'][0]['product_category_name'] }} @else Uncategorized @endif</td>
+                                @endif
                                 <td> {{ $pro['product_code'] }} - {{ $pro['product_name'] }} </td>
                                 <td style="width:40%;">
                                     <div style="width:40%;">

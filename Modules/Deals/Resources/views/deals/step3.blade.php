@@ -560,6 +560,7 @@
                 <span class="caption-subject font-blue bold uppercase">{{ $deals['deals_title'] }}</span>
             </div>
         </div>
+        @if(MyHelper::hasAccess([125], $configs))
         <div class="portlet box green">
 			<div class="portlet-title">
 				<div class="caption">
@@ -596,6 +597,7 @@
 				</div>
 			</div>
 		</div>
+        @endif
         <div class="portlet-body">
 
             <div class="tab-content">

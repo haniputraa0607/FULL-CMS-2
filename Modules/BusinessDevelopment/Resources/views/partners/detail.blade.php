@@ -45,59 +45,6 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/jquery-repeater/jquery.repeater.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/form-repeater.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
-    <script type="text/javascript">
-        function myFunctions() {
-          var scema = $('#cooperation_scheme').val();
-            if(scema == 'Profit Sharing'){
-                @if($result['cooperation_scheme']=="Profit Sharing")
-                     var sharing_value = {{$result["sharing_value"]}}
-                    $('#sharing_value').val(sharing_value);
-                @endif
-                 var html   = '<input name="sharing_percent" type="hidden" value="on" /><div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
-                         <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
-                        <div class="col-md-5">\
-                          <input class="form-control" required type="number" id="sharing_value" name="sharing_value" value"{{$result["sharing_percent"]??0}}" min="1" max="99" placeholder="Enter Commission Percent 1% - 99%"/>\
-                        </div></div>'; 
-                    $("#id_percent").hide();    
-                     $('#id_commission_value').html(html);
-                  }else if(scema == 'Management Fee'){
-                  $("#id_percent").show();  
-                    myFunctionsPercent()
-                $('#id_commission_value').html(html);
-              }else{
-                  $('#id_commission_value').remove();
-                  $('#id_percent').hide();
-              }
-         
-           };
-        function myFunctionsPercent() {
-            var scema             = $('#cooperation_scheme').val();
-          var id_percent     	=  $("input[name='sharing_percent']:checked").val();
-          if(scema == 'Management Fee'){
-              if(id_percent == 'on'){
-                   @if($result['cooperation_scheme']=="Management Fee"&&$result['sharing_percent']==1)
-                @endif
-                 var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span><i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label><div class="col-md-5"><input class="form-control" required type="number" id="sharing_value" value"{{$result["sharing_value"]??0}}" name="sharing_value" min="1" max="99" placeholder="Enter Commission Percent"/></div></div>';
-              }else{
-                 var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
-                         <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
-                        <div class="col-md-5">\
-                          <input class="form-control" value"{{$result["sharing_value"]??0}}" required type="number" id="sharing_value" name="sharing_value"  placeholder="Enter Commission Nominal"/>\
-                        </div></div>'; 
-
-              }
-                $('#id_commission_value').html(html);
-            }
-        }
-        function visible() {
-            $("#id_percent").hide(); 
-                @if(isset($result['cooperation_scheme'])) 
-                    @if($result['cooperation_scheme'] == 'Management Fee') 
-                    $("#id_percent").show(); 
-                @endif
-            @endif
-        }
-        </script>
     <script>
         var SweetAlert = function() {
             return {
@@ -285,7 +232,7 @@
         });
         $(document).ready(function() {
             visible()
-             var sharing_value = {{$result["sharing_value"]}}
+            var sharing_value = {{$result["sharing_value"]}}
             $('#sharing_value').val(sharing_value);
             number("#input-phone");
             number("#input-mobile");
@@ -293,6 +240,16 @@
             onlyNumber("#input-beneficiary_account");
             onlyNumber("#location_large");
             isEmail("#input-email");
+            $('.numberonly').inputmask("remove");
+            $('.numberonly').inputmask({
+                removeMaskOnSubmit: true, 
+				placeholder: "",
+				alias: "currency", 
+				digits: 0, 
+				rightAlign: false,
+				max: '999999999999999',
+                prefix : "",
+            });
             $('#back-follow-up').hide();
             $('#input-follow-up').click(function(){
                 $('#back-follow-up').show();
@@ -642,6 +599,11 @@
                                                         <span class="badge" style="background-color: #e1e445; color: #ffffff">{{$location['status']}}</span>
                                                     @else
                                                         <span class="badge" style="background-color: #EF1E31; color: #ffffff">{{$location['status']}}</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if(MyHelper::hasAccess([343,344], $grantedFeature))
+                                                    <a href="{{ url('businessdev/locations/detail-status/'.$location['id_location']) }}" class="btn btn-sm green text-nowrap"><i class="fa fa-pencil"></i> Log Status</a>
                                                     @endif
                                                 </td>
                                                 <td>

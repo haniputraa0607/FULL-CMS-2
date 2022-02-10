@@ -1,6 +1,10 @@
 <?php
 use App\Lib\MyHelper;
 $grantedFeature     = session('granted_features');
+$step_approve = $step_approve??0;
+$allTotalScore = 0;
+$allMinScore = 0;
+$totalTheories = 0;
 ?>
 @extends('layouts.main-closed')
 @include('recruitment::hair_stylist.detail_schedule')
@@ -115,6 +119,85 @@ $grantedFeature     = session('granted_features');
 				$('#pin2').prop('required', true);
 			}
 		}
+		
+		function submitScore() {
+			$("#list_data_training").hide();
+			$("#form_data_training").show();
+		}
+
+		function backToListTraining() {
+			$("#list_data_training").show();
+			$("#form_data_training").hide();
+		}
+
+		var prev_id_theory = '';
+		function changeCategoryTheory(value) {
+			$("#cat_"+value).show();
+			if(prev_id_theory !== ''){
+				$("#cat_"+prev_id_theory).hide();
+			}
+			prev_id_theory = value;
+		}
+		
+		function nextStepFromTrainingResult(id) {
+			var token  	= "{{ csrf_token() }}";
+			swal({
+				title: 'Are you sure want to next step "Approve"?',
+				text: "Your will not be able to recover this data!",
+				type: "info",
+				showCancelButton: true,
+				confirmButtonClass: "btn-info",
+				confirmButtonText: "Yes, to next step!",
+				closeOnConfirm: false
+			},
+			function(){
+				$.ajax({
+					type : "POST",
+					url : "{{ url('recruitment/hair-stylist/update-status') }}",
+					data : "_token="+token+"&id_user_hair_stylist="+id+"&user_hair_stylist_status=Training Completed",
+					success : function(result) {
+						if (result.status == "success") {
+							swal({
+								title: 'Updated!',
+								text: "Success updated status.",
+								type: "success",
+								showCancelButton: false,
+								showConfirmButton: false
+							});
+							SweetAlert.init()
+							location.href = "{{url('recruitment/hair-stylist/candidate/detail')}}"+"/"+id+"?step_approve=1";
+						}
+						else {
+							toastr.warning(result.messages);
+						}
+					}
+				});
+			});
+		}
+		
+		function conclusionScore(id) {
+			var total = 0;
+			var j = 0;
+			$('#conclusion_score_'+id).val('');
+			$('.score_theory_'+id).each(function(i, obj) {
+				j++;
+				var score_id = obj.id;
+				var value = $('#'+score_id).val();
+				if(value){
+					total = total + parseInt(value);
+				}
+			});
+
+			var average = parseInt(total/j);
+			$('#conclusion_score_'+id).val(average);
+
+			var total_minimum_score = $('#conclusion_minimum_score_'+id).val();
+			if(average < total_minimum_score){
+				$('#conclusion_status_'+id).val('Not Passed').trigger("change");
+			}else{
+				$('#conclusion_status_'+id).val('Passed').trigger("change");
+			}
+		}
     </script>
 @endsection
 
@@ -152,11 +235,11 @@ $grantedFeature     = session('granted_features');
 
         <div class="tabbable-line boxless tabbable-reversed">
         	<ul class="nav nav-tabs">
-                <li class="active">
+                <li @if($step_approve == 0) class="active" @endif>
                     <a href="#hs-info" data-toggle="tab"> Info </a>
                 </li>
 				@if(!in_array($detail['user_hair_stylist_status'], ['Active', 'Inactive', 'Rejected']))
-				<li>
+				<li @if($step_approve == 1) class="active" @endif>
 					<a href="#candidate-status" data-toggle="tab"> Candidate Status </a>
 				</li>
 				@endif
@@ -172,7 +255,7 @@ $grantedFeature     = session('granted_features');
         </div>
 
 		<div class="tab-content">
-			<div class="tab-pane active form" id="hs-info">
+			<div class="tab-pane @if($step_approve == 0) active @endif form" id="hs-info">
 				<form class="form-horizontal" id="form-submit" role="form" action="{{url($url_back.'/update/'.$detail['id_user_hair_stylist'])}}" method="post" enctype="multipart/form-data">
 					<div class="form-body">
 						<div class="form-group">
@@ -191,14 +274,22 @@ $grantedFeature     = session('granted_features');
 								@endif
 							</div>
 						</div>
+						<div class="form-group">
+							<label class="col-md-4 control-label">Passed Status</label>
+							<div class="col-md-6" style="margin-top: 0.7%">{{$detail['user_hair_stylist_passed_status']}}</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-4 control-label">Score</label>
+							<div class="col-md-6" style="margin-top: 0.7%">{{$detail['user_hair_stylist_score']}}</div>
+						</div>
 						@if($detail['user_hair_stylist_status'] == 'Active' || $detail['user_hair_stylist_status'] == 'Inactive')
 							<div class="form-group">
 								<label class="col-md-4 control-label">Approve By</label>
-								<div class="col-md-6">{{$detail['approve_by_name']}}</div>
+								<div class="col-md-6" style="margin-top: 0.7%">{{$detail['approve_by_name']}}</div>
 							</div>
 							<div class="form-group">
 								<label class="col-md-4 control-label">Join Date</label>
-								<div class="col-md-6">{{date('d M Y H:i', strtotime($detail['join_date']))}}</div>
+								<div class="col-md-6" style="margin-top: 0.7%">{{date('d M Y H:i', strtotime($detail['join_date']))}}</div>
 							</div>
 							<div class="form-group">
 								<label class="col-md-4 control-label">Bank Account</label>
@@ -541,7 +632,7 @@ $grantedFeature     = session('granted_features');
 								<table class="table table-striped table-bordered table-hover">
 									<thead>
 									<tr>
-										<th scope="col" width="10%"> Attachment </th>
+										<th scope="col" width="10%"> Action </th>
 										<th scope="col" width="10%"> Process Type </th>
 										<th scope="col" width="10%"> Process Date </th>
 										<th scope="col" width="10%"> Name </th>
@@ -552,12 +643,85 @@ $grantedFeature     = session('granted_features');
 									<tbody>
 									@foreach($detail['documents'] as $doc)
 										<?php
-											$dataDoc[$doc['document_type']] = $doc;
+											if($doc['document_type'] == 'Training Completed'){
+												$dataDoc[$doc['document_type']][] = $doc;
+												$detailTheories = [];
+												foreach ($doc['theories'] as $theory){
+													$detailTheories[$theory['category_title']][] = $theory;
+													$allTotalScore = $allTotalScore + $theory['score'];
+													$allMinScore = $allMinScore + $theory['minimum_score'];
+													$totalTheories++;
+												}
+											}else{
+												$dataDoc[$doc['document_type']] = $doc;
+											}
 										?>
 										<tr>
-											<td style="text-align: center">
+											<td>
 												@if(!empty($doc['attachment']))
-													<a class="btn blue btn-xs" href="{{url('recruitment/hair-stylist/detail/download-file', $doc['id_user_hair_stylist_document'])}}"><i class="fa fa-download"></i></a>
+													<a class="btn blue" href="{{url('recruitment/hair-stylist/detail/download-file', $doc['id_user_hair_stylist_document'])}}">Attachment</a>
+												@endif
+												@if($doc['document_type'] == 'Training Completed' && !empty($detailTheories))
+													<a data-toggle="modal" href="#detail_{{$doc['id_user_hair_stylist_document']}}" class="btn green-jungle">Score</a>
+													<div id="detail_{{$doc['id_user_hair_stylist_document']}}" class="modal fade bs-modal-lg" tabindex="-1" aria-hidden="true">
+														<div class="modal-dialog modal-lg">
+															<div class="modal-content">
+																<div class="modal-header">
+																	<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+																	<h4 class="modal-title">Detail Score</h4>
+																</div>
+																<div class="modal-body" style="margin-top: -4%">
+																	<?php
+																	$totalScore = 0;
+																	$minScore = 0;
+																	$detailTotalTheory = 0;
+																	?>
+																	@foreach($detailTheories as $keyT=>$t)
+																		<div class="row">
+																			<div class="col-md-12">
+																				<p><b>{{$keyT}}</b></p>
+																			</div>
+																		</div>
+																		@foreach($t as $data)
+																			<?php
+																				$totalScore = $totalScore + $data['score'];
+																				$minScore = $minScore + $data['minimum_score'];
+																				$detailTotalTheory++;
+																			?>
+																			<div class="row">
+																				<div class="col-md-8" style="margin-top: -2%;">
+																					<p>{{$data['theory_title']}}</p>
+																				</div>
+																				<div class="col-md-2">
+																					<div class="input-group">
+																						<input type="text" class="form-control" value="{{$data['score']}}" disabled>
+																						<span class="input-group-addon">/ {{$data['minimum_score']}}</span>
+																					</div>
+																				</div>
+																				<div class="col-md-2">
+																					<input type="text" class="form-control" value="{{$data['passed_status']}}" disabled>
+																				</div>
+																			</div>
+																		@endforeach
+																	@endforeach
+																	<br>
+																	<hr style="border-top: 1px solid black;">
+																	<div class="row">
+																		<div class="col-md-8" style="margin-top: 0.7%"><b>Conclusion Score</b></div>
+																		<div class="col-md-2">
+																			<div class="input-group">
+																				<input type="text" class="form-control" value="{{(int)($totalScore/$detailTotalTheory)}}" disabled>
+																				<span class="input-group-addon">/ {{(int)($minScore/$detailTotalTheory)}}</span>
+																			</div>
+																		</div>
+																		<div class="col-md-2">
+																			<input type="text" class="form-control" value="{{$doc['conclusion_status']}}" disabled>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
 												@endif
 											</td>
 											<td>{{$doc['document_type']}}</td>
@@ -584,7 +748,7 @@ $grantedFeature     = session('granted_features');
 				</form>
 			</div>
 			@if(!in_array($detail['user_hair_stylist_status'], ['Active', 'Inactive', 'Rejected']))
-			<div class="tab-pane" id="candidate-status">
+			<div class="tab-pane @if($step_approve == 1) active @endif" id="candidate-status">
 				<br>
 				<br>
 				<div class="row">

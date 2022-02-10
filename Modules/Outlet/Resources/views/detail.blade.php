@@ -37,7 +37,6 @@
             autoclose: true,
             minuteStep: 5,
             showSeconds: false,
-
         });
         // sortable
         $( "#sortable" ).sortable();
@@ -269,8 +268,8 @@
 
             @foreach($product as $key => $pro)
                 var option =  '<option class="option-visibility" data-id={{$pro["id_product"]}}/{{$outlet[0]["id_outlet"]}}>{{$pro["product_code"]}} - {{$pro["product_name"]}}</option>'
-                @if(isset($pro['product_detail'][0]["product_detail_visibility"]) && $pro['product_detail'][0]["product_detail_visibility"])
-                    $('#visibleglobal-{{lcfirst($pro["product_detail"][0]["product_detail_visibility"])}}').append(option)
+                @if(isset($pro['product_detail_all'][0]["product_detail_visibility"]) && $pro['product_detail_all'][0]["product_detail_visibility"])
+                    $('#visibleglobal-{{lcfirst($pro["product_detail_all"][0]["product_detail_visibility"])}}').append(option)
                 @else
                     $('#visibleglobal-{{lcfirst($pro["product_visibility"])}}').append(option)
                 @endif
@@ -385,6 +384,7 @@
     </script>
 
     <script type="text/javascript">
+        $('.datatable').dataTable();
         $('#sample_1').dataTable({
             order: [0, "asc"],
             "columnDefs": [
@@ -762,6 +762,12 @@
                 <li class="active" id="infoOutlet">
                     <a href="#info" data-toggle="tab" > Info </a>
                 </li>
+                <li>
+                    <a href="#product" data-toggle="tab" > Product Stock </a>
+                </li>
+                <li>
+                    <a href="#product_icount" data-toggle="tab" > Product Icount Stock </a>
+                </li>
 {{--                 <li id="pinOutlet">
                     <a href="#pin" data-toggle="tab" > Update Pin </a>
                 </li> --}}
@@ -801,6 +807,12 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="info">
                     @include('outlet::info')
+                </div>
+                <div class="tab-pane" id="product">
+                    @include('outlet::product')
+                </div>
+                <div class="tab-pane" id="product_icount">
+                    @include('outlet::product_icount')
                 </div>
                 <div class="tab-pane" id="pin">
                     @include('outlet::pin')

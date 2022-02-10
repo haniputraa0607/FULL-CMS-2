@@ -167,12 +167,6 @@ S
                 <li>
                     <a href="#potongan" data-toggle="tab">Cuts Salary</a>
                 </li>
-                <li>
-                    <a href="#rumus_insentif" data-toggle="tab">Incentive Formula</a>
-                </li>
-                <li>
-                    <a href="#rumus_potongan" data-toggle="tab">Salary Cuts Formula</a>
-                </li>
             </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="overview">
@@ -237,12 +231,6 @@ S
             </div>
             <div class="tab-pane" id="potongan">
                 @include('recruitment::group.potongan')
-            </div>
-            <div class="tab-pane" id="rumus_insentif">
-                @include('recruitment::group.rumus_insentif')
-            </div>
-            <div class="tab-pane" id="rumus_potongan">
-                @include('recruitment::group.rumus_potongan')
             </div>
         </div>
     </div>
