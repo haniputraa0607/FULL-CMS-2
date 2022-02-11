@@ -148,7 +148,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">End Date <span class="required" aria-required="true">*</span><br><span class="required" aria-required="true">( must be more than 3 years )</span>
+                                    <label for="example-search-input" class="control-label col-md-4">End Date <span class="required" aria-required="true">*</span></span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal Berakhir menjadi Partner" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">

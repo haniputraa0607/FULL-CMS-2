@@ -638,6 +638,8 @@ class PartnersController extends Controller
                 "partner_code" => "required",
                 "npwp" => "required",
                 "npwp_name" => "required",
+                "start_date" => "required|different:end_date",
+                "end_date" => "required|different:start_date",
             ]);
         }
         
@@ -742,7 +744,9 @@ class PartnersController extends Controller
                 "total_box" => $request['total_box'],
                 "handover_date" => date('Y-m-d', strtotime($request['handover_date'])),
                 'from' => 'Select Location',
-                'id_partner' => $request['id_partner']
+                'id_partner' => $request['id_partner'],
+                "start_date" => "different:end_date",
+                "end_date" => "different:start_date",
             ];
             $form_survey = [
                 "id_partner"  => $request["id_partner"],
@@ -888,8 +892,6 @@ class PartnersController extends Controller
                 return redirect('businessdev/partners/detail/'.$request['id_partner'].$tab)->withSuccess(['Success update candidate partner to partner']); 
             }
             return redirect('businessdev/partners/detail/'.$request['id_partner'].$tab)->withSuccess(['Success create step '.$request["follow_up"].'']);    
-        }elseif(isset($partner_step['status']) && $partner_step['status'] == 'fail_date'){
-            return redirect('businessdev/partners/detail/'.$request['id_partner'].$tab)->withErrors($partner_step['messages'] ?? ['Failed create step '.$request["follow_up"].''])->withInput( );
         }elseif(isset($partner_step['status']) && $partner_step['status'] == 'duplicate_code'){
             return redirect('businessdev/partners/detail/'.$request['id_partner'].$tab)->withErrors($partner_step['messages'] ?? ['Failed create step '.$request["follow_up"].''])->withInput($request->except('partner_code','location_code'));
         }else{

@@ -413,19 +413,6 @@ class LocationsController extends Controller
             ];
         }
 
-        // if(isset($request["follow_up"]) && $request["follow_up"]=='Follow Up'){
-        //     $update_data_location = [
-        //         "id_location" => $request["id_location"],
-        //         "name" => $request["nameLocation"],
-        //         "address" => $request["addressLocation"],  
-        //         "id_city" => $request["id_cityLocation"],  
-        //         "width" => $request["width"],  
-        //         "height" => $request["height"],  
-        //         "length" => $request["length"],  
-        //         "location_large" => $request["location_large"],  
-        //     ];
-        // }
-
         $update_data_location['id_location'] = $request["id_location"];
         $update_data_location['status'] = 'Candidate';
         
@@ -486,6 +473,8 @@ class LocationsController extends Controller
                 "rental_price" => "required",
                 "service_charge" => "required",
                 "promotion_levy" => "required",
+                "start_date" => "different:end_date",
+                "end_date" => "different:start_date",
             ]);
             $update_data_location["status"] = 'Active';
             $update_data_location["code"] = $request['location_code'];
@@ -527,8 +516,6 @@ class LocationsController extends Controller
             }else{
                 return redirect('businessdev/locations/detail/'.$request['id_location'].$tab)->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
             }
-        }elseif(isset($location_update['status']) && $location_update['status'] == 'fail_date'){
-            return redirect('businessdev/locations/detail/'.$request['id_location'].$tab)->withErrors($location_update['messages'] ?? ['Failed create step '.$request["follow_up"].''])->withInput();
         }else{
             return redirect('businessdev/locations/detail/'.$request['id_location'].$tab)->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
         }

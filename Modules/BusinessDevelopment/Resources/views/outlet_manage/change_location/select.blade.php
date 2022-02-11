@@ -326,7 +326,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">End Date 
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal berakhir menjadi partner atau tanggal kerja sama selesai, bisa dikosongkan dan akan diisi tanggal berakhir partner" data-container="body"></i><br><span class="required" aria-required="true">( must be more than 3 years )</span></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal berakhir menjadi partner atau tanggal kerja sama selesai, bisa dikosongkan dan akan diisi tanggal berakhir partner" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <input type="text" id="end_date" class="datepicker form-control" name="end_date" value="{{ (!empty($this_location['end_date']) ? date('d F Y', strtotime($this_location['end_date'])) : '')}}" {{$select ? 'disabled' : ''}}>
