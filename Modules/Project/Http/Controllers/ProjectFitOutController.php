@@ -23,9 +23,9 @@ class ProjectFitOutController extends Controller
         }
 	$query = MyHelper::post('project/create/fitout', $post);
 	if(isset($query['status']) && $query['status'] == 'success'){
-				return back()->withSuccess(['Create Fit Out Success']);
+            return redirect('project/detail'.'/'.$post['id_project'].'#handover')->withSuccess(['Create Fit Out Success']);
 	} else{
-				return back()->withErrors($query['messages']);
+            return redirect('project/detail'.'/'.$post['id_project'].'#fitout')->withErrors($query['messages']);
 	}
     }
     public function next(Request $request)
