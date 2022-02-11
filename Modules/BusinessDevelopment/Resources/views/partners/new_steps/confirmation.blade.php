@@ -168,7 +168,7 @@
                                     <label for="example-search-input" class="control-label col-md-4">Reference Number <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nomor surat yang akan dicantumkan di confirmation letter" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="no_letter" name="no_letter" placeholder="Enter reference number here" required readonly value="{{$this_letter['no_letter']??$this_location['number_cl']}}"/>
+                                        <input class="form-control" type="text" id="no_letter" name="no_letter" placeholder="Enter reference number here" required readonly value="{{$this_letter['no_letter']??''}}"/>
                                     </div>
                                 </div>
                                 <div class="form-group">

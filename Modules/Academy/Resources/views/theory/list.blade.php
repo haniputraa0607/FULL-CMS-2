@@ -76,7 +76,7 @@ $grantedFeature     = session('granted_features');
                                                 window.location.reload();
                                             }
                                             else if(response.status == "fail"){
-                                                swal("Error!", "Failed to delete.", "error")
+                                                swal("Error!", response.messages[0], "error")
                                             }
                                             else {
                                                 swal("Error!", "Something went wrong. Failed to delete .", "error")

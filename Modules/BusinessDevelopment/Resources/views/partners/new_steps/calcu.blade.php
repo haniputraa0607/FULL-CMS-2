@@ -60,20 +60,6 @@
                         <table class="table">
                             <tbody>
                                 <tr>
-                                    <th colspan="3">Outlet Starter</th>
-                                </tr>
-                                @foreach($this_location['location_starter'] ?? [] as $starter)
-                                @php
-                                $price = $starter['unit'] == $starter['product']['unit1'] ? $starter['product']['unit_price_1'] : ($starter['unit'] == $starter['product']['unit2'] ? $starter['product']['unit_price_2'] : ($starter['unit'] == $starter['product']['unit3'] ? $starter['product']['unit_price_3'] : 0));
-                                $total_payment += $price * $starter['qty'];
-                                @endphp
-                                <tr>
-                                    <td>{{$starter['product']['name']}}</td>
-                                    <td>{{$starter['qty']}} {{$starter['unit']}}</td>
-                                    <td>{{number_format($price * $starter['qty'], 0, ',', '.')}}</td>
-                                </tr>
-                                @endforeach
-                                <tr>
                                     <th colspan="3">Fees</th>
                                 </tr>
                                 @if (isset($this_location['renovation_cost']))
@@ -107,6 +93,7 @@
                                     <td>Rental Price</td>
                                     <td></td>
                                     <td>{{number_format($this_location['rental_price'], 0, ',', '.')}}</td>
+                                    @php $total_payment += $this_location['rental_price'] @endphp
                                 </tr>
                                 @endif
                                 @if (isset($this_location['service_charge']))

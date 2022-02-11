@@ -155,94 +155,37 @@
                                 </td>
                                 <td>
                                     <a class="btn btn-sm yellow" target="_blank" href="{{url('academy/transaction/outlet/course/detail/history', $data['id_transaction_academy'])}}">Detail</a>
-                                    @if(!empty($data['next_meeting']['schedule_date']))
-                                        <a data-toggle="modal" href="#attendance_{{$data['id_transaction_academy']}}" class="btn btn-sm green-jungle">Attendance</a>
-                                        <div class="modal fade" id="attendance_{{$data['id_transaction_academy']}}" tabindex="-1" role="basic" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title">Attendance {{$data['name']}} <b>({{date('d F Y H:i', strtotime($data['next_meeting']['schedule_date']))}})</b></h4>
-                                                    </div>
-                                                    <form class="form-horizontal" role="form" action="{{url('academy/transaction/outlet/course/detail/attendace')}}" method="post">
-                                                        <div class="modal-body">
-                                                            <div class="form-group">
-                                                                <label class="col-md-2 control-label" style="text-align: left">
-                                                                    Attendance <span class="required" aria-required="true">*</span>
-                                                                </label>
-                                                                <div class="col-md-6">
-                                                                    <select class="form-control select2" id="status_{{$key}}" name="transaction_academy_schedule_status" style="color: grey;" onchange="changeColor({{$key}},this.value);" required>
-                                                                        <option value="Not Started" style="color: grey">Not Started</option>
-                                                                        <option value="Attend" style="color: green">Attend</option>
-                                                                        <option value="Absent" style="color: red">Absent</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <br>
-                                                            @foreach($theories as $key=>$theory)
-                                                                <div class="form-group">
-                                                                    <label class="col-md-2 control-label" style="text-align: left;margin-top: -1.1%">
-                                                                        @if($key == 0)
-                                                                        Theory <span class="required" aria-required="true">*</span>
-                                                                        @endif
-                                                                    </label>
-                                                                    <div class="col-md-1">
-                                                                        @if(in_array($theory['id_theory'], $data['theory_checked']))
-                                                                            <i class="fa fa-check"></i>
-                                                                        @else
-                                                                            <div class="icheck-list">
-                                                                                <label><input type="checkbox" class="icheck" name="id_theory[]" value="{{$theory['id_theory']}}"> </label>
-                                                                            </div>
-                                                                        @endif
-                                                                    </div>
-                                                                    <div class="col-md-8">
-                                                                        {{$theory['theory_title']}}
-                                                                    </div>
-                                                                </div>
-                                                            @endforeach
-                                                            <input type="hidden" name="id_user" value="{{$data['id']}}">
-                                                            <input type="hidden" name="id_transaction_academy" value="{{$data['id_transaction_academy']}}">
-                                                            <input type="hidden" name="id_transaction_academy_schedule" value="{{$data['next_meeting']['id_transaction_academy_schedule']}}">
-                                                        </div>
-                                                        <div class="modal-footer" style="text-align: center">
-                                                            {{ csrf_field() }}
-                                                            <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn green">Save</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    @if(!empty($data['next_meeting']['id_transaction_academy_schedule']))
+                                        <a class="btn btn-sm green-jungle" target="_blank" href="{{url('academy/transaction/outlet/course/detail/attendace', $data['next_meeting']['id_transaction_academy_schedule'])}}">Attendance</a>
                                     @endif
-                                    @if(!empty($data['theory_checked']))
-                                        <a data-toggle="modal" href="#score_{{$data['id_transaction_academy']}}" class="btn btn-sm blue">Final Score</a>
-                                        <div class="modal fade" id="score_{{$data['id_transaction_academy']}}" tabindex="-1" role="basic" aria-hidden="true">
-                                            <div class="modal-dialog modal-sm">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title">Final Score {{$data['name']}}</h4>
-                                                    </div>
-                                                    <form class="form-horizontal" role="form" action="{{url('academy/transaction/outlet/course/detail/final-score')}}" method="post">
-                                                        <div class="modal-body">
-                                                            <div class="form-group">
-                                                                <label class="col-md-3 control-label" style="text-align: left">
-                                                                    Score <span class="required" aria-required="true">*</span>
-                                                                </label>
-                                                                <div class="col-md-8">
-                                                                    <input class="form-control" maxlength="5" name="final_score" required>
-                                                                </div>
+                                    <a data-toggle="modal" href="#score_{{$data['id_transaction_academy']}}" class="btn btn-sm blue">Final Score</a>
+                                    <div class="modal fade" id="score_{{$data['id_transaction_academy']}}" tabindex="-1" role="basic" aria-hidden="true">
+                                        <div class="modal-dialog modal-sm">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Final Score {{$data['name']}}</h4>
+                                                </div>
+                                                <form class="form-horizontal" role="form" action="{{url('academy/transaction/outlet/course/detail/final-score')}}" method="post">
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label class="col-md-3 control-label" style="text-align: left">
+                                                                Score <span class="required" aria-required="true">*</span>
+                                                            </label>
+                                                            <div class="col-md-8">
+                                                                <input class="form-control" maxlength="5" name="final_score" required>
                                                             </div>
                                                         </div>
-                                                        <input type="hidden" name="id_transaction_academy" value="{{$data['id_transaction_academy']}}">
-                                                        <div class="modal-footer" style="text-align: center">
-                                                            {{ csrf_field() }}
-                                                            <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn green">Save</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
+                                                    </div>
+                                                    <input type="hidden" name="id_transaction_academy" value="{{$data['id_transaction_academy']}}">
+                                                    <div class="modal-footer" style="text-align: center">
+                                                        {{ csrf_field() }}
+                                                        <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn green">Save</button>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
-                                    @endif
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

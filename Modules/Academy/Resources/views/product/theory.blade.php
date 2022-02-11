@@ -20,8 +20,8 @@
                   <div class="col-md-8">
                       <select class="form-control select2" style=" width: 100%" name="theory[0]" required>
                           <option value="" selected disabled>Select Theory</option>
-                          @foreach($list_theory as $theory)
-                              <option value="{{$theory['id_theory']}}">{{$theory['theory_title']}}</option>
+                          @foreach($list_theory_category as $theory)
+                              <option value="{{$theory['id_theory_category']}}">{{$theory['theory_category_name']}}</option>
                           @endforeach
                       </select>
                   </div>
@@ -36,8 +36,8 @@
                       <div class="col-md-8">
                           <select class="form-control select2" style=" width: 100%" name="theory[{{$key}}]" required>
                               <option value="" selected disabled>Select Theory</option>
-                              @foreach($list_theory as $theory)
-                                  <option value="{{$theory['id_theory']}}" @if($value['id_theory'] == $theory['id_theory']) selected @endif>{{$theory['theory_title']}}</option>
+                              @foreach($list_theory_category as $theory)
+                                  <option value="{{$theory['id_theory_category']}}" @if($value['id_theory_category'] == $theory['id_theory_category']) selected @endif>{{$theory['theory_category_name']}}</option>
                               @endforeach
                           </select>
                       </div>

@@ -28,41 +28,27 @@
 
     function coopertationNew() {
         var scema = $('#flow-select-new-location #cooperation_scheme').val();
-            if(scema == 'Management Fee'){
-                var html   = '<input name="sharing_percent" type="hidden" value="on" />'+
-                    '<div class="form-group">'+
-                    '<label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>'+
-                    '<i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>'+
-                    '<div class="col-md-5">'+
-                    '<div class="input-group">'+
-                    '<span class="input-group-addon">Rp</span>'+
-                    '<input class="form-control commision" type="text" data-type="currency" id="sharing_value" name="sharing_value" placeholder="Enter sharing value here" value="@if (old('sharing_value')) {{ number_format(old('sharing_value')) }} @else @if (!empty($this_location['sharing_value'])) {{ number_format($this_location['sharing_value']) }} @endif @endif" {{$select ? 'disabled' : ''}} required/>'+
-                    '</div>'+
-                    '</div>'+
-                    '</div>'; 
-                $("#flow-select-new-location #id_percent").hide();    
-                $('#flow-select-new-location #id_commission').html(html);
-            }else if(scema == 'Profit Sharing'){
-                $("#flow-select-new-location #id_percent").show();  
-                $('#flow-select-new-location #id_commission').remove();
-                cooperationPercentNew();
-            }
-            $('.commision').inputmask("remove");
-            $('.commision').inputmask({
-                removeMaskOnSubmit: true, 
-				placeholder: "",
-				alias: "currency", 
-				digits: 0, 
-				rightAlign: false,
-				max: '999999999999999',
-                prefix : "",
-            });
+        if(scema == 'Management Fee' || scema == 'Revenue Sharing'){
+            $("#flow-select-new-location #id_percent").show();  
+            $('#flow-select-new-location #id_commission').remove();
+            cooperationPercentNew();
+        }
+        $('.commision').inputmask("remove");
+        $('.commision').inputmask({
+            removeMaskOnSubmit: true, 
+            placeholder: "",
+            alias: "currency", 
+            digits: 0, 
+            rightAlign: false,
+            max: '999999999999999',
+            prefix : "",
+        });
     };
 
     function cooperationPercentNew() {
         var scema = $('#flow-select-new-location #cooperation_scheme').val();
         var id_percent = $("#flow-select-new-location input[name='sharing_percent']:checked").val();
-        if(scema == 'Profit Sharing'){
+        if(scema == 'Management Fee' || scema == 'Revenue Sharing'){
             if(id_percent == 'on'){
                 var htmls='<div class="form-group">'+
                     '<label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>'+
@@ -173,9 +159,7 @@
         });
         $("#flow-select-new-location #id_percent").hide(); 
         @if(isset($this_location['cooperation_scheme'])) 
-            @if($this_location['cooperation_scheme'] == 'Management Fee') 
-                $("#flow-select-new-location #id_percent").show(); 
-            @endif
+            $("#flow-select-new-location #id_percent").show(); 
         @endif
         coopertationNew();
     });
@@ -292,7 +276,7 @@
                                     <div class="col-md-5">
                                         <select name="cooperation_scheme" id="cooperation_scheme" onchange="coopertationNew()" class="form-control input-sm select2" placeholder="Coopertaion Scheme" required {{ $select ? 'disabled' : ''}}>
                                             <option value="" selected disabled>Select Cooperation Scheme</option>
-                                            <option value="Profit Sharing" @if(old('cooperation_scheme')) @if(old('cooperation_scheme')=='Profit Sharing') selected @endif @else @if(isset($this_location['cooperation_scheme'])) @if($this_location['cooperation_scheme'] == 'Profit Sharing') selected @endif @endif @endif>Profit Sharing</option>
+                                            <option value="Revenue Sharing" @if(old('cooperation_scheme')) @if(old('cooperation_scheme')=='Revenue Sharing') selected @endif @else @if(isset($this_location['cooperation_scheme'])) @if($this_location['cooperation_scheme'] == 'Revenue Sharing') selected @endif @endif @endif>Revenue Sharing</option>
                                             <option value="Management Fee" @if(old('cooperation_scheme')) @if(old('cooperation_scheme')=='Management Fee') selected @endif @else @if(isset($this_location['cooperation_scheme'])) @if($this_location['cooperation_scheme'] == 'Management Fee') selected @endif @endif @endif>Management Fee</option>
                                         </select>
                                     </div>
