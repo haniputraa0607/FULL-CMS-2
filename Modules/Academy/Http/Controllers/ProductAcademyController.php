@@ -111,7 +111,7 @@ class ProductAcademyController extends Controller
             $data['product_uses'] = MyHelper::post('product/be/icount/list', [])['result'] ?? [];
             $data['product_icount_use'] = $data['product'][0]['product_icount_use'] ?? [];
             $data['product_academy_theory'] = $data['product'][0]['product_academy_theory'] ?? [];
-            $data['list_theory'] = MyHelper::get('theory')['result']??[];
+            $data['list_theory_category'] = MyHelper::get('theory/category')['result']??[];
 
             return view('academy::product.detail', $data);
         }
@@ -132,7 +132,7 @@ class ProductAcademyController extends Controller
                 }
 
                 $save = MyHelper::post('product/update', $post);
-                return parent::redirect($save, 'Product service detail has been updated.', 'product-academy/detail/'.$post['product_code']??$code.'#info');
+                return parent::redirect($save, 'Product academy detail has been updated.', 'product-academy/detail/'.$post['product_code']??$code.'#info');
             }
         }
     }
@@ -294,15 +294,15 @@ class ProductAcademyController extends Controller
     public function theoryUpdate(Request $request){
         $post = $request->except('_token');
 
-        if(!empty($post['theory'])){
+        if(!empty($post['id_product'])){
             $result = MyHelper::post('academy/product/theory/save', $post);
             if(!empty($result['status']) && $result['status'] == 'success'){
-                return redirect('product-academy/detail/'.$post['product_code'].'#theory')->withSuccess(['Data ID can not be empty']);
+                return redirect('product-academy/detail/'.$post['product_code'].'#theory')->withSuccess(['Success save data']);
             }else{
                 return redirect('product-academy/detail/'.$post['product_code'].'#theory')->withErrors(['Failed save data theory']);
             }
         }else{
-            return redirect('product-academy/detail/'.$post['product_code'].'#theory')->withErrors(['Data ID can not be empty']);
+            return redirect('product-academy/detail/'.$post['product_code'].'#theory')->withErrors(['Something went wrong']);
         }
     }
 }

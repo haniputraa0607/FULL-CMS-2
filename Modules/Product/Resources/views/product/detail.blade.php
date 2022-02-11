@@ -675,19 +675,23 @@
           var item_visibility = sessionStorage.getItem("product_visibility");
           var item_stock = sessionStorage.getItem("product_stock");
 
-          var item_visibility = item_visibility.split(",");
-          var item_stock = item_stock.split(",");
+            if(item_visibility){
+                var item_visibility = item_visibility.split(",");
+                $('.product-visibility').each(function(i, obj) {
+                    $(this).val(item_visibility[i]);
+                });
+            }
 
-          $('.product-visibility').each(function(i, obj) {
-              $(this).val(item_visibility[i]);
-          });
-          $('.product-stock').each(function(i, obj) {
-              $(this).val(item_stock[i]);
-          });
+            if(item_stock){
+                var item_stock = item_stock.split(",");
+                $('.product-stock').each(function(i, obj) {
+                    $(this).val(item_stock[i]);
+                });
+            }
 
-          $(this).parent().parent().parent().find('.product-visibility').val(visibility);
-          $(this).parent().parent().parent().find('.product-stock').val(stock);
-      }
+            $(this).parent().parent().parent().find('.product-visibility').val(visibility);
+            $(this).parent().parent().parent().find('.product-stock').val(stock);
+        }
 
         if ($('.checkbox-price').is(':checked')) {
             var check = $('input[name="sameall[]"]:checked').length;
@@ -709,13 +713,15 @@
 
             var item_price = sessionStorage.getItem("product_price");
 
-            var item_price = item_price.split(",");
+            if(item_price){
+                var item_price = item_price.split(",");
 
-            $('.product-price').each(function(i, obj) {
-                $(this).val(item_price[i]);
-            });
+                $('.product-price').each(function(i, obj) {
+                    $(this).val(item_price[i]);
+                });
 
-            $(this).parent().parent().parent().find('.product-price').val(price);
+                $(this).parent().parent().parent().find('.product-price').val(price);
+            }
         }
     });
 

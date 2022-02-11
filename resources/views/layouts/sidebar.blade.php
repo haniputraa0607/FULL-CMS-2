@@ -2288,7 +2288,7 @@
 					@endif
 					<li class="nav-item {{($submenu_active == 'home-service-autoresponse-home-service-mitra-get-order') ? 'active open' : ''}}">
 						<a href="{{url('autoresponse/home-service/home-service-mitra-get-order')}}" class="nav-link ">
-							<span class="title">[Response] Mitra Get Order</span>
+							<span class="title">[Response] HS - Get Order</span>
 						</a>
 					</li>
 					<li class="nav-item {{($submenu_active == 'home-service-autoresponse-home-service-update-status') ? 'active open' : ''}}">
@@ -2325,6 +2325,11 @@
 								<span class="title">Student List</span>
 							</a>
 						</li>
+						<li class="nav-item {{($submenu_active == 'academy-transaction-outlet-course') ? 'active open' : ''}}">
+							<a href="{{url('academy/transaction/outlet/course')}}" class="nav-link ">
+								<span class="title">Course</span>
+							</a>
+						</li>
 						<li class="nav-item {{($submenu_active == 'academy-transaction-day-off') ? 'active open' : ''}}">
 							<a href="{{url('academy/transaction/user/schedule/day-off')}}" class="nav-link ">
 								<span class="title">Day Off</span>
@@ -2350,7 +2355,7 @@
 								<span class="title">[Response] Reject Day Off</span>
 							</a>
 						</li>
-						<li class="nav-item {{($submenu_active == 'academy-autoresponse-payment-academy-installment') ? 'active open' : ''}}">
+						<li class="nav-item {{($submenu_active == 'academy-autoresponse-payment-academy-installment-completed') ? 'active open' : ''}}">
 							<a href="{{url('autoresponse/academy/payment-academy-installment-completed')}}" class="nav-link ">
 								<span class="title">[Response] Payment Academy Installment Completed</span>
 							</a>
@@ -2368,6 +2373,57 @@
 						<li class="nav-item {{($submenu_active == 'academy-autoresponse-payment-academy-installment-due-date') ? 'active open' : ''}}">
 							<a href="{{url('autoresponse/academy/payment-academy-installment-due-date')}}" class="nav-link ">
 								<span class="title">[Response] Payment Academy Installment Due Date</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+			@endif
+			@if(MyHelper::hasAccess([390,391], $grantedFeature))
+				<li class="nav-item {{($menu_active == 'online-shop') ? 'active' : ''}}">
+					<a href="javascript:;" class="nav-link nav-toggle">
+						<i class="fa fa-ship"></i>
+						<span class="title">Online Shop</span>
+						<span class="arrow {{($menu_active == 'online-shop') ? 'open' : ''}}"></span>
+					</a>
+					<ul class="sub-menu">
+						<li class="nav-item {{($submenu_active == 'online-shop-autoresponse-transaction-online-shop-created') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/online-shop/transaction-online-shop-created')}}" class="nav-link ">
+								<span class="title">[Response] Trasaction Online Shope Created</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'online-shop-autoresponse-transaction-online-shop-cancelled') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/online-shop/transaction-online-shop-cancelled')}}" class="nav-link ">
+								<span class="title">[Response] Trasaction Online Shope Cancelled</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'online-shop-autoresponse-transaction-online-shop-rejected') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/online-shop/transaction-online-shop-rejected')}}" class="nav-link ">
+								<span class="title">[Response] Trasaction Online Shope Rejected</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'online-shop-autoresponse-accepted-online-shop') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/online-shop/accepted-online-shop')}}" class="nav-link ">
+								<span class="title">[Response] Accepted Online Shop</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'online-shop-autoresponse-ready-online-shop') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/online-shop/ready-online-shop')}}" class="nav-link ">
+								<span class="title">[Response] Ready Online Shop</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'online-shop-autoresponse-delivery-online-shop-requested') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/online-shop/delivery-online-shop-requested')}}" class="nav-link ">
+								<span class="title">[Response] Delivery Online Shop Requested</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'online-shop-autoresponse-transaction-online-shop-complete') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/online-shop/transaction-online-shop-complete')}}" class="nav-link ">
+								<span class="title">[Response] Transaction Online Shop Complete</span>
+							</a>
+						</li>
+						<li class="nav-item {{($submenu_active == 'online-shop-autoresponse-point-received-online-shop') ? 'active open' : ''}}">
+							<a href="{{url('autoresponse/online-shop/point-received-online-shop')}}" class="nav-link ">
+								<span class="title">[Response] Point Received Online Shop</span>
 							</a>
 						</li>
 					</ul>
@@ -3838,14 +3894,6 @@
 			<a href="{{url('setting/setting-global-commission')}}" class="nav-link nav-toggle">
 				<i class="fa fa-money"></i>
 				<span class="title">Setting Global Commission</span>
-			</a>
-		</li>
-		@endif
-        @if(MyHelper::hasAccess([424], $grantedFeature))
-		<li class="nav-item {{($menu_active == 'setting-salary-formula') ? 'active open' : ''}}">
-			<a href="{{url('setting/setting-salary-formula')}}" class="nav-link nav-toggle">
-				<i class="fa fa-credit-card"></i>
-				<span class="title">Setting Salary Formula</span>
 			</a>
 		</li>
 		@endif

@@ -50,7 +50,7 @@
               formatCurrency($(this), "blur");
             }
         });
-
+        
 
         function formatNumber(n) {
           // format number 1000000 to 1,234,567
@@ -112,6 +112,11 @@
           input[0].setSelectionRange(caret_pos, caret_pos);
         }
     })
+    function addFormula(param){
+		var textvalue = $('#formula').val();
+		var textvaluebaru = textvalue+" "+param;
+		$('#formula').val(textvaluebaru);
+        }
     </script>
     
     @yield('child-script')
@@ -173,6 +178,7 @@
                                     <thead>
                                     <tr>
                                         <th class="text-nowrap text-center">Name</th>
+                                        <th class="text-nowrap text-center">Code</th>
                                         <th class="text-nowrap text-center">Value</th>
                                         <th class="text-nowrap text-center">Formula</th>
                                         <th class="text-nowrap text-center">Action</th>
@@ -183,6 +189,7 @@
                                         @foreach($data as $dt)
                                             <tr data-id="{{ $dt['id_hairstylist_group_default_insentifs'] }}">
                                                 <td style="text-align: center;">{{$dt['name']}}</td>
+                                                <td style="text-align: center;">{{$dt['code']}}</td>
                                                 <td style="text-align: center;">{{"Rp " . number_format($dt['value']??0,2,',','.')}}</td>
                                                 <td style="text-align: center;">{{$dt['formula']}}</td>
                                                 <td style="text-align: center;">
@@ -216,7 +223,15 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nama insentif" data-container="body"></i>
                                     </label>
                                     <div class="col-md-6">
-                                        <input type="text" name="name" placeholder="Masukkan nama insentif" class="form-control" required />
+                                        <input type="text" name="name" value="{{old('name')}}" placeholder="Masukkan nama insentif" class="form-control" required />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Code<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Code insentif (unik)" data-container="body"></i>
+                                    </label>
+                                    <div class="col-md-6">
+                                        <input type="text" name="code" value="{{old('code')}}" placeholder="Masukkan code insentif" class="form-control" required />
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -224,7 +239,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Besar insentif yang diterima oleh hairstylist" data-container="body"></i>
                                     </label>
                                     <div class="col-md-6">
-                                        <input type="text" name="value" id='value' data-type="currency" placeholder="Masukkan besar insentif" class="form-control" required />
+                                        <input type="text" name="value" id='value' value="{{old('value')}}" data-type="currency" placeholder="Masukkan besar insentif" class="form-control" required />
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -232,7 +247,15 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Rumus insentif yang digunakan dalam perhitungan pendapatan hairstylist (value * frekuensi)" data-container="body"></i>
                                     </label>
                                     <div class="col-md-6">
-                                          <textarea name="formula" id="formula" class="form-control" placeholder="Enter rumus insentif"></textarea>
+                                          <textarea name="formula" id="formula" class="form-control" placeholder="Enter rumus insentif">{{old('formula')}}</textarea>
+                                          <br>
+                                          <div class="row">
+                                                @foreach($textreplace as $key=>$row)
+                                                        <div class="col-md-4" style="margin-bottom:5px;">
+                                                                <span class="btn dark btn-xs btn-block btn-outline var" data-toggle="tooltip" title="{{ $row['message'] }}" onClick="addFormula('{{ $row['keyword'] }}');">{{ str_replace('_',' ',$row['keyword']) }}</span>
+                                                        </div>
+                                                @endforeach
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-actions">

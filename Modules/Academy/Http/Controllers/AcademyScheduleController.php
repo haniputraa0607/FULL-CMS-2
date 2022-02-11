@@ -187,4 +187,153 @@ class AcademyScheduleController extends Controller
         }
         return $save;
     }
+
+    public function outletCourseAcademy($key = null){
+        $data = [
+            'title'          => 'Academy',
+            'menu_active'    => 'academy-transaction',
+            'sub_title'      => 'Outlet Course',
+            'submenu_active' => 'academy-transaction-outlet-course'
+        ];
+
+        $outlet = MyHelper::post('outlet/be/list', ['admin' =>  1, 'outlet_academy_status' => 1]);
+        if (isset($outlet['status']) && $outlet['status'] == 'success') {
+            $data['outlet'] = $outlet['result'];
+        } elseif (isset($outlet['status']) && $outlet['status'] == 'fail') {
+            return back()->witherrors([$outlet['messages']]);
+        } else {
+            return back()->witherrors(['Outlet Not Found']);
+        }
+
+        if (!is_null($key)) {
+            $data['key'] = $key;
+        } else {
+            $data['key'] = $data['outlet'][0]['id_outlet'];
+        }
+
+        $data['course'] = MyHelper::post('academy/transaction/outlet/course', ['id_outlet' => $data['key']])['result']??[];
+
+        return view('academy::outlet_course', $data);
+    }
+
+    public function detailOutletCourseAcademy($id_outlet, $id_product){
+        $data = [
+            'title'          => 'Academy',
+            'menu_active'    => 'academy-transaction',
+            'sub_title'      => 'Outlet Course Detail',
+            'submenu_active' => 'academy-transaction-outlet-course',
+            'filter_title'   => 'Filter Student',
+            'filter_date'    => true,
+            'filter_date_today' => true,
+        ];
+
+        if(session('academy_course_detail_trx_user')){
+            $extra=session('academy_course_detail_trx_user');
+            $data['rule']=array_map('array_values', $extra['rule']);
+            $data['operator']=$extra['operator'];
+        } else{
+            $extra = [];
+            $data['rule']=array_map('array_values', $extra['rule']??[]);
+            $data['operator']=$extra['operator']??'';
+            $data['hide_record_total']=1;
+        }
+        $res = MyHelper::post('academy/transaction/outlet/course/detail', ['id_outlet' => $id_outlet, 'id_product' => $id_product]+$extra)['result']??[];
+        $data['outlet'] = $res['outlet']??[];
+        $data['course'] = $res['course']??[];
+        $data['users'] = $res['users']??[];
+        $data['total'] = count($data['users']);
+
+        if(empty($data['outlet'])){
+            return redirect('academy/transaction/outlet/course')->withErrors(['Data not found']);
+        }
+        return view('academy::outlet_course_detail', $data);
+    }
+
+    public function filterCourseDetailUser(Request $request)
+    {
+        $post = $request->all();
+        if(($post['rule']??false) && !isset($post['draw'])){
+            session(['academy_course_detail_trx_user'=>$post]);
+            return back();
+        }
+
+        if($post['clear']??false){
+            session(['academy_course_detail_trx_user'=>null]);
+            return back();
+        }
+
+        return abort(404);
+    }
+
+    public function attendanceCourseAcademy(Request $request, $id){
+        $post = $request->except('_token');
+
+        if(empty($post)){
+            $data = [
+                'title'          => 'Academy',
+                'menu_active'    => 'academy-transaction',
+                'sub_title'      => 'Attendance',
+                'submenu_active' => 'academy-transaction-outlet-course'
+            ];
+            $detail = MyHelper::post('academy/transaction/outlet/course/detail/attendance', ['id_transaction_academy_schedule' => $id]);
+
+            if (isset($detail['status']) && $detail['status'] == 'success') {
+                $data['detail'] = $detail['result']['detail']??[];
+                $data['outlet'] = $detail['result']['outlet']??[];
+                $data['course'] = $detail['result']['course']??[];
+                $data['user'] = $detail['result']['user']??[];
+                $data['theory_category'] = $detail['result']['theory_category']??[];
+
+            } elseif (isset($detail['status']) && $detail['status'] == 'fail') {
+                return back()->witherrors([$detail['messages']]);
+            } else {
+                return back()->witherrors(['Detail Not Found']);
+            }
+
+            return view('academy::outlet_course_detail_attendance', $data);
+        }else{
+            $post['id_transaction_academy_schedule'] = $id;
+            $save = MyHelper::post('academy/transaction/outlet/course/attendance', $post);
+            if(isset($save['status']) && $save['status'] == 'success'){
+                return redirect('academy/transaction/outlet/course/detail/'.$post['id_outlet'].'/'.$post['id_product'])->withSuccess(['Update attendance success']);
+            } else{
+                return back()->withErrors($save['messages']??['Failed update attendance']);
+            }
+        }
+    }
+
+    public function saveFinalScoreCourseAcademy(Request $request){
+        $post = $request->except('_token');
+
+        $save = MyHelper::post('academy/transaction/outlet/course/final-score', $post);
+        if(isset($save['status']) && $save['status'] == 'success'){
+            return back()->withSuccess(['Update final score success']);
+        } else{
+            return back()->withErrors($save['messages']??['Failed update final score']);
+        }
+    }
+
+    public function courseDetailHistory($id){
+        $data = [
+            'title'          => 'Academy',
+            'menu_active'    => 'academy-transaction',
+            'sub_title'      => 'User Course Detail',
+            'submenu_active' => 'academy-transaction-outlet-course'
+        ];
+
+        $detail = MyHelper::post('academy/transaction/outlet/course/user-detail', ['id_transaction_academy' => $id]);
+        if (isset($detail['status']) && $detail['status'] == 'success') {
+            $data['outlet'] = $detail['result']['outlet']??[];
+            $data['course'] = $detail['result']['course']??[];
+            $data['user'] = $detail['result']['user']??[];
+            $data['schedule'] = $detail['result']['schedule']??[];
+            $data['conclusion'] = $detail['result']['conclusion']??[];
+            $data['final_score'] = $detail['result']['final_score']??0;
+        } elseif (isset($detail['status']) && $detail['status'] == 'fail') {
+            return back()->witherrors([$detail['messages']]);
+        } else {
+            return back()->witherrors(['Detail Not Found']);
+        }
+        return view('academy::outlet_course_detail_user', $data);
+    }
 }

@@ -76,7 +76,7 @@ $grantedFeature     = session('granted_features');
                                                 window.location.reload();
                                             }
                                             else if(response.status == "fail"){
-                                                swal("Error!", "Failed to delete.", "error")
+                                                swal("Error!", response.messages[0], "error")
                                             }
                                             else {
                                                 swal("Error!", "Something went wrong. Failed to delete .", "error")
@@ -92,6 +92,12 @@ $grantedFeature     = session('granted_features');
         jQuery(document).ready(function() {
             SweetAlert.init();
 
+        });
+
+        $("#category").change(function() {
+            var id = $(this).val();
+            var url = '{{ url("theory") }}/'+id;
+            window.location = url;
         });
     </script>
 @endsection
@@ -126,6 +132,25 @@ $grantedFeature     = session('granted_features');
             </div>
         </div>
         <div class="portlet-body form">
+            <div class="row">
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                    <select id="category" class="form-control select2-multiple" name="id_category" data-placeholder="Select Category">
+                        <option value="all">All Category</option>
+                        @if (!empty($list_category))
+                            @foreach($list_category as $cat)
+                                <optgroup label="{{$cat['theory_category_name']}}">
+                                    <option value="all-{{ $cat['id_theory_category'] }}" @if($id_category == 'all-'.$cat['id_theory_category']) selected @endif>All Category {{ $cat['theory_category_name'] }}</option>
+                                    @foreach($cat['child'] as $child)
+                                        <option value="{{ $child['id_theory_category'] }}" @if($id_category == $child['id_theory_category']) selected @endif>{{ $child['theory_category_name'] }}</option>
+                                    @endforeach
+                                </optgroup>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+            </div>
+            <br>
             <table class="table table-striped table-bordered table-hover dt-responsive" width="100%" id="theory">
                 <thead>
                     <tr>

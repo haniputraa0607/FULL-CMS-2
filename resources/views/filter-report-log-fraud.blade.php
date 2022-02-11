@@ -111,7 +111,6 @@ $configs = session('configs');
 				'</div>'+
 				'</div>'+
 				'</div>'+
-				'<input type="hidden" name="conditions['+no+']['+noCond+']" value="and">'+
 				'</div>'+
 				'</div>'+
 				'</div>'
@@ -122,17 +121,15 @@ $configs = session('configs');
 	}
 
 	function deleteCondition(no, indexRule){
-		if(confirm('Are you sure you want to delete this condition?')) {
-			if($('#select2'+no).val() == 'trx_product_tag'){
-				cekProductTag[indexRule] = false;
-				if(ProductTagCount[indexRule] != undefined){
-					ProductTagCount[indexRule].forEach(function(item) {
-						$('#condition'+item).remove()
-					});
-				}
+		if($('#select2'+no).val() == 'trx_product_tag'){
+			cekProductTag[indexRule] = false;
+			if(ProductTagCount[indexRule] != undefined){
+				ProductTagCount[indexRule].forEach(function(item) {
+					$('#condition'+item).remove()
+				});
 			}
-			$('#condition'+no).remove()
 		}
+		$('#condition'+no).remove()
 	}
 
 	function changeSubject(val, indexRule){

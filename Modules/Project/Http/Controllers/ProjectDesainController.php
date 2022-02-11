@@ -23,9 +23,9 @@ class ProjectDesainController extends Controller
         }
 	$query = MyHelper::post('project/create/desain', $post);
 	if(isset($query['status']) && $query['status'] == 'success'){
-				return back()->withSuccess(['Create Desain Location Success']);
+            return redirect('project/detail'.'/'.$post['id_project'].'#contract')->withSuccess(['Create Desain Location Success']);
 	} else{
-				return back()->withErrors($query['messages']);
+	   return redirect('project/detail'.'/'.$post['id_project'].'#desain')->withErrors($query['messages']);
 	}
     }
     public function next(Request $request)

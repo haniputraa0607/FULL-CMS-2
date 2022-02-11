@@ -68,51 +68,160 @@ $configs     		= session('configs');
         <div class="row" style="margin-top:20px">
 	<div class="col-md-12">
 		<div class="portlet light bordered">
-			<div class="portlet-title">
-				<div class="caption font-blue ">
-					<i class="icon-settings font-blue "></i>
-					<span class="caption-subject bold uppercase">This menu is used to set a start date and end date from attendance</span>
-				</div>
-			</div>
-			<div class="portlet-body form">
-				<form role="form" class="form-horizontal" action="{{url('setting/setting-attendances-date')}}" method="POST" enctype="multipart/form-data">
-					{{ csrf_field() }}
-					<div class="form-body">
-                                                     <div class="form-group">
-                                                    <label for="example-search-input" class="control-label col-md-4">Start Date Attendance<span class="required" aria-required="true">*</span>
-                                                        <i class="fa fa-question-circle tooltips" data-original-title="Start date berisi data perhitungan absensi dimulai" data-container="body"></i></label>
-                                                    <div class="col-md-5">
-                                                        <input value="{{$result['start']??''}}" type="number" min="2" max="28" name="start" id="start" class="form-control" placeholder="Enter start date">
-                                                    </div>
+                    <div class="portlet-title">
+                                <div class="caption font-blue ">
+                                        <i class="icon-settings font-blue "></i>
+                                        <span class="caption-subject bold uppercase">This menu setting cut off </span>
+                                </div>
+                        </div>
+                    <form role="form" class="form-horizontal" action="{{url('setting/setting-attendances-date')}}" method="POST" enctype="multipart/form-data">
+                       
+                        <div class="portlet light">
+                            <div class="portlet-title">
+                                    <div class="caption">
+                                            <span class="caption-subject bold">Date Middle Cut Off</span>
+                                    </div>
+                            </div>
+                            <div class="portlet-body form">
+                                <div class="form-body"> 
+                                        <div class="form-group">
+                                            <label for="example-search-input" class="control-label col-md-4">Date<span class="required" aria-required="true">*</span>
+                                                <i class="fa fa-question-circle tooltips" data-original-title="tanggal pertengahan perhitungan absensi" data-container="body"></i></label>
+                                            <div class="col-md-5">
+                                                <input value="{{$result['mid_date']??''}}" required type="number" min="1" max="28" name="mid_date" id="mid_date" class="form-control" placeholder="Enter date">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="example-search-input" class="control-label col-md-4">Delivery date<span class="required" aria-required="true">*</span>
+                                                <i class="fa fa-question-circle tooltips" data-original-title="Tanggal pengiriman pendapatan tengah bulan" data-container="body"></i></label>
+                                            <div class="col-md-5">
+                                                <input value="{{$result['delivery_mid_date']??''}}" required type="number" min="1" max="28" name="delivery_mid_date" id="delivery_mid_date" class="form-control" placeholder="Enter date">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="example-search-input" class="control-label col-md-4">Product Commission
+                                                <i class="fa fa-question-circle tooltips" data-original-title="Pada pembayaran tengah bulan komisi produk bisa di pilih maupun tidak" data-container="body"></i></label>
+                                            <div class="col-md-6">
+                                                <div class="mt-checkbox-inline">
+                                                    <input type="checkbox" name="hs_income_calculation_mid[]"  @if(array_search("product_commission",$result['calculation_mid']) !== false) checked @endif  value="product_commission"> Product Commission
                                                 </div>
-					</div>
-					<div class="form-body">
-                                                     <div class="form-group">
-                                                    <label for="example-search-input" class="control-label col-md-4">Middle of Month Attendance<span class="required" aria-required="true">*</span>
-                                                        <i class="fa fa-question-circle tooltips" data-original-title="Tengha bulan dihitung dari hari ke 13-16 yang berfungsi untuk mengirim pendapatan hs pada tengah bulan." data-container="body"></i></label>
-                                                    <div class="col-md-5">
-                                                        <input value="{{$result['middle']??''}}" type="number" min="13" max="16" name="middle" id="middle" class="form-control" placeholder="Enter start date">
-                                                    </div>
+                                            </div>
+                                        </div>
+                                        @if(isset($insentif))
+                                        @php $insen = count($insentif); @endphp
+                                        <div class="form-group">
+                                            <label for="example-search-input" class="control-label col-md-4">Incentive
+                                                <i class="fa fa-question-circle tooltips" data-original-title="Pada pembayaran tengah bulan dapat memilih insentif yang akan dihitung" data-container="body"></i></label>
+                                            <div class="col-md-6">
+                                                <div class="mt-checkbox-inline">
+                                                    @foreach($insentif as $key => $row)
+                                                        @php $key++; @endphp
+                                                       <input type="checkbox" name="hs_income_calculation_mid[]" @if(array_search('incentive_'.$row['code'],$result['calculation_mid'])  !== false) checked @endif  value="incentive_{{$row['code']}}"> {{$row['name']}} ( {{$row['code']}} )
+                                                       @if($key < $insen)
+                                                       <br>
+                                                       @endif
+                                                    @endforeach
                                                 </div>
-					</div>
-					<div class="form-body">
-                                                     <div class="form-group">
-                                                    <label for="example-search-input" class="control-label col-md-4">End Date Attendance<span class="required" aria-required="true">*</span>
-                                                        <i class="fa fa-question-circle tooltips" data-original-title="End date data untuk selesai perhitungan absensi. Tanggal selesai tidak boleh sama maupun melebihi tanggal mulai" data-container="body"></i></label>
-                                                    <div class="col-md-5">
-                                                        <input value="{{$result['end']??''}}" disabled type="number" min="1" max="27" name="hidden" id="hidden" class="form-control" placeholder="Enter end date">
-                                                        <input value="{{$result['end']??''}}" type="hidden" min="1" max="27" name="end" id="end" class="form-control" placeholder="Enter end date">
-                                                    </div>
+                                            </div>
+                                        </div>
+                                        @endif
+                                        @if(isset($cuts_salary))
+                                         @php $potong = count($cuts_salary); @endphp
+                                        <div class="form-group">
+                                            <label for="example-search-input" class="control-label col-md-4">Cuts Salary
+                                                <i class="fa fa-question-circle tooltips" data-original-title="Pada pembayaran tengah dapat memilih potongan yang akan dihitung" data-container="body"></i></label>
+                                            <div class="col-md-6">
+                                                <div class="mt-checkbox-inline">
+                                                    @foreach($cuts_salary as $keys => $rows)
+                                                        @php $keys++; @endphp
+                                                       <input type="checkbox" name="hs_income_calculation_mid[]"  @if(array_search('salary_cut_'.$rows['code'],$result['calculation_mid'])  !== false) checked @endif value="salary_cut_{{$rows['code']}}"> {{$rows['name']}} ( {{$rows['code']}} )
+                                                       @if($keys < $potong)
+                                                       <br>
+                                                       @endif
+                                                    @endforeach
                                                 </div>
-					</div>
-                                        
-					<div class="form-actions" style="text-align:center;">
-						{{ csrf_field() }}
-						<button type="submit" class="btn blue" id="checkBtn">Submit</button>
-					</div>
-				</form>
-			</div>
-		</div>
+                                            </div>
+                                        </div>
+                                        @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portlet light">
+                            <div class="portlet-title">
+                                    <div class="caption ">
+                                            <span class="caption-subject bold ">Date End Cut Off</span>
+                                    </div>
+                            </div>
+                            <div class="portlet-body form">
+                                <div class="form-body">
+                                        <div class="form-group">
+                                            <label for="example-search-input" class="control-label col-md-4">Date<span class="required" aria-required="true">*</span>
+                                                <i class="fa fa-question-circle tooltips" data-original-title="Tanggal perhitungan akhir absensi" data-container="body"></i></label>
+                                            <div class="col-md-5">
+                                                <input value="{{$result['end_date']??''}}" requiredrequired type="number" min="2" max="28" name="end_date" id="end_date" class="form-control" placeholder="Enter start date">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="example-search-input" class="control-label col-md-4">Delivery date<span class="required" aria-required="true">*</span>
+                                                <i class="fa fa-question-circle tooltips" data-original-title="Tanggal pengiriman pendapatan akhir bulan" data-container="body"></i></label>
+                                            <div class="col-md-5">
+                                                <input value="{{$result['delivery_end_date']??''}}" required type="number" min="1" max="28" name="delivery_end_date" id="delivery_end_date" class="form-control" placeholder="Enter date">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="example-search-input" class="control-label col-md-4">Product Commission
+                                                <i class="fa fa-question-circle tooltips" data-original-title="Pada pembayaran tengah bulan komisi produk bisa di pilih maupun tidak" data-container="body"></i></label>
+                                            <div class="col-md-6">
+                                                <div class="mt-checkbox-inline">
+                                                        <input type="checkbox" name="hs_income_calculation_end[]"  @if(array_search("product_commission",$result['calculation_end'])  !== false) checked @endif  value="product_commission"> Product Commission
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @if(isset($insentif))
+                                        @php $insen = count($insentif); @endphp
+                                        <div class="form-group">
+                                            <label for="example-search-input" class="control-label col-md-4">Incentive
+                                                <i class="fa fa-question-circle tooltips" data-original-title="Pada pembayaran tengah bulan dapat memilih insentif yang akan dihitung" data-container="body"></i></label>
+                                            <div class="col-md-6">
+                                                <div class="mt-checkbox-inline">
+                                                    @foreach($insentif as $key => $row)
+                                                        @php $key++; @endphp
+                                                       <input type="checkbox" name="hs_income_calculation_end[]"  @if(array_search('incentive_'.$row['code'],$result['calculation_end'])  !== false) checked @endif  value="incentive_{{$row['code']}}"> {{$row['name']}} ( {{$row['code']}} )
+                                                       @if($key < $insen)
+                                                       <br>
+                                                       @endif
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endif
+                                        @if(isset($cuts_salary))
+                                         @php $potong = count($cuts_salary); @endphp
+                                        <div class="form-group">
+                                            <label for="example-search-input" class="control-label col-md-4">Cuts Salary
+                                                <i class="fa fa-question-circle tooltips" data-original-title="Pada pembayaran tengah dapat memilih potongan yang akan dihitung" data-container="body"></i></label>
+                                            <div class="col-md-6">
+                                                <div class="mt-checkbox-inline">
+                                                    @foreach($cuts_salary as $keys => $rows)
+                                                        @php $keys++; @endphp
+                                                       <input type="checkbox" name="hs_income_calculation_end[]" @if(array_search('salary_cut_'.$rows['code'],$result['calculation_end'])  !== false) checked @endif  value="salary_cut_{{$rows['code']}}"> {{$rows['name']}} ( {{$rows['code']}} )
+                                                       @if($keys < $potong)
+                                                       <br>
+                                                       @endif
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions" style="text-align:center;">
+                                        {{ csrf_field() }}
+                                        <button type="submit" class="btn blue" id="checkBtn">Submit</button>
+                                    </div>
+                    </form>    
+                </div>
 	</div>
 </div>
 @endsection

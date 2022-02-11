@@ -1233,13 +1233,21 @@
 								<option value="none">None</option>
 								<option value="news">News</option>
 								<option value="url">Link</option>
-								<option value="order">Order</option>
-								<option value="deals_list">Deals List</option>
-								<option value="deals_detail">Deals Detail</option>
-								<option value="subscription_list">Subscription List</option>
-								<option value="subscription_detail">Subscription Detail</option>
-								<option value="my_voucher">My Voucher</option>
-								<option value="edit_profile">Edit Profile</option>
+								<option value="outlet_service">Outlet Service</option>
+								<option value="home_service">Home Service</option>
+								<option value="online_shop">Online Shop</option>
+								<option value="academy">Academy</option>
+								<option value="history_outlet_service">History Outlet Service</option>
+								<option value="history_home_service">History Home Service</option>
+								<option value="history_online_shop">History Online Shop</option>
+								<option value="history_academy">History Academy</option>
+								<option value="history_payment">History Payment</option>
+								<option value="deals">Deals</option>
+								<option value="voucher">List Voucher</option>
+								<option value="promo">Promo Code</option>
+								<option value="profile">Profile</option>
+								<option value="terms_and_condition">Terms and Condition</option>
+								<option value="privacy_policy">Privacy Policy</option>
 							</select>
                         </div>
 					</div>
@@ -1258,26 +1266,42 @@
                             </select>
                         </div>
 					</div>
+					<div class="form-group clearfix" data-visible="deals">
+                        <label class="col-md-3 control-label">
+                            Deals
+                        </label>
+                        <div class="col-md-5">
+                        	<select class="form-control select2 click-to-news" name="id_reference" data-placeholder="Select Deals">
+                        		<option value="0">List Deals</option>
+                                @if (!empty($news))
+                                    @foreach ($deals as $item)
+                                    <option value="{{ $item['id_deals'] }}">{{ $item['deals_title'] }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+					</div>
+					<div class="form-group clearfix" data-visible="promo">
+                        <label class="col-md-3 control-label">
+                            Deals
+                        </label>
+                        <div class="col-md-5">
+                        	<select class="form-control select2" name="id_reference" data-placeholder="Select Promo Code">
+                        		<option value="0">List Deals</option>
+                                @if (!empty($promos))
+                                    @foreach ($promos as $item)
+                                    <option value="{{ $item['id_promo_campaign'] }}">{{ $item['promo_title'] }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+					</div>
 					<div class="form-group clearfix" data-visible="url">
                         <label class="col-md-3 control-label">
                             URL
                         </label>
                         <div class="col-md-5">
 							<input class="form-control" type="text" name="url" placeholder="https://www.google.com">
-                        </div>
-					</div>
-					<div class="form-group clearfix" data-visible="deals_detail">
-                        <label class="col-md-3 control-label">
-                            Deals
-                        </label>
-                        <div class="col-md-5">
-                        	<select class="form-control select2" name="id_reference" data-placeholder="Select Deals">
-                                @if (!empty($deals))
-                                    @foreach ($deals as $item)
-                                    <option value="{{ $item['id_deals'] }}">{{ $item['deals_title'] }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
                         </div>
 					</div>
 					<div class="form-group clearfix" data-visible="subscription_detail">
@@ -1403,13 +1427,21 @@
 								<option value="none">None</option>
 								<option value="news">News</option>
 								<option value="url">Link</option>
-								<option value="order">Order</option>
-								<option value="deals_list">Deals List</option>
-								<option value="deals_detail">Deals Detail</option>
-								<option value="subscription_list">Subscription List</option>
-								<option value="subscription_detail">Subscription Detail</option>
-								<option value="my_voucher">My Voucher</option>
-								<option value="edit_profile">Edit Profile</option>
+								<option value="outlet_service">Outlet Service</option>
+								<option value="home_service">Home Service</option>
+								<option value="online_shop">Online Shop</option>
+								<option value="academy">Academy</option>
+								<option value="history_outlet_service">History Outlet Service</option>
+								<option value="history_home_service">History Home Service</option>
+								<option value="history_online_shop">History Online Shop</option>
+								<option value="history_academy">History Academy</option>
+								<option value="history_payment">History Payment</option>
+								<option value="deals">Deals</option>
+								<option value="voucher">Voucher</option>
+								<option value="promo">Promo Code</option>
+								<option value="profile">Profile</option>
+								<option value="terms_and_condition">Terms and Condition</option>
+								<option value="privacy_policy">Privacy Policy</option>
 							</select>
                         </div>
 					</div>
@@ -1436,15 +1468,31 @@
 							<input class="form-control" type="text" name="url" placeholder="https://www.google.com">
                         </div>
 					</div>
-					<div class="form-group clearfix" data-visible="deals_detail">
+					<div class="form-group clearfix" data-visible="deals">
                         <label class="col-md-3 control-label">
                             Deals
                         </label>
                         <div class="col-md-5">
-                        	<select class="form-control select2" name="id_reference" data-placeholder="Select Deals">
-                                @if (!empty($deals))
+                        	<select class="form-control select2 click-to-news" name="id_reference" data-placeholder="Select Deals">
+                        		<option value="0">List Deals</option>
+                                @if (!empty($news))
                                     @foreach ($deals as $item)
                                     <option value="{{ $item['id_deals'] }}">{{ $item['deals_title'] }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+					</div>
+					<div class="form-group clearfix" data-visible="promo">
+                        <label class="col-md-3 control-label">
+                            Deals
+                        </label>
+                        <div class="col-md-5">
+                        	<select class="form-control select2" name="id_reference" data-placeholder="Select Promo Code">
+                        		<option value="0">List Promo</option>
+                                @if (!empty($promos))
+                                    @foreach ($promos as $item)
+                                    <option value="{{ $item['id_promo_campaign'] }}">{{ $item['promo_title'] }}</option>
                                     @endforeach
                                 @endif
                             </select>

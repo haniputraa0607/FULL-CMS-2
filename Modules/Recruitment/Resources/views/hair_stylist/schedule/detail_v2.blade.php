@@ -233,7 +233,12 @@
 		                </div>
 		                <div class="form-group">
 		                    <label class="col-md-2">Outlet</label>
-		                    <div class="col-md-6">: <a href="{{ url('outlet/detail') }}/{{ $data['detail']['outlet_code'] }}">{{ $data['detail']['outlet_code'].' - '.$data['detail']['outlet_name'] }}</a></div>
+		                    <div class="col-md-6">: 
+		                    	@foreach($data['outlets'] as $outlet)
+		                    	<a href="{{ url('outlet/detail') }}/{{ $outlet['outlet_code'] }}">{{ $outlet['outlet_code'].' - '.$outlet['outlet_name'] }}</a>
+		                    	<br/>
+		                    	@endforeach
+		                    </div>
 		                </div>
 						@php
 							$day = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];

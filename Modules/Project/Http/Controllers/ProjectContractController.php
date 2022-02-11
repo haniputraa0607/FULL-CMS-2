@@ -26,9 +26,9 @@ class ProjectContractController extends Controller
         $post['renovation_cost'] = str_replace(',','', $post['renovation_cost']??0);
         $query = MyHelper::post('project/create/contract', $post);
 	if(isset($query['status']) && $query['status'] == 'success'){
-				return back()->withSuccess(['Contract Success']);
+            return redirect('project/detail'.'/'.$post['id_project'].'#fitout')->withSuccess(['Contract Success']);
 	} else{
-				return back()->withErrors($query['messages']);
+            return redirect('project/detail'.'/'.$post['id_project'].'#contract')->withErrors($query['messages']);
 	}
     }
     public function next(Request $request)

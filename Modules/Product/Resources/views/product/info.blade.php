@@ -52,22 +52,22 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-md-3 control-label">Code
+                <i class="fa fa-question-circle tooltips" data-original-title="Kode Produk Bersifat Unik" data-container="body"></i>
+            </label>
+            <div class="col-md-8">
+                <div class="input-icon right">
+                    <input type="text" class="form-control" name="product_code" value="{{ $syu['product_code'] }}" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-md-3 control-label">Name <span class="required" aria-required="true"> * </span>
                 <i class="fa fa-question-circle tooltips" data-original-title="Nama Produk" data-container="body"></i>
             </label>
             <div class="col-md-8">
                 <div class="input-icon right">
                     <input type="text" class="form-control" name="product_name" value="{{ $syu['product_name'] }}" required>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-3 control-label">Code
-                <i class="fa fa-question-circle tooltips" data-original-title="Kode Produk Bersifat Unik" data-container="body"></i>
-            </label>
-            <div class="col-md-8">
-                <div class="input-icon right">
-                    <input type="text" class="form-control" name="product_code" value="{{ $syu['product_code'] }}" required>
                 </div>
             </div>
         </div>
