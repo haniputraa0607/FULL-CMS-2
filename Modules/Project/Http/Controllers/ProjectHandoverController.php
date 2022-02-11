@@ -24,9 +24,9 @@ class ProjectHandoverController extends Controller
 	$query = MyHelper::post('project/create/handover', $post);
         
 	if(isset($query['status']) && $query['status'] == 'success'){
-				return back()->withSuccess(['Handover Success']);
+            return redirect('project/detail'.'/'.$post['id_project'])->withSuccess(['Handover Success']);
 	} else{
-				return back()->withErrors($query['messages']);
+            return redirect('project/detail'.'/'.$post['id_project'].'#handover')->withErrors($query['messages']);
 	}
     }
     public function next(Request $request)

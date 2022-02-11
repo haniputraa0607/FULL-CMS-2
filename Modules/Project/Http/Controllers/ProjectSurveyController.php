@@ -23,9 +23,9 @@ class ProjectSurveyController extends Controller
         }
 	$query = MyHelper::post('project/create/survey_location', $post);
 	if(isset($query['status']) && $query['status'] == 'success'){
-				return back()->withSuccess(['Survey Location Success']);
+            return redirect('project/detail'.'/'.$post['id_project'].'#desain')->withSuccess(['Survey Location Success']);
 	} else{
-				return back()->withErrors($query['messages']);
+            return redirect('project/detail'.'/'.$post['id_project'].'#survey')->withErrors($query['messages']);
 	}
     }
     public function next(Request $request)
