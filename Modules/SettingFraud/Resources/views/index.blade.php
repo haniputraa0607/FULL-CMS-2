@@ -576,28 +576,28 @@ $configs    		= session('configs');
             @endif
 
             //For transaction point
-            divMain('transaction_point','{{$result[4]['fraud_settings_status']}}')
+            {{--divMain('transaction_point','{{$result[4]['fraud_settings_status']}}')--}}
 
-            @if (isset($result[4]['auto_suspend_status']))
-            checkboxAction('checkbox_auto_suspend-transaction_point')
-            @endif
+            {{--@if (isset($result[4]['auto_suspend_status']))--}}
+            {{--checkboxAction('checkbox_auto_suspend-transaction_point')--}}
+            {{--@endif--}}
 
-            @if (isset($result[4]['forward_admin_status']))
-            checkboxAction('checkbox_forward_admin-transaction_point')
-            @endif
+            {{--@if (isset($result[4]['forward_admin_status']))--}}
+            {{--checkboxAction('checkbox_forward_admin-transaction_point')--}}
+            {{--@endif--}}
 
-            @if (isset($result[4]['email_toogle']))
-            visibleDiv('email', "{{$result[4]['email_toogle']}}",'transaction_point')
-            $('#email_toogle_transaction_point').val("{{$result[4]['email_toogle']}}")
-            @endif
+            {{--@if (isset($result[4]['email_toogle']))--}}
+            {{--visibleDiv('email', "{{$result[4]['email_toogle']}}",'transaction_point')--}}
+            {{--$('#email_toogle_transaction_point').val("{{$result[4]['email_toogle']}}")--}}
+            {{--@endif--}}
 
-            @if (isset($result[4]['sms_toogle']))
-            visibleDiv('sms', "{{$result[4]['sms_toogle']}}",'transaction_point')
-            @endif
+            {{--@if (isset($result[4]['sms_toogle']))--}}
+            {{--visibleDiv('sms', "{{$result[4]['sms_toogle']}}",'transaction_point')--}}
+            {{--@endif--}}
 
-            @if (isset($result[4]['whatsapp_toogle']))
-            visibleDiv('whatsapp', "{{$result[4]['whatsapp_toogle']}}",'transaction_point')
-            @endif
+            {{--@if (isset($result[4]['whatsapp_toogle']))--}}
+            {{--visibleDiv('whatsapp', "{{$result[4]['whatsapp_toogle']}}",'transaction_point')--}}
+            {{--@endif--}}
 
             //For transaction between
             divMain('transaction_in_between','{{$result[3]['fraud_settings_status']}}')
