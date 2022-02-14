@@ -68,13 +68,13 @@ $idCategoryUse = [];
 												</div>
 												@foreach($t as $data)
 													<div class="row">
-														<div class="col-md-8" style="margin-top: -2%;">
+														<div class="col-md-7" style="margin-top: -2%;">
 															<p>{{$data['theory_title']}}</p>
 														</div>
-														<div class="col-md-2">
+														<div class="col-md-3">
 															<div class="input-group">
 																<input type="text" class="form-control" value="{{$data['score']}}" disabled>
-																<span class="input-group-addon">/ {{$data['minimum_score']}}</span>
+																<span class="input-group-addon">minimal {{$data['minimum_score']}}</span>
 															</div>
 														</div>
 														<div class="col-md-2">
@@ -86,11 +86,11 @@ $idCategoryUse = [];
 											<br>
 											<hr style="border-top: 1px solid black;">
 											<div class="row">
-												<div class="col-md-8" style="margin-top: 0.7%"><b>Conclusion Score</b></div>
-												<div class="col-md-2">
+												<div class="col-md-7" style="margin-top: 0.7%"><b>Conclusion Score</b></div>
+												<div class="col-md-3">
 													<div class="input-group">
 														<input type="text" class="form-control" value="{{$dataTraining['conclusion_score']}}" disabled>
-														<span class="input-group-addon">/ {{(int)($minScore/$totalTheory)}}</span>
+														<span class="input-group-addon">minimal {{(int)($minScore/$totalTheory)}}</span>
 													</div>
 												</div>
 												<div class="col-md-2">
@@ -171,8 +171,9 @@ $idCategoryUse = [];
 									$htmlTheory .= '<div class="col-md-3">';
 									$htmlTheory .= '<div class="input-group">';
 									$htmlTheory .= '<input type="text" class="form-control score_theory_'.$ct['id_theory_category'].'" id="score_'.$theory['id_theory'].'" name="data_document[theory]['.$theory['id_theory'].$noTheo.'][score]" placeholder="Score" onkeyup="conclusionScore('.$ct['id_theory_category'].')">';
-									$htmlTheory .= '<span class="input-group-addon">/ '.$theory['minimum_score'].'</span>';
+									$htmlTheory .= '<span class="input-group-addon">minimal '.$theory['minimum_score'].'</span>';
 									$htmlTheory .= '</div>';
+									$htmlTheory .= '<p style="color: red;margin-top: -1%;display: none" id="error_text_'.$theory['id_theory'].'">Maximal score is 100</p>';
 									$htmlTheory .= '</div>';
                                     $htmlTheory .= '<div class="col-md-3">';
                                     $htmlTheory .= '<select class="form-control select2" name="data_document[theory]['.$theory['id_theory'].$no.'][passed_status]">';
@@ -201,13 +202,14 @@ $idCategoryUse = [];
 									$htmlTheory .= '</div>';
 									$htmlTheory .= '<div class="col-md-3">';
 									$htmlTheory .= '<div class="input-group">';
-									$htmlTheory .= '<input type="text" class="form-control" id="conclusion_score_'.$ct['id_theory_category'].'" name="data_document[conclusion_score]" placeholder="Score">';
+									$htmlTheory .= '<input type="text" class="form-control" id="conclusion_score_'.$ct['id_theory_category'].'" name="conclusion_score['.$ct['id_theory_category'].']" placeholder="Score" onkeyup="validationConclusion('.$ct['id_theory_category'].')">';
 									$htmlTheory .= '<input type="hidden" id="conclusion_minimum_score_'.$ct['id_theory_category'].'" value="'.$totalMinimumScore.'">';
-									$htmlTheory .= '<span class="input-group-addon">/ '.$totalMinimumScore.'</span>';
+									$htmlTheory .= '<span class="input-group-addon">minimal '.$totalMinimumScore.'</span>';
 									$htmlTheory .= '</div>';
+									$htmlTheory .= '<p style="color: red;margin-top: -1%;display: none" id="conclusion_error_text_'.$ct['id_theory_category'].'">Maximal score is 100</p>';
 									$htmlTheory .= '</div>';
 									$htmlTheory .= '<div class="col-md-3">';
-									$htmlTheory .= '<select class="form-control select2" id="conclusion_status_'.$ct['id_theory_category'].'" name="data_document[conclusion_status]">';
+									$htmlTheory .= '<select class="form-control select2" id="conclusion_status_'.$ct['id_theory_category'].'" name="conclusion_status['.$ct['id_theory_category'].']">';
 									$htmlTheory .= '<option value="Passed">Passed<option>';
 									$htmlTheory .= '<option value="Not Passed">Not Passed<option>';
 									$htmlTheory .= '</select>';
@@ -234,8 +236,9 @@ $idCategoryUse = [];
 										$htmlTheory .= '<div class="col-md-3">';
 										$htmlTheory .= '<div class="input-group">';
 										$htmlTheory .= '<input type="text" class="form-control score_theory_'.$ct['id_theory_category'].'" id="score_'.$theory['id_theory'].'" name="data_document[theory]['.$theory['id_theory'].$no.'][score]" placeholder="Score" onkeyup="conclusionScore('.$ct['id_theory_category'].')">';
-										$htmlTheory .= '<span class="input-group-addon">/ '.$theory['minimum_score'].'</span>';
+										$htmlTheory .= '<span class="input-group-addon">minimal '.$theory['minimum_score'].'</span>';
 										$htmlTheory .= '</div>';
+										$htmlTheory .= '<p style="color: red;margin-top: -1%;display: none" id="error_text_'.$theory['id_theory'].'">Maximal score is 100</p>';
 										$htmlTheory .= '</div>';
                                         $htmlTheory .= '<div class="col-md-3">';
                                         $htmlTheory .= '<select class="form-control select2" name="data_document[theory]['.$theory['id_theory'].$no.'][passed_status]">';
@@ -265,10 +268,11 @@ $idCategoryUse = [];
 									$htmlTheory .= '</div>';
 									$htmlTheory .= '<div class="col-md-3">';
 									$htmlTheory .= '<div class="input-group">';
-									$htmlTheory .= '<input type="text" class="form-control" id="conclusion_score_'.$ct['id_theory_category'].'" name="conclusion_score['.$ct['id_theory_category'].']" placeholder="Score">';
+									$htmlTheory .= '<input type="text" class="form-control" id="conclusion_score_'.$ct['id_theory_category'].'" name="conclusion_score['.$ct['id_theory_category'].']" placeholder="Score" onkeyup="validationConclusion('.$ct['id_theory_category'].')">';
 									$htmlTheory .= '<input type="hidden" id="conclusion_minimum_score_'.$ct['id_theory_category'].'" value="'.$totalMinimumScore.'">';
-									$htmlTheory .= '<span class="input-group-addon">/ '.$totalMinimumScore.'</span>';
+									$htmlTheory .= '<span class="input-group-addon">minimal '.$totalMinimumScore.'</span>';
 									$htmlTheory .= '</div>';
+									$htmlTheory .= '<p style="color: red;margin-top: -1%;display: none" id="conclusion_error_text_'.$ct['id_theory_category'].'">Maximal score is 100</p>';
 									$htmlTheory .= '</div>';
 									$htmlTheory .= '<div class="col-md-3">';
 									$htmlTheory .= '<select class="form-control select2" id="conclusion_status_'.$ct['id_theory_category'].'" name="conclusion_status['.$ct['id_theory_category'].']">';
@@ -303,7 +307,7 @@ $idCategoryUse = [];
 			<div class="row" style="text-align: center">
 				{{ csrf_field() }}
 				<a class="btn red save" data-name="{{ $detail['fullname'] }}" data-status="Rejected" data-form="training">Reject</a>
-				<button class="btn blue">Submit</button>
+				<button class="btn blue" id="btn_submit_traning">Submit</button>
 			</div>
 		</form>
 	</div>

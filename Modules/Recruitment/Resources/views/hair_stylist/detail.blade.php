@@ -137,6 +137,8 @@ $totalTheories = 0;
 				$("#cat_"+prev_id_theory).hide();
 			}
 			prev_id_theory = value;
+			conclusionScore(value);
+			validationConclusion(value);
 		}
 		
 		function nextStepFromTrainingResult(id) {
@@ -178,11 +180,19 @@ $totalTheories = 0;
 		function conclusionScore(id) {
 			var total = 0;
 			var j = 0;
+			var disable_status = 0;
 			$('#conclusion_score_'+id).val('');
 			$('.score_theory_'+id).each(function(i, obj) {
 				j++;
 				var score_id = obj.id;
 				var value = $('#'+score_id).val();
+				var split = score_id.split('_');
+				var id_theory = split[1];
+				$('#error_text_'+id_theory).hide();
+				if(value > 100){
+					disable_status = 1;
+					$('#error_text_'+id_theory).show();
+				}
 				if(value){
 					total = total + parseInt(value);
 				}
@@ -196,6 +206,25 @@ $totalTheories = 0;
 				$('#conclusion_status_'+id).val('Not Passed').trigger("change");
 			}else{
 				$('#conclusion_status_'+id).val('Passed').trigger("change");
+			}
+
+			if(disable_status == 1){
+				$("#btn_submit_traning").attr("disabled", true);
+			}else{
+				$("#btn_submit_traning").attr("disabled", false);
+			}
+
+			validationConclusion(id);
+		}
+		
+		function validationConclusion(id) {
+			var score = $('#conclusion_score_'+id).val();
+			if(score > 100){
+				$('#conclusion_error_text_'+id).show();
+				$("#btn_submit_traning").attr("disabled", true);
+			}else{
+				$('#conclusion_error_text_'+id).hide();
+				$("#btn_submit_traning").attr("disabled", false);
 			}
 		}
     </script>
@@ -689,13 +718,13 @@ $totalTheories = 0;
 																				$detailTotalTheory++;
 																			?>
 																			<div class="row">
-																				<div class="col-md-8" style="margin-top: -2%;">
+																				<div class="col-md-7" style="margin-top: -2%;">
 																					<p>{{$data['theory_title']}}</p>
 																				</div>
-																				<div class="col-md-2">
+																				<div class="col-md-3">
 																					<div class="input-group">
 																						<input type="text" class="form-control" value="{{$data['score']}}" disabled>
-																						<span class="input-group-addon">/ {{$data['minimum_score']}}</span>
+																						<span class="input-group-addon">minimal {{$data['minimum_score']}}</span>
 																					</div>
 																				</div>
 																				<div class="col-md-2">
@@ -707,11 +736,11 @@ $totalTheories = 0;
 																	<br>
 																	<hr style="border-top: 1px solid black;">
 																	<div class="row">
-																		<div class="col-md-8" style="margin-top: 0.7%"><b>Conclusion Score</b></div>
-																		<div class="col-md-2">
+																		<div class="col-md-7" style="margin-top: 0.7%"><b>Conclusion Score</b></div>
+																		<div class="col-md-3">
 																			<div class="input-group">
 																				<input type="text" class="form-control" value="{{(int)($totalScore/$detailTotalTheory)}}" disabled>
-																				<span class="input-group-addon">/ {{(int)($minScore/$detailTotalTheory)}}</span>
+																				<span class="input-group-addon">minimal {{(int)($minScore/$detailTotalTheory)}}</span>
 																			</div>
 																		</div>
 																		<div class="col-md-2">
