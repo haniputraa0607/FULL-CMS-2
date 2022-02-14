@@ -167,6 +167,7 @@
             $date_end   = null;
         }
         $brands = array_column($result['brands'], 'id_brand');
+        $services = array_column($result['deals_services'], 'service');
         $is_all_product_bill = $result['deals_promotion_discount_bill_rules']['is_all_product'] ?? $result['deals_discount_bill_rules']['is_all_product'] ?? 1;
 	@endphp
     
@@ -179,6 +180,7 @@
 		var is_all_product = '{!!$is_all_product!!}';
 		var is_all_product_bill = {{ $is_all_product_bill }};
 		var brand = JSON.parse('{!!json_encode($brands)!!}');
+		var service = JSON.parse('{!!json_encode($services)!!}');
 		var product_type = '{!!$product_type!!}';
 
 		// load product benefit for promo buy x get y
@@ -188,6 +190,7 @@
 			data : {
 				"get" : 'Product',
 				"brand" : brand,
+                "service" : service,
 				"product_type" : 'single'
 			},
 			dataType: "json",
@@ -211,6 +214,7 @@
 					data : {
 						"get" : 'Product',
 						"brand" : brand,
+						"service" : service,
 						"product_type" : product_type
 					},
 					dataType: "json",
@@ -299,6 +303,7 @@
 						data : {
 							"get" : 'Product',
 							"brand" : brand,
+                            "service" : service,
 							"product_type" : product_type
 						},
 						dataType: "json",
@@ -375,6 +380,7 @@
 					data : {
 						"get" : 'Product',
 						"brand" : brand,
+                        "service" : service,
 						"product_type" : product_type
 					},
 					dataType: "json",
