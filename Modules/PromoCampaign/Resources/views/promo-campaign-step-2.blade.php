@@ -174,6 +174,7 @@
         }
 
         $brands = array_column($result['brands'], 'id_brand');
+        $services = array_column($result['promo_campaign_services'], 'service');
         $brand_rule = $result['brand_rule'];
         $is_all_product_bill = $result['promo_campaign_discount_bill_rules']['is_all_product']??1;
 	@endphp
@@ -186,6 +187,7 @@
 		var is_all_product = '{!!$is_all_product!!}';
 		var is_all_product_bill = {{ $is_all_product_bill }};
 		var brand = JSON.parse('{!!json_encode($brands)!!}');
+		var service = JSON.parse('{!!json_encode($services)!!}');
 		var brand_rule = '{!!$brand_rule!!}';
 		var product_type = '{!!$product_type!!}';
 
@@ -196,6 +198,7 @@
 			data : {
 				"get" : 'Product',
 				"brand" : brand,
+                "service" : service,
 				"product_type" : 'single'
 			},
 			dataType: "json",
@@ -215,6 +218,7 @@
 			data : {
 				"get" : 'Outlet',
 				"brand" : brand,
+                "service" : service,
 				'brand_rule' : brand_rule
 			},
 			dataType: "json",
@@ -245,6 +249,7 @@
 			data : {
 				"get" : 'Outlet Group',
 				"brand" : brand,
+                "service" : service,
 				'brand_rule' : brand_rule
 			},
 			dataType: "json",
@@ -291,6 +296,7 @@
 					data : {
 						"get" : 'Product',
 						"brand" : brand,
+                        "service" : service,
 						"product_type" : product_type
 					},
 					dataType: "json",
@@ -379,6 +385,7 @@
 						data : {
 							"get" : 'Product',
 							"brand" : brand,
+                            "service" : service,
 							"product_type" : product_type
 						},
 						dataType: "json",
@@ -455,6 +462,7 @@
 					data : {
 						"get" : 'Product',
 						"brand" : brand,
+                        "service" : service,
 						"product_type" : product_type
 					},
 					dataType: "json",

@@ -693,10 +693,6 @@ class PartnersController extends Controller
             $update_partner['npwp_address'] = $request['npwp_address'];
         }
 
-        // if (isset($request['id_bank_account']) && $request['follow_up']=='Input Data Partner'){
-        //     $update_partner['id_bank_account'] = $request['id_bank_account'];
-        // }
-
         if ($request['start_date']!=null && $request['follow_up']=='Input Data Partner'){
             $update_partner['start_date'] = date('Y-m-d', strtotime($request['start_date']));
         } 
@@ -704,34 +700,6 @@ class PartnersController extends Controller
             $update_partner['end_date'] = date('Y-m-d', strtotime($request['end_date']));
         }
 
-        // if(isset($request["follow_up"]) && $request["follow_up"]=='Survey Location'){
-        //     $request->validate([
-        //         "surye_note" => "required",
-        //     ]);
-        //     $form_survey = [
-        //         "id_partner"  => $request["id_partner"],
-        //         "id_location"  => $request["id_location"],
-        //         'note' => $request['surye_note'],
-        //         'date' => date("Y-m-d"),
-        //         'surveyor' => session('name'),
-        //     ];
-        //     if(isset($request["survey_potential"]) && $request["survey_potential"]=='on'){
-        //         $form_survey['potential'] = 1;
-        //     } else{
-        //         $form_survey['potential'] = 0;
-        //     };
-        //     $index_cat = 1;
-        //     foreach($request['category'] as $cat){
-        //         $name_cat = 'cat'.$index_cat;
-        //         $form[$name_cat]['category'] = $cat['cat'];
-        //         foreach($cat['question'] as $q => $que){
-        //             $form[$name_cat]['value'][$q]['question'] = $que['question'];
-        //             $form[$name_cat]['value'][$q]['answer'] = $que['answer'];
-        //         }
-        //         $index_cat++;
-        //     }
-        //     $form_survey["value"] = json_encode($form);
-        // }
         if(isset($request["follow_up"]) && $request["follow_up"]=='Select Location'){
             $update_data_location = [
                 "id_location" => $request["id_location"],
@@ -794,12 +762,6 @@ class PartnersController extends Controller
                 "id_location" => $request["id_location"],
                 "total_payment" => preg_replace("/[^0-9]/", "", $request["total_payment"]),
             ];
-
-            // $product_starter = array_map(function($value) use($request){
-            //     $value['id_location'] = $request["id_location"];
-            //     return $value;
-            // },$request['product_starter']);
-            // $update_data_location['product_starter'] = $product_starter;
         }
 
         if(isset($request["follow_up"]) && $request["follow_up"]=='Confirmation Letter'){
@@ -870,8 +832,6 @@ class PartnersController extends Controller
                     if(isset($follow_up['status']) && $follow_up['status'] == 'success'){
                         if(isset($update_data_location['status']) && !empty($update_data_location['status']) && $update_data_location['status']=='Active'){
                             return redirect('businessdev/partners/detail/'.$request['id_partner'].$tab)->withSuccess(['Success update candidate partner to partner']); 
-                        }else{
-                            // return redirect('businessdev/partners/detail/'.$request['id_partner'])->withErrors($follow_up['messages'] ?? ['Failed to update candidate partner to partner']);
                         }
                         return redirect('businessdev/partners/detail/'.$request['id_partner'].$tab)->withSuccess(['Success create step '.$request["follow_up"].'']);    
                     }else{
