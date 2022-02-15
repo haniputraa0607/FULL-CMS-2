@@ -50,6 +50,13 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js')}}"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        $('.timepicker').timepicker({
+            autoclose: true,
+            minuteStep: 5,
+            showSeconds: false,
+        });
+    </script>
     <script>
         $('.select2').select2();
         function changeSelect(){
@@ -65,47 +72,102 @@
             'autoclose' : true
         });
 
-        function cekSchedule(){
-            var year = $('input[type=text][name=year]').val();
-            var id_hs = $('select[name=id_hs] option').filter(':selected').val()
-            var month = $('select[name=month] option').filter(':selected').val()
-            var data = {
-                '_token' : '{{csrf_token()}}',
-                'id_hs' : id_hs,
-                'year' : year,
-                'month' : month
-            }
-
-            swal({
-                title: "Confirm?",
-                text: "Are you sure to create a schedule",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-success",
-                confirmButtonText: "Yes, Create the schedule!",
-                closeOnConfirm: false
-            },
-            function(){
-                $.ajax({
-                    type : "POST",
-                    url : "{{url('recruitment/hair-stylist/schedule/check')}}",
-                    data : data,
-                    success : function(response) {
-                        if (response.status == 'success') {
-                            swal("Sent!", "Schedule has been created, please input detail schedule", "success")
-                            var id_schedule = response["result"]["id_hairstylist_schedule"];
-                            location.href = "{{url('recruitment/hair-stylist/schedule/detail')}}/"+id_schedule;
-                        }
-                        else if(response.status == "fail"){
-                            swal("Error!", response['messages'], "error")
-                        }
-                        else {
-                            swal("Error!", "Something went wrong. Failed to send the product.", "error")
-                        }
+        function changeOutlet(val){
+            var list = '<option></option>';
+            $.ajax({
+                type : "POST",
+                url : "{{ url('recruitment/hair-stylist/timeoff/list-hs') }}",
+                data : {
+                    '_token' : '{{csrf_token()}}',
+                    'id_outlet' : val,
+                },
+                success : function(result) {
+                    $('#list_hs').empty();
+                    if(result.length > 0){
+                        $.each(result, function(i, index) {
+                            list += '<option value="'+index.id_user_hair_stylist+'">'+index.fullname+'</option>';
+                          });
                     }
-                });
+                    $('#list_hs').append(list);
+                    $(".select2").select2({
+                        placeholder: "Search"
+                    });
+                },
+                error : function(result) {
+                    toastr.warning("Something went wrong. Failed to get list hair stylist.");
+                }
             });
         }
+
+        function selectHS(val){
+            var data = {
+                'id_user_hair_stylist' : val,
+                'month' : $('#month').val(),
+                'year' : $('#year').val(),
+            };
+            listDate(data);
+        }
+
+        function selectMonth(val){
+            var data = {
+                'id_user_hair_stylist' : $('#list_hs').val(),
+                'month' : val,
+                'year' : $('#year').val(),
+            };
+            listDate(data);
+
+        }
+
+        function selectYear(val){
+            var data = {
+                'id_user_hair_stylist' : $('#list_hs').val(),
+                'month' : $('#month').val(),
+                'year' : val,
+            };
+            listDate(data);
+        }
+
+        function listDate(data){
+            data['_token'] = '{{csrf_token()}}';
+            var list = '<option></option>';
+            $.ajax({
+                type : "POST",
+                url : "{{ url('recruitment/hair-stylist/timeoff/list-date') }}",
+                data : data,
+                success: function(result){
+                    if(result['status']=='success'){    
+                        var new_result = jQuery.parseJSON(JSON.stringify(result['result']));
+                        $('#list_date').empty();
+                        $.each(new_result, function(i, index) {
+                            list += '<option value="'+index.date+'" data-id="'+index.id_hairstylist_schedule_date+'" data-timestart="'+index.time_start+'" data-timeend="'+index.time_end+'">'+index.date_format+'</option>';
+                        });
+                        $('#list_date').append(list);
+                        $(".select2").select2({
+                            placeholder: "Search"
+                        });
+                    }else if(result['status']=='fail'){
+                        toastr.warning(result['messages']);
+                    }
+                }
+            });
+        }
+
+        $('#list_date').on("change",function(){
+            var value = $(this).val();
+            var start = $("#list_date option:selected").attr('data-timestart');
+            var end = $("#list_date option:selected").attr('data-timeend');
+            var id = $("#list_date option:selected").attr('data-id');
+            $('#time_start').remove();
+            $('#place_time_start').append('<input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="time_start" value="'+start+'" readonly>')
+            $('#time_end').remove();
+            $('#place_time_end').append('<input type="text" id="time_end" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="time_end" value="'+end+'" readonly>')
+            $('.timepicker').timepicker({
+                autoclose: true,
+                minuteStep: 5,
+                showSeconds: false,
+            });
+            var type = $('input[type=hidden][name=id_hairstylist_schedule_date]').val(id);
+        });
     
         $(document).ready(function() {
             $('[data-switch=true]').bootstrapSwitch();
@@ -156,13 +218,25 @@
             </div>
         </div>
         <div class="portlet-body form">
-            <form class="form-horizontal" role="form" action="javascript:cekSchedule()" method="post" enctype="multipart/form-data">
+            <form class="form-horizontal" role="form" action="{{ url('recruitment/hair-stylist/timeoff/create') }}" method="post" enctype="multipart/form-data">
                 <div class="form-body">
                     <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Select Hair Stylist <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih nama hair stylist yang akan dibuat jadwalnya" data-container="body"></i></label>
+                        <label for="example-search-input" class="control-label col-md-4">Select Outlet <span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih nama outlet hair stylist yang akan mengajukan izin" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <select class="form-control select2" name="id_hs" required>
+                            <select class="form-control select2" name="id_outlet" required onchange="changeOutlet(this.value)">
+                                <option value="" selected disabled>Select Hair Stylist</option>
+                                @foreach($outlets as $out => $outlet)
+                                    <option value="{{$outlet['id_outlet']}}">{{$outlet['outlet_name']}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="example-search-input" class="control-label col-md-4">Select Hair Stylist <span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih nama hair stylist yang akan dibuat permohonan izin" data-container="body"></i></label>
+                        <div class="col-md-5">
+                            <select class="form-control select2" name="id_hs" required id="list_hs" onchange="selectHS(this.value)">
                                 <option value="" selected disabled>Select Hair Stylist</option>
                                 @foreach($hair_stylists as $o => $hs)
                                     <option value="{{$hs['id_user_hair_stylist']}}">{{$hs['fullname']}}</option>
@@ -174,8 +248,8 @@
                         <label for="example-search-input" class="control-label col-md-4">Month <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk bulan yang di pilih" data-container="body"></i></label>
                         <div class="col-md-3">
-                            <select class="form-control select2" name="month" required>
-                                <option value="" selected disabled>Select Outlet</option>
+                            <select class="form-control select2" name="month" id="month" required onchange="selectMonth(this.value)">
+                                <option value="" selected disabled>Select Month</option>
                                 <option value="1">January</option>
                                 <option value="2">February</option>
                                 <option value="3">March</option>
@@ -195,9 +269,33 @@
                         <label for="example-search-input" class="control-label col-md-4">Year <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk tahun yang di pilih" data-container="body"></i></label>
                         <div class="col-md-2">
-                            <input class="form-control numberonly" type="text" maxlength="4" id="year" name="year" placeholder="Enter year" value="" required/>
+                            <input class="form-control numberonly" type="text" maxlength="4" id="year" name="year" placeholder="Enter year" value="" required onchange="selectYear(this.value)"/>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="example-search-input" class="control-label col-md-4">Select Date Time Off <span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih tanggal hair stylist akan izin" data-container="body"></i></label>
+                        <div class="col-md-3">
+                            <select class="form-control select2" name="date" required id="list_date">
+                                <option value="" selected disabled>Select Date</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="example-search-input" class="control-label col-md-4">Start Time Off<span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu mulai izin untuk hair style" data-container="body"></i></label>
+                        <div class="col-md-3" id="place_time_start">
+                            <input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="time_start" value="07:00" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="example-search-input" class="control-label col-md-4">End Time Off<span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu selesai izin untuk hair style" data-container="body"></i></label>
+                        <div class="col-md-3" id="place_time_end">
+                            <input type="text" id="time_end" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="time_end" value="22:00" readonly>
+                        </div>
+                    </div>
+                    <input type="hidden" name="id_hairstylist_schedule_date" value="">
                 </div>
                 <div class="form-actions">
                     {{ csrf_field() }}
