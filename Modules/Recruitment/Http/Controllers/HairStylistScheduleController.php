@@ -121,7 +121,7 @@ class HairStylistScheduleController extends Controller
         $post = $request->except('_token');
         $data =  MyHelper::post('recruitment/hairstylist/be/schedule/create',$post);
 
-        if(isset($update['status']) && $update['status'] == 'success'){
+        if(isset($data['status']) && $data['status'] == 'success'){
             return $data;
         }else{
             return [

@@ -93,7 +93,8 @@
                     success : function(response) {
                         if (response.status == 'success') {
                             swal("Sent!", "Schedule has been created, please input detail schedule", "success")
-                            location.href = "{{url('recruitment/hair-stylist/schedule')}}";
+                            var id_schedule = response["result"]["id_hairstylist_schedule"];
+                            location.href = "{{url('recruitment/hair-stylist/schedule/detail')}}/"+id_schedule;
                         }
                         else if(response.status == "fail"){
                             swal("Error!", response['messages'], "error")
@@ -172,7 +173,7 @@
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Month <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk bulan yang di pilih" data-container="body"></i></label>
-                        <div class="col-md-5">
+                        <div class="col-md-3">
                             <select class="form-control select2" name="month" required>
                                 <option value="" selected disabled>Select Outlet</option>
                                 <option value="1">January</option>
@@ -193,7 +194,7 @@
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Year <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk tahun yang di pilih" data-container="body"></i></label>
-                        <div class="col-md-5">
+                        <div class="col-md-2">
                             <input class="form-control numberonly" type="text" maxlength="4" id="year" name="year" placeholder="Enter year here" value="" required/>
                         </div>
                     </div>
