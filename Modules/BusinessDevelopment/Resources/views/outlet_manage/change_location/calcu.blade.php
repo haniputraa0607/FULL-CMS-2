@@ -156,7 +156,7 @@
                                         @endif
                                     </div>
                                 </div>
-                                @if ($calcus==false) 
+                                @if ($calcu==false) 
                                 <div class="form-actions">
                                     {{ csrf_field() }}
                                     <div class="row">
