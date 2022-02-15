@@ -309,7 +309,7 @@ $totalTheories = 0;
 							</label>
 							<div class="col-md-6">
 								<div class="input-icon right">
-									<input type="text" placeholder="Nickname" class="form-control" name="nickname" value="{{ $detail['nickname']}}" readonly>
+									<input type="text" placeholder="Nickname" class="form-control" name="nickname" value="{{ $detail['nickname']}}" required>
 								</div>
 							</div>
 						</div>
@@ -562,6 +562,7 @@ $totalTheories = 0;
 										@endforeach
 									</select>
 								</div>
+								<input type="hidden" name="id_outlet_old" value="{{$detail['id_outlet']}}">
 							</div>
 						</div>
                         <div class="form-group">

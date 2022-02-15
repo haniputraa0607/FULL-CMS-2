@@ -49,6 +49,7 @@ function showDetail(dom) {
     const data = $(dom).data('data');
     $('#modal-detail [name=date]').val(new Date(data.date).toLocaleString('id-ID',{day:"2-digit",month:"short",year:"numeric"}));
     $('#modal-detail [name=shift]').val(data.shift);
+    $('#modal-detail [name=outlet]').val(data.outlet ? data.outlet.outlet_name : '-');
     $('#modal-detail [name=status]').val(data.status);
     $('#modal-detail [name=clock_in_requirement]').val(data.clock_in_requirement ? data.clock_in_requirement : data.time_start);
     $('#modal-detail [name=clock_in]').val(data.clock_in);
@@ -89,6 +90,10 @@ $(document).ready(function() {
             {
                 data: 'date',
                 render: data => new Date(data).toLocaleString('id-ID',{day:"2-digit",month:"short",year:"numeric"}),
+            },
+            {
+                data: 'outlet',
+                render: outlet => outlet ? outlet.outlet_name : '-',
             },
             {data: 'shift'},
             {data: 'clock_in'},
@@ -164,6 +169,7 @@ $(document).ready(function() {
                 <thead>
                     <tr>
                         <th>Date</th>
+                        <th>Outlet</th>
                         <th>Shift</th>
                         <th>Clock In</th>
                         <th>Clock Out</th>
@@ -185,6 +191,12 @@ $(document).ready(function() {
                         <label class="col-md-3 control-label">Date</label>
                         <div class="col-md-8">
                             <input type="text" name="date" class="form_datetime form-control"  disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 control-label">Outlet</label>
+                        <div class="col-md-8">
+                            <input type="text" name="outlet" class="form_datetime form-control"  disabled>
                         </div>
                     </div>
                     <div class="form-group row">
