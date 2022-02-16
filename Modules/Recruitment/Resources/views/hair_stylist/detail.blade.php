@@ -188,7 +188,15 @@ $totalTheories = 0;
 				var value = $('#'+score_id).val();
 				var split = score_id.split('_');
 				var id_theory = split[1];
+				var minimum = $('#minimum_score_'+id_theory).val();
 				$('#error_text_'+id_theory).hide();
+
+				if(parseInt(value) < parseInt(minimum)){
+					$('#passed_status_'+id_theory).val('Not Passed').trigger("change");
+				}else{
+					$('#passed_status_'+id_theory).val('Passed').trigger("change");
+				}
+
 				if(value > 100){
 					disable_status = 1;
 					$('#error_text_'+id_theory).show();
@@ -214,10 +222,10 @@ $totalTheories = 0;
 				$("#btn_submit_traning").attr("disabled", false);
 			}
 
-			validationConclusion(id);
+			validationConclusion(id, 1);
 		}
 		
-		function validationConclusion(id) {
+		function validationConclusion(id, not_check = 0) {
 			var score = $('#conclusion_score_'+id).val();
 			if(score > 100){
 				$('#conclusion_error_text_'+id).show();
@@ -225,6 +233,15 @@ $totalTheories = 0;
 			}else{
 				$('#conclusion_error_text_'+id).hide();
 				$("#btn_submit_traning").attr("disabled", false);
+			}
+
+			if(not_check == 0){
+				var total_minimum_score = $('#conclusion_minimum_score_'+id).val();
+				if(parseInt(score) < parseInt(total_minimum_score)){
+					$('#conclusion_status_'+id).val('Not Passed').trigger("change");
+				}else{
+					$('#conclusion_status_'+id).val('Passed').trigger("change");
+				}
 			}
 		}
     </script>
