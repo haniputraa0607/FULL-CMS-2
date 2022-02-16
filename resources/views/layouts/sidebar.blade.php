@@ -1386,6 +1386,26 @@
                         <span class="title">Attendance Request</span>
                     </a>
                 </li> --}}
+                <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-timeoff-create') ? 'active open' : '' }}">
+                    <a href="{{ url('recruitment/hair-stylist/timeoff/create') }}" class="nav-link ">
+                        <span class="title">Create Request Time Off</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-timeoff-list') ? 'active open' : '' }}">
+                    <a href="{{ url('recruitment/hair-stylist/timeoff') }}" class="nav-link ">
+                        <span class="title">List Request Time Off</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-overtime-create') ? 'active open' : '' }}">
+                    <a href="{{ url('recruitment/hair-stylist/overtime/create') }}" class="nav-link ">
+                        <span class="title">Create Request Overtime</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-overtime-list') ? 'active open' : '' }}">
+                    <a href="{{ url('recruitment/hair-stylist/overtime') }}" class="nav-link ">
+                        <span class="title">List Request Overtime</span>
+                    </a>
+                </li>
                 <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-schedule-autoresponse-approve-hairstylist-schedule') ? 'active open' : '' }}">
                     <a href="{{ url('autoresponse/hairstylist-schedule/approve-hairstylist-schedule') }}" class="nav-link nav-toggle">
                         <span class="title">[Response] Approve Hairstylist Schedule</span>
