@@ -763,6 +763,9 @@
                     <a href="#info" data-toggle="tab" > Info </a>
                 </li>
                 <li>
+                    <a href="#partner" data-toggle="tab" > Partners </a>
+                </li>
+                <li>
                     <a href="#product" data-toggle="tab" > Product Stock </a>
                 </li>
                 <li>
@@ -807,6 +810,9 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="info">
                     @include('outlet::info')
+                </div>
+                <div class="tab-pane active" id="partner">
+                    @include('outlet::partner')
                 </div>
                 <div class="tab-pane" id="product">
                     @include('outlet::product')

@@ -141,14 +141,16 @@
                                     <label for="example-search-input" class="control-label col-md-4">Reference Number <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nomor surat yang akan dicantumkan di confirmation letter" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="no_letter" name="no_letter" placeholder="Enter reference number here" required @if ($confir==true) readonly value="{{$result['confirmation'][0]['no_letter']??''}}" @endif/>
+                                        <input class="form-control" type="text" id="no_letter" name="no_letter" placeholder="Enter reference number here" required readonly @if ($confir==true)  value="{{$result['confirmation']['no_letter']??''}}" @else value="{{$result['penomoran_cl']}}" @endif/>
+                                        <input class="form-control" type="hidden" id="no_letter" name="no_letter" placeholder="Enter reference number here" required  @if ($confir==true)  value="{{$result['confirmation']['no_letter']??''}}" @else value="{{$result['penomoran_cl']}}" @endif/>
+                                    
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Location Letter <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Lokasi confirmation letter dibuat" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="location_letter" name="location_letter" placeholder="Enter location letter here" required @if ($confir==true) readonly value="{{$result['confirmation'][0]['location']??''}}" @endif/>
+                                        <input class="form-control" type="text" id="location_letter" name="location_letter" placeholder="Enter location letter here" required @if ($confir==true) readonly value="{{$result['confirmation']['location']??''}}" @endif/>
                                     </div>
                                 </div>
                                 <input type="hidden" name="id_location" value="{{$result['partner_locations'][0]['id_location']??''}}">

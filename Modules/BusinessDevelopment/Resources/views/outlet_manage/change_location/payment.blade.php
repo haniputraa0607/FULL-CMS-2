@@ -36,7 +36,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane @if($result['status']=='Process' || $pay == true) active @endif"" id="form_pay">
+                    <div class="tab-pane @if($result['status']=='Process' || $pay == true) active @endif" id="form_pay">
                         <form class="form-horizontal" role="form" action="{{url('businessdev/partners/outlet/change_location/create-follow-up')}}" method="post" enctype="multipart/form-data">
                             <div class="form-body">
                                 <input type="hidden" name="id_partner" value="{{$partner['id_partner']}}">
@@ -53,7 +53,7 @@
                                     <label for="example-search-input" class="control-label col-md-4">No SPK <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nomor Surat Perintah Kerja calon lokasi" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <input class="form-control" type="text" id="no_spk" name="no_spk" placeholder="Enter total box here" value="@if (old('no_spk')) {{ old('no_spk') }} @else @if (!empty($this_location['no_spk'])) {{ $this_location['no_spk'] }} @endif @endif" required {{$pay ? 'disabled' : ''}}/>
+                                        <input class="form-control" readonly type="text" id="no_spk" name="no_spk" placeholder="Enter total box here" value="@if (old('no_spk')) {{ old('no_spk') }} @else @if (!empty($result['first_location']['no_spk'])){{$result['first_location']['no_spk'] }} @endif @endif" required {{$pay ? 'disabled' : ''}}/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -128,7 +128,7 @@
                                         @endif
                                     </div>
                                 </div>
-                                @if ($pays==false) 
+                                @if ($pay==false) 
                                 <div class="form-actions">
                                     {{ csrf_field() }}
                                     <div class="row">

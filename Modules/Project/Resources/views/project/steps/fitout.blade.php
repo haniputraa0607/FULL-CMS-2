@@ -106,6 +106,14 @@
             SweetAlertFitout.init()
         });
     </script>
+<?php
+$next_fitout = false;
+foreach($result['project_fitout'] as $value){
+    if((int)$value['progres'] >= 90){
+        $next_fitout = true;
+    }
+}
+?>
 <div style="white-space: nowrap;">
     <div class="tab-pane">
         <div class="portlet light bordered">
@@ -120,7 +128,7 @@
                     <a href="#table_fitout" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="back-follow-up">
                         Back
                     </a>
-                @if($result['project_fitout'])
+                @if($next_fitout)
                     <a class="btn btn-sm green sweetalert-fitout-next btn-primary" type="button" style="float:right" data-toggle="tab" id="next-follow-up">
                         Next Step
                     </a>

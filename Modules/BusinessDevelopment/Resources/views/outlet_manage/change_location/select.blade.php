@@ -395,7 +395,7 @@
                                         @endif
                                     </div>
                                 </div>
-                                @if ($selects==false) 
+                                @if ($select==false) 
                                 <div class="form-actions">
                                     {{ csrf_field() }}
                                     <div class="row">

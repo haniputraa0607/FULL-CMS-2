@@ -183,11 +183,11 @@ class OutletController extends Controller
             $data['brands'] = MyHelper::get('brand/be/list')['result']??[];
             $data['delivery'] = MyHelper::get('transaction/be/available-delivery')['result']['delivery']??[];
 
-
+            
             if (isset($outlet['status']) && $outlet['status'] == "success") {
                 $data['outlet']    = $outlet['result'];
                 $product = MyHelper::get('product/list/product-detail/'.$outlet['result'][0]['id_outlet']);
-
+                
                 if (isset($product['status']) && $product['status'] == "success") {
                     $data['product']    = $product['result'];
                 }
@@ -204,7 +204,7 @@ class OutletController extends Controller
             // province
             $data['province'] = $this->getPropinsi();
             $data['default_box_url'] = MyHelper::post('setting', ['key'=>'outlet_box_default_url'])['result']['value']??null;
-            // return $data;
+//             return $data;
             // print_r($data); exit();
             return view('outlet::detail', $data);
         }
