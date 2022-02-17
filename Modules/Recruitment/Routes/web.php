@@ -54,6 +54,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
 	    Route::any('create', ['middleware' => 'feature_control:353,354,355', 'uses' => 'HairStylistTimeOffOvertimeController@createTimeOff']);
 	    Route::post('list-hs', ['middleware' => 'feature_control:353,354,355', 'uses' => 'HairStylistTimeOffOvertimeController@listHS']);
 	    Route::post('list-date', ['middleware' => 'feature_control:353,354,355', 'uses' => 'HairStylistTimeOffOvertimeController@listDate']);
+	    Route::post('delete/{id}', ['middleware' => 'feature_control:354', 'uses' => 'HairStylistTimeOffOvertimeController@deleteTimeOff']);
 	    Route::get('detail/{id}', ['middleware' => 'feature_control:354', 'uses' => 'HairStylistTimeOffOvertimeController@detailTimeOff']);
 	    Route::post('update/{id}', ['middleware' => 'feature_control:355', 'uses' => 'HairStylistTimeOffOvertimeController@updateTimeOff']);
 	});
@@ -62,6 +63,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
 	{
 	    Route::any('/', ['middleware' => 'feature_control:353,354,355', 'uses' => 'HairStylistTimeOffOvertimeController@listOvertime']);
 	    Route::any('create', ['middleware' => 'feature_control:353,354,355', 'uses' => 'HairStylistTimeOffOvertimeController@createOvertime']);
+	    Route::post('delete/{id}', ['middleware' => 'feature_control:354', 'uses' => 'HairStylistTimeOffOvertimeController@deleteOvertime']);
 	    Route::get('detail/{id}', ['middleware' => 'feature_control:354', 'uses' => 'HairStylistTimeOffOvertimeController@detailOvertime']);
 	    Route::post('update/{id}', ['middleware' => 'feature_control:355', 'uses' => 'HairStylistTimeOffOvertimeController@updateOvertime']);
 	});

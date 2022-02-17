@@ -43,7 +43,7 @@
                         let name    = $(this).data('name');
                         $(this).click(function() {
                             swal({
-                                    title: name+"\n\nAre you sure want to delete this request time off?",
+                                    title: name+"\n\nAre you sure want to delete this request overtime?",
                                     text: "Your will not be able to recover this data!",
                                     type: "warning",
                                     showCancelButton: true,
@@ -54,21 +54,21 @@
                                 function(){
                                     $.ajax({
                                         type : "POST",
-                                        url : "{{url('recruitment/hair-stylist/timeoff/delete')}}/"+id,
+                                        url : "{{url('recruitment/hair-stylist/overtime/delete')}}/"+id,
                                         data : {
                                             '_token' : '{{csrf_token()}}'
                                         },
                                         success : function(response) {
                                             if (response.status == 'success') {
-                                                swal("Deleted!", "Hair Stylist request time off has been deleted.", "success")
+                                                swal("Deleted!", "Hair Stylist request overtime has been deleted.", "success")
                                                 SweetAlert.init()
-                                                location.href = "{{url('recruitment/hair-stylist/timeoff')}}";
+                                                location.href = "{{url('recruitment/hair-stylist/overtime')}}";
                                             }
                                             else if(response.status == "fail"){
-                                                swal("Error!", "Failed to request time off.", "error")
+                                                swal("Error!", "Failed to request overtime.", "error")
                                             }
                                             else {
-                                                swal("Error!", "Something went wrong. Failed to request time off.", "error")
+                                                swal("Error!", "Something went wrong. Failed to request overtime.", "error")
                                             }
                                         }
                                     });
@@ -112,8 +112,8 @@
         $date_start = '';
         $date_end = '';
 
-        if(Session::has('filter-list-time-off')){
-            $search_param = Session::get('filter-list-time-off');
+        if(Session::has('filter-list-overtime')){
+            $search_param = Session::get('filter-list-overtime');
             if(isset($search_param['rule'])){
                 $rule = $search_param['rule'];
             }
@@ -125,14 +125,14 @@
     ?>
 
     <form id="form-sorting" action="{{url()->current()}}?filter=1" method="POST">
-        @include('recruitment::hair_stylist.timeoff.filter')
+        @include('recruitment::hair_stylist.overtime.filter')
     </form>
     <br>
 
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject font-blue sbold uppercase">List Hair Stylist Request Time Off</span>
+                <span class="caption-subject font-blue sbold uppercase">List Hair Stylist Request Overtime</span>
             </div>
         </div>
         <div class="portlet-body form">
@@ -178,7 +178,7 @@
                         <tbody>
                             @if(!empty($data))
                                 @foreach($data as $req_time_off)
-                                    <tr data-id="{{ $req_time_off['id_hairstylist_time_off'] }}">
+                                    <tr data-id="{{ $req_time_off['id_hairstylist_overtime'] }}">
                                         <td>{{date('d F Y H:i', strtotime($req_time_off['created_at']))}}</td>
                                         <td>{{$req_time_off['fullname']}}</td>
                                         <td>{{$req_time_off['outlet_name']}}</td>
@@ -192,10 +192,10 @@
                                         </td>
                                         <td>
                                             @if(MyHelper::hasAccess([343,344], $grantedFeature))
-                                            <a href="{{ url('recruitment/hair-stylist/timeoff/detail/'.$req_time_off['id_hairstylist_time_off']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
+                                            <a href="{{ url('recruitment/hair-stylist/overtime/detail/'.$req_time_off['id_hairstylist_overtime']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
                                             @endif
                                             @if(MyHelper::hasAccess([345], $grantedFeature))
-                                            <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $req_time_off['id_hairstylist_time_off'] }}" data-name="{{ $req_time_off['fullname'] }}"><i class="fa fa-trash-o"></i> Delete</a>
+                                            <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $req_time_off['id_hairstylist_overtime'] }}" data-name="{{ $req_time_off['fullname'] }}"><i class="fa fa-trash-o"></i> Delete</a>
                                             @endif
                                         </td>
                                     </tr>
