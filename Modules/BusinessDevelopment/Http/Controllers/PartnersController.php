@@ -685,6 +685,10 @@ class PartnersController extends Controller
             $update_partner['code'] = $request['partner_code'];
         }
 
+        if (isset($request["gender"]) && $request["follow_up"]=='Input Data Partner') {
+            $update_partner['gender'] = $request['gender'];
+        }
+
         if (isset($request["npwp_name"]) && $request["follow_up"]=='Input Data Partner') {
             $update_partner['npwp_name'] = $request['npwp_name'];
         }

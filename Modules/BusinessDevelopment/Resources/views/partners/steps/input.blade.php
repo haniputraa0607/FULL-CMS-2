@@ -67,6 +67,17 @@
                                         <input class="form-control" type="text" id="partner_code" name="partner_code" placeholder="Enter partner code here" value="{{ old('partner_code') ?? $result['code'] }}" readonly required/>
                                     </div>
                                 </div>   
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Contact Person Gender <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Jenis kelamin dari contact person" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <select name="gender" class="form-control input-sm select2" placeholder="Select Gender" required {{ $input ? 'disabled' : '' }}>
+                                            <option value="" selected disabled>Select Gender</option>
+                                            <option value="Man" @if(old('gender')) @if(old('gender')=='Man') selected @endif @else @if(isset($result['gender'])) @if($result['gender'] == 'Man') selected @endif @endif @endif>Man</option>
+                                            <option value="Woman" @if(old('gender')) @if(old('gender')=='Woman') selected @endif @else @if(isset($result['gender'])) @if($result['gender'] == 'Woman') selected @endif @endif @endif>Woman</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 {{--  <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Mobile 
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nomor telepon partner yang terintegrasi ke whats app, jika tidak diisi default nomor telepon yang terdaftar sebelumnya" data-container="body"></i></label>
