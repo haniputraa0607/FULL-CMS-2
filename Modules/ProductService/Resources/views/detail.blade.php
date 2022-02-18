@@ -650,7 +650,7 @@
         <?php
             foreach($product_uses as $row){
             ?>
-            html_select += "<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>";
+            html_select += `<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>`;
             <?php
             }
             ?>
