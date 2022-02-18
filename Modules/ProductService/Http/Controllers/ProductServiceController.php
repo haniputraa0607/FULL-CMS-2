@@ -110,7 +110,7 @@ class ProductServiceController extends Controller
 
             $data['brands'] = MyHelper::get('brand/be/list')['result']??[];
             $data['list_product_service_use'] = MyHelper::get('product-service/product-use/list')['result']??[];
-            $data['product_uses'] = MyHelper::post('product/be/icount/list', [])['result'] ?? [];
+            $data['product_uses'] = MyHelper::post('product/be/icount/list', ['type' => 'product_service'])['result'] ?? [];
             $data['product_icount_use'] = $data['product'][0]['product_icount_use'] ?? [];
             return view('productservice::detail', $data);
         }

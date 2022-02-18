@@ -784,7 +784,7 @@ class ProductController extends Controller
             $data['product_variant'] = MyHelper::get('product-variant')['result'] ?? [];
             $data['product_variant_group'] = MyHelper::post('product-variant-group',  ['product_code' => $code])['result'] ?? [];
             $data['count'] = count($data['product_variant_group']);
-            $data['product_uses'] = MyHelper::post('product/be/icount/list', [])['result'] ?? [];
+            $data['product_uses'] = MyHelper::post('product/be/icount/list', ['type' => 'product'])['result'] ?? [];
             $data['product_icount_use'] = $data['product'][0]['product_icount_use'] ?? [];
             // return $data['product'][0]['id_product'];
             // return $data['product_icount_use'];
@@ -794,7 +794,6 @@ class ProductController extends Controller
             return view('product::product.detail', $data);
         }
         else {
-
 			 /**
              * update info
              */
