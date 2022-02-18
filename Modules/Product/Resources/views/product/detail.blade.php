@@ -1068,9 +1068,9 @@
                 <li>
                     <a href="#stock_product" data-toggle="tab"> Stock </a>
                 </li>
-                <li>
+                {{--  <li>
                     <a href="#productuse" data-toggle="tab"> Product Icount </a>
-                </li>
+                </li>  --}}
                 <li id="nav-prod-variant" @if($product[0]['product_variant_status'] != 1 || true) style="display: none" @endif>
                     <a href="#variant-group" data-toggle="tab"> Variant Group</a>
                 </li>
@@ -1104,9 +1104,9 @@
                 <div class="tab-pane" id="stock_product">
                     @include('product::product.stock_product')
                 </div>
-                <div class="tab-pane" id="productuse">
+                {{--  <div class="tab-pane" id="productuse">
                     @include('product::product.product_use')
-                </div>
+                </div>  --}}
                 <div class="tab-pane" id="variant-group">
                     @include('product::product.product-variant-group')
                 </div>
