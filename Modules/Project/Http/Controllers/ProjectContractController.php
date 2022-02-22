@@ -43,5 +43,17 @@ class ProjectContractController extends Controller
 	$query = MyHelper::post('project/delete/contract', $post);
 	return $query; 
     }
+    public function invoice_spk(Request $request)
+    {
+         $post = $request->except('_token'); 
+	$query = MyHelper::post('project/invoice_spk/contract', $post);
+        return $query; 
+    }
+    public function purchase_spk(Request $request)
+    {
+         $post = $request->except('_token'); 
+	$query = MyHelper::post('project/purchase_spk/contract', $post);
+        return $query; 
+    }
     
 }

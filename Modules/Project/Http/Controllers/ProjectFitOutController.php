@@ -39,6 +39,11 @@ class ProjectFitOutController extends Controller
          $post = $request->except('_token'); 
 	$query = MyHelper::post('project/delete/fitout', $post);
         return $query; 
-       
+    }
+    public function invoice_bap(Request $request)
+    {
+         $post = $request->except('_token'); 
+	$query = MyHelper::post('project/invoice_bap/fitout', $post);
+        return $query; 
     }
 }

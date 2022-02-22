@@ -55,8 +55,6 @@
                                                 swal("Error!", "Failed to delete.", "error")
                                             }
                                             else {
-                                                console.log(data)
-                                                console.log(response)
                                                 swal("Error!", "Something went wrong. Failed to delete .", "error")
                                             }
                                         }
@@ -83,7 +81,7 @@
                         $(this).click(function() {
                             swal({
                                     title: "Next Step?",
-                                    text: "Kamu akan diarahkan ke step Contract!",
+                                    text: "You will be directed to the contract page!",
                                     type: "warning",
                                     showCancelButton: true,
                                     confirmButtonClass: "btn-success",
