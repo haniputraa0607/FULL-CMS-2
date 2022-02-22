@@ -1,9 +1,9 @@
 <div style="margin-top: 5%">
 	<form class="form-horizontal" id="form_approve" role="form" action="{{url('recruitment/hair-stylist/move-outlet/'.$detail['id_user_hair_stylist'])}}" method="post" enctype="multipart/form-data">
 		<div class="form-body">
-			@if(!empty($order))
+			@if(!empty($order_outlet) || !empty($order_home))
 				<div class="alert alert-block alert-warning fade in">
-					<p><i class="fa fa-warning"></i> Can not change outlet because <b>{{ $detail['fullname']}}</b> has transaction at this outlet.</p>
+					<p><i class="fa fa-warning"></i> <b>{{ $detail['fullname']}}</b> @if(!empty($order_outlet)) has transaction at this outlet. @else has transaction. @endif</p>
 				</div>
 				<br>
 			@endif
@@ -24,21 +24,23 @@
 			</div>
 			<br>
 			<br>
+			<div style="text-align: center"><h3>Order Outlet Service</h3></div>
+			<hr style="border-top: 2px dashed;">
 			<table class="table table-striped table-bordered table-hover">
-			<thead>
-			<tr>
-				<th>Action</th>
-				<th>Date</th>
-				<th>Outlet</th>
-				<th>Receipt Number</th>
-				<th>Customer Name</th>
-				<th>Customer Phone</th>
-				<th>Payment Status</th>
-			</tr>
-			</thead>
-			<tbody>
-				@if(!empty($order))
-					@foreach($order as $val)
+				<thead>
+				<tr>
+					<th>Action</th>
+					<th>Date</th>
+					<th>Outlet</th>
+					<th>Receipt Number</th>
+					<th>Customer Name</th>
+					<th>Customer Phone</th>
+					<th>Payment Status</th>
+				</tr>
+				</thead>
+				<tbody>
+				@if(!empty($order_outlet))
+					@foreach($order_outlet as $val)
 						<tr>
 							<td>
 								<a class="btn blue btn-sm btn-outline" href="{{url('transaction/outlet-service/manage/detail')}}/{{$val['id_transaction']}}">Detail Transaction <i class="fa fa-question-circle tooltips" data-original-title="Halaman detail transaksi" data-container="body"></i></a>
@@ -53,13 +55,46 @@
 					@endforeach
 				@else
 					<tr style="text-align: center"><td colspan="7">Data Not Available</td></tr>
-			    @endif
-			</tbody>
+				@endif
+				</tbody>
+			</table>
+
+			<br>
+			<br>
+			<div style="text-align: center"><h3>Order Home Service</h3></div>
+			<hr style="border-top: 2px dashed;">
+			<table class="table table-striped table-bordered table-hover">
+				<thead>
+				<tr>
+					<th>Date</th>
+					<th>Outlet</th>
+					<th>Receipt Number</th>
+					<th>Customer Name</th>
+					<th>Customer Phone</th>
+					<th>Payment Status</th>
+				</tr>
+				</thead>
+				<tbody>
+				@if(!empty($order_home))
+					@foreach($order_home as $val)
+						<tr>
+							<td>{{date('Y-m-d H:i', strtotime($val['transaction_date']))}}</td>
+							<td>{{$val['outlet']['outlet_code']}} - {{$val['outlet']['outlet_name']}}</td>
+							<td>{{$val['transaction_receipt_number']}}</td>
+							<td>{{$val['user']['name']}}</td>
+							<td>{{$val['user']['phone']}}</td>
+							<td>{{$val['transaction_payment_status']}}</td>
+						</tr>
+					@endforeach
+				@else
+					<tr style="text-align: center"><td colspan="7">Data Not Available</td></tr>
+				@endif
+				</tbody>
 			</table>
 		</div>
 		<div class="row" style="text-align: center;margin-top: 4%">
 			{{ csrf_field() }}
-			<button class="btn blue" id="btn_submit_move_outlet" @if(!empty($order)) disabled @endif>Submit</button>
+			<button class="btn blue" id="btn_submit_move_outlet" @if(!empty($order_outlet)) disabled @endif>Submit</button>
 		</div>
 	</form>
 </div>

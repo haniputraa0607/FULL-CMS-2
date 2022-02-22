@@ -108,6 +108,10 @@ $totalTheories = 0;
 
 		});
 
+		$('.numeric').on('input', function (event) {
+			this.value = this.value.replace(/[^0-9]/g, '');
+		});
+
 		function changeAutoGeneratePin() {
 			if(document.getElementById('auto_generate_pin').checked){
 				$("#div_password").hide();

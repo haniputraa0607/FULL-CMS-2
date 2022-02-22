@@ -39,8 +39,8 @@
 				</div>
 				<div class="col-md-3">
 					<div class="input-group">
-						<input type="text" class="form-control" name="user_hair_stylist_score" value="{{$avg}}">
-						<span class="input-group-addon">/ {{$avgMin}}</span>
+						<input type="text" class="numeric form-control" name="user_hair_stylist_score" value="{{$avg}}">
+						<span class="input-group-addon">minimum {{$avgMin}}</span>
 					</div>
 				</div>
 			</div>
