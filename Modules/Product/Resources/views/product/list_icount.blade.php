@@ -229,6 +229,7 @@
                         <th> Category </th>
                         <th> Name </th>
                         <th> Item Group </th>
+                        <th> Company Type </th>
                         @if(MyHelper::hasAccess([49,51,52], $grantedFeature))
                             <th> Action </th>
                         @endif
@@ -247,6 +248,7 @@
                                 @endif
                                 <td>{{ $value['name'] }}</td>
                                 <td>{{ $value['item_group'] }}</td>
+                                <td>{{ $value['company_type'] == 'ima' ? 'PT IMA' : 'PT IMS' }}</td>
                                 @if(MyHelper::hasAccess([49,51,52], $grantedFeature))
                                     <td class="text-center">
                                         @if(MyHelper::hasAccess([49,51], $grantedFeature))

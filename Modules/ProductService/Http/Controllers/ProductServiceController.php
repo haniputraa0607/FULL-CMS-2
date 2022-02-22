@@ -25,7 +25,7 @@ class ProductServiceController extends Controller
             'submenu_active' => 'product-service-list',
         ];
 
-        $product = MyHelper::post('product-service', ['admin_list' => 1]);
+        $product = MyHelper::post('product-service', ['admin_list' => 1,'product_type' => 'service']);
         if (isset($product['status']) && $product['status'] == "success") {
             $data['product'] = $product['result'];
         }else {
@@ -111,7 +111,10 @@ class ProductServiceController extends Controller
             $data['brands'] = MyHelper::get('brand/be/list')['result']??[];
             $data['list_product_service_use'] = MyHelper::get('product-service/product-use/list')['result']??[];
             $data['product_uses'] = MyHelper::post('product/be/icount/list', ['type' => 'product_service'])['result'] ?? [];
-            $data['product_icount_use'] = $data['product'][0]['product_icount_use'] ?? [];
+            $data['product_uses_ima'] = MyHelper::post('product/be/icount/list', ['type' => 'service', 'company_type' => 'ima'])['result'] ?? [];
+            $data['product_uses_ims'] = MyHelper::post('product/be/icount/list', ['type' => 'service', 'company_type' => 'ims'])['result'] ?? [];
+            $data['product_icount_use_ima'] = $data['product'][0]['product_icount_use_ima'] ?? [];
+            $data['product_icount_use_ims'] = $data['product'][0]['product_icount_use_ims'] ?? [];
             return view('productservice::detail', $data);
         }
         else {
@@ -139,8 +142,31 @@ class ProductServiceController extends Controller
 
     function productUseUpdate(Request $request){
         $post = $request->except('_token');
-        $save = MyHelper::post('product/pivot/update', $post);
-        if (isset($save['status']) && $save['status'] == "success") {
+        $is_true = false;
+        if(!empty($post['product_icount_ima'])){
+            $product_use_ima = [
+                "product_icount" => $post['product_icount_ima'],
+                "id_product" => $post['id_product'],
+                "company_type" => 'ima'
+            ];
+            $store_icount_ima = MyHelper::post('product/pivot/update', $product_use_ima);
+            if (isset($store_icount_ima['status']) && $store_icount_ima['status'] == "success") {
+                $is_true = true;
+            }
+        }
+        if(!empty($post['product_icount_ims'])){
+            $product_use_ims = [
+                "product_icount" => $post['product_icount_ims'],
+                "id_product" => $post['id_product'],
+                "company_type" => 'ims'
+            ];
+            $store_icount_ims = MyHelper::post('product/pivot/update', $product_use_ims);
+            if (isset($store_icount_ims['status']) && $store_icount_ims['status'] == "success") {
+                $is_true = true;
+            }
+        }
+
+        if ($is_true) {
             return redirect(url()->previous().'#productuse')->with('success', ['Product use has been save.']);
         }
         else {

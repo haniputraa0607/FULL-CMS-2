@@ -234,93 +234,67 @@
            </div>
         </div>
 
-        <div class="form-body">
-            <br>
-            <div class="form-group">
-                <center><b>Product Use</b></center>
-            </div>
-            <br>
-            <div class="form-group">
-                <div class="col-md-1"></div>
-                <div class="col-md-5">
-                    <b>Product</b>
-                </div>
-                <div class="col-md-2">
-                    <b>Unit</b>
-                </div>
-                <div class="col-md-2">
-                    <b>Quantity</b>
-                </div>
-            </div>
-            <div id="div_product_use">
-                @if(empty($product_icount_use))
-                    <div id="div_product_use_0">
-                        <div class="form-group">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-5">
-                                <select class="form-control select2" id="product_use_code_0" name="product_icount[0][id_product_icount]" required placeholder="Select product use" style="width: 100%" onchange="changeUnit(0,this.value)">
-                                    <option></option>
-                                    @foreach($product_uses as $product_use)
-                                        <option value="{{$product_use['id_product_icount']}}">{{$product_use['code']}} - {{$product_use['name']}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                              <select class="form-control select2" id="product_use_unit_0" name="product_icount[0][unit]" required placeholder="Select unit" style="width: 100%">
-                                  <option></option>
-                                  <option value="PCS">PCS</option>
-                              </select>
-                            </div>
-                            <div class="col-md-1">
-                                <div class="input-group">
-                                    <input type="text" class="form-control price" id="product_use_qty_0" name="product_icount[0][qty]" required>
-                                </div>
-                            </div>
-                            <div class="col-md-2" style="margin-left: 2%">
-                                <a class="btn btn-danger btn" onclick="deleteProductServiceUse(0)">&nbsp;<i class="fa fa-trash"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                @else
-                    @foreach($product_icount_use as $key=>$value)
-                        <div id="div_product_use_{{$key}}">
-                            <div class="form-group">
-                                <div class="col-md-1"></div>
-                                <div class="col-md-5">
-                                    <select class="form-control select2" id="product_use_code_{{$key}}" name="product_icount[{{$key}}][id_product_icount]" required placeholder="Select product use" style="width: 100%" onchange="changeUnit({{$key}},this.value)">
-                                        <option></option>
-                                        @foreach($product_uses as $product_use)
-                                            <option value="{{$product_use['id_product_icount']}}" @if($product_use['id_product_icount'] == $value['id_product_icount']) selected @endif>{{$product_use['code']}} - {{$product_use['name']}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-2">
-                                  <select class="form-control select2" id="product_use_unit_{{$key}}" name="product_icount[{{$key}}][unit]" required placeholder="Select unit" style="width: 100%">
-                                      <option></option>
-                                      @foreach($product_uses as $use)
-                                          @if ($use['id_product_icount'] == $value['id_product_icount'])
-                                              @if($use['unit1']) <option value="{{ $use['unit1'] }}" @if($use['unit1'] == $value['unit']) selected @endif>{{ $use['unit1'] }}</option> @endif
-                                              @if($use['unit2']) <option value="{{ $use['unit2'] }}" @if($use['unit2'] == $value['unit']) selected @endif>{{ $use['unit2'] }}</option> @endif
-                                              @if($use['unit3']) <option value="{{ $use['unit3'] }}" @if($use['unit3'] == $value['unit']) selected @endif>{{ $use['unit3'] }}</option> @endif
-                                          @endif
-                                      @endforeach
-                                  </select>
-                                </div>
-                                <div class="col-md-1">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control price" id="product_use_qty_{{$key}}" name="product_icount[{{$key}}][qty]" required value="{{$value['qty']}}">
-                                    </div>
-                                </div>
-                                <div class="col-md-2" style="margin-left: 2%">
-                                    <a class="btn btn-danger btn" onclick="deleteProductServiceUse({{$key}})">&nbsp;<i class="fa fa-trash"></i></a>
-                                </div>
-                            </div>
-                        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Product IMA
+                <i class="fa fa-question-circle tooltips" data-original-title="Jenis product icount dari IMA yang akan digunakan dalam produc" data-container="body"></i>
+            </label>
+            <div class="col-md-5">
+                <select class="select2 form-control" id="product_use_code_ima_0" name="product_icount_ima[0][id_product_icount]" onchange="changeUnit(0,this.value,'ima')">
+                    <option></option>
+                    @foreach($product_uses_ima as $product_use_ima)
+                        <option value="{{$product_use_ima['id_product_icount']}}" @if (isset($product_icount_use_ima[0])) @if($product_use_ima['id_product_icount'] == $product_icount_use_ima[0]['id_product_icount']) selected @endif @endif>{{$product_use_ima['code']}} - {{$product_use_ima['name']}}</option>
                     @endforeach
-                @endif
+                </select>
             </div>
+            <div class="col-md-2">
+                <select class="form-control select2" id="product_use_unit_ima_0" name="product_icount_ima[0][unit]" placeholder="Select unit" style="width: 100%">
+                    <option></option>
+                    @if (isset($product_icount_use_ima[0]))
+                    @foreach($product_uses_ima as $use)
+                        @if ($use['id_product_icount'] == $product_icount_use_ima[0]['id_product_icount'])
+                            @if($use['unit1']) <option value="{{ $use['unit1'] }}" @if($use['unit1'] == $product_icount_use_ima[0]['unit']) selected @endif>{{ $use['unit1'] }}</option> @endif
+                            @if($use['unit2']) <option value="{{ $use['unit2'] }}" @if($use['unit2'] == $product_icount_use_ima[0]['unit']) selected @endif>{{ $use['unit2'] }}</option> @endif
+                            @if($use['unit3']) <option value="{{ $use['unit3'] }}" @if($use['unit3'] == $product_icount_use_ima[0]['unit']) selected @endif>{{ $use['unit3'] }}</option> @endif
+                        @endif
+                    @endforeach
+                    @else
+                    <option value="PCS">PCS</option>
+                    @endif
+                </select>
+            </div>
+            <input type="hidden" class="form-control price" id="product_use_qty_ima_0" name="product_icount_ima[0][qty]" @if(isset($product_icount_use_ima[0])) value="{{ $product_icount_use_ima[0]['qty'] }}" @endif>
         </div>
-        <br>
+
+        <div class="form-group">
+            <label class="col-md-3 control-label">Product IMS
+                <i class="fa fa-question-circle tooltips" data-original-title="Jenis product icount dari IMS yang akan digunakan dalam produc" data-container="body"></i>
+            </label>
+            <div class="col-md-5">
+                <select class="select2 form-control" id="product_use_code_ims_0" name="product_icount_ims[0][id_product_icount]" onchange="changeUnit(0,this.value,'ims')">
+                    <option></option>
+                    @foreach($product_uses_ims as $product_use_ims)
+                        <option value="{{$product_use_ims['id_product_icount']}}" @if (isset($product_icount_use_ims[0])) @if($product_use_ims['id_product_icount'] == $product_icount_use_ims[0]['id_product_icount']) selected @endif @endif>{{$product_use_ims['code']}} - {{$product_use_ims['name']}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select class="form-control select2" id="product_use_unit_ims_0" name="product_icount_ims[0][unit]" placeholder="Select unit" style="width: 100%">
+                    @if (isset($product_icount_use_ims[0]))
+                    @foreach($product_uses_ims as $use)
+                        @if ($use['id_product_icount'] == $product_icount_use_ims[0]['id_product_icount'])
+                            @if($use['unit1']) <option value="{{ $use['unit1'] }}" @if($use['unit1'] == $product_icount_use_ims[0]['unit']) selected @endif>{{ $use['unit1'] }}</option> @endif
+                            @if($use['unit2']) <option value="{{ $use['unit2'] }}" @if($use['unit2'] == $product_icount_use_ims[0]['unit']) selected @endif>{{ $use['unit2'] }}</option> @endif
+                            @if($use['unit3']) <option value="{{ $use['unit3'] }}" @if($use['unit3'] == $product_icount_use_ims[0]['unit']) selected @endif>{{ $use['unit3'] }}</option> @endif
+                        @endif
+                    @endforeach
+                    @else
+                    <option value="PCS">PCS</option>
+                    @endif
+                </select>
+            </div>
+            <input type="hidden" class="form-control price" id="product_use_qty_ims_0" name="product_icount_ims[0][qty]" @if(isset($product_icount_use_ima[0])) value="{{ $product_icount_use_ima[0]['qty'] }}" @endif>
+        </div>
+
           <!-- {{--<div class="form-group">
             <label for="multiple" class="control-label col-md-3">Tag
                 {{-- <i class="fa fa-question-circle tooltips" data-original-title="Deskripsi Produk" data-container="body"></i> --}}

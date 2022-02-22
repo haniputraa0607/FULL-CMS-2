@@ -644,49 +644,78 @@
         }
     });
 
-    var count_product_service_use = {{(empty($product_icount_use) ? 1: count($product_icount_use))}}
-    function addProductServiceUse() {
+    var count_product_service_use_ima = {{(empty($product_icount_use_ima) ? 1: count($product_icount_use_ima))}}
+    var count_product_service_use_ims = {{(empty($product_icount_use_ims) ? 1: count($product_icount_use_ims))}}
+    function addProductServiceUse(company) {
         var html_select = '';
-        <?php
-            foreach($product_uses as $row){
-            ?>
-            html_select += "<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>";
+        var delete_pro = '';
+        var i_company = '';
+        if(company == 'ima'){
+            var count_product_service_use = count_product_service_use_ima;
             <?php
-            }
+                foreach($product_uses_ima as $row){
+                ?>
+                html_select += "<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>";
+                <?php
+                }
+                ?>
+            delete_pro = '<a class="btn btn-danger btn" onclick="deleteProductServiceUse('+count_product_service_use+',1)">&nbsp;<i class="fa fa-trash"></i></a>';
+            i_company = 1;
+        }else{
+            var count_product_service_use = count_product_service_use_ims;
+            <?php
+                foreach($product_uses_ims as $row){
+                ?>
+                html_select += "<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>";
+                <?php
+                }
             ?>
+            delete_pro = '<a class="btn btn-danger btn" onclick="deleteProductServiceUse('+count_product_service_use+',2)">&nbsp;<i class="fa fa-trash"></i></a>';
+            i_company = 2;
+        }
 
-        var html = '<div id="div_product_use_'+count_product_service_use+'">'+
+        var html = '<div id="div_product_use_'+company+'_'+count_product_service_use+'">'+
             '<div class="form-group">'+
             '<div class="col-md-1"></div>'+
             '<div class="col-md-5">'+
-            '<select class="form-control select2" id="product_use_code_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][id_product_icount]" required placeholder="Select product use" style="width: 100%" onchange="changeUnit('+count_product_service_use+',this.value)">'+
+            '<select class="form-control select2" id="product_use_code_'+company+'_'+count_product_service_use+'" name="product_icount_'+company+'['+count_product_service_use+'][id_product_icount]" required placeholder="Select product use" style="width: 100%" onchange="changeUnit('+count_product_service_use+',this.value,'+i_company+')">'+
             '<option></option>'+html_select+
             '</select>'+
             '</div>'+
             '<div class="col-md-2">'+
-            '<select class="form-control select2" id="product_use_unit_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][unit]" required placeholder="Select unit" style="width: 100%">'+
+            '<select class="form-control select2" id="product_use_unit_'+company+'_'+count_product_service_use+'" name="product_icount_'+company+'['+count_product_service_use+'][unit]" required placeholder="Select unit" style="width: 100%">'+
             '<option></option>'+
             '<option value="PCS">PCS</option>'+
             '</select>'+
             '</div>'+
             '<div class="col-md-1">'+
             '<div class="input-group">'+
-            '<input type="text" class="form-control price" id="product_use_qty_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][qty]" required>'+
+            '<input type="text" class="form-control price" id="product_use_qty_'+company+'_'+count_product_service_use+'" name="product_icount_'+company+'['+count_product_service_use+'][qty]" required>'+
             '</div>'+
             '</div>'+
             '<div class="col-md-2" style="margin-left: 2%">'+
-            '<a class="btn btn-danger btn" onclick="deleteProductServiceUse('+count_product_service_use+')">&nbsp;<i class="fa fa-trash"></i></a>'+
+            delete_pro+
             '</div>'+
             '</div>'+
             '</div>';
 
-        $("#div_product_use").append(html);
+        $("#div_product_use_"+company).append(html);
         $('.select2').select2({placeholder: "Search"});
-        count_product_service_use++;
+        if(company == 'ima'){
+            count_product_service_use_ima++;
+        }else{
+            count_product_service_use_ims++;
+        }
+        
     }
 
-    function deleteProductServiceUse(number){
-        $('#div_product_use_'+number).empty();
+    function deleteProductServiceUse(number,company){
+        if(company == 1){
+            company = 'ima';
+        }else if(company == 2){
+            company = 'ims';
+        }
+        $('#div_product_use_'+company+'_'+number).empty();
     }
 
     function productServiceUseSubmit() {
@@ -699,35 +728,77 @@
         }
     }
 
-    function changeUnit(no,value){
-        this_id = '#product_use_unit_'+no;
+    function changeUnit(no,value,company){
+        if(company == 1){
+            company = 'ima';
+        }else if(company == 2){
+            company = 'ims';
+        }
+        if(company=='ima'){
+            product_use_unit_ima_2
+            this_id = '#product_use_unit_ima_'+no;
+            this_id_qty = '#product_use_qty_ima_'+no;
+            $('#product_use_qty_ims_'+no).attr("required", "false");
+        }else{
+            this_id = '#product_use_unit_ims_'+no;
+            this_id_qty = '#product_use_qty_ims_'+no;
+            $('#product_use_qty_ima_'+no).attr("required", "false");
+        }
         $(this_id).empty();
-        $('#product_use_unit_'+no).val('');
-        $('#product_use_qty_'+no).val('');
+        $(this_id).val('');
+        $(this_id_qty).val('');
         var html_select = '<option></option>';
         var unit1 = '';
         var unit2 = '';
         var unit3 = '';
-        <?php
-            foreach($product_uses as $row){ ?>
-        if(value=={{ $row['id_product_icount'] }}){
-            unit1 = '{{ $row['unit1'] }}'
-            unit2 = '{{ $row['unit2'] }}'
-            unit3 = '{{ $row['unit3'] }}'
-            if(unit1!=''){
-                html_select += "<option value='<?php echo $row['unit1']; ?>'><?php echo $row['unit1']; ?></option>";
+        var html_select = '<option></option>';
+        var unit1 = '';
+        var unit2 = '';
+        var unit3 = '';
+        if(company=='ima'){
+            <?php 
+            foreach($product_uses_ima as $row){ ?>
+                if(value=={{ $row['id_product_icount'] }}){
+                    unit1 = '{{ $row['unit1'] }}'
+                    unit2 = '{{ $row['unit2'] }}'
+                    unit3 = '{{ $row['unit3'] }}'
+                    if(unit1!=''){
+                        html_select += "<option value='<?php echo $row['unit1']; ?>'><?php echo $row['unit1']; ?></option>";
+                    }
+                    if(unit2!=''){
+                        html_select += "<option value='<?php echo $row['unit2']; ?>'><?php echo $row['unit2']; ?></option>";
+                    }
+                    if(unit3!=''){
+                        html_select += "<option value='<?php echo $row['unit3']; ?>'><?php echo $row['unit3']; ?></option>";
+                    }
+                }
+            <?php 
             }
-            if(unit2!=''){
-                html_select += "<option value='<?php echo $row['unit2']; ?>'><?php echo $row['unit2']; ?></option>";
-            }
-            if(unit3!=''){
-                html_select += "<option value='<?php echo $row['unit3']; ?>'><?php echo $row['unit3']; ?></option>";
-            }
-        }
-        <?php
-        }
         ?>
+        }else{
+            <?php 
+            foreach($product_uses_ims as $row){ ?>
+                if(value=={{ $row['id_product_icount'] }}){
+                    unit1 = '{{ $row['unit1'] }}'
+                    unit2 = '{{ $row['unit2'] }}'
+                    unit3 = '{{ $row['unit3'] }}'
+                    if(unit1!=''){
+                        html_select += "<option value='<?php echo $row['unit1']; ?>'><?php echo $row['unit1']; ?></option>";
+                    }
+                    if(unit2!=''){
+                        html_select += "<option value='<?php echo $row['unit2']; ?>'><?php echo $row['unit2']; ?></option>";
+                    }
+                    if(unit3!=''){
+                        html_select += "<option value='<?php echo $row['unit3']; ?>'><?php echo $row['unit3']; ?></option>";
+                    }
+                }
+            <?php 
+            }
+        ?>
+        }
         $(this_id).append(html_select);
+        $(this_id).attr("required", "true");
+        $(this_id_qty).attr("required", "true");
         $(".select2").select2({
             placeholder: "Search"
         });

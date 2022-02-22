@@ -102,7 +102,7 @@ class RequestProductController extends Controller
         $data['products'] = MyHelper::post('product/be/icount/list', [])['result'] ?? [];
         $data['outlets'] = MyHelper::get('mitra/request/outlet')['result'] ?? [];
         $data['conditions'] = "";
-
+        
         return view('product::request_product.create', $data);
 
     }
@@ -209,7 +209,16 @@ class RequestProductController extends Controller
         }
 
         if(isset($result['status']) && $result['status'] == 'success'){
-            $data['products'] = MyHelper::post('product/be/icount/list', [])['result'] ?? [];
+            $post_product = [];
+            if(isset($data['result']['id_request_product'])){
+                if($data['result']['request_product_outlet']['location_outlet']['company_type']=='PT IMA'){
+                    $company = 'ima';
+                }elseif($data['result']['request_product_outlet']['location_outlet']['company_type']=='PT IMS'){
+                    $company = 'ims';
+                }
+                $post_product['company_type'] = $company;
+            }
+            $data['products'] = MyHelper::post('product/be/icount/list', $post_product)['result'] ?? [];
             $data['outlets'] = MyHelper::get('mitra/request/outlet')['result'] ?? [];
             $data['conditions'] = "";
 
@@ -307,6 +316,7 @@ class RequestProductController extends Controller
     public function editDelivery($id)
     {
         $result = MyHelper::post('dev-product/detail', ['id_delivery_product' => $id]);
+
         $data = [
             'title'          => 'Delivery Product',
             'sub_title'      => 'Detail Delivery Product',
@@ -315,8 +325,17 @@ class RequestProductController extends Controller
         ];
         if(isset($result['status']) && $result['status'] == 'success'){
             $data['result'] = $result['result']['delivery_product'];
-            $data['products'] = MyHelper::post('product/be/icount/list', [])['result'] ?? [];
             $data['outlets'] = MyHelper::get('mitra/request/outlet')['result'] ?? [];
+            $post_product = [];
+            if(isset($data['result']['id_delivery_product'])){
+                if($data['result']['delivery_product_outlet']['location_outlet']['company_type']=='PT IMA'){
+                    $company = 'ima';
+                }elseif($data['result']['delivery_product_outlet']['location_outlet']['company_type']=='PT IMS'){
+                    $company = 'ims';
+                }
+                $post_product['company_type'] = $company;
+            }
+            $data['products'] = MyHelper::post('product/be/icount/list', $post_product)['result'] ?? [];
             $data['requests'] = MyHelper::post('req-product/all',['id_outlet' => $data['result']['id_outlet'],'type' => $data['result']['type']])['result'] ?? [];
             $data['conditions'] = "";
 
