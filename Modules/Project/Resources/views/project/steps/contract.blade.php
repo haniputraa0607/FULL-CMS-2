@@ -139,6 +139,106 @@
                 }
             }
         }();
+        var SweetInvoiceSPK = function() {
+            return {
+                init: function() {
+                    $(".sweetalert-invoice-spk").each(function() {
+                        var token  	= "{{ csrf_token() }}";
+                        var pathname = window.location.pathname; 
+                        let column 	= $(this).parents('tr');
+                        let id     	= $(this).data('id');
+                        let name    = $(this).data('name');
+                        var data = {
+                                    '_token' : '{{csrf_token()}}',
+                                    'id_project':{{$result['id_project']}}
+                                        };
+                        $(this).click(function() {
+                            swal({
+                                    title: "Send Invoice SPK to Icount?",
+                                    text: "Check data before sending!",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonClass: "btn-success",
+                                    confirmButtonText: "Yes, Send!",
+                                    closeOnConfirm: false
+                                },
+                                function(){
+                                    $.ajax({
+                                        type : "POST",
+                                        url : "{{url('project/invoice_spk/contract')}}",
+                                        data : data,
+                                        success : function(response) {
+                                            if (response.status == 'success') {
+                                                swal("Success!", "Invoice SPK Sending.", "success")
+                                                location.href = "{{url('project/detail')}}/"+{{$result['id_project']}}+"#invoice";
+                                                window.location.reload();
+                                            }
+                                            else if(response.status == "fail"){
+                                                swal("Error!", response.messages, "error")
+                                                location.href = "{{url('project/detail')}}/"+{{$result['id_project']}}+"#invoice";
+                                                window.location.reload();
+                                            }
+                                            else {
+                                                swal("Error!", "Something went wrong. Failed to delete .", "error")
+                                            }
+                                        }
+                                    });
+                                });
+                        })
+                    })
+                }
+            }
+        }();
+        var SweetPurchaseSPK = function() {
+            return {
+                init: function() {
+                    $(".sweetalert-purchase-spk").each(function() {
+                        var token  	= "{{ csrf_token() }}";
+                        var pathname = window.location.pathname; 
+                        let column 	= $(this).parents('tr');
+                        let id     	= $(this).data('id');
+                        let name    = $(this).data('name');
+                        var data = {
+                                    '_token' : '{{csrf_token()}}',
+                                    'id_project':{{$result['id_project']}}
+                                        };
+                        $(this).click(function() {
+                            swal({
+                                    title: "Send Purchase SPK to Icount?",
+                                    text: "Check data before sending!",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonClass: "btn-success",
+                                    confirmButtonText: "Yes, Send!",
+                                    closeOnConfirm: false
+                                },
+                                function(){
+                                    $.ajax({
+                                        type : "POST",
+                                        url : "{{url('project/purchase_spk/contract')}}",
+                                        data : data,
+                                        success : function(response) {
+                                            if (response.status == 'success') {
+                                                swal("Success!", "Purchase SPK Sending.", "success")
+                                                location.href = "{{url('project/detail')}}/"+{{$result['id_project']}}+"#purchase";
+                                                window.location.reload();
+                                            }
+                                            else if(response.status == "fail"){
+                                                swal("Error!", response.messages, "error")
+                                                location.href = "{{url('project/detail')}}/"+{{$result['id_project']}}+"#purchase";
+                                                window.location.reload();
+                                            }
+                                            else {
+                                                swal("Error!", "Something went wrong. Failed to delete .", "error")
+                                            }
+                                        }
+                                    });
+                                });
+                        })
+                    })
+                }
+            }
+        }();
          function number(id){
             $(id).inputmask("remove");
             $(id).inputmask({
@@ -158,6 +258,8 @@
              number("#kontak_pic");
              number("#cp_kontraktor");
             SweetAlertSubmitContract.init()
+            SweetInvoiceSPK.init()
+            SweetPurchaseSPK.init()
         });
     </script>
 <div style="white-space: nowrap;">
@@ -298,6 +400,8 @@
                     </div>
                     {{-- tab step --}}
                     <div class="tab-pane" id="invoice">
+                          @if($result['progres']!='Contract' )
+                        @if($result['invoice_spk']['status_invoice_spk'])
                         <div class="portlet-body form">
                             <form class="form-horizontal" id="conract_form" role="form"  method="post" enctype="multipart/form-data">
                             <div class="form-body">
@@ -382,9 +486,58 @@
                              </div>
                         </form>
                         </div>
+                        @else
+                        <div class="tab-pane ">
+                            <div class="portlet box red">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        <i class="fa fa-gear"></i>Warning</div>
+                                    <div class="tools">
+                                        <a href="javascript:;" class="collapse"> </a>
+                                    </div>
+                                </div>
+                                <div class="portlet-body">
+                                    <p>{{$result['invoice_spk']['message']??''}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" id="kt_datatable">
+                                <thead>
+                                <tr>
+                                    <th class="text-nowrap text-center">Name</th>
+                                    <th class="text-nowrap text-center">Message Eror</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    @if(!empty($result['invoice_spk']['value_detail']))
+                                        @foreach(json_decode($result['invoice_spk']['value_detail'],true) as $step)
+                                                <tr>
+                                                <td> {{$step['Name']??''}}</td>
+                                                <td> {{$step['Message']??''}}</td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="10" style="text-align: center">No Error Data Invoice SPK</td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                                
+                            </table>
+                            <div class="form-actions">
+                                <a class="btn btn-sm green sweetalert-invoice-spk btn-primary"  type="button" style="float:right">
+                                    Send Invoice SPK 
+                                </a>
+                            </div>
+                        </div>
+                        @endif
+                        @endif
                     </div>
                     
                     <div class="tab-pane" id="purchase">
+                          @if($result['progres']!='Contract' )
+                        @if($result['purchase_spk']['status_purchase_spk'])
                         <div class="portlet-body form">
                             <form class="form-horizontal" id="conract_form" role="form"  method="post" enctype="multipart/form-data">
                             <div class="form-body">
@@ -437,6 +590,53 @@
                                 
                             </table>
                         </div>
+                        @else
+                        <div class="tab-pane ">
+                            <div class="portlet box red">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        <i class="fa fa-gear"></i>Warning</div>
+                                    <div class="tools">
+                                        <a href="javascript:;" class="collapse"> </a>
+                                    </div>
+                                </div>
+                                <div class="portlet-body">
+                                    <p>{{$result['purchase_spk']['message']??''}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" id="kt_datatable">
+                                <thead>
+                                <tr>
+                                    <th class="text-nowrap text-center">Name</th>
+                                    <th class="text-nowrap text-center">Message Eror</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    @if(!empty($result['purchase_spk']['value_detail']))
+                                        @foreach(json_decode($result['purchase_spk']['value_detail'],true) as $step)
+                                                <tr>
+                                                <td> {{$step['Name']??''}}</td>
+                                                <td> {{$step['Message']??''}}</td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="10" style="text-align: center">No Error Data Invoice SPK</td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                                
+                            </table>
+                            <div class="form-actions">
+                                <a class="btn btn-sm green sweetalert-purchase-spk btn-primary"  type="button" style="float:right">
+                                    Send Purchase SKP 
+                                </a>
+                            </div>
+                        </div>
+                        @endif
+                        @endif
                     </div>
                 </div>
             </div>

@@ -1,6 +1,56 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 
+        var SweetInvoiceBAP = function() {
+            return {
+                init: function() {
+                    $(".sweetalert-invoice-bap").each(function() {
+                        var token  	= "{{ csrf_token() }}";
+                        var pathname = window.location.pathname; 
+                        let column 	= $(this).parents('tr');
+                        let id     	= $(this).data('id');
+                        let name    = $(this).data('name');
+                        var data = {
+                                    '_token' : '{{csrf_token()}}',
+                                    'id_project':{{$result['id_project']}}
+                                        };
+                        $(this).click(function() {
+                            swal({
+                                    title: "Send Invoice BAP to Icount?",
+                                    text: "Check data before sending!",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonClass: "btn-success",
+                                    confirmButtonText: "Yes, Send!",
+                                    closeOnConfirm: false
+                                },
+                                function(){
+                                    $.ajax({
+                                        type : "POST",
+                                        url : "{{url('project/invoice_bap/fitout')}}",
+                                        data : data,
+                                        success : function(response) {
+                                            if (response.status == 'success') {
+                                                swal("Deleted!", "Fit Out has been deleted.", "success")
+                                                location.href = "{{url('project/detail')}}/"+{{$result['id_project']}}+"#invoice_bap";
+                                                window.location.reload();
+                                            }
+                                            else if(response.status == "fail"){
+                                                swal("Error!", response.messages, "error")
+                                                location.href = "{{url('project/detail')}}/"+{{$result['id_project']}}+"#invoice_bap";
+                                                window.location.reload();
+                                            }
+                                            else {
+                                                swal("Error!", "Something went wrong. Failed to delete .", "error")
+                                            }
+                                        }
+                                    });
+                                });
+                        })
+                    })
+                }
+            }
+        }();
         var SweetAlertFitout = function() {
             return {
                 init: function() {
@@ -31,17 +81,14 @@
                                         data : data,
                                         success : function(response) {
                                             if (response.status == 'success') {
-                                                swal("Deleted!", "Fit Out has been deleted.", "success")
-                                              location.href = "{{url('project/detail')}}/"+{{$result['id_project']}}+"#fitout";
+                                                swal("Success!", "Invoice BAP Sending!", "success")
+                                                location.href = "{{url('project/detail')}}/"+{{$result['id_project']}}+"#fitout";
                                                 window.location.reload();
                                             }
                                             else if(response.status == "fail"){
-                                              
                                                 swal("Error!", "Failed to delete.", "error")
                                             }
                                             else {
-                                                console.log(data)
-                                                console.log(response)
                                                 swal("Error!", "Something went wrong. Failed to delete .", "error")
                                             }
                                         }
@@ -68,7 +115,7 @@
                         $(this).click(function() {
                             swal({
                                     title: "Next Step?",
-                                    text: "Kamu akan diarahkan ke step Handover!",
+                                    text: "You will be directed to the handover page!",
                                     type: "warning",
                                     showCancelButton: true,
                                     confirmButtonClass: "btn-success",
@@ -104,6 +151,7 @@
         jQuery(document).ready(function() {
             SweetAlertNextFitout.init()
             SweetAlertFitout.init()
+            SweetInvoiceBAP.init()
         });
     </script>
 <?php
@@ -257,6 +305,8 @@ foreach($result['project_fitout'] as $value){
                         </form>
                     </div>
                     <div class="tab-pane" id="invoice_bap">
+                        @if($result['progres']!='Fit Out' )
+                         @if($result['invoice_bap']['status_invoice_bap'])
                         <form class="form-horizontal" id="conract_form" role="form"  method="post" enctype="multipart/form-data">
                             <div class="form-body">
                                 <div class="form-group">
@@ -339,6 +389,52 @@ foreach($result['project_fitout'] as $value){
                                     @endif
                             </div>
                         </form>
+                         @else
+                         <div class="tab-pane ">
+                            <div class="portlet box red">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        <i class="fa fa-gear"></i>Warning</div>
+                                    <div class="tools">
+                                        <a href="javascript:;" class="collapse"> </a>
+                                    </div>
+                                </div>
+                                <div class="portlet-body">
+                                    <p>{{$result['invoice_bap']['message']??''}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" id="kt_datatable">
+                                <thead>
+                                <tr>
+                                    <th class="text-nowrap text-center">Name</th>
+                                    <th class="text-nowrap text-center">Message Eror</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    @if(!empty($result['invoice_bap']['value_detail']))
+                                        @foreach(json_decode($result['invoice_bap']['value_detail'],true) as $step)
+                                                <tr>
+                                                <td> {{$step['Name']??''}}</td>
+                                                <td> {{$step['Message']??''}}</td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="10" style="text-align: center">No Error Data Invoice SPK</td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                            </table>
+                            <div class="form-actions">
+                                <a class="btn btn-sm green sweetalert-invoice-bap btn-primary"  type="button" style="float:right">
+                                    Send Invoice BAP 
+                                </a>
+                            </div>
+                        </div>
+                         @endif
+                         @endif
                     </div>
                 </div>
             </div>

@@ -126,9 +126,7 @@ class BrandController extends Controller
             $data['product'][$key]['created_at']    = $value;
             $data['product'][$key]['updated_at']    = $value;
         }
-
         $action = MyHelper::post('brand/product/store', $data['product']);
-
         if (isset($action['status']) && $action['status'] == 'success') {
             return redirect('brand/product/' . $post['id_brand']);
         } else {

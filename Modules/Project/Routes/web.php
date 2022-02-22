@@ -32,11 +32,14 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'project'
     Route::post('create/contract', ['middleware' => 'feature_control:403', 'uses' => 'ProjectContractController@create']);
     Route::post('next/contract', ['middleware' => 'feature_control:405', 'uses' => 'ProjectContractController@next']);
     Route::post('delete/contract', ['middleware' => 'feature_control:406', 'uses' => 'ProjectContractController@delete']);
+    Route::post('invoice_spk/contract', ['middleware' => 'feature_control:406', 'uses' => 'ProjectContractController@invoice_spk']);
+    Route::post('purchase_spk/contract', ['middleware' => 'feature_control:406', 'uses' => 'ProjectContractController@purchase_spk']);
     
     //fitout
     Route::post('create/fitout', ['middleware' => 'feature_control:403', 'uses' => 'ProjectFitOutController@create']);
     Route::post('next/fitout', ['middleware' => 'feature_control:405', 'uses' => 'ProjectFitOutController@next']);
     Route::post('delete/fitout', ['middleware' => 'feature_control:406', 'uses' => 'ProjectFitOutController@delete']);
+    Route::post('invoice_bap/fitout', ['middleware' => 'feature_control:406', 'uses' => 'ProjectFitOutController@invoice_bap']);
    //handover
     Route::post('create/handover', ['middleware' => 'feature_control:403', 'uses' => 'ProjectHandoverController@create']);
     Route::post('next/handover', ['middleware' => 'feature_control:405', 'uses' => 'ProjectHandoverController@next']);
