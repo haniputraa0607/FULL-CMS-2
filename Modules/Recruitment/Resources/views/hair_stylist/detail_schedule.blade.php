@@ -141,6 +141,7 @@
 			        			<select disabled>
 			        				<option></option>
 			        				<option {{ $shift == 'Morning' ? 'selected' : null }}>Pagi</option>
+			        				<option {{ $shift == 'Middle' ? 'selected' : null }}>Tengah</option>
 			        				<option {{ $shift == 'Evening' ? 'selected' : null }}>Sore</option>
 			        				<option {{ $shift == 'Full' ? 'selected' : null }}>Pagi & Sore</option>
 			        			</select>
@@ -245,6 +246,7 @@
 			        			<select disabled>
 			        				<option></option>
 			        				<option {{ $shift == 'Morning' ? 'selected' : null }}>Pagi</option>
+			        				<option {{ $shift == 'Middle' ? 'selected' : null }}>Tengah</option>
 			        				<option {{ $shift == 'Evening' ? 'selected' : null }}>Sore</option>
 			        				<option {{ $shift == 'Full' ? 'selected' : null }}>Pagi & Sore</option>
 			        			</select>

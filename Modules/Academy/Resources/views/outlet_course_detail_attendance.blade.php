@@ -33,13 +33,53 @@
 
         $('.icheck').on('ifChecked', function(){
             var id = $(this).val();
+            var cat = $(this).data('cat');
             $('#score_'+id).show();
+            validationScore(cat);
+            validationConclusion(cat);
         });
 
         $('.icheck').on('ifUnchecked', function(){
             var id = $(this).val();
+            var cat = $(this).data('cat');
             $('#score_'+id).hide();
+            $('#input_score_'+id).val('');
+            validationScore(cat);
+            validationConclusion(cat);
         });
+        
+        function validationScore(id) {
+            var disable_status = 0;
+            $('.score_theory_'+id).each(function(i, obj) {;
+                var score_id = obj.id;
+                var value = $('#'+score_id).val();
+                var split = score_id.split('_');
+                var id_theory = split[2];
+
+                $('#error_text_'+id_theory).hide();
+                if(value > 100){
+                    disable_status = 1;
+                    $('#error_text_'+id_theory).show();
+                }
+            });
+
+            if(disable_status == 1){
+                $("#btn_submit_attendance").attr("disabled", true);
+            }else{
+                $("#btn_submit_attendance").attr("disabled", false);
+            }
+        }
+
+        function validationConclusion(id) {
+            var score = $('#conclusion_score_'+id).val();
+            if(score > 100){
+                $('#conclusion_error_text_'+id).show();
+                $("#btn_submit_attendance").attr("disabled", true);
+            }else{
+                $('#conclusion_error_text_'+id).hide();
+                $("#btn_submit_attendance").attr("disabled", false);
+            }
+        }
     </script>
 @endsection
 
@@ -170,7 +210,8 @@
                                                 $htmlTheory .= '<p>'.$theory['theory_title'].'</p>';
                                                 $htmlTheory .= '</div>';
                                                 $htmlTheory .= '<div class="col-md-2" id="score_'.$theory["id_theory"].'" style="display: none;>';
-                                                $htmlTheory .= '<input type="text" class="form-control score_theory_'.$ct['id_theory_category'].'" id="score_'.$theory['id_theory'].'" placeholder="Score" '.($theory['checked'] == 1 ? 'disabled':'').')">';
+                                                $htmlTheory .= '<input type="text" class="form-control score_theory_'.$ct['id_theory_category'].'" id="input_score_'.$theory['id_theory'].'" placeholder="Score" '.($theory['checked'] == 1 ? 'disabled':'').')" onkeyup="validationScore('.$ct['id_theory_category'].')">';
+                                                $htmlTheory .= '<p style="color: red;margin-top: -1%;display: none" id="error_text_'.$theory['id_theory'].'">Maximal score is 100</p>';
                                                 $htmlTheory .= '</div>';
                                                 $htmlTheory .= '</div>';
                                                 $htmlTheory .= '<input type="hidden" value="'.$theory['id_theory'].'">';
@@ -183,7 +224,8 @@
                                             $htmlTheory .= '<p><b>Conclusion</b></p>';
                                             $htmlTheory .= '</div>';
                                             $htmlTheory .= '<div class="col-md-2">';
-                                            $htmlTheory .= '<input type="text" class="form-control" id="conclusion_score_'.$ct['id_theory_category'].'" placeholder="Score">';
+                                            $htmlTheory .= '<input type="text" class="form-control" id="conclusion_score_'.$ct['id_theory_category'].'" placeholder="Score" onkeyup="validationConclusion('.$ct['id_theory_category'].')">';
+                                            $htmlTheory .= '<p style="color: red;margin-top: -1%;display: none" id="conclusion_error_text_'.$ct['id_theory_category'].'">Maximal score is 100</p>';
                                             $htmlTheory .= '</div>';
                                             $htmlTheory .= '</div>';
 
@@ -206,7 +248,7 @@
                                                         $htmlTheory .= '<i class="fa fa-check"></i>';
                                                     }else{
                                                         $htmlTheory .= '<div class="icheck-list">';
-                                                        $htmlTheory .= '<label><input type="checkbox" class="icheck" name="theory['.$theory['id_theory'].'][id_theory]" value="'.$theory["id_theory"].'" </label>';
+                                                        $htmlTheory .= '<label><input type="checkbox" class="icheck" data-cat="'.$ct['id_theory_category'].'" name="theory['.$theory['id_theory'].'][id_theory]" value="'.$theory["id_theory"].'" </label>';
                                                         $htmlTheory .= '</div>';
                                                     }
                                                     $htmlTheory .= '</div>';
@@ -214,7 +256,8 @@
                                                     $htmlTheory .= '<p>'.$theory['theory_title'].'</p>';
                                                     $htmlTheory .= '</div>';
                                                     $htmlTheory .= '<div class="col-md-2" id="score_'.$theory["id_theory"].'" '.($theory['checked'] == 0 ? 'style="display: none;"':'').'>';
-                                                    $htmlTheory .= '<input type="text" class="form-control score_theory_'.$ct['id_theory_category'].'" name="theory['.$theory['id_theory'].'][score]" id="score_'.$theory['id_theory'].'" placeholder="Score" '.($theory['checked'] == 1 ? 'disabled value="'.$theory['score'].'"':'').'>';
+                                                    $htmlTheory .= '<input type="text" class="form-control score_theory_'.$ct['id_theory_category'].'" name="theory['.$theory['id_theory'].'][score]" id="input_score_'.$theory['id_theory'].'" placeholder="Score" '.($theory['checked'] == 1 ? 'disabled value="'.$theory['score'].'"':'').' onkeyup="validationScore('.$ct['id_theory_category'].')">';
+                                                    $htmlTheory .= '<p style="color: red;margin-top: -1%;display: none" id="error_text_'.$theory['id_theory'].'">Maximal score is 100</p>';
                                                     $htmlTheory .= '</div>';
                                                     $htmlTheory .= '</div>';
                                                     $htmlTheory .= '<input type="hidden" name="theory['.$theory['id_theory'].'][title]" value="'.$theory['theory_title'].'">';
@@ -229,7 +272,8 @@
                                             $htmlTheory .= '<p><b>Conclusion</b></p>';
                                             $htmlTheory .= '</div>';
                                             $htmlTheory .= '<div class="col-md-2" style="margin-left: 2%">';
-                                            $htmlTheory .= '<input type="text" class="form-control" id="conclusion_score_'.$ct['id_theory_category'].'" name="conclusion_score['.$ct['id_theory_category'].']" value="'.($ct['conclusion_score']??'').'" placeholder="Score">';
+                                            $htmlTheory .= '<input type="text" class="form-control" id="conclusion_score_'.$ct['id_theory_category'].'" onkeyup="validationConclusion('.$ct['id_theory_category'].')" name="conclusion_score['.$ct['id_theory_category'].']" value="'.($ct['conclusion_score']??'').'" placeholder="Score">';
+                                            $htmlTheory .= '<p style="color: red;margin-top: -1%;display: none" id="conclusion_error_text_'.$ct['id_theory_category'].'">Maximal score is 100</p>';
                                             $htmlTheory .= '</div>';
                                             $htmlTheory .= '</div>';
 
@@ -247,7 +291,7 @@
                 <div class="modal-footer" style="text-align: center">
                     {{ csrf_field() }}
                     <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn green">Save</button>
+                    <button type="submit" id="btn_submit_attendance" class="btn green">Save</button>
                 </div>
             </form>
         </div>

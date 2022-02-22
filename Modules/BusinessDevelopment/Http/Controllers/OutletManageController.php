@@ -480,10 +480,10 @@ class OutletManageController extends Controller
                     $send['location'][$key]['large'] = $loc['location_large'];
                 }
                 if($loc['partnership_fee'] != null){
-                    $send['location'][$key]['partnership_fee'] = $this->rupiah($loc['total_payment']);
-                    $send['location'][$key]['dp'] = $this->rupiah($loc['total_payment']*0.2);
-                    $send['location'][$key]['dp2'] = $this->rupiah($loc['total_payment']*0.3);
-                    $send['location'][$key]['final'] =$this->rupiah($loc['total_payment']*0.5);
+                    $send['location'][$key]['partnership_fee'] = $this->rupiah($loc['partnership_fee']);
+                    $send['location'][$key]['dp'] = $this->rupiah($loc['partnership_fee']*0.2);
+                    $send['location'][$key]['dp2'] = $this->rupiah($loc['partnership_fee']*0.3);
+                    $send['location'][$key]['final'] =$this->rupiah($loc['partnership_fee']*0.5);
                 }
                 $send['location'][$key]['id_location'] = $loc['id_location'];
             }
@@ -548,7 +548,7 @@ class OutletManageController extends Controller
             ];
             $data['result'] = $result['result'];
             $partner = MyHelper::post('partners/edit', ['id_partner' => $result['result']['id_partner']]);  
-        $data['id_outlet_change_location'] = $id;
+        $data['id_outlet_change_location'] = $result['result']['id_outlet_change_location'];
         $data['partner'] = $partner['result']['partner'];
         $data['brands'] = MyHelper::get('partners/locations/brands')['result']??[];
         $data['list_locations'] = MyHelper::get('partners/list-location')['result']['locations']??[];
@@ -614,7 +614,7 @@ class OutletManageController extends Controller
             "status_steps" => $status_steps,
         ];
         if(isset($request["follow_up"]) && $request["follow_up"]=='Select Location'){
-             $update_partner['id_location'] = $request["id_location"];
+             $update_partner['id_location'] = $request["to_id_location"];
             $update_data_location = [
                 "id_location" => $request["to_id_location"],
                 "id_outlet_starter_bundling" => $request["id_outlet_starter_bundling"],
@@ -625,10 +625,6 @@ class OutletManageController extends Controller
                 "id_partner" => $request['id_partner'],
                 "total_box" => $request['total_box'],
                 "handover_date" => date('Y-m-d', strtotime($request['handover_date'])),
-            ];
-            $form_survey = [
-                "id_partner"  => $request["id_partner"],
-                "id_location"  => $request["id_location"],
             ];
             if ($request['start_date']!=null){
                 $update_data_location['start_date'] = date('Y-m-d', strtotime($request['start_date']));
@@ -658,11 +654,10 @@ class OutletManageController extends Controller
         }elseif($request["follow_up"]=='Select Location'){
             $update_data_location['sharing_percent'] = 0;
         }
-
+        
         if (isset($request["sharing_value"]) && $request["follow_up"]=='Select Location') {
             $update_data_location['sharing_value'] = $request['sharing_value'];
         }
-
         if(isset($request["follow_up"]) && $request["follow_up"]=='Calculation'){
             $request->validate([
                 "total_payment" => "required",
@@ -700,16 +695,9 @@ class OutletManageController extends Controller
                 "date_spk" => date('Y-m-d', strtotime($request['date_spk'])),
             ];
             $post_follow_up['id_location'] = $request["to_id_location"];
-            $update_partner['status'] = 'Waiting';
+            $update_partner['status'] = 'Success';
         }
-
         $post['post_follow_up'] = $post_follow_up;
-
-        if(isset($form_survey) && !empty($form_survey)){
-            $post['form_survey'] = $form_survey;
-        }    
-        
-      
          $partner_step = MyHelper::post('partners/outlet/change_location/updateStatus', $update_partner);
           if (isset($partner_step['status']) && $partner_step['status'] == 'success') {
             if (isset($update_data_location) && !empty($update_data_location)) {
@@ -727,39 +715,23 @@ class OutletManageController extends Controller
             if (isset($location_update['status']) && $location_update['status'] == 'success') {
                 $follow_up = MyHelper::post('partners/outlet/change_location/create-follow-up', $post);
                 if(isset($follow_up['status']) && $follow_up['status'] == 'success'){
-                    if(isset($data_confir) && !empty($data_confir)){
-                         $confirmation =  MyHelper::post('partners/outlet/change_location/confirmation-letter', $data_confir);
-                        if (isset($confirmation['status']) && $confirmation['status'] == 'success') {
-                            return redirect()->back()->withSuccess(['Success create step '.$request["follow_up"].'']);    
-                        }else{
-                            return redirect()->back()->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
-                        }
-                    }
-                    if(isset($form_survey) && !empty($form_survey)){
-                        $create_form_survey =  MyHelper::post('partners/outlet/change_location/form-survey', $form_survey);
-                        if (isset($create_form_survey['status']) && $create_form_survey['status'] == 'success') {
-                            return redirect()->back()->withSuccess(['Success create step '.$request["follow_up"].'']);    
-                        }else{
-                            return redirect()->back()->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
-                        }
-                    }
                     return redirect()->back()->withSuccess(['Success create step '.$request["follow_up"].'']);    
                 }else{
-                    return back()->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
+                    return back()->withErrors($result['messages'] ?? ['Failed create steps '.$request["follow_up"].'']);
                 }
             }else{
-                return back()->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
+                return back()->withErrors($result['messages'] ?? ['Failed create steps '.$request["follow_up"].'']);
             }
         }else{
             $follow_up = MyHelper::post('partners/outlet/change_location/create-follow-up', $post);
             if(isset($follow_up['status']) && $follow_up['status'] == 'success'){
                 return back()->withSuccess(['Success create step '.$request["follow_up"].'']);    
             }else{
-                return back()->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
+                return back()->withErrors($result['messages'] ?? ['Failed create steps '.$request["follow_up"].'']);
                 }
             }
           }else{
-              return back()->withErrors($result['messages'] ?? ['Failed create step '.$request["follow_up"].'']);
+              return back()->withErrors($result['messages'] ?? ['Failed create steps '.$request["follow_up"].'']);
           }
         return back()->withSuccess(['Success create step '.$request["follow_up"].'']);    
 

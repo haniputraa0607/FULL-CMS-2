@@ -139,6 +139,7 @@ class PartnersController extends Controller
     public function detail($user_id)
     {
         $result = MyHelper::post('partners/edit', ['id_partner' => $user_id]);  
+
         if($result['result']['partner']['status']=='Candidate' || $result['result']['partner']['status']=='Rejected'){
             $data = [
                 'title'          => 'Candidate Partner',
@@ -170,6 +171,7 @@ class PartnersController extends Controller
             $data['conditions'] = "";
             $data['terms'] = MyHelper::get('partners/term')['result']??[];
             $data['confirmation'] = $this->dataConfirmation($result['result']['partner'],$data['cities']);
+            
             if(isset($data['result']['partner_locations'][0]['id_brand'])){
                 $data['formSurvey'] = MyHelper::post('partners/form-survey',['id_brand' => $data['result']['partner_locations'][0]['id_brand']]);
             }else{
@@ -206,10 +208,10 @@ class PartnersController extends Controller
                     $send['location'][$key]['large'] = $loc['location_large'];
                 }
                 if($loc['partnership_fee'] != null){
-                    $send['location'][$key]['partnership_fee'] = $this->rupiah($loc['total_payment']);
-                    $send['location'][$key]['dp'] = $this->rupiah($loc['total_payment']*0.2);
-                    $send['location'][$key]['dp2'] = $this->rupiah($loc['total_payment']*0.3);
-                    $send['location'][$key]['final'] =$this->rupiah($loc['total_payment']*0.5);
+                    $send['location'][$key]['partnership_fee'] = $this->rupiah(isset($loc['value_detail_decode']['Inisiasi Partner']['netto']) ? $loc['value_detail_decode']['Inisiasi Partner']['netto'] : $loc['partnership_fee']);
+                    $send['location'][$key]['dp'] = $this->rupiah($loc['partnership_fee']*0.2);
+                    $send['location'][$key]['dp2'] = $this->rupiah($loc['partnership_fee']*0.3);
+                    $send['location'][$key]['final'] =$this->rupiah($loc['partnership_fee']*0.5);
                 }
                 $send['location'][$key]['id_location'] = $loc['id_location'];
             }

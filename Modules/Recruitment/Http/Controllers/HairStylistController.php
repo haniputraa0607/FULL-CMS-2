@@ -175,6 +175,7 @@ class HairStylistController extends Controller
             $data['detail'] = $detail['result'];
             $data['outlets'] = MyHelper::get('outlet/be/list/simple')['result'] ?? [];
             $data['groups'] = MyHelper::get('recruitment/hairstylist/be/group/')['result']['data']??[];
+            $data['order'] = MyHelper::post('recruitment/hairstylist/be/info-order', ['id_user_hair_stylist' => $id])['result']??[];
             $data['schedules'] = [];
             if (!empty($data['detail']['id_outlet']) && $data['detail']['user_hair_stylist_status'] == 'Active') {
             	$data['schedules'] = MyHelper::get('recruitment/hairstylist/be/schedule/outlet?id_outlet='.$data['detail']['id_outlet'])['result'] ?? [];
@@ -245,5 +246,18 @@ class HairStylistController extends Controller
     public function candidateDelete($id){
         $delete = MyHelper::post('recruitment/hairstylist/be/delete', ['id_user_hair_stylist' => $id]);
         return $delete;
+    }
+
+    public function moveOutlet(Request $request, $id){
+        $post = $request->except('_token');
+        $post['id_user_hair_stylist'] = $id;
+
+        $update = MyHelper::post('recruitment/hairstylist/be/move-outlet',$post);
+
+        if(isset($update['status']) && $update['status'] == 'success'){
+            return redirect('recruitment/hair-stylist/detail/'.$id.'#hs-change-outlet')->withSuccess(['Success change outlet hair stylist']);
+        }else{
+            return redirect('recruitment/hair-stylist/detail/'.$id.'#hs-change-outlet')->withErrors($update['messages']??['Failed change outlet hair stylist']);
+        }
     }
 }

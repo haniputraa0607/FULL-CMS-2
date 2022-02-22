@@ -67,7 +67,7 @@
                     </div>
                 </div>
 
-                <label class="col-md-2 control-label">{{ $title_date_start??'Date End' }} :</label>
+                <label class="col-md-2 control-label">{{ $title_date_end??'Date End' }} :</label>
                 <div class="col-md-4">
                     <div class="input-group">
                         <input type="date" class="form-control" name="date_end" value="{{ $date_end }}">
