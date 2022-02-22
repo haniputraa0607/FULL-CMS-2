@@ -290,6 +290,9 @@ $totalTheories = 0;
 				</li>
 				@endif
                 @if($detail['user_hair_stylist_status'] == 'Active')
+					<li>
+						<a href="#hs-change-outlet" data-toggle="tab"> Move Outlet </a>
+					</li>
 	                <li>
 	                    <a href="#hs-schedule" data-toggle="tab"> Schedule </a>
 	                </li>
@@ -596,19 +599,16 @@ $totalTheories = 0;
 						@endif
 
 						<div class="form-group">
-							<label class="col-md-4 control-label">Assign Outlet <span class="required" aria-required="true"> * </span>
-								<i class="fa fa-question-circle tooltips" data-original-title="Penempatan outlet untuk hair stylist" data-container="body"></i>
-							</label>
+							<label class="col-md-4 control-label">Assign Outlet</label>
 							<div class="col-md-6">
 								<div class="input-icon right">
-									<select  class="form-control select2" name="id_outlet" data-placeholder="Select outlet" @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) disabled @endif>
+									<select  class="form-control select2" name="id_outlet" data-placeholder="Select outlet" disabled>
 										<option></option>
 										@foreach($outlets as $outlet)
 											<option value="{{$outlet['id_outlet']}}" @if($outlet['id_outlet'] == $detail['id_outlet']) selected @endif>{{$outlet['outlet_code']}} - {{$outlet['outlet_name']}}</option>
 										@endforeach
 									</select>
 								</div>
-								<input type="hidden" name="id_outlet_old" value="{{$detail['id_outlet']}}">
 							</div>
 						</div>
                         <div class="form-group">
@@ -841,6 +841,9 @@ $totalTheories = 0;
 			</div>
 			@endif
 			@if($detail['user_hair_stylist_status'] == 'Active')
+				<div class="tab-pane" id="hs-change-outlet">
+					@include('recruitment::hair_stylist.move_outlet')
+				</div>
 				<div class="tab-pane" id="hs-schedule">
 					@yield('detail-schedule')
 				</div>
