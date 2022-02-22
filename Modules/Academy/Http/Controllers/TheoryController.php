@@ -109,7 +109,7 @@ class TheoryController extends Controller
                 'title'          => 'Theory',
                 'sub_title'      => 'New Theory',
                 'menu_active'    => 'theory',
-                'submenu_active' => 'new-theory'
+                'submenu_active' => 'create-theory'
             ];
 
             $data['list_category'] = MyHelper::get('theory/category')['result']??[];
