@@ -648,17 +648,10 @@
     var count_product_service_use_ims = {{(empty($product_icount_use_ims) ? 1: count($product_icount_use_ims))}}
     function addProductServiceUse(company) {
         var html_select = '';
-<<<<<<< HEAD
         var delete_pro = '';
         var i_company = '';
         if(company == 'ima'){
             var count_product_service_use = count_product_service_use_ima;
-=======
-        <?php
-            foreach($product_uses as $row){
-            ?>
-            html_select += `<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>`;
->>>>>>> 6b8190a328862b6b967e26638d8f4a846b66851a
             <?php
                 foreach($product_uses_ima as $row){
                 ?>
