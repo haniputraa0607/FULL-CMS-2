@@ -450,14 +450,7 @@ $configs = session('configs');
         <div class="kotak-biasa" style="background-color: {{$color[$data['status']]??'#F8CB00'}};padding: 15px;margin-top: 10px;box-shadow: 0 0.7px 3.3px #eeeeee;">
             <div class="container">
                 <div class="row text-center">
-                    <div class="col-12 text-black-grey-light text-20px WorkSans-SemiBold"><b style="color: white;font-size: 30px">{{$data['shop_status']}}</b></div>
-                </div>
-            </div>
-        </div>
-        <div class="kotak-biasa" style="background-color: #FFFFFF;padding: 15px;margin-top: 10px;box-shadow: 0 0.7px 3.3px #eeeeee;">
-            <div class="container">
-                <div class="row text-center">
-                    <div class="col-12 text-black-grey-light text-20px WorkSans-SemiBold">{{ $data['transaction_receipt_number'] }}</div>
+                    <div class="col-12 text-black-grey-light text-20px"><b style="color: white;font-size: 30px">{{$data['shop_status']}}</b></div>
                 </div>
             </div>
         </div>
