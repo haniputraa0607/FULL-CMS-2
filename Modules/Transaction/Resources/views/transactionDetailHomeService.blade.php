@@ -453,7 +453,7 @@
         <div class="kotak-biasa" style="background-color: {{$color[$data['hair_stylist_status']]??'#F8CB00'}};padding: 15px;margin-top: 10px;box-shadow: 0 0.7px 3.3px #eeeeee;">
             <div class="container">
                 <div class="row text-center">
-                    <div class="col-12 text-black-grey-light text-20px WorkSans-SemiBold"><b style="color: white;font-size: 30px">{{$data['hair_stylist_status']}}</b></div>
+                    <div class="col-12 text-black-grey-light text-20px"><b style="color: white;font-size: 30px">{{$data['hair_stylist_status']}}</b></div>
                 </div>
             </div>
         </div>
