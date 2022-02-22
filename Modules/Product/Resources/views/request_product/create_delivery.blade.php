@@ -86,11 +86,33 @@
         @endif
         
         function addProductServiceUse() {
+            var company = '';
+            <?php if(!isset($result['id_request_product'])){ ?>
+                company = $('#id_outlet option:selected').attr('data-company');
+            <?php } ?>
             var html_select = '';
             <?php
             foreach($products as $row){
             ?>
+            if(company=='PT IMA'){
+                <?php 
+                    if($row['company_type']=='ima'){
+                ?>
                 html_select += "<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>";
+                <?php
+                    }   
+                ?>
+            }else if(company=='PT IMS'){
+                <?php 
+                    if($row['company_type']=='ims'){
+                ?>
+                html_select += "<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>";
+                <?php
+                    }   
+                ?>
+            }else{
+                html_select += "<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>";
+            }
             <?php
             }
             ?>
@@ -229,6 +251,56 @@
             });
  
         }
+        
+        function outletFunction(val){
+            requestByOutlet(val);
+            selectOutlet();
+        }
+
+        function selectOutlet(){
+            var company = $('#id_outlet option:selected').attr('data-company');
+
+            for (var i = 0; i < count_product_service_use; i++) {
+                $('#product_use_code_'+i).empty();
+                $('#product_use_unit_'+i).empty();
+                $('#product_use_qty_'+i).val('');
+            }
+            var html_select = '<option></option>';
+            var html_unit = '<option></option><option value="PCS">PCS</option>';
+            
+            <?php
+            foreach($products as $row){
+            ?>
+
+            if(company=='PT IMA'){
+                <?php 
+                    if($row['company_type']=='ima'){
+                ?>
+                html_select += "<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>";
+                <?php
+                    }   
+                ?>
+            }else if(company=='PT IMS'){
+                <?php 
+                    if($row['company_type']=='ims'){
+                ?>
+                html_select += "<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>";
+                <?php
+                    }   
+                ?>
+            }else{
+                html_select += "<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>";
+            }
+            
+            <?php
+            }
+            ?>
+            for (var i = 0; i < count_product_service_use; i++) {
+                $("#product_use_code_"+i).append(html_select);
+                $("#product_use_unit_"+i).append(html_unit);
+            }
+            $('#div_product_use .select2').select2({placeholder: "Search"});
+        }
     
     </script>
 
@@ -271,10 +343,10 @@
                             <i class="fa fa-question-circle tooltips" data-original-title="Nama outlet yang membuat permintaan produk" data-container="body"></i></label>
                         <div class="col-md-5">
                             @if(!isset($result['id_request_product']))
-                            <select class="form-control select2 approvedForm" name="id_outlet" id="id_outlet" required onchange="requestByOutlet(this.value)">
+                            <select class="form-control select2 approvedForm" name="id_outlet" id="id_outlet" id="id_outlet" required onchange="outletFunction(this.value)">
                                 <option value="" selected disabled>Select Outlet</option>
                                 @foreach($outlets as $o => $ol)
-                                    <option value="{{$ol['id_outlet']}}">{{$ol['outlet_name']}}</option>
+                                    <option value="{{$ol['id_outlet']}}" data-company="{{$ol['location_outlet']['company_type']}}">{{$ol['outlet_name']}}</option>
                                 @endforeach
                             </select>
                             @else

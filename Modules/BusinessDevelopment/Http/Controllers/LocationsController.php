@@ -163,7 +163,7 @@ class LocationsController extends Controller
                 $data['formSurvey'] = [];
             }
             $data['confirmation'] = $this->dataConfirmation($result['result']['location'],$data['cities']);
-            // return $data;
+
             return view('businessdevelopment::locations.detail', $data);
         }else{
             return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
@@ -172,7 +172,7 @@ class LocationsController extends Controller
 
     public function dataConfirmation($data,$city){
         $send= [];
-        
+
         foreach($city as $c){
             if($c['id_city']==$data['id_city']){
                 $city_name = $c['city_name'];
@@ -189,7 +189,7 @@ class LocationsController extends Controller
             $send['large'] = $data['location_large'];
         }
         if($data['partnership_fee'] != null){
-            $send['partnership_fee'] = $this->rupiah($data['partnership_fee']);
+            $send['partnership_fee'] = $this->rupiah(isset($data['value_detail_decode']['Inisiasi Partner']['netto']) ? $data['value_detail_decode']['Inisiasi Partner']['netto'] : $data['partnership_fee']);
             $send['dp'] = $this->rupiah($data['partnership_fee']*0.2);
             $send['dp2'] = $this->rupiah($data['partnership_fee']*0.3);
             $send['final'] = $this->rupiah($data['partnership_fee']*0.5);

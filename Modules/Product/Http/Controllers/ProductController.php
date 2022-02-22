@@ -784,19 +784,28 @@ class ProductController extends Controller
             $data['product_variant'] = MyHelper::get('product-variant')['result'] ?? [];
             $data['product_variant_group'] = MyHelper::post('product-variant-group',  ['product_code' => $code])['result'] ?? [];
             $data['count'] = count($data['product_variant_group']);
-            $data['product_uses'] = MyHelper::post('product/be/icount/list', ['type' => 'product'])['result'] ?? [];
-            $data['product_icount_use'] = $data['product'][0]['product_icount_use'] ?? [];
+            $data['product_uses_ima'] = MyHelper::post('product/be/icount/list', ['type' => 'product', 'company_type' => 'ima'])['result'] ?? [];
+            $data['product_uses_ims'] = MyHelper::post('product/be/icount/list', ['type' => 'product', 'company_type' => 'ims'])['result'] ?? [];
+            $data['product_icount_use_ima'] = $data['product'][0]['product_icount_use_ima'] ?? [];
+            $data['product_icount_use_ims'] = $data['product'][0]['product_icount_use_ims'] ?? [];
             // return $data['product'][0]['id_product'];
             // return $data['product_icount_use'];
             $data['commission'] = MyHelper::post('product/be/commission',['product_code' => $code])['result'] ?? [];
             $data['product_code'] = $code;
-//            return $data;
+            // return $data;
             return view('product::product.detail', $data);
         }
         else {
 			 /**
              * update info
              */
+            if(empty($post['product_icount_ima'][0]['id_product_icount'])){
+                unset($post['product_icount_ima']);
+            }
+            if(empty($post['product_icount_ims'][0]['id_product_icount'])){
+                unset($post['product_icount_ims']);
+            }
+
             if (isset($post['id_product_category'])) {
                 // kalo 0 => uncategorize
                 if ($post['id_product_category'] == 0  || empty($post['id_product_category'])) {

@@ -480,10 +480,10 @@ class OutletManageController extends Controller
                     $send['location'][$key]['large'] = $loc['location_large'];
                 }
                 if($loc['partnership_fee'] != null){
-                    $send['location'][$key]['partnership_fee'] = $this->rupiah($loc['total_payment']);
-                    $send['location'][$key]['dp'] = $this->rupiah($loc['total_payment']*0.2);
-                    $send['location'][$key]['dp2'] = $this->rupiah($loc['total_payment']*0.3);
-                    $send['location'][$key]['final'] =$this->rupiah($loc['total_payment']*0.5);
+                    $send['location'][$key]['partnership_fee'] = $this->rupiah($loc['partnership_fee']);
+                    $send['location'][$key]['dp'] = $this->rupiah($loc['partnership_fee']*0.2);
+                    $send['location'][$key]['dp2'] = $this->rupiah($loc['partnership_fee']*0.3);
+                    $send['location'][$key]['final'] =$this->rupiah($loc['partnership_fee']*0.5);
                 }
                 $send['location'][$key]['id_location'] = $loc['id_location'];
             }

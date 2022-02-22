@@ -930,6 +930,13 @@
         }
     }
 
+<<<<<<< HEAD
+    function changeUnit(no,value,company){
+        if(company=='ima'){
+            this_id = '#product_use_unit_ima_'+no;
+            this_id_qty = '#product_use_qty_ima_'+no;
+            $('#product_use_qty_ims_'+no).attr("required", "false");
+=======
     var count_product_service_use = {{(empty($product_icount_use) ? 1: count($product_icount_use))}}
     function addProductServiceUse() {
         var html_select = '';
@@ -980,22 +987,21 @@
 
         if (!$('form#form-product-service')[0].checkValidity()) {
             toastr.warning("Incompleted Data. Please fill blank input.");
+>>>>>>> 6b8190a328862b6b967e26638d8f4a846b66851a
         }else{
-            $('form#form-product-service').submit();
+            this_id = '#product_use_unit_ims_'+no;
+            this_id_qty = '#product_use_qty_ims_'+no;
+            $('#product_use_qty_ima_'+no).attr("required", "false");
         }
-    }
-
-    function changeUnit(no,value){
-        this_id = '#product_use_unit_'+no;
         $(this_id).empty();
-        $('#product_use_unit_'+no).val('');
-        $('#product_use_qty_'+no).val('');
+        $(this_id).val('');
         var html_select = '<option></option>';
         var unit1 = '';
         var unit2 = '';
         var unit3 = '';
-        <?php 
-            foreach($product_uses as $row){ ?>
+        if(company=='ima'){
+            <?php 
+            foreach($product_uses_ima as $row){ ?>
                 if(value=={{ $row['id_product_icount'] }}){
                     unit1 = '{{ $row['unit1'] }}'
                     unit2 = '{{ $row['unit2'] }}'
@@ -1013,7 +1019,31 @@
             <?php 
             }
         ?>
+        }else{
+            <?php 
+            foreach($product_uses_ims as $row){ ?>
+                if(value=={{ $row['id_product_icount'] }}){
+                    unit1 = '{{ $row['unit1'] }}'
+                    unit2 = '{{ $row['unit2'] }}'
+                    unit3 = '{{ $row['unit3'] }}'
+                    if(unit1!=''){
+                        html_select += "<option value='<?php echo $row['unit1']; ?>'><?php echo $row['unit1']; ?></option>";
+                    }
+                    if(unit2!=''){
+                        html_select += "<option value='<?php echo $row['unit2']; ?>'><?php echo $row['unit2']; ?></option>";
+                    }
+                    if(unit3!=''){
+                        html_select += "<option value='<?php echo $row['unit3']; ?>'><?php echo $row['unit3']; ?></option>";
+                    }
+                }
+            <?php 
+            }
+        ?>
+        }
+        
         $(this_id).append(html_select);
+        $(this_id).attr("required", "true");
+        $(this_id_qty).val(1);
         $(".select2").select2({
             placeholder: "Search"
         });
