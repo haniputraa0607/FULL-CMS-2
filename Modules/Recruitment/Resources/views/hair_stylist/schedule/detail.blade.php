@@ -303,6 +303,7 @@
 							        			<select name="schedule[{{ $thisMonthYear.'-'.$thisMonth.'-'.$thisMonthDate[$tmIndex]['date'] }}]">
 							        				<option value=""></option>
 							        				<option value="Morning" {{ ($shift == 'Morning' || $shift == 'full') ? 'selected' : null }}>Pagi</option>
+							        				<option value="Middle" {{ $shift == 'Middle' ? 'selected' : null }}>Tengah</option>
 							        				<option value="Evening" {{ $shift == 'Evening' ? 'selected' : null }}>Sore</option>
 							        				{{-- <option value="Full" {{ $shift == 'Full' ? 'selected' : null }}>Pagi & Sore</option> --}}
 							        			</select>
