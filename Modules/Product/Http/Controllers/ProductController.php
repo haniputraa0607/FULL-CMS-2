@@ -792,7 +792,6 @@ class ProductController extends Controller
             // return $data['product_icount_use'];
             $data['commission'] = MyHelper::post('product/be/commission',['product_code' => $code])['result'] ?? [];
             $data['product_code'] = $code;
-            // return $data;
             return view('product::product.detail', $data);
         }
         else {

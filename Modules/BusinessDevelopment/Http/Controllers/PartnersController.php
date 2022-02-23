@@ -205,6 +205,10 @@ class PartnersController extends Controller
                 if($loc['location_large'] != null){
                     $send['location'][$key]['large'] = $loc['location_large'];
                 }
+                if($loc['total_box'] != null){
+                    $send['location'][$key]['box'] = $loc['total_box'];
+                }
+
                 if($loc['partnership_fee'] != null){
                     $send['location'][$key]['partnership_fee'] = $this->rupiah(isset($loc['value_detail_decode']['Inisiasi Partner']['netto']) ? $loc['value_detail_decode']['Inisiasi Partner']['netto'] : $loc['partnership_fee']);
                     $send['location'][$key]['dp'] = $this->rupiah($loc['partnership_fee']*0.2);
@@ -216,6 +220,7 @@ class PartnersController extends Controller
         }
         
         $send['pihak_dua'] = strtoupper($data['title']).' '.strtoupper($data['name']);
+        $send['contact_person'] = $data['contact_person'];
 
         if($data['start_date'] != null && $data['end_date'] != null){
             $send['waktu'] = $this->timeTotal(explode('-', $data['start_date']),explode('-', $data['end_date']));

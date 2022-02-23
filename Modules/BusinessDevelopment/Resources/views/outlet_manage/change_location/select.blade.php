@@ -237,10 +237,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Coopertaion Scheme<span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Cooperation Scheme<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Skema Pembagian hasil partner dengan IXOBOX" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <select name="cooperation_scheme" id="cooperation_scheme" onchange="myFunction()" class="form-control input-sm select2" placeholder="Coopertaion Scheme" required {{ $select ? 'disabled' : ''}}>
+                                        <select name="cooperation_scheme" id="cooperation_scheme" onchange="myFunction()" class="form-control input-sm select2" placeholder="Cooperation Scheme" required {{ $select ? 'disabled' : ''}}>
                                             <option value="" selected disabled>Select Cooperation Scheme</option>
                                             <option value="Revenue Sharing" @if(old('cooperation_scheme')) @if(old('cooperation_scheme')=='Revenue Sharing') selected @endif @else @if(isset($this_location['cooperation_scheme'])) @if($this_location['cooperation_scheme'] == 'Revenue Sharing') selected @endif @endif @endif>Revenue Sharing</option>
                                             <option value="Management Fee" @if(old('cooperation_scheme')) @if(old('cooperation_scheme')=='Management Fee') selected @endif @else @if(isset($this_location['cooperation_scheme'])) @if($this_location['cooperation_scheme'] == 'Management Fee') selected @endif @endif @endif>Management Fee</option>

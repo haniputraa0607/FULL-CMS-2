@@ -78,7 +78,7 @@
                                 @endif
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Recipient <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama contact person perusahaan yang akan menjalin kontrak kerja sama" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama perusahaan yang akan menjalin kontrak kerja sama" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" @if(isset($confirmation['pihak_dua'])) value="{{ $confirmation['pihak_dua'] }}" @endif placeholder="- " readonly/>
                                     </div>
@@ -98,10 +98,31 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">City <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Kota outlet yang diajukan partner" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" type="text" @if(isset($confirmation['location'][0]['city'])) value="{{ $confirmation['location'][0]['city'] }}" @endif placeholder="- " readonly />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Contact Person <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama contact person perusahaan yang akan menjalin kontrak kerja sama" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" type="text" @if(isset($confirmation['contact_person'])) value="{{ $confirmation['contact_person'] }}" @endif placeholder="- " readonly/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Outlet Large <span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Luas lokasi outlet yang diakukan" data-container="body"></i></label>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Luas lokasi outlet yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text" @if(isset($confirmation['location'][0]['large'])) value="{{ $confirmation['location'][0]['large'] }}" @endif placeholder="- " readonly />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Outlet Box <span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Jumlah box pada outlet yang akan diajukan" data-container="body"></i></label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" type="text" @if(isset($confirmation['location'][0]['box'])) value="{{ $confirmation['location'][0]['box'] }}" @endif placeholder="- " readonly />
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -154,13 +175,6 @@
                                     </div>
                                 </div>
                                 <input type="hidden" name="id_location" value="{{$result['partner_locations'][0]['id_location']??''}}">
-                                <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Payment Note 
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Catatan pembayaran berisikan pilihan untuk pengansuran final payment, jika tidak diisi berarti final payment tanpa angsuran" data-container="body"></i></label>
-                                    <div class="col-md-5">
-                                        <textarea style="height: 200px" name="payment_note" id="payment_note" class="form-control" placeholder="Final Payment akan diangsur ..." @if ($confir==true) readonly @endif>{{ $result['partner_locations'][0]['notes']??'' }}</textarea>
-                                    </div>
-                                </div> 
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Catatan untuk step in" data-container="body"></i></label>
