@@ -170,8 +170,8 @@ class PartnersController extends Controller
             $data['products'] = MyHelper::post('product/be/icount/list', [])['result'] ?? [];
             $data['conditions'] = "";
             $data['terms'] = MyHelper::get('partners/term')['result']??[];
-            $data['confirmation'] = $this->dataConfirmation($result['result']['partner'],$data['cities']);
-            
+            $data['confirmation'] = $this->dataConfirmation($result['result']['partner']);
+            // return $data['confirmation'];
             if(isset($data['result']['partner_locations'][0]['id_brand'])){
                 $data['formSurvey'] = MyHelper::post('partners/form-survey',['id_brand' => $data['result']['partner_locations'][0]['id_brand']]);
             }else{
@@ -188,17 +188,15 @@ class PartnersController extends Controller
         }
     }
 
-    public function dataConfirmation($data,$city){
+    public function dataConfirmation($data){
         $send= [];
         if($data['partner_locations']){
             foreach($data['partner_locations'] as $key => $loc){
-                foreach($city as $c){
-                    if($c['id_city']==$loc['id_city']){
-                        $city_name = $c['city_name'];
-                    }
+                if(isset($loc['location_city'])){
+                    $send['location'][$key]['city'] = ucwords(strtolower($loc['location_city']['city_name'])).', '.$loc['location_city']['province']['province_name'];
                 }
                 if($loc['mall'] != null && $loc['id_city'] != null){
-                    $send['location'][$key]['lokasi'] = strtoupper($loc['mall']).' - '.strtoupper($city_name);
+                    $send['location'][$key]['lokasi'] = 'Ixobox '.$loc['name'];
                 }
                 if($loc['address'] != null){
                     $send['location'][$key]['address'] = $loc['address'];
@@ -216,11 +214,8 @@ class PartnersController extends Controller
                 $send['location'][$key]['id_location'] = $loc['id_location'];
             }
         }
-        if($data['gender']=='Man'){
-            $send['pihak_dua'] = 'BAPAK '.strtoupper($data['contact_person']);
-        }elseif($data['gender']=='Woman'){
-            $send['pihak_dua']  = 'IBU '.strtoupper($data['contact_person']);
-        }
+        
+        $send['pihak_dua'] = strtoupper($data['title']).' '.strtoupper($data['name']);
 
         if($data['start_date'] != null && $data['end_date'] != null){
             $send['waktu'] = $this->timeTotal(explode('-', $data['start_date']),explode('-', $data['end_date']));

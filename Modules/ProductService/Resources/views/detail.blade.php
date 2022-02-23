@@ -735,7 +735,6 @@
             company = 'ims';
         }
         if(company=='ima'){
-            product_use_unit_ima_2
             this_id = '#product_use_unit_ima_'+no;
             this_id_qty = '#product_use_qty_ima_'+no;
             $('#product_use_qty_ims_'+no).attr("required", "false");

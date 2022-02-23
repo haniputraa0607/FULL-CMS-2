@@ -85,7 +85,7 @@
                 <?php 
                     if($row['company_type']=='ima'){
                 ?>
-                html_select += "<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>";
+                html_select += `<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>`;
                 <?php
                     }   
                 ?>
@@ -93,12 +93,12 @@
                 <?php 
                     if($row['company_type']=='ims'){
                 ?>
-                html_select += "<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>";
+                html_select += `<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>`;
                 <?php
                     }   
                 ?>
             }else{
-                html_select += "<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>";
+                html_select += `<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>`;
             }
             <?php
             }
@@ -157,7 +157,7 @@
             $(this_id).empty();
             $('#product_use_unit_'+no).val('');
             $('#product_use_qty_'+no).val('');
-            var html_select = '<option></option>';
+            var html_select = `<option></option>`;
             var unit1 = '';
             var unit2 = '';
             var unit3 = '';
@@ -168,13 +168,13 @@
                         unit2 = '{{ $row['unit2'] }}'
                         unit3 = '{{ $row['unit3'] }}'
                         if(unit1!=''){
-                            html_select += "<option value='<?php echo $row['unit1']; ?>'><?php echo $row['unit1']; ?></option>";
+                            html_select += `<option value='<?php echo $row['unit1']; ?>'><?php echo $row['unit1']; ?></option>`;
                         }
                         if(unit2!=''){
-                            html_select += "<option value='<?php echo $row['unit2']; ?>'><?php echo $row['unit2']; ?></option>";
+                            html_select += `<option value='<?php echo $row['unit2']; ?>'><?php echo $row['unit2']; ?></option>`;
                         }
                         if(unit3!=''){
-                            html_select += "<option value='<?php echo $row['unit3']; ?>'><?php echo $row['unit3']; ?></option>";
+                            html_select += `<option value='<?php echo $row['unit3']; ?>'><?php echo $row['unit3']; ?></option>`;
                         }
                     }
                 <?php 
@@ -203,7 +203,7 @@
                 $('#product_use_qty_'+i).val('');
                 $('#product_use_status_'+i).val('');
             }
-            var html_select = '<option></option>';
+            var html_select = `<option></option>`;
             var html_unit = '<option></option><option value="PCS">PCS</option>';
             <?php
             foreach($products as $row){
@@ -213,7 +213,7 @@
                 <?php 
                     if($row['company_type']=='ima'){
                 ?>
-                html_select += "<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>";
+                html_select += `<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>`;
                 <?php
                     }   
                 ?>
@@ -221,12 +221,12 @@
                 <?php 
                     if($row['company_type']=='ims'){
                 ?>
-                html_select += "<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>";
+                html_select += `<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>`;
                 <?php
                     }   
                 ?>
             }else{
-                html_select += "<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>";
+                html_select += `<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>`;
             }
             
             <?php

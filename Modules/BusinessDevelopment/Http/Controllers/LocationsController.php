@@ -137,7 +137,6 @@ class LocationsController extends Controller
     public function detail($id_location)
     {
         $result = MyHelper::post('partners/locations/edit', ['id_location' => $id_location]);
-        // return $result;
         if($result['result']['location']['status']=='Candidate'){
             $data = [
                 'title'          => 'Candidate Location',
@@ -163,7 +162,7 @@ class LocationsController extends Controller
                 $data['formSurvey'] = [];
             }
             $data['confirmation'] = $this->dataConfirmation($result['result']['location'],$data['cities']);
-
+            
             return view('businessdevelopment::locations.detail', $data);
         }else{
             return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
@@ -543,7 +542,7 @@ class LocationsController extends Controller
             $data['list_starters'] = MyHelper::get('partners/list-location')['result']['starters']??[];
             $data['terms'] = MyHelper::get('partners/term')['result']??[];
             $data['confirmation'] = $this->dataConfirmation($result['result']['location'],$data['cities']);
-            // return $data;
+
             return view('businessdevelopment::locations.detail_status', $data);
         }else{
             return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
