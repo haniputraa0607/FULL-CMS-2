@@ -1152,10 +1152,10 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="example-search-input" class="control-label col-md-5">Coopertaion Scheme<span class="required" aria-required="true">*</span>
-                                <i class="fa fa-question-circle tooltips" data-original-title="Pilih Coopertaion Scheme" data-container="body"></i></label>
+                            <label for="example-search-input" class="control-label col-md-5">Cooperation Scheme<span class="required" aria-required="true">*</span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Pilih Cooperation Scheme" data-container="body"></i></label>
                             <div class="col-md-5">
-                                <select name="cooperation_scheme" class="form-control input-sm select2" placeholder="Coopertaion Scheme">
+                                <select name="cooperation_scheme" class="form-control input-sm select2" placeholder="Cooperation Scheme">
                                     <option value="" selected disabled>Select Cooperation Scheme</option>
                                     <option value="Revenue Sharing" @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Revenue Sharing') selected @endif @endif>Revenue Sharing</option>
                                     <option value="Management Fee" @if(isset($result['cooperation_scheme'])) @if($result['cooperation_scheme'] == 'Management Fee') selected @endif @endif>Management Fee</option>

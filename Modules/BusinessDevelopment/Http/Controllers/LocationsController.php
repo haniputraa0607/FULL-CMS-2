@@ -161,7 +161,6 @@ class LocationsController extends Controller
             }else{
                 $data['formSurvey'] = [];
             }
-            $data['confirmation'] = $this->dataConfirmation($result['result']['location'],$data['cities']);
             
             return view('businessdevelopment::locations.detail', $data);
         }else{
@@ -169,16 +168,15 @@ class LocationsController extends Controller
         }
     }
 
-    public function dataConfirmation($data,$city){
+    public function dataConfirmation($data){
         $send= [];
 
-        foreach($city as $c){
-            if($c['id_city']==$data['id_city']){
-                $city_name = $c['city_name'];
-            }
+        if(isset($data['location_city'])){
+            $send['city'] = ucwords(strtolower($data['location_city']['city_name'])).', '.$data['location_city']['province']['province_name'];
         }
-        if($data['mall'] != null && $data['id_city'] != null){
-            $send['lokasi'] = strtoupper($data['mall']).' - '.strtoupper($city_name);
+
+        if($data['name'] != null){
+            $send['lokasi'] = 'Ixobox '.$data['name'];
         }
         if($data['address'] != null){
             $send['address'] = $data['address'];
@@ -186,6 +184,9 @@ class LocationsController extends Controller
 
         if($data['location_large'] != null){
             $send['large'] = $data['location_large'];
+        }
+        if($data['total_box'] != null){
+            $send['box'] = $data['total_box'];
         }
         if($data['partnership_fee'] != null){
             $send['partnership_fee'] = $this->rupiah(isset($data['value_detail_decode']['Inisiasi Partner']['netto']) ? $data['value_detail_decode']['Inisiasi Partner']['netto'] : $data['partnership_fee']);
@@ -195,11 +196,8 @@ class LocationsController extends Controller
         }
 
         if($data['location_partner']){
-            if($data['location_partner']['gender']=='Man'){
-                $send['pihak_dua'] = 'BAPAK '.strtoupper($data['location_partner']['contact_person']);
-            }elseif($data['location_partner']['gender']=='Woman'){
-                $send['pihak_dua']  = 'IBU '.strtoupper($data['location_partner']['contact_person']);
-            }
+            $send['pihak_dua'] = strtoupper($data['location_partner']['title']).' '.strtoupper($data['location_partner']['name']);
+            $send['contact_person'] = $data['location_partner']['contact_person'];
         }
 
         if($data['start_date'] != null && $data['end_date'] != null){
@@ -528,6 +526,7 @@ class LocationsController extends Controller
     public function detailStatus($id_location)
     {
         $result = MyHelper::post('partners/locations/edit', ['id_location' => $id_location]);
+
         $data = [
             'title'          => 'Partners',
             'sub_title'      => 'Detail Status Location Partner',
@@ -541,8 +540,8 @@ class LocationsController extends Controller
             $data['brands'] = MyHelper::get('partners/locations/brands')['result']??[];
             $data['list_starters'] = MyHelper::get('partners/list-location')['result']['starters']??[];
             $data['terms'] = MyHelper::get('partners/term')['result']??[];
-            $data['confirmation'] = $this->dataConfirmation($result['result']['location'],$data['cities']);
-
+            $data['confirmation'] = $this->dataConfirmation($result['result']['location']);
+            // return $data;
             return view('businessdevelopment::locations.detail_status', $data);
         }else{
             return redirect('businessdev/partners')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
