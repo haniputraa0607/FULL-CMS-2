@@ -229,7 +229,7 @@
                 </label>
             </div>
             <div class="col-md-9">
-                <input type="checkbox" class="make-switch" data-size="small" data-on-color="info" data-on-text="Use Tax" name="is_tax" data-off-color="default" data-off-text="Not Using Tax" @if($val['is_tax']==100) checked @endif>
+                <input type="checkbox" class="make-switch" data-size="small" data-on-color="info" data-on-text="Use Tax" name="is_tax" data-off-color="default" data-off-text="Not Using Tax" @if($val['is_tax']) checked @endif>
             </div>
         </div>
         
