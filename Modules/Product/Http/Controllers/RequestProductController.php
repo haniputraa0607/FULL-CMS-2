@@ -235,7 +235,7 @@ class RequestProductController extends Controller
         if(isset($result['status']) && $result['status'] == 'success'){
             return redirect('dev-product/detail/'.$result['result']['id_delivery_product'])->withSuccess(['Success create delivery product']);
         }else{
-            return redirect('dev-product/detail/'.$result['result']['id_delivery_product'])->withErrors($result['messages'] ?? ['Failed create delivery product']);
+            return redirect('dev-product')->withErrors($result['messages'] ?? ['Failed create delivery product']);
         }
     }
 
@@ -351,7 +351,6 @@ class RequestProductController extends Controller
             "delivery_date" => "required"
         ]);
         $post = $request->except('_token');
-
         $result = MyHelper::post('dev-product/update', $post);
         if(isset($post['status']) && $post['status'] == 'On Progress'){
             return $result;

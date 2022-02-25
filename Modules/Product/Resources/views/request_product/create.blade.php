@@ -105,7 +105,15 @@
 
             var html = '<div id="div_product_use_'+count_product_service_use+'">'+
             '<div class="form-group">'+
-            '<div class="col-md-1"></div>'+
+            '<div class="col-md-3">'+
+            '<select class="form-control select2" id="product_use_filter_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][filter]" required placeholder="Select product use" style="width: 100%" onchange="productFilter('+count_product_service_use+',this.value)">'+
+            '<option selected disabled></option>'+
+            '<option value="Inventory">Inventory</option>'+
+            '<option value="Non Inventory">Non Inventory</option>'+
+            '<option value="Service">Service</option>'+
+            '<option value="Assets">Assets</option>'+
+            '</select>'+
+            '</div>'+
             '<div class="col-md-4">'+
             '<select class="form-control select2" id="product_use_code_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][id_product_icount]" required placeholder="Select product use" style="width: 100%" onchange="changeUnit('+count_product_service_use+',this.value)">'+
             '<option></option>'+html_select+
@@ -122,7 +130,7 @@
             '<input type="text" class="form-control price" id="product_use_qty_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][qty]" required>'+
             '</div>'+
             '</div>'+
-            '<div class="col-md-2" style="margin-left: 2%">'+
+            '<div class="col-md-1">'+
             '<a class="btn btn-danger btn" onclick="deleteProductServiceUse('+count_product_service_use+')">&nbsp;<i class="fa fa-trash"></i></a>'+
             '</div>'+
             '</div>'+
@@ -174,8 +182,8 @@
 
         function selectOutlet(){
             var company = $('#id_outlet option:selected').attr('data-company');
-
             for (var i = 0; i < count_product_service_use; i++) {
+                $('#product_use_filter_'+i).val('');
                 $('#product_use_code_'+i).empty();
                 $('#product_use_unit_'+i).empty();
                 $('#product_use_qty_'+i).val('');
@@ -215,6 +223,111 @@
                 $("#product_use_unit_"+i).append(html_unit);
             }
             $('.select2').select2({placeholder: "Search"});
+        }
+
+        function productFilter(key,value){
+            var company = $('#id_outlet option:selected').attr('data-company');
+            $('#product_use_code_'+key).empty();
+            $('#product_use_unit_'+key).empty();
+            $('#product_use_qty_'+key).val('');
+            var html_select = `<option></option>`;
+            var html_unit = '<option></option><option value="PCS">PCS</option>';
+            if(company == 'PT IMA'){
+                if(value == 'Inventory'){
+                    html_select += `
+                    @foreach($products as $row)
+                    @if ($row['item_group'] == 'Inventory' && $row['company_type'] == 'ima')
+                    <option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>
+                    @endif
+                    @endforeach`;
+                }else if(value == 'Non Inventory'){
+                    html_select += `
+                    @foreach($products as $row)
+                    @if ($row['item_group'] == 'Non Inventory' && $row['company_type'] == 'ima')
+                    <option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>
+                    @endif
+                    @endforeach`;
+                }else if(value == 'Service'){
+                    html_select += `
+                    @foreach($products as $row)
+                    @if ($row['item_group'] == 'Service' && $row['company_type'] == 'ima')
+                    <option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>
+                    @endif
+                    @endforeach`;
+                }else if(value == 'Assets'){
+                    html_select += `
+                    @foreach($products as $row)
+                    @if ($row['item_group'] == 'Assets' && $row['company_type'] == 'ima')
+                    <option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>
+                    @endif
+                    @endforeach`;
+                }   
+            }else if(company == 'PT IMS'){
+                if(value == 'Inventory'){
+                    html_select += `
+                    @foreach($products as $row)
+                    @if ($row['item_group'] == 'Inventory' && $row['company_type'] == 'ims')
+                    <option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>
+                    @endif
+                    @endforeach`;
+                }else if(value == 'Non Inventory'){
+                    html_select += `
+                    @foreach($products as $row)
+                    @if ($row['item_group'] == 'Non Inventory' && $row['company_type'] == 'ims')
+                    <option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>
+                    @endif
+                    @endforeach`;
+                }else if(value == 'Service'){
+                    html_select += `
+                    @foreach($products as $row)
+                    @if ($row['item_group'] == 'Service' && $row['company_type'] == 'ims')
+                    <option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>
+                    @endif
+                    @endforeach`;
+                }else if(value == 'Assets'){
+                    html_select += `
+                    @foreach($products as $row)
+                    @if ($row['item_group'] == 'Assets' && $row['company_type'] == 'ims')
+                    <option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>
+                    @endif
+                    @endforeach`;
+                }  
+            }
+            else{
+                if(value == 'Inventory'){
+                    html_select += `
+                    @foreach($products as $row)
+                    @if ($row['item_group'] == 'Inventory')
+                    <option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>
+                    @endif
+                    @endforeach`;
+                }else if(value == 'Non Inventory'){
+                    html_select += `
+                    @foreach($products as $row)
+                    @if ($row['item_group'] == 'Non Inventory')
+                    <option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>
+                    @endif
+                    @endforeach`;
+                }else if(value == 'Service'){
+                    html_select += `
+                    @foreach($products as $row)
+                    @if ($row['item_group'] == 'Service')
+                    <option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>
+                    @endif
+                    @endforeach`;
+                }else if(value == 'Assets'){
+                    html_select += `
+                    @foreach($products as $row)
+                    @if ($row['item_group'] == 'Assets')
+                    <option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>
+                    @endif
+                    @endforeach`;
+                }   
+            }
+            $("#product_use_code_"+key).append(html_select);
+            $("#product_use_unit_"+key).append(html_unit);
+            $('.select2').select2({placeholder: "Search"});
+
         }
     
     </script>
@@ -305,21 +418,31 @@
                         </div>
                         <div class="portlet-body form">
                             <div class="form-group">
-                                <div class="col-md-1"></div>
+                                <div class="col-md-3">
+                                    <b>Filter</b>
+                                </div>
                                 <div class="col-md-4">
                                     <b>Product</b>
                                 </div>
                                 <div class="col-md-2">
                                     <b>Unit</b>
                                 </div>
-                                <div class="col-md-2">
-                                    <b>Quantity</b>
+                                <div class="col-md-1">
+                                    <b>Qty</b>
                                 </div>
                             </div>
                             <div id="div_product_use">
                                 <div id="div_product_use_0">
                                     <div class="form-group">
-                                        <div class="col-md-1"></div>
+                                        <div class="col-md-3">
+                                            <select class="form-control select2" id="product_use_filter_0" name="product_icount[0][filter]" required placeholder="Select product use" style="width: 100%" onchange="productFilter(0,this.value)">
+                                                <option selected disabled></option>
+                                                <option value="Inventory">Inventory</option>
+                                                <option value="Non Inventory">Non Inventory</option>
+                                                <option value="Service">Service</option>
+                                                <option value="Assets">Assets</option>
+                                            </select>
+                                        </div>
                                         <div class="col-md-4">
                                             <select class="form-control select2" id="product_use_code_0" name="product_icount[0][id_product_icount]" required placeholder="Select product use" style="width: 100%" onchange="changeUnit(0,this.value)">
                                                 <option></option>
@@ -339,14 +462,13 @@
                                                 <input type="text" class="form-control price" id="product_use_qty_0" name="product_icount[0][qty]" required>
                                             </div>
                                         </div>
-                                        <div class="col-md-2" style="margin-left: 2%">
+                                        <div class="col-md-1">
                                             <a class="btn btn-danger btn" onclick="deleteProductServiceUse(0)">&nbsp;<i class="fa fa-trash"></i></a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-md-1"></div>
                                 <div class="col-md-4">
                                     <a class="btn btn-primary" onclick="addProductServiceUse()">&nbsp;<i class="fa fa-plus-circle"></i> Add Product </a>
                                 </div>
