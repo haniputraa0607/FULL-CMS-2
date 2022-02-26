@@ -195,7 +195,7 @@ class PartnersController extends Controller
                 if(isset($loc['location_city'])){
                     $send['location'][$key]['city'] = ucwords(strtolower($loc['location_city']['city_name'])).', '.$loc['location_city']['province']['province_name'];
                 }
-                if($loc['mall'] != null && $loc['id_city'] != null){
+                if($loc['name'] != null){
                     $send['location'][$key]['lokasi'] = 'Ixobox '.$loc['name'];
                 }
                 if($loc['address'] != null){

@@ -72,9 +72,8 @@ class OutletStarterBundlingController extends Controller
             'menu_active'    => 'outlet-starter-bundling',
             'submenu_active' => 'outlet-starter-bundling-list',
             'bundling'       => MyHelper::post('outlet-starter-bundling/detail', ['code' => $id])['result'] ?? false,
-            'product_icounts' => MyHelper::post('outlet-starter-bundling/icount-product', ['code' => $id])['result'] ?? [],
+            'product_icounts' => MyHelper::post('product/be/icount/list', ['company_type' => 'ima'])['result'] ?? []
         ];
-
         if (!$data['bundling']) {
             abort(404);
         }

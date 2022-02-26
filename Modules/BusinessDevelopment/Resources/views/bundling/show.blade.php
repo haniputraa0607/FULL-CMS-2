@@ -21,9 +21,19 @@
         const template = `
             <tr data-id="${currentId}">
                 <td>
+                    <select class="select2 form-control filter" name="bundling_products[${currentId}][filter]" onchange="productFilter(${currentId}, this.value)">
+                        <option value="Inventory">Inventory</option>
+                        <option value="Non Inventory">Non Inventory</option>
+                        <option value="Service">Service</option>
+                        <option value="Assets">Assets</option>
+                    </select>
+                </td>
+                <td>
                     <select class="select2 form-control product" name="bundling_products[${currentId}][id_product_icount]" onchange="updateUnit(${currentId})">
                         @foreach($product_icounts as $product_icount)
+                        @if ($product_icount['item_group'] == 'Inventory')
                         <option value="{{$product_icount['id_product_icount']}}" data-full="{{json_encode($product_icount)}}">{{$product_icount['name']}}</option>
+                        @endif
                         @endforeach
                     </select>
                 </td>
@@ -75,6 +85,43 @@
 
     function deleteProduct(id) {
         $(`#products-container tr[data-id=${id}]`).remove();
+    }
+
+    function productFilter(id,value) {
+        $(`tr[data-id=${id}] select.product`).empty();
+        var val_if = ``;
+        if(value == 'Inventory'){
+            val_if = `
+            @foreach($product_icounts as $product_icount)
+            @if ($product_icount['item_group'] == 'Inventory')
+            <option value="{{$product_icount['id_product_icount']}}" data-full="{{json_encode($product_icount)}}">{{$product_icount['name']}}</option>
+            @endif
+            @endforeach`;
+        }else if(value == 'Non Inventory'){
+            val_if = `
+            @foreach($product_icounts as $product_icount)
+            @if ($product_icount['item_group'] == 'Non Inventory')
+            <option value="{{$product_icount['id_product_icount']}}" data-full="{{json_encode($product_icount)}}">{{$product_icount['name']}}</option>
+            @endif
+            @endforeach`;
+        }else if(value == 'Service'){
+            val_if = `
+            @foreach($product_icounts as $product_icount)
+            @if ($product_icount['item_group'] == 'Service')
+            <option value="{{$product_icount['id_product_icount']}}" data-full="{{json_encode($product_icount)}}">{{$product_icount['name']}}</option>
+            @endif
+            @endforeach`;
+        }else if(value == 'Assets'){
+            val_if = `
+            @foreach($product_icounts as $product_icount)
+            @if ($product_icount['item_group'] == 'Assets')
+            <option value="{{$product_icount['id_product_icount']}}" data-full="{{json_encode($product_icount)}}">{{$product_icount['name']}}</option>
+            @endif
+            @endforeach`;
+        }
+        $(`tr[data-id=${id}] select.product`).append(val_if);
+        $(`tr[data-id=${currentId}] select`).select2();
+        updateUnit(id);
     }
 </script>
 @endsection
@@ -152,14 +199,17 @@
                            </div>
                        </div>
                     </div>
+                    <br>
                     <div class="form-group">
-                        <label for="multiple" class="control-label col-md-3">Products
-                            <i class="fa fa-question-circle tooltips" data-original-title="Deskripsi Produk" data-container="body"></i>
-                        </label>
-                        <div class="col-md-8">
+                        <div class="form-group">
+                            <center><b>Product Detail</b></center>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
                             <table id="products-container" class="table">
                                 <thead>
                                     <tr>
+                                        <th width="160px">Filter</th>
                                         <th>Product</th>
                                         <th width="100px">Unit</th>
                                         <th width="100px">Qty</th>
@@ -171,9 +221,19 @@
                                     @foreach($bundling['bundling_products'] as $key => $bundling_product)
                                         <tr data-id="{{$key}}">
                                             <td>
+                                                <select class="select2 form-control filter" name="bundling_products[{{$key}}][filter]" onchange="productFilter({{$key}}, this.value)">
+                                                    <option value="Inventory" @if($bundling_product['filter'] == 'Inventory') selected @endif>Inventory</option>
+                                                    <option value="Non Inventory" @if($bundling_product['filter'] == 'Non Inventory') selected @endif>Non Inventory</option>
+                                                    <option value="Service" @if($bundling_product['filter'] == 'Service') selected @endif>Service</option>
+                                                    <option value="Assets" @if($bundling_product['filter'] == 'Assets') selected @endif>Assets</option>
+                                                </select>
+                                            </td>
+                                            <td>
                                                 <select class="select2 form-control product" name="bundling_products[{{$key}}][id_product_icount]" onchange="updateUnit({{$key}})">
                                                     @foreach($product_icounts as $product_icount)
+                                                    @if ($product_icount['item_group'] == $bundling_product['filter'])
                                                     <option value="{{$product_icount['id_product_icount']}}" data-full="{{json_encode($product_icount)}}" @if($product_icount['id_product_icount'] == $bundling_product['id_product_icount']) selected @endif>{{$product_icount['name']}}</option>
+                                                    @endif
                                                     @endforeach
                                                 </select>
                                             </td>
