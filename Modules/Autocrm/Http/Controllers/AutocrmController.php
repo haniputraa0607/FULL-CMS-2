@@ -329,10 +329,10 @@ class AutocrmController extends Controller
                 break;
             case 'claim-point-existing-member':
                 $data['click_inbox'] = [
-                    ['value' => "Claim Existing Point",'title' => 'Claim Existing Point']
+                    ['value' => "claim_existing_point",'title' => 'Claim Existing Point']
                 ];
                 $data['click_notification'] = [
-                    ['value' => "Claim Existing Point",'title' => 'Claim Existing Point']
+                    ['value' => "claim_existing_point",'title' => 'Claim Existing Point']
                 ];
                 break;
 		}
