@@ -314,7 +314,6 @@ class AutocrmController extends Controller
                     ['value' => 'Home','title' => 'Home']
                 ];
                 break;
-
             case 'transaction-service-completed':
             case 'transaction-product-taken':
             case 'transaction-completed':
@@ -326,6 +325,14 @@ class AutocrmController extends Controller
                 $data['click_notification'] = [
                     ['value' => "History Transaction",'title' => 'History Transaction'],
                     ['value' => 'Home','title' => 'Home']
+                ];
+                break;
+            case 'claim-point-existing-member':
+                $data['click_inbox'] = [
+                    ['value' => "Claim Existing Point",'title' => 'Claim Existing Point']
+                ];
+                $data['click_notification'] = [
+                    ['value' => "Claim Existing Point",'title' => 'Claim Existing Point']
                 ];
                 break;
 		}

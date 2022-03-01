@@ -169,6 +169,11 @@
 									</a>
 								</li>
 							@endif
+							<li class="nav-item {{($submenu_active == 'user-autoresponse-claim-point-existing-member') ? 'active open' : ''}}">
+								<a href="{{url('autoresponse/user/claim-point-existing-member')}}" class="nav-link ">
+									<span class="title">[Response] Claim Point Existing Member</span>
+								</a>
+							</li>
 						@endif
 					@endif
 				</ul>
