@@ -262,4 +262,33 @@ class HairStylistController extends Controller
             return redirect('recruitment/hair-stylist/detail/'.$id.'#hs-change-outlet')->withErrors($update['messages']??['Failed change outlet hair stylist']);
         }
     }
+
+    public function candidateSettingRequirements(Request $request){
+        $post = $request->except('_token');
+
+        if(empty($post)){
+            $data = [
+                'title'          => 'Recruitment',
+                'sub_title'      => 'Hair Stylist',
+                'menu_active'    => 'hair-stylist',
+                'submenu_active' => 'hair-stylist-setting-requirements'
+            ];
+
+            $res = MyHelper::get('recruitment/hairstylist/be/setting-requirements')['result']??[];
+            $data['male_age'] = $res['male_age']??'';
+            $data['male_height'] = $res['male_height']??'';
+            $data['female_age'] = $res['female_age']??'';
+            $data['female_height'] = $res['female_height']??'';
+
+            return view('recruitment::hair_stylist.setting_requirements', $data);
+        }else{
+            $update = MyHelper::post('recruitment/hairstylist/be/setting-requirements',$post);
+
+            if(isset($update['status']) && $update['status'] == 'success'){
+                return redirect('recruitment/hair-stylist/candidate/setting-requirements')->withSuccess(['Success update setting']);
+            }else{
+                return redirect('recruitment/hair-stylist/candidate/setting-requirements')->withErrors($update['messages']??['Failed update setting']);
+            }
+        }
+    }
 }
