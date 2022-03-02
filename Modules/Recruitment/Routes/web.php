@@ -14,6 +14,8 @@
 
 Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitment/hair-stylist'], function()
 {
+    Route::get('candidate/setting-requirements', ['uses' => 'HairStylistController@candidateSettingRequirements']);
+    Route::post('candidate/setting-requirements', ['uses' => 'HairStylistController@candidateSettingRequirements']);
     Route::any('candidate', ['middleware' => 'feature_control:347,348,349,350', 'uses' => 'HairStylistController@candidatelist']);
     Route::get('candidate/detail/{id}', ['middleware' => 'feature_control:348', 'uses' => 'HairStylistController@candidateDetail']);
     Route::post('candidate/update/{id}', ['middleware' => 'feature_control:349', 'uses' => 'HairStylistController@candidateUpdate']);

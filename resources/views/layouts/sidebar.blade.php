@@ -1336,6 +1336,11 @@
 						<span class="title">Candidate List</span>
 					</a>
 				</li>
+				<li class="nav-item {{($submenu_active == 'hair-stylist-setting-requirements') ? 'active open' : ''}}">
+					<a href="{{url('recruitment/hair-stylist/candidate/setting-requirements')}}" class="nav-link ">
+						<span class="title">Setting Requirements</span>
+					</a>
+				</li>
 				<li class="nav-item {{($submenu_active == 'hairstylist-autoresponse-register-candidate-hair-stylist') ? 'active open' : ''}}">
 					<a href="{{url('autoresponse/hairstylist/register-candidate-hair-stylist')}}" class="nav-link ">
 						<span class="title">[Response] Register Candidate Hair Stylist</span>
