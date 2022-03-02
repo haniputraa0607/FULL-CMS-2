@@ -53,20 +53,39 @@
 					<div class="portlet-body">
 						<form role="form" class="form-horizontal" action="{{url()->current()}}" method="POST">
 							<div class="form-group">
-								<label class="col-md-3 control-label">Age </label>
+								<label class="col-md-3 control-label">Male Age </label>
 								<div class="col-md-4">
 									<div class="input-group">
 										<span class="input-group-addon">maximal</span>
-										<input type="number" class="form-control" min="1" name="age" value="{{$age}}">
+										<input type="number" class="form-control" min="1" name="male_age" value="{{$male_age}}">
 									</div>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-md-3 control-label">Height </label>
+								<label class="col-md-3 control-label">Male Height </label>
 								<div class="col-md-4">
 									<div class="input-group">
 										<span class="input-group-addon">minimum</span>
-										<input type="number" class="form-control" min="1" name="height" value="{{$height}}">
+										<input type="number" class="form-control" min="1" name="male_height" value="{{$male_height}}">
+										<span class="input-group-addon">cm</span>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-3 control-label">Female Age </label>
+								<div class="col-md-4">
+									<div class="input-group">
+										<span class="input-group-addon">maximal</span>
+										<input type="number" class="form-control" min="1" name="female_age" value="{{$female_age}}">
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-3 control-label">Female Height </label>
+								<div class="col-md-4">
+									<div class="input-group">
+										<span class="input-group-addon">minimum</span>
+										<input type="number" class="form-control" min="1" name="female_height" value="{{$female_height}}">
 										<span class="input-group-addon">cm</span>
 									</div>
 								</div>

@@ -275,8 +275,10 @@ class HairStylistController extends Controller
             ];
 
             $res = MyHelper::get('recruitment/hairstylist/be/setting-requirements')['result']??[];
-            $data['age'] = $res['age']??'';
-            $data['height'] = $res['height']??'';
+            $data['male_age'] = $res['male_age']??'';
+            $data['male_height'] = $res['male_height']??'';
+            $data['female_age'] = $res['female_age']??'';
+            $data['female_height'] = $res['female_height']??'';
 
             return view('recruitment::hair_stylist.setting_requirements', $data);
         }else{
