@@ -296,8 +296,11 @@
 								@if ($day[$i % 7] == ($data['list_date'][$index]['day'] ?? false))
 									@php
 										$schInfo = $data['list_date'][$index];
-                                        if($schInfo['date']>date('Y-m-d')){
+                                        if($schInfo['date']>=date('Y-m-d')){
                                             $can_update = true;
+                                            if($schInfo['date'] == date('Y-m-d') && isset($data['detail']['attendance'])){
+                                                $can_update = false;
+                                            }
                                         }else{
                                             $can_update = false;
                                         }

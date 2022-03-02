@@ -119,7 +119,7 @@
                             <i class="fa fa-question-circle tooltips" data-original-title="@if($key == 'setting_partner_content') Konten Header yang akan ditampilkan pada pengisian form registrasi partner di landing page @elseif($label == 'setting_location_content')	Konten Header yang akan ditampilkan pada pengisian form registrasi location di landing page @elseif($label == 'setting_hairstylist_content') Konten Header yang akan ditampilkan pada pengisian form registrasi hair stylist di landing page @endif" data-container="body"></i>
                         </label>
                         <div class="col-md-{{$colInput}}">
-                            <textarea class="form-control summernote" id="id_text" name="value_before" required>{{ $before['value'] ? $before['value'] : '' }}</textarea>
+                            <textarea class="form-control summernote" id="id_text_before" name="value_before" required>{{ $before['value'] ? $before['value'] : '' }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -131,7 +131,7 @@
                             <i class="fa fa-question-circle tooltips" data-original-title="@if($key == 'setting_partner_content') Konten Footer yang akan ditampilkan pada pengisian form registrasi partner di landing page @elseif($label == 'setting_location_content')	Konten Footer yang akan ditampilkan pada pengisian form registrasi location di landing page @elseif($label == 'setting_hairstylist_content') Konten Footer yang akan ditampilkan pada pengisian form registrasi hair stylist di landing page @endif" data-container="body"></i>
                         </label>
                         <div class="col-md-{{$colInput}}">
-                            <textarea class="form-control summernote" id="id_text" name="value_after" required>{{ $after['value'] ? $after['value'] : '' }}</textarea>
+                            <textarea class="form-control summernote" id="id_text_after" name="value_after" required>{{ $after['value'] ? $after['value'] : '' }}</textarea>
                         </div>
                     </div>
                 </div>
