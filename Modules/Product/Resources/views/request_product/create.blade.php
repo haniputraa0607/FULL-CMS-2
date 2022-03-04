@@ -133,6 +133,14 @@
             '<div class="col-md-1">'+
             '<a class="btn btn-danger btn" onclick="deleteProductServiceUse('+count_product_service_use+')">&nbsp;<i class="fa fa-trash"></i></a>'+
             '</div>'+
+            '<div class="col-md-2">'+
+            '<select class="form-control select2" id="product_use_budget_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][budget_code]" required placeholder="Select budget code" style="width: 100%">'+
+            '<option></option>'+
+            '<option>Invoice</option>'+
+            '<option>Beban</option>'+
+            '<option>Assets</option>'+
+            '</select>'+
+            '</div>'+
             '</div>'+
             '</div>';
 
@@ -150,6 +158,7 @@
             $(this_id).empty();
             $('#product_use_unit_'+no).val('');
             $('#product_use_qty_'+no).val('');
+            $('#product_use_budget_'+no).val('');
             var html_select = `<option></option>`;
             var unit1 = '';
             var unit2 = '';
@@ -230,8 +239,13 @@
             $('#product_use_code_'+key).empty();
             $('#product_use_unit_'+key).empty();
             $('#product_use_qty_'+key).val('');
+            $('#product_use_budget_'+key).empty();
             var html_select = `<option></option>`;
             var html_unit = '<option></option><option value="PCS">PCS</option>';
+            var budget = `
+            <option></option>
+            <option>Invoice</option>
+            <option>Beban</option>`;
             if(company == 'PT IMA'){
                 if(value == 'Inventory'){
                     html_select += `
@@ -324,8 +338,14 @@
                     @endforeach`;
                 }   
             }
+            if(value == 'Assets'){
+                budget = `
+                <option></option>
+                <option>Assets</option>`;
+            }   
             $("#product_use_code_"+key).append(html_select);
             $("#product_use_unit_"+key).append(html_unit);
+            $("#product_use_budget_"+key).append(budget);
             $('.select2').select2({placeholder: "Search"});
 
         }
@@ -430,6 +450,9 @@
                                 <div class="col-md-1">
                                     <b>Qty</b>
                                 </div>
+                                <div class="col-md-1">
+                                    <b>Budget Code</b>
+                                </div>
                             </div>
                             <div id="div_product_use">
                                 <div id="div_product_use_0">
@@ -452,15 +475,23 @@
                                             </select>
                                         </div>
                                         <div class="col-md-2">
-                                        <select class="form-control select2" id="product_use_unit_0" name="product_icount[0][unit]" required placeholder="Select unit" style="width: 100%">
-                                            <option></option>
-                                            <option value="PCS">PCS</option>
-                                        </select>
+                                            <select class="form-control select2" id="product_use_unit_0" name="product_icount[0][unit]" required placeholder="Select unit" style="width: 100%">
+                                                <option></option>
+                                                <option value="PCS">PCS</option>
+                                            </select>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="input-group">
                                                 <input type="text" class="form-control price" id="product_use_qty_0" name="product_icount[0][qty]" required>
                                             </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <select class="form-control select2" id="product_use_budget_0" name="product_icount[0][budget_code]" required placeholder="Select budget code" style="width: 100%">
+                                                <option></option>
+                                                <option>Invoice</option>
+                                                <option>Beban</option>
+                                                <option>Assets</option>
+                                            </select>
                                         </div>
                                         <div class="col-md-1">
                                             <a class="btn btn-danger btn" onclick="deleteProductServiceUse(0)">&nbsp;<i class="fa fa-trash"></i></a>
