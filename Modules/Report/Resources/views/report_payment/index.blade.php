@@ -105,7 +105,6 @@
             <thead>
             <tr>
                 <th scope="col" width="10%"> Date </th>
-                <th scope="col" width="10%"> Reject Type </th>
                 <th scope="col" width="10%">Status</th>
                 <th scope="col" width="10%"> Type </th>
                 <th scope="col" width="10%"> Payment Type </th>
@@ -121,13 +120,6 @@
                 @foreach($data as $val)
                     <tr>
                         <td>{{date('d M Y H:i', strtotime($val['created_at']))}}</td>
-                        <td>
-                            @if($val['reject_type'] == 'Not Reject')
-                                <span class="badge bg-green-jungle">{{$val['reject_type']}}</span>
-                            @elseif($val['reject_type'] == 'Reject To Point')
-                                <span class="badge bg-red">{{$val['reject_type']}}</span>
-                            @endif
-                        </td>
                         <td>{{$val['payment_status']}}</td>
                         <td>{{$val['type']}}</td>
                         <td>{{$val['payment_type']}}</td>

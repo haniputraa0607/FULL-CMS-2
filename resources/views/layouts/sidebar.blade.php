@@ -2233,6 +2233,11 @@
 								<span class="title">Midtrans</span>
 							</a>
 						</li>
+						<li class="nav-item {{($submenu_active == 'report-payment-xendit') ? 'active open' : ''}}">
+							<a href="{{url('report/payment/xendit')}}" class="nav-link ">
+								<span class="title">Xendit</span>
+							</a>
+						</li>
 {{-- 						<li class="nav-item {{($submenu_active == 'report-payment-ipay88') ? 'active open' : ''}}">
 							<a href="{{url('report/payment/ipay88')}}" class="nav-link ">
 								<span class="title">Ipay88</span>
