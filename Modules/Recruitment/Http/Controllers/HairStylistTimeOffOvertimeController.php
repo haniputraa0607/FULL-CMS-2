@@ -298,7 +298,7 @@ class HairStylistTimeOffOvertimeController extends Controller
         }else{
             $store = MyHelper::post('recruitment/hairstylist/be/overtime/create', $post);
             if(isset($store['status']) && $store['status'] == 'success'){
-                return redirect('recruitment/hair-stylist/overtime/detail/'.$store['result']['id_hairstylist_time_off'])->withSuccess(['Success created hair stylist request overtime']);
+                return redirect('recruitment/hair-stylist/overtime/detail/'.$store['result']['id_hairstylist_overtime'])->withSuccess(['Success created hair stylist request overtime']);
             }else{
                 return redirect('recruitment/hair-stylist/overtime')->withErrors($result['messages'] ?? ['Failed create hair stylist request overtime']);
             }
@@ -335,7 +335,7 @@ class HairStylistTimeOffOvertimeController extends Controller
 
             return view('recruitment::hair_stylist.overtime.detail', $data);
         }else{
-            return redirect('recruitment/hair-stylist/timeoff')->withErrors($result['messages'] ?? ['Failed get detail hair stylist request time off']);
+            return redirect('recruitment/hair-stylist/overtime')->withErrors($result['messages'] ?? ['Failed get detail hair stylist request overtime']);
         }
     }
 

@@ -45,10 +45,9 @@
                     <input type="number" class="form-control" name="bundling_products[${currentId}][qty]">
                 </td>
                 <td>
-                    <select class="form-control select2" name="bundling_products[${currentId}][budget_code]">
+                    <select class="form-control select2 budget" name="bundling_products[${currentId}][budget_code]">
                         <option>Invoice</option>
                         <option>Beban</option>
-                        <option>Assets</option>
                     </select>
                 </td>
                 <td>
@@ -89,7 +88,11 @@
 
     function productFilter(id,value) {
         $(`tr[data-id=${id}] select.product`).empty();
+        $(`tr[data-id=${id}] select.budget`).empty();
         var val_if = ``;
+        var budget = `
+            <option>Invoice</option>
+            <option>Beban</option>`;
         if(value == 'Inventory'){
             val_if = `
             @foreach($product_icounts as $product_icount)
@@ -118,8 +121,11 @@
             <option value="{{$product_icount['id_product_icount']}}" data-full="{{json_encode($product_icount)}}">{{$product_icount['name']}}</option>
             @endif
             @endforeach`;
+            budget = `
+            <option>Assets</option>`;
         }
         $(`tr[data-id=${id}] select.product`).append(val_if);
+        $(`tr[data-id=${id}] select.budget`).append(budget);
         $(`tr[data-id=${currentId}] select`).select2();
         updateUnit(id);
     }
@@ -246,10 +252,13 @@
                                                 <input type="number" class="form-control" name="bundling_products[{{$key}}][qty]" value="{{$bundling_product['qty']}}">
                                             </td>
                                             <td>
-                                                <select class="form-control select2" name="bundling_products[{{$key}}][budget_code]">
+                                                <select class="form-control select2 budget" name="bundling_products[{{$key}}][budget_code]">
+                                                    @if ($bundling_product['filter'] == 'Assets')
+                                                    <option {{$bundling_product['budget_code'] == 'Assets' ? 'selected' : ''}}>Assets</option>
+                                                    @else
                                                     <option {{$bundling_product['budget_code'] == 'Invoice' ? 'selected' : ''}}>Invoice</option>
                                                     <option {{$bundling_product['budget_code'] == 'Beban' ? 'selected' : ''}}>Beban</option>
-                                                    <option {{$bundling_product['budget_code'] == 'Assets' ? 'selected' : ''}}>Assets</option>
+                                                    @endif
                                                 </select>
                                             </td>
                                             <td>

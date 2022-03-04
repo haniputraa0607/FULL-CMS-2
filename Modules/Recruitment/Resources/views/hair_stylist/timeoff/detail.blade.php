@@ -74,6 +74,8 @@
         
         $('#approve').click(function() {
             var id_hairstylist_time_off = {{$result['id_hairstylist_time_off']}};
+            var id_outlet = {{$result['outlet']['id_outlet']}};
+            var id_user_hair_stylist = {{$result['hair_stylist']['id_user_hair_stylist']}};
             var date = $('#list_date').val();
             var time_start = $('input[type=text][name=time_start]').val();
             var time_end = $('input[type=text][name=time_end]').val();
@@ -81,6 +83,8 @@
             var data = {
                 '_token' : '{{csrf_token()}}',
                 'id_hairstylist_time_off' : id_hairstylist_time_off,
+                'id_outlet' : id_outlet,
+                'id_hs' : id_user_hair_stylist,
                 'date' : date,
                 'time_start' : time_start,
                 'time_end' : time_end,
