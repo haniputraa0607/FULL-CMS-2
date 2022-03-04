@@ -37,8 +37,8 @@
             var operator_value = document.getElementsByName(operator)[0];
             for(i = operator_value.options.length - 1 ; i >= 0 ; i--) operator_value.remove(i);
             operator_value.options[operator_value.options.length] = new Option('Deals', 'Deals');
-            operator_value.options[operator_value.options.length] = new Option('Subscription', 'Subscription');
             operator_value.options[operator_value.options.length] = new Option('Transaction', 'Transaction');
+            operator_value.options[operator_value.options.length] = new Option('Transaction Installment', 'Transaction Installment');
 
             var parameter = "conditions["+index+"][parameter]";
             document.getElementsByName(parameter)[0].type = 'hidden';
@@ -122,7 +122,6 @@
                                             <div class="col-md-4">
                                                 <select name="subject" class="form-control input-sm select2" placeholder="Search Subject" onChange="changeSubject(this.name)" style="width:100%">
                                                     <option value="type" @if ($con['subject'] == 'type') selected @endif>Type</option>
-                                                    <option value="reject_type" @if ($con['subject'] == 'reject_type') selected @endif>Reject Type</option>
                                                     <option value="name" @if ($con['subject'] == 'name') selected @endif>Customer Name</option>
                                                     <option value="phone" @if ($con['subject'] == 'phone') selected @endif>Customer Phone</option>
                                                     <option value="transaction_receipt_number" @if ($con['subject'] == 'transaction_receipt_number') selected @endif>Receipt Number</option>
@@ -143,8 +142,9 @@
                                                         <option value="1" @if ($con['operator']  == '1') selected @endif>Reject To Point</option>
                                                     @elseif($con['subject'] == 'type')
                                                         <option value="Deals" @if ($con['operator']  == 'Deals') selected @endif>Deals</option>
-                                                        <option value="Subscription" @if ($con['operator']  == 'Subscription') selected @endif>Subscription</option>
+{{--                                                        <option value="Subscription" @if ($con['operator']  == 'Subscription') selected @endif>Subscription</option>--}}
                                                         <option value="Transaction" @if ($con['operator']  == 'Transaction') selected @endif>Transaction</option>
+                                                        <option value="Transaction Installment" @if ($con['operator']  == 'Transaction Installment') selected @endif>Transaction Installment</option>
                                                     @elseif($con['subject'] == 'amount' || $con['subject'] == 'grandtotal')
                                                         <option value="=" @if ($con['operator'] == '=') selected @endif>=</option>
                                                         <option value=">" @if ($con['operator']  == '>') selected @endif>></option>
@@ -183,7 +183,6 @@
                                                 <select name="subject" class="form-control input-sm select2" placeholder="Search Subject" onChange="changeSubject(this.name)" style="width:100%">
                                                     <option value="" selected disabled>Search Subject</option>
                                                     <option value="type">Type</option>
-                                                    <option value="reject_type">Reject Type</option>
                                                     <option value="name">Customer Name</option>
                                                     <option value="phone">Customer Phone</option>
                                                     <option value="transaction_receipt_number">Receipt Number</option>
@@ -219,7 +218,6 @@
                                         <select name="subject" class="form-control input-sm select2" placeholder="Search Subject" onChange="changeSubject(this.name)" style="width:100%">
                                             <option value="" selected disabled>Search Subject</option>
                                             <option value="type">Type</option>
-                                            <option value="reject_type">Reject Type</option>
                                             <option value="name">Customer Name</option>
                                             <option value="phone">Customer Phone</option>
                                             <option value="transaction_receipt_number">Receipt Number</option>
@@ -260,9 +258,9 @@
                         {{ csrf_field() }}
                         <button type="submit" class="btn yellow"><i class="fa fa-search"></i> Search</button>
                         <a class="btn green" href="{{url()->current()}}">Reset</a>
-                        @if(!empty($data))
-                        <a class="btn green-jungle" id="btn-export" href="{{url('report/payment/export')}}/{{$type}}">Export</a>
-                        @endif
+{{--                        @if(!empty($data))--}}
+{{--                        <a class="btn green-jungle" id="btn-export" href="{{url('report/payment/export')}}/{{$type}}">Export</a>--}}
+{{--                        @endif--}}
                     </div>
                 </div>
             </div>
