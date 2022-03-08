@@ -11,6 +11,11 @@
 |
 */
 
+Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'hair-stylist'], function()
+{
+    Route::get('commision/filter', ['uses' => 'HairStylistController@exportCommision']);
+    Route::post('commision/export', ['uses' => 'HairStylistController@exportCommision']);
+});
 
 Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitment/hair-stylist'], function()
 {

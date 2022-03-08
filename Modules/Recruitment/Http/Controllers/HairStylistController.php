@@ -2,12 +2,14 @@
 
 namespace Modules\Recruitment\Http\Controllers;
 
+use App\Exports\MultisheetExport;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Session;
 use App\Lib\MyHelper;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Excel;
 
 class HairStylistController extends Controller
 {
@@ -288,6 +290,32 @@ class HairStylistController extends Controller
                 return redirect('recruitment/hair-stylist/candidate/setting-requirements')->withSuccess(['Success update setting']);
             }else{
                 return redirect('recruitment/hair-stylist/candidate/setting-requirements')->withErrors($update['messages']??['Failed update setting']);
+            }
+        }
+    }
+
+    public function exportCommision(Request $request){
+        $post = $request->except('_token');
+
+        if(empty($post)){
+            $data = [
+                'title'          => 'Recruitment',
+                'sub_title'      => 'Export Commision',
+                'menu_active'    => 'hair-stylist',
+                'submenu_active' => 'hair-stylist-export-commision',
+            ];
+
+            $data['outlets'] = MyHelper::get('outlet/be/list/simple')['result']??[];
+            return view('recruitment::hair_stylist.export_commision', $data);
+        }else{
+            $data = MyHelper::post('hairstylist/be/export-commision',$post);
+
+            if (isset($data['status']) && $data['status'] == "success") {
+                $dataExport['All Type'] = $data['result'];
+                $data = new MultisheetExport($dataExport);
+                return Excel::download($data,'Commision_'.date('Ymdhis').'.xls');
+            }else {
+                return back()->withErrors(['Something when wrong. Please try again.'])->withInput();
             }
         }
     }
