@@ -127,12 +127,12 @@
             '<option value="Assets">Assets</option>'+
             '</select>'+
             '</div>'+
-            '<div class="col-md-4" style="padding: 1px">'+
+            '<div class="col-md-3" style="padding: 1px">'+
             '<select class="form-control select2" id="product_use_code_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][id_product_icount]" required placeholder="Select product use" style="width: 100%" onchange="changeUnit('+count_product_service_use+',this.value)">'+
             '<option></option>'+html_select+
             '</select>'+
             '</div>'+
-            '<div class="col-md-2" style="padding: 1px">'+
+            '<div class="col-md-1" style="padding: 1px">'+
             '<select class="form-control select2" id="product_use_unit_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][unit]" required placeholder="Select unit" style="width: 100%" onchange="emptyQty('+count_product_service_use+',this.value)">'+
             '<option></option>'+
             '<option value="PCS">PCS</option>'+
@@ -518,10 +518,10 @@
                                 <div class="col-md-2" style="padding: 1px">
                                     <b>Filter</b>
                                 </div>
-                                <div class="col-md-4" style="padding: 1px">
+                                <div class="col-md-3" style="padding: 1px">
                                     <b>Product</b>
                                 </div>
-                                <div class="col-md-2" style="padding: 1px">
+                                <div class="col-md-1" style="padding: 1px">
                                     <b>Unit</b>
                                 </div>
                                 <div class="col-md-1" style="padding: 1px">
@@ -547,7 +547,7 @@
                                                 <option value="Assets" @if($value['filter'] == 'Assets') selected @endif>Assets</option>
                                             </select>
                                         </div>
-                                        <div class="col-md-4" style="padding: 1px">
+                                        <div class="col-md-3" style="padding: 1px">
                                             @if(MyHelper::hasAccess([413], $grantedFeature))
                                             <select class="form-control select2" id="product_use_code_{{$key}}" name="product_icount[{{$key}}][id_product_icount]" required placeholder="Select product use" style="width: 100%" onchange="changeUnit({{$key}},this.value)" {{ $result['status'] == 'Completed' ? 'disabled' : '' }}>
                                                 <option></option>
@@ -574,7 +574,7 @@
                                             <input class="form-control" type="hidden" id="product_use_code_{{$key}}" value="{{$value['id_product_icount']}}" name="product_icount[{{$key}}][id_product_icount]" required placeholder="Select product use" style="width: 100%" readonly/>
                                             @endif
                                         </div>
-                                        <div class="col-md-2" style="padding: 1px">
+                                        <div class="col-md-1" style="padding: 1px">
                                             @if(MyHelper::hasAccess([413], $grantedFeature))
                                             <select class="form-control select2" id="product_use_unit_{{$key}}" name="product_icount[{{$key}}][unit]" required placeholder="Select unit" style="width: 100%" onchange="emptyQty({{$key}},this.value)" {{ $result['status'] == 'Completed' ? 'disabled' : '' }}>
                                                 <option></option>

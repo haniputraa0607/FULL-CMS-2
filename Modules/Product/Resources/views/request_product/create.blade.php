@@ -105,7 +105,7 @@
 
             var html = '<div id="div_product_use_'+count_product_service_use+'">'+
             '<div class="form-group">'+
-            '<div class="col-md-3">'+
+            '<div class="col-md-2" style="padding: 1px">'+
             '<select class="form-control select2" id="product_use_filter_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][filter]" required placeholder="Select product use" style="width: 100%" onchange="productFilter('+count_product_service_use+',this.value)">'+
             '<option selected disabled></option>'+
             '<option value="Inventory">Inventory</option>'+
@@ -114,32 +114,32 @@
             '<option value="Assets">Assets</option>'+
             '</select>'+
             '</div>'+
-            '<div class="col-md-4">'+
+            '<div class="col-md-4" style="padding: 1px">'+
             '<select class="form-control select2" id="product_use_code_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][id_product_icount]" required placeholder="Select product use" style="width: 100%" onchange="changeUnit('+count_product_service_use+',this.value)">'+
             '<option></option>'+html_select+
             '</select>'+
             '</div>'+
-            '<div class="col-md-2">'+
+            '<div class="col-md-2" style="padding: 1px">'+
             '<select class="form-control select2" id="product_use_unit_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][unit]" required placeholder="Select unit" style="width: 100%">'+
             '<option></option>'+
             '<option value="PCS">PCS</option>'+
             '</select>'+
             '</div>'+
-            '<div class="col-md-2">'+
+            '<div class="col-md-1" style="padding: 1px">'+
             '<div class="input-group">'+
             '<input type="text" class="form-control price" id="product_use_qty_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][qty]" required>'+
             '</div>'+
             '</div>'+
-            '<div class="col-md-1">'+
-            '<a class="btn btn-danger btn" onclick="deleteProductServiceUse('+count_product_service_use+')">&nbsp;<i class="fa fa-trash"></i></a>'+
-            '</div>'+
-            '<div class="col-md-2">'+
+            '<div class="col-md-2" style="padding: 1px">'+
             '<select class="form-control select2" id="product_use_budget_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][budget_code]" required placeholder="Select budget code" style="width: 100%">'+
             '<option></option>'+
             '<option>Invoice</option>'+
             '<option>Beban</option>'+
             '<option>Assets</option>'+
             '</select>'+
+            '</div>'+
+            '<div class="col-md-1" style="padding: 1px">'+
+            '<a class="btn btn-danger btn" onclick="deleteProductServiceUse('+count_product_service_use+')">&nbsp;<i class="fa fa-trash"></i></a>'+
             '</div>'+
             '</div>'+
             '</div>';
@@ -438,26 +438,26 @@
                         </div>
                         <div class="portlet-body form">
                             <div class="form-group">
-                                <div class="col-md-3">
+                                <div class="col-md-2" style="padding: 1px">
                                     <b>Filter</b>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4" style="padding: 1px">
                                     <b>Product</b>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2" style="padding: 1px">
                                     <b>Unit</b>
                                 </div>
-                                <div class="col-md-1">
+                                <div class="col-md-1" style="padding: 1px">
                                     <b>Qty</b>
                                 </div>
-                                <div class="col-md-1">
+                                <div class="col-md-2" style="padding: 1px">
                                     <b>Budget Code</b>
                                 </div>
                             </div>
                             <div id="div_product_use">
                                 <div id="div_product_use_0">
                                     <div class="form-group">
-                                        <div class="col-md-3">
+                                        <div class="col-md-2" style="padding: 1px">
                                             <select class="form-control select2" id="product_use_filter_0" name="product_icount[0][filter]" required placeholder="Select product use" style="width: 100%" onchange="productFilter(0,this.value)">
                                                 <option selected disabled></option>
                                                 <option value="Inventory">Inventory</option>
@@ -466,7 +466,7 @@
                                                 <option value="Assets">Assets</option>
                                             </select>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4" style="padding: 1px">
                                             <select class="form-control select2" id="product_use_code_0" name="product_icount[0][id_product_icount]" required placeholder="Select product use" style="width: 100%" onchange="changeUnit(0,this.value)">
                                                 <option></option>
                                                 @foreach($products as $product_use)
@@ -474,18 +474,18 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" style="padding: 1px">
                                             <select class="form-control select2" id="product_use_unit_0" name="product_icount[0][unit]" required placeholder="Select unit" style="width: 100%">
                                                 <option></option>
                                                 <option value="PCS">PCS</option>
                                             </select>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-1" style="padding: 1px">
                                             <div class="input-group">
                                                 <input type="text" class="form-control price" id="product_use_qty_0" name="product_icount[0][qty]" required>
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" style="padding: 1px">
                                             <select class="form-control select2" id="product_use_budget_0" name="product_icount[0][budget_code]" required placeholder="Select budget code" style="width: 100%">
                                                 <option></option>
                                                 <option>Invoice</option>
@@ -493,14 +493,14 @@
                                                 <option>Assets</option>
                                             </select>
                                         </div>
-                                        <div class="col-md-1">
+                                        <div class="col-md-1" style="padding: 1px">
                                             <a class="btn btn-danger btn" onclick="deleteProductServiceUse(0)">&nbsp;<i class="fa fa-trash"></i></a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-md-4">
+                                <div class="col-md-4" style="padding: 1px">
                                     <a class="btn btn-primary" onclick="addProductServiceUse()">&nbsp;<i class="fa fa-plus-circle"></i> Add Product </a>
                                 </div>
                             </div>

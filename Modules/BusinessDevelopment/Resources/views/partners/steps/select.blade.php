@@ -146,6 +146,10 @@
         });
     }
 
+    function formSelectLocation(){
+        $('#formSelectLocation').modal('show');
+    }
+
     $(document).ready(function () {
         $.ajaxSetup({
             headers: {
@@ -188,6 +192,7 @@
                         </div>
                     </div>
                     <div class="tab-pane @if($result['status']=='Candidate' || $select == true) active @endif" id="form_calcu">
+                        {{--  <form class="form-horizontal" role="form" action="javascript:formSelectLocation()" method="post" enctype="multipart/form-data">  --}}
                         <form class="form-horizontal" role="form" action="{{url('businessdev/partners/create-follow-up')}}" method="post" enctype="multipart/form-data">
                             <div class="form-body">
                                 <input type="hidden" name="id_partner" value="{{$result['id_partner']}}">
