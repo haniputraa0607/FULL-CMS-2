@@ -3,10 +3,13 @@
     if(!empty($result['partner_step'])){
         foreach($result['partner_step'] as $i => $step){
             if($step['follow_up']=='Calculation'){
-                $calcu = true;
                 $follow_up = $step['follow_up'];
                 $note = $step['note'];
                 $file = $step['attachment'];
+                $file_span = $step['file'];
+            }
+            if($step['follow_up']=='Payment'){
+                $calcu = true;
             }
         }
     }

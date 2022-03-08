@@ -43,7 +43,7 @@
                                                  window.location.reload();
                                             }
                                             else if(response.status == "fail"){
-                                                swal("Error!", "Failed to delete.", "error")
+                                                swal("Error!", "Failed to approve.", "error")
                                             }
                                             else {
                                                 swal("Error!", "Something went wrong. Failed to delete .", "error")
