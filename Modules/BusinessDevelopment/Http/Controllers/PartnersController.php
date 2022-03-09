@@ -621,13 +621,12 @@ class PartnersController extends Controller
             "status" => 'Candidate'
         ];
         $partner_step = MyHelper::post('partners/update', $update_status_step);
-       return $partner_step; 
+        return $partner_step; 
     }
 
     public function followUp(Request $request){
         $request->validate([
             "import_file" => "mimes:pdf|max:2000",
-            "note" => "required",
         ]);
         $post_follow_up = [
             "id_partner" => $request["id_partner"],
@@ -819,7 +818,7 @@ class PartnersController extends Controller
         if(isset($form_survey) && !empty($form_survey)){
             $post['form_survey'] = $form_survey;
         }     
-
+        
         $partner_step = MyHelper::post('partners/update', $update_partner);
         if (isset($partner_step['status']) && $partner_step['status'] == 'success') {
             if (isset($update_data_location) && !empty($update_data_location)) {
@@ -891,7 +890,6 @@ class PartnersController extends Controller
     public function followUpNewLoc(Request $request){
         $request->validate([
             "import_file" => "mimes:pdf|max:2000",
-            "note" => "required",
         ]);
         $post_follow_up = [
             "index" => $request["index"],

@@ -184,6 +184,9 @@
             $('#formSurvey').modal('show');
             $("#noteModal").val(note);
         }
+
+        
+
         $('.datepicker').datepicker({
             'format' : 'dd MM yyyy',
             'todayHighlight' : true,
@@ -1226,104 +1229,30 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="candidatePartnerModalLabel">Form Survey</h5>
+                <h5 class="modal-title" id="candidatePartnerModalLabel">Reinput Data</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" role="form" action="{{url('businessdev/partners/create-follow-up')}}" method="post" enctype="multipart/form-data">
-                @if (isset($formSurvey) && !empty($formSurvey))
-                <div class="form-body">
-                    <input type="hidden" name="id_partner" value="{{$result['id_partner']}}">
-                    <input type="hidden" name="id_location" value="{{$result['partner_locations'][0]['id_partner']??''}}">
-                    <input type="hidden" name='follow_up' id="followUpModal" value="Survey Location">
-                    <input type="hidden" name='note' id="noteModal" value="">
-                    @php
-                        $i = 0;
-                    @endphp
-                    @foreach ($formSurvey as $x => $form)
-                        <div class="form-group">
-                            <div class="col-md-10">
-                                <label for="example-search-input"><span class="sbold uppercase font-black">{{ $form['category'] }}</span></label>
-                                <input type="hidden" name="category[{{ $i }}][cat]" value="{{ $form['category'] }}">
-                            </div>
-                        </div>
-                        @foreach ($form["question"] as $x => $q )
-                        <div class="form-group">
-                            <div class="col-md-10">
-                                <input type="hidden" name="category[{{ $i }}][question][{{ $x }}][question]" value="{{ $q }}">
-                                <label for="example-search-input">{{ $q }}</label>
-                            </div>
-                            <div class="col-md-2">
-                                <select name="category[{{ $i }}][question][{{ $x }}][answer]" class="form-control input-sm select2" aria-placeholder="" required>
-                                    <option value="" selected disabled> </option>
-                                    <option value="a">A</option>
-                                    <option value="b">B</option>
-                                    <option value="c">C</option>
-                                    <option value="d">D</option>
-                                </select>
-                            </div>
-                        </div>
-                        @endforeach
-                    @php
-                        $i++;
-                    @endphp
-                    @endforeach
+                <form class="form-horizontal">
                     <div class="form-group">
-                        <div class="col-md-4">
-                            <label for="example-search-input">Survey Potential
-                                <i class="fa fa-question-circle tooltips" data-original-title="Hasil dari survey yang dilakukan, lokasi yang diajukan diterima atau tidak" data-container="body"></i><br>
-                        </div>
+                        <label for="example-search-input" class="control-label col-md-5">Reinput Partnership Fee <span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Biaya kerja sama yang akan dibayarkan partner ke IXOBOX" data-container="body"></i></label>
                         <div class="col-md-7">
-                            <div class="input-icon right">  
-                                <input type="checkbox" class="make-switch" data-size="small" data-on-color="info" data-on-text="OK" name="survey_potential" data-off-color="default" data-off-text="NOT OK" id="potential">
+                            <div class="input-group col-md-9">
+                                <span class="input-group-addon">Rp</span>
+                                <input class="form-control numberonly" type="text" data-type="currency" id="partnership_fee_modal" name="partnership_fee_modal" placeholder="Enter partnership fee" required/>
                             </div>
+                            <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="cek_partnership_fee">Invalid value, Partneship Fee is not matching</p>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-4">
-                            <label for="example-search-input">Survey Note <span class="required" aria-required="true">*</span>
-                                <i class="fa fa-question-circle tooltips" data-original-title="Catatan dari survey lokasi yang telah dilakukan" data-container="body"></i><br>
-                        </div>
-                        <div class="col-md-8">
-                            <textarea style="height: 80px" name="surye_note" id="surye_note" class="form-control" placeholder="Enter survey note here" required></textarea>
-                        </div>
-                    </div> 
-                    <div class="form-group">
-                        <div class="col-md-4">
-                            <label for="example-search-input">Import Attachment
-                                <i class="fa fa-question-circle tooltips" data-original-title="Unggah file jika ada lampiran yang diperlukan" data-container="body"></i><br>
-                                <span class="required" aria-required="true"> (PDF max 2 mb) </span></label>
-                        </div>
-                        <div class="col-md-8" >
-                            <div class="fileinput fileinput-new text-left" data-provides="fileinput">
-                                <div class="input-group input-small">
-                                    <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
-                                        <i class="fa fa-file fileinput-exists"></i>&nbsp;
-                                        <span class="fileinput-filename"> </span>
-                                    </div>
-                                    <span class="input-group-addon btn default btn-file">
-                                                <span class="fileinput-new"> Select file </span>
-                                                <span class="fileinput-exists"> Change </span>
-                                                <input type="file" accept=".pdf, application/pdf, application/x-pdf,application/acrobat, applications/vnd.pdf, text/pdf, text/x-pdf" class="file" name="import_file" id="attSurv">
-                                            </span>
-                                    <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> X </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @else
-                    <center>
-                        Form Survey for this brand has not been set yet
-                    </center>
-                @endif
+                    </div>    
                 <div class="modal-footer form-actions">
                     {{ csrf_field() }}
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     @if (isset($formSurvey) && !empty($formSurvey))
-                    <button type="submit" class="btn blue">Submit</button>
+                    {{--  <button class="btn blue" id="submit_modal_select">Submit</button>  --}}
+                    <a class="btn blue" id="submit_modal_select">Submit</a>
                     @endif
                 </div>
                 </form>
