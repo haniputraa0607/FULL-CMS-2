@@ -108,7 +108,6 @@
             @if(MyHelper::hasAccess([415], $grantedFeature))
                 status = '<select class="form-control select2" id="product_use_status_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][status]" required placeholder="Select product status" style="width: 100%">'+
                 '<option></option>'+
-                '<option value="Pending">Pending</option>'+
                 '<option value="Approved">Approved</option>'+
                 '<option value="Rejected">Rejected</option>'+
                 '</select>';
@@ -431,7 +430,7 @@
                         <label for="example-search-input" class="control-label col-md-4">Outlet Name <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Nama outlet yang membuat permintaan produk" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <select class="form-control select2 approvedForm" name="id_outlet" id="id_outlet" required onchange="selectOutlet()" {{ $result['status'] == 'Completed' ? 'disabled' : '' }} >
+                            <select class="form-control select2 approvedForm" name="id_outlet" id="id_outlet" required onchange="selectOutlet()" {{ $result['status'] != 'Pending' ? 'disabled' : '' }} >
                                 <option value="" selected disabled>Select Outlet</option>
                                 @foreach($outlets as $o => $ol)
                                     <option value="{{$ol['id_outlet']}}" data-company="{{$ol['location_outlet']['company_type']}}" @if($result['id_outlet']==$ol['id_outlet']) selected @endif>{{$ol['outlet_name']}}</option>
@@ -443,7 +442,7 @@
                         <label for="example-search-input" class="control-label col-md-4">Request Type <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Jenis permintaan barang yang akan digunakan" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <select class="form-control select2 approvedForm" name="type" required {{ $result['status'] == 'Completed' ? 'disabled' : '' }}>
+                            <select class="form-control select2 approvedForm" name="type" required {{ $result['status'] != 'Pending' ? 'disabled' : '' }}>
                                 <option value="" selected disabled>Select Outlet</option>
                                 <option value="Sell" @if($result['type']=='Sell') selected @endif>For Sale</option>
                                 <option value="Use" @if($result['type']=='Use') selected @endif>To Uses</option>
@@ -455,7 +454,7 @@
                             <i class="fa fa-question-circle tooltips" data-original-title="Tanggal barang akan dibutuhkan" data-container="body"></i></label>
                         <div class="col-md-5">
                             <div class="input-group">
-                                <input type="text" id="start_date" class="datepicker form-control" name="requirement_date" value="{{date('d F Y', strtotime($result['requirement_date']))}}" required {{ $result['status'] == 'Completed' ? 'disabled' : '' }}>
+                                <input type="text" id="start_date" class="datepicker form-control" name="requirement_date" value="{{date('d F Y', strtotime($result['requirement_date']))}}" required {{ $result['status'] != 'Pending' ? 'disabled' : '' }}>
                                 <span class="input-group-btn">
                                     <button class="btn default" type="button">
                                         <i class="fa fa-calendar"></i>
@@ -468,7 +467,7 @@
                         <label for="example-search-input" class="control-label col-md-4">Request Notes <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Catatan dari pembuat permintaan produk" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <textarea name="note_request" id="input-note" class="form-control" placeholder="Enter note here" required {{ $result['status'] == 'Completed' ? 'disabled' : '' }}>{{ $result['note_request'] }}</textarea>
+                            <textarea name="note_request" id="input-note" class="form-control" placeholder="Enter note here" required {{ $result['status'] != 'Pending' ? 'disabled' : '' }}>{{ $result['note_request'] }}</textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -483,23 +482,23 @@
                         <label for="example-search-input" class="control-label col-md-4">Approve Notes <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Catatan dari yang menyetujui permintaan produk" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <textarea name="note_approve" id="input-note" class="form-control" placeholder="Enter note here" required {{ $result['status'] == 'Completed' ? 'disabled' : '' }} >{{ $result['note_approve'] }}</textarea>
+                            <textarea name="note_approve" id="input-note" class="form-control" placeholder="Enter note here" required {{ $result['status'] != 'Pending' ? 'disabled' : '' }} >{{ $result['note_approve'] }}</textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Status 
                             <i class="fa fa-question-circle tooltips" data-original-title="Status dari permintaan produk yang diajukan" data-container="body"></i></label>
                         <div class="col-md-5">
-                            @if($result['status'] == 'Completed')
-                                <span class="badge" style="background-color: #26C281; color: #ffffff; margin-top: 8px">{{$result['status']}}</span>
-                            @elseif($result['status'] == 'On Progress')
-                                <span class="badge" style="background-color: #e1e445; color: #ffffff; margin-top: 8px">{{$result['status']}}</span>
+                            @if($result['status'] == 'Completed By Finance')
+                                <span class="badge" style="background-color: #26C281; color: #ffffff; margin-top: 8px">Approved By Finance</span>
+                            @elseif($result['status'] == 'Completed By User')
+                                <span class="badge" style="background-color: #e1e445; color: #ffffff; margin-top: 8px">Approved By {{$result['request_product_user_approve']['name']}}</span>
                             @else
                                 <span class="badge" style="background-color: #db1912; color: #ffffff; margin-top: 8px">{{$result['status']}}</span>
                             @endif
                         </div>
                     </div>
-                    @if ($result['status']!='Pending' && MyHelper::hasAccess([415], $grantedFeature))
+                    @if ($result['status']=='Completed By Finance' && MyHelper::hasAccess([415], $grantedFeature))
                     <div class="form-group">
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
@@ -539,7 +538,7 @@
                                 <div id="div_product_use_{{$key}}">
                                     <div class="form-group">
                                         <div class="col-md-2" style="padding: 1px">
-                                            <select class="form-control select2" id="product_use_filter_{{$key}}" name="product_icount[{{$key}}][filter]" required placeholder="Select product filter" style="width: 100%" onchange="productFilter({{$key}},this.value)" {{ $result['status'] == 'Completed' ? 'disabled' : '' }}>
+                                            <select class="form-control select2" id="product_use_filter_{{$key}}" name="product_icount[{{$key}}][filter]" required placeholder="Select product filter" style="width: 100%" onchange="productFilter({{$key}},this.value)" {{ $result['status'] != 'Pending' ? 'disabled' : '' }}>
                                                 <option selected disabled></option>
                                                 <option value="Inventory" @if($value['filter'] == 'Inventory') selected @endif>Inventory</option>
                                                 <option value="Non Inventory" @if($value['filter'] == 'Non Inventory') selected @endif>Non Inventory</option>
@@ -549,7 +548,7 @@
                                         </div>
                                         <div class="col-md-3" style="padding: 1px">
                                             @if(MyHelper::hasAccess([413], $grantedFeature))
-                                            <select class="form-control select2" id="product_use_code_{{$key}}" name="product_icount[{{$key}}][id_product_icount]" required placeholder="Select product use" style="width: 100%" onchange="changeUnit({{$key}},this.value)" {{ $result['status'] == 'Completed' ? 'disabled' : '' }}>
+                                            <select class="form-control select2" id="product_use_code_{{$key}}" name="product_icount[{{$key}}][id_product_icount]" required placeholder="Select product use" style="width: 100%" onchange="changeUnit({{$key}},this.value)" {{ $result['status'] != 'Pending' ? 'disabled' : '' }}>
                                                 <option></option>
                                                 @php
                                                     $company_type_outlet = '';
@@ -576,7 +575,7 @@
                                         </div>
                                         <div class="col-md-1" style="padding: 1px">
                                             @if(MyHelper::hasAccess([413], $grantedFeature))
-                                            <select class="form-control select2" id="product_use_unit_{{$key}}" name="product_icount[{{$key}}][unit]" required placeholder="Select unit" style="width: 100%" onchange="emptyQty({{$key}},this.value)" {{ $result['status'] == 'Completed' ? 'disabled' : '' }}>
+                                            <select class="form-control select2" id="product_use_unit_{{$key}}" name="product_icount[{{$key}}][unit]" required placeholder="Select unit" style="width: 100%" onchange="emptyQty({{$key}},this.value)" {{ $result['status'] != 'Pending' ? 'disabled' : '' }}>
                                                 <option></option>
                                                 @foreach($products as $use)
                                                     @if ($use['id_product_icount'] == $value['id_product_icount'])
@@ -592,12 +591,12 @@
                                         </div>
                                         <div class="col-md-1" style="padding: 1px">
                                             <div class="input-group">
-                                                <input type="text" class="form-control price" id="product_use_qty_{{$key}}" name="product_icount[{{$key}}][qty]" required value="{{$value['value']}}" @if(!MyHelper::hasAccess([413], $grantedFeature)) readonly @endif {{ $result['status'] == 'Completed' ? 'disabled' : '' }}>
+                                                <input type="text" class="form-control price" id="product_use_qty_{{$key}}" name="product_icount[{{$key}}][qty]" required value="{{$value['value']}}" @if(!MyHelper::hasAccess([413], $grantedFeature)) readonly @endif {{ $result['status'] != 'Pending' ? 'disabled' : '' }}>
                                             </div>
                                         </div>
                                         <div class="col-md-2" style="padding: 1px">
                                             @if(MyHelper::hasAccess([415], $grantedFeature))
-                                            <select class="form-control select2" id="product_use_budget_{{$key}}" name="product_icount[{{$key}}][budget_code]" required placeholder="Select product status" style="width: 100%" {{ $result['status'] == 'Completed' ? 'disabled' : '' }}>
+                                            <select class="form-control select2" id="product_use_budget_{{$key}}" name="product_icount[{{$key}}][budget_code]" required placeholder="Select product status" style="width: 100%" {{ $result['status'] != 'Pending' ? 'disabled' : '' }}>
                                                 <option></option>
                                                 @if ($value['filter'] == 'Assets')
                                                 <option value="Assets" @if($value['budget_code']=='Assets') selected @endif>Assets</option>
@@ -612,9 +611,8 @@
                                         </div>
                                         <div class="col-md-2" style="padding: 1px">
                                             @if(MyHelper::hasAccess([415], $grantedFeature))
-                                            <select class="form-control select2" id="product_use_status_{{$key}}" name="product_icount[{{$key}}][status]" required placeholder="Select product status" style="width: 100%" {{ $result['status'] == 'Completed' ? 'disabled' : '' }}>
+                                            <select class="form-control select2" id="product_use_status_{{$key}}" name="product_icount[{{$key}}][status]" required placeholder="Select product status" style="width: 100%" {{ $result['status'] != 'Pending' ? 'disabled' : '' }}>
                                                 <option></option>
-                                                <option value="Pending" @if($value['status']=='Pending') selected @endif>Pending</option>
                                                 <option value="Approved" @if($value['status']=='Approved') selected @endif>Approved</option>
                                                 <option value="Rejected" @if($value['status']=='Rejected') selected @endif>Rejected</option>
                                             </select>
@@ -643,7 +641,7 @@
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            @if($result['status'] != 'Completed')
+                            @if($result['status'] == 'Pending')
                             <button type="submit" class="btn blue">Submit</button>
                             @endif
                         </div>
