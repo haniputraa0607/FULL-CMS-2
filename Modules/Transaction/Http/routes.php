@@ -2,6 +2,8 @@
 
 Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'transaction', 'namespace' => 'Modules\Transaction\Http\Controllers'], function()
 {
+    Route::get('report/export/sales', 'TransactionController@exportSalesReport');
+    Route::post('report/export/sales', 'TransactionController@exportSalesReport');
     Route::get('/setting/cashback', 'TransactionSettingController@list');
     Route::post('/setting/cashback/update', 'TransactionSettingController@update');
     Route::get('/setting/cashback-calculation', 'TransactionSettingController@cashbackCalculation');

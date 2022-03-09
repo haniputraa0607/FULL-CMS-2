@@ -2084,4 +2084,30 @@ class TransactionController extends Controller
         }
     }
     /*================ End Setting Delivery ================*/
+
+    public function exportSalesReport(Request $request){
+        $post = $request->except('_token');
+
+        if(empty($post)){
+            $data = [
+                'title'          => 'Transaction',
+                'sub_title'      => 'Export Sales Report',
+                'menu_active'    => 'export-sales-report',
+                'submenu_active' => 'export-sales-report'
+            ];
+
+            $data['outlets'] = MyHelper::get('outlet/be/list/simple')['result']??[];
+            return view('transaction::export_sales_report', $data);
+        }else{
+            $data = MyHelper::post('transaction/report/export/sales',$post);
+
+            if (isset($data['status']) && $data['status'] == "success") {
+                $dataExport['All Type'] = $data['result'];
+                $data = new MultisheetExport($dataExport);
+                return Excel::download($data,'sales_report_'.date('Ymdhis').'.xls');
+            }else {
+                return back()->withErrors(['Something when wrong. Please try again.'])->withInput();
+            }
+        }
+    }
 }
