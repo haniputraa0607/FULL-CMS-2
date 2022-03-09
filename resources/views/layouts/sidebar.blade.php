@@ -1341,11 +1341,6 @@
 						<span class="title">Setting Requirements</span>
 					</a>
 				</li>
-				<li class="nav-item {{($submenu_active == 'hair-stylist-export-commision') ? 'active open' : ''}}">
-					<a href="{{url('hair-stylist/commision/filter')}}" class="nav-link ">
-						<span class="title">Export Commision</span>
-					</a>
-				</li>
 				<li class="nav-item {{($submenu_active == 'hairstylist-autoresponse-register-candidate-hair-stylist') ? 'active open' : ''}}">
 					<a href="{{url('autoresponse/hairstylist/register-candidate-hair-stylist')}}" class="nav-link ">
 						<span class="title">[Response] Register Candidate Hair Stylist</span>
@@ -2469,6 +2464,18 @@
 					</ul>
 				</li>
 			@endif
+			<li class="nav-item {{($menu_active == 'hair-stylist-export-commision') ? 'active open' : ''}}">
+				<a href="{{url('hair-stylist/commision/filter')}}" class="nav-link ">
+					<i class="fa fa-download"></i>
+					<span class="title">Export Commision</span>
+				</a>
+			</li>
+			<li class="nav-item {{($menu_active == 'export-sales-report') ? 'active' : ''}}">
+				<a href="{{url('transaction/report/export/sales')}}" class="nav-link nav-toggle">
+					<i class="fa fa-download"></i>
+					<span class="title">Export Sales Report</span>
+				</a>
+			</li>
 		@endif
 
 		@if(MyHelper::hasAccess([274,275,276], $grantedFeature))

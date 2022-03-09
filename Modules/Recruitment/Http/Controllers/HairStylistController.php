@@ -299,9 +299,9 @@ class HairStylistController extends Controller
 
         if(empty($post)){
             $data = [
-                'title'          => 'Recruitment',
+                'title'          => 'Transaction',
                 'sub_title'      => 'Export Commision',
-                'menu_active'    => 'hair-stylist',
+                'menu_active'    => 'hair-stylist-export-commision',
                 'submenu_active' => 'hair-stylist-export-commision',
             ];
 
