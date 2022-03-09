@@ -99,7 +99,7 @@ class RequestProductController extends Controller
             'submenu_active' => 'create-request-product',
         ];
 
-        $data['products'] = MyHelper::post('product/be/icount/list', [])['result'] ?? [];
+        $data['products'] = MyHelper::post('product/be/icount/list', ['buyable' => 'true'])['result'] ?? [];
         $data['outlets'] = MyHelper::get('mitra/request/outlet')['result'] ?? [];
         $data['conditions'] = "";
         
@@ -150,7 +150,7 @@ class RequestProductController extends Controller
         ];
         if(isset($result['status']) && $result['status'] == 'success'){
             $data['result'] = $result['result']['request_product'];
-            $data['products'] = MyHelper::post('product/be/icount/list', [])['result'] ?? [];
+            $data['products'] = MyHelper::post('product/be/icount/list', ['buyable' => 'true'])['result'] ?? [];
             $data['outlets'] = MyHelper::get('mitra/request/outlet')['result'] ?? [];
             $data['conditions'] = "";
 
@@ -209,7 +209,7 @@ class RequestProductController extends Controller
         }
 
         if(isset($result['status']) && $result['status'] == 'success'){
-            $post_product = [];
+            $post_product = ['buyable' => 'true'];
             if(isset($data['result']['id_request_product'])){
                 if($data['result']['request_product_outlet']['location_outlet']['company_type']=='PT IMA'){
                     $company = 'ima';
@@ -326,7 +326,7 @@ class RequestProductController extends Controller
         if(isset($result['status']) && $result['status'] == 'success'){
             $data['result'] = $result['result']['delivery_product'];
             $data['outlets'] = MyHelper::get('mitra/request/outlet')['result'] ?? [];
-            $post_product = [];
+            $post_product = ['buyable' => 'true'];
             if(isset($data['result']['id_delivery_product'])){
                 if($data['result']['delivery_product_outlet']['location_outlet']['company_type']=='PT IMA'){
                     $company = 'ima';

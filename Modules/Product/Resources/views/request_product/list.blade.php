@@ -180,10 +180,10 @@
                                         <td>{{$request['outlet_name']}}</td>
                                         <td>{{$request['name']}}</td>
                                         <td>
-                                            @if($request['status'] == 'Completed')
-                                                <span class="badge" style="background-color: #26C281; color: #ffffff">{{$request['status']}}</span>
-                                            @elseif($request['status'] == 'On Progress')
-                                                <span class="badge" style="background-color: #e1e445; color: #ffffff">{{$request['status']}}</span>
+                                            @if($request['status'] == 'Completed By Finance')
+                                                <span class="badge" style="background-color: #26C281; color: #ffffff">Approved By Finance</span>
+                                            @elseif($request['status'] == 'Completed By User')
+                                                <span class="badge" style="background-color: #e1e445; color: #ffffff">Approved By {{ $request['request_product_user_approve']['name'] }}</span>
                                             @else
                                                 <span class="badge" style="background-color: #db1912; color: #ffffff">{{$request['status']}}</span>
                                             @endif
