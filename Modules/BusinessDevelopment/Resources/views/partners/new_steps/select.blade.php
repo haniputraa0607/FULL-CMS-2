@@ -7,11 +7,15 @@
         $id_this_location = null;
         foreach($result['partner_new_step'] as $key => $new_steps){
             if($new_steps['follow_up'] == 'Select Location' && $new_steps['index'] == $index_step){
-                $select = true;
                 $follow_up = $new_steps['follow_up'];
                 $note = $new_steps['note'];
                 $file = $new_steps['attachment'];
+                $file_span = $new_steps['file'];
                 $id_this_location = $new_steps['id_location'];
+            }
+
+            if($new_steps['follow_up'] == 'Payment' && $new_steps['index'] == $index_step){
+                $select = true;
             }
         }
         if($result['partner_locations']){
@@ -149,6 +153,25 @@
         });
     }
 
+    function formNewSelectLocation(){
+        $('#formSelectLocation').modal('show');
+        $('#partnership_fee_modal').keyup(function () {
+            var partnership_fee = $('#partnership_fee_new').val();
+            var value = $('input[name=partnership_fee_modal]').val();
+            if(value == partnership_fee){
+                document.getElementById('cek_partnership_fee').style.display = 'none';
+                $('#submit_modal_select').prop('disabled', false);
+                $('#submit_modal_select').click(function(){
+                    var new_url = "{{url('businessdev/partners/new-follow-up')}}";
+                    $('#form_new_select').prop('action',new_url);
+                    $('#form_new_select').submit();
+                });
+            }else{
+                document.getElementById('cek_partnership_fee').style.display = 'block';
+                $('#submit_modal_select').prop('disabled', true);
+            }         
+        });
+    }
 
 
     $(document).ready(function () {
@@ -196,7 +219,8 @@
                         </div>
                     </div>
                     <div class="tab-pane active" id="form_calcu">
-                        <form class="form-horizontal" role="form" action="{{url('businessdev/partners/new-follow-up')}}" method="post" enctype="multipart/form-data">
+                        <form class="form-horizontal" role="form" action="javascript:formNewSelectLocation()" method="post" enctype="multipart/form-data" id="form_new_select">
+                        {{--  <form class="form-horizontal" role="form" action="{{url('businessdev/partners/new-follow-up')}}" method="post" enctype="multipart/form-data">  --}}
                             <div class="form-body">
                                 <input type="hidden" name="id_partner" value="{{$result['id_partner']}}">
                                 <input type="hidden" name="index" value="{{$index_step}}">
@@ -211,8 +235,9 @@
                                     <label for="example-search-input" class="control-label col-md-4">Select Location <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Pilih lokasi yang akan didirikan oleh partner" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        @if($select)
+                                        @if($select || isset($this_location))
                                         <input class="form-control" type="text" name="location_name" value="{{$this_location['name'] ?? ''}}" readonly required/>
+                                        <input class="form-control" type="hidden" name="id_location" value="{{$this_location['id_location'] ?? ''}}" readonly required/>
                                         @else
                                         <select class="form-control select2" name="id_location" id="id_location" onchange="detailNewLocation(this.value)" required>
                                             <option value="" selected disabled>Select Location</option>
@@ -320,7 +345,7 @@
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <span class="input-group-addon">Rp</span>
-                                            <input class="form-control numberonly" type="text" data-type="currency" id="partnership_fee" name="partnership_fee" placeholder="Enter partnership fee here" value="@if (old('partnership_fee')) {{ number_format(old('partnership_fee')) }} @else @if (!empty($this_location['partnership_fee'])) {{ number_format($this_location['partnership_fee']) }} @endif @endif" {{$select ? 'disabled' : ''}} required/>
+                                            <input class="form-control numberonly" type="text" data-type="currency" id="partnership_fee_new" name="partnership_fee" placeholder="Enter partnership fee here" value="@if (old('partnership_fee')) {{ number_format(old('partnership_fee')) }} @else @if (!empty($this_location['partnership_fee'])) {{ number_format($this_location['partnership_fee']) }} @endif @endif" {{$select ? 'disabled' : ''}} required/>
                                         </div>
                                     </div>
                                 </div>    
@@ -349,7 +374,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai lokasi mulai dikontrak oleh partner, bisa dikosongkan dan akan diisi tanggal mulai menjadi partner" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input type="text" id="start_date" class="datepicker form-control" name="start_date" value="{{ (!empty($this_location['start_date']) ? date('d F Y', strtotime($this_location['start_date'])) : '')}}" {{$select ? 'disabled' : ''}}>
+                                            <input type="text" id="start_date" class="datepicker form-control" name="start_date" value="{{ (!empty($this_location['start_date']) ? date('d F Y', strtotime($this_location['start_date'])) : '')}}" {{$select ? 'disabled' : ''}} style="z-index: 0 !important">
                                             <span class="input-group-btn">
                                                 <button class="btn default" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -363,7 +388,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal berakhirnya kontrak lokasi dengan partner, bisa dikosongkan dan akan diisi tanggal berakhir partner" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input type="text" id="end_date" class="datepicker form-control" name="end_date" value="{{ (!empty($this_location['end_date']) ? date('d F Y', strtotime($this_location['end_date'])) : '')}}" {{$select ? 'disabled' : ''}}>
+                                            <input type="text" id="end_date" class="datepicker form-control" name="end_date" value="{{ (!empty($this_location['end_date']) ? date('d F Y', strtotime($this_location['end_date'])) : '')}}" {{$select ? 'disabled' : ''}} style="z-index: 0 !important">
                                             <span class="input-group-btn">
                                                 <button class="btn default" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -377,7 +402,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal serah terima outlet/lokasi ke pihak partner" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input type="text" id="handover_date" class="datepicker form-control" name="handover_date" value="{{ (!empty($this_location['handover_date']) ? date('d F Y', strtotime($this_location['handover_date'])) : '')}}" {{$select ? 'disabled' : ''}} required>
+                                            <input type="text" id="handover_date" class="datepicker form-control" name="handover_date" value="{{ (!empty($this_location['handover_date']) ? date('d F Y', strtotime($this_location['handover_date'])) : '')}}" {{$select ? 'disabled' : ''}} required style="z-index: 0 !important">
                                             <span class="input-group-btn">
                                                 <button class="btn default" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -387,7 +412,7 @@
                                     </div>
                                 </div>   
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Note 
                                         <i class="fa fa-question-circle tooltips" data-original-title="Catatan untuk step in" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <textarea name="note" id="note" class="form-control" placeholder="Enter note here" @if ($select==true) readonly @endif >@if ($select==true) {{ $note }} @endif</textarea>
@@ -408,7 +433,7 @@
                                             <div class="input-group input-large">
                                                 <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
                                                     <i class="fa fa-file fileinput-exists"></i>&nbsp;
-                                                    <span class="fileinput-filename"> </span>
+                                                    <span class="fileinput-filename"> @if (isset($file_span)) {{ $file_span }} @endif </span>
                                                 </div>
                                                 <span class="input-group-addon btn default btn-file">
                                                             <span class="fileinput-new"> Select file </span>

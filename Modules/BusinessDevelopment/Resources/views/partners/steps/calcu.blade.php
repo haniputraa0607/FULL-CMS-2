@@ -118,7 +118,7 @@
                                     </div>
                                 </div>    
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Note
                                         <i class="fa fa-question-circle tooltips" data-original-title="Catatan untuk step in" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <textarea name="note" id="note" class="form-control" placeholder="Enter note here" @if ($calcu==true) readonly @endif >@if ($calcu==true) {{ $note }} @endif</textarea>
@@ -140,7 +140,7 @@
                                             <div class="input-group input-large">
                                                 <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
                                                     <i class="fa fa-file fileinput-exists"></i>&nbsp;
-                                                    <span class="fileinput-filename"> </span>
+                                                    <span class="fileinput-filename"> @if (isset($file_span)) {{ $file_span }} @endif</span>
                                                 </div>
                                                 <span class="input-group-addon btn default btn-file">
                                                             <span class="fileinput-new"> Select file </span>

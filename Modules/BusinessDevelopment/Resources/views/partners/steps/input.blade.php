@@ -138,7 +138,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Note
                                         <i class="fa fa-question-circle tooltips" data-original-title="Catatan untuk step in" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <textarea name="note" id="note" class="form-control" placeholder="Enter note here" @if ($input==true) readonly @endif >@if (isset($note)) {{ $note }} @endif</textarea>
