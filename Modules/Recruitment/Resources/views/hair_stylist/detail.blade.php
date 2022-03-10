@@ -358,6 +358,10 @@ $totalTheories = 0;
 							</div>
 						@endif
 						<div class="form-group">
+							<label class="col-md-4 control-label">NIK</label>
+							<div class="col-md-6" style="margin-top: 0.7%"><b>{{$detail['user_hair_stylist_code']}}</b></div>
+						</div>
+						<div class="form-group">
 							<label class="col-md-4 control-label">Nickname <span class="required" aria-required="true"> * </span>
 							</label>
 							<div class="col-md-6">

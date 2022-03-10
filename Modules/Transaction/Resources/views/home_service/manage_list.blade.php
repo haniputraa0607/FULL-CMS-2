@@ -64,6 +64,11 @@
                     ['Cancelled', 'Cancelled']
                 ]
             },
+            payment:{
+                display:'Payment',
+                operator:[],
+                opsi:{!! json_encode($payment_list?? []) !!},
+            },
             transaction_payment_status:{
                 display:'Payment Status',
                 operator:[],

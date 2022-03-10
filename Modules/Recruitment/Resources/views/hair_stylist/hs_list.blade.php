@@ -121,6 +121,7 @@
             <thead>
             <tr>
                 <th scope="col" width="10%"> Action </th>
+                <th scope="col" width="10%"> NIK </th>
                 <th scope="col" width="10%"> Join Date </th>
                 <th scope="col" width="10%"> Level </th>
                 <th scope="col" width="10%"> Status </th>
@@ -141,6 +142,7 @@
                                 <a class="btn btn-sm btn-info" target="_blank" href="{{ url('recruitment/hair-stylist/detail', $val['id_user_hair_stylist']) }}"><i class="fa fa-edit"></i></a>
                             @endif
                         </td>
+                        <td>{{ $val['user_hair_stylist_code'] }}</td>
                         <td>{{ date('d M Y H:i', strtotime($val['join_date'])) }}</td>
                         <td>{{$val['level']}}</td>
                         <td class="middle-center">
