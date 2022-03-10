@@ -68,6 +68,19 @@ class TransactionHomeServiceController extends Controller
             $data['is_today'] = true;
         }
 
+        $data['payment_list'] = array_map(function($item) {
+            if($item['payment_gateway'] == 'Cash'){
+                return [$item['payment_gateway'].'-'.$item['payment_method'], $item['payment_method']];
+            }else{
+                return [$item['payment_gateway'].'-'.$item['payment_method'], $item['payment_gateway'].' - '.$item['payment_method']];
+            }
+        }, MyHelper::post('transaction/available-payment',['show_all' => 0])['result'] ?? []);
+
+        if(!empty($data['payment_list'][0])){
+            unset($data['payment_list'][0]);
+            $data['payment_list'] = array_values($data['payment_list']);
+        }
+
         return view('transaction::transaction.home_service', $data);
     }
 
@@ -188,6 +201,18 @@ class TransactionHomeServiceController extends Controller
             $data['is_today'] = true;
         }
 
+        $data['payment_list'] = array_map(function($item) {
+            if($item['payment_gateway'] == 'Cash'){
+                return [$item['payment_gateway'].'-'.$item['payment_method'], $item['payment_method']];
+            }else{
+                return [$item['payment_gateway'].'-'.$item['payment_method'], $item['payment_gateway'].' - '.$item['payment_method']];
+            }
+        }, MyHelper::post('transaction/available-payment',['show_all' => 0])['result'] ?? []);
+
+        if(!empty($data['payment_list'][0])){
+            unset($data['payment_list'][0]);
+            $data['payment_list'] = array_values($data['payment_list']);
+        }
         return view('transaction::home_service.manage_list', $data);
     }
 

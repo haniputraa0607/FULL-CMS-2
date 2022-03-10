@@ -71,7 +71,15 @@ class TransactionOutletServiceController extends Controller
         $data['outlets'] = array_map(function($item) {
             return [$item['id_outlet'], $item['outlet_code'].' - '.$item['outlet_name']];
         }, MyHelper::get('outlet/be/list')['result'] ?? []);
-        
+
+        $data['payment_list'] = array_map(function($item) {
+            if($item['payment_gateway'] == 'Cash'){
+                return [$item['payment_gateway'].'-'.$item['payment_method'], $item['payment_method']];
+            }else{
+                return [$item['payment_gateway'].'-'.$item['payment_method'], $item['payment_gateway'].' - '.$item['payment_method']];
+            }
+        }, MyHelper::post('transaction/available-payment',['show_all' => 0])['result'] ?? []);
+
         return view('transaction::transaction.outlet_service', $data);
     }
 
@@ -204,7 +212,15 @@ class TransactionOutletServiceController extends Controller
         $data['outlets'] = array_map(function($item) {
             return [$item['id_outlet'], $item['outlet_code'].' - '.$item['outlet_name']];
         }, MyHelper::get('outlet/be/list')['result'] ?? []);
-        
+
+        $data['payment_list'] = array_map(function($item) {
+            if($item['payment_gateway'] == 'Cash'){
+                return [$item['payment_gateway'].'-'.$item['payment_method'], $item['payment_method']];
+            }else{
+                return [$item['payment_gateway'].'-'.$item['payment_method'], $item['payment_gateway'].' - '.$item['payment_method']];
+            }
+        }, MyHelper::post('transaction/available-payment',['show_all' => 0])['result'] ?? []);
+
         return view('transaction::outlet_service.manage_list', $data);
     }
 
