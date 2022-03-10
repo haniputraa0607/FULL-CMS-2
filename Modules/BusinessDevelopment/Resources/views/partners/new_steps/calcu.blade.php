@@ -7,13 +7,17 @@
         $id_this_location = null;
         foreach($result['partner_new_step'] as $key => $new_steps){
             if($new_steps['follow_up'] == 'Calculation' && $new_steps['index'] == $index_step){
-                $calcu = true;
                 $follow_up = $new_steps['follow_up'];
                 $note = $new_steps['note'];
                 $file = $new_steps['attachment'];
+                $file_span = $new_steps['file'];
                 $id_this_location = $new_steps['id_location'];
             }elseif($new_steps['index'] == $index_step){
                 $id_this_location = $new_steps['id_location'];
+            }
+
+            if($new_steps['follow_up'] == 'Payment' && $new_steps['index'] == $index_step){
+                $select = true;
             }
         }
         if($result['partner_locations']){
@@ -237,7 +241,7 @@
                                     </div>
                                 </div>    
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Note <span class="required" aria-required="true">*</span>
+                                    <label for="example-search-input" class="control-label col-md-4">Note
                                         <i class="fa fa-question-circle tooltips" data-original-title="Catatan untuk step in" data-container="body"></i></label>
                                     <div class="col-md-5">
                                         <textarea name="note" id="note" class="form-control" placeholder="Enter note here" @if ($calcu==true) readonly @endif >@if ($calcu==true) {{ $note }} @endif</textarea>
@@ -259,7 +263,7 @@
                                             <div class="input-group input-large">
                                                 <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
                                                     <i class="fa fa-file fileinput-exists"></i>&nbsp;
-                                                    <span class="fileinput-filename"> </span>
+                                                    <span class="fileinput-filename"> @if (isset($file_span)) {{ $file_span }} @endif</span>
                                                 </div>
                                                 <span class="input-group-addon btn default btn-file">
                                                             <span class="fileinput-new"> Select file </span>
