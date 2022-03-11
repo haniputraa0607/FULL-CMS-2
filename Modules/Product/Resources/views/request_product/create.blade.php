@@ -196,6 +196,7 @@
                 $('#product_use_code_'+i).empty();
                 $('#product_use_unit_'+i).empty();
                 $('#product_use_qty_'+i).val('');
+                $('#product_use_budget_'+i).val('');
             }
             var html_select = `<option></option>`;
             var html_unit = '<option></option><option value="PCS">PCS</option>';

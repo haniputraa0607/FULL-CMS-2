@@ -52,6 +52,11 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'product'
     	Route::any('sync', ['middleware' => 'feature_control:49', 'uses' => 'ProductController@syncIcount']);
 	});
 
+	Route::group(['prefix' => 'catalog'], function() {
+		Route::any('/', ['middleware' => 'feature_control:48', 'uses' => 'ProductCatalogController@index']);
+		Route::any('create', ['middleware' => 'feature_control:52', 'uses' => 'ProductCatalogController@create']);
+	});
+
 	/**
 	 * category
 	 */
