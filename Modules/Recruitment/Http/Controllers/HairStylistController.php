@@ -78,6 +78,7 @@ class HairStylistController extends Controller
             $data['groups'] = MyHelper::get('recruitment/hairstylist/be/group')['result']['data']??[];
             $data['category_theories'] = MyHelper::get('theory/with-category')['result']??[];
             $data['step_approve'] = $post['step_approve']??0;
+            $data['hairstylist_category'] = MyHelper::get('hairstylist/be/category')['result']??[];
             return view('recruitment::hair_stylist.detail', $data);
         }else{
             return redirect('recruitment/hair-stylist/candidate')->withErrors($store['messages']??['Failed get detail candidate']);
@@ -184,6 +185,7 @@ class HairStylistController extends Controller
             if (!empty($data['detail']['id_outlet']) && $data['detail']['user_hair_stylist_status'] == 'Active') {
             	$data['schedules'] = MyHelper::get('recruitment/hairstylist/be/schedule/outlet?id_outlet='.$data['detail']['id_outlet'])['result'] ?? [];
             }
+            $data['hairstylist_category'] = MyHelper::get('hairstylist/be/category')['result']??[];
             return view('recruitment::hair_stylist.detail', $data);
         }else{
             return redirect('recruitment/hair-stylist')->withErrors($store['messages']??['Failed get detail hair stylist']);
@@ -318,5 +320,85 @@ class HairStylistController extends Controller
                 return back()->withErrors(['Something when wrong. Please try again.'])->withInput();
             }
         }
+    }
+
+    public function categoryCreate(Request $request){
+        $post = $request->except('_token');
+
+        if(empty($post)){
+            $data = [
+                'title'          => 'Hair Stylist',
+                'sub_title'      => 'New Hair Stylist Category',
+                'menu_active'    => 'hair-stylist',
+                'submenu_active' => 'hair-stylist-category',
+                'child_active'   => 'create-hair-stylist-category'
+            ];
+
+            return view('recruitment::hair_stylist.category.category_create', $data);
+        }else{
+            $save = MyHelper::post('hairstylist/be/category/create', $post);
+            if (isset($save['status']) && $save['status'] == "success") {
+                return redirect('hair-stylist/category')->withSuccess(['Success save data']);
+            }else{
+                return redirect('hair-stylist/category/create')->withErrors($save['messages']??['Failed save data']);
+            }
+        }
+    }
+
+    public function categoryList(Request $request){
+        $data = [
+            'title'          => 'Hair Stylist',
+            'sub_title'      => 'Hair Stylist Category List',
+            'menu_active'    => 'hair-stylist',
+            'submenu_active' => 'hair-stylist-category',
+            'child_active'   => 'list-hair-stylist-category'
+        ];
+
+        $category = MyHelper::get('hairstylist/be/category');
+
+        if (isset($category['status']) && $category['status'] == "success") {
+            $data['category'] = $category['result'];
+        }
+        else {
+            $data['category'] = [];
+        }
+
+        return view('recruitment::hair_stylist.category.category_list', $data);
+    }
+
+    public function categoryDetail(Request $request, $id){
+        $post = $request->except('_token');
+
+        if(empty($post)){
+            $data = [
+                'title'          => 'Hair Stylist',
+                'sub_title'      => 'Hair Stylist Category Detail',
+                'menu_active'    => 'hair-stylist',
+                'submenu_active' => 'hair-stylist-category',
+                'child_active'   => 'list-hair-stylist-category'
+            ];
+
+            $detail = MyHelper::post('hairstylist/be/category', ['id_hairstylist_category' => $id]);
+
+            if (isset($detail['status']) && $detail['status'] == "success") {
+                $data['detail'] = $detail['result'];
+                return view('recruitment::hair_stylist.category.category_detail', $data);
+            }else{
+                return redirect('hair-stylist/category')->withErrors($save['messages']??['Failed get data']);
+            }
+        }else{
+            $post['id_hairstylist_category'] = $id;
+            $save = MyHelper::post('hairstylist/be/category/update', $post);
+            if (isset($save['status']) && $save['status'] == "success") {
+                return redirect('hair-stylist/category/detail/'.$id)->withSuccess(['Success save data']);
+            }else{
+                return redirect('hair-stylist/category/detail/'.$id)->withErrors($save['messages']??['Failed save data']);
+            }
+        }
+    }
+
+    public function categoryDelete(Request $request, $id){
+        $delete = MyHelper::post('hairstylist/be/category/delete', ['id_hairstylist_category' => $id]);
+        return $delete;
     }
 }

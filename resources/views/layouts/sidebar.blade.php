@@ -1326,6 +1326,24 @@
 				<span class="arrow {{($menu_active == 'hair-stylist') ? 'open' : ''}}"></span>
 			</a>
 			<ul class="sub-menu">
+				<li class="nav-item {{($submenu_active == 'hair-stylist-category') ? 'active open' : ''}}">
+					<a href="javascript:;" class="nav-link nav-toggle">
+						<span class="title">Category</span>
+						<span class="arrow"></span>
+					</a>
+					<ul class="sub-menu">
+						<li class="nav-item {{(isset($child_active) && $child_active == 'create-hair-stylist-category') ? 'active open' : ''}}">
+							<a href="{{url('hair-stylist/category/create')}}" class="nav-link ">
+								<span class="title">New Category</span>
+							</a>
+						</li>
+						<li class="nav-item {{(isset($child_active) && $child_active == 'list-hair-stylist-category') ? 'active open' : ''}}">
+							<a href="{{url('hair-stylist/category')}}" class="nav-link ">
+								<span class="title">Category List</span>
+							</a>
+						</li>
+					</ul>
+				</li>
 				<li class="nav-item {{($submenu_active == 'hair-stylist-list') ? 'active open' : ''}}">
 					<a href="{{url('recruitment/hair-stylist')}}" class="nav-link ">
 						<span class="title">Hair Stylist List</span>

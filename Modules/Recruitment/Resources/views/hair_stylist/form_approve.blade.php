@@ -54,6 +54,20 @@
 				</div>
 			</div>
 			<div class="form-group">
+				<label class="col-md-4 control-label">Category <span class="required" aria-required="true"> * </span>
+				</label>
+				<div class="col-md-6">
+					<div class="input-icon right">
+						<select  class="form-control select2" name="id_hairstylist_category" data-placeholder="Select Category" required>
+							<option></option>
+							@foreach($hairstylist_category??[] as $category)
+								<option value="{{$category['id_hairstylist_category']}}">{{$category['hairstylist_category_name']}}</option>
+							@endforeach
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="col-md-4 control-label">Level <span class="required" aria-required="true"> * </span>
 				</label>
 				<div class="col-md-6">

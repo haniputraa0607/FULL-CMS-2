@@ -15,6 +15,15 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'hair-sty
 {
     Route::get('commision/filter', ['uses' => 'HairStylistController@exportCommision']);
     Route::post('commision/export', ['uses' => 'HairStylistController@exportCommision']);
+
+    Route::group(['prefix' => 'category'], function(){
+        Route::get('create', ['uses' => 'HairStylistController@categoryCreate']);
+        Route::post('create', ['uses' => 'HairStylistController@categoryCreate']);
+        Route::get('/', 'HairStylistController@categoryList');
+        Route::get('detail/{id}', 'HairStylistController@categoryDetail');
+        Route::post('update/{id}', 'HairStylistController@categoryDetail');
+        Route::post('delete/{id}', 'HairStylistController@categoryDelete');
+    });
 });
 
 Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitment/hair-stylist'], function()
