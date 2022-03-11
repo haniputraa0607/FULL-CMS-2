@@ -323,7 +323,7 @@ class HairStylistTimeOffOvertimeController extends Controller
             'sub_title'      	=> 'Detail Request Hair Stylist Overtime',
             'menu_active'    	=> 'hairstylist-schedule',
             'submenu_active' 	=> 'hairstylist-schedule',
-            'child_active' 		=> 'hairstylist-timeoff-list',
+            'child_active' 		=> 'hairstylist-overtime-list',
         ];
         $result = MyHelper::post('recruitment/hairstylist/be/overtime/detail', ['id_hairstylist_overtime' => $id]);
 

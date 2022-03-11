@@ -321,8 +321,8 @@
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <button type="submit" class="btn blue">Submit</button>
                             @if(empty($result['approve']))
+                            <button type="submit" class="btn blue">Submit</button>
                             <a id="approve" class="btn green approve">Approve</a>
                             @endif
                         </div>
