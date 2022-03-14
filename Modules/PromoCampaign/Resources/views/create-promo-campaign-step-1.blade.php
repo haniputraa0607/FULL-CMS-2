@@ -444,6 +444,14 @@
 						</div>
 					</div>
 					<div class="form-group">
+						<label class="control-label">Description</label>
+						<span class="required" aria-required="true"> * </span>
+						<i class="fa fa-question-circle tooltips" data-original-title="Deskripsi Promo" data-container="body"></i>
+						<div class="input-group col-md-12">
+							<textarea required type="text" class="form-control" name="promo_campaign_description" placeholder="Promo Description">{{$result['promo_campaign_description']??old('promo_campaign_description')}}</textarea>
+						</div>
+					</div>
+					<div class="form-group">
 						<label class="control-label">Image</label>
 						<span class="required" aria-required="true"> * </span>
                         <i class="fa fa-question-circle tooltips" data-original-title="Gambar Promo" data-container="body"></i>
