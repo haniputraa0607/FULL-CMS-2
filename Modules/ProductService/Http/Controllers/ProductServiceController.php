@@ -115,6 +115,8 @@ class ProductServiceController extends Controller
             $data['product_uses_ims'] = MyHelper::post('product/be/icount/list', ['type' => 'service', 'company_type' => 'ims'])['result'] ?? [];
             $data['product_icount_use_ima'] = $data['product'][0]['product_icount_use_ima'] ?? [];
             $data['product_icount_use_ims'] = $data['product'][0]['product_icount_use_ims'] ?? [];
+            $data['product_hairstylist_category'] = array_column($data['product'][0]['product_hs_category']??[], 'id_hairstylist_category');
+            $data['hairstylist_category'] = MyHelper::get('hairstylist/be/category')['result']??[];
             return view('productservice::detail', $data);
         }
         else {
