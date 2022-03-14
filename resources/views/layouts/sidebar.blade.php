@@ -670,9 +670,9 @@
 									<span class="title">Create Product Catalog</span>
 								</a>
 							</li>
-							<li class="nav-item {{(isset($child_active) && $child_active == 'product-catalog-detail') ? 'active open' : ''}}">
+							<li class="nav-item {{(isset($child_active) && $child_active == 'product-catalog-list') ? 'active open' : ''}}">
 								<a href="{{url('product/catalog')}}" class="nav-link ">
-									<span class="title">Detail Product Catalog</span>
+									<span class="title">List Product Catalog</span>
 								</a>
 							</li>
 						</ul>

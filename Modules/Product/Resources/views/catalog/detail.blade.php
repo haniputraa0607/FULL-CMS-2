@@ -14,7 +14,7 @@
 @section('page-script')
 <script type="text/javascript">
 
-    let currentId = 1;
+    let currentId = {{count($result['product_catalog_details'] ?? [])}};
     function addProductCatalog() {
         const template = `
             <tr data-id="${currentId}">
@@ -56,48 +56,6 @@
 
     function deleteProductCatalog(id) {
         $(`#products-container tr[data-id=${id}]`).remove();
-    }
-
-    function selectCompany(val){
-        for (var i = 0; i < currentId; i++) {
-            $(`tr[data-id=${i}] select.filter`).val('');
-            $(`tr[data-id=${i}] select.product`).empty();
-            $(`tr[data-id=${i}] select.budget`).val('');
-        }
-        var html_select = `<option></option>`;
-        
-        <?php
-            foreach($products as $row){
-            ?>
-
-            if(val=='ima'){
-                <?php 
-                    if($row['company_type']=='ima'){
-                ?>
-                html_select += `<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>`;
-                <?php
-                    }   
-                ?>
-            }else if(val=='ims'){
-                <?php 
-                    if($row['company_type']=='ims'){
-                ?>
-                html_select += `<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>`;
-                <?php
-                    }   
-                ?>
-            }
-            
-            <?php
-            }
-        ?>
-
-        for (var i = 0; i < currentId; i++) {
-            $(`tr[data-id=${i}] select.product`).append(html_select);
-            $(`tr[data-id=${i}] select`).select2({
-                placeholder: "Select"
-            });
-        }
     }
 
     function productFilter(id,value) {
@@ -252,15 +210,16 @@
             </div>
         </div>
         <div class="portlet-body form">
-            <form class="form-horizontal" role="form" action="{{ url()->current() }}" method="post" enctype="multipart/form-data">
+            <form class="form-horizontal" role="form" action="{{ url('product/catalog/update') }}" method="post" enctype="multipart/form-data">
                 <div class="form-body">
+                    <input type="hidden" name="id_product_catalog" value="{{ $result['id_product_catalog'] }}">
                     <div class="form-group">
                         <label class="col-md-4 control-label">Name <span class="required" aria-required="true"> * </span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Nama Katalog Produk" data-container="body"></i>
                         </label>
                         <div class="col-md-4">
                             <div class="input-icon right">
-                                <input type="text" placeholder="Product Catalog Name" class="form-control" name="name" value="{{ old('name') }}" required>
+                                <input type="text" placeholder="Product Catalog Name" class="form-control" name="name" value="{{ $result['name'] }}" required readonly>
                             </div>
                         </div>
                     </div>
@@ -270,11 +229,12 @@
                         </label>
                         <div class="col-md-4">
                             <div class="input-icon right">
-                                <select class="form-control select2 budget" id="company_type" name="company_type" required onchange="selectCompany(this.value)">
+                                <select class="form-control select2 budget" required disabled>
                                     <option value="" selected disabled></option>
-                                    <option value="ima">PT IMA</option>
-                                    <option value="ims">PT IMS</option>
+                                    <option value="ima" @if(isset($result) && $result['company_type'] == 'ima') selected @endif>PT IMA</option>
+                                    <option value="ims" @if(isset($result) && $result['company_type'] == 'ims') selected @endif>PT IMS</option>
                                 </select>
+                                <input type="hidden" name="company_type" value="{{ $result['company_type'] }}">
                             </div>
                         </div>
                     </div>
@@ -284,7 +244,7 @@
                         </label>
                         <div class="col-md-4">
                             <div class="input-icon right">
-                                <input type="checkbox" class="make-switch brand_status" data-size="small" data-on-color="info" data-on-text="Active" data-off-color="default" name="status" data-off-text="Inactive" value="1" @if(old('status')) checked @endif>
+                                <input type="checkbox" class="make-switch brand_status" data-size="small" data-on-color="info" data-on-text="Active" data-off-color="default" name="status" data-off-text="Inactive" value="1" @if(old('status') || $result['status']==1) checked @endif>
                             </div>
                         </div>
                     </div>
@@ -294,7 +254,7 @@
                        </label>
                        <div class="col-md-6">
                            <div class="input-icon right">
-                               <textarea name="description" id="text_pro" class="form-control" placeholder="Description">{{ old('description') }}</textarea>
+                               <textarea name="description" id="text_pro" class="form-control" placeholder="Description">{{ old('description') ? old('description') : $result['description'] }}</textarea>
                            </div>
                        </div>
                     </div>
@@ -314,36 +274,43 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr data-id="0">
+                                    @foreach ($result['product_catalog_details'] as $key => $detail)                                        
+                                    <tr data-id="{{ $key }}">
                                         <td>
-                                            <select class="select2 form-control filter" name="product_catalog_detail[0][filter]" required onchange="productFilter(0, this.value)">
+                                            <select class="select2 form-control filter" name="product_catalog_detail[{{ $key }}][filter]" required onchange="productFilter({{ $key }}, this.value)">
                                                 <option value="" selected disabled></option>
-                                                <option value="Inventory">Inventory</option>
-                                                <option value="Non Inventory">Non Inventory</option>
-                                                <option value="Service">Service</option>
-                                                <option value="Assets">Assets</option>
+                                                <option value="Inventory" @if($detail['filter'] == 'Inventory') selected @endif>Inventory</option>
+                                                <option value="Non Inventory" @if($detail['filter'] == 'Non Inventory') selected @endif>Non Inventory</option>
+                                                <option value="Service" @if($detail['filter'] == 'Service') selected @endif>Service</option>
+                                                <option value="Assets" @if($detail['filter'] == 'Assets') selected @endif>Assets</option>
                                             </select>
                                         </td>
                                         <td>
-                                            <select class="select2 form-control product" name="product_catalog_detail[0][id_product_icount]" required>
+                                            <select class="select2 form-control product" name="product_catalog_detail[{{ $key }}][id_product_icount]" required>
                                                 <option value="" selected disabled></option>
                                                 @foreach($products as $product_icount)
-                                                <option value="{{$product_icount['id_product_icount']}}" data-full="{{json_encode($product_icount)}}">{{$product_icount['name']}}</option>
+                                                @if ($product_icount['item_group'] == $detail['filter'])
+                                                <option value="{{$product_icount['id_product_icount']}}" data-full="{{json_encode($product_icount)}}" @if($product_icount['id_product_icount'] == $detail['id_product_icount']) selected @endif>{{$product_icount['name']}}</option>
+                                                @endif
                                                 @endforeach
                                             </select>
                                         </td>
                                         <td>
-                                            <select class="form-control select2 budget" name="product_catalog_detail[0][budget_code]" required>
+                                            <select class="form-control select2 budget" name="product_catalog_detail[{{ $key }}][budget_code]" required>
                                                 <option value="" selected disabled></option>
-                                                <option value="Invoice">Invoice</option>
-                                                <option value="Beban">Beban</option>
-                                                <option value="Assets">Assets</option>
+                                                @if ($detail['filter'] == 'Assets')
+                                                <option value="Assets" @if($detail['budget_code'] == 'Assets') selected @endif>Assets</option>
+                                                @else
+                                                <option value="Invoice" @if($detail['budget_code'] == 'Invoice') selected @endif>Invoice</option>
+                                                <option value="Beban" @if($detail['budget_code'] == 'Beban') selected @endif>Beban</option>
+                                                @endif
                                             </select>
                                         </td>
                                         <td>
-                                            <button type="button" onclick="deleteProductCatalog(0)" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+                                            <button type="button" onclick="deleteProductCatalog({{ $key }})" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
                                         </td>
                                     </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
