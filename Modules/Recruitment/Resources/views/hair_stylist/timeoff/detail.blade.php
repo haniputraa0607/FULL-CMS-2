@@ -325,8 +325,8 @@
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <button type="submit" class="btn blue" @if(isset($result['approve_by'])) disabled @endif>Submit</button>
                             @if(empty($result['approve']))
+                            <button type="submit" class="btn blue" @if(isset($result['approve_by'])) disabled @endif>Submit</button>
                             <a id="approve" class="btn green approve">Approve</a>
                             @endif
                         </div>

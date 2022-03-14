@@ -664,6 +664,24 @@
 							<span class="title">Product ICount List</span>
 						</a>
 					</li>
+                    <li class="nav-item {{($submenu_active == 'product-catalog') ? 'active open' : ''}}">
+						<a href="javascript:;" class="nav-link nav-toggle">
+							<span class="title">Product Catalog</span>
+							<span class="arrow"></span>
+						</a>
+						<ul class="sub-menu">
+							<li class="nav-item {{(isset($child_active) && $child_active == 'product-catalog-create') ? 'active open' : ''}}">
+								<a href="{{url('product/catalog/create')}}" class="nav-link ">
+									<span class="title">Create Product Catalog</span>
+								</a>
+							</li>
+							<li class="nav-item {{(isset($child_active) && $child_active == 'product-catalog-list') ? 'active open' : ''}}">
+								<a href="{{url('product/catalog')}}" class="nav-link ">
+									<span class="title">List Product Catalog</span>
+								</a>
+							</li>
+						</ul>
+					</li>
 					<li class="nav-item {{($submenu_active == 'product-image') ? 'active open' : ''}}">
 						<a href="javascript:;" class="nav-link nav-toggle">
 							<span class="title">Image Product</span>

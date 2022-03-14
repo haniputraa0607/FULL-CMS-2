@@ -52,6 +52,15 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'product'
     	Route::any('sync', ['middleware' => 'feature_control:49', 'uses' => 'ProductController@syncIcount']);
 	});
 
+	Route::group(['prefix' => 'catalog'], function() {
+		Route::any('/', ['middleware' => 'feature_control:48', 'uses' => 'ProductCatalogController@index']);
+		Route::any('create', ['middleware' => 'feature_control:52', 'uses' => 'ProductCatalogController@create']);
+		Route::post('delete/{id}', ['middleware' => 'feature_control:52', 'uses' => 'ProductCatalogController@destroy']);
+		Route::any('detail/{id}', ['middleware' => 'feature_control:52', 'uses' => 'ProductCatalogController@show']);
+		Route::any('update', ['middleware' => 'feature_control:52', 'uses' => 'ProductCatalogController@update']);
+		
+	});
+
 	/**
 	 * category
 	 */
