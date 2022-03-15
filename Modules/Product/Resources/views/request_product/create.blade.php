@@ -69,286 +69,44 @@
 
     <script type="text/javascript">
 
-        @if(!is_array($conditions) || count($conditions) <= 0)
-        var count_product_service_use = 1;
-                @else
-        var count_product_service_use = {{count($conditions)}};
-        @endif
-        function addProductServiceUse() {
-            var company = $('#id_outlet option:selected').attr('data-company');
-            var html_select = '';
-            <?php
-            foreach($products as $row){
-            ?>
-            if(company=='PT IMA'){
-                <?php 
-                    if($row['company_type']=='ima'){
-                ?>
-                html_select += `<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>`;
-                <?php
-                    }   
-                ?>
-            }else if(company=='PT IMS'){
-                <?php 
-                    if($row['company_type']=='ims'){
-                ?>
-                html_select += `<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>`;
-                <?php
-                    }   
-                ?>
-            }else{
-                html_select += `<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>`;
-            }
-            <?php
-            }
-            ?>
-
-            var html = '<div id="div_product_use_'+count_product_service_use+'">'+
-            '<div class="form-group">'+
-            '<div class="col-md-2" style="padding: 1px">'+
-            '<select class="form-control select2" id="product_use_filter_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][filter]" required placeholder="Select product use" style="width: 100%" onchange="productFilter('+count_product_service_use+',this.value)">'+
-            '<option selected disabled></option>'+
-            '<option value="Inventory">Inventory</option>'+
-            '<option value="Non Inventory">Non Inventory</option>'+
-            '<option value="Service">Service</option>'+
-            '<option value="Assets">Assets</option>'+
-            '</select>'+
-            '</div>'+
-            '<div class="col-md-4" style="padding: 1px">'+
-            '<select class="form-control select2" id="product_use_code_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][id_product_icount]" required placeholder="Select product use" style="width: 100%" onchange="changeUnit('+count_product_service_use+',this.value)">'+
-            '<option></option>'+html_select+
-            '</select>'+
-            '</div>'+
-            '<div class="col-md-2" style="padding: 1px">'+
-            '<select class="form-control select2" id="product_use_unit_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][unit]" required placeholder="Select unit" style="width: 100%">'+
-            '<option></option>'+
-            '<option value="PCS">PCS</option>'+
-            '</select>'+
-            '</div>'+
-            '<div class="col-md-1" style="padding: 1px">'+
-            '<div class="input-group">'+
-            '<input type="text" class="form-control price" id="product_use_qty_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][qty]" required>'+
-            '</div>'+
-            '</div>'+
-            '<div class="col-md-2" style="padding: 1px">'+
-            '<select class="form-control select2" id="product_use_budget_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][budget_code]" required placeholder="Select budget code" style="width: 100%">'+
-            '<option></option>'+
-            '<option>Invoice</option>'+
-            '<option>Beban</option>'+
-            '<option>Assets</option>'+
-            '</select>'+
-            '</div>'+
-            '<div class="col-md-1" style="padding: 1px">'+
-            '<a class="btn btn-danger btn" onclick="deleteProductServiceUse('+count_product_service_use+')">&nbsp;<i class="fa fa-trash"></i></a>'+
-            '</div>'+
-            '</div>'+
-            '</div>';
-
-            $("#div_product_use").append(html);
-            $('.select2').select2({placeholder: "Search"});
-            count_product_service_use++;
-        }
-
-        function deleteProductServiceUse(number){
-            $('#div_product_use_'+number).empty();
-        }
-
-        function changeUnit(no,value){
-            this_id = '#product_use_unit_'+no;
-            $(this_id).empty();
-            $('#product_use_unit_'+no).val('');
-            $('#product_use_qty_'+no).val('');
-            $('#product_use_budget_'+no).val('');
-            var html_select = `<option></option>`;
-            var unit1 = '';
-            var unit2 = '';
-            var unit3 = '';
-            <?php 
-                foreach($products as $row){ ?>
-                    if(value=={{ $row['id_product_icount'] }}){
-                        unit1 = '{{ $row['unit1'] }}'
-                        unit2 = '{{ $row['unit2'] }}'
-                        unit3 = '{{ $row['unit3'] }}'
-                        if(unit1!=''){
-                            html_select += `<option value='<?php echo $row['unit1']; ?>'><?php echo $row['unit1']; ?></option>`;
-                        }
-                        if(unit2!=''){
-                            html_select += `<option value='<?php echo $row['unit2']; ?>'><?php echo $row['unit2']; ?></option>`;
-                        }
-                        if(unit3!=''){
-                            html_select += `<option value='<?php echo $row['unit3']; ?>'><?php echo $row['unit3']; ?></option>`;
-                        }
-                    }
-                <?php 
-                }
-            ?>
-            $(this_id).append(html_select);
-            $(".select2").select2({
-                placeholder: "Search"
-            });
-    
-        }
-
         function selectOutlet(){
             var company = $('#id_outlet option:selected').attr('data-company');
-            for (var i = 0; i < count_product_service_use; i++) {
-                $('#product_use_filter_'+i).val('');
-                $('#product_use_code_'+i).empty();
-                $('#product_use_unit_'+i).empty();
-                $('#product_use_qty_'+i).val('');
-                $('#product_use_budget_'+i).val('');
-            }
-            var html_select = `<option></option>`;
-            var html_unit = '<option></option><option value="PCS">PCS</option>';
+
+            $('#product_catalog').empty();
+            var catalog = `<option></option>`;
             
+
+
             <?php
-            foreach($products as $row){
+            foreach($catalogs as $cat){
             ?>
 
             if(company=='PT IMA'){
                 <?php 
-                    if($row['company_type']=='ima'){
+                    if($cat['company_type']=='ima'){
                 ?>
-                html_select += `<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>`;
+                catalog += `<option value='<?php echo $cat['id_product_catalog']; ?>'><?php echo $cat['name']; ?></option>`;
                 <?php
                     }   
                 ?>
             }else if(company=='PT IMS'){
                 <?php 
-                    if($row['company_type']=='ims'){
+                    if($cat['company_type']=='ims'){
                 ?>
-                html_select += `<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>`;
+                catalog += `<option value='<?php echo $cat['id_product_catalog']; ?>'><?php echo $cat['name']; ?></option>`;
                 <?php
                     }   
                 ?>
             }else{
-                html_select += `<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>`;
+                catalog += `<option value='<?php echo $cat['id_product_catalog']; ?>'><?php echo $cat['name']; ?></option>`;
             }
             
             <?php
             }
             ?>
-            for (var i = 0; i < count_product_service_use; i++) {
-                $("#product_use_code_"+i).append(html_select);
-                $("#product_use_unit_"+i).append(html_unit);
-            }
-            $('.select2').select2({placeholder: "Search"});
-        }
 
-        function productFilter(key,value){
-            var company = $('#id_outlet option:selected').attr('data-company');
-            $('#product_use_code_'+key).empty();
-            $('#product_use_unit_'+key).empty();
-            $('#product_use_qty_'+key).val('');
-            $('#product_use_budget_'+key).empty();
-            var html_select = `<option></option>`;
-            var html_unit = '<option></option><option value="PCS">PCS</option>';
-            var budget = `
-            <option></option>
-            <option>Invoice</option>
-            <option>Beban</option>`;
-            if(company == 'PT IMA'){
-                if(value == 'Inventory'){
-                    html_select += `
-                    @foreach($products as $row)
-                    @if ($row['item_group'] == 'Inventory' && $row['company_type'] == 'ima')
-                    <option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>
-                    @endif
-                    @endforeach`;
-                }else if(value == 'Non Inventory'){
-                    html_select += `
-                    @foreach($products as $row)
-                    @if ($row['item_group'] == 'Non Inventory' && $row['company_type'] == 'ima')
-                    <option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>
-                    @endif
-                    @endforeach`;
-                }else if(value == 'Service'){
-                    html_select += `
-                    @foreach($products as $row)
-                    @if ($row['item_group'] == 'Service' && $row['company_type'] == 'ima')
-                    <option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>
-                    @endif
-                    @endforeach`;
-                }else if(value == 'Assets'){
-                    html_select += `
-                    @foreach($products as $row)
-                    @if ($row['item_group'] == 'Assets' && $row['company_type'] == 'ima')
-                    <option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>
-                    @endif
-                    @endforeach`;
-                }   
-            }else if(company == 'PT IMS'){
-                if(value == 'Inventory'){
-                    html_select += `
-                    @foreach($products as $row)
-                    @if ($row['item_group'] == 'Inventory' && $row['company_type'] == 'ims')
-                    <option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>
-                    @endif
-                    @endforeach`;
-                }else if(value == 'Non Inventory'){
-                    html_select += `
-                    @foreach($products as $row)
-                    @if ($row['item_group'] == 'Non Inventory' && $row['company_type'] == 'ims')
-                    <option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>
-                    @endif
-                    @endforeach`;
-                }else if(value == 'Service'){
-                    html_select += `
-                    @foreach($products as $row)
-                    @if ($row['item_group'] == 'Service' && $row['company_type'] == 'ims')
-                    <option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>
-                    @endif
-                    @endforeach`;
-                }else if(value == 'Assets'){
-                    html_select += `
-                    @foreach($products as $row)
-                    @if ($row['item_group'] == 'Assets' && $row['company_type'] == 'ims')
-                    <option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>
-                    @endif
-                    @endforeach`;
-                }  
-            }
-            else{
-                if(value == 'Inventory'){
-                    html_select += `
-                    @foreach($products as $row)
-                    @if ($row['item_group'] == 'Inventory')
-                    <option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>
-                    @endif
-                    @endforeach`;
-                }else if(value == 'Non Inventory'){
-                    html_select += `
-                    @foreach($products as $row)
-                    @if ($row['item_group'] == 'Non Inventory')
-                    <option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>
-                    @endif
-                    @endforeach`;
-                }else if(value == 'Service'){
-                    html_select += `
-                    @foreach($products as $row)
-                    @if ($row['item_group'] == 'Service')
-                    <option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>
-                    @endif
-                    @endforeach`;
-                }else if(value == 'Assets'){
-                    html_select += `
-                    @foreach($products as $row)
-                    @if ($row['item_group'] == 'Assets')
-                    <option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>
-                    @endif
-                    @endforeach`;
-                }   
-            }
-            if(value == 'Assets'){
-                budget = `
-                <option></option>
-                <option>Assets</option>`;
-            }   
-            $("#product_use_code_"+key).append(html_select);
-            $("#product_use_unit_"+key).append(html_unit);
-            $("#product_use_budget_"+key).append(budget);
+            $("#product_catalog").append(catalog);
             $('.select2').select2({placeholder: "Search"});
-
         }
     
     </script>
@@ -389,7 +147,7 @@
                 <div class="form-body">
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Outlet Name <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Nama outlet yang membuat permintaan produk" data-container="body"></i></label>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Nama outlet yang membuat permintaan produk, setelah request product dibuat, outlet tidak bisa diubah lagi" data-container="body"></i></label>
                         <div class="col-md-5">
                             <select class="form-control select2 approvedForm" name="id_outlet" id="id_outlet" required onchange="selectOutlet()">
                                 <option value="" selected disabled>Select Outlet</option>
@@ -407,6 +165,18 @@
                                 <option value="" selected disabled>Select Outlet</option>
                                 <option value="Sell">For Sale</option>
                                 <option value="Use">To Uses</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="example-search-input" class="control-label col-md-4">Product Catalog <span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Katalog Produk yang akan diminta, , setelah request product dibuat, katalog tidak bisa diubah lagi" data-container="body"></i></label>
+                        <div class="col-md-5">
+                            <select class="form-control select2 approvedForm" name="id_product_catalog" id="product_catalog" required>
+                                <option value="" selected disabled>Select Catalog</option>
+                                @foreach($catalogs as $c => $catalog)
+                                    <option value="{{$catalog['id_product_catalog']}}">{{$catalog['name']}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -431,82 +201,7 @@
                             <textarea name="note_request" id="input-note" class="form-control" placeholder="Enter note here" required></textarea>
                         </div>
                     </div>
-                    <div class="portlet light" style="margin-bottom: 0; padding-bottom: 0">
-                        <div class="portlet-title">
-                            <div class="caption">
-                                <span class="caption-subject sbold uppercase font-black">Product Request</span>
-                            </div>
-                        </div>
-                        <div class="portlet-body form">
-                            <div class="form-group">
-                                <div class="col-md-2" style="padding: 1px">
-                                    <b>Filter</b>
-                                </div>
-                                <div class="col-md-4" style="padding: 1px">
-                                    <b>Product</b>
-                                </div>
-                                <div class="col-md-2" style="padding: 1px">
-                                    <b>Unit</b>
-                                </div>
-                                <div class="col-md-1" style="padding: 1px">
-                                    <b>Qty</b>
-                                </div>
-                                <div class="col-md-2" style="padding: 1px">
-                                    <b>Budget Code</b>
-                                </div>
-                            </div>
-                            <div id="div_product_use">
-                                <div id="div_product_use_0">
-                                    <div class="form-group">
-                                        <div class="col-md-2" style="padding: 1px">
-                                            <select class="form-control select2" id="product_use_filter_0" name="product_icount[0][filter]" required placeholder="Select product use" style="width: 100%" onchange="productFilter(0,this.value)">
-                                                <option selected disabled></option>
-                                                <option value="Inventory">Inventory</option>
-                                                <option value="Non Inventory">Non Inventory</option>
-                                                <option value="Service">Service</option>
-                                                <option value="Assets">Assets</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4" style="padding: 1px">
-                                            <select class="form-control select2" id="product_use_code_0" name="product_icount[0][id_product_icount]" required placeholder="Select product use" style="width: 100%" onchange="changeUnit(0,this.value)">
-                                                <option></option>
-                                                @foreach($products as $product_use)
-                                                    <option value="{{$product_use['id_product_icount']}}">{{$product_use['code']}} - {{$product_use['name']}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col-md-2" style="padding: 1px">
-                                            <select class="form-control select2" id="product_use_unit_0" name="product_icount[0][unit]" required placeholder="Select unit" style="width: 100%">
-                                                <option></option>
-                                                <option value="PCS">PCS</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-1" style="padding: 1px">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control price" id="product_use_qty_0" name="product_icount[0][qty]" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2" style="padding: 1px">
-                                            <select class="form-control select2" id="product_use_budget_0" name="product_icount[0][budget_code]" required placeholder="Select budget code" style="width: 100%">
-                                                <option></option>
-                                                <option>Invoice</option>
-                                                <option>Beban</option>
-                                                <option>Assets</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-1" style="padding: 1px">
-                                            <a class="btn btn-danger btn" onclick="deleteProductServiceUse(0)">&nbsp;<i class="fa fa-trash"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-4" style="padding: 1px">
-                                    <a class="btn btn-primary" onclick="addProductServiceUse()">&nbsp;<i class="fa fa-plus-circle"></i> Add Product </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
                 <div class="form-actions">
                     {{ csrf_field() }}

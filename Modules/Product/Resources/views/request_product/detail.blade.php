@@ -72,7 +72,7 @@
 
         @if(!is_array($result['request_product_detail']) || count($result['request_product_detail']) <= 0)
         var count_product_service_use = 1;
-                @else
+        @else
         var count_product_service_use = {{count($result['request_product_detail'])}};
         @endif
         function addProductServiceUse() {
@@ -173,11 +173,12 @@
             $(this_id).empty();
             $('#product_use_unit_'+no).val('');
             $('#product_use_qty_'+no).val('');
-            $('#product_use_budget_'+no).val('');
+            $('#product_use_budget_'+no).empty();
             var html_select = `<option></option>`;
             var unit1 = '';
             var unit2 = '';
             var unit3 = '';
+            var budget = '';
             <?php 
                 foreach($products as $row){ ?>
                     if(value=={{ $row['id_product_icount'] }}){
@@ -193,11 +194,14 @@
                         if(unit3!=''){
                             html_select += `<option value='<?php echo $row['unit3']; ?>'><?php echo $row['unit3']; ?></option>`;
                         }
+                        budget += `<option value='<?php echo $row['budget_code']; ?>'><?php echo $row['budget_code']; ?></option>`;
+
                     }
                 <?php 
                 }
             ?>
             $(this_id).append(html_select);
+            $('#product_use_budget_'+no).append(budget);
             $(".select2").select2({
                 placeholder: "Search"
             });
@@ -209,52 +213,6 @@
             $(".select2").select2({
                 placeholder: "Search"
             });
-        }
-
-        function selectOutlet(){
-            var company = $('#id_outlet option:selected').attr('data-company');
-
-            for (var i = 0; i < count_product_service_use; i++) {
-                $('#product_use_filter_'+i).val('');
-                $('#product_use_code_'+i).empty();
-                $('#product_use_unit_'+i).empty();
-                $('#product_use_qty_'+i).val('');
-                $('#product_use_status_'+i).val('');
-            }
-            var html_select = `<option></option>`;
-            var html_unit = '<option></option><option value="PCS">PCS</option>';
-            <?php
-            foreach($products as $row){
-            ?>
-
-            if(company=='PT IMA'){
-                <?php 
-                    if($row['company_type']=='ima'){
-                ?>
-                html_select += `<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>`;
-                <?php
-                    }   
-                ?>
-            }else if(company=='PT IMS'){
-                <?php 
-                    if($row['company_type']=='ims'){
-                ?>
-                html_select += `<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>`;
-                <?php
-                    }   
-                ?>
-            }else{
-                html_select += `<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>`;
-            }
-            
-            <?php
-            }
-            ?>
-            for (var i = 0; i < count_product_service_use; i++) {
-                $("#product_use_code_"+i).append(html_select);
-                $("#product_use_unit_"+i).append(html_unit);
-            }
-            $('.select2').select2({placeholder: "Search"});
         }
 
         function productFilter(key,value){
@@ -430,23 +388,33 @@
                         <label for="example-search-input" class="control-label col-md-4">Outlet Name <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Nama outlet yang membuat permintaan produk" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <select class="form-control select2 approvedForm" name="id_outlet" id="id_outlet" required onchange="selectOutlet()" {{ $result['status'] != 'Pending' ? 'disabled' : '' }} >
+                            <select class="form-control select2 approvedForm" disabled>
                                 <option value="" selected disabled>Select Outlet</option>
                                 @foreach($outlets as $o => $ol)
                                     <option value="{{$ol['id_outlet']}}" data-company="{{$ol['location_outlet']['company_type']}}" @if($result['id_outlet']==$ol['id_outlet']) selected @endif>{{$ol['outlet_name']}}</option>
                                 @endforeach
                             </select>
+                            <input class="form-control" type="hidden" id="input-code" name="id_outlet" value="{{$result['id_outlet']}}"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Request Type <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Jenis permintaan barang yang akan digunakan" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <select class="form-control select2 approvedForm" name="type" required {{ $result['status'] != 'Pending' ? 'disabled' : '' }}>
+                            <select class="form-control select2 approvedForm" required disabled>
                                 <option value="" selected disabled>Select Outlet</option>
                                 <option value="Sell" @if($result['type']=='Sell') selected @endif>For Sale</option>
                                 <option value="Use" @if($result['type']=='Use') selected @endif>To Uses</option>
                             </select>
+                            <input class="form-control" type="hidden" id="input-code" name="type" value="{{$result['type']}}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="example-search-input" class="control-label col-md-4">Product Catalog <span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Katalog Produk yang akan diminta, , setelah request product dibuat, katalog tidak bisa diubah lagi" data-container="body"></i></label>
+                        <div class="col-md-5">
+                            <input class="form-control" type="text" id="input-code" value="{{$result['catalog_name']}}" readonly/>
+                            <input class="form-control" type="hidden" id="input-code" name="id_product_catalog" value="{{$result['catalog_name']}}"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -534,6 +502,7 @@
                                 </div>
                             </div>
                             <div id="div_product_use">
+                                @if (!empty($result['request_product_detail']))
                                 @foreach($result['request_product_detail'] as $key => $value)
                                 <div id="div_product_use_{{$key}}">
                                     <div class="form-group">
@@ -625,7 +594,79 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
+                                @endforeach
+                                @else
+                                <div id="div_product_use_0">
+                                    <div class="form-group">
+                                        <div class="col-md-2" style="padding: 1px">
+                                            <select class="form-control select2" id="product_use_filter_0" name="product_icount[0][filter]" required placeholder="Select product filter" style="width: 100%" onchange="productFilter(0,this.value)" {{ $result['status'] != 'Pending' ? 'disabled' : '' }}>
+                                                <option selected disabled></option>
+                                                <option value="Inventory" >Inventory</option>
+                                                <option value="Non Inventory" >Non Inventory</option>
+                                                <option value="Service" >Service</option>
+                                                <option value="Assets" >Assets</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3" style="padding: 1px">
+                                            @if(MyHelper::hasAccess([413], $grantedFeature))
+                                            <select class="form-control select2" id="product_use_code_0" name="product_icount[0][id_product_icount]" required placeholder="Select product use" style="width: 100%" onchange="changeUnit(0,this.value)" {{ $result['status'] != 'Pending' ? 'disabled' : '' }}>
+                                                <option></option>
+                                                @php
+                                                    $company_type_outlet = '';
+                                                    if($result['request_product_outlet']['location_outlet']['company_type'] == 'PT IMA'){
+                                                        $company_type_outlet = 'ima';
+                                                    }elseif($result['request_product_outlet']['location_outlet']['company_type'] == 'PT IMS'){
+                                                        $company_type_outlet = 'ims';
+                                                    }   
+                                                @endphp
+                                                @foreach($products as $product_use)
+                                                    @if ($product_use['company_type'] == $company_type_outlet)
+                                                    <option value="{{$product_use['id_product_icount']}}">{{$product_use['code']}} - {{$product_use['name']}}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                            @endif
+                                        </div>
+                                        <div class="col-md-1" style="padding: 1px">
+                                            @if(MyHelper::hasAccess([413], $grantedFeature))
+                                            <select class="form-control select2" id="product_use_unit_0" name="product_icount[0][unit]" required placeholder="Select unit" style="width: 100%" onchange="emptyQty(0,this.value)" {{ $result['status'] != 'Pending' ? 'disabled' : '' }}>
+                                                <option></option>
+                                                <option value="PCS" >PCS</option>
+                                            </select>
+                                            @endif
+                                        </div>
+                                        <div class="col-md-1" style="padding: 1px">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control price" id="product_use_qty_0" name="product_icount[0][qty]" required @if(!MyHelper::hasAccess([413], $grantedFeature)) readonly @endif {{ $result['status'] != 'Pending' ? 'disabled' : '' }}>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" style="padding: 1px">
+                                            @if(MyHelper::hasAccess([415], $grantedFeature))
+                                            <select class="form-control select2" id="product_use_budget_0" name="product_icount[0][budget_code]" required placeholder="Select product status" style="width: 100%" {{ $result['status'] != 'Pending' ? 'disabled' : '' }}>
+                                                <option></option>
+                                                <option value="Invoice" >Invoice</option>
+                                                <option value="Beban" >Beban</option>
+                                                <option value="Assets" >Assets</option>
+                                            </select>
+                                            @endif
+                                        </div>
+                                        <div class="col-md-2" style="padding: 1px">
+                                            @if(MyHelper::hasAccess([415], $grantedFeature))
+                                            <select class="form-control select2" id="product_use_status_0" name="product_icount[0][status]" required placeholder="Select product status" style="width: 100%" {{ $result['status'] != 'Pending' ? 'disabled' : '' }}>
+                                                <option></option>
+                                                <option value="Approved" >Approved</option>
+                                                <option value="Rejected" >Rejected</option>
+                                            </select>
+                                            @else
+                                            <input class="form-control" type="text" id="product_use_status_0" name="product_icount[0][status]" required placeholder="Select product status" style="width: 100%" readonly/>
+                                            @endif
+                                        </div>
+                                        <div class="col-md-1" style="padding: 1px">
+                                            <a class="btn btn-danger btn" onclick="deleteProductServiceUse(0)">&nbsp;<i class="fa fa-trash"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
                             @if ($result['status']=='Pending' && MyHelper::hasAccess([413], $grantedFeature))
                             <div class="form-group">

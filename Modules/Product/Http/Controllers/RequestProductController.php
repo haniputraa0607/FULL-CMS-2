@@ -101,8 +101,9 @@ class RequestProductController extends Controller
 
         $data['products'] = MyHelper::post('product/be/icount/list', ['buyable' => 'true'])['result'] ?? [];
         $data['outlets'] = MyHelper::get('mitra/request/outlet')['result'] ?? [];
+        $data['catalogs'] = MyHelper::post('req-product/list-catalog', []);
         $data['conditions'] = "";
-        
+
         return view('product::request_product.create', $data);
 
     }
@@ -118,7 +119,7 @@ class RequestProductController extends Controller
         $result = MyHelper::post('req-product/create', $post);
 
         if(isset($result['status']) && $result['status'] == 'success'){
-            return redirect('req-product')->withSuccess(['Success create a new request product']);
+            return redirect('req-product/detail/'.$result['result']['id_request_product'])->withSuccess(['Success create a new request product']);
         }else{
             return redirect('req-product')->withErrors($result['messages'] ?? ['Failed create a new request product']);
         }
@@ -142,6 +143,7 @@ class RequestProductController extends Controller
     public function edit($id)
     {
         $result = MyHelper::post('req-product/detail', ['id_request_product' => $id]);
+
         $data = [
             'title'          => 'Request Product',
             'sub_title'      => 'Detail Request Product',
@@ -150,7 +152,16 @@ class RequestProductController extends Controller
         ];
         if(isset($result['status']) && $result['status'] == 'success'){
             $data['result'] = $result['result']['request_product'];
-            $data['products'] = MyHelper::post('product/be/icount/list', ['buyable' => 'true'])['result'] ?? [];
+
+            $post_product = ['buyable' => 'true','catalog' => $data['result']['id_product_catalog']];
+            if($data['result']['request_product_outlet']['location_outlet']['company_type']=='PT IMA'){
+                $company = 'ima';
+            }elseif($data['result']['request_product_outlet']['location_outlet']['company_type']=='PT IMS'){
+                $company = 'ims';
+            }
+            $post_product['company_type'] = $company;
+
+            $data['products'] = MyHelper::post('product/be/icount/list', $post_product) ?? [];
             $data['outlets'] = MyHelper::get('mitra/request/outlet')['result'] ?? [];
             $data['conditions'] = "";
 
