@@ -131,17 +131,17 @@
                                         @endif
                                     </div>
                                 </div>
-                                @if ($pay==false) 
                                 <div class="form-actions">
                                     {{ csrf_field() }}
                                     <div class="row">
                                         <div class="col-md-offset-4 col-md-8">
+                                            @if ($pay==false) 
                                             <button type="submit" class="btn blue">Submit</button>
+                                            @endif
                                             <a class="btn red sweetalert-reject" data-id="{{ $result['id_partner'] }}" data-name="{{ $result['name'] }}">Reject</a>
                                         </div>
                                     </div>
                                 </div>
-                                @endif
                             </div>
                         </form>
                     </div>
