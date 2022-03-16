@@ -183,9 +183,13 @@
                                             @if($request['status'] == 'Completed By Finance')
                                                 <span class="badge" style="background-color: #26C281; color: #ffffff">Approved By Finance</span>
                                             @elseif($request['status'] == 'Completed By User')
-                                                <span class="badge" style="background-color: #e1e445; color: #ffffff">Approved By {{ $request['request_product_user_approve']['name'] }}</span>
+                                                <span class="badge" style="background-color: #1d09d4; color: #ffffff">Approved By {{ $request['request_product_user_approve']['name'] }}</span>
+                                            @elseif($request['status'] == 'Pending')
+                                                <span class="badge" style="background-color: #e1e445; color: #ffffff">Pending</span>
+                                            @elseif($request['status'] == 'Draft')
+                                                <span class="badge" style="background-color: #c9c9c7; color: #ffffff">Draft</span>
                                             @else
-                                                <span class="badge" style="background-color: #db1912; color: #ffffff">{{$request['status']}}</span>
+                                                <span class="badge" style="background-color: #db1912; color: #ffffff">Rejected</span>
                                             @endif
                                         </td>
                                         <td>

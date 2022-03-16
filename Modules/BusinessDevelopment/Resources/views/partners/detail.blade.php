@@ -104,35 +104,42 @@
                         let name    = $(this).data('name');
                         $(this).click(function() {
                             swal({
-                                    title: name+"\n\nAre you sure want to reject this candidate partner?",
-                                    text: "You can continue to approve this candidate partner later!",
-                                    type: "warning",
+                                    title: name+"\n\nAre you sure want to reject this partner?",
+                                    text: "Please input partner name to continue!",
+                                    type: "input",
                                     showCancelButton: true,
                                     confirmButtonClass: "btn-danger",
                                     confirmButtonText: "Yes, reject it!",
                                     closeOnConfirm: false
                                 },
-                                function(){
-                                    $.ajax({
-                                        type : "POST",
-                                        url : "{{url('businessdev/partners/reject')}}/"+id,
-                                        data : {
-                                            '_token' : '{{csrf_token()}}'
-                                        },
-                                        success : function(response) {
-                                            if (response.status == 'success') {
-                                                swal("Rejected!", "Candidate Partner has been rejected.", "success")
-                                                SweetAlert.init()
-                                                location.href = "{{url('businessdev/partners/detail')}}/"+id;
+                                function(inputValue){
+                                    if(inputValue==name){
+                                        $.ajax({
+                                            type : "POST",
+                                            url : "{{url('businessdev/partners/reject')}}/"+id,
+                                            data : {
+                                                '_token' : '{{csrf_token()}}'
+                                            },
+                                            success : function(response) {
+                                                if (response.status == 'success') {
+                                                    swal("Rejected!", "Candidate Partner has been rejected.", "success")
+                                                    SweetAlert.init()
+                                                    location.href = "{{url('businessdev/partners/detail')}}/"+id;
+                                                }
+                                                else if(response.status == "fail"){
+                                                    swal("Error!", "Failed to rejecte candidate partner.", "error")
+                                                }
+                                                else {
+                                                    swal("Error!", "Something went wrong. Failed to reject candidate partner.", "error")
+                                                }
                                             }
-                                            else if(response.status == "fail"){
-                                                swal("Error!", "Failed to rejecte candidate partner.", "error")
-                                            }
-                                            else {
-                                                swal("Error!", "Something went wrong. Failed to reject candidate partner.", "error")
-                                            }
-                                        }
-                                    });
+                                        });
+                                    }else if(inputValue==''){
+                                        swal("Error!", "You need to input name partner.", "error")
+
+                                    }else{
+                                        swal("Error!", "Name partner doesnt match", "error")
+                                    }
                                 });
                         })
                     })
