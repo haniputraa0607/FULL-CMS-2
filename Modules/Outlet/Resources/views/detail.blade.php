@@ -36,11 +36,34 @@
         $('.timepicker').timepicker({
             autoclose: true,
             minuteStep: 5,
-            showSeconds: false,
+            showSeconds: false
         });
         // sortable
         $( "#sortable" ).sortable();
         $( "#sortable" ).disableSelection();
+        function validationShift(value) {
+            var id = value.id;
+            var split = id.split('_');
+            var index = split[3];
+            var start = $('#start_'+index).val()+':00';
+            var end = $('#end_'+index).val()+':00';
+            var data = $('#'+id).val()+':00';
+
+            if(data != '0:00' && start != '0:00' && end != '0:00'){
+                var array_start = start.split(":");
+                var seconds_start = (parseInt(array_start[0], 10) * 60 * 60) + (parseInt(array_start[1], 10) * 60) + parseInt(array_start[2], 10);
+
+                var array_end = end.split(":");
+                var seconds_end = (parseInt(array_end[0], 10) * 60 * 60) + (parseInt(array_end[1], 10) * 60) + parseInt(array_end[2], 10);
+
+                var array_data = data.split(":");
+                var seconds_data = (parseInt(array_data[0], 10) * 60 * 60) + (parseInt(array_data[1], 10) * 60) + parseInt(array_data[2], 10);
+
+                if(seconds_data < seconds_start || seconds_data > seconds_end){
+                    $('#'+id).val('0:00');
+                }
+            }
+        }
     </script>
     <script>
         var map;

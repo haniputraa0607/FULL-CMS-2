@@ -1,5 +1,8 @@
 <form class="form-horizontal" role="form" id="form_schedule" action="{{ url('outlet/schedule/save') }}" method="post" enctype="multipart/form-data">
   <div class="form-body">
+		  <div class="alert alert-info">
+			  Please input time shift between time open and close. Time shift will change to 0:00 when time shift not between time opne and close.
+		  </div>
   		<div class="form-group" id="parent">
   			@if (empty($outlet[0]['outlet_schedules']))
   				@php
@@ -13,10 +16,10 @@
 		                    <input type="hidden" name="day[]" value="{{ $val }}">
 		                </div>
 		                <div class="col-md-3">
-		                    <input type="text" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="open[]" @if (old('open') != '') value="{{ old('open') }}" @else value="00:00" @endif data-show-meridian="false" readonly>
+		                    <input type="text" data-placeholder="select time start" id="start_{{$i}}" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="open[]" @if (old('open') != '') value="{{ old('open') }}" @else value="00:00" @endif data-show-meridian="false" readonly>
 		                </div>
 		                <div class="col-md-3" style="padding-bottom: 5px">
-		                    <input type="text" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-close timepicker timepicker-no-seconds" name="close[]" @if (old('close') != '') value="{{ old('close') }}" @else value="00:00" @endif data-show-meridian="false" readonly>
+		                    <input type="text" data-placeholder="select time end" id="end_{{$i}}" class="form-control mt-repeater-input-inline kelas-close timepicker timepicker-no-seconds" name="close[]" @if (old('close') != '') value="{{ old('close') }}" @else value="00:00" @endif data-show-meridian="false" readonly>
 		                </div>
 						<div class="col-md-2" style="padding-bottom: 5px;margin-top: 5px;">
 		                    <label class="mt-checkbox mt-checkbox-outline"> Same All
@@ -50,10 +53,10 @@
 						$html .= '</label>';
 						$html .= '</div>';
 						$html .= '<div class="col-md-3">';
-						$html .= '<input type="text" data-placeholder="select time start" name="data_shift['.$i.']['.$j.'][start]" id="shift_start_'.strtolower($key).'_'.$i.'" class="form-control mt-repeater-input-inline shift-start-'.strtolower($key).' timepicker timepicker-no-seconds" data-show-meridian="false" value="0:00" readonly>';
+						$html .= '<input type="text" data-placeholder="select time start" onchange="validationShift(this)" name="data_shift['.$i.']['.$j.'][start]" id="shift_start_'.strtolower($key).'_'.$i.'" class="form-control mt-repeater-input-inline shift-start-'.strtolower($key).' timepicker timepicker-no-seconds" data-show-meridian="false" value="0:00" readonly>';
 						$html .= '</div>';
 						$html .= '<div class="col-md-3" style="padding-bottom: 5px">';
-						$html .= '<input type="text" data-placeholder="select time end" name="data_shift['.$i.']['.$j.'][end]" id="shift_end_'.strtolower($key).'_'.$i.'" class="form-control mt-repeater-input-inline shift-end-'.strtolower($key).' timepicker timepicker-no-seconds" data-show-meridian="false" value="0:00" readonly>';
+						$html .= '<input type="text" data-placeholder="select time end" onchange="validationShift(this)" name="data_shift['.$i.']['.$j.'][end]" id="shift_end_'.strtolower($key).'_'.$i.'" class="form-control mt-repeater-input-inline shift-end-'.strtolower($key).' timepicker timepicker-no-seconds" data-show-meridian="false" value="0:00" readonly>';
 						$html .= '</div>';
 						$html .= '<input type="hidden" name="data_shift['.$i.']['.$j.'][shift]" value="'.$key.'">';
 						$html .= '</div>';
@@ -71,10 +74,10 @@
 		                    <input type="hidden" name="day[]" value="{{ $val['day'] }}">
 		                </div>
 		                <div class="col-md-3">
-		                    <input type="text" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="open[]" @if(isset($val['open'])) value="{{ date('H:i', strtotime($val['open'])) }}" @endif data-show-meridian="false" readonly>
+		                    <input type="text" data-placeholder="select time start" id="start_{{$i}}" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="open[]" @if(isset($val['open'])) value="{{ date('H:i', strtotime($val['open'])) }}" @endif data-show-meridian="false" readonly>
 		                </div>
 		                <div class="col-md-3" style="padding-bottom: 5px">
-		                    <input type="text" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-close timepicker timepicker-no-seconds" name="close[]" @if(isset($val['open'])) value="{{ date('H:i', strtotime($val['close'])) }}" @endif data-show-meridian="false" readonly>
+		                    <input type="text" data-placeholder="select time end" id="end_{{$i}}" class="form-control mt-repeater-input-inline kelas-close timepicker timepicker-no-seconds" name="close[]" @if(isset($val['open'])) value="{{ date('H:i', strtotime($val['close'])) }}" @endif data-show-meridian="false" readonly>
 		                </div>
 		                <div class="col-md-2" style="padding-bottom: 5px;margin-top: 5px;">
 		                    <label class="mt-checkbox mt-checkbox-outline"> Same All
@@ -111,10 +114,10 @@
 						$html .='</label>';
                         $html .= '</div>';
                         $html .= '<div class="col-md-3">';
-                        $html .= '<input type="text" data-placeholder="select time start" name="data_shift['.$i.']['.$j.'][start]" id="shift_start_'.strtolower($key).'_'.$i.'" class="form-control mt-repeater-input-inline shift-start-'.strtolower($key).' timepicker timepicker-no-seconds" data-show-meridian="false" value="'.($check !== false ? date('H:i', strtotime($val['time_shift'][$check]['shift_time_start'])) : '0:00').'" readonly>';
+                        $html .= '<input type="text" data-placeholder="select time start" name="data_shift['.$i.']['.$j.'][start]" id="shift_start_'.strtolower($key).'_'.$i.'" onchange="validationShift(this)" class="form-control mt-repeater-input-inline shift-start-'.strtolower($key).' timepicker timepicker-no-seconds" data-show-meridian="false" value="'.($check !== false ? date('H:i', strtotime($val['time_shift'][$check]['shift_time_start'])) : '0:00').'" readonly>';
                         $html .= '</div>';
                         $html .= '<div class="col-md-3" style="padding-bottom: 5px">';
-                        $html .= '<input type="text" data-placeholder="select time end" name="data_shift['.$i.']['.$j.'][end]" id="shift_end_'.strtolower($key).'_'.$i.'" class="form-control mt-repeater-input-inline shift-end-'.strtolower($key).' timepicker timepicker-no-seconds" data-show-meridian="false" value="'.($check !== false ? date('H:i', strtotime($val['time_shift'][$check]['shift_time_end'])) : '0:00').'" readonly>';
+                        $html .= '<input type="text" data-placeholder="select time end" name="data_shift['.$i.']['.$j.'][end]" id="shift_end_'.strtolower($key).'_'.$i.'" onchange="validationShift(this)" class="form-control mt-repeater-input-inline shift-end-'.strtolower($key).' timepicker timepicker-no-seconds" data-show-meridian="false" value="'.($check !== false ? date('H:i', strtotime($val['time_shift'][$check]['shift_time_end'])) : '0:00').'" readonly>';
                         $html .= '</div>';
                         $html .= '<input type="hidden" name="data_shift['.$i.']['.$j.'][shift]" value="'.$key.'">';
                         $html .= '<input type="hidden" name="data_shift['.$i.']['.$j.'][id_outlet_schedule]" value="'.$val['id_outlet_schedule'].'">';
