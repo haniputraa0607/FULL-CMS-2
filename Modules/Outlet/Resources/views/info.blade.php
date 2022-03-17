@@ -24,6 +24,28 @@
         <div class="form-group">
             <div class="input-icon right">
                 <label class="col-md-3 control-label">
+                    Company Type
+                </label>
+            </div>
+            <div class="col-md-9">
+                <p style="margin-top: 1.5%"><b>{{(empty($val['location_outlet']['company_type']) ? '-':$val['location_outlet']['company_type'])}}</b></p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="input-icon right">
+                <label class="col-md-3 control-label">
+                    Company Type
+                </label>
+            </div>
+            <div class="col-md-9">
+                <p style="margin-top: 1.5%"><b>{{(empty($val['location_outlet']['company_type']) ? '-':$val['location_outlet']['company_type'])}}</b></p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="input-icon right">
+                <label class="col-md-3 control-label">
                     Status Mitra
                     <i class="fa fa-question-circle tooltips" data-original-title="Keterangan outlet ini adalah franchise atau bukan franchise" data-container="body"></i>
                 </label>
