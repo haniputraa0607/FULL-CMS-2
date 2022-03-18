@@ -170,6 +170,38 @@ class UsersController extends Controller
                     'submenu_active'    => 'delivery-product-autoresponse-'.$subject
                   ];
                 break;    
+            case 'product-request-approved-by-admin':
+                $data = [ 
+                    'title'             => 'Request Product',
+                    'sub_title'         => 'Request Product Auto Response '.$autocrmSubject,
+                    'menu_active'       => 'request-product',
+                    'submenu_active'    => 'request-product-autoresponse-'.$subject
+                  ];
+                break;    
+            case 'product-request-rejected-by-admin':
+                $data = [ 
+                    'title'             => 'Request Product',
+                    'sub_title'         => 'Request Product Auto Response '.$autocrmSubject,
+                    'menu_active'       => 'request-product',
+                    'submenu_active'    => 'request-product-autoresponse-'.$subject
+                  ];
+                break;    
+            case 'product-request-approved-by-finance':
+                $data = [ 
+                    'title'             => 'Request Product',
+                    'sub_title'         => 'Request Product Auto Response '.$autocrmSubject,
+                    'menu_active'       => 'request-product',
+                    'submenu_active'    => 'request-product-autoresponse-'.$subject
+                  ];
+                break;    
+            case 'product-request-rejected-by-finance':
+                $data = [ 
+                    'title'             => 'Request Product',
+                    'sub_title'         => 'Request Product Auto Response '.$autocrmSubject,
+                    'menu_active'       => 'request-product',
+                    'submenu_active'    => 'request-product-autoresponse-'.$subject
+                  ];
+                break;    
 			default:
 				# code...
 				break;
