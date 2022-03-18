@@ -773,7 +773,18 @@
 
     @include('layouts.notifications')
 
-    <a href="{{url('outlet/list')}}" class="btn green" style="margin-bottom: 2%;"><i class="fa fa-arrow-left"></i> Back</a>
+    <div class="row">
+        <div class="col-md-6"><a href="{{url('outlet/list')}}" class="btn green" style="margin-bottom: 2%;"><i class="fa fa-arrow-left"></i> Back</a></div>
+        <div class="col-md-6" style="text-align: right">
+        @if(!empty($outlet[0]['location_outlet']['location_partner']['id_partner']))
+            <a href="{{url('businessdev/partners/detail', $outlet[0]['location_outlet']['location_partner']['id_partner'])}}" target="_blank" class="btn yellow">Detail Partner</a>
+        @endif
+        @if(!empty($outlet[0]['location_outlet']['id_location']))
+            <a href="{{url('businessdev/locations/detail', $outlet[0]['location_outlet']['id_location'])}}" target="_blank" class="btn green-jungle">Detail Location</a>
+        @endif
+        </div>
+    </div>
+
 
     <div class="portlet light bordered">
         <div class="portlet-title tabbable-line">
@@ -784,9 +795,6 @@
 
                 <li class="active" id="infoOutlet">
                     <a href="#info" data-toggle="tab" > Info </a>
-                </li>
-                <li>
-                    <a href="#partner" data-toggle="tab" > Partners </a>
                 </li>
                 <li>
                     <a href="#product" data-toggle="tab" > Product Stock </a>
@@ -833,9 +841,6 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="info">
                     @include('outlet::info')
-                </div>
-                <div class="tab-pane active" id="partner">
-                    @include('outlet::partner')
                 </div>
                 <div class="tab-pane" id="product">
                     @include('outlet::product')
