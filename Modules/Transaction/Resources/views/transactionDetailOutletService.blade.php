@@ -763,6 +763,18 @@
 	                    @endif
 	                </div>
 	            @endforeach
+                @if($data['transaction_tax'] > 0)
+                    <div class="row">
+                        <div class="col-6 text-13-3px WorkSans-Medium text-grey-light space-text">Tax</div>
+                        <div class="col-6 text-13-3px text-right WorkSans-Medium text-grey-light space-text">{{ number_format($data['transaction_tax'],2,',','.') }}</div>
+                    </div>
+                @endif
+                @if($data['mdr'] > 0)
+                    <div class="row">
+                        <div class="col-6 text-13-3px WorkSans-Medium text-grey-light space-text">MDR</div>
+                        <div class="col-6 text-13-3px text-right WorkSans-Medium text-grey-light space-text">{{ number_format($data['mdr'],2,',','.') }}</div>
+                    </div>
+                @endif
 	        </div>
 
 	        <div style="margin: 0px;margin-top: 10px;padding: 10px;background: #f0f3f7;">

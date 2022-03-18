@@ -178,6 +178,14 @@
                     render: value => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(value)
                 },
                 {
+                    data: 'transaction_tax',
+                    render: value => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(value)
+                },
+                {
+                    data: 'mdr',
+                    render: value => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(value)
+                },
+                {
                     data: 'transaction_payment_status',
                     className: "text-center",
                     render: function(value, type, row) {
@@ -303,6 +311,8 @@
                   <th>Customer Name</th>
                   <th>Phone</th>
                   <th>Total Price</th>
+                  <th>Tax</th>
+                  <th>MDR</th>
                   <th>Payment Status</th>
               </tr>
             </thead>
