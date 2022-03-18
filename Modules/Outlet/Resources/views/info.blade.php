@@ -35,6 +35,28 @@
         <div class="form-group">
             <div class="input-icon right">
                 <label class="col-md-3 control-label">
+                    Partner Name
+                </label>
+            </div>
+            <div class="col-md-9">
+                <p style="margin-top: 1.5%"><a href="{{url('businessdev/partners/detail', $val['location_outlet']['location_partner']['id_partner'])}}" target="_blank">{{(empty($val['location_outlet']['location_partner']['name']) ? '-':$val['location_outlet']['location_partner']['name'])}}</a></p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="input-icon right">
+                <label class="col-md-3 control-label">
+                    Location Name
+                </label>
+            </div>
+            <div class="col-md-9">
+                <p style="margin-top: 1.5%"><a href="{{url('businessdev/locations/detail', $val['location_outlet']['id_location'])}}" target="_blank">{{(empty($val['location_outlet']['name']) ? '-':$val['location_outlet']['name'])}}</a></p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="input-icon right">
+                <label class="col-md-3 control-label">
                     Status Mitra
                     <i class="fa fa-question-circle tooltips" data-original-title="Keterangan outlet ini adalah franchise atau bukan franchise" data-container="body"></i>
                 </label>
