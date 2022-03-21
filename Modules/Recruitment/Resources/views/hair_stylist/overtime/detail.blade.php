@@ -104,14 +104,14 @@
                         data : data,
                         success : function(response) {
                             if (response.status == 'success') {
-                                swal("Sent!", "Hair Stylist request time off has been approved", "success")
+                                swal("Sent!", "Hair Stylist request overtime has been approved", "success")
                                 location.href = "{{url('recruitment/hair-stylist/overtime/detail')}}/"+id_hairstylist_overtime;
                             }
                             else if(response.status == "fail"){
-                                swal("Error!", "Failed to approve hair stylist request time off.", "error")
+                                swal("Error!", "Failed to approve hair stylist request 0vertime.", "error")
                             }
                             else {
-                                swal("Error!", "Something went wrong. Failed to approve hair stylist request time off.", "error")
+                                swal("Error!", "Something went wrong. Failed to approve hair stylist request overtime.", "error")
                             }
                         }
                     });
@@ -162,6 +162,21 @@
                 }
             });
         }
+
+        $('#list_date').on('change',function(){
+            var value = $(this).val();
+            var start = $("#list_date option:selected").attr('data-timestart');
+            var end = $("#list_date option:selected").attr('data-timeend');
+            $('#time_start').remove();
+            $('#place_time_start').append('<input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="time_start" value="'+start+'" disabled>')
+            $('#time_end').remove();
+            $('#place_time_end').append('<input type="text" id="time_end" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="time_end" value="'+end+'" disabled>')
+            $('.timepicker').timepicker({
+                autoclose: true,
+                minuteStep: 5,
+                showSeconds: false,
+            });
+        })
     
         $(document).ready(function() {
             $('[data-switch=true]').bootstrapSwitch();
@@ -259,7 +274,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Select Date Time Off <span class="required" aria-required="true">*</span>
+                        <label for="example-search-input" class="control-label col-md-4">Select Date Overtime <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih tanggal hair stylist akan izin" data-container="body"></i></label>
                         <div class="col-md-3">
                             <select class="form-control select2" name="date" required id="list_date" @if(isset($result['approve_by'])) disabled @endif>
@@ -268,6 +283,20 @@
                                     <option value="{{$date['date']}}" data-id="{{ $date['id_hairstylist_schedule_date'] }}" data-timestart="{{ $date['time_start'] }}" data-timeend="{{ $date['time_end'] }}"  @if(isset($result['date'])) @if($result['date'] == $date['date']) selected @endif @endif> {{$date['date_format']}}</option>
                                 @endforeach
                             </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="example-search-input" class="control-label col-md-4">Start Overtime<span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu mulai izin untuk hair style" data-container="body"></i></label>
+                        <div class="col-md-3" id="place_time_start">
+                            <input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="time_start" value="{{ $result['time_start'] }}" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="example-search-input" class="control-label col-md-4">End Overtime<span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu selesai izin untuk hair style" data-container="body"></i></label>
+                        <div class="col-md-3" id="place_time_end">
+                            <input type="text" id="time_end" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="time_end" value="{{ $result['time_end'] }}" disabled>
                         </div>
                     </div>
                     <div class="form-group">
