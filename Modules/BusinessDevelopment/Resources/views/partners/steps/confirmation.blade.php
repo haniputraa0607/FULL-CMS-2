@@ -94,7 +94,7 @@
                                     <label for="example-search-input" class="control-label col-md-4">Outlet Address <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Alamat lengkap dari lokasi outlet yang diajukan" data-container="body"></i></label>
                                     <div class="col-md-5">
-                                        <textarea style="height: 80px" class="form-control" placeholder="- " readonly >@if(isset($confirmation['location'][0]['lokasi'])) {{ $confirmation['location'][0]['address'] }} @endif</textarea>
+                                        <textarea style="height: 80px" class="form-control" placeholder="- " readonly >@if(isset($confirmation['location'][0]['address'])) {{ $confirmation['location'][0]['address'] }} @endif</textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
