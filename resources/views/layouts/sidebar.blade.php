@@ -1574,6 +1574,26 @@
 						<span class="title">[Response] Update Request Product</span>
 					</a>
 				</li>
+                <li class="nav-item {{($submenu_active == 'request-product-autoresponse-product-request-approved-by-admin') ? 'active open' : ''}}">
+					<a href="{{url('user/autoresponse/product-request-approved-by-admin')}}" class="nav-link ">
+						<span class="title">[Response] Product Request Approved By Admin</span>
+					</a>
+				</li>
+                <li class="nav-item {{($submenu_active == 'request-product-autoresponse-product-request-rejected-by-admin') ? 'active open' : ''}}">
+					<a href="{{url('user/autoresponse/product-request-rejected-by-admin')}}" class="nav-link ">
+						<span class="title">[Response] Product Request Rejected By Admin</span>
+					</a>
+				</li>
+                <li class="nav-item {{($submenu_active == 'request-product-autoresponse-product-request-approved-by-finance') ? 'active open' : ''}}">
+					<a href="{{url('user/autoresponse/product-request-approved-by-finance')}}" class="nav-link ">
+						<span class="title">[Response] Product Request Approved By Finance</span>
+					</a>
+				</li>
+                <li class="nav-item {{($submenu_active == 'request-product-autoresponse-product-request-rejected-by-finance') ? 'active open' : ''}}">
+					<a href="{{url('user/autoresponse/product-request-rejected-by-finance')}}" class="nav-link ">
+						<span class="title">[Response] Product Request Rejected By Finance</span>
+					</a>
+				</li>
 				@endif
             </ul>
         </li>

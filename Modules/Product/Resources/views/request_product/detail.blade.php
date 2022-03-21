@@ -732,6 +732,7 @@
                                             @endif
                                         </div>
                                         @endif
+                                        <input class="form-control" type="hidden" name="product_icount[0][status]" value="Pending"/>
                                         <div class="col-md-1" style="padding: 1px">
                                             <a class="btn btn-danger btn" onclick="deleteProductServiceUse(0)">&nbsp;<i class="fa fa-trash"></i></a>
                                         </div>
@@ -757,7 +758,7 @@
                             <a id="confirm" class="btn green save-draft">Save As Draft</a>
                             @endif
                             @if($result['status'] == 'Draft' || $result['status'] == 'Pending')
-                            <button type="submit" class="btn blue">Update</button>
+                            <button type="submit" class="btn blue">Submit</button>
                             @endif
                         </div>
                     </div>

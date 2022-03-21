@@ -255,7 +255,8 @@
             digits: 0, 
             rightAlign: false,
             min: 1,
-            max: 999999999
+            max: 999999999,
+            prefix: ""
         });
 
         $(document).ready(function() {
