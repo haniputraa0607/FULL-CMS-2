@@ -126,7 +126,6 @@
 	        	$('#edit-img').attr('src', photo);
 	        	$('#update [name="photo"]').attr("src",photo);
 	        	$('#update [name="product_group_description"]').val(desc);
-	        	console.log(id, code, name, photo, desc);
 	        })
 
         	$('select[name=id_transaction_product_service]').on('change', function() {
@@ -138,6 +137,48 @@
 	        })
         });
 
+    	function availableHS() {
+			let serviceObj = $('select[name=id_transaction_product_service] option:selected');
+			let service = serviceObj.val();
+
+			if (service != '') {
+				var date = $('#schedule_date').val();
+				var time = $('#schedule_time').val();
+				var id_product = serviceObj.data('id_product') ?? null;
+				var hs = serviceObj.data('hs') ?? null;
+
+				if(date !== "" && time !== ""){
+					let token  = "{{ csrf_token() }}";
+
+					$.ajax({
+						type : "POST",
+						url : "{{ url('transaction/outlet-service/manage/available-hs') }}",
+						data : {
+							"_token" : token,
+							"id_outlet": "{{$data['outlet']['id_outlet']??null}}",
+							"id_product" : id_product,
+							"booking_date": date,
+							"booking_time" : time
+						},
+						success : function(result) {
+							$('#id_user_hair_stylist').empty();
+							var html = "";
+							if(result.status == 'success' && result.result.length > 0){
+								var res = result.result;
+								for(var i = 0;i<res.length;i++){
+									if(hs == res[i].id_user_hair_stylist){
+										html += '<option value="'+res[i].id_user_hair_stylist+'" selected>'+res[i].nickname+' - '+res[i].name+'</option>';
+									}else{
+										html += '<option value="'+res[i].id_user_hair_stylist+'">'+res[i].nickname+' - '+res[i].name+'</option>';
+									}
+								}
+								$("#id_user_hair_stylist").append(html);
+							}
+						}
+					});
+				}
+			}
+		}
     </script>
 @endsection
 
@@ -372,6 +413,7 @@
 		                                                	data-time="{{ $s['schedule_time'] }}"
 		                                                	data-hs="{{ $s['detail']['transaction_product_service']['id_user_hair_stylist'] }}"
 		                                                	data-id_trx_product="{{ $s['detail']['id_transaction_product'] }}"
+															data-id_product="{{ $s['detail']['id_product'] }}"
 		                                                	{{ $disabled }}
 		                                                >{{ $s['product_name'] . ' (' . $s['order_id'] . ')' . $status }}</option>
 		                                            @endforeach
@@ -384,7 +426,7 @@
 				                                	<i class="fa fa-question-circle tooltips" data-original-title="Tanggal layanan dapat dimulai" data-container="body"></i></label>
 				                                <div class="col-md-5">
 				                                    <div class="input-group">
-				                                        <input type="text" class="datepicker form-control update-service-input" name="schedule_date" value="" autocomplete="off">
+				                                        <input type="text" onchange="availableHS()" class="datepicker form-control update-service-input" id="schedule_date" name="schedule_date" value="" autocomplete="off">
 				                                        <span class="input-group-btn">
 				                                            <button class="btn default" type="button">
 				                                                <i class="fa fa-calendar"></i>
@@ -397,7 +439,7 @@
 				                                <label for="example-search-input" class="control-label col-md-4">Schedule Time <span class="required" aria-required="true">*</span>
 				                                	<i class="fa fa-question-circle tooltips" data-original-title="Waktu layanan dapat dimulai" data-container="body"></i></label>
 				                                <div class="col-md-2">
-							                    	<input type="text" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-close timepicker timepicker-no-seconds update-service-input" name="schedule_time" data-show-meridian="false" readonly>
+							                    	<input type="text" data-placeholder="select time end" onchange="availableHS()" id="schedule_time" class="form-control mt-repeater-input-inline kelas-close timepicker timepicker-no-seconds update-service-input" name="schedule_time" data-show-meridian="false" readonly>
 				                                </div>
 				                            </div>
 				                            <div class="form-group">
