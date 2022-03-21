@@ -271,4 +271,10 @@ class TransactionOutletServiceController extends Controller
             return redirect()->back()->withInput()->withErrors($update['messages'] ?? ['Failed reject outlet service']);
         }
     }
+
+    public function availableHS(Request $request){
+        $post = $request->except('_token');
+        $res = MyHelper::post('product/be/available-hs', $post);
+        return $res;
+    }
 }
