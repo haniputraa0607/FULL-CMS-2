@@ -27,8 +27,8 @@
                     Company Type
                 </label>
             </div>
-            <div class="col-md-9">
-                <p style="margin-top: 1.5%"><b>{{(empty($val['location_outlet']['company_type']) ? '-':$val['location_outlet']['company_type'])}}</b></p>
+            <div class="col-md-9" style="margin-top: 1%">
+                <b>{{(empty($val['location_outlet']['company_type']) ? '-':$val['location_outlet']['company_type'])}}</b>
             </div>
         </div>
 
@@ -38,8 +38,8 @@
                     Partner Name
                 </label>
             </div>
-            <div class="col-md-9">
-                <p style="margin-top: 1.5%"><a href="{{url('businessdev/partners/detail', $val['location_outlet']['location_partner']['id_partner'])}}" target="_blank">{{(empty($val['location_outlet']['location_partner']['name']) ? '-':$val['location_outlet']['location_partner']['name'])}}</a></p>
+            <div class="col-md-9" style="margin-top: 1%">
+                <a href="{{url('businessdev/partners/detail', $val['location_outlet']['location_partner']['id_partner'])}}" target="_blank">{{(empty($val['location_outlet']['location_partner']['name']) ? '-':$val['location_outlet']['location_partner']['name'])}}</a>
             </div>
         </div>
 
@@ -49,8 +49,8 @@
                     Location Name
                 </label>
             </div>
-            <div class="col-md-9">
-                <p style="margin-top: 1.5%"><a href="{{url('businessdev/locations/detail', $val['location_outlet']['id_location'])}}" target="_blank">{{(empty($val['location_outlet']['name']) ? '-':$val['location_outlet']['name'])}}</a></p>
+            <div class="col-md-9" style="margin-top: 1%">
+                <a href="{{url('businessdev/locations/detail', $val['location_outlet']['id_location'])}}" target="_blank">{{(empty($val['location_outlet']['name']) ? '-':$val['location_outlet']['name'])}}</a>
             </div>
         </div>
 
