@@ -62,57 +62,38 @@
 
 	        $('.select2').select2();
 
-	        $("#select-hs").select2({
-			    minimumInputLength: 1,
-			    tags: [],
-			    templateResult: function(data) {
-			    	if (!data.id) {
-		               return data.text; // no result
-		            }
 
-			    	if (!data.dataItem) {
-		               return; // remove keyword from list
-		            }
-			    	return data.text;
-			    },
-			    ajax: {
-			        url: "{{ url('transaction/home-service/manage/find-hs') }}",
-			        dataType: 'json',
-			        type: "GET",
-			        quietMillis: 1500,
-			        data: function (params) {
-
-			        	let queryParameters = {
-			        		keyword: params.term,
-			        		id_trx: {{ $data['id_transaction'] }}
-			        	}
-			        	return queryParameters;
-			        },
-			        processResults: function (data) {
-			        	if (data.length > 0) {
-				            return {
-				                results: $.map(data, function (item) {
-				                    return {
-			        					text: item.nickname + ' - ' + item.fullname,
-			        					id: item.id_user_hair_stylist,
-			        					dataItem: item
-				                    }
-				                })
-				            };
-			            } else {
-			            	return {
-			            		results: [{ 
-		            				'loading' : false, 
-		            				'description' : 'No result', 
-		            				'name' : 'no_result', 
-		            				'text' : 'No result'
-			            		}]
-			            	} 
-			            }
-			        }
-			    }
-			});
         });
+		
+		function availableHS() {
+			let token  = "{{ csrf_token() }}";
+			var id_user_hair_stylist = "{{ $data['id_user_hair_stylist'] }}";
+			$.ajax({
+				type : "POST",
+				url : "{{ url('transaction/home-service/manage/find-hs') }}",
+				data : {
+					"_token" : token,
+					"id_trx": "{{ $data['id_transaction'] }}",
+					"schedule_date" : $('#schedule_date').val(),
+					"schedule_time" : $('#schedule_time').val()
+				},
+				success : function(result) {
+					$('#select-hs').empty();
+					var html = '<option value="" selected="selected" disabled>Select Hair Stylist</option>';
+					if(result.length > 0){
+						var res = result;
+						for(var i = 0;i<res.length;i++){
+							if(id_user_hair_stylist == res[i].id_user_hair_stylist){
+								html += '<option value="'+res[i].id_user_hair_stylist+'" selected>'+res[i].nickname+' - '+res[i].fullname+'</option>';
+							}else{
+								html += '<option value="'+res[i].id_user_hair_stylist+'">'+res[i].nickname+' - '+res[i].fullname+'</option>';
+							}
+						}
+						$("#select-hs").append(html);
+					}
+				}
+			});
+		}
 	</script>
 @endsection
 
@@ -189,7 +170,7 @@
 			                                    	@php
 			                                    		$bookDate = $data['booking_date'] ? date('d F Y', strtotime($data['booking_date'])) : null;
 			                                    	@endphp
-			                                        <input type="text" class="datepicker form-control update-service-input" name="schedule_date" value="{{ $bookDate }}" autocomplete="off">
+			                                        <input type="text" class="datepicker form-control update-service-input" name="schedule_date" value="{{ $bookDate }}" onchange="availableHS()" autocomplete="off" id="schedule_date">
 			                                        <span class="input-group-btn">
 			                                            <button class="btn default" type="button">
 			                                                <i class="fa fa-calendar"></i>
@@ -202,7 +183,7 @@
 			                                <label for="example-search-input" class="control-label col-md-4">Schedule Time <span class="required" aria-required="true">*</span>
 			                                	<i class="fa fa-question-circle tooltips" data-original-title="Waktu layanan dapat dimulai" data-container="body"></i></label>
 			                                <div class="col-md-2">
-						                    	<input type="text" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-close timepicker timepicker-no-seconds update-service-input" name="schedule_time" data-show-meridian="false" readonly value="{{ $data['booking_time'] ?? null }}">
+						                    	<input type="text" data-placeholder="select time end" onchange="availableHS()" class="form-control mt-repeater-input-inline kelas-close timepicker timepicker-no-seconds update-service-input" name="schedule_time" id="schedule_time" data-show-meridian="false" readonly value="{{ $data['booking_time'] ?? null }}">
 			                                </div>
 			                            </div>
 			                            <div class="form-group">
@@ -210,11 +191,6 @@
 		                                    	<i class="fa fa-question-circle tooltips" data-original-title="Pilih Hair Stylist yang akan melakukan layanan" data-container="body"></i></label>
 		                                    <div class="col-md-5">
 		                                        <select class="form-control select2 update-service-input" name="id_user_hair_stylist" id="select-hs" style="width: 100%">
-		                                        	@if (isset($data['hair_stylist_name']))
-		                                                <option value="{{ $data['id_user_hair_stylist'] }}" selected="selected">{{ $data['hair_stylist_name'] }}</option>
-	                                                @else
-		                                            	<option value="" selected="selected" disabled>Select Hair Stylist</option>
-		                                        	@endif
 		                                        </select>
 		                                    </div>
 		                                </div>

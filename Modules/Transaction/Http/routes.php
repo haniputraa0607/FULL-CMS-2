@@ -133,7 +133,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'transact
     	Route::group(['prefix' => 'manage'], function(){
     		Route::get('/', ['middleware' => 'feature_control:407', 'uses' => 'TransactionHomeServiceController@manageList']);
 	    	Route::post('/', ['middleware' => 'feature_control:407', 'uses' => 'TransactionHomeServiceController@manageFilter']);
-	    	Route::get('find-hs', ['uses' => 'TransactionHomeServiceController@findHairstylist']);
+	    	Route::any('find-hs', ['uses' => 'TransactionHomeServiceController@findHairstylist']);
 	    	Route::get('detail/{id_transaction}', ['middleware' => 'feature_control:408', 'uses' => 'TransactionHomeServiceController@manageDetail']);
 	    	Route::post('detail/{id_transaction}', ['middleware' => 'feature_control:409', 'uses' => 'TransactionHomeServiceController@manageDetailUpdate']);
     	});
