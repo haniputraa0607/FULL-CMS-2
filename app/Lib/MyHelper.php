@@ -12,6 +12,7 @@ use Guzzle\Http\Message\Response;
 use Guzzle\Http\Exception\ServerErrorResponseException;
 
 use Illuminate\Support\Facades\URL;
+use Session;
 
 class MyHelper
 {
@@ -223,15 +224,18 @@ class MyHelper
       try{
         
         if($e->getResponse()){
-          $response = $e->getResponse()->getBody()->getContents();
-          $error = json_decode($response, true);
+            $response = $e->getResponse()->getBody()->getContents();
+            $error = json_decode($response, true);
 
-          if(!$error) {
-            return $e->getResponse()->getBody();
-          }
-          else {
-           return $error;
-          }
+            if(!$error) {
+              return $e->getResponse()->getBody();
+            }else {
+              if(isset($error['error']) && $error['error'] == 'Unauthenticated.') {
+                Session::forget('phone');
+                Session::forget('username');
+              }
+              return $error;
+            }
         }
         else return ['status' => 'fail', 'messages' => [0 => 'Check your internet connection.']];
 
@@ -267,9 +271,18 @@ class MyHelper
     }catch (\GuzzleHttp\Exception\RequestException $e) {
         try{
           if($e->getResponse()){
-            $response = $e->getResponse()->getBody()->getContents();
-            if(!is_array($response));
-				return json_decode($response, true);
+              $response = $e->getResponse()->getBody()->getContents();
+              $error = json_decode($response, true);
+
+              if(!$error) {
+                  return $e->getResponse()->getBody();
+              }else {
+                  if(isset($error['error']) && $error['error'] == 'Unauthenticated.') {
+                    Session::forget('phone');
+                    Session::forget('username');
+                  }
+                  return $error;
+              }
           }
           else  return ['status' => 'fail', 'messages' => [0 => 'Check your internet connection.']];
 
