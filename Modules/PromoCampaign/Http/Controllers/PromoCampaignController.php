@@ -85,11 +85,11 @@ class PromoCampaignController extends Controller
             $data['total']          = 0;
         }
 
-        $getOutlet = MyHelper::get('outlet/list?log_save=0');
+        $getOutlet = MyHelper::get('outlet/be/list?log_save=0');
         if (isset($getOutlet['status']) && $getOutlet['status'] == 'success') $data['outlets'] = $getOutlet['result'];
         else $data['outlets'] = [];
 
-        $getProduct = MyHelper::get('product/list?log_save=0');
+        $getProduct = MyHelper::get('product/be/list?log_save=0');
         if (isset($getProduct['status']) && $getProduct['status'] == 'success') $data['products'] = $getProduct['result'];
         else $data['products'] = [];
 
@@ -180,7 +180,7 @@ class PromoCampaignController extends Controller
                 $data['rule2'] = $filter;
             }
 
-            $outlets = MyHelper::post('outlet/list', $post);
+            $outlets = MyHelper::post('outlet/be/list', $post);
             $data['payment_list'] = MyHelper::post('transaction/available-payment',['show_all' => 0])['result'] ?? [];
             $data['delivery_list'] = MyHelper::get('transaction/be/available-delivery')['result']['delivery'] ?? [];
 
