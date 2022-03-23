@@ -230,10 +230,6 @@ class MyHelper
             if(!$error) {
               return $e->getResponse()->getBody();
             }else {
-              if(isset($error['error']) && $error['error'] == 'Unauthenticated.') {
-                Session::forget('phone');
-                Session::forget('username');
-              }
               return $error;
             }
         }
@@ -277,10 +273,6 @@ class MyHelper
               if(!$error) {
                   return $e->getResponse()->getBody();
               }else {
-                  if(isset($error['error']) && $error['error'] == 'Unauthenticated.') {
-                    Session::forget('phone');
-                    Session::forget('username');
-                  }
                   return $error;
               }
           }

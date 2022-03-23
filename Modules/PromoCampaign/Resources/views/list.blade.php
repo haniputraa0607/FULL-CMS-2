@@ -9,7 +9,8 @@
     <link href="{{ env('STORAGE_URL_VIEW') }}{{ ('assets/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{ ('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{ ('assets/global/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" /> 
-    <link href="{{ env('STORAGE_URL_VIEW') }}{{ ('assets/global/plugins/select2/css/select2-bootstrap.min.css') }}" rel="stylesheet" type="text/css" /> 
+    <link href="{{ env('STORAGE_URL_VIEW') }}{{ ('assets/global/plugins/select2/css/select2-bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
     <style type="text/css">
         .w-100 {
             width: 100%;
@@ -65,6 +66,7 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{ ('assets/global/scripts/datatable.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{ ('assets/global/plugins/datatables/datatables.min.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{ ('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-toastr/toastr.min.js') }}" type="text/javascript"></script>
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
@@ -148,6 +150,30 @@
                 ],
                 pageLength: 10,
                 dom: "<'row' <'col-md-12'>><'row'<'col-md-6 col-sm-12'><'col-md-6 col-sm-12'>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>"
+        });
+
+        $('#sample_1').on('switchChange.bootstrapSwitch', 'input[name="promo_campaign_visibility"]', function(event, state) {
+            var id     = $(this).data('id');
+            var token  = "{{ csrf_token() }}";
+            if(state == true){
+                state = 'Visible'
+            }
+            else if(state == false){
+                state = 'Hidden'
+            }
+            $.ajax({
+                type : "POST",
+                url : "{{ url('promo-campaign/update-visibility') }}",
+                data : "_token="+token+"&id_promo_campaign="+id+"&promo_campaign_visibility="+state,
+                success : function(result) {
+                    if (result.status == "success") {
+                        toastr.info("Promo has been updated.");
+                    }
+                    else {
+                        toastr.warning("Something went wrong. Failed to update data promo.");
+                    }
+                }
+            });
         });
     </script>
 @yield('child-script')
@@ -233,6 +259,7 @@
               <tr class="header-table">
                   <th>No</th>
                   <th>Name</th>
+                  <th> Visibility </th>
                   <th>Creator</th>
                   <th>Periode</th>
                   <th>Code Type</th>
@@ -258,6 +285,14 @@
                         <tr class="content-middle-center">
                         	<td>{{ $i++ }}</td>
                             <td>{{ $res['campaign_name'] }}</td>
+                            <td>
+                                <div class="bootstrap-switch-container">
+                                    <span class="bootstrap-switch-handle-on bootstrap-switch-primary" style="width: 35px;"></span>
+                                    <span class="bootstrap-switch-label" style="width: 35px;">&nbsp;</span>
+                                    <span class="bootstrap-switch-handle-off bootstrap-switch-default" style="width: 35px;"></span>
+                                    <input type="checkbox" name="promo_campaign_visibility" data-name="{{ $res['campaign_name'] }}" @if($res['promo_campaign_visibility'] == 'Visible') checked @endif data-id="{{ $res['id_promo_campaign'] }}" class="make-switch switch-large switch-change" data-on-text="Visible" data-off-text="Hidden">
+                                </div>
+                            </td>
                             <td>{{ $res['user']['name'] }}</td>
                             <td>
                                 Start&nbsp;: {{ date("d F Y", strtotime($date_start)) }}&nbsp;{{ date("H:i", strtotime($date_start)) }}<br>

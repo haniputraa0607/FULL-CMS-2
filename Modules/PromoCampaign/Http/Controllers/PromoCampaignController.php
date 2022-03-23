@@ -563,4 +563,11 @@ class PromoCampaignController extends Controller
             return view('promocampaign::share_promo_code',$data);
         }
     }
+
+    public function updateVisibility(Request $request){
+        $post = $request->except('_token');
+        $post['id_promo_campaign'] = MyHelper::explodeSlug($post['id_promo_campaign'])[0] ?? null;
+        $update = MyHelper::post('promo-campaign/update-visibility', $post);
+        return $update;
+    }
 }
