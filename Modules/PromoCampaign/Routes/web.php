@@ -35,6 +35,7 @@ Route::group(['middleware' => ['web', 'validate_session', 'config_control:93'], 
     Route::any('step2/{slug}', 'PromoCampaignController@step2');
 
     Route::any('share-promo', 'PromoCampaignController@sharePromo');
+    Route::post('update-visibility', 'PromoCampaignController@updateVisibility');
 
 });
 
