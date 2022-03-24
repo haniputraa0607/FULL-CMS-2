@@ -261,6 +261,7 @@
                 prefix : "",
             });
             $('#back-follow-up').hide();
+            $('#back-follow-up-reject').hide();
             $('#input-follow-up').click(function(){
                 $('#back-follow-up').show();
                 $('#input-follow-up').hide();
@@ -269,8 +270,27 @@
                 $('#input-follow-up').show();
                 $('#back-follow-up').hide();
             });
+            $('#input-follow-up-reject').click(function(){
+                $('#input-follow-up-reject').hide();
+                $('#back-follow-up-reject').show();
+            });
+            $('#back-follow-up-reject').click(function(){
+                $('#input-follow-up-reject').show();
+                $('#back-follow-up-reject').hide();
+            });
+
+            $('#data-reject').hide();
+            $('#input-data').click(function(){
+                $('#data-reject').show();
+                $('#input-data').hide();
+            });
+            $('#data-reject').click(function(){
+                $('#input-data').show();
+                $('#data-reject').hide();
+            });
 
             $('#back-survey-loc').hide();
+            $('#back-survey-loc-reject').hide();
             $('#input-survey-loc').click(function(){
                 $('#back-survey-loc').show();
                 $('#input-survey-loc').hide();
@@ -279,6 +299,25 @@
                 $('#input-survey-loc').show();
                 $('#back-survey-loc').hide();
             });
+            $('#input-survey-loc-reject').click(function(){
+                $('#input-survey-loc-reject').hide();
+                $('#back-survey-loc-reject').show();
+            });
+            $('#back-survey-loc-reject').click(function(){
+                $('#input-survey-loc-reject').show();
+                $('#back-survey-loc-reject').hide();
+            });
+
+            $('#select-reject').hide();
+            $('#input-select').click(function(){
+                $('#select-reject').show();
+                $('#input-select').hide();
+            });
+            $('#select-reject').click(function(){
+                $('#input-select').show();
+                $('#select-reject').hide();
+            });
+
             SweetAlert.init();
             SweetAlertReject.init();
             $('[data-switch=true]').bootstrapSwitch();

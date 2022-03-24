@@ -78,6 +78,11 @@
                 <div class="caption">
                     <span class="caption-subject font-dark sbold uppercase font-yellow">Survey Location</span>
                 </div>
+                @if($result['status']=='Rejected')
+                <a href="#table_survey" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="back-survey-loc-reject">
+                    Back
+                </a>
+                @else
                 @if( $result['status']=='Candidate'&& $result['status_steps']=='Survey Location' || $result['status_steps']=='Input Data Partner')
                     <a href="#form_survey" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="input-survey-loc">
                         Survey Location
@@ -91,10 +96,12 @@
                     </a>
                     @endif
                 @endif
+                @endif
             </div>
             <div class="portlet-body form">
                 <div class="tab-content">
-                    <div class="tab-pane @if($result['status']=='Rejected') active @endif">
+                    <div class="tab-pane active" id="table_survey">
+                        @if($result['status']=='Rejected')
                         <div class="portlet box red">
                             <div class="portlet-title">
                                 <div class="caption">
@@ -105,16 +112,14 @@
                             </div>
                             <div class="portlet-body">
                                 <p>Candidate Partner Rejected </p>
-                                <a href="#form" class="btn btn-sm yellow" type="button" style="float:center" data-toggle="tab" id="input-follow-up">
+                                @if($result['status_steps']=='Input Data Partner' || $result['status_steps']=='Survey Location' )
+                                <a href="#form_survey" class="btn btn-sm yellow" type="button" style="float:center" data-toggle="tab" id="input-survey-loc-reject">
                                     Survey Location
                                 </a>
-                                <a href="#table" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="back-follow-up">
-                                    Back
-                                </a>
+                                @endif
                             </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane active" id="table_survey">
+                        </div> 
+                        @endif
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover" id="kt_datatable">
                                 <thead>

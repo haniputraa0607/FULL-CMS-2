@@ -68,6 +68,11 @@
                 <div class="caption">
                     <span class="caption-subject font-dark sbold uppercase font-yellow">Follow Up Data</span>
                 </div>
+                @if($result['status']=='Rejected')
+                <a href="#table" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="back-follow-up-reject">
+                    Back
+                </a>
+                @else
                 @if($result['status']=='Candidate'&&$result['status_steps']=='On Follow Up' || empty($result['status_steps']))
                     <a href="#form" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="input-follow-up">
                         Follow Up
@@ -81,10 +86,13 @@
                     </a>
                     @endif
                 @endif
+                @endif
+
             </div>
             <div class="portlet-body form">
                 <div class="tab-content">
-                    <div class="tab-pane @if($result['status']=='Rejected') active @endif">
+                    <div class="tab-pane active" id="table">
+                        @if($result['status']=='Rejected')
                         <div class="portlet box red">
                             <div class="portlet-title">
                                 <div class="caption">
@@ -95,16 +103,14 @@
                             </div>
                             <div class="portlet-body">
                                 <p>Candidate Partner Rejected </p>
-                                <a href="#form" class="btn btn-sm yellow" type="button" style="float:center" data-toggle="tab" id="input-follow-up">
+                                @if(empty($result['status_steps']) || $result['status_steps']=='On Follow Up')
+                                <a href="#form" class="btn btn-sm yellow" type="button" style="float:center" data-toggle="tab" id="input-follow-up-reject">
                                     Follow Up
                                 </a>
-                                <a href="#table" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="back-follow-up">
-                                    Back
-                                </a>
+                                @endif
                             </div>
                         </div>
-                    </div>
-                    <div class="tab-pane active" id="table">
+                        @endif
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover" id="kt_datatable">
                                 <thead>
