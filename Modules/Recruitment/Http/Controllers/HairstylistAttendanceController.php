@@ -556,4 +556,29 @@ class HairstylistAttendanceController extends Controller
         }
         return back()->withErrors($update['messages'] ?? ['Something went wrong']);
     }
+
+    public function setting(Request $request){
+        if (empty($request->all())) {
+            $data = [
+                'title'          => 'Hairstylist Schedule',
+                'sub_title'      => 'Attendance Setting',
+                'menu_active'    => 'hairstylist',
+                'submenu_active' => 'hairstylist-schedule',
+                'child_active'   => 'hairstylist-attendance-setting',
+            ];
+
+            $data['result'] = MyHelper::get('recruitment/hairstylist/be/attendance-setting')['result']??[];
+            return view('recruitment::attendance.setting', $data);
+
+        } else {
+
+            $update = MyHelper::post('recruitment/hairstylist/be/attendance-setting', $request->all());
+
+            if (($update['status'] ?? false) == 'success'){
+                return back()->with('success', ['Anttendance setting has been updated']);
+            }else{
+                return back()->withErrors($update['messages'] ?? ['Update failed']);
+            }
+        }
+    }
 }

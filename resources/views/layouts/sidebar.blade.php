@@ -1417,6 +1417,11 @@
                         <span class="title">Schedule List</span>
                     </a>
                 </li>
+				<li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-attendance-setting') ? 'active open' : '' }}">
+					<a href="{{ url('recruitment/hair-stylist/attendance-setting') }}" class="nav-link ">
+						<span class="title">Attendance Setting</span>
+					</a>
+				</li>
                 <li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-attendance-list') ? 'active open' : '' }}">
                     <a href="{{ url('recruitment/hair-stylist/attendance') }}" class="nav-link ">
                         <span class="title">Attendance</span>
