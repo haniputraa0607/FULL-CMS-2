@@ -187,10 +187,15 @@
                 <div class="caption">
                     <span class="caption-subject font-dark sbold uppercase font-yellow">Select Location</span>
                 </div>
+                @if($result['status']=='Rejected')
+                <a href="#reject_select" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="select-reject">
+                    Back
+                </a>
+                @endif
             </div>
             <div class="portlet-body form">
                 <div class="tab-content">
-                    <div class="tab-pane @if($result['status']=='Rejected') active @endif">
+                    <div class="tab-pane @if($result['status']=='Rejected') active @endif" id="reject_select">
                         <div class="portlet box red">
                             <div class="portlet-title">
                                 <div class="caption">
@@ -201,15 +206,15 @@
                             </div>
                             <div class="portlet-body">
                                 <p>Candidate Partner Rejected </p>
-                                @if ($select==false)
-                                <a href="#form_calcu" class="btn btn-sm yellow" type="button" style="float:center" data-toggle="tab" id="input-calcu">
+                                @if($result['status_steps']=='Finished Survey Location')
+                                <a href="#form_select" class="btn btn-sm yellow" type="button" style="float:center" data-toggle="tab" id="input-select">
                                     Select Location
                                 </a>
                                 @endif
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane @if($result['status']=='Candidate' || $select == true) active @endif" id="form_calcu">
+                    <div class="tab-pane @if($result['status']=='Candidate' || $select == true) active @endif" id="form_select">
                             <form class="form-horizontal" role="form" action="javascript:formSelectLocation()" method="post" enctype="multipart/form-data" id="form_select" >
                             {{--  <form class="form-horizontal" role="form" action="{{url('businessdev/partners/create-follow-up')}}" method="post" enctype="multipart/form-data" id="form_select">  --}}
                             <div class="form-body">
@@ -451,7 +456,7 @@
                                         <div class="col-md-offset-4 col-md-8">
                                             <button type="submit" class="btn blue">Submit</button>
                                             {{--  <a class="btn blue" onclick="formSelectLocation()">Submit</a>  --}}
-                                            <a class="btn red sweetalert-reject" data-id="{{ $result['id_partner'] }}" data-name="{{ $result['name'] }}">Reject</a>
+                                            @if($result['status']=='Candidate')<a class="btn red sweetalert-reject" data-id="{{ $result['id_partner'] }}" data-name="{{ $result['name'] }}">Reject</a>@endif
                                         </div>
                                     </div>
                                 </div>
