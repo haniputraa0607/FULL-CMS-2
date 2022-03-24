@@ -1634,11 +1634,11 @@
 							<span class="title">Transaction Academy</span>
 						</a>
 					</li>
-					<li class="nav-item {{($submenu_active == 'transaction-all') ? 'active open' : ''}}">
+{{-- 					<li class="nav-item {{($submenu_active == 'transaction-all') ? 'active open' : ''}}">
 						<a href="{{url('transaction/all/'.date('YmdHis'))}}" class="nav-link ">
 							<span class="title">All Transaction</span>
 						</a>
-					</li>
+					</li> --}}
 					@if(MyHelper::hasAccess([397,398,399], $grantedFeature))
 						<li class="nav-item {{($submenu_active == 'manage-outlet-service') ? 'active open' : ''}}">
 							<a href="{{ url('transaction/outlet-service/manage') }}" class="nav-link">
