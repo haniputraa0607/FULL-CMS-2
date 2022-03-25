@@ -168,7 +168,13 @@
                         <td>{{ $val['nickname'] }}</td>
                         <td>{{ $val['fullname'] }}</td>
                         <td class="text-center">{{ $val['phone_number'] }}</td>
-                        <td>{{ $val['outlet_code'] .' - '. $val['outlet_name'] }}</td>
+                        <td>
+                            <ul>
+                            @foreach($val['attendance_outlet'] as $dt)
+                                <li>{{ $dt['outlet_code'] .' - '. $dt['outlet_name'] }}</li>
+                            @endforeach
+                            </ul>
+                        </td>
                         <td class="text-center">
                             <span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: {{ $color }};padding: 5px 12px;color: {{ $textColor }};">{{ $status }}</span>
                         </td>
