@@ -451,6 +451,23 @@
 							<textarea required type="text" class="form-control" name="promo_description" placeholder="Promo Description">{{$result['promo_description']??old('promo_description')}}</textarea>
 						</div>
 					</div>
+
+					<div class="form-group">
+						<label class="control-label">Visibility</label>
+						<span class="required" aria-required="true"> * </span>
+						<i class="fa fa-question-circle tooltips" data-original-title="Visibility promo" data-container="body"></i>
+						<div class="mt-radio-list">
+							<label class="mt-radio mt-radio-outline"> Visible
+								<input type="radio" value="Visible" name="promo_campaign_visibility" @if(isset($result['promo_campaign_visibility']) && $result['promo_campaign_visibility'] == "Visible") checked @elseif(old('promo_campaign_visibility') == "Visible") checked @endif required/>
+								<span></span>
+							</label>
+							<label class="mt-radio mt-radio-outline"> Hidden
+								<input type="radio" value="Hidden" name="promo_campaign_visibility" @if(isset($result['promo_campaign_visibility']) && $result['promo_campaign_visibility'] == "Hidden") checked  @elseif(old('promo_campaign_visibility') == "Hidden") checked @endif required/>
+								<span></span>
+							</label>
+						</div>
+					</div>
+
 					<div class="form-group">
 						<label class="control-label">Image</label>
 						<span class="required" aria-required="true"> * </span>

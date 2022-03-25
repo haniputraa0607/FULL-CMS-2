@@ -60,11 +60,11 @@ class PointInjectionController extends Controller
 
         $data['table_title'] = "Point Injection list order by " . $data['order_field'] . ", " . $data['order_method'] . "ending (" . $data['begin'] . " to " . $data['last'] . " From " . $data['count'] . " data)";
 
-        $getOutlet = MyHelper::get('outlet/list?log_save=0');
+        $getOutlet = MyHelper::get('outlet/be/list?log_save=0');
         if (isset($getOutlet['status']) && $getOutlet['status'] == 'success') $data['outlets'] = $getOutlet['result'];
         else $data['outlets'] = [];
 
-        $getProduct = MyHelper::get('product/list?log_save=0');
+        $getProduct = MyHelper::get('product/be/list?log_save=0');
         if (isset($getProduct['status']) && $getProduct['status'] == 'success') $data['products'] = $getProduct['result'];
         else $data['products'] = [];
 
@@ -122,11 +122,11 @@ class PointInjectionController extends Controller
         if ($getCourier['status'] == 'success') $data['couriers'] = $getCourier['result'];
         else $data['couriers'] = [];
 
-        $getOutlet = MyHelper::get('outlet/list?log_save=0');
+        $getOutlet = MyHelper::get('outlet/be/list?log_save=0');
         if (isset($getOutlet['status']) && $getOutlet['status'] == 'success') $data['outlets'] = $getOutlet['result'];
         else $data['outlets'] = [];
 
-        $getProduct = MyHelper::get('product/list?log_save=0');
+        $getProduct = MyHelper::get('product/be/list?log_save=0');
         if (isset($getProduct['status']) && $getProduct['status'] == 'success') $data['products'] = $getProduct['result'];
         else $data['products'] = [];
 
@@ -309,11 +309,11 @@ class PointInjectionController extends Controller
         if ($getCourier['status'] == 'success') $data['couriers'] = $getCourier['result'];
         else $data['couriers'] = [];
 
-        $getOutlet = MyHelper::get('outlet/list?log_save=0');
+        $getOutlet = MyHelper::get('outlet/be/list?log_save=0');
         if (isset($getOutlet['status']) && $getOutlet['status'] == 'success') $data['outlets'] = $getOutlet['result'];
         else $data['outlets'] = [];
 
-        $getProduct = MyHelper::get('product/list?log_save=0');
+        $getProduct = MyHelper::get('product/be/list?log_save=0');
         if (isset($getProduct['status']) && $getProduct['status'] == 'success') $data['products'] = $getProduct['result'];
         else $data['products'] = [];
 

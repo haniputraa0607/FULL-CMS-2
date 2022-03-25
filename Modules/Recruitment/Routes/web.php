@@ -85,6 +85,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
 	    Route::post('update/{id}', ['middleware' => 'feature_control:355', 'uses' => 'HairStylistTimeOffOvertimeController@updateOvertime']);
 	});
 
+    Route::any('attendance-setting', ['uses' => 'HairstylistAttendanceController@setting']);
 	Route::group(['prefix' => 'attendance'], function()
 	{
 	    Route::get('/', ['middleware' => 'feature_control:353,354,355', 'uses' => 'HairstylistAttendanceController@index']);

@@ -661,6 +661,10 @@
 							<div class="col-md-8 value">: {{ isset($result['promo_title']) ? $result['promo_title'] : '' }}</div>
 						</div>
 						<div class="row static-info">
+							<div class="col-md-4 name">Visibility</div>
+							<div class="col-md-8 value">: {{ isset($result['promo_campaign_visibility']) ? $result['promo_campaign_visibility'] : '' }}</div>
+						</div>
+						<div class="row static-info">
 							<div class="col-md-4 name">Campaign Type</div>
 							<div class="col-md-8 value">: {{ !empty($result['vouchers']) ? 'Voucher' : 'Promo code' }}</div>
 						</div>

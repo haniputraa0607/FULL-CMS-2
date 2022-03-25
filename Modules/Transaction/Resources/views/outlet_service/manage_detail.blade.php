@@ -146,6 +146,8 @@
 				var time = $('#schedule_time').val();
 				var id_product = serviceObj.data('id_product') ?? null;
 				var hs = serviceObj.data('hs') ?? null;
+				var hs_date = serviceObj.data('datefull') ?? null;
+				var hs_time = serviceObj.data('time') ?? null;
 
 				if(date !== "" && time !== ""){
 					let token  = "{{ csrf_token() }}";
@@ -162,14 +164,14 @@
 						},
 						success : function(result) {
 							$('#id_user_hair_stylist').empty();
-							var html = "";
+							var html = '<option value="" selected="selected" disabled>Select Hair Stylist</option>';
 							if(result.status == 'success' && result.result.length > 0){
 								var res = result.result;
 								for(var i = 0;i<res.length;i++){
-									if(hs == res[i].id_user_hair_stylist){
-										html += '<option value="'+res[i].id_user_hair_stylist+'" selected>'+res[i].nickname+' - '+res[i].name+'</option>';
-									}else{
-										html += '<option value="'+res[i].id_user_hair_stylist+'">'+res[i].nickname+' - '+res[i].name+'</option>';
+									if(res[i].available_status === true) {
+										html += '<option value="' + res[i].id_user_hair_stylist + '">' + res[i].nickname + ' - ' + res[i].name + '</option>';
+									}else if(res[i].available_status === false && hs == res[i].id_user_hair_stylist && date == hs_date && time == hs_time){
+										html += '<option value="' + res[i].id_user_hair_stylist + '" selected>' + res[i].nickname + ' - ' + res[i].name + '</option>';
 									}
 								}
 								$("#id_user_hair_stylist").append(html);
@@ -408,7 +410,8 @@
 					                                			$status =  ' (Completed)';
 					                                		}
 		                                            	@endphp
-		                                                <option value="{{$s['detail']['transaction_product_service']['id_transaction_product_service']}}" 
+		                                                <option value="{{$s['detail']['transaction_product_service']['id_transaction_product_service']}}"
+															data-datefull="{{ date('d F Y', strtotime($s['detail']['transaction_product_service']['schedule_date'])) }}"
 		                                                	data-date="{{ $s['detail']['transaction_product_service']['schedule_date'] }}"
 		                                                	data-time="{{ $s['schedule_time'] }}"
 		                                                	data-hs="{{ $s['detail']['transaction_product_service']['id_user_hair_stylist'] }}"
