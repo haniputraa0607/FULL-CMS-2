@@ -52,9 +52,18 @@
 	        $('.timepicker').timepicker({
 	            autoclose: true,
 	            minuteStep: 1,
-	            showSeconds: false,
+	            showSeconds: false
+	        }).on('changeTime.timepicker', function(e) {
+				var h= e.time.hours;
 
-	        });
+				if(h < parseInt("{{date('G', strtotime($data['setting_time_start']))}}")){
+					$('.timepicker').val("{{date('G:i', strtotime($data['setting_time_start']))}}");
+				}else if(h > parseInt("{{date('G', strtotime($data['setting_time_end']))}}")){
+					$('.timepicker').val("{{date('G:i', strtotime($data['setting_time_end']))}}");
+				}else{
+					availableHS();
+				}
+			});
 
 	        $('#reject-transaction').on('shown.bs.modal', function (e) {
 	        	$('#reject-transaction').css("z-index", "10056");
@@ -62,12 +71,18 @@
 
 	        $('.select2').select2();
 
-
+			availableHS();
         });
 		
 		function availableHS() {
 			let token  = "{{ csrf_token() }}";
 			var id_user_hair_stylist = "{{ $data['id_user_hair_stylist'] }}";
+			var name = "{{ $data['hair_stylist_name'] }}";
+			var date = $('#schedule_date').val();
+			var time = $('#schedule_time').val();
+			var hs_date = "{{date('d F Y', strtotime($data['booking_date']))}}";
+			var hs_time = "{{date('H:i', strtotime($data['booking_time']))}}";
+
 			$.ajax({
 				type : "POST",
 				url : "{{ url('transaction/home-service/manage/find-hs') }}",
@@ -82,12 +97,12 @@
 					var html = '<option value="" selected="selected" disabled>Select Hair Stylist</option>';
 					if(result.length > 0){
 						var res = result;
+						if(date == hs_date && time == hs_time){
+							html += '<option value="'+id_user_hair_stylist+'" selected>'+name+'</option>';
+						}
+
 						for(var i = 0;i<res.length;i++){
-							if(id_user_hair_stylist == res[i].id_user_hair_stylist){
-								html += '<option value="'+res[i].id_user_hair_stylist+'" selected>'+res[i].nickname+' - '+res[i].fullname+'</option>';
-							}else{
-								html += '<option value="'+res[i].id_user_hair_stylist+'">'+res[i].nickname+' - '+res[i].fullname+'</option>';
-							}
+							html += '<option value="'+res[i].id_user_hair_stylist+'">'+res[i].nickname+' - '+res[i].fullname+'</option>';
 						}
 						$("#select-hs").append(html);
 					}
@@ -163,7 +178,7 @@
 	                            <div class="form-body">
 		                            <div id="update-service-section">
 											<div class="form-group">
-												<label for="example-search-input" class="control-label col-md-4">Preference Hairstylisr</label>
+												<label for="example-search-input" class="control-label col-md-4">Preference Hairstylist</label>
 												<div class="col-md-5">
 													<input name="note" class="form-control" value="{{($data['preference_hair_stylist'] == 'All' ? 'Random':$data['preference_hair_stylist'])}}" disabled>
 												</div>
@@ -187,9 +202,9 @@
 			                            </div>
 			                            <div class="form-group">
 			                                <label for="example-search-input" class="control-label col-md-4">Schedule Time <span class="required" aria-required="true">*</span>
-			                                	<i class="fa fa-question-circle tooltips" data-original-title="Waktu layanan dapat dimulai" data-container="body"></i></label>
+			                                	<i class="fa fa-question-circle tooltips" data-original-title="Waktu layanan dapat dimulai dari {{date('H:i', strtotime($data['setting_time_start']))}} sampai {{date('H:i', strtotime($data['setting_time_end']))}}" data-container="body"></i></label>
 			                                <div class="col-md-2">
-						                    	<input type="text" data-placeholder="select time end" onchange="availableHS()" class="form-control mt-repeater-input-inline kelas-close timepicker timepicker-no-seconds update-service-input" name="schedule_time" id="schedule_time" data-show-meridian="false" readonly value="{{ $data['booking_time'] ?? null }}">
+						                    	<input type="text" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-close timepicker timepicker-no-seconds update-service-input" name="schedule_time" id="schedule_time" data-show-meridian="false" readonly value="{{ $data['booking_time'] ?? null }}">
 			                                </div>
 			                            </div>
 			                            <div class="form-group">
