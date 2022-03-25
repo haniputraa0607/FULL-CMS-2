@@ -11,8 +11,10 @@
         }
     }
     $trans = false;
-    if(date('Y-m-d') <= date('Y-m-d', strtotime($result['partner_locations'][0]['trans_date']))){
-        $trans = true;
+    if($result['status']=='Active'){
+        if(date('Y-m-d') <= date('Y-m-d', strtotime($result['partner_locations'][0]['trans_date']))){
+            $trans = true;
+        }
     }
 ?>
 
@@ -52,7 +54,7 @@
                             </div>
                             <div class="portlet-body">
                                 <p>Candidate Partner Rejected </p>
-                                @if($result['status_steps']=='Confirmation Letter')
+                                @if($result['status_steps']=='Confirmation Letter' || $result['status_steps']=='Payment')
                                 <a href="#form_pay" class="btn btn-sm yellow" type="button" style="float:center" data-toggle="tab" id="input-pay">
                                     Payment
                                 </a>
