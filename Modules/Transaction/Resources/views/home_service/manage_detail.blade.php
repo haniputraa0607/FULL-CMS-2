@@ -163,7 +163,7 @@
 	                            <div class="form-body">
 		                            <div id="update-service-section">
 											<div class="form-group">
-												<label for="example-search-input" class="control-label col-md-4">Preference Hairstylisr</label>
+												<label for="example-search-input" class="control-label col-md-4">Preference Hairstylist</label>
 												<div class="col-md-5">
 													<input name="note" class="form-control" value="{{($data['preference_hair_stylist'] == 'All' ? 'Random':$data['preference_hair_stylist'])}}" disabled>
 												</div>
