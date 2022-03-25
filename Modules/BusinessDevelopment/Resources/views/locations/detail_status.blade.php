@@ -952,6 +952,14 @@
                                                         </div>
                                                     </div>
                                                     <div class="portlet-body form">
+                                                        <ul class="nav nav-tabs">
+                                                            <li class="active">
+                                                                <a href="#form_pay" data-toggle="tab">Overview </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#init_branch" data-toggle="tab">Initiation Branch</a>
+                                                            </li>
+                                                        </ul>
                                                         <div class="tab-content">
                                                             <div class="tab-pane @if($result['status']=='Rejected') active @endif">
                                                                 <div class="portlet box red">
@@ -1075,6 +1083,135 @@
                                                                         @endif
                                                                     </div>
                                                                 </form>
+                                                            </div>
+
+                                                            <div class="tab-pane" id="init_branch">
+                                                                @if ($result['location_init'])
+                                                                    <form class="form-horizontal" id="conract_form" role="form"  method="post" enctype="multipart/form-data">
+                                                                        <div class="form-body">
+                                                                            <div class="form-group">
+                                                                                <label for="example-search-input" class="control-label col-md-4">ID Sales Order</label>
+                                                                                <div class="col-md-5">
+                                                                                    <input class="form-control" readonly type="text" value="{{$result['location_init']['id_sales_order']??''}}"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="example-search-input" class="control-label col-md-4">ID Sales Order Detail</label>
+                                                                                <div class="col-md-5">
+                                                                                    <input class="form-control" readonly type="text" value="{{$result['location_init']['id_sales_order_detail']??''}}"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="example-search-input" class="control-label col-md-4">ID Company</label>
+                                                                                <div class="col-md-5">
+                                                                                    <input class="form-control" readonly type="text" value="{{$result['location_init']['id_company']??''}}"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="example-search-input" class="control-label col-md-4">No Voucher</label>
+                                                                                <div class="col-md-5">
+                                                                                    <input class="form-control" readonly type="text" value="{{$result['location_init']['no_voucher']??''}}"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="example-search-input" class="control-label col-md-4">Amount</label>
+                                                                                <div class="col-md-5">
+                                                                                    <input class="form-control" readonly type="text" value="{{$result['location_init']['amount']??''}}"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="example-search-input" class="control-label col-md-4">Tax</label>
+                                                                                <div class="col-md-5">
+                                                                                    <input class="form-control" readonly type="text" value="{{$result['location_init']['tax']??''}}"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="example-search-input" class="control-label col-md-4">Tax Value</label>
+                                                                                <div class="col-md-5">
+                                                                                    <input class="form-control" readonly type="text" value="{{$result['location_init']['tax_value']??''}}"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="example-search-input" class="control-label col-md-4">Netto</label>
+                                                                                <div class="col-md-5">
+                                                                                    <input class="form-control" readonly type="text" value="{{$result['location_init']['netto']??''}}"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="example-search-input" class="control-label col-md-4">ID Item</label>
+                                                                                <div class="col-md-5">
+                                                                                    <input class="form-control" readonly type="text" value="{{$result['location_init']['id_item']??''}}"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="example-search-input" class="control-label col-md-4">Quantity</label>
+                                                                                <div class="col-md-5">
+                                                                                    <input class="form-control" readonly type="text" value="{{$result['location_init']['qty']??''}}"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="example-search-input" class="control-label col-md-4">Unit</label>
+                                                                                <div class="col-md-5">
+                                                                                    <input class="form-control" readonly type="text" value="{{$result['location_init']['unit']??''}}"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="example-search-input" class="control-label col-md-4">Ratio</label>
+                                                                                <div class="col-md-5">
+                                                                                    <input class="form-control" readonly type="text" value="{{$result['location_init']['ratio']??''}}"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="example-search-input" class="control-label col-md-4">Unit Ratio</label>
+                                                                                <div class="col-md-5">
+                                                                                    <input class="form-control" readonly type="text" value="{{$result['location_init']['unit_ratio']??''}}"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="example-search-input" class="control-label col-md-4">Price</label>
+                                                                                <div class="col-md-5">
+                                                                                    <input class="form-control" readonly type="text" value="{{$result['location_init']['price']??''}}"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="example-search-input" class="control-label col-md-4">Item Name</label>
+                                                                                <div class="col-md-5">
+                                                                                    <input class="form-control" readonly type="text" value="{{$result['location_init']['detail_name']??''}}"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="example-search-input" class="control-label col-md-4">Discount</label>
+                                                                                <div class="col-md-5">
+                                                                                    <input class="form-control" readonly type="text" value="{{$result['location_init']['disc']??''}}"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="example-search-input" class="control-label col-md-4">Discount Value</label>
+                                                                                <div class="col-md-5">
+                                                                                    <input class="form-control" readonly type="text" value="{{$result['location_init']['disc_value']??''}}"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="example-search-input" class="control-label col-md-4">Discount Rp</label>
+                                                                                <div class="col-md-5">
+                                                                                    <input class="form-control" readonly type="text" value="{{$result['location_init']['disc_rp']??''}}"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="example-search-input" class="control-label col-md-4">Outstanding</label>
+                                                                                <div class="col-md-5">
+                                                                                    <input class="form-control" readonly type="text" value="{{$result['location_init']['outstanding']??''}}"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="example-search-input" class="control-label col-md-4">Descriptiom</label>
+                                                                                <div class="col-md-5">
+                                                                                    <textarea class="form-control" readonly>{{$result['location_init']['description']??''}}</textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </form>
+                                                                @endif
                                                             </div>
                                                         </div> 
                                                     </div>

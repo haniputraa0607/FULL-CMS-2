@@ -102,10 +102,18 @@
                         let column 	= $(this).parents('tr');
                         let id     	= $(this).data('id');
                         let name    = $(this).data('name');
+                        var status  = '{{ $result['status'] }}';
+                        if(status == 'Candidate'){
+                            var partnerU = 'Candidate Partner';
+                            var partnerL = 'candidate partner';
+                        }else{
+                            var partnerU = 'Partner';
+                            var partnerL = 'partner';
+                        }
                         $(this).click(function() {
                             swal({
-                                    title: name+"\n\nAre you sure want to reject this partner?",
-                                    text: "Please input partner name to continue!",
+                                    title: name+"\n\nAre you sure want to reject this "+partnerU+" ?",
+                                    text: "Please input "+partnerL+" name to continue!",
                                     type: "input",
                                     showCancelButton: true,
                                     confirmButtonClass: "btn-danger",
@@ -122,15 +130,69 @@
                                             },
                                             success : function(response) {
                                                 if (response.status == 'success') {
-                                                    swal("Rejected!", "Candidate Partner has been rejected.", "success")
+                                                    swal("Rejected!", partnerU+" has been rejected.", "success")
                                                     SweetAlert.init()
                                                     location.href = "{{url('businessdev/partners/detail')}}/"+id;
                                                 }
                                                 else if(response.status == "fail"){
-                                                    swal("Error!", "Failed to rejecte candidate partner.", "error")
+                                                    swal("Error!", "Failed to reject "+partnerL+" .", "error")
                                                 }
                                                 else {
-                                                    swal("Error!", "Something went wrong. Failed to reject candidate partner.", "error")
+                                                    swal("Error!", "Something went wrong. Failed to reject "+partnerL+" .", "error")
+                                                }
+                                            }
+                                        });
+                                    }else if(inputValue==''){
+                                        swal("Error!", "You need to input name partner.", "error")
+
+                                    }else{
+                                        swal("Error!", "Name partner doesnt match", "error")
+                                    }
+                                });
+                        })
+                    })
+                }
+            }
+        }();
+
+        var SweetAlertRejectIcount = function() {
+            return {
+                init: function() {
+                    $(".sweetalert-reject-icount").each(function() {
+                        var token  	 = "{{ csrf_token() }}";
+                        var pathname = window.location.pathname;
+                        let column 	 = $(this).parents('tr');
+                        let id     	 = $(this).data('id');
+                        let name     = $(this).data('name');
+                        $(this).click(function() {
+                            swal({
+                                    title: name+"\n\nAre you sure want to reject this partner and send request to Icount ?",
+                                    text: "Please input partner name to continue!",
+                                    type: "input",
+                                    showCancelButton: true,
+                                    confirmButtonClass: "btn-danger",
+                                    confirmButtonText: "Yes, reject it!",
+                                    closeOnConfirm: false
+                                },
+                                function(inputValue){
+                                    if(inputValue==name){
+                                        $.ajax({
+                                            type : "POST",
+                                            url : "{{url('businessdev/partners/reject-icount')}}/"+id,
+                                            data : {
+                                                '_token' : '{{csrf_token()}}'
+                                            },
+                                            success : function(response) {
+                                                if (response.status == 'success') {
+                                                    swal("Rejected!", "Partner has been rejected.", "success")
+                                                    SweetAlert.init()
+                                                    location.href = "{{url('businessdev/partners/detail')}}/"+id;
+                                                }
+                                                else if(response.status == "fail"){
+                                                    swal("Error!", "Failed to rejecte partner.", "error")
+                                                }
+                                                else {
+                                                    swal("Error!", "Something went wrong. Failed to reject partner.", "error")
                                                 }
                                             }
                                         });
@@ -318,8 +380,39 @@
                 $('#select-reject').hide();
             });
 
+            $('#calcu-reject').hide();
+            $('#input-calcu').click(function(){
+                $('#calcu-reject').show();
+                $('#input-calcu').hide();
+            });
+            $('#calcu-reject').click(function(){
+                $('#input-calcu').show();
+                $('#calcu-reject').hide();
+            });
+
+            $('#confir-reject').hide();
+            $('#input-confir').click(function(){
+                $('#confir-reject').show();
+                $('#input-confir').hide();
+            });
+            $('#confir-reject').click(function(){
+                $('#input-confir').show();
+                $('#confir-reject').hide();
+            });
+
+            $('#pay-reject').hide();
+            $('#input-pay').click(function(){
+                $('#pay-reject').show();
+                $('#input-pay').hide();
+            });
+            $('#pay-reject').click(function(){
+                $('#input-pay').show();
+                $('#pay-reject').hide();
+            });
+
             SweetAlert.init();
             SweetAlertReject.init();
+            SweetAlertRejectIcount.init();
             $('[data-switch=true]').bootstrapSwitch();
             $('#btn-submit').on('click', function(event) {
                 if(document.getElementById('auto_generate_pin').checked == false){
@@ -1296,10 +1389,8 @@
                 <div class="modal-footer form-actions">
                     {{ csrf_field() }}
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    @if (isset($formSurvey) && !empty($formSurvey))
-                    {{--  <button class="btn blue" id="submit_modal_select">Submit</button>  --}}
-                    <a class="btn blue" id="submit_modal_select">Submit</a>
-                    @endif
+                    <button type="button" class="btn blue" id="submit_modal_select" disabled>Submit</button>
+                    {{--  <a class="btn blue" id="submit_modal_select" disabled>Submit</a>  --}}
                 </div>
                 </form>
             </div>
