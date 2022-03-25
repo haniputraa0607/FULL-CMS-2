@@ -207,14 +207,14 @@
                             <div class="portlet-body">
                                 <p>Candidate Partner Rejected </p>
                                 @if($result['status_steps']=='Finished Survey Location')
-                                <a href="#form_select" class="btn btn-sm yellow" type="button" style="float:center" data-toggle="tab" id="input-select">
+                                <a href="#tab_form_select" class="btn btn-sm yellow" type="button" style="float:center" data-toggle="tab" id="input-select">
                                     Select Location
                                 </a>
                                 @endif
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane @if($result['status']=='Candidate' || $select == true) active @endif" id="form_select">
+                    <div class="tab-pane @if($result['status']=='Candidate' || $select == true) active @endif" id="tab_form_select">
                             <form class="form-horizontal" role="form" action="javascript:formSelectLocation()" method="post" enctype="multipart/form-data" id="form_select" >
                             {{--  <form class="form-horizontal" role="form" action="{{url('businessdev/partners/create-follow-up')}}" method="post" enctype="multipart/form-data" id="form_select">  --}}
                             <div class="form-body">

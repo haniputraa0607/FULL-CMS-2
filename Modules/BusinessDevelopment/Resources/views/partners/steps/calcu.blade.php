@@ -22,10 +22,15 @@
                 <div class="caption">
                     <span class="caption-subject font-dark sbold uppercase font-yellow">Calculation</span>
                 </div>
+                @if($result['status']=='Rejected')
+                <a href="#reject_calcu" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="calcu-reject">
+                    Back
+                </a>
+                @endif
             </div>
             <div class="portlet-body form">
                 <div class="tab-content">
-                    <div class="tab-pane @if($result['status']=='Rejected') active @endif">
+                    <div class="tab-pane @if($result['status']=='Rejected') active @endif" id="reject_calcu">
                         <div class="portlet box red">
                             <div class="portlet-title">
                                 <div class="caption">
@@ -36,15 +41,15 @@
                             </div>
                             <div class="portlet-body">
                                 <p>Candidate Partner Rejected </p>
-                                @if ($calcu==false)
-                                <a href="#form_pay" class="btn btn-sm yellow" type="button" style="float:center" data-toggle="tab" id="input-pay">
+                                @if($result['status_steps']=='Select Location')
+                                <a href="#form_calcu" class="btn btn-sm yellow" type="button" style="float:center" data-toggle="tab" id="input-calcu">
                                     Calculation
                                 </a>
                                 @endif
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane @if($result['status']=='Candidate' || $calcu == true) active @endif" id="form_pay">
+                    <div class="tab-pane @if($result['status']=='Candidate' || $calcu == true) active @endif" id="form_calcu">
                         @php $total_payment = 0 @endphp
                         <table class="table">
                             <tbody>
@@ -167,7 +172,7 @@
                                     <div class="row">
                                         <div class="col-md-offset-4 col-md-8">
                                             <button type="submit" class="btn blue">Submit</button>
-                                            <a class="btn red sweetalert-reject" data-id="{{ $result['id_partner'] }}" data-name="{{ $result['name'] }}">Reject</a>
+                                            @if($result['status']=='Candidate')<a class="btn red sweetalert-reject" data-id="{{ $result['id_partner'] }}" data-name="{{ $result['name'] }}">Reject</a>@endif
                                         </div>
                                     </div>
                                 </div>

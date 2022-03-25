@@ -19,10 +19,15 @@
                 <div class="caption">
                     <span class="caption-subject font-dark sbold uppercase font-yellow">Confirmation Letter</span>
                 </div>
+                @if($result['status']=='Rejected')
+                <a href="#reject_confir" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="confir-reject">
+                    Back
+                </a>
+                @endif
             </div>
             <div class="portlet-body form">
                 <div class="tab-content">
-                    <div class="tab-pane @if($result['status']=='Rejected') active @endif">
+                    <div class="tab-pane @if($result['status']=='Rejected') active @endif" id="reject_confir">
                         <div class="portlet box red">
                             <div class="portlet-title">
                                 <div class="caption">
@@ -33,7 +38,7 @@
                             </div>
                             <div class="portlet-body">
                                 <p>Candidate Partner Rejected </p>
-                                @if ($confir==false)
+                                @if($result['status_steps']=='Calculation')
                                 <a href="#form_confir" class="btn btn-sm yellow" type="button" style="float:center" data-toggle="tab" id="input-confir">
                                     Confirmation Letter
                                 </a>
@@ -41,7 +46,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane @if($result['status']=='Candidate' || $confir == true) active @endif" id="form_confir">
+                    <div class="tab-pane @if($result['status']=='Candidate' || $result['status']=='Active') active @endif" id="form_confir">
                         <form class="form-horizontal" role="form" action="{{url('businessdev/partners/create-follow-up')}}" method="post" enctype="multipart/form-data">
                             <div class="form-body">
                                 <input type="hidden" name="id_partner" value="{{$result['id_partner']}}">
@@ -235,7 +240,7 @@
                                     <div class="row">
                                         <div class="col-md-offset-4 col-md-8">
                                             <button type="submit" class="btn blue">Submit</button>
-                                            <a class="btn red sweetalert-reject" data-id="{{ $result['id_partner'] }}" data-name="{{ $result['name'] }}">Reject</a>
+                                            @if($result['status']=='Candidate')<a class="btn red sweetalert-reject" data-id="{{ $result['id_partner'] }}" data-name="{{ $result['name'] }}">Reject</a>@endif
                                         </div>
                                     </div>
                                 </div>

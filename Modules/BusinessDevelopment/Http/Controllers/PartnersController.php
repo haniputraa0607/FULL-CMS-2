@@ -871,6 +871,15 @@ class PartnersController extends Controller
         return $partner_step;
     }
 
+    public function rejectCandidateIcount($id)
+    {
+        $reject_partner = [
+            "id_partner" => $id,
+        ];
+        $partner_step = MyHelper::post('partners/reject-icount', $reject_partner);
+        return $partner_step;
+    }
+
     public function generateSPK($id_partner,$id_location){
         $query = MyHelper::post('partners/generate-spk', ['id_partner'=>$id_partner,'id_location'=>$id_location]);
         if(isset($query['status']) && $query['status'] == 'success'){

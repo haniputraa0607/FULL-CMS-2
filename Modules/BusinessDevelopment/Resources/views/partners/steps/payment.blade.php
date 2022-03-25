@@ -10,6 +10,10 @@
             }
         }
     }
+    $trans = false;
+    if(date('Y-m-d') <= date('Y-m-d', strtotime($result['partner_locations'][0]['trans_date']))){
+        $trans = true;
+    }
 ?>
 
 <div style="white-space: nowrap;">
@@ -19,10 +23,25 @@
                 <div class="caption">
                     <span class="caption-subject font-dark sbold uppercase font-yellow">Payment</span>
                 </div>
+                @if($result['status']=='Rejected')
+                <a href="#reject_pay" class="btn btn-sm yellow" type="button" style="float:right" data-toggle="tab" id="pay-reject">
+                    Back
+                </a>
+                @endif
             </div>
             <div class="portlet-body form">
+                @if($result['status']=='Active')
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#form_pay" data-toggle="tab">Overview </a>
+                    </li>
+                    <li>
+                        <a href="#init_branch" data-toggle="tab">Initiation Branch</a>
+                    </li>
+                </ul>
+                @endif
                 <div class="tab-content">
-                    <div class="tab-pane @if($result['status']=='Rejected') active @endif">
+                    <div class="tab-pane @if($result['status']=='Rejected') active @endif" id="reject_pay">
                         <div class="portlet box red">
                             <div class="portlet-title">
                                 <div class="caption">
@@ -33,7 +52,7 @@
                             </div>
                             <div class="portlet-body">
                                 <p>Candidate Partner Rejected </p>
-                                @if ($pay==false)
+                                @if($result['status_steps']=='Confirmation Letter')
                                 <a href="#form_pay" class="btn btn-sm yellow" type="button" style="float:center" data-toggle="tab" id="input-pay">
                                     Payment
                                 </a>
@@ -138,12 +157,149 @@
                                             @if ($pay==false) 
                                             <button type="submit" class="btn blue">Submit</button>
                                             @endif
-                                            <a class="btn red sweetalert-reject" data-id="{{ $result['id_partner'] }}" data-name="{{ $result['name'] }}">Reject</a>
+                                            @if($result['status']=='Candidate')<a class="btn red sweetalert-reject" data-id="{{ $result['id_partner'] }}" data-name="{{ $result['name'] }}">Reject</a>@endif
+                                            @if($result['status']=='Active')
+                                            @if ($trans)
+                                            <a class="btn red sweetalert-reject" data-id="{{ $result['id_partner'] }}" data-name="{{ $result['name'] }}">Reject</a>    
+                                            <a class="btn red sweetalert-reject-icount" data-id="{{ $result['id_partner'] }}" data-name="{{ $result['name'] }}">Reject With Icount</a>    
+                                            @endif
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </form>
+                    </div>
+
+                    <div class="tab-pane" id="init_branch">
+                    @if($result['status']=='Active')
+                        @if ($result['partner_locations'][0]['location_init'])
+                        <form class="form-horizontal" id="conract_form" role="form"  method="post" enctype="multipart/form-data">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">ID Sales Order</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" readonly type="text" value="{{$result['partner_locations'][0]['location_init']['id_sales_order']??''}}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">ID Sales Order Detail</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" readonly type="text" value="{{$result['partner_locations'][0]['location_init']['id_sales_order_detail']??''}}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">ID Company</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" readonly type="text" value="{{$result['partner_locations'][0]['location_init']['id_company']??''}}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">No Voucher</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" readonly type="text" value="{{$result['partner_locations'][0]['location_init']['no_voucher']??''}}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Amount</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" readonly type="text" value="{{$result['partner_locations'][0]['location_init']['amount']??''}}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Tax</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" readonly type="text" value="{{$result['partner_locations'][0]['location_init']['tax']??''}}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Tax Value</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" readonly type="text" value="{{$result['partner_locations'][0]['location_init']['tax_value']??''}}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Netto</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" readonly type="text" value="{{$result['partner_locations'][0]['location_init']['netto']??''}}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">ID Item</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" readonly type="text" value="{{$result['partner_locations'][0]['location_init']['id_item']??''}}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Quantity</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" readonly type="text" value="{{$result['partner_locations'][0]['location_init']['qty']??''}}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Unit</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" readonly type="text" value="{{$result['partner_locations'][0]['location_init']['unit']??''}}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Ratio</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" readonly type="text" value="{{$result['partner_locations'][0]['location_init']['ratio']??''}}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Unit Ratio</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" readonly type="text" value="{{$result['partner_locations'][0]['location_init']['unit_ratio']??''}}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Price</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" readonly type="text" value="{{$result['partner_locations'][0]['location_init']['price']??''}}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Item Name</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" readonly type="text" value="{{$result['partner_locations'][0]['location_init']['detail_name']??''}}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Discount</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" readonly type="text" value="{{$result['partner_locations'][0]['location_init']['disc']??''}}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Discount Value</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" readonly type="text" value="{{$result['partner_locations'][0]['location_init']['disc_value']??''}}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Discount Rp</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" readonly type="text" value="{{$result['partner_locations'][0]['location_init']['disc_rp']??''}}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Outstanding</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" readonly type="text" value="{{$result['partner_locations'][0]['location_init']['outstanding']??''}}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Descriptiom</label>
+                                    <div class="col-md-5">
+                                        <textarea class="form-control" readonly>{{$result['partner_locations'][0]['location_init']['description']??''}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        @endif
+                    @endif
                     </div>
                 </div> 
             </div>
