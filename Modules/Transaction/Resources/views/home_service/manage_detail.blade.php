@@ -162,7 +162,13 @@
 	                        <form class="form-horizontal" role="form" action="#" method="post" enctype="multipart/form-data">
 	                            <div class="form-body">
 		                            <div id="update-service-section">
-		                                <div class="form-group">
+											<div class="form-group">
+												<label for="example-search-input" class="control-label col-md-4">Preference Hairstylisr</label>
+												<div class="col-md-5">
+													<input name="note" class="form-control" value="{{($data['preference_hair_stylist'] == 'All' ? 'Random':$data['preference_hair_stylist'])}}" disabled>
+												</div>
+											</div>
+											<div class="form-group">
 			                                <label for="example-search-input" class="control-label col-md-4">Schedule Date <span class="required" aria-required="true">*</span>
 			                                	<i class="fa fa-question-circle tooltips" data-original-title="Tanggal layanan dapat dimulai" data-container="body"></i></label>
 			                                <div class="col-md-5">
