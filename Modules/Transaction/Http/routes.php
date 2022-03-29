@@ -43,6 +43,12 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'transact
 
 Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'transaction', 'namespace' => 'Modules\Transaction\Http\Controllers'], function()
 {
+    Route::group(['prefix' => 'complete-payment'], function()
+    {
+        Route::any('/', [ 'uses' => 'TransactionController@completePayment']);
+        Route::post('finding', [ 'uses' => 'TransactionController@completePaymentFindingTrx']);
+    });
+
     Route::get('/setting/rule', 'TransactionController@ruleTransaction');
     Route::post('/setting/rule/update', 'TransactionController@ruleTransactionUpdate');
     Route::get('/internalcourier', 'TransactionController@internalCourier');
