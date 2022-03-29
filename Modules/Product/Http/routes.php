@@ -48,7 +48,8 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'product'
 	Route::group(['prefix' => 'icount'], function() {
     	Route::any('/', ['middleware' => 'feature_control:48', 'uses' => 'ProductController@listProductIcount']);
     	Route::any('delete', ['middleware' => 'feature_control:52', 'uses' => 'ProductController@deleteIcount']);
-    	Route::any('detail/{product_code}', ['middleware' => 'feature_control:49', 'uses' => 'ProductController@detailIcount']);
+    	Route::any('detail/{company}/{product_code}', ['middleware' => 'feature_control:49', 'uses' => 'ProductController@detailIcount']);
+    	Route::any('unit/{company}/{product_code}', ['middleware' => 'feature_control:49', 'uses' => 'ProductController@unitIcount']);
     	Route::any('sync', ['middleware' => 'feature_control:49', 'uses' => 'ProductController@syncIcount']);
 	});
 
