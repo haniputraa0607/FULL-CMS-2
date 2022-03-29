@@ -74,6 +74,76 @@
 
     <script type="text/javascript">
 
+        function addConversion(unit,index){
+            var new_index = index + 1;
+            var html = `
+                <tr data-id="${unit}_${new_index}">
+                    <td>
+                        <input type="text" class="form-control unit" name="conversion[${unit}][${new_index}][unit]" required readonly value="${unit}">
+                    </td>
+                    <td>
+                        <span>=</span>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control qty_conversion" name="conversion[${unit}][${new_index}][qty_conversion]" required>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control unit_conversion" name="conversion[${unit}][${new_index}][unit_conversion]" required>
+                    </td>
+                    <td>
+                        <button type="button" onclick="deleteConversion('${unit}',${new_index})" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+                    </td>
+                </tr>
+            `;
+
+            var new_function = `addConversion(${unit},${new_index})`;
+            $("#add"+unit).attr("onclick", "addConversion('"+unit+"',"+new_index+")");
+
+            $('#unit'+unit+'-container tbody').append(html);
+        }
+
+        function deleteConversion(unit,index){
+            $(`#unit${unit}-container tr[data-id=${unit}_${index}]`).remove();
+        }
+
+        function addUnit(){
+            swal({
+                title: "Add New Unit For This Product",
+                text: "Please input the new unit name to continue!",
+                type: "input",
+                showCancelButton: true,
+                confirmButtonClass: "btn-primary",
+                confirmButtonText: "OK",
+                closeOnConfirm: false    
+            },function(inputValue){
+                if(inputValue==''){
+                    swal("Error!", "You need to input the new unit name.", "error")
+                }else{
+                    var data = {
+                            '_token' : '{{csrf_token()}}',
+                            'id_product_icount' : {{ $product['id_product_icount'] }},
+                            'unit' : inputValue,
+                    };
+                    $.ajax({
+                        type : "POST",
+                        url : "{{ url()->current() }}/new-unit",
+                        data : data,
+                        success : function(response) {
+                            if (response.status == 'success') {
+                                swal("Success!", "A new unit has been created.", "success")
+                                location.href = "{{ url()->current() }}";
+                            }
+                            else if(response.status == "fail"){
+                                swal("Error!", "Failed to reject created new unit.", "error")
+                            }
+                            else {
+                                swal("Error!", "Something went wrong. Failed to created new unit .", "error")
+                            }
+                        }
+                    });
+                }
+            });
+        }
 
     </script>
 
@@ -108,71 +178,244 @@
                 <span class="caption-subject font-dark sbold uppercase font-blue">{{ $sub_title }}</span>
             </div>
         </div>
-        <div class="portlet-body form">
-            <form class="form-horizontal" role="form" action="{{ url('product/catalog/update') }}" method="post" enctype="multipart/form-data">
-                <div class="form-body">
+        <div class="portlet-body">
+            <div class="row">
+                <form class="form-horizontal" role="form" action="{{ url()->current() }}" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="id_product_icount" value="{{ $product['id_product_icount'] }}">
-                    <div class="form-group">
-                        <div class="form-group">
-                            <center><b>Product Detail</b></center>
-                        </div>
-                        <br>
-                        <div class="col-md-12">
-                            <table id="products-container" class="table">
-                                <thead>
-                                    <tr>
-                                        <th width="160px">Filter</th>
-                                        <th>Product</th>
-                                        <th width="150px">Budget Code</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr data-id="0">
-                                        <td>
-                                            <select class="select2 form-control filter" name="product_catalog_detail[0][filter]" required onchange="productFilter(0, this.value)">
-                                                <option value="" selected disabled></option>
-                                                <option value="Inventory">Inventory</option>
-                                                <option value="Non Inventory">Non Inventory</option>
-                                                <option value="Service">Service</option>
-                                                <option value="Assets">Assets</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select class="select2 form-control product" name="product_catalog_detail[0][id_product_icount]" required>
-                                                <option value="" selected disabled></option>
-
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select class="form-control select2 budget" name="product_catalog_detail[0][budget_code]" required>
-                                                <option value="" selected disabled></option>
-                                                <option value="Invoice">Invoice</option>
-                                                <option value="Beban">Beban</option>
-                                                <option value="Assets">Assets</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <button type="button" onclick="deleteProductCatalog(0)" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-md-12" style="padding-left: 22px !important">
-                            <a class="btn btn-primary" onclick="addProductCatalog()">&nbsp;<i class="fa fa-plus-circle"></i> Add Product </a>
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <ul class="nav nav-tabs tabs-left">
+                            @if (!empty($units))
+                                @foreach ($units as $key => $unit)
+                                <li class="{{ $key == 0 ? 'active' : '' }}">
+                                    <a href="#tab_{{ $key }}" data-toggle="tab"> {{ $unit['unit'] }} </a>
+                                </li>
+                                @endforeach
+                            @else
+                                @php $key = 0; @endphp
+                                @if (isset($product['unit1']))
+                                    <li class="{{ $key == 0 ? 'active' : '' }}">
+                                        <a href="#tab_{{ $key }}" data-toggle="tab"> {{ $product['unit1'] }} </a>
+                                    </li>
+                                @php $key++; @endphp
+                                @endif
+                                @if (isset($product['unit2']))
+                                    <li class="{{ $key == 0 ? 'active' : '' }}">
+                                        <a href="#tab_{{ $key }}" data-toggle="tab"> {{ $product['unit2'] }} </a>
+                                    </li>
+                                @php $key++; @endphp
+                                @endif
+                                @if (isset($product['unit3']))
+                                    <li class="{{ $key == 0 ? 'active' : '' }}">
+                                        <a href="#tab_{{ $key }}" data-toggle="tab"> {{ $product['unit3'] }} </a>
+                                    </li>
+                                @php $key++; @endphp
+                                @endif
+                            @endif  
+                        </ul>
+                        <div class="col-md-12" style="padding-left: 2px; margin-bottom: 10px; !important">
+                            <a onclick="addUnit()" class="btn btn-primary">&nbsp;<i class="fa fa-plus-circle"></i> Add Unit </a>
                         </div>
                     </div>
-                </div>
-                <div class="form-actions">
-                    {{ csrf_field() }}
-                    <div class="row">
-                        <div class="text-center">
-                            <button type="submit" class="btn blue">Submit</button>
+				    <div class="col-md-9 col-sm-9 col-xs-9">
+                        <div class="tab-content">
+                            @if (!empty($units))
+                                @foreach ($units as $key => $unit)
+                                <div class="tab-pane {{ $key == 0 ? 'active' : '' }}" id="tab_{{ $key }}">
+                                    <div class="col-md-12">
+                                        <table id="unit{{ $unit['unit'] }}-container" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Unit</th>
+                                                    <th></th>
+                                                    <th>Quantity</th>
+                                                    <th>Unit Conversion</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if(isset($unit['conversion']) && !empty($unit['conversion']))
+                                                    @foreach ($unit['conversion'] as $index_item => $item)
+                                                    <tr data-id="{{ $unit['unit'] }}_{{ $index_item }}">
+                                                        <td>
+                                                            <input type="text" class="form-control unit" name="conversion[{{ $unit['unit'] }}][{{ $index_item }}][unit]" required readonly value="{{  $unit['unit'] }}">
+                                                        </td>
+                                                        <td>
+                                                            <span>=</span>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control qty_conversion" name="conversion[{{  $unit['unit'] }}][{{ $index_item }}][qty_conversion]" required value="{{ $item['qty_conversion'] }}">
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control unit_conversion" name="conversion[{{  $unit['unit'] }}][{{ $index_item }}][unit_conversion]" required value="{{ $item['unit_conversion'] }}">
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" disabled class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+                                                @else
+                                                @php $index_item = 0; @endphp
+                                                <tr data-id="{{ $unit['unit'] }}_0">
+                                                        <td>
+                                                            <input type="text" class="form-control unit" name="conversion[{{ $unit['unit'] }}][0][unit]" required readonly value="{{  $unit['unit'] }}">
+                                                        </td>
+                                                        <td>
+                                                            <span>=</span>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control qty_conversion" name="conversion[{{  $unit['unit'] }}][0][qty_conversion]" required>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control unit_conversion" name="conversion[{{  $unit['unit'] }}][0][unit_conversion]" required>
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" disabled class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-12" style="padding-left: 22px; margin-bottom: 10px; !important">
+                                        <a id="add{{ $unit['unit'] }}" class="btn btn-primary" onclick="addConversion('{{ $unit['unit'] }}',{{ $index_item }})">&nbsp;<i class="fa fa-plus-circle"></i> Add Conversion </a>
+                                    </div>
+                                </div>
+                                @endforeach
+                            @else
+                                @php $key = 0; @endphp
+                                @if (isset($product['unit1']))
+                                <div class="tab-pane {{ $key == 0 ? 'active' : '' }}" id="tab_{{ $key }}">
+                                    <div class="col-md-12">
+                                        <table id="unit{{ $product['unit1'] }}-container" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Unit</th>
+                                                    <th></th>
+                                                    <th>Quantity</th>
+                                                    <th>Unit Conversion</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr data-id="{{ $product['unit1'] }}_0">
+                                                    <td>
+                                                        <input type="text" class="form-control unit" name="conversion[{{ $product['unit1'] }}][0][unit]" required readonly value="{{ $product['unit1'] }}">
+                                                    </td>
+                                                    <td>
+                                                        <span>=</span>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control qty_conversion" name="conversion[{{ $product['unit1'] }}][0][qty_conversion]" required>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control unit_conversion" name="conversion[{{ $product['unit1'] }}][0][unit_conversion]" required>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" disabled class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-12" style="padding-left: 22px; margin-bottom: 10px; !important">
+                                        <a id="add{{ $product['unit1'] }}" class="btn btn-primary" onclick="addConversion('{{ $product['unit1'] }}',0)">&nbsp;<i class="fa fa-plus-circle"></i> Add Conversion </a>
+                                    </div>
+                                </div>
+                                @php $key++; @endphp
+                                @endif
+                                @if (isset($product['unit2']))
+                                <div class="tab-pane {{ $key == 0 ? 'active' : '' }}" id="tab_{{ $key }}">
+                                    <div class="col-md-12">
+                                        <table id="unit{{ $product['unit2'] }}-container" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Unit</th>
+                                                    <th></th>
+                                                    <th>Quantity</th>
+                                                    <th>Unit Conversion</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr data-id="{{ $product['unit2'] }}_0">
+                                                    <td>
+                                                        <input type="text" class="form-control unit" name="conversion[{{ $product['unit2'] }}][0][unit]" required readonly value="{{ $product['unit2'] }}">
+                                                    </td>
+                                                    <td>
+                                                        <span>=</span>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control qty_conversion" name="conversion[{{ $product['unit2'] }}][0][qty_conversion]" required>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control unit_conversion" name="conversion[{{ $product['unit2'] }}][0][unit_conversion]" required>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" disabled class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-12" style="padding-left: 22px; margin-bottom: 10px; !important">
+                                        <a id="add{{ $product['unit2'] }}" class="btn btn-primary" onclick="addConversion('{{ $product['unit2'] }}',0)">&nbsp;<i class="fa fa-plus-circle"></i> Add Conversion </a>
+                                    </div>
+                                </div>
+                                @php $key++; @endphp
+                                @endif
+                                @if (isset($product['unit3']))
+                                <div class="tab-pane {{ $key == 0 ? 'active' : '' }}" id="tab_{{ $key }}">
+                                    <div class="col-md-12">
+                                        <table id="unit{{ $product['unit3'] }}-container" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Unit</th>
+                                                    <th></th>
+                                                    <th>Quantity</th>
+                                                    <th>Unit Conversion</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr data-id="{{ $product['unit3'] }}_0">
+                                                    <td>
+                                                        <input type="text" class="form-control unit" name="conversion[{{ $product['unit3'] }}][0][unit]" required readonly value="{{ $product['unit3'] }}">
+                                                    </td>
+                                                    <td>
+                                                        <span>=</span>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control qty_conversion" name="conversion[{{ $product['unit3'] }}][0][qty_conversion]" required>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control unit_conversion" name="conversion[{{ $product['unit3'] }}][0][unit_conversion]" required>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" disabled class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-12" style="padding-left: 22px; margin-bottom: 10px; !important">
+                                        <a id="add{{ $product['unit3'] }}" class="btn btn-primary" onclick="addConversion('{{ $product['unit3'] }}',0)">&nbsp;<i class="fa fa-plus-circle"></i> Add Conversion </a>
+                                    </div>
+                                </div>
+                                @php $key++; @endphp
+                                @endif
+                            @endif  
+                        </div>
+                        <div class="form-actions">
+                            {{ csrf_field() }}
+                            <div class="row">
+                                <div class="text-center">
+                                    <button type="submit" class="btn blue" onclick="checkRequired()">Submit</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
     

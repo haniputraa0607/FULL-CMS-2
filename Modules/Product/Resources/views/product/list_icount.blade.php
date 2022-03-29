@@ -222,8 +222,6 @@
         </div>
         <div class="portlet-body form">
             <div style="white-space: nowrap;">
-
-            <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover text-center" width="100%" id="sample_1">
                     <thead>
                         <tr>
@@ -265,7 +263,6 @@
                         @endif
                     </tbody>
                 </table>
-            </div>
             </div>
         </div>
     </div>
