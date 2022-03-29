@@ -139,9 +139,8 @@ class HairStylistController extends Controller
         }else{
             Session::forget('filter-hs-list');
         }
-
         $getList = MyHelper::post('recruitment/hairstylist/be/list',$post);
-
+        $data['outlets'] = MyHelper::get('outlet/be/list')['result']??[''];
         if (isset($getList['status']) && $getList['status'] == "success") {
             $data['data']          = $getList['result']['data'];
             $data['dataTotal']     = $getList['result']['total'];
