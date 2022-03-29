@@ -358,8 +358,27 @@ $totalTheories = 0;
 							</div>
 						@endif
 						<div class="form-group">
+							<label class="col-md-4 control-label">File Contract</label>
+							<div class="col-md-6" style="margin-top: 0.7%">
+								@if(empty($detail['file_contract']))
+									-
+								@else
+									<a href="{{url('recruitment/hair-stylist/detail/download-file-contract', $detail['id_user_hair_stylist'])}}">hs_{{$detail['user_hair_stylist_code']}}.docx</a>
+								@endif
+							</div>
+						</div>
+						<div class="form-group">
 							<label class="col-md-4 control-label">NIK</label>
 							<div class="col-md-6" style="margin-top: 0.7%"><b>{{$detail['user_hair_stylist_code']}}</b></div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-4 control-label">ID Card Number <span class="required" aria-required="true"> * </span>
+							</label>
+							<div class="col-md-6">
+								<div class="input-icon right">
+									<input type="text" placeholder="ID Card Number" class="form-control" name="id_card_number" value="{{ $detail['id_card_number']}}" required>
+								</div>
+							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-4 control-label">Nickname <span class="required" aria-required="true"> * </span>
@@ -590,7 +609,7 @@ $totalTheories = 0;
 
 						@if(in_array($detail['user_hair_stylist_status'], ['Active','Inactive']))
 							<div class="form-group">
-								<label  class="control-label col-md-4">Auto Generate Password <span class="required" aria-required="true">*</span>
+								<label  class="control-label col-md-4">Auto Generate Password
 									<i class="fa fa-question-circle tooltips" data-original-title="Jika di centang maka password akan di generate otomatis oleh sistem" data-container="body"></i>
 								</label>
 								<div class="col-md-6">
@@ -602,7 +621,7 @@ $totalTheories = 0;
 							</div>
 							<div id="div_password">
 								<div class="form-group">
-									<label for="example-search-input" class="control-label col-md-4">Password <span class="required" aria-required="true">*</span>
+									<label for="example-search-input" class="control-label col-md-4">Password
 										<i class="fa fa-question-circle tooltips" data-original-title="Masukkan password yang akan digunakan untuk login" data-container="body"></i>
 									</label>
 									<div class="col-md-6">
@@ -610,7 +629,7 @@ $totalTheories = 0;
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="example-search-input" class="control-label col-md-4">Re-type Password <span class="required" aria-required="true">*</span>
+									<label for="example-search-input" class="control-label col-md-4">Re-type Password
 										<i class="fa fa-question-circle tooltips" data-original-title="Ketik ulang password yang akan digunakan untuk login" data-container="body"></i>
 									</label>
 									<div class="col-md-6">
@@ -728,10 +747,10 @@ $totalTheories = 0;
 										<tr>
 											<td>
 												@if(!empty($doc['attachment']))
-													<a class="btn blue" href="{{url('recruitment/hair-stylist/detail/download-file', $doc['id_user_hair_stylist_document'])}}">Attachment</a>
+													<a class="btn blue btn-sm" href="{{url('recruitment/hair-stylist/detail/download-file', $doc['id_user_hair_stylist_document'])}}">Attachment</a>
 												@endif
 												@if($doc['document_type'] == 'Training Completed' && !empty($detailTheories))
-													<a data-toggle="modal" href="#detail_{{$doc['id_user_hair_stylist_document']}}" class="btn green-jungle">Score</a>
+													<a data-toggle="modal" href="#detail_{{$doc['id_user_hair_stylist_document']}}" class="btn green-jungle btn-sm">Score</a>
 													<div id="detail_{{$doc['id_user_hair_stylist_document']}}" class="modal fade bs-modal-lg" tabindex="-1" aria-hidden="true">
 														<div class="modal-dialog modal-lg">
 															<div class="modal-content">
