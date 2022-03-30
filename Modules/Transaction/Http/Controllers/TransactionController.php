@@ -2117,7 +2117,7 @@ class TransactionController extends Controller
         if(empty($post)){
             $data = [
                 'title'          => 'Transaction',
-                'sub_title'      => 'Complete Payment',
+                'sub_title'      => 'Manual Complete Payment',
                 'menu_active'    => 'transaction-complete-payment',
                 'submenu_active' => 'transaction-complete-payment'
             ];

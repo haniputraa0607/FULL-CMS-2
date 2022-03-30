@@ -88,8 +88,8 @@
                         text: "Are you sure want to change this transaction to completed ?",
                         type: "warning",
                         showCancelButton: true,
-                        confirmButtonClass: "btn-danger",
-                        confirmButtonText: "Yes, delete it!",
+                        confirmButtonClass: "btn-warning",
+                        confirmButtonText: "Yes, change it!",
                         closeOnConfirm: false
                     },
                     function(){
@@ -130,7 +130,7 @@
         <div class="portlet-title">
             <div class="caption font-blue ">
                 <i class="icon-settings font-blue "></i>
-                <span class="caption-subject bold uppercase">Complete Payment</span>
+                <span class="caption-subject bold uppercase">Manual Complete Payment</span>
             </div>
         </div>
         <div class="portlet-body">
