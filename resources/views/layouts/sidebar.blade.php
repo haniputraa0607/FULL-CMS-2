@@ -1911,6 +1911,13 @@
 					@endif
 				</ul>
 			</li>
+
+			<li class="nav-item {{($menu_active == 'transaction-complete-payment') ? 'active' : ''}}">
+				<a href="{{url('transaction/complete-payment')}}" class="nav-link nav-toggle">
+					<i class="fa fa-check"></i>
+					<span class="title">Complete Payment</span>
+				</a>
+			</li>
 			@endif
 
 			@if(MyHelper::hasAccess([316,317,318,319], $grantedFeature))

@@ -2110,4 +2110,33 @@ class TransactionController extends Controller
             }
         }
     }
+
+    public function completePayment(Request $request){
+        $post = $request->except('_token');
+
+        if(empty($post)){
+            $data = [
+                'title'          => 'Transaction',
+                'sub_title'      => 'Complete Payment',
+                'menu_active'    => 'transaction-complete-payment',
+                'submenu_active' => 'transaction-complete-payment'
+            ];
+
+            return view('transaction::complete_payment', $data);
+        }else{
+            $update = MyHelper::post('transaction/complete-payment', $post);
+
+            if (isset($update['status']) && $update['status'] == "success") {
+                return back()->withSuccess(['Success change transaction '.$post['transaction_receipt_number'].' to completed.']);
+            }else {
+                return back()->withErrors($update['messages']??['Something when wrong. Please try again.']);
+            }
+        }
+    }
+
+    public function completePaymentFindingTrx(Request $request){
+        $post = $request->except('_token');
+        $data = MyHelper::post('transaction/complete-payment/finding', $post);
+        return $data;
+    }
 }

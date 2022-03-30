@@ -221,46 +221,49 @@
             </div>
         </div>
         <div class="portlet-body form">
-            <table class="table table-striped table-bordered table-hover" width="100%" id="sample_1">
-                <thead>
-                    <tr>
-                        <th> No </th>
-                        <th> Code </th>
-                        <th> Category </th>
-                        <th> Name </th>
-                        <th> Item Group </th>
-                        <th> Company Type </th>
-                        @if(MyHelper::hasAccess([49,51,52], $grantedFeature))
-                            <th> Action </th>
+            <div style="white-space: nowrap;">
+                <table class="table table-striped table-bordered table-hover text-center" width="100%" id="sample_1">
+                    <thead>
+                        <tr>
+                            <th class="text-nowrap text-center"> No </th>
+                            <th class="text-nowrap text-center"> Code </th>
+                            <th class="text-nowrap text-center"> Category </th>
+                            <th class="text-nowrap text-center"> Name </th>
+                            <th class="text-nowrap text-center"> Item Group </th>
+                            <th class="text-nowrap text-center"> Company Type </th>
+                            @if(MyHelper::hasAccess([49,51,52], $grantedFeature))
+                                <th class="text-nowrap text-center"> Action </th>
+                            @endif
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (!empty($product))
+                            @foreach($product as $key => $value)
+                                <tr>
+                                    <td>{{ $key+1 }}</td>
+                                    <td>{{ $value['code'] }}</td>
+                                    @if (empty($value['id_category']))
+                                        <td>Uncategorize</td>
+                                    @else
+                                        <td>{{ $value['category'][0]['product_category_name']??'Uncategories' }}</td>
+                                    @endif
+                                    <td>{{ $value['name'] }}</td>
+                                    <td>{{ $value['item_group'] }}</td>
+                                    <td>{{ $value['company_type'] == 'ima' ? 'PT IMA' : 'PT IMS' }}</td>
+                                    @if(MyHelper::hasAccess([49,51,52], $grantedFeature))
+                                        <td class="text-center">
+                                            @if(MyHelper::hasAccess([49,51], $grantedFeature))
+                                                <a href="{{ url('product/icount/detail') }}/{{ $value['company_type'] }}/{{ $value['id_item'] }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
+                                                <a href="{{ url('product/icount/unit') }}/{{ $value['company_type'] }}/{{ $value['id_item'] }}" class="btn btn-sm grey-cascade"><i class="fa fa-edit"></i> Unit</a>
+                                            @endif
+                                        </td>
+                                    @endif
+                                </tr>
+                            @endforeach
                         @endif
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (!empty($product))
-                        @foreach($product as $key => $value)
-                            <tr>
-                                <td>{{ $key+1 }}</td>
-                                <td>{{ $value['code'] }}</td>
-                                @if (empty($value['id_category']))
-                                    <td>Uncategorize</td>
-                                @else
-                                    <td>{{ $value['category'][0]['product_category_name']??'Uncategories' }}</td>
-                                @endif
-                                <td>{{ $value['name'] }}</td>
-                                <td>{{ $value['item_group'] }}</td>
-                                <td>{{ $value['company_type'] == 'ima' ? 'PT IMA' : 'PT IMS' }}</td>
-                                @if(MyHelper::hasAccess([49,51,52], $grantedFeature))
-                                    <td class="text-center">
-                                        @if(MyHelper::hasAccess([49,51], $grantedFeature))
-                                            <a href="{{ url('product/icount/detail') }}/{{ $value['id_item'] }}" class="btn btn-sm blue"><i class="fa fa-edit"></i></a>
-                                        @endif
-                                    </td>
-                                @endif
-                            </tr>
-                        @endforeach
-                    @endif
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 

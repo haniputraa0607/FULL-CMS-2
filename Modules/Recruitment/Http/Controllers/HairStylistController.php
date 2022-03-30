@@ -248,6 +248,23 @@ class HairStylistController extends Controller
         }
     }
 
+    public function hsDownloadFileContract($id){
+        $detail = MyHelper::post('recruitment/hairstylist/be/detail',['id_user_hair_stylist' => $id]);
+        if(isset($detail['status']) && $detail['status'] == 'success'){
+            $res = $detail['result'];
+            $ext = explode(".",$res['file_contract'])[1]??null;
+            if(empty($ext)){
+                return redirect('recruitment/hair-stylist')->withErrors(['Extention not found']);
+            }
+            $filename = 'hs_'.$res['user_hair_stylist_code'].'.docx';
+            $temp = tempnam(sys_get_temp_dir(), $filename);
+            copy($res['file_contract'], $temp);
+            return response()->download($temp, $filename)->deleteFileAfterSend(true);
+        }else{
+            return redirect('recruitment/hair-stylist')->withErrors(['File not found']);
+        }
+    }
+
     public function candidateDelete($id){
         $delete = MyHelper::post('recruitment/hairstylist/be/delete', ['id_user_hair_stylist' => $id]);
         return $delete;

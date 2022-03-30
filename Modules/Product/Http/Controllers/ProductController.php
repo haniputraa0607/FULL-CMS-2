@@ -767,13 +767,7 @@ class ProductController extends Controller
             $data['brands'] = MyHelper::get('brand/be/list')['result']??[];
             $data['promo_categories'] = MyHelper::get('product/promo-category')['result']??[];
             $data['product'][0]['product_promo_categories'] = array_column($data['product'][0]['product_promo_categories'],'id_product_promo_category');
-            $nextId = MyHelper::get('product/next/'.$data['product'][0]['id_product']);
-            if (isset($nextId['result']['product_code'])) {
-                $data['next_id'] = $nextId['result']['product_code'];
-            }
-            else {
-                $data['next_id'] = null;
-            }
+            $data['next_id'] = null;
 
             $outletAll = MyHelper::post('outlet/be/list', ['admin' => 1, 'id_product' => $data['product'][0]['id_product']]);
             $data['outlet_all'] = [];
@@ -1542,7 +1536,7 @@ class ProductController extends Controller
             'menu_active'    => 'product',
             'submenu_active' => 'product-icount-list',
         ];
-
+        
         $product = MyHelper::post('product/be/icount/list', $post);
         // return $product;
         if (isset($product['status']) && $product['status'] == "success") {
@@ -1582,7 +1576,7 @@ class ProductController extends Controller
         }
     }
 
-    public function detailIcount(Request $request, $id_item) {
+    public function detailIcount(Request $request, $company, $id_item) {
         $data = [
             'title'          => 'Product ICount',
             'sub_title'      => 'Product ICount Detail',
@@ -1590,7 +1584,7 @@ class ProductController extends Controller
             'submenu_active' => 'product-icount-list',
         ];
 
-        $product = MyHelper::post('product/be/icount/list', ['id_item' => $id_item, 'outlet_prices' => 1]);
+        $product = MyHelper::post('product/be/icount/list', ['company_type' => $company, 'id_item' => $id_item, 'outlet_prices' => 1]);
 
         if (isset($product['status']) && $product['status'] == "success") {
             $data['product'] = $product['result'];
@@ -1710,6 +1704,46 @@ class ProductController extends Controller
             }
 
         }
+    }
+    public function unitIcount(Request $request, $company, $id_item) {
+        $data = [
+            'title'          => 'Product ICount',
+            'sub_title'      => 'Conversion Unit Product Icount',
+            'menu_active'    => 'product',
+            'submenu_active' => 'product-icount-list',
+        ];
+
+        $product = MyHelper::post('product/be/icount/list', ['company_type' => $company, 'id_item' => $id_item, 'outlet_prices' => 1]);
+
+        if (isset($product['status']) && $product['status'] == "success") {
+            $data['product'] = $product['result'][0];
+        }
+        else {
+            $e = ['e' => 'Data product not found.'];
+            return back()->witherrors($e);
+        }
+        $post = $request->except('_token');
+
+        if (empty($post)) {
+            $data['units'] = MyHelper::post('product/icount/getUnit', ['id_product_icount' => $data['product']['id_product_icount']])['result'];
+            return view('product::product.unit_icount', $data);
+        }
+        else {
+            $save = MyHelper::post('product/icount/saveUnit', $post);
+            if (isset($save['status']) && $save['status'] == "success") {
+                return redirect(url()->previous())->with('success', ['Conversion Unit has been save.']);
+            }
+            else {
+                return redirect(url()->previous())->witherrors(['Something went wrong. Please try again.']);
+            }
+
+        }
+    }
+
+    public function unitIcountNew(Request $request){
+        $post = $request->except('_token');
+        $save = MyHelper::post('product/icount/saveNewUnit', $post);
+        return $save;
     }
 
     function updateProductUse(Request $request){
