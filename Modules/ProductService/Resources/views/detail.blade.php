@@ -655,7 +655,7 @@
             <?php
                 foreach($product_uses_ima as $row){
                 ?>
-                html_select += "<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>";
+                html_select += "<option value='<?php echo $row['id_product_icount']; ?>' data-units='<?php echo $row['units']; ?>' ><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>";
                 <?php
                 }
                 ?>
@@ -666,7 +666,7 @@
             <?php
                 foreach($product_uses_ims as $row){
                 ?>
-                html_select += "<option value='<?php echo $row['id_product_icount']; ?>'><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>";
+                html_select += "<option value='<?php echo $row['id_product_icount']; ?>' data-units='<?php echo $row['units']; ?>' ><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>";
                 <?php
                 }
             ?>
@@ -737,64 +737,23 @@
         if(company=='ima'){
             this_id = '#product_use_unit_ima_'+no;
             this_id_qty = '#product_use_qty_ima_'+no;
+            code = '#product_use_code_ima_'+no;
             $('#product_use_qty_ims_'+no).attr("required", "false");
         }else{
             this_id = '#product_use_unit_ims_'+no;
             this_id_qty = '#product_use_qty_ims_'+no;
+            code = '#product_use_code_ims_'+no;
             $('#product_use_qty_ima_'+no).attr("required", "false");
         }
+        var units = $(code+' option:selected').attr('data-units');
         $(this_id).empty();
         $(this_id).val('');
         $(this_id_qty).val('');
-        var html_select = '<option></option>';
-        var unit1 = '';
-        var unit2 = '';
-        var unit3 = '';
-        var html_select = '<option></option>';
-        var unit1 = '';
-        var unit2 = '';
-        var unit3 = '';
-        if(company=='ima'){
-            <?php 
-            foreach($product_uses_ima as $row){ ?>
-                if(value=={{ $row['id_product_icount'] }}){
-                    unit1 = '{{ $row['unit1'] }}'
-                    unit2 = '{{ $row['unit2'] }}'
-                    unit3 = '{{ $row['unit3'] }}'
-                    if(unit1!=''){
-                        html_select += "<option value='<?php echo $row['unit1']; ?>'><?php echo $row['unit1']; ?></option>";
-                    }
-                    if(unit2!=''){
-                        html_select += "<option value='<?php echo $row['unit2']; ?>'><?php echo $row['unit2']; ?></option>";
-                    }
-                    if(unit3!=''){
-                        html_select += "<option value='<?php echo $row['unit3']; ?>'><?php echo $row['unit3']; ?></option>";
-                    }
-                }
-            <?php 
-            }
-        ?>
-        }else{
-            <?php 
-            foreach($product_uses_ims as $row){ ?>
-                if(value=={{ $row['id_product_icount'] }}){
-                    unit1 = '{{ $row['unit1'] }}'
-                    unit2 = '{{ $row['unit2'] }}'
-                    unit3 = '{{ $row['unit3'] }}'
-                    if(unit1!=''){
-                        html_select += "<option value='<?php echo $row['unit1']; ?>'><?php echo $row['unit1']; ?></option>";
-                    }
-                    if(unit2!=''){
-                        html_select += "<option value='<?php echo $row['unit2']; ?>'><?php echo $row['unit2']; ?></option>";
-                    }
-                    if(unit3!=''){
-                        html_select += "<option value='<?php echo $row['unit3']; ?>'><?php echo $row['unit3']; ?></option>";
-                    }
-                }
-            <?php 
-            }
-        ?>
-        }
+        var html_select = `<option></option>`;
+        var array_unit = units.split(",");
+        array_unit.forEach(function(unit, index){
+            html_select += `<option value='${unit}'>${unit}</option>`;
+        })   
         $(this_id).append(html_select);
         $(this_id).attr("required", "true");
         $(this_id_qty).attr("required", "true");

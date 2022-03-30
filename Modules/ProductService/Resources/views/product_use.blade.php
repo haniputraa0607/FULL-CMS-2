@@ -4,12 +4,6 @@
         <div class="form-group">
             <center><b>Product Use IMA</b></center>
         </div>
-        <div class="form-group">
-            <div class="col-md-1"></div>
-            <div class="col-md-4">
-                <a class="btn btn-primary" onclick="addProductServiceUse('ima')">&nbsp;<i class="fa fa-plus-circle"></i> Add Product </a>
-            </div>
-        </div>
         <br>
         <div class="form-group">
             <div class="col-md-1"></div>
@@ -32,7 +26,7 @@
                             <select class="form-control select2" id="product_use_code_ima_0" name="product_icount_ima[0][id_product_icount]" placeholder="Select product use" style="width: 100%" onchange="changeUnit(0,this.value,'ima')">
                                 <option></option>
                                 @foreach($product_uses_ima as $product_use)
-                                    <option value="{{$product_use['id_product_icount']}}">{{$product_use['code']}} - {{$product_use['name']}}</option>
+                                    <option value="{{$product_use['id_product_icount']}}" data-units="{{$product_use['units']}}">{{$product_use['code']}} - {{$product_use['name']}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -61,7 +55,7 @@
                                 <select class="form-control select2" id="product_use_code_ima_{{$key}}" name="product_icount_ima[{{$key}}][id_product_icount]" placeholder="Select product use" style="width: 100%" onchange="changeUnit({{$key}},this.value,'ima')">
                                     <option></option>
                                     @foreach($product_uses_ima as $product_use)
-                                        <option value="{{$product_use['id_product_icount']}}" @if($product_use['id_product_icount'] == $value['id_product_icount']) selected @endif>{{$product_use['code']}} - {{$product_use['name']}}</option>
+                                        <option value="{{$product_use['id_product_icount']}}" data-units="{{$product_use['units']}}" @if($product_use['id_product_icount'] == $value['id_product_icount']) selected @endif>{{$product_use['code']}} - {{$product_use['name']}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -70,9 +64,9 @@
                                     <option></option>
                                     @foreach($product_uses_ima as $use)
                                         @if ($use['id_product_icount'] == $value['id_product_icount'])
-                                            @if($use['unit1']) <option value="{{ $use['unit1'] }}" @if($use['unit1'] == $value['unit']) selected @endif>{{ $use['unit1'] }}</option> @endif
-                                            @if($use['unit2']) <option value="{{ $use['unit2'] }}" @if($use['unit2'] == $value['unit']) selected @endif>{{ $use['unit2'] }}</option> @endif
-                                            @if($use['unit3']) <option value="{{ $use['unit3'] }}" @if($use['unit3'] == $value['unit']) selected @endif>{{ $use['unit3'] }}</option> @endif
+                                            @foreach ($use['unit_icount'] as $unit_icount)
+                                                @if($unit_icount['unit']) <option value="{{ $unit_icount['unit'] }}" @if($unit_icount['unit'] == $value['unit']) selected @endif>{{ $unit_icount['unit'] }}</option> @endif                                                
+                                            @endforeach
                                         @endif
                                     @endforeach
                                 </select>
@@ -90,18 +84,18 @@
                 @endforeach
             @endif
         </div>
+        <div class="form-group">
+            <div class="col-md-1"></div>
+            <div class="col-md-4">
+                <a class="btn btn-primary" onclick="addProductServiceUse('ima')">&nbsp;<i class="fa fa-plus-circle"></i> Add Product </a>
+            </div>
+        </div>
     </div>
 
     <br><br>
     <div class="form-body">
         <div class="form-group">
             <center><b>Product Use IMS</b></center>
-        </div>
-        <div class="form-group">
-            <div class="col-md-1"></div>
-            <div class="col-md-4">
-                <a class="btn btn-primary" onclick="addProductServiceUse('ims')">&nbsp;<i class="fa fa-plus-circle"></i> Add Product </a>
-            </div>
         </div>
         <br>
         <div class="form-group">
@@ -125,7 +119,7 @@
                             <select class="form-control select2" id="product_use_code_ims_0" name="product_icount_ims[0][id_product_icount]" placeholder="Select product use" style="width: 100%" onchange="changeUnit(0,this.value,'ims')">
                                 <option></option>
                                 @foreach($product_uses_ims as $product_use)
-                                    <option value="{{$product_use['id_product_icount']}}">{{$product_use['code']}} - {{$product_use['name']}}</option>
+                                    <option value="{{$product_use['id_product_icount']}}" data-units="{{$product_use['units']}}">{{$product_use['code']}} - {{$product_use['name']}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -154,7 +148,7 @@
                                 <select class="form-control select2" id="product_use_code_ims_{{$key}}" name="product_icount_ims[{{$key}}][id_product_icount]" placeholder="Select product use" style="width: 100%" onchange="changeUnit({{$key}},this.value,'ims')">
                                     <option></option>
                                     @foreach($product_uses_ims as $product_use)
-                                        <option value="{{$product_use['id_product_icount']}}" @if($product_use['id_product_icount'] == $value['id_product_icount']) selected @endif>{{$product_use['code']}} - {{$product_use['name']}}</option>
+                                        <option value="{{$product_use['id_product_icount']}}" data-units="{{$product_use['units']}}" @if($product_use['id_product_icount'] == $value['id_product_icount']) selected @endif>{{$product_use['code']}} - {{$product_use['name']}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -163,9 +157,9 @@
                                     <option></option>
                                     @foreach($product_uses_ims as $use)
                                         @if ($use['id_product_icount'] == $value['id_product_icount'])
-                                            @if($use['unit1']) <option value="{{ $use['unit1'] }}" @if($use['unit1'] == $value['unit']) selected @endif>{{ $use['unit1'] }}</option> @endif
-                                            @if($use['unit2']) <option value="{{ $use['unit2'] }}" @if($use['unit2'] == $value['unit']) selected @endif>{{ $use['unit2'] }}</option> @endif
-                                            @if($use['unit3']) <option value="{{ $use['unit3'] }}" @if($use['unit3'] == $value['unit']) selected @endif>{{ $use['unit3'] }}</option> @endif
+                                            @foreach ($use['unit_icount'] as $unit_icount)
+                                                @if($unit_icount['unit']) <option value="{{ $unit_icount['unit'] }}" @if($unit_icount['unit'] == $value['unit']) selected @endif>{{ $unit_icount['unit'] }}</option> @endif                                                
+                                            @endforeach
                                         @endif
                                     @endforeach
                                 </select>
@@ -182,6 +176,12 @@
                     </div>
                 @endforeach
             @endif
+        </div>
+        <div class="form-group">
+            <div class="col-md-1"></div>
+            <div class="col-md-4">
+                <a class="btn btn-primary" onclick="addProductServiceUse('ims')">&nbsp;<i class="fa fa-plus-circle"></i> Add Product </a>
+            </div>
         </div>
     </div>
     
