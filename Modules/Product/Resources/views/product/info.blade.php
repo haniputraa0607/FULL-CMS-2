@@ -279,6 +279,7 @@
             </div>
             <div class="col-md-2">
                 <select class="form-control select2" id="product_use_unit_ims_0" name="product_icount_ims[0][unit]" placeholder="Select unit" style="width: 100%">
+                    <option></option>
                     @if (isset($product_icount_use_ims[0]))
                     @foreach($product_uses_ims as $use)
                         @if ($use['id_product_icount'] == $product_icount_use_ims[0]['id_product_icount'])

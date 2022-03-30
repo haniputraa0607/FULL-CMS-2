@@ -934,10 +934,12 @@
         if(company=='ima'){
             this_id = '#product_use_unit_ima_'+no;
             this_id_qty = '#product_use_qty_ima_'+no;
+            code = '#product_use_code_ima_'+no;
             $('#product_use_qty_ims_'+no).attr("required", "false");
         }else{
             this_id = '#product_use_unit_ims_'+no;
             this_id_qty = '#product_use_qty_ims_'+no;
+            code = '#product_use_code_ims_'+no;
             $('#product_use_qty_ima_'+no).attr("required", "false");
         }
         $(this_id).empty();
