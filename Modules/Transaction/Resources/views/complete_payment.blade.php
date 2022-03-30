@@ -150,8 +150,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-3 control-label">ID Payment <span class="required" aria-required="true"> * </span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Silahkan memasukkan data id payment" data-container="body"></i>
+                        <label class="col-md-3 control-label">Invoice ID <span class="required" aria-required="true"> * </span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Silahkan memasukkan data invoice id" data-container="body"></i>
                         </label>
                         <div class="col-md-6">
                             <input class="form-control" placeholder="ID Payment" name="id_payment" id="id_payment">
