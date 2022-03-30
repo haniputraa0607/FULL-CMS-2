@@ -288,7 +288,6 @@
 			</li>
 			@endif
 		@endif
-
 		@endif
 
 		@if(MyHelper::hasAccess([301,302,303,304,305], $grantedFeature))
@@ -1915,7 +1914,7 @@
 			<li class="nav-item {{($menu_active == 'transaction-complete-payment') ? 'active' : ''}}">
 				<a href="{{url('transaction/complete-payment')}}" class="nav-link nav-toggle">
 					<i class="fa fa-check"></i>
-					<span class="title">Complete Payment</span>
+					<span class="title">Manual Complete Payment</span>
 				</a>
 			</li>
 			@endif
