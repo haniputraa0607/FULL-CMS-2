@@ -767,13 +767,7 @@ class ProductController extends Controller
             $data['brands'] = MyHelper::get('brand/be/list')['result']??[];
             $data['promo_categories'] = MyHelper::get('product/promo-category')['result']??[];
             $data['product'][0]['product_promo_categories'] = array_column($data['product'][0]['product_promo_categories'],'id_product_promo_category');
-            $nextId = MyHelper::get('product/next/'.$data['product'][0]['id_product']);
-            if (isset($nextId['result']['product_code'])) {
-                $data['next_id'] = $nextId['result']['product_code'];
-            }
-            else {
-                $data['next_id'] = null;
-            }
+            $data['next_id'] = null;
 
             $outletAll = MyHelper::post('outlet/be/list', ['admin' => 1, 'id_product' => $data['product'][0]['id_product']]);
             $data['outlet_all'] = [];

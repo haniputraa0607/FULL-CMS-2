@@ -45,6 +45,15 @@
 				</div>
 			</div>
 			<div class="form-group">
+				<label class="col-md-4 control-label">ID Card Number <span class="required" aria-required="true"> * </span>
+				</label>
+				<div class="col-md-6">
+					<div class="input-icon right">
+						<input type="text" placeholder="ID Card Number" class="form-control" name="id_card_number" required>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="col-md-4 control-label">Nickname <span class="required" aria-required="true"> * </span>
 				</label>
 				<div class="col-md-6">

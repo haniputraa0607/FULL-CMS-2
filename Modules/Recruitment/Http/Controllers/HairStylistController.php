@@ -139,9 +139,8 @@ class HairStylistController extends Controller
         }else{
             Session::forget('filter-hs-list');
         }
-
         $getList = MyHelper::post('recruitment/hairstylist/be/list',$post);
-
+        $data['outlets'] =  MyHelper::get('outlet/be/list/outlet')['result']??[''];
         if (isset($getList['status']) && $getList['status'] == "success") {
             $data['data']          = $getList['result']['data'];
             $data['dataTotal']     = $getList['result']['total'];
@@ -243,6 +242,23 @@ class HairStylistController extends Controller
             $filename = str_replace('/','_',strtolower(str_replace(' ','_',$data['result']['document_type'])).'_'.strtotime(date('Ymdhis')).'.'.$ext);
             $temp = tempnam(sys_get_temp_dir(), $filename);
             copy($data['result']['attachment'], $temp);
+            return response()->download($temp, $filename)->deleteFileAfterSend(true);
+        }else{
+            return redirect('recruitment/hair-stylist')->withErrors(['File not found']);
+        }
+    }
+
+    public function hsDownloadFileContract($id){
+        $detail = MyHelper::post('recruitment/hairstylist/be/detail',['id_user_hair_stylist' => $id]);
+        if(isset($detail['status']) && $detail['status'] == 'success'){
+            $res = $detail['result'];
+            $ext = explode(".",$res['file_contract'])[1]??null;
+            if(empty($ext)){
+                return redirect('recruitment/hair-stylist')->withErrors(['Extention not found']);
+            }
+            $filename = 'hs_'.$res['user_hair_stylist_code'].'.docx';
+            $temp = tempnam(sys_get_temp_dir(), $filename);
+            copy($res['file_contract'], $temp);
             return response()->download($temp, $filename)->deleteFileAfterSend(true);
         }else{
             return redirect('recruitment/hair-stylist')->withErrors(['File not found']);

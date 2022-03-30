@@ -1,3 +1,6 @@
+<?php
+$submitCheck = true;
+?>
 @extends('layouts.main-closed')
 
 @section('page-style')
@@ -79,6 +82,12 @@
                 $('#conclusion_error_text_'+id).hide();
                 $("#btn_submit_attendance").attr("disabled", false);
             }
+
+            $('.conclusion').each(function() {
+                if($(this).val() === ""){
+                    $("#btn_submit_attendance").attr("disabled", true);
+                }
+            });
         }
     </script>
 @endsection
@@ -146,6 +155,11 @@
             </div>
         </div>
         <div class="portlet-body form">
+            @if($detail['last_meeting'] == $detail['meeting'])
+                <div class="alert alert-warning deteksi-trigger">
+                    <p> Don't forget to input conclusion score. Can not save attendance when score conslusion is empty.</p>
+                </div>
+            @endif
             <form class="form-horizontal" role="form" action="{{url('academy/transaction/outlet/course/detail/attendace', $detail['id_transaction_academy_schedule'])}}" method="post">
                 <div class="modal-body">
                     <div class="form-group">
@@ -224,12 +238,16 @@
                                             $htmlTheory .= '<p><b>Conclusion</b></p>';
                                             $htmlTheory .= '</div>';
                                             $htmlTheory .= '<div class="col-md-2">';
-                                            $htmlTheory .= '<input type="text" class="form-control" id="conclusion_score_'.$ct['id_theory_category'].'" placeholder="Score" onkeyup="validationConclusion('.$ct['id_theory_category'].')">';
+                                            $htmlTheory .= '<input type="text" class="form-control conclusion" id="conclusion_score_'.$ct['id_theory_category'].'" placeholder="Score" onkeyup="validationConclusion('.$ct['id_theory_category'].')" value="'.($ct['conclusion_score']??'').'">';
                                             $htmlTheory .= '<p style="color: red;margin-top: -1%;display: none" id="conclusion_error_text_'.$ct['id_theory_category'].'">Maximal score is 100</p>';
                                             $htmlTheory .= '</div>';
                                             $htmlTheory .= '</div>';
 
                                             $htmlTheory .= '</div>';
+
+                                            if($detail['last_meeting'] == $detail['meeting'] && empty($ct['conclusion_score'])){
+                                                $submitCheck = false;
+                                            }
                                         }else{
                                             $htmlTheory .= '<div id="cat_'.$ct['id_theory_category'].'">';
                                             $totalMinimumScore = 0;
@@ -272,12 +290,16 @@
                                             $htmlTheory .= '<p><b>Conclusion</b></p>';
                                             $htmlTheory .= '</div>';
                                             $htmlTheory .= '<div class="col-md-2" style="margin-left: 2%">';
-                                            $htmlTheory .= '<input type="text" class="form-control" id="conclusion_score_'.$ct['id_theory_category'].'" onkeyup="validationConclusion('.$ct['id_theory_category'].')" name="conclusion_score['.$ct['id_theory_category'].']" value="'.($ct['conclusion_score']??'').'" placeholder="Score">';
+                                            $htmlTheory .= '<input type="text" class="form-control conclusion" id="conclusion_score_'.$ct['id_theory_category'].'" onkeyup="validationConclusion('.$ct['id_theory_category'].')" name="conclusion_score['.$ct['id_theory_category'].']" value="'.($ct['conclusion_score']??'').'" placeholder="Score">';
                                             $htmlTheory .= '<p style="color: red;margin-top: -1%;display: none" id="conclusion_error_text_'.$ct['id_theory_category'].'">Maximal score is 100</p>';
                                             $htmlTheory .= '</div>';
                                             $htmlTheory .= '</div>';
 
                                             $htmlTheory .= '</div>';
+
+                                            if($detail['last_meeting'] == $detail['meeting'] && empty($ct['conclusion_score'])){
+                                                $submitCheck = false;
+                                            }
                                         }
 
                                         echo $htmlTheory;
@@ -290,8 +312,7 @@
                 </div>
                 <div class="modal-footer" style="text-align: center">
                     {{ csrf_field() }}
-                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
-                    <button type="submit" id="btn_submit_attendance" class="btn green">Save</button>
+                    <button type="submit" id="btn_submit_attendance" class="btn green" @if(!$submitCheck) disabled @endif>Save</button>
                 </div>
             </form>
         </div>

@@ -802,9 +802,6 @@
                     <a href="#info" data-toggle="tab"> Info </a>
                 </li>
                 <li>
-                    <a href="#productuse" data-toggle="tab"> Product Icount </a>
-                </li>
-                <li>
                     <a href="#theory" data-toggle="tab"> Theory </a>
                 </li>
                 <li>
