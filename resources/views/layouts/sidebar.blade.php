@@ -528,7 +528,7 @@
 						@endif
 					@endif
 					@if(MyHelper::hasAccess([120,122], $grantedFeature) && false)
-{{-- 						<li class="nav-item {{($submenu_active == 'outlet-autoresponse-outlet-pin-sent') ? 'active open' : ''}}">
+ 						{{--<li class="nav-item {{($submenu_active == 'outlet-autoresponse-outlet-pin-sent') ? 'active open' : ''}}">
 							<a href="{{url('autoresponse/outlet/outlet-pin-sent')}}" class="nav-link ">
 								<span class="title">[Response] Outlet Pin Sent</span>
 							</a>
@@ -570,6 +570,39 @@
 								@endif
 							</ul>
 						</li>
+					@endif
+				</ul>
+			</li>
+			@endif
+
+			@if(MyHelper::hasAccess([128], $configs) && MyHelper::hasAccess([447, 449], $grantedFeature))
+			<li class="nav-item {{($menu_active == 'office-branch') ? 'active' : ''}}">
+				<a href="javascript:;" class="nav-link nav-toggle">
+					<i class="fa fa-building-o"></i>
+					<span class="title">Office Branch</span>
+					<span class="arrow {{($menu_active == 'office-branch') ? 'open' : ''}}"></span>
+				</a>
+				<ul class="sub-menu">
+					@if(MyHelper::hasAccess([449], $grantedFeature))
+					<li class="nav-item {{($submenu_active == 'office-branch-new') ? 'active open' : ''}}">
+						<a href="{{url('office-branch/create')}}" class="nav-link ">
+							<span class="title">New Office Branch</span>
+						</a>
+					</li>
+					@endif
+					@if(MyHelper::hasAccess([447], $grantedFeature))
+					<li class="nav-item {{($submenu_active == 'office-branch-list') ? 'active open' : ''}}">
+						<a href="{{url('office-branch/list')}}" class="nav-link ">
+							<span class="title">Office Branch List</span>
+						</a>
+					</li>
+					@endif
+					@if(MyHelper::hasAccess([450], $grantedFeature))
+					<li class="nav-item {{($submenu_active == 'office-branch-holiday') ? 'active open' : ''}}">
+						<a href="{{url('office-branch/holiday')}}" class="nav-link ">
+							<span class="title">Office Holiday Setting</span>
+						</a>
+					</li>
 					@endif
 				</ul>
 			</li>
@@ -794,7 +827,7 @@
 			@if(MyHelper::hasAccess([373,374,375,376,377], $grantedFeature))
 				<li class="nav-item {{($menu_active == 'academy') ? 'active' : ''}}">
 					<a href="javascript:;" class="nav-link nav-toggle">
-						<i class="fa fa-building-o"></i>
+						<i class="fa fa-graduation-cap"></i>
 						<span class="title">Product Academy</span>
 						<span class="arrow {{($menu_active == 'academy') ? 'open' : ''}}"></span>
 					</a>
