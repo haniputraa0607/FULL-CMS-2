@@ -242,7 +242,7 @@
                 <select class="select2 form-control" id="product_use_code_ima_0" name="product_icount_ima[0][id_product_icount]" onchange="changeUnit(0,this.value,'ima')">
                     <option></option>
                     @foreach($product_uses_ima as $product_use_ima)
-                        <option value="{{$product_use_ima['id_product_icount']}}" @if (isset($product_icount_use_ima[0])) @if($product_use_ima['id_product_icount'] == $product_icount_use_ima[0]['id_product_icount']) selected @endif @endif>{{$product_use_ima['code']}} - {{$product_use_ima['name']}}</option>
+                        <option value="{{$product_use_ima['id_product_icount']}}" data-units="{{$product_use_ima['units']}}" @if (isset($product_icount_use_ima[0])) @if($product_use_ima['id_product_icount'] == $product_icount_use_ima[0]['id_product_icount']) selected @endif @endif>{{$product_use_ima['code']}} - {{$product_use_ima['name']}}</option>
                     @endforeach
                 </select>
             </div>
@@ -252,9 +252,9 @@
                     @if (isset($product_icount_use_ima[0]))
                     @foreach($product_uses_ima as $use)
                         @if ($use['id_product_icount'] == $product_icount_use_ima[0]['id_product_icount'])
-                            @if($use['unit1']) <option value="{{ $use['unit1'] }}" @if($use['unit1'] == $product_icount_use_ima[0]['unit']) selected @endif>{{ $use['unit1'] }}</option> @endif
-                            @if($use['unit2']) <option value="{{ $use['unit2'] }}" @if($use['unit2'] == $product_icount_use_ima[0]['unit']) selected @endif>{{ $use['unit2'] }}</option> @endif
-                            @if($use['unit3']) <option value="{{ $use['unit3'] }}" @if($use['unit3'] == $product_icount_use_ima[0]['unit']) selected @endif>{{ $use['unit3'] }}</option> @endif
+                            @foreach ($use['unit_icount'] as $unit_icount)
+                            @if($unit_icount['unit']) <option value="{{ $unit_icount['unit'] }}" @if($unit_icount['unit'] == $product_icount_use_ima[0]['unit']) selected @endif>{{ $unit_icount['unit'] }}</option> @endif
+                            @endforeach
                         @endif
                     @endforeach
                     @else
@@ -273,18 +273,19 @@
                 <select class="select2 form-control" id="product_use_code_ims_0" name="product_icount_ims[0][id_product_icount]" onchange="changeUnit(0,this.value,'ims')">
                     <option></option>
                     @foreach($product_uses_ims as $product_use_ims)
-                        <option value="{{$product_use_ims['id_product_icount']}}" @if (isset($product_icount_use_ims[0])) @if($product_use_ims['id_product_icount'] == $product_icount_use_ims[0]['id_product_icount']) selected @endif @endif>{{$product_use_ims['code']}} - {{$product_use_ims['name']}}</option>
+                        <option value="{{$product_use_ims['id_product_icount']}}" data-units="{{$product_use_ims['units']}}" @if (isset($product_icount_use_ims[0])) @if($product_use_ims['id_product_icount'] == $product_icount_use_ims[0]['id_product_icount']) selected @endif @endif  >{{$product_use_ims['code']}} - {{$product_use_ims['name']}}</option>
                     @endforeach
                 </select>
             </div>
             <div class="col-md-2">
                 <select class="form-control select2" id="product_use_unit_ims_0" name="product_icount_ims[0][unit]" placeholder="Select unit" style="width: 100%">
+                    <option></option>
                     @if (isset($product_icount_use_ims[0]))
                     @foreach($product_uses_ims as $use)
                         @if ($use['id_product_icount'] == $product_icount_use_ims[0]['id_product_icount'])
-                            @if($use['unit1']) <option value="{{ $use['unit1'] }}" @if($use['unit1'] == $product_icount_use_ims[0]['unit']) selected @endif>{{ $use['unit1'] }}</option> @endif
-                            @if($use['unit2']) <option value="{{ $use['unit2'] }}" @if($use['unit2'] == $product_icount_use_ims[0]['unit']) selected @endif>{{ $use['unit2'] }}</option> @endif
-                            @if($use['unit3']) <option value="{{ $use['unit3'] }}" @if($use['unit3'] == $product_icount_use_ims[0]['unit']) selected @endif>{{ $use['unit3'] }}</option> @endif
+                            @foreach ($use['unit_icount'] as $unit_icount)
+                            @if($unit_icount['unit']) <option value="{{ $unit_icount['unit'] }}" @if($unit_icount['unit'] == $product_icount_use_ims[0]['unit']) selected @endif>{{ $unit_icount['unit'] }}</option> @endif
+                            @endforeach
                         @endif
                     @endforeach
                     @else

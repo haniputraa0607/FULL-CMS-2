@@ -25,6 +25,9 @@
         .datepicker{
             padding: 6px 12px;
            }
+        .sweet-alert .customInput{
+            width: 10px;
+           }
     </style>
 @endsection
 
@@ -55,7 +58,7 @@
         function changeSelect(){
             setTimeout(function(){
                 $(".select2").select2({
-                    placeholder: "Search"
+                    placeholder: "Select"
                 });
             }, 100);
         }
@@ -68,38 +71,48 @@
     
         $(document).ready(function() {
             $('[data-switch=true]').bootstrapSwitch();
-            SweetAlertConfirmData.init();
         });
     </script>
 
     <script type="text/javascript">
 
         function addConversion(unit,index){
-            var new_index = index + 1;
+            var select = `<option value="" selected disabled></option>`;
+            @foreach ($units as $unit_select)
+                if(unit != '{{ $unit_select['unit'] }}'){
+                    select += `<option value="{{ $unit_select['unit'] }}" >{{ $unit_select['unit'] }}</option>`;
+                }
+            @endforeach
             var html = `
-                <tr data-id="${unit}_${new_index}">
+                <tr data-id="${unit}_${index}">
                     <td>
-                        <input type="text" class="form-control unit" name="conversion[${unit}][${new_index}][unit]" required readonly value="${unit}">
+                        <input type="text" class="form-control unit" name="conversion[${unit}][${index}][unit]" required readonly value="${unit}">
                     </td>
                     <td>
                         <span>=</span>
                     </td>
                     <td>
-                        <input type="text" class="form-control qty_conversion" name="conversion[${unit}][${new_index}][qty_conversion]" required>
+                        <input type="text" class="form-control qty_conversion" name="conversion[${unit}][${index}][qty_conversion]" required>
                     </td>
                     <td>
-                        <input type="text" class="form-control unit_conversion" name="conversion[${unit}][${new_index}][unit_conversion]" required>
+                        <select class="form-control select2 unit_conversion" name="conversion[${unit}][${index}][unit_conversion]" required>
+                        ${select}
+                        </select>
                     </td>
                     <td>
-                        <button type="button" onclick="deleteConversion('${unit}',${new_index})" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+                        <button type="button" onclick="deleteConversion('${unit}',${index})" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
                     </td>
                 </tr>
             `;
 
+            var new_index = index + 1;
             var new_function = `addConversion(${unit},${new_index})`;
             $("#add"+unit).attr("onclick", "addConversion('"+unit+"',"+new_index+")");
 
             $('#unit'+unit+'-container tbody').append(html);
+            $(`tr[data-id=${unit}_${index}] select`).select2({
+                placeholder: "Select"
+            });
         }
 
         function deleteConversion(unit,index){
@@ -117,7 +130,7 @@
                 closeOnConfirm: false    
             },function(inputValue){
                 if(inputValue==''){
-                    swal("Error!", "You need to input the new unit name.", "error")
+                    swal("Error!", "You need to input the new unit name.")
                 }else{
                     var data = {
                             '_token' : '{{csrf_token()}}',
@@ -134,10 +147,10 @@
                                 location.href = "{{ url()->current() }}";
                             }
                             else if(response.status == "fail"){
-                                swal("Error!", "Failed to reject created new unit.", "error")
+                                swal("Error!", "Failed to created new unit.")
                             }
                             else {
-                                swal("Error!", "Something went wrong. Failed to created new unit .", "error")
+                                swal("Error!", "Something went wrong. Failed to created new unit .")
                             }
                         }
                     });
@@ -228,11 +241,12 @@
                                                     <th>Unit</th>
                                                     <th></th>
                                                     <th>Quantity</th>
-                                                    <th>Unit Conversion</th>
+                                                    <th width="160px">Unit Conversion</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <input type="hidden" name="conversion[{{ $unit['unit'] }}][id_product_icount]" value="{{ $product['id_product_icount'] }}">
                                                 @if(isset($unit['conversion']) && !empty($unit['conversion']))
                                                     @foreach ($unit['conversion'] as $index_item => $item)
                                                     <tr data-id="{{ $unit['unit'] }}_{{ $index_item }}">
@@ -246,7 +260,14 @@
                                                             <input type="text" class="form-control qty_conversion" name="conversion[{{  $unit['unit'] }}][{{ $index_item }}][qty_conversion]" required value="{{ $item['qty_conversion'] }}">
                                                         </td>
                                                         <td>
-                                                            <input type="text" class="form-control unit_conversion" name="conversion[{{  $unit['unit'] }}][{{ $index_item }}][unit_conversion]" required value="{{ $item['unit_conversion'] }}">
+                                                            <select class="form-control select2 unit_conversion" name="conversion[{{  $unit['unit'] }}][{{ $index_item }}][unit_conversion]" required>
+                                                                <option value="" selected disabled></option>
+                                                                @foreach ($units as $unit_select)
+                                                                    @if ($unit_select['unit'] != $unit['unit'])
+                                                                    <option value="{{ $unit_select['unit'] }}" @if($item['unit_conversion'] == $unit_select['unit']) selected @endif >{{ $unit_select['unit'] }}</option>
+                                                                    @endif
+                                                                @endforeach
+                                                            </select>
                                                         </td>
                                                         <td>
                                                             <button type="button" disabled class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
@@ -255,23 +276,6 @@
                                                     @endforeach
                                                 @else
                                                 @php $index_item = 0; @endphp
-                                                <tr data-id="{{ $unit['unit'] }}_0">
-                                                        <td>
-                                                            <input type="text" class="form-control unit" name="conversion[{{ $unit['unit'] }}][0][unit]" required readonly value="{{  $unit['unit'] }}">
-                                                        </td>
-                                                        <td>
-                                                            <span>=</span>
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" class="form-control qty_conversion" name="conversion[{{  $unit['unit'] }}][0][qty_conversion]" required>
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" class="form-control unit_conversion" name="conversion[{{  $unit['unit'] }}][0][unit_conversion]" required>
-                                                        </td>
-                                                        <td>
-                                                            <button type="button" disabled class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
-                                                        </td>
-                                                    </tr>
                                                 @endif
                                             </tbody>
                                         </table>
@@ -297,23 +301,6 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr data-id="{{ $product['unit1'] }}_0">
-                                                    <td>
-                                                        <input type="text" class="form-control unit" name="conversion[{{ $product['unit1'] }}][0][unit]" required readonly value="{{ $product['unit1'] }}">
-                                                    </td>
-                                                    <td>
-                                                        <span>=</span>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="form-control qty_conversion" name="conversion[{{ $product['unit1'] }}][0][qty_conversion]" required>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="form-control unit_conversion" name="conversion[{{ $product['unit1'] }}][0][unit_conversion]" required>
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" disabled class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
-                                                    </td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -337,23 +324,6 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr data-id="{{ $product['unit2'] }}_0">
-                                                    <td>
-                                                        <input type="text" class="form-control unit" name="conversion[{{ $product['unit2'] }}][0][unit]" required readonly value="{{ $product['unit2'] }}">
-                                                    </td>
-                                                    <td>
-                                                        <span>=</span>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="form-control qty_conversion" name="conversion[{{ $product['unit2'] }}][0][qty_conversion]" required>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="form-control unit_conversion" name="conversion[{{ $product['unit2'] }}][0][unit_conversion]" required>
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" disabled class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
-                                                    </td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -377,23 +347,6 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr data-id="{{ $product['unit3'] }}_0">
-                                                    <td>
-                                                        <input type="text" class="form-control unit" name="conversion[{{ $product['unit3'] }}][0][unit]" required readonly value="{{ $product['unit3'] }}">
-                                                    </td>
-                                                    <td>
-                                                        <span>=</span>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="form-control qty_conversion" name="conversion[{{ $product['unit3'] }}][0][qty_conversion]" required>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="form-control unit_conversion" name="conversion[{{ $product['unit3'] }}][0][unit_conversion]" required>
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" disabled class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
-                                                    </td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>

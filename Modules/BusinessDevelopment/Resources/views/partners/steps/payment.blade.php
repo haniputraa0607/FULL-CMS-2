@@ -12,7 +12,7 @@
     }
     $trans = false;
     if($result['status']=='Active'){
-        if(date('Y-m-d') <= date('Y-m-d', strtotime($result['partner_locations'][0]['trans_date']))){
+        if(!empty($result['partner_locations'][0]['trans_date']) && date('Y-m-d') <= date('Y-m-d', strtotime($result['partner_locations'][0]['trans_date']))){
             $trans = true;
         }
     }
@@ -175,7 +175,7 @@
 
                     <div class="tab-pane" id="init_branch">
                     @if($result['status']=='Active')
-                        @if ($result['partner_locations'][0]['location_init'])
+                        @if (!empty($result['partner_locations'][0]['location_init']))
                         <form class="form-horizontal" id="conract_form" role="form"  method="post" enctype="multipart/form-data">
                             <div class="form-body">
                                 <div class="form-group">
