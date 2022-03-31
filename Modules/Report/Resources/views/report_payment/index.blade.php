@@ -133,7 +133,13 @@
                         </td>
                         <td>{{$val['name']}}</td>
                         <td><a target="_blank" href="{{ url('user/detail', $val['phone']) }}">{{$val['phone']}} </a></td>
-                        <td><a target="_blank" href="{{ url('transaction/detail') }}/{{ $val['id_report'] }}/{{ $val['trx_type'] }}">{{$val['receipt_number']}} </a></td>
+                        <td>
+                            @if($val['type'] == 'Deals')
+                                {{$val['receipt_number']}}
+                            @else
+                                <a target="_blank" href="{{ url('transaction') }}/{{ strtolower($val['trx_type']) }}/detail/{{ $val['id_report'] }}">{{$val['receipt_number']}} </a>
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
             @else
