@@ -561,7 +561,7 @@
 							</li>
 						@endif
 					@endif
-					@if(MyHelper::hasAccess([120,122], $grantedFeature))
+					@if(MyHelper::hasAccess([120,122], $grantedFeature) && false)
 {{-- 						<li class="nav-item {{($submenu_active == 'outlet-autoresponse-outlet-pin-sent') ? 'active open' : ''}}">
 							<a href="{{url('autoresponse/outlet/outlet-pin-sent')}}" class="nav-link ">
 								<span class="title">[Response] Outlet Pin Sent</span>

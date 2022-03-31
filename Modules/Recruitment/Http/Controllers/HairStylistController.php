@@ -56,6 +56,7 @@ class HairStylistController extends Controller
             Session::put('filter-hs-list-candidate',$post);
         }
 
+        $data['outlets'] = MyHelper::get('outlet/be/list/simple')['result']??[];
         return view('recruitment::hair_stylist.candidate_list', $data);
     }
 
