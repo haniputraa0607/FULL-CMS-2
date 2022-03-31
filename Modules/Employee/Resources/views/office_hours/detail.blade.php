@@ -54,6 +54,10 @@
                         '</div>';
 
             $("#div_shift_child").append(html);
+            $('.timepicker').timepicker({
+                autoclose: true,
+                showSeconds: false,
+            });
             i++;
         }
 
@@ -83,6 +87,8 @@
             @endif
         </ul>
     </div><br>
+
+    <a href="{{url('employee/office-hours')}}" class="btn green" style="margin-bottom: 2%;"><i class="fa fa-arrow-left"></i> Back</a>
 
     @include('layouts.notifications')
     <div class="portlet light bordered">

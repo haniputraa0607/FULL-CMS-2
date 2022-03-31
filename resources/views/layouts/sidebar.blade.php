@@ -320,6 +320,28 @@
                             @endif
                         </ul>
                     </li>
+					<li class="nav-item {{($submenu_active == 'employee-assign-office-hours') ? 'active open' : ''}}">
+						<a href="javascript:;" class="nav-link nav-toggle">
+							<span class="title">Assign Office Hours</span>
+							<span class="arrow"></span>
+						</a>
+						<ul class="sub-menu">
+							@if(MyHelper::hasAccess([444], $grantedFeature))
+								<li class="nav-item {{(isset($child_active) && $child_active == 'employee-assign-office-hours-new') ? 'active open' : ''}}">
+									<a href="{{url('employee/assign-office-hours/create')}}" class="nav-link ">
+										<span class="title">New Assign Office Hours</span>
+									</a>
+								</li>
+							@endif
+							@if(MyHelper::hasAccess([442,443,445,446], $grantedFeature))
+								<li class="nav-item {{(isset($child_active) && $child_active == 'employee-assign-office-hours-list') ? 'active open' : ''}}">
+									<a href="{{url('employee/assign-office-hours')}}" class="nav-link ">
+										<span class="title">Assign Office Hours List</span>
+									</a>
+								</li>
+							@endif
+						</ul>
+					</li>
                 </ul>
             </li>
         @endif
