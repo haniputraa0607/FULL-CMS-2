@@ -290,6 +290,40 @@
 		@endif
 		@endif
 
+        @if(MyHelper::hasAccess([442,443,444,445,446], $grantedFeature))
+            <li class="nav-item {{($menu_active == 'employee') ? 'active open' : ''}}">
+                <a href="javascript:;" class="nav-link nav-toggle">
+                    <i class="fa fa-users"></i>
+                    <span class="title">Employee</span>
+                    <span class="arrow {{($menu_active == 'employee') ? 'open' : ''}}"></span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="nav-item {{($submenu_active == 'employee-office-hours') ? 'active open' : ''}}">
+                        <a href="javascript:;" class="nav-link nav-toggle">
+                            <span class="title">Office Hours</span>
+                            <span class="arrow"></span>
+                        </a>
+                        <ul class="sub-menu">
+                            @if(MyHelper::hasAccess([444], $grantedFeature))
+                                <li class="nav-item {{(isset($child_active) && $child_active == 'employee-office-hours-new') ? 'active open' : ''}}">
+                                    <a href="{{url('employee/office-hours/create')}}" class="nav-link ">
+                                        <span class="title">New Office Hours</span>
+                                    </a>
+                                </li>
+                            @endif
+                            @if(MyHelper::hasAccess([442,443,445,446], $grantedFeature))
+                                <li class="nav-item {{(isset($child_active) && $child_active == 'employee-office-hours-list') ? 'active open' : ''}}">
+                                    <a href="{{url('employee/office-hours')}}" class="nav-link ">
+                                        <span class="title">Office Hours List</span>
+                                    </a>
+                                </li>
+                            @endif
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        @endif
+
 		@if(MyHelper::hasAccess([301,302,303,304,305], $grantedFeature))
 			<li class="nav-item {{($menu_active == 'user-franchise') ? 'active open' : ''}}">
 				<a href="javascript:;" class="nav-link nav-toggle">
