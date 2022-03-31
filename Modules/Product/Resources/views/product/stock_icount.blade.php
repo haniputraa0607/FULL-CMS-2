@@ -3,9 +3,9 @@
     <thead>
         <tr>
             <th>Outlet</th>
-            <th>{{ $prod['unit1'] }}</th>
-            {!! $prod['unit2'] ? '<th>' . $prod['unit2'] . '</th>' : '' !!}
-            {!! $prod['unit3'] ? '<th>' . $prod['unit3'] . '</th>' : '' !!}
+            @foreach ($prod['unit_icount'] as $unit_stock)
+                <th>{{ $unit_stock['unit'] }}</th>
+            @endforeach
         </tr>
     </thead>
     <tbody>
@@ -20,9 +20,9 @@
                 }
             @endphp
             <td>{{ $outlet_stock['outlet_name'] }}</td>
-            <td>{{ !isset($prod['unit1']) ? '-' : !isset($this_stock[$prod['unit1']]) ? '-' : $this_stock[$prod['unit1']] }}</td>
-            <td>{{ !isset($prod['unit2']) ? '-' : !isset($this_stock[$prod['unit2']]) ? '-' : $this_stock[$prod['unit2']] }}</td>
-            <td>{{ !isset($prod['unit3']) ? '-' : !isset($this_stock[$prod['unit3']]) ? '-' : $this_stock[$prod['unit3']] }}</td>
+            @foreach ($prod['unit_icount'] as $unit_stock)
+                <td>{{ !isset($this_stock[$unit_stock['unit']]) ? '-' : $this_stock[$unit_stock['unit']] }}</td>
+            @endforeach
         </tr>
         @endforeach
     </tbody>
