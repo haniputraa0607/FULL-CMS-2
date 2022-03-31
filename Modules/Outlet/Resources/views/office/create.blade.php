@@ -521,6 +521,7 @@
                     <div class="row">
                         <div class="col-md-offset-3 col-md-9">
                             <button type="submit" class="btn green">Submit</button>
+                            <input type="hidden" name="id_city" id="id_city">
                             <input type="hidden" name="type" value="Office">
                         </div>
                     </div>

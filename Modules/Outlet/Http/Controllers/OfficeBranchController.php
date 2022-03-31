@@ -4,7 +4,7 @@ namespace Modules\Outlet\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
+use App\Http\Controllers\Controller;
 use MyHelper;
 
 class OfficeBranchController extends Controller
@@ -98,25 +98,6 @@ class OfficeBranchController extends Controller
                 $next = 1;
                 unset($post['next']);
             }
-            //cek pin confirmation
-            if($post['outlet_pin'] != null){
-                $validator = Validator::make($request->all(), [
-                    'outlet_pin' => 'required|confirmed|min:6|max:6',
-                ],[
-                    'confirmed' => 'Re-type PIN does not match',
-                    'min'       => 'PIN must 6 digit',
-                    'max'       => 'PIN must 6 digit'
-                ]);
-
-                if ($validator->fails()) {
-                    return back()
-                            ->withErrors($validator)
-                            ->withInput();
-                }
-            }
-
-            if(!empty($post['outlet_open_hours'])) $post['outlet_open_hours'] = date('H:i:s', strtotime($post['outlet_open_hours']));
-            if(!empty($post['outlet_open_hours'])) $post['outlet_close_hours'] = date('H:i:s', strtotime($post['outlet_close_hours']));
 
             $post = array_filter($post);
 
@@ -124,10 +105,10 @@ class OfficeBranchController extends Controller
             // return $save;
             if (isset($save['status']) && $save['status'] == "success") {
                 if (isset($next)) {
-                    return parent::redirect($save, 'Outlet has been created.', 'outlet/detail/'.$save['result']['outlet_code'].'#photo');
+                    return parent::redirect($save, 'Office Branch has been created.', 'office-branch/detail/'.$save['result']['outlet_code'].'#photo');
                 }
                 else {
-                    return parent::redirect($save, 'Outlet has been created.', 'outlet/list');
+                    return parent::redirect($save, 'Office Branch has been created.', 'office-branch/list');
                 }
             }else {
                    if (isset($save['errors'])) {
@@ -159,7 +140,7 @@ class OfficeBranchController extends Controller
                 'submenu_active' => 'office-branch-list',
             ];
 
-            $outlet = MyHelper::post('outlet/be/list', ['outlet_code' => $code,'admin' => 1, 'qrcode' => 1]);
+            $outlet = MyHelper::post('outlet/be/list', ['outlet_code' => $code,'admin' => 1, 'qrcode' => 1, 'office_only' => 1]);
             $data['brands'] = MyHelper::get('brand/be/list')['result']??[];
             $data['delivery'] = MyHelper::get('transaction/be/available-delivery')['result']['delivery']??[];
 
@@ -186,7 +167,7 @@ class OfficeBranchController extends Controller
             $data['default_box_url'] = MyHelper::post('setting', ['key'=>'outlet_box_default_url'])['result']['value']??null;
             // return $data;
             // print_r($data); exit();
-            return view('outlet::detail', $data);
+            return view('outlet::office.detail', $data);
         }
         else {
             if(!empty($post['outlet_latitude']) && (strpos($post['outlet_latitude'], ',') !== false || $post['outlet_latitude'] == 'NaN')){
