@@ -516,28 +516,7 @@ $configs    		= session('configs');
             }
 
         }
-        
-        function inCheck() {
-            var list_deals_id = $("input[name='list_deals_id[]']")
-                .map(function(){return $(this).val();}).get();
-            var list_deals_total = $("input[name='list_deals_total[]']")
-                .map(function(){return $(this).val();}).get();
-            var validation_status = 0;
 
-            if(list_deals_id.length <= 0){
-                confirm('Please add one or more voucher.')
-                validation_status = 1;
-            }else{
-                if(list_deals_total.indexOf("") >= 0){
-                    confirm('Total can not be empty.')
-                    validation_status = 1;
-                }
-            }
-
-            if(validation_status === 0){
-                document.getElementById("form_setting").submit();
-            }
-        }
     </script>
 
 @endsection
@@ -661,12 +640,13 @@ $configs    		= session('configs');
                                 @endif
                             @endforeach
                         </div>
+                        <input type="hidden" name="value" value="1">
+                        @if(MyHelper::hasAccess([189,190], $grantedFeature))
+                            <div style="text-align: center;margin-top: 5%">
+                                <button type="submit" class="btn green"> Save </button>
+                            </div>
+                        @endif
                     </form>
-                    @if(MyHelper::hasAccess([189,190], $grantedFeature))
-                    <div style="text-align: center;margin-top: 5%">
-                        <button onclick="inCheck()" class="btn green"> Save </button>
-                    </div>
-                    @endif
                 </div>
             </div>
         </div>
