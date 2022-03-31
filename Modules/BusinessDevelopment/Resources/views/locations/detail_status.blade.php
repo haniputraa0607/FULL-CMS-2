@@ -785,7 +785,7 @@
                                                                             <label for="example-search-input" class="control-label col-md-4">Outlet Address <span class="required" aria-required="true">*</span>
                                                                                 <i class="fa fa-question-circle tooltips" data-original-title="Alamat lengkap dari lokasi outlet yang diajukan" data-container="body"></i></label>
                                                                             <div class="col-md-5">
-                                                                                <textarea style="height: 80px" class="form-control" placeholder="- " readonly >@if(isset($confirmation['lokasi'])) {{ $confirmation['address'] }} @endif</textarea>
+                                                                                <textarea style="height: 80px" class="form-control" placeholder="- " readonly >@if(isset($confirmation['address'])) {{ $confirmation['address'] }} @endif</textarea>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group">
@@ -1086,7 +1086,7 @@
                                                             </div>
 
                                                             <div class="tab-pane" id="init_branch">
-                                                                @if ($result['location_init'])
+                                                                @if (!empty($result['location_init']))
                                                                     <form class="form-horizontal" id="conract_form" role="form"  method="post" enctype="multipart/form-data">
                                                                         <div class="form-body">
                                                                             <div class="form-group">
