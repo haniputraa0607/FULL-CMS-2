@@ -442,7 +442,7 @@
 							@foreach($reportData['rating_item'][$i]['data'] as $feedback)
 							<tr>
 								<td>{{date('d M Y',strtotime($feedback['created_at']))}}</td>
-								<td><a href="{{url('transaction/' .$rating['transaction']['transaction_from']. '/detail'.'/'.$feedback['transaction']['id_transaction'].'/'.strtolower($feedback['transaction']['trasaction_type']))}}">{{$feedback['transaction']['transaction_receipt_number']}}</a></td>
+								<td><a href="{{url('transaction/' .$feedback['transaction']['transaction_from']. '/detail'.'/'.$feedback['transaction']['id_transaction'].'/'.strtolower($feedback['transaction']['trasaction_type']))}}">{{$feedback['transaction']['transaction_receipt_number']}}</a></td>
 								@if ($rating_target == 'hairstylist')
 									<td><a href="{{ url('recruitment/hair-stylist/detail'.'/'.$feedback['user_hair_stylist']['id_user_hair_stylist']) }}">{{ $feedback['user_hair_stylist']['fullname'] }}</a></td>
 								@endif
