@@ -132,6 +132,7 @@ $grantedFeature     = session('granted_features');
                 <tr>
                     <th> Name </th>
                     <th> Type </th>
+                    <th> Time </th>
                     <th> Action </th>
                 </tr>
                 </thead>
@@ -140,6 +141,17 @@ $grantedFeature     = session('granted_features');
                     <tr>
                         <td > {{ $res['office_hour_name'] }} </td>
                         <td > {{ $res['office_hour_type'] }} </td>
+                        <td >
+                            <ul>
+                            @if($res['office_hour_type'] == 'Use Shift')
+                                @foreach($res['office_hour_shift'] as $val)
+                                    <li>{{$val['shift_name']}} : {{date('H:i', strtotime($val['shift_start']))}} - {{date('H:i', strtotime($val['shift_end']))}}</li>
+                                @endforeach
+                            @else
+                                <li>{{date('H:i', strtotime($res['office_hour_start']))}} - {{date('H:i', strtotime($res['office_hour_end']))}}</li>
+                            @endif
+                            </ul>
+                        </td>
                         <td style="width: 80px;">
                             @if(MyHelper::hasAccess([443,445], $grantedFeature))
                                 <a href="{{url('employee/office-hours/detail', $res['id_employee_office_hour'])}}" class="btn btn-sm blue"><i class="fa fa-edit"></i></a>
