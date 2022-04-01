@@ -99,6 +99,14 @@
             <form class="form-horizontal" id="form" role="form" action="{{url('employee/office-hours/create')}}" method="post">
                 <div class="form-body">
                     <div class="form-group">
+                        <label for="multiple" class="control-label col-md-3">Default Office Hours</label>
+                        <div class="col-md-8" style="margin-top: 0.7%">
+                            <div class="icheck-list">
+                                <label><input type="checkbox" class="icheck" name="employee_office_hour_default"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="multiple" class="control-label col-md-3">Name <span class="required" aria-required="true"> * </span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Nama jam kerja" data-container="body"></i>
                         </label>
