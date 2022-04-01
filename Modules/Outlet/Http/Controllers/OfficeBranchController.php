@@ -59,6 +59,59 @@ class OfficeBranchController extends Controller
         return view('outlet::office.holiday', $data);
     }
 
+    function detailHoliday(Request $request, $id_holiday) {
+        $post = $request->except('_token');
+
+        if (empty($post)) {
+            $data = [
+                'title'          => 'Office',
+                'sub_title'      => 'Office Holliday',
+                'menu_active'    => 'office-branch',
+                'submenu_active' => 'office-branch-holiday',
+            ];
+
+            $holiday = MyHelper::post('outlet/holiday/list', ['id_holiday' => $id_holiday, 'office_only' => 1]);
+
+            if (isset($holiday['status']) && $holiday['status'] == "success") {
+                $data['holiday']    = $holiday['result'][0];
+            }
+            else {
+                $e = ['e' => 'Data office holiday not found.'];
+                return back()->witherrors($e);
+            }
+
+            $outlet = MyHelper::post('outlet/be/list', ['office_only' => 1]);
+
+            if (isset($outlet['status']) && $outlet['status'] == "success") {
+                $data['outlet'] = $outlet['result'];
+            }
+            else {
+                $e = ['e' => 'Data outlet not found.'];
+                return redirect('office-branch/list')->witherrors($e);
+            }
+
+            return view('outlet::outlet_holiday_update', $data);
+        }
+        //update
+        else {
+
+            $post['id_holiday'] = $id_holiday;
+            $save = MyHelper::post('outlet/holiday/update', $post);
+            if (isset($save['status']) && $save['status'] == "success") {
+                return parent::redirect($save, 'Office Holiday has been updated.', 'office-branch/holiday');
+            }else {
+                if (isset($save['errors'])) {
+                    return back()->withErrors($save['errors'])->withInput();
+                }
+
+                if (isset($save['status']) && $save['status'] == "fail") {
+                    return back()->withErrors($save['messages'])->withInput();
+                }
+
+                return back()->withErrors(['Something when wrong. Please try again.'])->withInput();
+            }
+        }
+    }
 
     /**
      * create

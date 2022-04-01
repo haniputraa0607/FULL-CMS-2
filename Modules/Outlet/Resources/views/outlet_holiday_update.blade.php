@@ -137,7 +137,7 @@
             </div>
         </div>
         <div class="portlet-body form">
-            <form class="form-horizontal" role="form" action="{{ url('outlet/holiday/'.$holiday['id_holiday']) }}" method="post" enctype="multipart/form-data">
+            <form class="form-horizontal" role="form" action="{{ url()->current() }}" method="post" enctype="multipart/form-data">
                 <div class="form-body">
                     <div class="form-group">
                         <div class="input-icon right">
@@ -225,9 +225,7 @@
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-offset-3 col-md-9">
-                            @if(MyHelper::hasAccess([41], $grantedFeature))
-                                <button type="submit" class="btn green">Submit</button>
-                            @endif
+                            <button type="submit" class="btn green">Submit</button>
                         </div>
                     </div>
                 </div>
