@@ -339,7 +339,7 @@
                                         <a data-toggle="confirmation" data-popout="true" class="btn btn-sm red delete" data-id="{{ $value['id_holiday'] }}"><i class="fa fa-trash-o"></i></a>
                                     @endif
                                     @if(MyHelper::hasAccess([37], $grantedFeature))
-                                        <a href="{{ url('outlet/holiday') }}/{{ $value['id_holiday'] }}" class="btn btn-sm blue"><i class="fa fa-search"></i></a>
+                                        <a href="{{ url('office-branch/holiday') }}/{{ $value['id_holiday'] }}" class="btn btn-sm blue"><i class="fa fa-search"></i></a>
                                     @endif
                                 </td>
                             </tr>
