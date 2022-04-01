@@ -288,8 +288,63 @@
 			</li>
 			@endif
 		@endif
-
 		@endif
+
+        @if(MyHelper::hasAccess([442,443,444,445,446], $grantedFeature))
+            <li class="nav-item {{($menu_active == 'employee') ? 'active open' : ''}}">
+                <a href="javascript:;" class="nav-link nav-toggle">
+                    <i class="fa fa-users"></i>
+                    <span class="title">Employee</span>
+                    <span class="arrow {{($menu_active == 'employee') ? 'open' : ''}}"></span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="nav-item {{($submenu_active == 'employee-office-hours') ? 'active open' : ''}}">
+                        <a href="javascript:;" class="nav-link nav-toggle">
+                            <span class="title">Office Hours</span>
+                            <span class="arrow"></span>
+                        </a>
+                        <ul class="sub-menu">
+                            @if(MyHelper::hasAccess([444], $grantedFeature))
+                                <li class="nav-item {{(isset($child_active) && $child_active == 'employee-office-hours-new') ? 'active open' : ''}}">
+                                    <a href="{{url('employee/office-hours/create')}}" class="nav-link ">
+                                        <span class="title">New Office Hours</span>
+                                    </a>
+                                </li>
+                            @endif
+                            @if(MyHelper::hasAccess([442,443,445,446], $grantedFeature))
+                                <li class="nav-item {{(isset($child_active) && $child_active == 'employee-office-hours-list') ? 'active open' : ''}}">
+                                    <a href="{{url('employee/office-hours')}}" class="nav-link ">
+                                        <span class="title">Office Hours List</span>
+                                    </a>
+                                </li>
+                            @endif
+                        </ul>
+                    </li>
+					<li class="nav-item {{($submenu_active == 'employee-assign-office-hours') ? 'active open' : ''}}">
+						<a href="javascript:;" class="nav-link nav-toggle">
+							<span class="title">Assign Office Hours</span>
+							<span class="arrow"></span>
+						</a>
+						<ul class="sub-menu">
+							@if(MyHelper::hasAccess([444], $grantedFeature))
+								<li class="nav-item {{(isset($child_active) && $child_active == 'employee-assign-office-hours-new') ? 'active open' : ''}}">
+									<a href="{{url('employee/assign-office-hours/create')}}" class="nav-link ">
+										<span class="title">New Assign Office Hours</span>
+									</a>
+								</li>
+							@endif
+							@if(MyHelper::hasAccess([442,443,445,446], $grantedFeature))
+								<li class="nav-item {{(isset($child_active) && $child_active == 'employee-assign-office-hours-list') ? 'active open' : ''}}">
+									<a href="{{url('employee/assign-office-hours')}}" class="nav-link ">
+										<span class="title">Assign Office Hours List</span>
+									</a>
+								</li>
+							@endif
+						</ul>
+					</li>
+                </ul>
+            </li>
+        @endif
 
 		@if(MyHelper::hasAccess([301,302,303,304,305], $grantedFeature))
 			<li class="nav-item {{($menu_active == 'user-franchise') ? 'active open' : ''}}">
@@ -528,8 +583,8 @@
 							</li>
 						@endif
 					@endif
-					@if(MyHelper::hasAccess([120,122], $grantedFeature))
-{{-- 						<li class="nav-item {{($submenu_active == 'outlet-autoresponse-outlet-pin-sent') ? 'active open' : ''}}">
+					@if(MyHelper::hasAccess([120,122], $grantedFeature) && false)
+ 						{{--<li class="nav-item {{($submenu_active == 'outlet-autoresponse-outlet-pin-sent') ? 'active open' : ''}}">
 							<a href="{{url('autoresponse/outlet/outlet-pin-sent')}}" class="nav-link ">
 								<span class="title">[Response] Outlet Pin Sent</span>
 							</a>
@@ -571,6 +626,39 @@
 								@endif
 							</ul>
 						</li>
+					@endif
+				</ul>
+			</li>
+			@endif
+
+			@if(MyHelper::hasAccess([128], $configs) && MyHelper::hasAccess([447, 449], $grantedFeature))
+			<li class="nav-item {{($menu_active == 'office-branch') ? 'active' : ''}}">
+				<a href="javascript:;" class="nav-link nav-toggle">
+					<i class="fa fa-building-o"></i>
+					<span class="title">Office Branch</span>
+					<span class="arrow {{($menu_active == 'office-branch') ? 'open' : ''}}"></span>
+				</a>
+				<ul class="sub-menu">
+					@if(MyHelper::hasAccess([449], $grantedFeature))
+					<li class="nav-item {{($submenu_active == 'office-branch-new') ? 'active open' : ''}}">
+						<a href="{{url('office-branch/create')}}" class="nav-link ">
+							<span class="title">New Office Branch</span>
+						</a>
+					</li>
+					@endif
+					@if(MyHelper::hasAccess([447], $grantedFeature))
+					<li class="nav-item {{($submenu_active == 'office-branch-list') ? 'active open' : ''}}">
+						<a href="{{url('office-branch/list')}}" class="nav-link ">
+							<span class="title">Office Branch List</span>
+						</a>
+					</li>
+					@endif
+					@if(MyHelper::hasAccess([450], $grantedFeature))
+					<li class="nav-item {{($submenu_active == 'office-branch-holiday') ? 'active open' : ''}}">
+						<a href="{{url('office-branch/holiday')}}" class="nav-link ">
+							<span class="title">Office Holiday Setting</span>
+						</a>
+					</li>
 					@endif
 				</ul>
 			</li>
@@ -795,7 +883,7 @@
 			@if(MyHelper::hasAccess([373,374,375,376,377], $grantedFeature))
 				<li class="nav-item {{($menu_active == 'academy') ? 'active' : ''}}">
 					<a href="javascript:;" class="nav-link nav-toggle">
-						<i class="fa fa-building-o"></i>
+						<i class="fa fa-graduation-cap"></i>
 						<span class="title">Product Academy</span>
 						<span class="arrow {{($menu_active == 'academy') ? 'open' : ''}}"></span>
 					</a>
@@ -1915,7 +2003,7 @@
 			<li class="nav-item {{($menu_active == 'transaction-complete-payment') ? 'active' : ''}}">
 				<a href="{{url('transaction/complete-payment')}}" class="nav-link nav-toggle">
 					<i class="fa fa-check"></i>
-					<span class="title">Complete Payment</span>
+					<span class="title">Manual Complete Payment</span>
 				</a>
 			</li>
 			@endif

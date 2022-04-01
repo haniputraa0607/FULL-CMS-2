@@ -88,8 +88,8 @@
                         text: "Are you sure want to change this transaction to completed ?",
                         type: "warning",
                         showCancelButton: true,
-                        confirmButtonClass: "btn-danger",
-                        confirmButtonText: "Yes, delete it!",
+                        confirmButtonClass: "btn-warning",
+                        confirmButtonText: "Yes, change it!",
                         closeOnConfirm: false
                     },
                     function(){
@@ -130,7 +130,7 @@
         <div class="portlet-title">
             <div class="caption font-blue ">
                 <i class="icon-settings font-blue "></i>
-                <span class="caption-subject bold uppercase">Complete Payment</span>
+                <span class="caption-subject bold uppercase">Manual Complete Payment</span>
             </div>
         </div>
         <div class="portlet-body">
@@ -150,8 +150,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-3 control-label">ID Payment <span class="required" aria-required="true"> * </span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Silahkan memasukkan data id payment" data-container="body"></i>
+                        <label class="col-md-3 control-label">Invoice ID <span class="required" aria-required="true"> * </span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Silahkan memasukkan data invoice id" data-container="body"></i>
                         </label>
                         <div class="col-md-6">
                             <input class="form-control" placeholder="ID Payment" name="id_payment" id="id_payment">

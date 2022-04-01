@@ -498,8 +498,7 @@ class ProductController extends Controller
             ];
 
             $data['parent'] = $this->category();
-            $tags = MyHelper::get('product/tag/list');
-            $data['tags'] = parent::getData($tags);
+            $data['tags'] = [];
             $data['brands'] = MyHelper::get('brand/be/list')['result']??[];
             return view('product::product.create', $data);
         }
@@ -718,8 +717,7 @@ class ProductController extends Controller
 
         if (empty($post) || (!isset($post['product_detail_visibility']) && !isset($post['product_price']) && isset($post['page']))) {
             $data['parent'] = $this->category();
-            $tags = MyHelper::get('product/tag/list');
-            $data['tags'] = parent::getData($tags);
+            $data['tags'] = [];
             $data['page'] = $post['page']??1;
             $dtDetail['id_product'] = $data['product'][0]['id_product'];
             $dtDetail['page'] = 1;
@@ -1598,8 +1596,7 @@ class ProductController extends Controller
 
         if (empty($post)) {
             $data['parent'] = $this->category();
-            $tags = MyHelper::get('product/tag/list');
-            $data['tags'] = parent::getData($tags);
+            $data['tags'] = [];
             $data['page'] = $post['page']??1;
             $dtDetail['id_product_icount'] = $data['product'][0]['id_product_icount'];
             $dtDetail['page'] = 1;
@@ -1645,13 +1642,7 @@ class ProductController extends Controller
             }
 
             $data['brands'] = MyHelper::get('brand/be/list')['result']??[];
-            $nextId = MyHelper::get('product/next/'.$data['product'][0]['id_product_icount']);
-            if (isset($nextId['result']['code'])) {
-                $data['next_id'] = $nextId['result']['code'];
-            }
-            else {
-                $data['next_id'] = null;
-            }
+            $data['next_id'] = null;
 
             $outletAll = MyHelper::post('outlet/be/list', ['admin' => 1, 'id_product_icount' => $data['product'][0]['id_product_icount']]);
             $data['outlet_all'] = [];
