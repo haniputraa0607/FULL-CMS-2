@@ -1,3 +1,7 @@
+<?php
+use App\Lib\MyHelper;
+$grantedFeature     = session('granted_features');
+?>
 @extends('layouts.main')
 
 @section('page-style')
@@ -8,6 +12,7 @@
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('page-script')
@@ -19,6 +24,9 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-toastr/toastr.min.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/datatables/datatables.min.js') }}" type="text/javascript"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/table-datatables-responsive.min.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('content')
@@ -49,54 +57,26 @@
                 <span class="caption-subject font-blue sbold uppercase">{{$sub_title??""}}</span>
             </div>
         </div>
-        <div class="portlet-body form">
-            <form class="form-horizontal" id="form" role="form" action="{{url('employee/assign-office-hours/create')}}" method="post">
+        <div class="portlet-body">
+            <form class="form-horizontal" id="form" role="form" action="{{url('employee/office-hours/assign')}}" method="post">
                 <div class="form-body">
-                    <div class="form-group">
-                        <label for="multiple" class="control-label col-md-3">Name <span class="required" aria-required="true"> * </span>
-                        </label>
-                        <div class="col-md-5">
-                            <input name="employee_office_hour_assign_name" class="form-control" required placeholder="Name" required>
+                    @foreach($list as $key=>$res)
+                        <div class="form-group">
+                            <label for="multiple" class="control-label col-md-3" style="text-align: left">{{$res['role_name']}}
+                            </label>
+                            <div class="col-md-4">
+                                <select class="form-control select2" name="data[{{$key}}][id_employee_office_hour]" required>
+                                    <option value="default" @if($res['id_employee_office_hour'] == NULL) selected @endif>Default</option>
+                                    @foreach($list_employee_office_hours as $val)
+                                        <option value="{{$val['id_employee_office_hour']}}" @if($res['id_employee_office_hour'] == $val['id_employee_office_hour']) selected @endif>{{$val['office_hour_name']}}</option>
+                                    @endforeach
+                                </select>
+                                <input type="hidden" name="data[{{$key}}][id_role]" value="{{$res['id_role']}}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="multiple" class="control-label col-md-3">Department <span class="required" aria-required="true"> * </span>
-                        </label>
-                        <div class="col-md-5">
-                            <select class="form-control select2" name="id_department" required>
-                                <option></option>
-                                @foreach($departments as $department)
-                                    <option value="{{$department['id_department']}}">{{$department['department_name']}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="multiple" class="control-label col-md-3">Job Level <span class="required" aria-required="true"> * </span>
-                        </label>
-                        <div class="col-md-5">
-                            <select class="form-control select2" name="id_job_level" required>
-                                <option></option>
-                                @foreach($job_levels as $job)
-                                    <option value="{{$job['id_job_level']}}">{{$job['job_level_name']}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="multiple" class="control-label col-md-3">Office Hours <span class="required" aria-required="true"> * </span>
-                        </label>
-                        <div class="col-md-5">
-                            <select class="form-control select2" name="id_employee_office_hour" required>
-                                <option></option>
-                                @foreach($office_hours as $val)
-                                    <option value="{{$val['id_employee_office_hour']}}">{{$val['office_hour_name']}} ({{$val['office_hour_type']}})</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
-                <div class="form-actions" style="text-align: center">
+                <div class="form-actions" style="text-align: center;margin-top: 5%">
                     {{ csrf_field() }}
                     <button type="submit" class="btn blue">Submit</button>
                 </div>
