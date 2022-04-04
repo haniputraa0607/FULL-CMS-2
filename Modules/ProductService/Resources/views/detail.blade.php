@@ -693,7 +693,12 @@
             '<input type="text" class="form-control price" id="product_use_qty_'+company+'_'+count_product_service_use+'" name="product_icount_'+company+'['+count_product_service_use+'][qty]" required>'+
             '</div>'+
             '</div>'+
-            '<div class="col-md-2" style="margin-left: 2%">'+
+            '<div class="col-md-1">'+
+            '<div class="input-group" style="margin-left: 20px; margin-top: 5px; !important">'+
+            '<input type="checkbox" class="icheck" id="product_use_optional_'+company+'_'+count_product_service_use+'" name="product_icount_'+company+'['+count_product_service_use+'][optional]" required>'+
+            '</div>'+
+            '</div>'+
+            '<div class="col-md-1">'+
             delete_pro+
             '</div>'+
             '</div>'+
@@ -701,6 +706,9 @@
 
         $("#div_product_use_"+company).append(html);
         $('.select2').select2({placeholder: "Search"});
+        $('#product_use_optional_'+company+'_'+count_product_service_use).iCheck({
+            checkboxClass: 'icheckbox_minimal-grey',
+        });
         if(company == 'ima'){
             count_product_service_use_ima++;
         }else{
