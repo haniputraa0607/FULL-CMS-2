@@ -131,7 +131,6 @@ $grantedFeature     = session('granted_features');
                 <thead>
                 <tr>
                     <th> Name </th>
-                    <th> Status Default </th>
                     <th> Type </th>
                     <th> Time </th>
                     <th> Action </th>
@@ -140,14 +139,7 @@ $grantedFeature     = session('granted_features');
                 <tbody>
                 @foreach($list as $key => $res)
                     <tr>
-                        <td > {{ $res['office_hour_name'] }} </td>
-                        <td >
-                            @if($res['id_employee_office_hour'] == $default)
-                                Default
-                            @else
-                                No Default
-                            @endif
-                        </td>
+                        <td > {{ $res['office_hour_name'] }} {!!$res['id_employee_office_hour'] == $default ? '<span class="badge badge-primary badge-sm">Default</span>' : ''!!}</td>
                         <td > {{ $res['office_hour_type'] }} </td>
                         <td >
                             <ul>
