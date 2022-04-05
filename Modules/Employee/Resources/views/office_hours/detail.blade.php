@@ -8,6 +8,7 @@
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/icheck/skins/all.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('page-script')
@@ -19,6 +20,7 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-toastr/toastr.min.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/icheck/icheck.min.js') }}" type="text/javascript"></script>
     <script>
         $('.timepicker').timepicker({
             autoclose: true,
@@ -100,6 +102,14 @@
         <div class="portlet-body form">
             <form class="form-horizontal" id="form" role="form" action="{{url('employee/office-hours/update', $detail['id_employee_office_hour'])}}" method="post">
                 <div class="form-body">
+                    <div class="form-group">
+                        <label for="multiple" class="control-label col-md-3">Default Office Hours</label>
+                        <div class="col-md-8" style="margin-top: 0.7%">
+                            <div class="icheck-list">
+                                <label><input type="checkbox" class="icheck" name="employee_office_hour_default" @if($detail['employee_office_hour_default'] == $detail['id_employee_office_hour']) checked @endif> </label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="multiple" class="control-label col-md-3">Name <span class="required" aria-required="true"> * </span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Nama jam kerja" data-container="body"></i>

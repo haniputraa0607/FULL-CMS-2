@@ -1330,32 +1330,25 @@
 											</div>
 
 											@if ($profile['level'] != 'Customer')
-												<div class="form-group" id="select_department">
-													<label class="control-label">Department</label>
-													<select name="id_department" class="form-control input-sm select2" data-placeholder="Search Department">
-                                                    	<option value=""></option>
-									                    @foreach($department as $key => $val)
-							                            	@php
-							                            		$selected = ($val['id_department'] == $profile['id_department']) ? 'selected' : null;
-							                            	@endphp
-							                                <option value="{{ $val['id_department'] }}" {{ $selected }}>{{ $val['department_name'] }}</option>
-									                    @endforeach
-									                </select>
-												</div>
-
-												<div class="form-group" id="select_job_level">
-													<label class="control-label">Job Level</label>
-													<select name="id_job_level" class="form-control input-sm select2" data-placeholder="Search Job Level">
-                                                    	<option value=""></option>
-									                    @foreach($job_level as $key => $val)
-							                            	@php
-							                            		$selected = ($val['id_job_level'] == $profile['id_job_level']) ? 'selected' : null;
-							                            	@endphp
-							                                <option value="{{ $val['id_job_level'] }}" {{ $selected }}>{{ $val['job_level_name'] }}</option>
-									                    @endforeach
-									                </select>
-												</div>
-											@endif
+                                                <div class="form-group" id="select_department">
+                                                    <label class="control-label">Outlet</label>
+                                                    <select name="id_outlet" class="form-control input-sm select2" data-placeholder="Search Outlet">
+                                                        <option></option>
+                                                        @foreach($outlets as $key => $val)
+                                                            <option value="{{ $val['id_outlet'] }}" @if($val['id_outlet'] ==  $profile['id_outlet']) selected @endif>{{ $val['outlet_code'] }} - {{ $val['outlet_name'] }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group" id="select_department">
+                                                    <label class="control-label">Role</label>
+                                                    <select name="id_role" class="form-control input-sm select2" data-placeholder="Search Role">
+                                                        <option></option>
+                                                        @foreach($roles as $key => $val)
+                                                            <option value="{{ $val['id_role'] }}" @if($val['id_role'] ==  $profile['id_role']) selected @endif>{{ $val['role_name'] }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            @endif
 
                                             <div class="form-group">
                                                 <label class="control-label">OTP Request Status</label>

@@ -282,38 +282,38 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group" id="select_department">
+						<div class="form-group">
 							<div class="input-icon right">
-							    <label class="col-md-3 control-label">
-							    Department
-							    <span class="required" aria-required="true"> * </span>
-							    <i class="fa fa-question-circle tooltips" data-original-title="Department" data-container="body"></i>
-							    </label>
+								<label class="col-md-3 control-label">
+									Outlet
+									<span class="required" aria-required="true"> * </span>
+									<i class="fa fa-question-circle tooltips" data-original-title="Outlet cabang untuk karyawaan" data-container="body"></i>
+								</label>
 							</div>
 							<div class="col-md-9">
-								<select name="id_department" class="form-control input-sm select2" data-placeholder="Search Department" required>
-									<option value=""></option>
-				                    @foreach($department as $key => $val)
-		                                <option value="{{ $val['id_department'] }}">{{ $val['department_name'] }}</option>
-				                    @endforeach
-				                </select>
+								<select name="id_outlet" class="form-control input-sm select2" data-placeholder="Search Outlet">
+									<option></option>
+									@foreach($outlets as $key => $val)
+										<option value="{{ $val['id_outlet'] }}">{{ $val['outlet_code'] }} - {{ $val['outlet_name'] }}</option>
+									@endforeach
+								</select>
 							</div>
 						</div>
-						<div class="form-group" id="select_job_level">
+						<div class="form-group">
 							<div class="input-icon right">
-							    <label class="col-md-3 control-label">
-							    Job Level
-							    <span class="required" aria-required="true"> * </span>
-							    <i class="fa fa-question-circle tooltips" data-original-title="Job Level" data-container="body"></i>
-							    </label>
+								<label class="col-md-3 control-label">
+									Role
+									<span class="required" aria-required="true"> * </span>
+									<i class="fa fa-question-circle tooltips" data-original-title="Role untuk user" data-container="body"></i>
+								</label>
 							</div>
 							<div class="col-md-9">
-								<select name="id_job_level" class="form-control input-sm select2" data-placeholder="Search Job Level" required>
-									<option value=""></option>
-				                    @foreach($job_level as $key => $val)
-		                                <option value="{{ $val['id_job_level'] }}">{{ $val['job_level_name'] }}</option>
-				                    @endforeach
-				                </select>
+								<select name="id_role" class="form-control input-sm select2" data-placeholder="Search Role">
+									<option></option>
+									@foreach($roles as $key => $val)
+										<option value="{{ $val['id_role'] }}">{{ $val['role_name'] }}</option>
+									@endforeach
+								</select>
 							</div>
 						</div>
 						<div class="form-group">

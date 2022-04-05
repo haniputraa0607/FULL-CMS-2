@@ -258,11 +258,14 @@
             <div class="input-icon right">
                 <label class="col-md-3 control-label">
                 Tax
-                <i class="fa fa-question-circle tooltips" data-original-title="Outlet menggunakan PNN" data-container="body"></i>
+                <i class="fa fa-question-circle tooltips" data-original-title="PPN yang dikenakan ke outlet" data-container="body"></i>
                 </label>
             </div>
-            <div class="col-md-9">
-                <input type="checkbox" class="make-switch" data-size="small" data-on-color="info" data-on-text="Use Tax" name="is_tax" data-off-color="default" data-off-text="Not Using Tax" @if($val['is_tax']) checked @endif>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <input type="number" min="0" max="100" class="form-control" name="is_tax" value="{{ $val['is_tax'] ?: 0 }}" placeholder="PPN">
+                    <span class="input-group-addon" id="basic-addon2">%</span>
+                </div>
             </div>
         </div>
         
