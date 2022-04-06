@@ -2,7 +2,7 @@
     
     <div class="form-body">
         <div class="form-group">
-            <center><b>Product Use IMA</b></center>
+            <center><b>Product Uses IMA</b></center>
         </div>
         <br>
         <div class="form-group">
@@ -13,8 +13,11 @@
             <div class="col-md-2">
                 <b>Unit</b>
             </div>
-            <div class="col-md-2">
-                <b>Quantity</b>
+            <div class="col-md-1">
+                <b>Qty</b>
+            </div>
+            <div class="col-md-1">
+                <b>Optional</b>
             </div>
         </div>
         <div id="div_product_use_ima">
@@ -41,7 +44,12 @@
                                 <input type="text" class="form-control price" id="product_use_qty_ima_0" name="product_icount_ima[0][qty]">
                             </div>
                         </div>
-                        <div class="col-md-2" style="margin-left: 2%">
+                        <div class="col-md-1">
+                            <div class="input-group" style="margin-left: 20px; margin-top: 5px; !important">
+                                <input type="checkbox" class="icheck" id="product_use_optional_ima_0" name="product_icount_ima[0][optional]">
+                            </div>
+                        </div>
+                        <div class="col-md-1">
                             <a class="btn btn-danger btn" onclick="deleteProductServiceUse(0,'ima')">&nbsp;<i class="fa fa-trash"></i></a>
                         </div>
                     </div>
@@ -76,7 +84,12 @@
                                     <input type="text" class="form-control price" id="product_use_qty_ima_{{$key}}" name="product_icount_ima[{{$key}}][qty]" value="{{$value['qty']}}">
                                 </div>
                             </div>
-                            <div class="col-md-2" style="margin-left: 2%">
+                            <div class="col-md-1">
+                                <div class="input-group" style="margin-left: 20px; margin-top: 5px; !important">
+                                    <input type="checkbox" class="icheck" id="product_use_optional_ima_{{$key}}" name="product_icount_ima[{{$key}}][optional]" @if($value['optional'] == 1) checked @endif>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
                                 <a class="btn btn-danger btn" onclick="deleteProductServiceUse({{$key}},'ima')">&nbsp;<i class="fa fa-trash"></i></a>
                             </div>
                         </div>
@@ -95,7 +108,7 @@
     <br><br>
     <div class="form-body">
         <div class="form-group">
-            <center><b>Product Use IMS</b></center>
+            <center><b>Product Uses IMS</b></center>
         </div>
         <br>
         <div class="form-group">
@@ -106,8 +119,11 @@
             <div class="col-md-2">
                 <b>Unit</b>
             </div>
-            <div class="col-md-2">
-                <b>Quantity</b>
+            <div class="col-md-1">
+                <b>Qty</b>
+            </div>
+            <div class="col-md-1">
+                <b>Optional</b>
             </div>
         </div>
         <div id="div_product_use_ims">
@@ -134,7 +150,12 @@
                                 <input type="text" class="form-control price" id="product_use_qty_ims_0" name="product_icount_ims[0][qty]">
                             </div>
                         </div>
-                        <div class="col-md-2" style="margin-left: 2%">
+                        <div class="col-md-1">
+                            <div class="input-group" style="margin-left: 20px; margin-top: 5px; !important">
+                                <input type="checkbox" class="icheck" id="product_use_optional_ims_0" name="product_icount_ims[0][optional]">
+                            </div>
+                        </div>
+                        <div class="col-md-1">
                             <a class="btn btn-danger btn" onclick="deleteProductServiceUse(0,'ims')">&nbsp;<i class="fa fa-trash"></i></a>
                         </div>
                     </div>
@@ -169,7 +190,12 @@
                                     <input type="text" class="form-control price" id="product_use_qty_ims_{{$key}}" name="product_icount_ims[{{$key}}][qty]" value="{{$value['qty']}}">
                                 </div>
                             </div>
-                            <div class="col-md-2" style="margin-left: 2%">
+                            <div class="col-md-1">
+                                <div class="input-group" style="margin-left: 20px; margin-top: 5px; !important">
+                                    <input type="checkbox" class="icheck" id="product_use_optional_ims_{{$key}}" name="product_icount_ims[{{$key}}][optional]" @if($value['optional'] == 1) checked @endif>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
                                 <a class="btn btn-danger btn" onclick="deleteProductServiceUse({{$key}},'ims')">&nbsp;<i class="fa fa-trash"></i></a>
                             </div>
                         </div>

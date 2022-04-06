@@ -154,6 +154,8 @@ class ProductServiceController extends Controller
             $store_icount_ima = MyHelper::post('product/pivot/update', $product_use_ima);
             if (isset($store_icount_ima['status']) && $store_icount_ima['status'] == "success") {
                 $is_true = true;
+            }else{
+                $is_true = false;
             }
         }
         if(!empty($post['product_icount_ims'])){
@@ -165,6 +167,8 @@ class ProductServiceController extends Controller
             $store_icount_ims = MyHelper::post('product/pivot/update', $product_use_ims);
             if (isset($store_icount_ims['status']) && $store_icount_ims['status'] == "success") {
                 $is_true = true;
+            }else{
+                $is_true = false;
             }
         }
 

@@ -77,6 +77,7 @@
     <script type="text/javascript">
 
         function addConversion(unit,index){
+            var new_index = index + 1;
             var select = `<option value="" selected disabled></option>`;
             @foreach ($units as $unit_select)
                 if(unit != '{{ $unit_select['unit'] }}'){
@@ -84,33 +85,32 @@
                 }
             @endforeach
             var html = `
-                <tr data-id="${unit}_${index}">
+                <tr data-id="${unit}_${new_index}">
                     <td>
-                        <input type="text" class="form-control unit" name="conversion[${unit}][${index}][unit]" required readonly value="${unit}">
+                        <input type="text" class="form-control unit" name="conversion[${unit}][${new_index}][unit]" required readonly value="${unit}">
                     </td>
                     <td>
                         <span>=</span>
                     </td>
                     <td>
-                        <input type="text" class="form-control qty_conversion" name="conversion[${unit}][${index}][qty_conversion]" required>
+                        <input type="text" class="form-control qty_conversion" name="conversion[${unit}][${new_index}][qty_conversion]" required>
                     </td>
                     <td>
-                        <select class="form-control select2 unit_conversion" name="conversion[${unit}][${index}][unit_conversion]" required>
+                        <select class="form-control select2 unit_conversion" name="conversion[${unit}][${new_index}][unit_conversion]" required>
                         ${select}
                         </select>
                     </td>
                     <td>
-                        <button type="button" onclick="deleteConversion('${unit}',${index})" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+                        <button type="button" onclick="deleteConversion('${unit}',${new_index})" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
                     </td>
                 </tr>
             `;
 
-            var new_index = index + 1;
             var new_function = `addConversion(${unit},${new_index})`;
             $("#add"+unit).attr("onclick", "addConversion('"+unit+"',"+new_index+")");
 
             $('#unit'+unit+'-container tbody').append(html);
-            $(`tr[data-id=${unit}_${index}] select`).select2({
+            $(`tr[data-id=${unit}_${new_index}] select`).select2({
                 placeholder: "Select"
             });
         }
@@ -275,7 +275,7 @@
                                                     </tr>
                                                     @endforeach
                                                 @else
-                                                @php $index_item = 0; @endphp
+                                                @php $index_item = -1; @endphp
                                                 @endif
                                             </tbody>
                                         </table>
@@ -362,7 +362,7 @@
                             {{ csrf_field() }}
                             <div class="row">
                                 <div class="text-center">
-                                    <button type="submit" class="btn blue" onclick="checkRequired()">Submit</button>
+                                    <button type="submit" class="btn blue">Submit</button>
                                 </div>
                             </div>
                         </div>

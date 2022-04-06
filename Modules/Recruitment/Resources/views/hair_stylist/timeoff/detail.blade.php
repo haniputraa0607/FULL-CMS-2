@@ -253,7 +253,7 @@
                         <label for="example-search-input" class="control-label col-md-4">Month <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk bulan yang di pilih" data-container="body"></i></label>
                         <div class="col-md-3">
-                            <select class="form-control select2" name="month" id="month" required onchange="selectMonth(this.value)" @if(isset($result['approve_by'])) disabled @endif>
+                            <select class="form-control select2" name="month" id="month" required onchange="selectMonth(this.value)" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
                                 <option value="" selected disabled>Select Month</option>
                                 <option value="1" @if(isset($result['month'])) @if($result['month'] == 1) selected @endif @endif>January</option>
                                 <option value="2" @if(isset($result['month'])) @if($result['month'] == 2) selected @endif @endif>February</option>
@@ -274,33 +274,37 @@
                         <label for="example-search-input" class="control-label col-md-4">Year <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk tahun yang di pilih" data-container="body"></i></label>
                         <div class="col-md-2">
-                            <input class="form-control numberonly" type="text" maxlength="4" id="year" name="year" placeholder="Enter year" value="{{ $result['year'] }}" required onchange="selectYear(this.value)" @if(isset($result['approve_by'])) disabled @endif/>
+                            <input class="form-control numberonly" type="text" maxlength="4" id="year" name="year" placeholder="Enter year" value="{{ $result['year'] }}" required onchange="selectYear(this.value)" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Select Date Time Off <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih tanggal hair stylist akan izin" data-container="body"></i></label>
                         <div class="col-md-3">
-                            <select class="form-control select2" name="date" required id="list_date" @if(isset($result['approve_by'])) disabled @endif>
+                            @if(isset($result['approve_by']) || isset($result['reject_at'])) 
+                            <input type="text" class="datepicker form-control" value="{{ date('d F Y', strtotime($result['date'])) }}" disabled>
+                            @else
+                            <select class="form-control select2" name="date" required id="list_date">
                                 <option value="" selected disabled>Select Date</option>
-                                @foreach($result['list_date'] as $d => $date)
+                                @foreach($result['list_date'] ?? [] as $d => $date)
                                     <option value="{{$date['date']}}" data-id="{{ $date['id_hairstylist_schedule_date'] }}" data-timestart="{{ $date['time_start'] }}" data-timeend="{{ $date['time_end'] }}"  @if(isset($result['date'])) @if($result['date'] == $date['date']) selected @endif @endif> {{$date['date_format']}}</option>
                                 @endforeach
                             </select>
+                            @endif
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Start Time Off<span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu mulai izin untuk hair style" data-container="body"></i></label>
                         <div class="col-md-3" id="place_time_start">
-                            <input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="time_start" value="{{ $result['start_time'] }}" readonly @if(isset($result['approve_by'])) disabled @endif>
+                            <input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="time_start" value="{{ $result['start_time'] }}" readonly @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">End Time Off<span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu selesai izin untuk hair style" data-container="body"></i></label>
                         <div class="col-md-3" id="place_time_end">
-                            <input type="text" id="time_end" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="time_end" value="{{ $result['end_time'] }}" readonly @if(isset($result['approve_by'])) disabled @endif>
+                            <input type="text" id="time_end" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="time_end" value="{{ $result['end_time'] }}" readonly @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
                         </div>
                     </div>
                     <div class="form-group">
@@ -325,9 +329,11 @@
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            @if(empty($result['approve']))
-                            <button type="submit" class="btn blue" @if(isset($result['approve_by'])) disabled @endif>Submit</button>
-                            <a id="approve" class="btn green approve">Approve</a>
+                            @if (empty($result['reject_at']))
+                                @if(empty($result['approve']))
+                                <button type="submit" class="btn blue" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>Submit</button>
+                                <a id="approve" class="btn green approve">Approve</a>
+                                @endif
                             @endif
                         </div>
                     </div>

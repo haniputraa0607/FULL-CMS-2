@@ -42,6 +42,10 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'outlet',
     Route::any('delivery-outlet-ajax', 'OutletController@deliveryOutletAjax');
     Route::any('autoresponse/{name}', 'OutletController@autoresponse');
 
+    //stock
+    Route::any('detail/{outlet_code}/stock', ['middleware' => 'feature_control:447', 'uses' => 'OutletController@conversionStock']);
+
+
     Route::get('max-order/{outlet_code?}', ['middleware' => 'feature_control:197', 'uses' => 'OutletController@maxOrder']);
     Route::post('max-order/{outlet_code}', ['middleware' => 'feature_control:198', 'uses' => 'OutletController@maxOrderUpdate']);
 

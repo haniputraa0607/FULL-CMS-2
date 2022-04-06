@@ -180,6 +180,7 @@ class OutletController extends Controller
             ];
 
             $outlet = MyHelper::post('outlet/be/list', ['outlet_code' => $code,'admin' => 1, 'qrcode' => 1]);
+            // return $outlet['result'][0]['product_icount_outlet_stocks'];
             $data['brands'] = MyHelper::get('brand/be/list')['result']??[];
             $data['delivery'] = MyHelper::get('transaction/be/available-delivery')['result']['delivery']??[];
 
@@ -1348,5 +1349,18 @@ class OutletController extends Controller
         }
 
         return redirect('outlet/detail/'.$post['outlet_code'].'#shifttime')->withErrors($save['messages']??['Save data shift failed']);
+    }
+
+    public function conversionStock(Request $request, $outlet_code){   
+        $post = $request->except('_token');
+        $post['outlet_code'] = $outlet_code;
+        $product_stock = MyHelper::post('outlet/stock/stock-icount', $post);
+        if (isset($product_stock['status']) && $product_stock['status'] == 'success') {
+            return redirect('outlet/detail/'.$outlet_code)->with(['success' => ['Unit Conversion has been updated']]);
+        }else{
+            return redirect('outlet/detail/'.$outlet_code)->with(['success' => ['Failed to conversion unit']]);
+        }
+
+        
     }
 }

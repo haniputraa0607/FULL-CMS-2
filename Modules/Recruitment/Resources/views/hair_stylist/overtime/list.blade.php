@@ -43,35 +43,42 @@
                         let name    = $(this).data('name');
                         $(this).click(function() {
                             swal({
-                                    title: name+"\n\nAre you sure want to delete this request overtime?",
-                                    text: "Your will not be able to recover this data!",
-                                    type: "warning",
+                                    title: "Are you sure want to delete this request overtime?",
+                                    text: "Please input hair stylist name to continue!",
+                                    type: "input",
                                     showCancelButton: true,
                                     confirmButtonClass: "btn-danger",
-                                    confirmButtonText: "Yes, delete it!",
+                                    confirmButtonText: "Yes, cancel it!",
                                     closeOnConfirm: false
                                 },
-                                function(){
-                                    $.ajax({
-                                        type : "POST",
-                                        url : "{{url('recruitment/hair-stylist/overtime/delete')}}/"+id,
-                                        data : {
-                                            '_token' : '{{csrf_token()}}'
-                                        },
-                                        success : function(response) {
-                                            if (response.status == 'success') {
-                                                swal("Deleted!", "Hair Stylist request overtime has been deleted.", "success")
-                                                SweetAlert.init()
-                                                location.href = "{{url('recruitment/hair-stylist/overtime')}}";
+                                function(inputValue){
+                                    if(inputValue==name){
+                                        $.ajax({
+                                            type : "POST",
+                                            url : "{{url('recruitment/hair-stylist/overtime/delete')}}/"+id,
+                                            data : {
+                                                '_token' : '{{csrf_token()}}'
+                                            },
+                                            success : function(response) {
+                                                if (response.status == 'success') {
+                                                    swal("Canceled!", "Hair Stylist request overtime has been canceled.", "success")
+                                                    SweetAlert.init()
+                                                    location.href = "{{url('recruitment/hair-stylist/overtime')}}";
+                                                }
+                                                else if(response.status == "fail"){
+                                                    swal("Error!", "Failed to cancel request overtime.")
+                                                }
+                                                else {
+                                                    swal("Error!", "Something went wrong. Failed to cancel equest overtime.")
+                                                }
                                             }
-                                            else if(response.status == "fail"){
-                                                swal("Error!", "Failed to request overtime.", "error")
-                                            }
-                                            else {
-                                                swal("Error!", "Something went wrong. Failed to request overtime.", "error")
-                                            }
-                                        }
-                                    });
+                                        });
+                                    }else if(inputValue==''){
+                                        swal("Error!", "You need to input hair stylist name.")
+
+                                    }else{
+                                        swal("Error!", "Hair stylist name doesnt match")
+                                    }
                                 });
                         })
                     })
@@ -184,10 +191,12 @@
                                         <td>{{$req_time_off['outlet_name']}}</td>
                                         <td>{{$req_time_off['request_by']}}</td>
                                         <td>
-                                            @if(isset($req_time_off['approve_by']))
+                                            @if(isset($req_time_off['reject_at']))
+                                                <span class="badge" style="background-color: #EF1E31; color: #ffffff">Canceled</span>
+                                            @elseif(isset($req_time_off['approve_by']))
                                                 <span class="badge" style="background-color: #26C281; color: #ffffff">Approved</span>
                                             @else
-                                                <span class="badge" style="background-color: #EF1E31; color: #ffffff">Requested</span>
+                                                <span class="badge" style="background-color: #c9c9c7; color: #ffffff">Requested</span>
                                             @endif
                                         </td>
                                         <td>
@@ -195,7 +204,7 @@
                                             <a href="{{ url('recruitment/hair-stylist/overtime/detail/'.$req_time_off['id_hairstylist_overtime']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
                                             @endif
                                             @if(MyHelper::hasAccess([345], $grantedFeature))
-                                            <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $req_time_off['id_hairstylist_overtime'] }}" data-name="{{ $req_time_off['fullname'] }}"><i class="fa fa-trash-o"></i> Delete</a>
+                                            <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $req_time_off['id_hairstylist_overtime'] }}" data-name="{{ $req_time_off['fullname'] }}"><i class="fa fa-times"></i> Cancel</a>
                                             @endif
                                         </td>
                                     </tr>
