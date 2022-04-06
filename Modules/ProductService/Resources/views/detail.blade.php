@@ -695,7 +695,7 @@
             '</div>'+
             '<div class="col-md-1">'+
             '<div class="input-group" style="margin-left: 20px; margin-top: 5px; !important">'+
-            '<input type="checkbox" class="icheck" id="product_use_optional_'+company+'_'+count_product_service_use+'" name="product_icount_'+company+'['+count_product_service_use+'][optional]" required>'+
+            '<input type="checkbox" class="icheck" id="product_use_optional_'+company+'_'+count_product_service_use+'" name="product_icount_'+company+'['+count_product_service_use+'][optional]">'+
             '</div>'+
             '</div>'+
             '<div class="col-md-1">'+

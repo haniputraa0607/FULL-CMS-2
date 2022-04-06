@@ -736,6 +736,221 @@
         }
 
     });
+
+    function conversion(id_product,name,id){
+        $('#form_conversion .main').empty();
+        $('#form_conversion .info-conv').empty();
+        $('#form_conversion .output').empty();
+
+        var unit = $(`tr[data-id=${id}] .unit`).html();
+
+        var max = $(`tr[data-id=${id}] .qty`).html();
+        var unit_conv = $(`tr[data-id=${id}] .link`).attr('data-conv');
+        var info_conv = $(`tr[data-id=${id}] .link`).attr('data-info');
+
+        document.getElementById('cek_maximal').style.display = 'none';
+        document.getElementById('cek_conversion').style.display = 'none';
+
+        if(unit_conv == ''){
+            var html = `
+                <div class="text-center"><span>Conversion for this product has not been set yet</span></div>
+            `;
+            $('#form_conversion .modal-footer .submit_conversion').prop('disabled', true);
+        }else{
+            var select = `<option value="" selected disabled></option>`;
+            var qty_to_converse_key_up = '';
+            var type_key_up = '';
+            var qty_to_converse_change = '';
+            var type_change = '';
+           
+            var new_array = [];
+            var array_conversion = unit_conv.split(";");
+            array_conversion.forEach(function(data,index){
+                array_conversion[index] = data.split(",");
+                var unit_select = array_conversion[index][2];
+                
+                select += `<option value="${unit_select}">${unit_select}</option>`;
+                new_array[unit_select] =  array_conversion[index];
+            });
+
+            var array_info = info_conv.split(";");
+            var span_info = ``;
+            array_info.forEach(function(data,index){
+                span_info += `<br>${data}`;
+            });
+
+            var html_info = `
+                <div class="col-md-12">
+                    <div class="alert alert-success" role="alert" style="margin-bottom: 10px !important">
+                        <strong>${name} CONVERSION INFO : </strong>
+                        ${span_info}
+                    </div> 
+            `;
+
+            var html = `
+                <div class="col-md-1"></div>
+                <input type="hidden" name="id_product_icount" value="${id_product}" required/>
+                <input type="hidden" name="type" required/>
+                <input type="hidden" name="conv" required/>
+                <input type="hidden" name="qty_original" value="${max}" required/>
+                <div class="col-md-2">
+                    <input class="form-control numberonly" type="text" id="input_qty_conv" name="qty" required/>
+                </div>
+                <div class="col-md-3">
+                    <input class="form-control" type="text" id="input-cp" id="unit_conv" name="unit" value="${unit}" readonly required/>
+                </div>
+                <div class="col-md-2 text-center" style="margin-top: 7px !important">
+                    <span><i class="fa fa-arrow-right fa-2x"></i></span>
+                </div>
+                <div class="col-md-3">
+                    <select class="select2 form-control" name="unit_conversion" id="select_unit_conv" required>
+                        ${select}
+                    </select>
+                </div>
+                <div class="col-md-1"></div>
+            `;
+
+        }
+        $('#form_conversion .main').append(html);
+        $('#form_conversion .info-conv').append(html_info);
+        $('#form_conversion .form-group .select2').select2({
+            placeholder: ""
+        });
+        $('.numberonly').inputmask("remove");
+        $('.numberonly').inputmask({
+            removeMaskOnSubmit: true, 
+            placeholder: "",
+            alias: "numeric", 
+            rightAlign: false,
+            min : '',
+            max: '9999',
+            prefix : "",
+        });
+        $('#form_conversion').modal('show');
+        $('#input_qty_conv').keyup(function () {
+            var cek_max = 0;
+            var qty_conv = $('#input_qty_conv').val();
+            if(parseInt(qty_conv)<=parseInt(max) || qty_conv == ''){
+                document.getElementById('cek_maximal').style.display = 'none';
+                if(qty_conv!=''){
+                    $('#form_conversion .modal-footer .submit_conversion').prop('disabled', false);
+                }
+            }else{
+                $('#cek_maximal').html(`Invalid value, Maximal value to conversion is ${max}`);
+                document.getElementById('cek_maximal').style.display = 'block';
+                $('#form_conversion .modal-footer .submit_conversion').prop('disabled', true);
+                $('#form_conversion .output').empty();
+                cek_max = 1;
+            }
+
+            var unit_conversion = $('#select_unit_conv option:selected').val();
+            if(unit_conversion != ''){
+                qty_to_converse_key_up = new_array[unit_conversion][1];
+                type_key_up = new_array[unit_conversion][0];
+                $('input[name=type]').val(type_key_up);
+                $('input[name=conv]').val(qty_to_converse_key_up);
+                if(type_key_up=='distribution'){
+                    if(parseInt(qty_conv)<parseInt(qty_to_converse_key_up)){
+                        document.getElementById('cek_conversion').style.display = 'block';
+                        $('#form_conversion .modal-footer .submit_conversion').prop('disabled', true);
+                        $('#form_conversion .output').empty();
+                    }else{
+                        document.getElementById('cek_conversion').style.display = 'none';
+                        if(cek_max != 1){
+                            output(id_product, name, max, qty_conv, unit, type_key_up, qty_to_converse_key_up, unit_conversion);
+                        }
+                    }
+                }else{
+                    document.getElementById('cek_conversion').style.display = 'none';
+                    $('#form_conversion .modal-footer .submit_conversion').prop('disabled', false);
+                    if(cek_max != 1){
+                        output(id_product, name, max, qty_conv, unit, type_key_up, qty_to_converse_key_up, unit_conversion);
+                    }
+                }
+            }
+
+        });
+
+        $('#select_unit_conv').change(function(){
+            var unit_value = $('#select_unit_conv option:selected').val();
+            var qty_change = $('#input_qty_conv').val();
+            qty_to_converse_change = new_array[unit_value][1];
+            type_change = new_array[unit_value][0];
+            $('input[name=type]').val(type_change);
+            $('input[name=conv]').val(qty_to_converse_change);
+            if(type_change=='distribution'){
+                if(qty_change != ''){
+                    if(parseInt(qty_change)<parseInt(qty_to_converse_change)){
+                        document.getElementById('cek_conversion').style.display = 'block';
+                        $('#form_conversion .modal-footer .submit_conversion').prop('disabled', true);
+                        $('#form_conversion .output').empty();
+                    }else{
+                        document.getElementById('cek_conversion').style.display = 'none';
+                        $('#form_conversion .modal-footer .submit_conversion').prop('disabled', false);
+                        output(id_product, name, max, qty_change, unit, type_change, qty_to_converse_change, unit_value);
+                    }
+                }
+            }else{
+                document.getElementById('cek_conversion').style.display = 'none';
+                $('#form_conversion .modal-footer .submit_conversion').prop('disabled', false);
+                output(id_product, name, max, qty_change, unit, type_change, qty_to_converse_change, unit_value);
+            }
+        })
+
+
+    }
+
+    function output(id, product, max, qty, unit, method, conv, unit_conv){
+        $('#form_conversion .output').empty();
+        var output_val = '';
+        if(method == 'distribution'){
+            output_val = Math.floor(qty / conv);
+            qty = output_val * conv;
+
+        }else{
+            output_val = qty * conv;
+        }
+        var output_qty_after = max - qty;
+        var conv_qty = $(`tr[data-id=${id}_${unit_conv}] .qty`).html();
+            if(conv_qty != undefined){
+                output_val = output_val + parseInt(conv_qty);
+            }
+        var html = `
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th class="text-center">Unit</th>
+                        <th class="text-center">Stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>${product}</td>
+                        <td class="text-center">${unit}</td>
+                        <td class="text-center">${output_qty_after}</td>
+                    </tr>
+                    <tr>
+                        <td>${product}</td>
+                        <td class="text-center">${unit_conv}</td>
+                        <td class="text-center">${output_val}</td>
+                    </tr>
+                </tbody>
+            </table>
+        `;
+        $('#form_conversion .output').append(html);
+    }
+
+    $('#form_conversion .modal-footer .submit_conversion').on('click', function(){
+        if (!$('form#form_conversion_submit')[0].checkValidity()) {
+            toastr.warning("Incompleted Data. Please fill blank input.");
+        }else{
+            $('form#form_conversion_submit').submit();
+        }
+    });
+
+
+
   </script>
 <script type="text/javascript">
     $(document).ready(function(){
@@ -862,5 +1077,38 @@
         </div>
     </div>
 
+    <div class="modal fade bd-example-modal-sm" id="form_conversion" tabindex="-1" role="dialog" aria-labelledby="conversionModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">UNIT CONVERSION</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="padding: 15px !important">
+                    <form class="form-horizontal" role="form" action="{{ url('outlet/detail') }}/{{ $outlet[0]['outlet_code'] }}/stock" id="form_conversion_submit" method="post" enctype="multipart/form-data">
+                        <div class="form-body">
+                            <div class="form-group info-conv">
 
+                            </div>
+                            <div class="form-group main">
+                                
+                            </div>
+                            <p style="color: red; display: none; margin-top: 8px; margin-bottom: 8px; margin-left: 50px" id="cek_maximal">Invalid value, Maximal value to conversion is 6</p>
+                            <p style="color: red; display: none; margin-top: 8px; margin-bottom: 8px; margin-left: 50px" id="cek_conversion">The number of units to be converted is not enough</p>
+                        </div>
+                        {{ csrf_field() }}
+                    </form>
+                    <div class= "output">
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary submit_conversion">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

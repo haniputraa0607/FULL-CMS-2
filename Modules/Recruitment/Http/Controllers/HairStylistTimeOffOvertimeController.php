@@ -332,7 +332,7 @@ class HairStylistTimeOffOvertimeController extends Controller
             $data['result']['month'] = date('m', strtotime( $data['result']['date']));
             $data['result']['year'] = date('Y', strtotime( $data['result']['date']));
             $data['result']['list_date'] = MyHelper::post('recruitment/hairstylist/be/timeoff/list-date', ['id_user_hair_stylist' => $data['result']['hair_stylist']['id_user_hair_stylist'],'month' => $data['result']['month'],'year' => $data['result']['year']])['result'] ?? [];
-            $time = MyHelper::post('recruitment/hairstylist/be/timeoff/list-date', ['id_user_hair_stylist' => $data['result']['hair_stylist']['id_user_hair_stylist'],'month' => $data['result']['month'],'year' => $data['result']['year'], 'date' => $data['result']['date']])['result'] ?? [];
+            $time = MyHelper::post('recruitment/hairstylist/be/timeoff/list-date', ['id_user_hair_stylist' => $data['result']['hair_stylist']['id_user_hair_stylist'],'month' => $data['result']['month'],'year' => $data['result']['year'], 'date' => $data['result']['date'], 'type' => 'getDetail'])['result'] ?? [];
             $data['result']['time_start'] = $time['time_start'];
             $data['result']['time_end'] = $time['time_end'];
 
