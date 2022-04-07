@@ -1356,9 +1356,9 @@ class OutletController extends Controller
         $post['outlet_code'] = $outlet_code;
         $product_stock = MyHelper::post('outlet/stock/stock-icount', $post);
         if (isset($product_stock['status']) && $product_stock['status'] == 'success') {
-            return redirect('outlet/detail/'.$outlet_code)->with(['success' => ['Unit Conversion has been updated']]);
+            return redirect('outlet/detail/'.$outlet_code.'#product_icount')->with(['success' => ['Unit Conversion has been updated']]);
         }else{
-            return redirect('outlet/detail/'.$outlet_code)->with(['success' => ['Failed to conversion unit']]);
+            return redirect('outlet/detail/'.$outlet_code.'#product_icount')->with(['success' => ['Failed to conversion unit']]);
         }
 
         
