@@ -113,7 +113,7 @@
 				</label>
 				<div class="col-md-6">
 					<label class="mt-checkbox mt-checkbox-outline">
-						<input type="checkbox" name="auto_generate_pin" id="auto_generate_pin" class="same checkbox-product-price" onclick="changeAutoGeneratePin()"/>
+						<input type="checkbox" name="auto_generate_pin" id="auto_generate_pin" class="same checkbox-product-price" onclick="changeAutoGeneratePinApprove()"/>
 						<span></span>
 					</label>
 				</div>
@@ -124,7 +124,7 @@
 						<i class="fa fa-question-circle tooltips" data-original-title="Masukkan pin yang akan digunakan untuk login" data-container="body"></i>
 					</label>
 					<div class="col-md-6">
-						<input class="form-control" maxlength="6" type="password" name="pin" id="pin1" placeholder="Enter PIN" required autocomplete="new-password"/>
+						<input class="form-control" maxlength="6" type="password" onkeyup="matchPassword('app')" name="pin" id="pinapp1" placeholder="Enter PIN" required autocomplete="new-password"/>
 					</div>
 				</div>
 				<div class="form-group">
@@ -132,7 +132,8 @@
 						<i class="fa fa-question-circle tooltips" data-original-title="Ketik ulang pin yang akan digunakan untuk login" data-container="body"></i>
 					</label>
 					<div class="col-md-6">
-						<input class="form-control" maxlength="6" type="password" name="pin2" id="pin2" placeholder="Re-type PIN" required autocomplete="new-password"/>
+						<input class="form-control" maxlength="6" onkeyup="matchPassword('app')" type="password" name="pin2" id="pinapp2" placeholder="Re-type PIN" required autocomplete="new-password"/>
+						<b style="color: red;font-size: 12px;display: none" id="alert_password_app">Password des not match</b>
 					</div>
 				</div>
 			</div>
@@ -171,7 +172,7 @@
 		<div class="row" style="text-align: center">
 			{{ csrf_field() }}
 			<a class="btn red save" data-name="{{ $detail['fullname'] }}" data-status="Rejected" data-form="approve">Reject</a>
-			<button class="btn green-jungle">Approve</button>
+			<button class="btn green-jungle" id="btn_submit_app">Approve</button>
 		</div>
 	</form>
 </div>

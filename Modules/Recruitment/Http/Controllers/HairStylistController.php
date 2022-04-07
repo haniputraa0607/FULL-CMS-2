@@ -236,11 +236,14 @@ class HairStylistController extends Controller
         $data = MyHelper::post('recruitment/hairstylist/be/detail/document', ['id_user_hair_stylist_document' => $id]);
 
         if(isset($data['status']) && $data['status'] == 'success'){
-            $ext = explode(".",$data['result']['attachment'])[1]??null;
+            $img = $data['result']['attachment'];
+            $name = substr($img, strpos($img, "/hs/") + 4);
+            $ext = explode(".",$name)[1]??null;
+
             if(empty($ext)){
                 return redirect('recruitment/hair-stylist')->withErrors(['Extention not found']);
             }
-            $filename = str_replace('/','_',strtolower(str_replace(' ','_',$data['result']['document_type'])).'_'.strtotime(date('Ymdhis')).'.'.$ext);
+            $filename = strtolower(str_replace(' ','_',$data['result']['document_type'])).'_'.strtotime(date('Ymdhis')).'.'.$ext;
             $temp = tempnam(sys_get_temp_dir(), $filename);
             copy($data['result']['attachment'], $temp);
             return response()->download($temp, $filename)->deleteFileAfterSend(true);
