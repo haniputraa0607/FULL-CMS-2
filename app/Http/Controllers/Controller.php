@@ -378,4 +378,16 @@ class Controller extends BaseController
         }
         return view('debugger', $data);
     }
+
+    public function proxyAPI(Request $request, $path)
+    {
+    	$allowedEndpoint = ['time'];
+    	if (in_array($path, $allowedEndpoint)) {
+	    	$header = [];
+	    	$data = $request->all();
+	    	$response = MyHelper::apiRequest($request->getMethod(), $path, $data, $header);
+	    	return $response['response'];
+    	}
+    	return abort(404);
+    }
 }
