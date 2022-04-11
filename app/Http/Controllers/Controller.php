@@ -381,7 +381,10 @@ class Controller extends BaseController
 
     public function proxyAPI(Request $request, $path)
     {
-    	$allowedEndpoint = ['time'];
+    	$allowedEndpoint = [
+    		'time',
+    		'xendit-account/update',
+    	];
     	if (in_array($path, $allowedEndpoint)) {
 	    	$header = [];
 	    	$data = $request->all();
