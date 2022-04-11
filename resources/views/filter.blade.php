@@ -78,12 +78,6 @@ $show=$show??false;
 				'<option value="register_date">Register Date</option>'+
 				'<option value="register_today">Register Today</option>'+
 				'</optgroup>'+
-				'<optgroup label="CRM">'+
-				'<option value="r_quartile">r_quartile</option>'+
-				'<option value="f_quartile">f_quartile</option>'+
-				'<option value="m_quartile">m_quartile</option>'+
-				'<option value="RFMScore">RFMScore</option>'+
-				'</optgroup>'+
 				'<optgroup label="Promo">'+
 				'<option value="Deals">Deals</option>'+
 				'<option value="Quest">Quest</option>'+
@@ -284,12 +278,6 @@ $show=$show??false;
 				'<option value="is_suspended">Suspend Status</option>'+
 				'<option value="register_date">Register Date</option>'+
 				'<option value="register_today">Register Today</option>'+
-				'</optgroup>'+
-				'<optgroup label="CRM">'+
-				'<option value="r_quartile">r_quartile</option>'+
-				'<option value="f_quartile">f_quartile</option>'+
-				'<option value="m_quartile">m_quartile</option>'+
-				'<option value="RFMScore">RFMScore</option>'+
 				'</optgroup>'+
 				'<optgroup label="Promo">'+
 				'<option value="Deals">Deals</option>'+
@@ -1215,12 +1203,6 @@ $show=$show??false;
 														<option value="register_date">Register Date</option>
 														<option value="register_today">Register Today</option>
 													</optgroup>
-													<optgroup label="CRM">
-														<option value="r_quartile">r_quartile</option>
-														<option value="f_quartile">f_quartile</option>
-														<option value="m_quartile">m_quartile</option>
-														<option value="RFMScore">RFMScore</option>
-													</optgroup>
 													<optgroup label="Promo">
 														<option value="Deals">Deals</option>
 														<option value="Quest">Quest</option>
@@ -1452,12 +1434,6 @@ $show=$show??false;
 																	<option value="is_suspended" @if($row['subject'] == 'is_suspended') selected @endif>Suspend Status</option>
 																	<option value="register_date" @if($row['subject'] == 'register_date') selected @endif>Register Date</option>
 																	<option value="register_today" @if($row['subject'] == 'register_today') selected @endif>Register Today</option>
-																</optgroup>
-																<optgroup label="CRM">
-																	<option value="r_quartile" @if($row['subject'] == 'r_quartile') selected @endif>r_quartile</option>
-																	<option value="f_quartile" @if($row['subject'] == 'f_quartile') selected @endif>f_quartile</option>
-																	<option value="m_quartile" @if($row['subject'] == 'm_quartile') selected @endif>m_quartile</option>
-																	<option value="RFMScore" @if($row['subject'] == 'RFMScore') selected @endif>RFMScore</option>
 																</optgroup>
 																<optgroup label="Promo">
 																	<option value="Deals" @if($row['subject'] == 'Deals') selected @endif>Deals</option>

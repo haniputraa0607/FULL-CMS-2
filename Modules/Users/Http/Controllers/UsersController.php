@@ -818,21 +818,21 @@ class UsersController extends Controller
         }
     }
     
-    public function showAllLog($phone, Request $request)
+    public function showAllLog($phone, $tipe, Request $request)
     {
 		$post = $request->except('_token');
 		if(empty($post)){
 			Session::forget('form_filter_log');
-			// $data['']
 		}
 		
-		$data = [ 'title'             => 'User',
+		$data = [
+		    'title'             => 'User',
 			'menu_active'       => 'user',
 			'submenu_active'    => 'user-list',
 			'phone'             => $phone,
-			'date_start'     => date('01 F Y 00:00'),
-			'date_end'       => date('d F Y 23:59'),
-			'rule'			=> 'and'
+			'date_start'        => date('01 F Y 00:00'),
+			'date_end'          => date('d F Y 23:59'),
+			'rule'			    => 'and'
 		];
 
 		if(isset($post['date_start'])){
@@ -849,32 +849,6 @@ class UsersController extends Controller
 
 		if(isset($post['conditions'])){
 			Session::put('form_filter_log',$post['conditions']);
-		}else{
-			if(!empty(Session::get('form_filter_log'))){
-				Session::forget('form_filter_log');
-			}
-		}
-
-		if(!isset($post['pagem'])){
-			$data['pagem'] = 1;
-		}else{
-			$data['pagem'] = $post['pagem'];
-		}
-	
-		if(!isset($post['pageb'])){
-			$data['pageb'] = 1;
-		}else{
-			$data['pageb'] = $post['pageb'];
-		}
-
-		if(isset($post['page'])){
-			if(isset($post['tipe']) && $post['tipe'] == 'mobile'){
-				$data['pagem'] = $post['page'];
-			}
-			if(isset($post['tipe']) && $post['tipe'] == 'backend'){
-				$data['pageb'] = $post['page'];
-				$data['tipe'] = 'backend';
-			}
 		}
 
 		if(!empty(Session::get('form_filter_log'))){
@@ -883,24 +857,29 @@ class UsersController extends Controller
 			$data['conditions'] = [];
 		}
 
-		$getLog = MyHelper::post('users/log?log_save=0&page='.$data['pagem'], ['phone' => $phone, 'pagination' => 1, 'take' => 20, 'conditions' =>$data['conditions'], 'date_start' => $data['date_start'], 'date_end' => $data['date_end'], 'rule' => $data['rule']]);
+		$getLog = MyHelper::post('users/log?log_save=0', ['phone' => $phone, 'page' => $post['page']??1, 'pagination' => 1, 'take' => 20, 'conditions' =>$data['conditions'], 'date_start' => $data['date_start'], 'date_end' => $data['date_end'], 'rule' => $data['rule']]);
 
 		$data['log']['mobile'] = [];
 		$data['log']['backend'] = [];
+        $data['count'] = ($tipe == 'mobile' ?$getLog['result']['mobile']['total']??0:$getLog['result']['be']['total']??0);
 
 		if(isset($getLog['result']['mobile'])){
 			$data['log']['mobile'] = $getLog['result']['mobile']['data'];
-			$data['mobile_page'] = new LengthAwarePaginator($getLog['result']['mobile']['data'], $getLog['result']['mobile']['total'], $getLog['result']['mobile']['per_page'], $getLog['result']['mobile']['current_page'], ['path' => url('user/log/'.$phone.'?tipe=mobile&pageb='.$data['pageb'])]);
+			$data['mobile_page'] = new LengthAwarePaginator($getLog['result']['mobile']['data'], $getLog['result']['mobile']['total'], $getLog['result']['mobile']['per_page'], $getLog['result']['mobile']['current_page'], ['path' => url('user/log/'.$phone.'/'.$tipe)]);
 		} 
 		if(isset($getLog['result']['be'])){
 			$data['log']['backend'] = $getLog['result']['be']['data'];
-			$data['backend_page'] = new LengthAwarePaginator($getLog['result']['be']['data'], $getLog['result']['be']['total'], $getLog['result']['be']['per_page'], $getLog['result']['be']['current_page'], ['path' => url('user/log/'.$phone.'?tipe=backend&pagem='.$data['pagem'])]);
+			$data['backend_page'] = new LengthAwarePaginator($getLog['result']['be']['data'], $getLog['result']['be']['total'], $getLog['result']['be']['per_page'], $getLog['result']['be']['current_page'], ['path' => url('user/log/'.$phone.'/'.$tipe)]);
 		} 
 
 		$profile = MyHelper::post('users/get-detail?log_save=0', ['phone' => $phone]);
 		if(isset($profile['result'])){
 			$data['profile'] = $profile['result'];
 		}
+
+		if(isset($tipe)){
+            $data['tipe'] = $tipe;
+        }
 
 		return view('users::log_all', $data);
 	}
@@ -978,12 +957,12 @@ class UsersController extends Controller
 	public function activity(Request $request, $page = 1){
         $input = $request->input();
 		$post = $request->except('_token');
-		
-		if(!empty(Session::get('form'))){
+
+		if(!empty(Session::get('form_log')) && !isset($post['password'])){
 			if(isset($post['take'])) $takes = $post['take'];
 			if(isset($post['order_field'])) $order_fields = $post['order_field'];
 			if(isset($post['order_method'])) $order_methods = $post['order_method'];
-			$post = Session::get('form');
+			$post = Session::get('form_log');
 			
 			if(isset($takes) && isset($order_fields) && isset ($order_methods)){
 				$post['take'] = $takes;
@@ -992,16 +971,19 @@ class UsersController extends Controller
 			}
 		}
 		
-		if(!empty($post)){
-			Session::put('form',$post);
+		if(!empty($post) && !isset($post['password'])){
+			Session::put('form_log',$post);
 		}
 		
 		if(isset($post['password'])){
 			$checkpin = MyHelper::post('users/pin/check-backend', array('phone' => Session::get('phone'), 'pin' => $post['password'], 'admin_panel' => 1));
-			if($checkpin['status'] != "success")
-				return back()->withErrors(['invalid_credentials' => 'Invalid PIN'])->withInput();
-			else
-				Session::put('secure','yes');Session::put('secure_last_activity',time());
+			if($checkpin['status'] != "success"){
+                return back()->withErrors(['invalid_credentials' => 'Invalid PIN'])->withInput();
+            }
+			else{
+                Session::put('secure','yes');
+                Session::put('secure_last_activity',time());
+            }
 		}
 		
 		$data = [ 'title'             => 'User',

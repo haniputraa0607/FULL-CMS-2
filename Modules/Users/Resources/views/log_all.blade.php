@@ -126,16 +126,16 @@
         </div>
     </div>
 
-    <form role="form" action="{{ url('user/log/'.$phone) }}" method="post">
+    <form role="form" action="{{ url()->current() }}" method="post">
         @include('users::log_all_filter')
     </form>
 
-    @if (!empty($search))
+    @if (!empty($conditions))
         <div class="alert alert-block alert-info fade in">
             <button type="button" class="close" data-dismiss="alert"></button>
             <h4 class="alert-heading">Displaying search result :</h4>
                 <p>{{ $count }}</p><br>
-        <a href="{{ url('user/log') }}" class="btn btn-sm btn-warning">Reset</a>
+                <a href="{{ url()->current() }}" class="btn btn-sm btn-warning">Reset</a>
             <br>
         </div>
     @endif
@@ -149,16 +149,16 @@
         <div class="portlet-body">
             <div class="tabbable-line tabbable-full-width">
                 <ul class="nav nav-tabs">
-                    <li class=" @if(!isset($tipe)) active @endif">
-                        <a href="#log_mobile" data-toggle="tab"> Mobile </a>
+                    <li class=" @if((isset($tipe) && $tipe == 'mobile') || !isset($tipe)) active @endif">
+                        <a href="{{url('user/log/'.$phone.'/mobile')}}"> Mobile </a>
                     </li>
                     <li class=" @if(isset($tipe) && $tipe == 'backend') active @endif">
-                        <a href="#log_backend" data-toggle="tab"> Backend </a>
+                        <a href="{{url('user/log/'.$phone.'/backend')}}"> Backend </a>
                     </li>
                 </ul>
             </div>
             <div class="tab-content" style="margin-top:20px">
-                <div class="tab-pane @if(!isset($tipe)) active @endif" id="log_mobile">
+                <div class="tab-pane @if((isset($tipe) && $tipe == 'mobile') || !isset($tipe)) active @endif" id="log_mobile">
                     <table class="table table-striped table-bordered table-hover dt-responsive sample_1" width="100%">
                         <thead>
                         <tr>
@@ -213,7 +213,6 @@
                     <table class="table table-striped table-bordered table-hover dt-responsive sample_1" width="100%">
                         <thead>
                         <tr>
-                            <th></th>
                             <th>Datetime</th>
                             <th>Module</th>
                             <th>Subject</th>
@@ -226,13 +225,6 @@
                             @if(!empty($log['backend']))
                                 @foreach($log['backend'] as $datalog)
                                     <tr>
-                                        <td>
-                                            @if(stristr($datalog['useragent'],'iOS'))
-                                                <i class="fa fa-apple"></i>
-                                            @elseif(stristr($datalog['useragent'],'okhttp'))
-                                                <i class="fa fa-android"></i>
-                                            @endif
-                                        </td>
                                         <td> {{date("d F Y H:i:s", strtotime($datalog['created_at']))}} </td>
                                         <td>{{$datalog['module']}}</td>
                                         <td>{{$datalog['subject']}}</td>
