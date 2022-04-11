@@ -28,7 +28,7 @@ Route::group(['middleware' => 'web'], function(){
   Route::group(['middleware' => 'validate_session'], function(){
     Route::get('home', 'Controller@getHome');
     Route::any('debugger', 'Controller@debugger');
-    Route::any('fire/{path}', 'Controller@proxyAPI')->where(['path' => "[\w\/]+"]);
+    Route::any('fire/{path}', 'Controller@proxyAPI')->where(['path' => ".*"]);
     Route::get('home/{year}', 'Controller@getHome');
     Route::get('home/{year}/{month}', 'Controller@getHome');
     Route::get('profile', 'Controller@getProfile');

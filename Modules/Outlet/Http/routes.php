@@ -10,6 +10,12 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'office-b
     Route::any('holiday/{id_holiday}', ['middleware' => 'feature_control:450', 'uses' => 'OfficeBranchController@detailHoliday']);
 });
 
+Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'xendit-accounts', 'namespace' => 'Modules\Outlet\Http\Controllers'], function()
+{
+    Route::get('/', ['middleware' => 'feature_control:447', 'uses' => 'OfficeBranchController@index']);
+    Route::any('{xendit_id}', ['middleware' => 'feature_control:449', 'uses' => 'OfficeBranchController@create']);
+});
+
 Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'outlet', 'namespace' => 'Modules\Outlet\Http\Controllers'], function()
 {
     Route::get('list', ['middleware' => 'feature_control:24', 'uses' => 'OutletController@index']);

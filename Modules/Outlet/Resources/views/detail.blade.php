@@ -962,6 +962,53 @@
             $(target).focus();
         });
     });
+    function showXenditInput() {
+        $('#input-xendit-form').removeClass('hidden');
+        $('#input-xendit-view').addClass('hidden');
+    }
+    function hideXenditInput() {
+        $('#input-xendit-form').addClass('hidden');
+        $('#input-xendit-view').removeClass('hidden');
+    }
+    function submitXenditInput() {
+        const xenditId = $('#input-xendit-form :input[name=xendit_id]').val();
+        const button = $('#input-xendit-form button');
+        const okButton = $('#input-xendit-form #input-xendit-ok-btn').html('<i class="fa fa-spinner fa-spin"></i>');
+        button.prop('disabled', true);
+        $.ajax({
+            method: "POST",
+            url: "{{url('fire/xendit-account/update')}}",
+            data: {
+                _token: "{{csrf_token()}}",
+                xendit_id: xenditId,
+                id_outlet: {{$outlet[0]['id_outlet']}}
+            },
+            success: response => {
+                console.log(response);
+                okButton.html('<i class="fa fa-check"></i>');
+                button.prop('disabled', false);
+                if (response.status == 'success') {
+                    hideXenditInput();
+                    if (xenditId) {
+                        $('#input-xendit-view span').html(`${response.result.public_profile.business_name} (${response.result.email})`);
+                    } else {
+                        $('#input-xendit-view span').html('<em class="text-muted">Not Set</em>');
+                    }
+                    toastr.info("Success update data");
+                } else {
+                    okButton.html('<i class="fa fa-check"></i>');
+                    button.prop('disabled', false);
+                    toastr.error(response?.messages[0]);
+                }
+            },
+            error: errors => {
+                console.log(errors);
+                okButton.html('<i class="fa fa-check"></i>');
+                button.prop('disabled', false);
+                toastr.error(errors?.responseJSON?.messages ? errors?.responseJSON?.messages[0] : "Something went wrong");
+            }
+        })
+    }
 </script>
 @endsection
 

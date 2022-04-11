@@ -57,6 +57,38 @@
         <div class="form-group">
             <div class="input-icon right">
                 <label class="col-md-3 control-label">
+                    Xendit Account
+                </label>
+            </div>
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="hidden col-md-6" id="input-xendit-form">
+                        <div class="input-group">
+                            <input type="text" name="xendit_id" class="form-control" placeholder="Input Xendit Account ID here" value="{{$val['xendit_account']['xendit_id']}}">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-primary" id="input-xendit-ok-btn" onclick="submitXenditInput()"><i class="fa fa-check"></i></button>
+                                <button type="button" class="btn btn-danger" id="input-xendit-cancel-btn" onclick="hideXenditInput()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        {{-- or <a href="">Create new Xendit Account</a> --}}
+                    </div>
+                </div>
+                <div class=" control-label" id="input-xendit-view" style="text-align: left;">
+                    <span>
+                        @if(!$val['id_xendit_account'])
+                        <em class="text-muted">Not Set</em>
+                        @else
+                        {{$val['xendit_account']['public_profile']['business_name'] . ' (' . $val['xendit_account']['email'] . ')'}}
+                        @endif
+                     </span>
+                     <button type="button" style="margin-left: 10px;" type="button" class="btn btn-primary btn-xs" id="input-xendit-show-btn" onclick="showXenditInput()">Update</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="input-icon right">
+                <label class="col-md-3 control-label">
                     Status Mitra
                     <i class="fa fa-question-circle tooltips" data-original-title="Keterangan outlet ini adalah franchise atau bukan franchise" data-container="body"></i>
                 </label>
