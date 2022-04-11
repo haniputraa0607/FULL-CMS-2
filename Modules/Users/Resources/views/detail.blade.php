@@ -514,7 +514,7 @@
 									<!--end col-md-8-->
 									<div class="col-md-8">
 										@if(isset($log) && MyHelper::hasAccess([7], $grantedFeature))
-											<a href="{{url('user/log/'.$profile['phone'])}}" class="btn btn-sm yellow" type="button" style="float:right">
+											<a href="{{url('user/log/'.$profile['phone'].'/mobile')}}" class="btn btn-sm yellow" type="button" style="float:right">
 												Show All Activity
 											</a>
     										<h4 class="font-blue sbold uppercase" style="margin-top: 0px;margin-bottom: 50px;font-size: 24px;">Latest Activity Log</h4>

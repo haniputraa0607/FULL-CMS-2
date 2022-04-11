@@ -33,17 +33,6 @@
 			var parameter = "conditions["+index+"][parameter]";
 			document.getElementsByName(parameter)[0].type = 'hidden';
 		}
-		
-		if(subject_value == 'response_status'){
-			var operator = "conditions["+index+"][operator]";
-			var operator_value = document.getElementsByName(operator)[0];
-			for(i = operator_value.options.length - 1 ; i >= 0 ; i--) operator_value.remove(i);
-			operator_value.options[operator_value.options.length] = new Option('success', 'success');
-			operator_value.options[operator_value.options.length] = new Option('fail', 'fail');
-			
-			var parameter = "conditions["+index+"][parameter]";
-			document.getElementsByName(parameter)[0].type = 'hidden';
-		}
 
 	}
 
@@ -115,27 +104,25 @@
 											</div>
 										</div>
 										<div class="col-md-4">
-											<div class="input-group">
-												<select name="operator" class="form-control input-sm select2" placeholder="Search Operator" id="test" onChange="changeSubject(this.name)" style="width:100%">
-													<option value="=" @if($cond['operator'] == '=') selected @endif>=</option>
-													<option value="like" @if($cond['subject'] == 'like') selected @endif>Like</option>
-												</select>
-												<span class="input-group-addon">
-													<i style="color:#333" class="fa fa-question-circle tooltips" data-original-title="(1). Operator '=' untuk mendapatkan hasil pencarian yang sama persis dengan keyword.
-
-													(2). Operator 'like' untuk mendapatkan hasil pencarian yang mirip atau mengandung keyword
-													" data-container="body"></i>
-												</span>
-											</div>
+											<select name="operator" class="form-control input-sm select2" placeholder="Search Operator" id="test" style="width:100%">
+												@if($cond['subject'] == 'response_status')
+													<option value="success" @if ($cond['operator']  == 'success') selected @endif>success</option>
+													<option value="fail" @if ($cond['operator']  == 'fail') selected @endif>fail</option>
+												@else
+													<option value="=" @if ($cond['operator'] == '=') selected @endif>=</option>
+													<option value="like" @if ($cond['operator']  == 'like') selected @endif>Like</option>
+												@endif
+											</select>
 										</div>
-										<div class="col-md-3">
-											<div class="input-group">
-												<input type="text" placeholder="Parameter" class="form-control" name="parameter"/>
-												<span class="input-group-addon">
-													<i style="color:#333" class="fa fa-question-circle tooltips" data-original-title="keyword untuk pencarian" data-container="body"></i>
-												</span>
+										@if ($cond['subject'] == 'response_status')
+											<div class="col-md-3">
+												<input type="hidden" placeholder="Keyword" class="form-control" name="parameter" required @if (isset($cond['parameter'])) value="{{ $cond['parameter'] }}" @endif/>
 											</div>
-										</div>
+										@else
+											<div class="col-md-3">
+												<input type="text" placeholder="Keyword" class="form-control" name="parameter" required @if (isset($cond['parameter'])) value="{{ $cond['parameter'] }}" @endif/>
+											</div>
+										@endif
 									</div>
 								</div>
 							</div>
