@@ -1360,7 +1360,88 @@ class OutletController extends Controller
         }else{
             return redirect('outlet/detail/'.$outlet_code.'#product_icount')->with(['success' => ['Failed to conversion unit']]);
         }
+    }
 
+    public function reportStock(Request $request, $outlet_code, $id_product_icount, $unit){
+        $post = $request->except('_token');
+        // return $post;
+        $rule = false;
+        $data = [
+            'title'             => 'Report Stock',
+            'sub_title'         => 'List Report Stock',
+            'menu_active'       => 'product',
+            'submenu_active'    => 'report-stock',
+            'filter_date'       => true,
+            'filter_date_today' => true,
+        ];
         
+        $order = 'created_at';
+        $orderType = 'asc';
+        $sorting = 0;
+        if(isset($post['sorting'])){
+            $sorting = 1;
+            $order = $post['order'];
+            $orderType = $post['order_type'];
+        }
+        if(isset($post['reset']) && $post['reset'] == 1){
+            Session::forget('filter-list-report-stock');
+            $post['filter_type'] = 'today';
+        }elseif(Session::has('filter-list-report-stock') && !empty($post) && !isset($post['filter'])){
+            $pageSession = 1;
+            if(isset($post['page'])){
+                $pageSession = $post['page'];
+            }
+            $post = Session::get('filter-list-report-stock');
+            $post['page'] = $pageSession;
+            if($sorting == 0 && !empty($post['order'])){
+                $order = $post['order'];
+                $orderType = $post['order_type'];
+            }
+        }
+        $page = '?page=1';
+        if(isset($post['page'])){
+            $page = '?page='.$post['page'];
+        }
+        $data['order'] = $order;
+        $data['order_type'] = $orderType;
+        $post['order'] = $order;
+        $post['order_type'] = $orderType;
+        $data['is_today'] = false;
+        if(empty($post) || (isset($post['filter_type']) && $post['filter_type'] == 'today') || (!isset($post['start_date']) && empty($post['start_date']))){
+            $post['start_date'] = date('Y-m-d');
+            $data['is_today'] = true;
+        }
+        if(empty($post)  || (isset($post['filter_type']) && $post['filter_type'] == 'today') || (!isset($post['end_date']) && empty($post['end_date']))){
+            $post['end_date'] = date('Y-m-d');
+            $data['is_today'] = true;
+        }
+        $post['outlet_code'] = $outlet_code;
+        $post['id_product_icount'] = $id_product_icount;
+        $post['unit'] = $unit;
+
+        $list = MyHelper::post('outlet/stock/report'.$page, $post);
+        if(isset($post['rule']) && !empty($post['rule'])){
+            $rule = true;
+        }
+        if(($list['status']??'')=='success'){
+            $data['data']          = $list['result']['data'];
+            $data['data_total']     = $list['result']['total'];
+            $data['data_per_page']   = $list['result']['from'];
+            $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;
+            $data['data_paginator'] = new LengthAwarePaginator($list['result']['data'], $list['result']['total'], $list['result']['per_page'], $list['result']['current_page'], ['path' => url()->current()]);
+            $data['rule'] = $rule;
+            $data['outlet_code'] = $outlet_code;
+        }else{
+            $data['data']          = [];
+            $data['data_total']     = 0;
+            $data['data_per_page']   = 0;
+            $data['data_up_to']      = 0;
+            $data['data_paginator'] = false;
+            $data['rule'] = false;
+        }
+        if($post){
+            Session::put('filter-list-report-stock',$post);
+        }
+        return view('outlet::report_stock', $data);
     }
 }

@@ -177,6 +177,22 @@
                 showSeconds: false,
             });
         })
+
+        function updateOvertime() {
+            var data = $('#update-overtime').serialize();
+    
+            var get_time = $('input[name=time]:checked').val();
+            if(get_time==undefined){
+                document.getElementById('cek_time').style.display = 'block';
+            }else{
+                document.getElementById('cek_time').style.display = 'none';
+            }
+            if (!$('form#update-overtime')[0].checkValidity()) {
+                toastr.warning("Incompleted Data. Please fill blank input.");
+            }else{
+                $('form#update-overtime').submit();
+            }
+        }
     
         $(document).ready(function() {
             $('[data-switch=true]').bootstrapSwitch();
@@ -227,11 +243,11 @@
             </div>
         </div>
         <div class="portlet-body form">
-            <form class="form-horizontal" role="form" action="{{ url('recruitment/hair-stylist/overtime/update') }}/{{ $result['id_hairstylist_overtime'] }}" method="post" enctype="multipart/form-data">
+            <form class="form-horizontal" role="form" action="{{ url('recruitment/hair-stylist/overtime/update') }}/{{ $result['id_hairstylist_overtime'] }}" method="post" enctype="multipart/form-data" id="update-overtime">
                 <div class="form-body">
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Select Outlet <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih nama outlet hair stylist yang akan mengajukan izin" data-container="body"></i></label>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih nama outlet hair stylist yang akan mengajukan lembur" data-container="body"></i></label>
                         <div class="col-md-5">
                             <input class="form-control" type="text" placeholder="Outlet name" value="{{ $result['outlet']['outlet_name'] }}" readonly required/>
                             <input class="form-control" type="hidden" name="id_outlet" value="{{ $result['outlet']['id_outlet'] }}" readonly/>
@@ -239,7 +255,7 @@
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Select Hair Stylist <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih nama hair stylist yang akan dibuat permohonan izin" data-container="body"></i></label>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih nama hair stylist yang akan dibuat permohonan lembur" data-container="body"></i></label>
                         <div class="col-md-5">
                             <input class="form-control" type="text" placeholder="Hair Stylist name" value="{{ $result['hair_stylist']['fullname'] }}" readonly required/>
                             <input class="form-control" type="hidden" name="id_hs" id="list_hs"  value="{{ $result['hair_stylist']['id_user_hair_stylist'] }}" readonly/>
@@ -275,7 +291,7 @@
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Select Date Overtime <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih tanggal hair stylist akan izin" data-container="body"></i></label>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih tanggal hair stylist akan lembur" data-container="body"></i></label>
                         <div class="col-md-3">
                             @if(isset($result['approve_by']) || isset($result['reject_at']))
                             <input type="text" class="datepicker form-control" value="{{ date('d F Y', strtotime($result['date'])) }}" disabled>
@@ -290,15 +306,15 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Start Overtime<span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu mulai izin untuk hair style" data-container="body"></i></label>
+                        <label for="example-search-input" class="control-label col-md-4">Start Shift<span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu mulai lembur untuk hair style" data-container="body"></i></label>
                         <div class="col-md-3" id="place_time_start">
                             <input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="time_start" value="{{ $result['time_start'] }}" disabled>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">End Overtime<span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu selesai izin untuk hair style" data-container="body"></i></label>
+                        <label for="example-search-input" class="control-label col-md-4">End Shift<span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu selesai lembur untuk hair style" data-container="body"></i></label>
                         <div class="col-md-3" id="place_time_end">
                             <input type="text" id="time_end" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="time_end" value="{{ $result['time_end'] }}" disabled>
                         </div>
@@ -323,6 +339,7 @@
                                         <span class="box"></span> After Shift </label>
                                 </div>
                             </div>
+                            <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="cek_time">Please select one of the options</p>
                         </div>
                     </div>
                     <div class="form-group">
@@ -356,7 +373,7 @@
                         <div class="col-md-12 text-center">
                             @if (empty($result['reject_at']))
                                 @if(empty($result['approve']))
-                                <button type="submit" class="btn blue">Submit</button>
+                                <a onclick="updateOvertime()" class="btn blue">Submit</a>
                                 <a id="approve" class="btn green approve">Approve</a>
                                 @endif
                             @endif
