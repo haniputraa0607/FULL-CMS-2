@@ -70,7 +70,7 @@
                                 <button type="button" class="btn btn-danger" id="input-xendit-cancel-btn" onclick="hideXenditInput()"><i class="fa fa-times"></i></button>
                             </div>
                         </div>
-                        or <a href="">Create new Xendit Account</a>
+                        {{-- or <a href="">Create new Xendit Account</a> --}}
                     </div>
                 </div>
                 <div class=" control-label" id="input-xendit-view" style="text-align: left;">
@@ -78,7 +78,7 @@
                         @if(!$val['id_xendit_account'])
                         <em class="text-muted">Not Set</em>
                         @else
-                        <a href="{{url('xendit-accounts', $val['xendit_account']['xendit_id'])}}" target="_blank">{{$val['xendit_account']['public_profile']['business_name'] . ' (' . $val['xendit_account']['email'] . ')'}}</a>
+                        {{$val['xendit_account']['public_profile']['business_name'] . ' (' . $val['xendit_account']['email'] . ')'}}
                         @endif
                      </span>
                      <button type="button" style="margin-left: 10px;" type="button" class="btn btn-primary btn-xs" id="input-xendit-show-btn" onclick="showXenditInput()">Update</button>

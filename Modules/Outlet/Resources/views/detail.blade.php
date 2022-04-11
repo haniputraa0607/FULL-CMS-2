@@ -990,7 +990,7 @@
                 if (response.status == 'success') {
                     hideXenditInput();
                     if (xenditId) {
-                        $('#input-xendit-view span').html(`<a href="{{url('xendit-accounts')}}/${response.result.xendit_id}">${response.result.public_profile.business_name} (${response.result.email})</a>`);
+                        $('#input-xendit-view span').html(`${response.result.public_profile.business_name} (${response.result.email})`);
                     } else {
                         $('#input-xendit-view span').html('<em class="text-muted">Not Set</em>');
                     }
