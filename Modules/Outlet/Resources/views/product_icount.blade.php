@@ -19,7 +19,7 @@
             <td class="text-center qty">{{ $outlet_stock['stock'] }}</td>
             <td class="text-center"><a href="{{ url()->current() }}/report/{{ $outlet_stock['id_product_icount'] }}/{{ $outlet_stock['unit'] }}" class="btn btn-sm green">Report Stock</a></td>
             @if(MyHelper::hasAccess([447], $grantedFeature))
-            <td class="text-center"><a href="javascript:conversion({{ $outlet_stock['id_product_icount'] }},'{{ $outlet_stock['product_icount']['name'] }}','{{ $outlet_stock['id_product_icount'] }}_{{ $outlet_stock['unit'] }}')" data-conv="{{ $outlet_stock['conversion'] }}" data-info="{{ $outlet_stock['info_conversion'] }}" class="btn btn-sm blue link"><i class="fa fa-search"></i></a></td>
+            <td class="text-center"><a href="javascript:conversion({{ $outlet_stock['id_product_icount'] }},'{{ $outlet_stock['product_icount']['name'] }}','{{ $outlet_stock['id_product_icount'] }}_{{ $outlet_stock['unit'] }}')" data-conv="{{ $outlet_stock['conversion'] }}" data-info="{{ $outlet_stock['info_conversion'] }}" class="btn btn-sm blue link">Convert</a></td>
             @endif
         </tr>
         @endforeach

@@ -1358,7 +1358,7 @@ class OutletController extends Controller
         if (isset($product_stock['status']) && $product_stock['status'] == 'success') {
             return redirect('outlet/detail/'.$outlet_code.'#product_icount')->with(['success' => ['Unit Conversion has been updated']]);
         }else{
-            return redirect('outlet/detail/'.$outlet_code.'#product_icount')->with(['success' => ['Failed to conversion unit']]);
+            return redirect('outlet/detail/'.$outlet_code.'#product_icount')->withErrors(['success' => ['Failed to conversion unit']]);
         }
     }
 
@@ -1367,10 +1367,10 @@ class OutletController extends Controller
         // return $post;
         $rule = false;
         $data = [
-            'title'             => 'Report Stock',
-            'sub_title'         => 'List Report Stock',
-            'menu_active'       => 'product',
-            'submenu_active'    => 'report-stock',
+            'title'             => 'Outlet',
+            'sub_title'         => 'Report Stock',
+            'menu_active'       => 'outlet',
+            'submenu_active'    => 'outlet-list',
             'filter_date'       => true,
             'filter_date_today' => true,
         ];
@@ -1443,5 +1443,30 @@ class OutletController extends Controller
             Session::put('filter-list-report-stock',$post);
         }
         return view('outlet::report_stock', $data);
+    }
+
+    public function detailUnitConversion($outlet_code, $id){
+        $data = [
+            'title'             => 'Outlet',
+            'sub_title'         => 'Detail Unit Conversion',
+            'menu_active'       => 'outlet',
+            'submenu_active'    => 'outlet-list'
+        ];
+
+        $post = [
+            'outlet_code' => $outlet_code,
+            'id_unit_conversion_log' => $id
+        ];
+
+        $detail = MyHelper::post('outlet/unit-conversion/detail', $post);
+        if(isset($detail['status']) && $detail['status'] == 'success'){
+            $data['result'] = $detail['result']['unit_conversion'];
+            return view('outlet::detail_conversion', $data);
+
+        }else{
+            return back()->withErrors($detail['messages']??['Failed to get data']);
+        }
+
+        
     }
 }
