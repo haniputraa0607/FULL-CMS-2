@@ -50,6 +50,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'outlet',
 
     //stock
     Route::any('detail/{outlet_code}/stock', ['middleware' => 'feature_control:447', 'uses' => 'OutletController@conversionStock']);
+    Route::any('detail/{outlet_code}/report/{id_product}/{unit}', ['middleware' => 'feature_control:447', 'uses' => 'OutletController@reportStock']);
 
 
     Route::get('max-order/{outlet_code?}', ['middleware' => 'feature_control:197', 'uses' => 'OutletController@maxOrder']);

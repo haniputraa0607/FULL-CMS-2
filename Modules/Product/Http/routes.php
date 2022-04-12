@@ -158,6 +158,14 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'product'
     	Route::any('delete', 'ProductController@deleteDiscount');
 	});
 
+
+    /**
+	 * report stock
+	 */
+	Route::group(['prefix' => 'report-stock'], function() {
+    	Route::get('/', ['middleware' => 'feature_control:448', 'uses' => 'ProductController@reportStock']);
+    });
+
 	/**
 	 * tag
 	 */
