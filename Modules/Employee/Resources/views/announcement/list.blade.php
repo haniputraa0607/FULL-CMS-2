@@ -49,13 +49,13 @@
                                 function(){
                                     $.ajax({
                                         type : "POST",
-                                        url : "{{ url('recruitment/hair-stylist/announcement/delete') }}/"+id,
+                                        url : "{{ url('employee/announcement/delete') }}/"+id,
                                         data : "_token="+token+"&id_employee_announcement="+id,
                                         success : function(result) {
                                             if (result.status == "success") {
                                                 swal("Deleted!", "Announcement has been deleted.", "success")
                                                 SweetAlert.init()
-                                                location.href = "{{url('recruitment/hair-stylist/announcement')}}";
+                                                location.href = "{{url('employee/announcement')}}";
                                             }
                                             else if(result.status == "fail"){
                                                 swal("Error!", result.messages[0] ?? "Something went wrong. Failed to delete announcement.", "error")
@@ -209,8 +209,8 @@
 							@endif
                         </td>
 						<td nowrap>
-							<a href="{{ url('recruitment/hair-stylist/announcement/edit') }}/{{ $val['id_employee_announcement'] }}" class="btn btn-sm blue"><i class="fa fa-search"></i></a>
-							<a class="btn btn-sm red delete" href="{{ url('recruitment/hair-stylist/announcement/delete', $val['id_employee_announcement']) }}" data-toggle="confirmation" data-placement="top"><i class="fa fa-trash-o"></i></a>
+							<a href="{{ url('employee/announcement/edit') }}/{{ $val['id_employee_announcement'] }}" class="btn btn-sm blue"><i class="fa fa-search"></i></a>
+							<a class="btn btn-sm red delete" href="{{ url('employee/announcement/delete', $val['id_employee_announcement']) }}" data-toggle="confirmation" data-placement="top"><i class="fa fa-trash-o"></i></a>
 						</td>
                     </tr>
                 @endforeach

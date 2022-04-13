@@ -28,7 +28,7 @@ class EmployeeAnnouncementController extends Controller
 		if(!empty($post)){
 			$action = MyHelper::post('employee/announcement/create', $post);
 			if($action['status'] == 'success'){
-				$saveType = isset($post['id_hairstylist_announcement']) ? 'updated' : 'created';
+				$saveType = isset($post['id_employee_announcement']) ? 'updated' : 'created';
 				return redirect('employee/announcement')->withSuccess(['Announcement has been ' . $saveType . '.']);
 			} else{
 				return redirect('employee/announcement')->withErrors($action['messages']);
@@ -131,4 +131,49 @@ class EmployeeAnnouncementController extends Controller
 
         return view('employee::announcement.list', $data);
     }
+
+    public function edit(Request $request, $id_employee_announcement) {
+		$data = [
+            'title'          	=> 'Announcement',
+            'sub_title'      	=> 'Edit Announcement',
+            'menu_active'    	=> 'employee',
+            'submenu_active' 	=> 'employee-announcement',
+            'child_active' 		=> 'employee-announcement-list',
+            'filter_title'   	=> 'Filter Employee',
+            'hide_search_button'=> 1,
+            'without_form'		=> 1,
+            'hide_record_total' => 1
+        ];
+
+		$post = $request->except(['_token','files']);
+
+		$action = MyHelper::post('employee/announcement/detail', ['id_employee_announcement' => $id_employee_announcement]);
+
+		$data['ann'] = $action['result'] ?? [];
+		$data['brands'] = array_map(function($item) {
+            return [$item['id_brand'], $item['name_brand']];
+        }, MyHelper::get('brand/be/list')['result'] ?? []);
+
+		$data['provinces'] = array_map(function($item) {
+            return [$item['id_province'], $item['province_name']];
+        }, MyHelper::get('province/list')['result'] ?? []);
+        	
+        $data['cities'] = array_map(function($item) {
+            return [$item['id_city'], $item['city_name']];
+        }, MyHelper::get('city/list')['result'] ?? []);
+
+        $data['outlets'] = array_map(function($item) {
+            return [$item['id_outlet'], $item['outlet_code'].' - '.$item['outlet_name']];
+        }, MyHelper::get('outlet/be/list')['result'] ?? []);
+
+        $data['rule'] = [];
+        foreach ($data['ann']['hairstylist_announcement_rule_parents'][0]['rules'] ?? [] as $key => $val) {
+        	if (in_array($val['subject'], ['id_brand','id_province','id_city','id_outlet','hairstylist_level'])) {
+        		$data['rule'][] = [$val['subject'], $val['parameter']];
+        	}
+        }
+        $data['operator'] = $data['ann']['hairstylist_announcement_rule_parents'][0]['rule'] ?? 'and';
+
+		return view('recruitment::hair_stylist.announcement.create', $data);
+	}
 }
