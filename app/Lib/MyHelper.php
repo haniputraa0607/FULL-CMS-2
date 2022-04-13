@@ -881,6 +881,93 @@ class MyHelper
     }
     return $listDate;
   }
+
+  public static function renderMenu($allMenu = null, &$hasActive = false, &$hasChildren = false) {
+    $menuHtml = '';
+    $hasActive = false;
+    $hasChildren = false;
+    if (is_null($allMenu)) {
+      $allMenu = config('menu.sidebar');
+    }
+    foreach($allMenu as $menu) {
+      if ($menu['required_configs'] ?? false) {
+        $menu['required_configs_rule'] = $menu['required_configs_rule'] ?? 'or';
+        if ($menu['required_configs_rule'] == 'and') {
+          foreach ($menu['required_configs'] as $configId) {
+            if (!MyHelper::hasAccess([$configId], session('configs'))) continue;
+          }
+        } else {
+          if (!MyHelper::hasAccess($menu['required_configs'], session('configs'))) continue;
+        }
+      }
+
+      if ($menu['required_features'] ?? false) {
+        $menu['required_features_rule'] = $menu['required_features_rule'] ?? 'or';
+        if ($menu['required_features_rule'] == 'and') {
+          foreach ($menu['required_features'] as $featureId) {
+            if (!MyHelper::hasAccess([$featureId], session('granted_features'))) continue;
+          }
+        } else {
+          if (!MyHelper::hasAccess($menu['required_features'], session('granted_features'))) continue;
+        }
+      }
+
+      $url = substr($menu['url'] ?? '', 0, 4) == 'http' ? $menu['url'] : ($menu['url'] ?? '') ? url($menu['url']) : 'javascript:void(0)';
+      $icon = ($menu['icon'] ?? '') ? '<i class="' . $menu['icon'] . '"></i>' : '';
+
+      switch ($menu['type'] ?? 'single') {
+        case 'tree':
+          $submenu = '<li class="nav-item %active%"><a href="' . $url . '" class="nav-link nav-toggle">' . $icon . '<span class="title">' . $menu['label'] . '</span><span class="arrow %active%"></span></a><ul class="sub-menu">';
+
+          $submenu .= static::renderMenu($menu['children'], $subActive, $subAvailable);
+
+          $submenu = str_replace('%active%', $subActive ? 'active open' : '', $submenu);
+
+          $submenu .= '</ul></li>';
+
+          if ($subAvailable) {
+            if ($subActive) {
+              $hasActive = true;
+            }
+            $menuHtml .= $submenu;
+          }
+          break;
+
+        case 'group':
+          $submenu = '';
+          if ($menu['label'] ?? false) {
+            $submenu .= static::renderMenu([['type' => 'heading', 'label' => $menu['label']]], $subActive, $subAvailable);
+          }
+          $submenu .= static::renderMenu($menu['children'] ?? [], $subActive, $subAvailable);
+          if ($subAvailable) {
+            if ($subActive) {
+              $hasActive = true;
+            }
+            $menuHtml .= $submenu;
+          }
+          break;
+
+        case 'heading':
+          $menuHtml .= '<li class="heading" style="height: 50px;padding: 25px 15px 10px;"><h3 class="uppercase" style="color: #000;font-weight: 600;">' . $menu['label'] . '</h3></li>';
+          break;
+        
+        default:
+          if (!($menu['active'] ?? false)) {
+            $menu['active'] = 'request()->path() == $menu["url"]';
+          }
+          $active = ($menu['active'] ?? false) ? (eval('return ' . $menu['active'] . ';') ? 'active open' : '') : '';
+          if ($active) {
+            $hasActive = true;
+          }
+          $menuHtml .= '<li class="nav-item ' . $active . '"><a href=" ' . $url . ' " class="nav-link">' . $icon . '<span class="title">' . $menu['label'] . '</span></a></li>';
+          break;
+      }
+    }
+    if ($menuHtml) {
+      $hasChildren = true;
+    }
+    return $menuHtml;
+  }
 }
 
 ?>
