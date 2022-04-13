@@ -329,8 +329,8 @@
 												</div>
 							        			<h4 class="card-title"><b>{{ date('j', strtotime($schInfo['date'])) }}</b></h4>
 
-						        				<div style="font-size: 12px; {{ $schInfo['is_closed'] ? 'margin-top: -10px' : 'margin-top: 16px' }};" >
-						        					{{ $schInfo['is_closed'] ? $schInfo['outlet_holiday'] ?? 'Closed' : null }}
+						        				<div style="font-size: 12px; {{ ($schInfo['is_closed'] ?? true) ? 'margin-top: -10px' : 'margin-top: 16px' }};" >
+						        					{{ ($schInfo['is_closed'] ?? true) ? $schInfo['outlet_holiday'] ?? 'Closed' : null }}
 						        				</div>
 
                                                
@@ -344,7 +344,7 @@
 							        						'Evening' => 'Evening',
 							        					];
 							        				@endphp
-							        				@foreach ($schInfo['outlet_shift']['shift'] as $s)
+							        				@foreach ($schInfo['outlet_shift']['shift'] ?? [] as $s)
 						        						<option value="{{ $s }}" {{ $s == $schInfo['selected_shift'] ? 'selected' : null }}> {{ $shiftIndo[$s] }}</option>
 							        				@endforeach
 							        			</select>

@@ -79,7 +79,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'user', '
     Route::any('detail/{phone}', ['middleware' => 'feature_control:2', 'uses' => 'UsersController@show']);
     Route::any('detail/{phone}/favorite', ['middleware' => 'feature_control:2', 'uses' => 'UsersController@favorite']);
     Route::any('detail/log/{phone}', ['middleware' => 'feature_control:2', 'uses' => 'UsersController@showLog']);
-    Route::any('log/{phone}', ['middleware' => 'feature_control:2', 'uses' => 'UsersController@showAllLog']);
+    Route::any('log/{phone}/{tipe}', ['middleware' => 'feature_control:2', 'uses' => 'UsersController@showAllLog']);
     Route::any('detail/transaction/{phone}', 'UsersController@showTransaction');
     Route::any('detail/treatment/{phone}', 'UsersController@showTreatment');
     Route::any('autoresponse-franchise/{subject}', ['middleware' => 'feature_control:304', 'uses' =>'UsersController@autoResponse']);

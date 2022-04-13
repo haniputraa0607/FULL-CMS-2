@@ -124,6 +124,18 @@ $totalTheories = 0;
 			}
 		}
 		
+		function changeAutoGeneratePinApprove() {
+			if(document.getElementById('auto_generate_pin').checked){
+				$("#div_password").hide();
+				$('#pinapp1').prop('required', false);
+				$('#pinapp2').prop('required', false);
+			}else{
+				$("#div_password").show();
+				$('#pinapp1').prop('required', true);
+				$('#pinapp2').prop('required', true);
+			}
+		}
+		
 		function submitScore() {
 			$("#list_data_training").hide();
 			$("#form_data_training").show();
@@ -246,6 +258,24 @@ $totalTheories = 0;
 				}else{
 					$('#conclusion_status_'+id).val('Passed').trigger("change");
 				}
+			}
+		}
+		
+		function matchPassword(form_type) {
+			if(form_type == 'detail'){
+				var pin_1 = $('#pin1').val();
+				var pin_2 = $('#pin2').val();
+			}else{
+				var pin_1 = $('#pinapp1').val();
+				var pin_2 = $('#pinapp2').val();
+			}
+
+			if(pin_1 != pin_2){
+				$("#btn_submit_"+form_type).attr("disabled", true);
+				$("#alert_password_"+form_type).show();
+			}else{
+				$("#btn_submit_"+form_type).attr("disabled", false);
+				$("#alert_password_"+form_type).hide();
 			}
 		}
     </script>
@@ -543,24 +573,6 @@ $totalTheories = 0;
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-4 control-label">Recent Job
-							</label>
-							<div class="col-md-6">
-								<div class="input-icon right">
-									<input type="text" placeholder="Recent Job" class="form-control" name="recent_job" value="{{ $detail['recent_job']}}" @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) readonly @endif>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-4 control-label">Recent Company
-							</label>
-							<div class="col-md-6">
-								<div class="input-icon right">
-									<input type="text" placeholder="Recent company" class="form-control" name="recent_company" value="{{ $detail['recent_company']}}" @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) readonly @endif>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
 							<label class="col-md-4 control-label">Blood Type <span class="required" aria-required="true"> * </span>
 							</label>
 							<div class="col-md-6">
@@ -625,7 +637,7 @@ $totalTheories = 0;
 										<i class="fa fa-question-circle tooltips" data-original-title="Masukkan password yang akan digunakan untuk login" data-container="body"></i>
 									</label>
 									<div class="col-md-6">
-										<input class="form-control" maxlength="6" type="password" name="pin" id="pin1" value="{{old('pin')}}" placeholder="Enter password" @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) required @endif/>
+										<input class="form-control" maxlength="6" onkeyup="matchPassword('detail')" type="password" name="pin" id="pin1" value="{{old('pin')}}" placeholder="Enter password" @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) required @endif/>
 									</div>
 								</div>
 								<div class="form-group">
@@ -633,7 +645,8 @@ $totalTheories = 0;
 										<i class="fa fa-question-circle tooltips" data-original-title="Ketik ulang password yang akan digunakan untuk login" data-container="body"></i>
 									</label>
 									<div class="col-md-6">
-										<input class="form-control" maxlength="6" type="password" name="pin2" id="pin2" value="{{old('pin2')}}"placeholder="Re-type password" @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) required @endif/>
+										<input class="form-control" maxlength="6" onkeyup="matchPassword('detail')" type="password" name="pin2" id="pin2" value="{{old('pin2')}}"placeholder="Re-type password" @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) required @endif/>
+										<b style="color: red;font-size: 12px;display: none" id="alert_password_detail">Password des not match</b>
 									</div>
 								</div>
 							</div>
@@ -829,7 +842,7 @@ $totalTheories = 0;
 						{{ csrf_field() }}
 						<div class="row" style="text-align: center">
 							@if(!in_array($detail['user_hair_stylist_status'], ['Candidate', 'Interviewed', 'Technical Tested', 'Training Completed']))
-								<button type="submit" class="btn blue">Update</button>
+								<button type="submit" id="btn_submit_detail" class="btn blue">Update</button>
 							@endif
 						</div>
 					@endif

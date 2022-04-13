@@ -246,6 +246,85 @@ class MyHelper
     }
   }
 
+  public static function apiRequest($method, $url, $data = [], $header = [], $timeout = 30){
+    $method = strtolower($method);
+    $client = new Client;
+
+    if (substr($url, 0, 4) != 'http') {
+      $url = env('APP_API_URL') . 'api/' . $url;
+
+      $ses = session('access_token');
+      $header['Authorization'] = $ses;
+    }
+
+    $content = array(
+      'headers' => array_merge($header, [
+        'Accept'        => 'application/json',
+        'Content-Type'  => 'application/json',
+      ])
+    );
+
+    if ($method == 'get' && $data) {
+      $params = http_build_query($data);
+      if (strpos($url,'?')) {
+        $url .= '&' . $params;
+      } else {
+        $url .= '?' . $params;
+      }
+    } else {
+      $content['json'] = $data;
+    }
+
+    $content['timeout']=$timeout;
+
+    try {
+      $response = $client->$method($url, $content);
+      // return plain response if json_decode fail because response is plain text
+      $return = json_decode($response->getBody()->getContents(), true)?:$response->getBody()->__toString();
+      return [
+        'status_code' => $response->getStatusCode(),
+        'response' => $return,
+        'request' => ['url' => $url, 'method' => $method] + $content,
+      ];
+    }catch (\GuzzleHttp\Exception\RequestException $e) {
+      try{
+        if($e->getResponse()){
+          $response = $e->getResponse()->getBody()->getContents();
+          $error = json_decode($response, true);
+
+          if(!$error) {
+            return $e->getResponse()->getBody();
+          }else {
+            if(isset($error['error']) && $error['error'] == 'Unauthenticated.') {
+              Session::forget('phone');
+              Session::forget('username');
+            }
+            return [
+              'status_code' => $e->getResponse()->getStatusCode(),
+              'response' => $error ?: $response,
+              'request' => ['url' => $url, 'method' => $method] + $content,
+            ];
+          }
+
+        }
+        else  return [
+          'status' => 'fail', 
+          'status_code' => false, 
+          'messages' => [0 => $e->getMessage()], 
+          'request' => ['url' => $url, 'method' => $method] + $content,
+        ];
+      }
+      catch(Exception $e){
+        return [
+          'status' => 'fail', 
+          'status_code' => false, 
+          'messages' => [0 => 'Check your internet connection.'], 
+          'request' => ['url' => $url, 'method' => $method] + $content,
+        ];
+      }
+    }
+  }
+
   public static function post($url,$post){
     $api = env('APP_API_URL');
     $client = new Client;
