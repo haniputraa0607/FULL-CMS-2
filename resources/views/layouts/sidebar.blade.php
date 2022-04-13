@@ -325,6 +325,26 @@
                             @endif
                         </ul>
                     </li>
+					@if(MyHelper::hasAccess([448,449,450,451,452], $grantedFeature))
+					<li class="nav-item {{($submenu_active == 'employee-announcement') ? 'active open' : ''}}">
+						<a href="javascript:;" class="nav-link nav-toggle">
+							<span class="title">Announcement</span>
+							<span class="arrow"></span>
+						</a>
+						<ul class="sub-menu">
+							<li class="nav-item {{ (isset($child_active) && $child_active == 'employee-announcement-create') ? 'active open' : '' }}">
+								<a href="{{ url('employee/announcement/create') }}" class="nav-link ">
+									<span class="title">New Announcement</span>
+								</a>
+							</li>
+							<li class="nav-item {{ (isset($child_active) && $child_active == 'employee-announcement-list') ? 'active open' : '' }}">
+								<a href="{{ url('employee/announcement') }}" class="nav-link ">
+									<span class="title">Announcement List</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+					@endif
                 </ul>
             </li>
         @endif
@@ -1448,6 +1468,26 @@
 						<span class="title">Setting Requirements</span>
 					</a>
 				</li>
+				@if(MyHelper::hasAccess([368,369,370,371,372], $grantedFeature))
+				<li class="nav-item {{($submenu_active == 'hair-stylist-announcement') ? 'active open' : ''}}">
+					<a href="javascript:;" class="nav-link nav-toggle">
+						<span class="title">Announcement</span>
+						<span class="arrow"></span>
+					</a>
+					<ul class="sub-menu">
+						<li class="nav-item {{ (isset($child_active) && $child_active == 'hair-stylist-announcement-create') ? 'active open' : '' }}">
+							<a href="{{ url('recruitment/hair-stylist/announcement/create') }}" class="nav-link ">
+								<span class="title">New Announcement</span>
+							</a>
+						</li>
+						<li class="nav-item {{ (isset($child_active) && $child_active == 'hair-stylist-announcement-list') ? 'active open' : '' }}">
+							<a href="{{ url('recruitment/hair-stylist/announcement') }}" class="nav-link ">
+								<span class="title">Announcement List</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+				@endif
 				<li class="nav-item {{($submenu_active == 'hairstylist-autoresponse-register-candidate-hair-stylist') ? 'active open' : ''}}">
 					<a href="{{url('autoresponse/hairstylist/register-candidate-hair-stylist')}}" class="nav-link ">
 						<span class="title">[Response] Register Candidate Hair Stylist</span>
@@ -3659,29 +3699,6 @@
 								</a>
 							</li>
 						@endif
-					</ul>
-				</li>
-			@endif
-
-			@if(MyHelper::hasAccess([368,369,370,371,372], $grantedFeature))
-				<li class="nav-item {{ ($submenu_active == 'hairstylist-announcement') ? 'active open' : '' }}">
-					<a href="javascript:;" class="nav-link nav-toggle">
-						<i class="fa fa-bullhorn"></i>
-						<span class="title">Annoucement</span>
-						<span class="arrow"></span>
-					</a>
-					<ul class="sub-menu">
-						<li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-announcement-create') ? 'active open' : '' }}">
-							<a href="{{ url('recruitment/hair-stylist/announcement/create') }}" class="nav-link ">
-								<span class="title">New Announcement</span>
-							</a>
-						</li>
-						<li class="nav-item {{ (isset($child_active) && $child_active == 'hairstylist-announcement-list') ? 'active open' : '' }}">
-							<a href="{{ url('recruitment/hair-stylist/announcement') }}" class="nav-link ">
-								<span class="title">Announcement List</span>
-							</a>
-						</li>
-						
 					</ul>
 				</li>
 			@endif

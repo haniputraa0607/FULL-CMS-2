@@ -15,9 +15,9 @@ class AnnouncementController extends Controller
 		$data = [
             'title'          	=> 'Announcement',
             'sub_title'      	=> 'New Announcement',
-            'menu_active'    	=> 'hairstylist-announcement',
-            'submenu_active' 	=> 'hairstylist-announcement',
-            'child_active' 		=> 'hairstylist-announcement-create',
+            'menu_active'    	=> 'hair-stylist',
+            'submenu_active' 	=> 'hair-stylist-announcement',
+            'child_active' 		=> 'hair-stylist-announcement-create',
             'filter_title'   	=> 'Filter Hairstylist',
             'hide_search_button'=> 1,
             'without_form'		=> 1
@@ -53,7 +53,7 @@ class AnnouncementController extends Controller
             return [$item['id_outlet'], $item['outlet_code'].' - '.$item['outlet_name']];
         }, MyHelper::get('outlet/be/list')['result'] ?? []);
 
-		return view('recruitment::hair_stylist.announcement.create', $data);
+		return view('recruitment::employee.announcement.create', $data);
 	}
 
 	public function list(Request $request){
@@ -62,9 +62,9 @@ class AnnouncementController extends Controller
         $data = [
             'title'          	=> 'Announcement',
             'sub_title'      	=> 'Announcement List',
-            'menu_active'    	=> 'hairstylist-announcement',
-            'submenu_active' 	=> 'hairstylist-announcement',
-            'child_active' 		=> 'hairstylist-announcement-list'
+            'menu_active'    	=> 'hair-stylist',
+            'submenu_active' 	=> 'hair-stylist-announcement',
+            'child_active' 		=> 'hair-stylist-announcement-list'
         ];
 
         if(Session::has('filter-hs-announcement') && !empty($post) && !isset($post['filter'])){
@@ -138,9 +138,9 @@ class AnnouncementController extends Controller
 		$data = [
             'title'          	=> 'Announcement',
             'sub_title'      	=> 'Edit Announcement',
-            'menu_active'    	=> 'hairstylist-announcement',
-            'submenu_active' 	=> 'hairstylist-announcement',
-            'child_active' 		=> 'hairstylist-announcement-list',
+            'menu_active'    	=> 'hair-stylist',
+            'submenu_active' 	=> 'hair-stylist-announcement',
+            'child_active' 		=> 'hair-stylist-announcement-list',
             'filter_title'   	=> 'Filter Hairstylist',
             'hide_search_button'=> 1,
             'without_form'		=> 1,

@@ -22,4 +22,11 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
         Route::post('delete', ['middleware' => 'feature_control:446', 'uses' => 'EmployeeController@officeHoursDelete']);
         Route::any('assign', ['uses' => 'EmployeeController@assign']);
     });
+
+    Route::group(['prefix' => 'announcement'], function(){
+        Route::any('/', ['middleware' => 'feature_control:448,449,451,452', 'uses' => 'EmployeeAnnouncementController@list']);
+        Route::any('create', ['middleware' => 'feature_control:450', 'uses' => 'EmployeeAnnouncementController@create']);
+        Route::any('edit/{id}', ['middleware' => 'feature_control:449,371', 'uses' => 'EmployeeAnnouncementController@edit']);
+		Route::any('delete/{id}', ['middleware' => 'feature_control:452', 'uses' => 'EmployeeAnnouncementController@delete']);
+    });
 });
