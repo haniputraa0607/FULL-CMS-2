@@ -104,7 +104,6 @@ class HairStylistTimeOffOvertimeController extends Controller
             $data['outlets'] = MyHelper::get('mitra/request/outlet')['result'] ?? [];
             return view('recruitment::hair_stylist.timeoff.create', $data);
         }else{
-            return $post;
             $store = MyHelper::post('recruitment/hairstylist/be/timeoff/create', $post);
             if(isset($store['status']) && $store['status'] == 'success'){
                 return redirect('recruitment/hair-stylist/timeoff/detail/'.$store['result']['id_hairstylist_time_off'])->withSuccess(['Success created hair stylist request time off']);

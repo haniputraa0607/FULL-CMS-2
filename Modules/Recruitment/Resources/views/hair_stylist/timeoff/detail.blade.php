@@ -72,7 +72,7 @@
             'autoclose' : true
         });
         
-        $('#approve').click(function() {
+        function approvedTimeOff () {
             var id_hairstylist_time_off = {{$result['id_hairstylist_time_off']}};
             var id_outlet = {{$result['outlet']['id_outlet']}};
             var id_user_hair_stylist = {{$result['hair_stylist']['id_user_hair_stylist']}};
@@ -119,7 +119,7 @@
                     });
                 }
             );
-        })
+        }
 
         function selectMonth(val){
             var data = {
@@ -171,9 +171,9 @@
             var end = $("#list_date option:selected").attr('data-timeend');
             var id = $("#list_date option:selected").attr('data-id');
             $('#time_start').remove();
-            $('#place_time_start').append('<input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="time_start" value="'+start+'" readonly>')
+            $('#place_time_start').append('<input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_start" value="'+start+'" readonly>')
             $('#time_end').remove();
-            $('#place_time_end').append('<input type="text" id="time_end" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="time_end" value="'+end+'" readonly>')
+            $('#place_time_end').append('<input type="text" id="time_end" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end" value="'+end+'" readonly>')
             $('.timepicker').timepicker({
                 autoclose: true,
                 minuteStep: 5,
@@ -181,6 +181,128 @@
             });
             var type = $('input[type=hidden][name=id_hairstylist_schedule_date]').val(id);
         });
+
+        function submitTimeOff(value) {
+
+            var cek_start_time = $('#cek_start_time').css('display');
+            var cek_end_time = $('#cek_end_time').css('display');
+            var cek_smaller = $('#cek_smaller').css('display');
+            var cek_bigger = $('#cek_bigger').css('display');
+            
+            if(cek_start_time == 'block'){
+                toastr.warning("Start Time Off cannot be smaller than the shift schedule");
+            }else if(cek_end_time == 'block'){
+                toastr.warning("End Time Off cannot be bigger than the shift schedule");
+            }else if(cek_smaller == 'block'){
+                toastr.warning("Start Time Off cannot be bigger than the end time off");
+            }else if(cek_bigger == 'block'){
+                toastr.warning("End Time Off cannot be smaller than the start time off");
+            }else{
+                var data = $('#update-time-off').serialize();
+            
+                if (!$('form#update-time-off')[0].checkValidity()) {
+                    toastr.warning("Incompleted Data. Please fill blank input.");
+                }else{
+                    if(value=='submit'){
+                        $('form#update-time-off').submit();
+                    }else if(value=='approve'){
+                        approvedTimeOff();
+                    }
+                }
+            }
+            
+        }
+
+        $('#place_time_start').on("change","#time_start",function(){
+            var list = $('#list_date option:selected').val();
+            if(list!=''){
+                changeStartTime();
+            }
+            if($(this).val()!='0:00'){
+                checkStartEnd();
+            }
+        });
+
+        function changeStartTime(){
+            var split =  $('#place_time_start #time_start').val().split(":");
+            var time_start_picker = $("#list_date option:selected").attr('data-timestart').split(":");
+            var smaller = false;
+            if(parseInt(split[0]) >= parseInt(time_start_picker[0])){
+                if(parseInt(split[0]) == parseInt(time_start_picker[0]) && parseInt(split[1]) < parseInt(time_start_picker[1])){
+                    smaller = true;
+                }
+            }else{
+                smaller = true;
+            }
+            if(smaller == true){
+                document.getElementById('cek_start_time').style.display = 'block';
+            }else{
+                document.getElementById('cek_start_time').style.display = 'none';
+            }
+        }
+
+        $('#place_time_end').on("change","#time_end",function(){
+            var list = $('#list_date option:selected').val();
+            if(list!=''){
+                changeEndTime();
+            }
+            if($(this).val()!='0:00'){
+                checkStartEnd();
+            }
+        });
+        
+        function changeEndTime(){
+            var split =  $('#place_time_end #time_end').val().split(":");
+            var time_end_picker = $("#list_date option:selected").attr('data-timeend').split(":");
+            var bigger = false;
+            if(parseInt(split[0]) <= parseInt(time_end_picker[0])){
+                if(parseInt(split[0]) == parseInt(time_end_picker[0]) && parseInt(split[1]) > parseInt(time_end_picker[1])){
+                    bigger = true;
+                }
+            }else{
+                bigger = true;
+            }
+            if(bigger == true){
+                document.getElementById('cek_end_time').style.display = 'block';
+            }else{
+                document.getElementById('cek_end_time').style.display = 'none';
+            }
+        }
+
+        function checkStartEnd(){
+            var end = $('#place_time_end #time_end').val().split(":");
+            var start = $('#place_time_start #time_start').val().split(":");
+            var smaller = false;
+            if(parseInt(start[0]) <= parseInt(end[0])){
+                if(parseInt(start[0]) == parseInt(end[0]) && parseInt(start[1]) >= parseInt(end[1])){
+                    smaller = true;
+                }
+            }else{
+                smaller = true;
+            }
+            if(smaller == true){
+                document.getElementById('cek_smaller').style.display = 'block';
+            }else{
+                document.getElementById('cek_smaller').style.display = 'none';
+            }
+
+            var bigger = false;
+            if(parseInt(end[0]) >= parseInt(start[0])){
+                if(parseInt(end[0]) == parseInt(start[0]) && parseInt(end[1]) <= parseInt(start[1])){
+                    bigger = true;
+                }
+            }else{
+                bigger = true;
+            }
+            if(bigger == true){
+                document.getElementById('cek_bigger').style.display = 'block';
+            }else{
+                document.getElementById('cek_bigger').style.display = 'none';
+            }
+
+        }
+
+
     
         $(document).ready(function() {
             $('[data-switch=true]').bootstrapSwitch();
@@ -231,7 +353,7 @@
             </div>
         </div>
         <div class="portlet-body form">
-            <form class="form-horizontal" role="form" action="{{ url('recruitment/hair-stylist/timeoff/update') }}/{{ $result['id_hairstylist_time_off'] }}" method="post" enctype="multipart/form-data">
+            <form class="form-horizontal" role="form" action="{{ url('recruitment/hair-stylist/timeoff/update') }}/{{ $result['id_hairstylist_time_off'] }}" method="post" enctype="multipart/form-data" id="update-time-off">
                 <div class="form-body">
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Select Outlet <span class="required" aria-required="true">*</span>
@@ -296,15 +418,35 @@
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Start Time Off<span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu mulai izin untuk hair style" data-container="body"></i></label>
-                        <div class="col-md-3" id="place_time_start">
-                            <input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="time_start" value="{{ $result['start_time'] }}" readonly @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-6" id="place_time_start">
+                                    <input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_start" value="{{ $result['start_time'] }}" readonly @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="cek_start_time">Start Time Off cannot be smaller than the shift schedule</p>
+                                    <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="cek_smaller">Start Time Off cannot be bigger than the end time off</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">End Time Off<span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu selesai izin untuk hair style" data-container="body"></i></label>
-                        <div class="col-md-3" id="place_time_end">
-                            <input type="text" id="time_end" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="time_end" value="{{ $result['end_time'] }}" readonly @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-6" id="place_time_end">
+                                    <input type="text" id="time_end" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end" value="{{ $result['end_time'] }}" readonly @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="cek_end_time">End Time Off cannot be bigger than the shift schedule</p>
+                                    <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="cek_bigger">End Time Off cannot be smaller than the start time off</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -331,8 +473,8 @@
                         <div class="col-md-12 text-center">
                             @if (empty($result['reject_at']))
                                 @if(empty($result['approve']))
-                                <button type="submit" class="btn blue" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>Submit</button>
-                                <a id="approve" class="btn green approve">Approve</a>
+                                <a onclick="submitTimeOff('submit')" class="btn blue" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>Submit</a>
+                                <a onclick="submitTimeOff('approve')" id="approve" class="btn green approve">Approve</a>
                                 @endif
                             @endif
                         </div>

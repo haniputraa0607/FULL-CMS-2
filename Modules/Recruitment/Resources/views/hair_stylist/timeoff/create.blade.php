@@ -210,7 +210,7 @@
             var time_start_picker = $("#list_date option:selected").attr('data-timestart').split(":");
             var smaller = false;
             if(parseInt(split[0]) >= parseInt(time_start_picker[0])){
-                if(parseInt(split[1]) < parseInt(time_start_picker[1])){
+                if(parseInt(split[0]) == parseInt(time_start_picker[0]) && parseInt(split[1]) < parseInt(time_start_picker[1])){
                     smaller = true;
                 }
             }else{
@@ -238,7 +238,7 @@
             var time_end_picker = $("#list_date option:selected").attr('data-timeend').split(":");
             var bigger = false;
             if(parseInt(split[0]) <= parseInt(time_end_picker[0])){
-                if(parseInt(split[1]) > parseInt(time_end_picker[1])){
+                if(parseInt(split[0]) == parseInt(time_end_picker[0]) && parseInt(split[1]) > parseInt(time_end_picker[1])){
                     bigger = true;
                 }
             }else{
