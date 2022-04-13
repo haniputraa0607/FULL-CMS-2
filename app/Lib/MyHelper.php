@@ -953,13 +953,13 @@ class MyHelper
         
         default:
           if (!($menu['active'] ?? false)) {
-            $menu['active'] = 'request()->path() == $menu["url"]';
+            $menu['active'] = 'request()->path() == ($menu["url"]??"")';
           }
           $active = ($menu['active'] ?? false) ? (eval('return ' . $menu['active'] . ';') ? 'active open' : '') : '';
           if ($active) {
             $hasActive = true;
           }
-          $menuHtml .= '<li class="nav-item ' . $active . '"><a href=" ' . $url . ' " class="nav-link">' . $icon . '<span class="title">' . $menu['label'] . '</span></a></li>';
+          $menuHtml .= '<li class="nav-item ' . $active . '"><a href=" ' . $url . ' " class="nav-link">' . $icon . '<span class="title">' . ($menu['label'] ?? 'YAYAYA') . '</span></a></li>';
           break;
       }
     }

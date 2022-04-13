@@ -212,10 +212,12 @@ return [
 					'required_configs_rule' => 'and',
 					'children' => [
 						[
+							'icon' => 'fa fa-refresh',
 							'label' => 'Setting ' . env('POINT_NAME', 'Points') . ' Reset',
 							'url' => 'setting/balance_reset',
 						],
 						[
+							'icon' => 'fa fa-envelope',
 							'label' => '[Email] ' . env('POINT_NAME', 'Points') . ' Reset',
 							'url' => 'user/autoresponse/complete-user-profile-point-bonus',
 						],
@@ -559,30 +561,35 @@ return [
 							'required_features' => [48],
 						],
 						[
-							'label' => 'Product ICount List',
-							'required_features' => [],
-							'url' => 'product/icount'
-						],
-						[
-							'label' => 'Product Catalog',
-							'required_features' => [],
-							'type' => 'tree',
+							'type' => 'group',
+							'required_configs' => [136],
 							'children' => [
 								[
-									'label' => 'Create Product Catalog',
-									'required_features' => [],
-									'url' => 'product/catalog/create'
+									'label' => 'Product ICount List',
+									'required_features' => [392],
+									'url' => 'product/icount'
 								],
 								[
-									'label' => 'List Product Catalog',
-									'required_features' => [],
-									'url' => 'product/catalog'
+									'label' => 'Product Catalog',
+									'type' => 'tree',
+									'children' => [
+										[
+											'label' => 'Create Product Catalog',
+											'required_features' => [461],
+											'url' => 'product/catalog/create'
+										],
+										[
+											'label' => 'List Product Catalog',
+											'required_features' => [459],
+											'url' => 'product/catalog'
+										],
+									],
 								],
 							],
 						],
 						[
 							'label' => 'Image Product',
-							'required_features' => [],
+							'required_features' => [51],
 							'type' => 'tree',
 							'children' => [
 								[
@@ -595,37 +602,43 @@ return [
 									'required_features' => [],
 									'url' => 'product/image/list'
 								],
+								[
+									'label' => 'Visible Product List',
+									'required_features' => [],
+									'url' => 'product/visible'
+								],
+								[
+									'label' => 'Hidden Product List',
+									'required_features' => [],
+									'url' => 'product/hidden'
+								],
+								[
+									'label' => 'Manage Position',
+									'required_features' => [],
+									'url' => 'product/position/assign'
+								],
+								[
+									'label' => 'Product Photo Default',
+									'required_features' => [],
+									'url' => 'product/photo/default'
+								],
 							],
 						],
 						[
-							'label' => 'Visible Product List',
-							'required_features' => [],
-							'url' => 'product/visible'
-						],
-						[
-							'label' => 'Hidden Product List',
-							'required_features' => [],
-							'url' => 'product/hidden'
-						],
-						[
-							'label' => 'Manage Position',
-							'required_features' => [],
-							'url' => 'product/position/assign'
-						],
-						[
-							'label' => 'Product Photo Default',
-							'required_features' => [],
-							'url' => 'product/photo/default'
-						],
-						[
-							'label' => 'Product Group',
-							'required_features' => [],
-							'url' => 'product/product-group'
-						],
-						[
-							'label' => 'Featured Product Group',
-							'required_features' => [],
-							'url' => 'product/product-group/featured'
+							'type' => 'group',
+							'required_features' => [384, 385, 386, 387, 388],
+							'children' => [
+								[
+									'label' => 'Product Group',
+									'required_features' => [],
+									'url' => 'product/product-group'
+								],
+								[
+									'label' => 'Featured Product Group',
+									'required_features' => [],
+									'url' => 'product/product-group/featured'
+								],
+							]
 						],
 					]
 				],
@@ -636,23 +649,29 @@ return [
 					'children' => [
 						[
 							'label' => 'Product Service List',
-							'required_features' => [],
+							'required_features' => [362,366,363,365],
 							'url' => 'product-service'
 						],
 						[
-							'label' => 'Visible Product Service List',
-							'required_features' => [],
-							'url' => 'product-service/visible'
-						],
-						[
-							'label' => 'Hidden Product Service List',
-							'required_features' => [],
-							'url' => 'product-service/hidden'
-						],
-						[
-							'label' => 'Manage Position',
-							'required_features' => [],
-							'url' => 'product-service/position/assign'
+							'type' => 'group',
+							'required_features' => [363,365],
+							'children' => [
+								[
+									'label' => 'Visible Product Service List',
+									'required_features' => [],
+									'url' => 'product-service/visible'
+								],
+								[
+									'label' => 'Hidden Product Service List',
+									'required_features' => [],
+									'url' => 'product-service/hidden'
+								],
+								[
+									'label' => 'Manage Position',
+									'required_features' => [],
+									'url' => 'product-service/position/assign'
+								],
+							],
 						],
 					],
 					'icon' => 'fa fa-cut'
@@ -664,23 +683,29 @@ return [
 					'children' => [
 						[
 							'label' => 'Product Academy List',
-							'required_features' => [],
+							'required_features' => [373, 374, 376, 377],
 							'url' => 'product-academy'
 						],
 						[
-							'label' => 'Visible Product Academy List',
-							'required_features' => [],
-							'url' => 'product-academy/visible'
-						],
-						[
-							'label' => 'Hidden Product Academy List',
-							'required_features' => [],
-							'url' => 'product-academy/hidden'
-						],
-						[
-							'label' => 'Manage Position',
-							'required_features' => [],
-							'url' => 'product-academy/position/assign'
+							'type' => 'group',
+							'required_features' => [374, 376],
+							'children' => [
+								[
+									'label' => 'Visible Product Academy List',
+									'required_features' => [],
+									'url' => 'product-academy/visible'
+								],
+								[
+									'label' => 'Hidden Product Academy List',
+									'required_features' => [],
+									'url' => 'product-academy/hidden'
+								],
+								[
+									'label' => 'Manage Position',
+									'required_features' => [],
+									'url' => 'product-academy/position/assign'
+								],
+							],
 						],
 					],
 					'icon' => 'fa fa-graduation-cap'
@@ -692,12 +717,12 @@ return [
 					'children' => [
 						[
 							'label' => 'Outlet Starter Bundling List',
-							'required_features' => [],
+							'required_features' => [431],
 							'url' => 'outlet-starter-bundling'
 						],
 						[
 							'label' => 'New Outlet Starter Bundling',
-							'required_features' => [],
+							'required_features' => [432],
 							'url' => 'outlet-starter-bundling/create'
 						],
 					],
@@ -713,26 +738,26 @@ return [
 							'required_features' => [],
 							'type' => 'tree',
 							'children' => [
+								[
+									'label' => 'New Category Theory',
+									'required_features' => [438],
+									'url' => 'theory/category/create'
+								],
+								[
+									'label' => 'Category Theory List',
+									'required_features' => [436, 437, 439, 440],
+									'url' => 'theory/category'
+								],
 							],
 						],
 						[
-							'label' => 'New Category Theory',
-							'required_features' => [],
-							'url' => 'theory/category/create'
-						],
-						[
-							'label' => 'Category Theory List',
-							'required_features' => [],
-							'url' => 'theory/category'
-						],
-						[
 							'label' => 'New Theory',
-							'required_features' => [],
+							'required_features' => [438],
 							'url' => 'theory/create'
 						],
 						[
 							'label' => 'Theory List',
-							'required_features' => [],
+							'required_features' => [436, 437, 439, 440],
 							'url' => 'theory'
 						],
 					],
@@ -741,54 +766,60 @@ return [
 				[
 					'label' => 'Topping',
 					'required_features' => [],
+					'required_configs' => [91],
 					'type' => 'tree',
 					'children' => [
 						[
 							'label' => 'New Topping',
-							'required_features' => [],
+							'required_features' => [181],
 							'url' => 'product/modifier/create'
 						],
 						[
 							'label' => 'Topping List',
-							'required_features' => [],
+							'required_features' => [182, 183, 184],
 							'url' => 'product/modifier'
 						],
 						[
 							'label' => 'Manage Position',
-							'required_features' => [],
+							'required_features' => [183],
 							'url' => 'product/modifier/position'
 						],
 						[
-							'label' => 'Topping Price',
-							'required_features' => [],
-							'url' => 'product/modifier/price'
-						],
-						[
-							'label' => 'Topping Detail',
-							'required_features' => [],
-							'url' => 'product/modifier/detail'
-						],
-						[
-							'label' => 'Topping Inventory Brand',
-							'required_features' => [],
-							'url' => 'product/modifier/inventory-brand'
-						],
-						[
-							'label' => 'Export & Import Topping',
-							'required_features' => [],
-							'type' => 'tree',
+							'type' => 'group',
+							'required_features' => [185, 186],
 							'children' => [
+								[
+									'label' => 'Topping Price',
+									'url' => 'product/modifier/price'
+								],
+								[
+									'label' => 'Topping Detail',
+									'required_features' => [],
+									'url' => 'product/modifier/detail'
+								],
+								[
+									'label' => 'Topping Inventory Brand',
+									'required_features' => [],
+									'url' => 'product/modifier/inventory-brand'
+								],
+								[
+									'label' => 'Export & Import Topping',
+									'required_features' => [],
+									'type' => 'tree',
+									'children' => [
+										[
+											'label' => 'Import Topping',
+											'required_features' => [],
+											'url' => 'product/import/modifier'
+										],
+										[
+											'label' => 'Import Topping Price',
+											'required_features' => [],
+											'url' => 'product/import/modifier-price'
+										],
+									],
+								],
 							],
-						],
-						[
-							'label' => 'Import Topping',
-							'required_features' => [],
-							'url' => 'product/import/modifier'
-						],
-						[
-							'label' => 'Import Topping Price',
-							'required_features' => [],
-							'url' => 'product/import/modifier-price'
 						],
 					],
 					'icon' => 'fa fa-puzzle-piece'
@@ -800,50 +831,56 @@ return [
 					'children' => [
 						[
 							'label' => 'New Product Variant NON PRICE (NO SKU)',
-							'required_features' => [],
+							'required_features' => [284],
 							'url' => 'product/modifier-group/create'
 						],
 						[
-							'label' => 'Product Variant NON PRICE (NO SKU) List',
-							'required_features' => [],
-							'url' => 'product/modifier-group'
-						],
-						[
-							'label' => 'Product Variant NON PRICE (NO SKU) Price',
-							'required_features' => [],
-							'url' => 'product/modifier-group/price'
-						],
-						[
-							'label' => 'Product Variant NON PRICE (NO SKU) Detail',
-							'required_features' => [],
-							'url' => 'product/modifier-group/detail'
-						],
-						[
-							'label' => 'Manage Position Product Variant NON PRICE (NO SKU)',
-							'required_features' => [],
-							'url' => 'product/modifier-group/position'
-						],
-						[
-							'label' => 'Export & Import Product Variant NON PRICE (NO SKU)',
-							'required_features' => [],
-							'type' => 'tree',
+							'type' => 'group',
+							'required_features' => [283, 285, 286, 287],
 							'children' => [
-							],
-						],
-						[
-							'label' => 'Import Product Variant NON PRICE (NO SKU)',
-							'required_features' => [],
-							'url' => 'product/modifier-group/import'
-						],
-						[
-							'label' => 'Import Product Variant NON PRICE (NO SKU) Price',
-							'required_features' => [],
-							'url' => 'product/modifier-group/import-price'
-						],
-						[
-							'label' => 'Inventory Brand',
-							'required_features' => [],
-							'url' => 'product/modifier-group/inventory-brand'
+								[
+									'label' => 'Product Variant NON PRICE (NO SKU) List',
+									'required_features' => [],
+									'url' => 'product/modifier-group'
+								],
+								[
+									'label' => 'Product Variant NON PRICE (NO SKU) Price',
+									'required_features' => [],
+									'url' => 'product/modifier-group/price'
+								],
+								[
+									'label' => 'Product Variant NON PRICE (NO SKU) Detail',
+									'required_features' => [],
+									'url' => 'product/modifier-group/detail'
+								],
+								[
+									'label' => 'Manage Position Product Variant NON PRICE (NO SKU)',
+									'required_features' => [],
+									'url' => 'product/modifier-group/position'
+								],
+								[
+									'label' => 'Export & Import Product Variant NON PRICE (NO SKU)',
+									'required_features' => [],
+									'type' => 'tree',
+									'children' => [
+										[
+											'label' => 'Import Product Variant NON PRICE (NO SKU)',
+											'required_features' => [],
+											'url' => 'product/modifier-group/import'
+										],
+										[
+											'label' => 'Import Product Variant NON PRICE (NO SKU) Price',
+											'required_features' => [],
+											'url' => 'product/modifier-group/import-price'
+										],
+									],
+								],
+								[
+									'label' => 'Inventory Brand',
+									'required_features' => [],
+									'url' => 'product/modifier-group/inventory-brand'
+								],
+							]
 						],
 					],
 					'icon' => 'fa fa-glass'
@@ -855,60 +892,66 @@ return [
 					'children' => [
 						[
 							'label' => 'New Variant',
-							'required_features' => [],
+							'required_features' => [279],
 							'url' => 'product-variant/create'
 						],
 						[
-							'label' => 'Variant List',
-							'required_features' => [],
-							'url' => 'product-variant'
-						],
-						[
-							'label' => 'Variant Position',
-							'required_features' => [],
-							'url' => 'product-variant/position'
-						],
-						[
-							'label' => 'Remove Product Variant (SKU)',
-							'required_features' => [],
-							'url' => 'product-variant-group/list-group'
-						],
-						[
-							'label' => 'Product Variant (SKU) List',
-							'required_features' => [],
-							'url' => 'product-variant-group/list'
-						],
-						[
-							'label' => 'Product Variant (SKU) Price',
-							'required_features' => [],
-							'url' => 'product-variant-group/price'
-						],
-						[
-							'label' => 'Product Variant (SKU) Detail',
-							'required_features' => [],
-							'url' => 'product-variant-group/detail'
-						],
-						[
-							'label' => 'Export & Import',
-							'required_features' => [],
-							'type' => 'tree',
+							'type' => 'group',
+							'required_features' => [278, 279, 281],
 							'children' => [
-							],
-						],
-						[
-							'label' => 'Import Variant',
-							'required_features' => [],
-							'url' => 'product-variant/import'
-						],
-						[
-							'label' => 'Import Product Variant (SKU)',
-							'required_features' => [],
-							'url' => 'product-variant-group/import'
-						],
-						[
-							'label' => 'Import Product Variant (SKU) Price',
-							'required_features' => [],
-							'url' => 'product-variant-group/import-price'
+								[
+									'label' => 'Variant List',
+									'required_features' => [],
+									'url' => 'product-variant'
+								],
+								[
+									'label' => 'Variant Position',
+									'required_features' => [],
+									'url' => 'product-variant/position'
+								],
+								[
+									'label' => 'Remove Product Variant (SKU)',
+									'required_features' => [],
+									'url' => 'product-variant-group/list-group'
+								],
+								[
+									'label' => 'Product Variant (SKU) List',
+									'required_features' => [],
+									'url' => 'product-variant-group/list'
+								],
+								[
+									'label' => 'Product Variant (SKU) Price',
+									'required_features' => [],
+									'url' => 'product-variant-group/price'
+								],
+								[
+									'label' => 'Product Variant (SKU) Detail',
+									'required_features' => [],
+									'url' => 'product-variant-group/detail'
+								],
+								[
+									'label' => 'Export & Import',
+									'required_features' => [],
+									'type' => 'tree',
+									'children' => [
+										[
+											'label' => 'Import Variant',
+											'required_features' => [],
+											'url' => 'product-variant/import'
+										],
+										[
+											'label' => 'Import Product Variant (SKU)',
+											'required_features' => [],
+											'url' => 'product-variant-group/import'
+										],
+										[
+											'label' => 'Import Product Variant (SKU) Price',
+											'required_features' => [],
+											'url' => 'product-variant-group/import-price'
+										],
+									],
+								],
+							]
 						],
 					],
 					'icon' => 'fa fa-coffee'
@@ -921,7 +964,7 @@ return [
 			'children' => [
 				[
 					'label' => 'Partners',
-					'required_features' => [],
+					'required_features' => [338],
 					'type' => 'tree',
 					'children' => [
 						[
@@ -941,6 +984,7 @@ return [
 						],
 						[
 							'label' => '[Response] Candidate Approved',
+							'required_configs' => [40,121],
 							'required_features' => [],
 							'url' => 'user/autoresponse/updated-candidate-partner-to-partner'
 						],
@@ -949,7 +993,7 @@ return [
 				],
 				[
 					'label' => 'Partner Locations',
-					'required_features' => [],
+					'required_features' => [342],
 					'type' => 'tree',
 					'children' => [
 						[
@@ -964,6 +1008,7 @@ return [
 						],
 						[
 							'label' => '[Response] Approved Candidate Location',
+							'required_configs' => [40,121],
 							'required_features' => [],
 							'url' => 'user/autoresponse/updated-candidate-location-to-location'
 						],
@@ -972,7 +1017,7 @@ return [
 				],
 				[
 					'label' => 'Project',
-					'required_features' => [],
+					'required_features' => [402],
 					'type' => 'tree',
 					'children' => [
 						[
@@ -986,32 +1031,39 @@ return [
 							'url' => 'project/process'
 						],
 						[
-							'label' => '[Response] New Project',
+							'required_configs' => [40,121],
 							'required_features' => [],
-							'url' => 'user/autoresponse/new-project'
-						],
-						[
-							'label' => '[Response] Update Steps Project',
-							'required_features' => [],
-							'url' => 'user/autoresponse/update-project'
-						],
-						[
-							'label' => '[Response] Approve Project',
-							'required_features' => [],
-							'url' => 'user/autoresponse/approve-project'
-						],
-						[
-							'label' => '[Response] Reject Project',
-							'required_features' => [],
-							'url' => 'user/autoresponse/reject-project'
+							'children' => [
+								[
+									'label' => '[Response] New Project',
+									'required_features' => [],
+									'url' => 'user/autoresponse/new-project'
+								],
+								[
+									'label' => '[Response] Update Steps Project',
+									'required_features' => [],
+									'url' => 'user/autoresponse/update-project'
+								],
+								[
+									'label' => '[Response] Approve Project',
+									'required_features' => [],
+									'url' => 'user/autoresponse/approve-project'
+								],
+								[
+									'label' => '[Response] Reject Project',
+									'required_features' => [],
+									'url' => 'user/autoresponse/reject-project'
+								],
+							]
 						],
 					],
 					'icon' => 'fa fa-file'
 				],
 				[
 					'label' => 'Hair Stylist',
-					'required_features' => [],
+					'required_features' => [347, 348, 349, 350, 353, 354, 355],
 					'type' => 'tree',
+					'icon' => 'fa fa-cut',
 					'children' => [
 						[
 							'label' => 'Category',
@@ -1065,23 +1117,22 @@ return [
 							'required_features' => [],
 							'url' => 'autoresponse/hairstylist/reset-password-user-hair-stylist'
 						],
+					],
+				],
+				[
+					'label' => 'Hair Stylist Schedule',
+					'required_features' => [353, 354, 355, 441],
+					'type' => 'tree',
+					'children' => [
 						[
-							'label' => 'Hair Stylist Schedule',
+							'label' => 'Create Schedule',
 							'required_features' => [],
-							'type' => 'tree',
-							'children' => [
-								[
-									'label' => 'Create Schedule',
-									'required_features' => [],
-									'url' => 'recruitment/hair-stylist/schedule/create'
-								],
-								[
-									'label' => 'Schedule List',
-									'required_features' => [],
-									'url' => 'recruitment/hair-stylist/schedule'
-								],
-							],
-							'icon' => 'fa fa-calendar'
+							'url' => 'recruitment/hair-stylist/schedule/create'
+						],
+						[
+							'label' => 'Schedule List',
+							'required_features' => [],
+							'url' => 'recruitment/hair-stylist/schedule'
 						],
 						[
 							'label' => 'Attendance Setting',
@@ -1124,77 +1175,83 @@ return [
 							'url' => 'autoresponse/hairstylist-schedule/approve-hairstylist-schedule'
 						],
 					],
-					'icon' => 'fa fa-cut'
+					'icon' => 'fa fa-calendar'
+				],
+			],
+		],
+		[
+			'label' => 'Request Hair Stylist',
+			'required_features' => [],
+			'type' => 'tree',
+			'children' => [
+				[
+					'label' => 'New Request Hair Stylist',
+					'required_features' => [378],
+					'url' => 'recruitment/hair-stylist/request/new'
 				],
 				[
-					'label' => 'Request Hair Stylist',
-					'required_features' => [],
-					'type' => 'tree',
-					'children' => [
-						[
-							'label' => 'New Request Hair Stylist',
-							'required_features' => [],
-							'url' => 'recruitment/hair-stylist/request/new'
-						],
-						[
-							'label' => 'List Request Hair Stylist',
-							'required_features' => [],
-							'url' => 'recruitment/hair-stylist/request'
-						],
-					],
-					'icon' => 'fa fa-male'
+					'label' => 'List Request Hair Stylist',
+					'required_features' => [379, 380, 381, 382, 378],
+					'url' => 'recruitment/hair-stylist/request'
+				],
+			],
+			'icon' => 'fa fa-male'
+		],
+		[
+			'label' => 'Hair Stylist Group',
+			'required_features' => [],
+			'type' => 'tree',
+			'children' => [
+				[
+					'label' => 'New Hair Stylist Group',
+					'required_features' => [394],
+					'url' => 'recruitment/hair-stylist/group/create'
 				],
 				[
-					'label' => 'Hair Stylist Group',
-					'required_features' => [],
-					'type' => 'tree',
-					'children' => [
-						[
-							'label' => 'New Hair Stylist Group',
-							'required_features' => [],
-							'url' => 'recruitment/hair-stylist/group/create'
-						],
-						[
-							'label' => 'List Hair Stylist Group',
-							'required_features' => [],
-							'url' => 'recruitment/hair-stylist/group'
-						],
-					],
-					'icon' => 'fa fa-life-ring'
+					'label' => 'List Hair Stylist Group',
+					'required_features' => [393,378],
+					'url' => 'recruitment/hair-stylist/group'
+				],
+			],
+			'icon' => 'fa fa-life-ring'
+		],
+		[
+			'label' => 'Default Income HS',
+			'required_features' => [],
+			'type' => 'tree',
+			'children' => [
+				[
+					'label' => 'Salary Incentive Default HS',
+					'required_features' => [394],
+					'url' => 'recruitment/hair-stylist/default/insentif'
 				],
 				[
-					'label' => 'Default Income HS',
-					'required_features' => [],
-					'type' => 'tree',
-					'children' => [
-						[
-							'label' => 'Salary Incentive Default HS',
-							'required_features' => [],
-							'url' => 'recruitment/hair-stylist/default/insentif'
-						],
-						[
-							'label' => 'Salary Cuts Default HS',
-							'required_features' => [],
-							'url' => 'recruitment/hair-stylist/default/potongan'
-						],
-					],
-					'icon' => 'fa fa-money'
+					'label' => 'Salary Cuts Default HS',
+					'required_features' => [393,378],
+					'url' => 'recruitment/hair-stylist/default/potongan'
+				],
+			],
+			'icon' => 'fa fa-money'
+		],
+		[
+			'label' => 'Request Product',
+			'required_features' => [],
+			'type' => 'tree',
+			'children' => [
+				[
+					'label' => 'Create Request Product',
+					'required_features' => [410],
+					'url' => 'req-product/create'
 				],
 				[
-					'label' => 'Request Product',
-					'required_features' => [],
-					'type' => 'tree',
+					'label' => 'List Request Product',
+					'required_features' => [411],
+					'url' => 'req-product'
+				],
+				[
+					'type' => 'group',
+					'required_configs' => [40,91],
 					'children' => [
-						[
-							'label' => 'Create Request Product',
-							'required_features' => [],
-							'url' => 'req-product/create'
-						],
-						[
-							'label' => 'List Request Product',
-							'required_features' => [],
-							'url' => 'req-product'
-						],
 						[
 							'label' => '[Response] Create Request Product',
 							'required_features' => [],
@@ -1225,47 +1282,57 @@ return [
 							'required_features' => [],
 							'url' => 'user/autoresponse/product-request-rejected-by-finance'
 						],
-					],
-					'icon' => 'fa fa-dropbox'
+					]
+				],
+			],
+			'icon' => 'fa fa-dropbox'
+		],
+		[
+			'label' => 'Delivery Product',
+			'required_features' => [],
+			'type' => 'tree',
+			'children' => [
+				[
+					'label' => 'Create Delivery Product',
+					'required_features' => [416],
+					'url' => 'dev-product/create'
 				],
 				[
-					'label' => 'Delivery Product',
-					'required_features' => [],
-					'type' => 'tree',
+					'label' => 'List Delivery Product',
+					'required_features' => [417],
+					'url' => 'dev-product'
+				],
+				[
+					'type' => 'Group',
+					'required_configs' => [40,91],
 					'children' => [
 						[
-							'label' => 'Create Delivery Product',
-							'required_features' => [],
-							'url' => 'dev-product/create'
-						],
-						[
-							'label' => 'List Delivery Product',
-							'required_features' => [],
-							'url' => 'dev-product'
-						],
-						[
 							'label' => '[Response] Create Delivery Product',
-							'required_features' => [],
 							'url' => 'user/autoresponse/create-delivery-product'
 						],
 						[
 							'label' => '[Response] Confirmation Delivery Product',
-							'required_features' => [],
 							'url' => 'user/autoresponse/confirmation-delivery-product'
 						],
 					],
-					'icon' => 'fa fa-truck'
+				],
+			],
+			'icon' => 'fa fa-truck'
+		],
+		[
+			'label' => 'Request Update Data',
+			'required_features' => [],
+			'type' => 'tree',
+			'children' => [
+				[
+					'label' => 'List Request',
+					'required_features' => [428, 429, 430],
+					'url' => 'recruitment/hair-stylist/update-data'
 				],
 				[
-					'label' => 'Request Update Data',
-					'required_features' => [],
-					'type' => 'tree',
+					'type' => 'group',
+					'required_features' => [120, 122],
 					'children' => [
-						[
-							'label' => 'List Request',
-							'required_features' => [],
-							'url' => 'recruitment/hair-stylist/update-data'
-						],
 						[
 							'label' => '[Response] Approve Request',
 							'required_features' => [],
@@ -1276,10 +1343,10 @@ return [
 							'required_features' => [],
 							'url' => 'autoresponse/hairstylist-update-data/reject-hairstylist-request-update-data'
 						],
-					],
-					'icon' => 'fa fa-edit'
+					]
 				],
 			],
+			'icon' => 'fa fa-edit'
 		],
 		[
 			'type' => 'group',
@@ -1288,142 +1355,161 @@ return [
 				[
 					'label' => 'Product Transaction',
 					'required_features' => [],
+					'required_configs' => [13, 12],
 					'type' => 'tree',
 					'children' => [
 						[
-							'label' => 'Transaction Outlet Service',
-							'required_features' => [],
-							'url' => 'transaction/outlet-service'
-						],
-						[
-							'label' => 'Transaction Home Service',
-							'required_features' => [],
-							'url' => 'transaction/home-service'
-						],
-						[
-							'label' => 'Transaction Shop',
-							'required_features' => [],
-							'url' => 'transaction/shop'
-						],
-						[
-							'label' => 'Transaction Academy',
-							'required_features' => [],
-							'url' => 'transaction/academy'
-						],
-						[
-							'label' => 'Manage Outlet Service',
-							'required_features' => [],
-							'url' => 'transaction/outlet-service/manage'
-						],
-						[
-							'label' => 'Manage Home Service',
-							'required_features' => [],
-							'url' => 'transaction/home-service/manage'
-						],
-						[
-							'label' => '[Response] Transaction Success',
-							'required_features' => [],
-							'url' => 'transaction/autoresponse/transaction-success'
-						],
-						[
-							'label' => '[Response] Transaction Expired',
-							'required_features' => [],
-							'url' => 'transaction/autoresponse/transaction-expired'
-						],
-						[
-							'label' => '[Response] Order Accepted',
-							'required_features' => [],
-							'url' => 'transaction/autoresponse/order-accepted'
-						],
-						[
-							'label' => '[Response] Order Ready',
-							'required_features' => [],
-							'url' => 'transaction/autoresponse/order-ready'
-						],
-						[
-							'label' => '[Response] Order Taken',
-							'required_features' => [],
-							'url' => 'transaction/autoresponse/order-taken'
-						],
-						[
-							'label' => '[Response] Transaction Point Achievement',
-							'required_features' => [],
-							'url' => 'transaction/autoresponse/transaction-point-achievement'
-						],
-						[
-							'label' => '[Response] Transaction Failed Point Refund',
-							'required_features' => [],
-							'url' => 'transaction/autoresponse/transaction-failed-point-refund'
-						],
-						[
-							'label' => '[Response] Rejected Order Point Refund',
-							'required_features' => [],
-							'url' => 'transaction/autoresponse/rejected-order-point-refund'
-						],
-						[
-							'label' => '[Response] Transaction Rejected',
-							'required_features' => [],
-							'url' => 'autoresponse/transaction/transaction-rejected'
-						],
-						[
-							'label' => '[Response] Transaction Completed',
-							'required_features' => [],
-							'url' => 'autoresponse/transaction/transaction-completed'
-						],
-						[
-							'label' => '[Response] Delivery Status Update',
-							'required_features' => [],
-							'url' => 'transaction/autoresponse/delivery-status-update'
-						],
-						[
-							'label' => '[Forward] Delivery Rejected',
-							'required_features' => [],
-							'url' => 'autoresponse/transaction/delivery-rejected'
-						],
-						[
-							'label' => 'Outlet Service Response',
-							'required_features' => [],
-							'type' => 'tree',
+							'type' => 'group',
+							'required_features' => [69],
 							'children' => [
 								[
-									'label' => '[Response] Transaction Service Completed',
+									'label' => 'Transaction Outlet Service',
 									'required_features' => [],
-									'url' => 'autoresponse/transaction-outlet-service-autoresponse/transaction-service-completed'
+									'url' => 'transaction/outlet-service'
 								],
 								[
-									'label' => '[Response] Transaction Product Taken',
+									'label' => 'Transaction Home Service',
 									'required_features' => [],
-									'url' => 'autoresponse/transaction-outlet-service-autoresponse/transaction-product-taken'
+									'url' => 'transaction/home-service'
 								],
 								[
-									'label' => '[Response] HS - Transaction Service Created',
+									'label' => 'Transaction Shop',
 									'required_features' => [],
-									'url' => 'autoresponse/transaction-outlet-service-autoresponse/mitra-hs---transaction-service-created'
+									'url' => 'transaction/shop'
 								],
 								[
-									'label' => '[Response] HS - Transaction Service Rejected',
+									'label' => 'Transaction Academy',
 									'required_features' => [],
-									'url' => 'autoresponse/transaction-outlet-service-autoresponse/mitra-hs---transaction-service-rejected'
+									'url' => 'transaction/academy'
+								],
+							],
+						],
+						[
+							'type' => 'group',
+							'required_features' => [469],
+							'children' => [
+								[
+									'label' => 'Manage Outlet Service',
+									'required_features' => [],
+									'url' => 'transaction/outlet-service/manage'
 								],
 								[
-									'label' => '[Response] HS - Transaction Service Completed',
+									'label' => 'Manage Home Service',
 									'required_features' => [],
-									'url' => 'autoresponse/transaction-outlet-service-autoresponse/mitra-hs---transaction-service-completed'
+									'url' => 'transaction/home-service/manage'
+								],
+							],
+						],
+						[
+							'type' => 'group',
+							'required_features' => [93],
+							'children' => [
+								[
+									'label' => '[Response] Transaction Success',
+									'required_features' => [],
+									'url' => 'transaction/autoresponse/transaction-success'
 								],
 								[
-									'label' => '[Response] SPV - Transaction Product Created',
+									'label' => '[Response] Transaction Expired',
 									'required_features' => [],
-									'url' => 'autoresponse/transaction-outlet-service-autoresponse/mitra-spv---transaction-product-created'
+									'url' => 'transaction/autoresponse/transaction-expired'
 								],
 								[
-									'label' => '[Response] SPV - Transaction Product Rejected',
+									'label' => '[Response] Order Accepted',
 									'required_features' => [],
-									'url' => 'autoresponse/transaction-outlet-service-autoresponse/mitra-spv---transaction-product-rejected'
+									'url' => 'transaction/autoresponse/order-accepted'
 								],
 								[
-									'label' => '[Response] SPV - Transaction Product Taken',
+									'label' => '[Response] Order Ready',
 									'required_features' => [],
-									'url' => 'autoresponse/transaction-outlet-service-autoresponse/mitra-spv---transaction-product-taken'
+									'url' => 'transaction/autoresponse/order-ready'
+								],
+								[
+									'label' => '[Response] Order Taken',
+									'required_features' => [],
+									'url' => 'transaction/autoresponse/order-taken'
+								],
+								[
+									'label' => '[Response] Transaction Point Achievement',
+									'required_features' => [],
+									'url' => 'transaction/autoresponse/transaction-point-achievement'
+								],
+								[
+									'label' => '[Response] Transaction Failed Point Refund',
+									'required_features' => [],
+									'url' => 'transaction/autoresponse/transaction-failed-point-refund'
+								],
+								[
+									'label' => '[Response] Rejected Order Point Refund',
+									'required_features' => [],
+									'url' => 'transaction/autoresponse/rejected-order-point-refund'
+								],
+								[
+									'label' => '[Response] Transaction Rejected',
+									'required_features' => [],
+									'url' => 'autoresponse/transaction/transaction-rejected'
+								],
+								[
+									'label' => '[Response] Transaction Completed',
+									'required_features' => [],
+									'url' => 'autoresponse/transaction/transaction-completed'
+								],
+								[
+									'label' => '[Response] Delivery Status Update',
+									'required_features' => [],
+									'url' => 'transaction/autoresponse/delivery-status-update'
+								],
+								[
+									'label' => '[Forward] Delivery Rejected',
+									'required_features' => [],
+									'url' => 'autoresponse/transaction/delivery-rejected'
+								],
+								[
+									'label' => 'Outlet Service Response',
+									'required_features' => [],
+									'type' => 'tree',
+									'children' => [
+										[
+											'label' => '[Response] Transaction Service Completed',
+											'required_features' => [],
+											'url' => 'autoresponse/transaction-outlet-service-autoresponse/transaction-service-completed'
+										],
+										[
+											'label' => '[Response] Transaction Product Taken',
+											'required_features' => [],
+											'url' => 'autoresponse/transaction-outlet-service-autoresponse/transaction-product-taken'
+										],
+										[
+											'label' => '[Response] HS - Transaction Service Created',
+											'required_features' => [],
+											'url' => 'autoresponse/transaction-outlet-service-autoresponse/mitra-hs---transaction-service-created'
+										],
+										[
+											'label' => '[Response] HS - Transaction Service Rejected',
+											'required_features' => [],
+											'url' => 'autoresponse/transaction-outlet-service-autoresponse/mitra-hs---transaction-service-rejected'
+										],
+										[
+											'label' => '[Response] HS - Transaction Service Completed',
+											'required_features' => [],
+											'url' => 'autoresponse/transaction-outlet-service-autoresponse/mitra-hs---transaction-service-completed'
+										],
+										[
+											'label' => '[Response] SPV - Transaction Product Created',
+											'required_features' => [],
+											'url' => 'autoresponse/transaction-outlet-service-autoresponse/mitra-spv---transaction-product-created'
+										],
+										[
+											'label' => '[Response] SPV - Transaction Product Rejected',
+											'required_features' => [],
+											'url' => 'autoresponse/transaction-outlet-service-autoresponse/mitra-spv---transaction-product-rejected'
+										],
+										[
+											'label' => '[Response] SPV - Transaction Product Taken',
+											'required_features' => [],
+											'url' => 'autoresponse/transaction-outlet-service-autoresponse/mitra-spv---transaction-product-taken'
+										],
+									],
 								],
 							],
 						],
@@ -1432,7 +1518,7 @@ return [
 				],
 				[
 					'label' => 'Manual Complete Payment',
-					'required_features' => [],
+					'required_features' => [469],
 					'url' => 'transaction/complete-payment',
 					'icon' => 'fa fa-check'
 				],
@@ -1443,22 +1529,22 @@ return [
 					'children' => [
 						[
 							'label' => '[Response] Order Taken With Code',
-							'required_features' => [],
+							'required_features' => [318],
 							'url' => 'transaction/autoresponse/order-taken-with-code'
 						],
 						[
 							'label' => '[Response] Order Taken Delivery With Code',
-							'required_features' => [],
+							'required_features' => [318],
 							'url' => 'transaction/autoresponse/order-taken-delivery-with-code'
 						],
 						[
 							'label' => 'New Code',
-							'required_features' => [],
+							'required_features' => [317],
 							'url' => 'response-with-code/create'
 						],
 						[
 							'label' => 'Code List',
-							'required_features' => [],
+							'required_features' => [316,318,319],
 							'url' => 'response-with-code'
 						],
 					],
@@ -1466,19 +1552,21 @@ return [
 				],
 				[
 					'label' => 'Failed Void Payment',
-					'required_features' => [],
+					'required_features' => [299],
 					'url' => 'transaction/failed-void-payment',
 					'icon' => 'fa fa-exclamation-triangle'
 				],
 				[
 					'label' => 'Point Log History',
-					'required_features' => [],
+					'required_features' => [71],
+					'required_configs' => [18],
 					'url' => 'transaction/point',
 					'icon' => 'fa fa-history'
 				],
 				[
-					'label' => 'Points Log History',
-					'required_features' => [],
+					'label' => 'Points ' . env('POINT_NAME', 'Points') . ' History',
+					'required_features' => [71],
+					'required_configs' => [19],
 					'url' => 'transaction/balance',
 					'icon' => 'fa fa-clock-o'
 				],
@@ -1489,57 +1577,62 @@ return [
 					'children' => [
 						[
 							'label' => 'Chart Of Account',
-							'required_features' => [],
+							'required_features' => [400],
 							'url' => 'chartofaccount'
 						],
 						[
 							'label' => 'Calculation Rule',
-							'required_features' => [],
+							'required_features' => [58, 59, 60, 62],
 							'url' => 'transaction/setting/rule'
 						],
 						[
 							'label' => 'Internal Courier',
-							'required_features' => [],
+							'required_features' => [61,63],
+							'required_configs' => [13,14],
+							'required_configs_rule' => 'and',
 							'url' => 'transaction/internalcourier'
 						],
 						[
-							'label' => 'Global Points Setting',
-							'required_features' => [],
+							'label' => 'Global ' . env('POINT_NAME', 'Points') . ' Setting',
+							'required_features' => [58, 59, 60, 62],
 							'url' => 'transaction/setting/cashback'
 						],
 						[
 							'label' => 'Setting Free Delivery',
 							'required_features' => [],
+							'required_configs' => [79],
 							'url' => 'transaction/setting/free-delivery'
 						],
 						[
 							'label' => 'Credit Card Payment Gateway',
 							'required_features' => [],
+							'required_configs' => [100],
 							'url' => 'setting/credit_card_payment_gateway'
 						],
 						[
 							'label' => 'Setting Payment Method',
-							'required_features' => [],
+							'required_features' => [250],
 							'url' => 'transaction/setting/available-payment'
 						],
 						[
 							'label' => 'Setting Timer Payment Gateway',
-							'required_features' => [],
+							'required_features' => [272],
+							'required_configs' => [120],
 							'url' => 'transaction/setting/timer-payment-gateway'
 						],
 						[
 							'label' => 'Setting Refund Reject Order',
-							'required_features' => [],
+							'required_features' => [250],
 							'url' => 'transaction/setting/refund-reject-order'
 						],
 						[
 							'label' => 'Setting Auto Reject Time',
-							'required_features' => [],
+							'required_features' => [262],
 							'url' => 'transaction/setting/auto-reject'
 						],
 						[
 							'label' => 'Transaction Messages',
-							'required_features' => [],
+							'required_features' => [321],
 							'url' => 'transaction/setting/transaction-messages'
 						],
 					],
@@ -1547,7 +1640,7 @@ return [
 				],
 				[
 					'label' => 'Delivery Settings',
-					'required_features' => [],
+					'required_features' => [250],
 					'type' => 'tree',
 					'children' => [
 						[
@@ -1573,11 +1666,13 @@ return [
 						[
 							'label' => 'Setting Package Detail Delivery',
 							'required_features' => [],
+							'required_configs' => [13],
 							'url' => 'transaction/setting/package-detail-delivery'
 						],
 						[
 							'label' => '[Forward] WeHelpYou Low Balance',
 							'required_features' => [],
+							'required_configs' => [137],
 							'url' => 'transaction/setting/forward-why-low-balance'
 						],
 					],
@@ -1586,26 +1681,27 @@ return [
 				[
 					'label' => 'Payment Method',
 					'required_features' => [],
+					'required_configs' => [116],
 					'type' => 'tree',
 					'children' => [
 						[
 							'label' => 'New Category',
-							'required_features' => [],
+							'required_features' => [257],
 							'url' => 'payment-method-category/create'
 						],
 						[
 							'label' => 'Category List',
-							'required_features' => [],
+							'required_features' => [258,259,260],
 							'url' => 'payment-method-category'
 						],
 						[
 							'label' => 'New Payment Method',
-							'required_features' => [],
+							'required_features' => [253],
 							'url' => 'payment-method/create'
 						],
 						[
 							'label' => 'Payment Method List',
-							'required_features' => [],
+							'required_features' => [254,255,256],
 							'url' => 'payment-method'
 						],
 					],
@@ -1613,81 +1709,88 @@ return [
 				],
 				[
 					'label' => 'Outlet Product Price',
-					'required_features' => [],
+					'required_features' => [62],
 					'url' => 'product/price',
 					'icon' => 'fa fa-tag'
 				],
 				[
 					'label' => 'Outlet Different Price',
-					'required_features' => [],
+					'required_features' => [62],
 					'url' => 'outlet/different-price',
 					'icon' => 'fa fa-check'
 				],
 				[
 					'label' => 'Default Maximum Order',
-					'required_features' => [],
+					'required_features' => [197,198],
 					'url' => 'setting/max_order',
 					'icon' => 'fa fa-shopping-cart'
 				],
 				[
 					'label' => 'Outlet Maximum Order',
-					'required_features' => [],
+					'required_features' => [192,198],
 					'url' => 'outlet/max-order',
 					'icon' => 'fa fa-shopping-cart'
 				],
 				[
 					'label' => 'Manual Payment',
 					'required_features' => [],
+					'required_configs' => [17],
 					'type' => 'tree',
 					'children' => [
 						[
 							'label' => 'New Payment Method',
-							'required_features' => [],
+							'required_features' => [66],
 							'url' => 'transaction/manualpayment/create'
 						],
 						[
 							'label' => 'Payment Method List',
-							'required_features' => [],
+							'required_features' => [64],
 							'url' => 'transaction/manualpayment'
 						],
 						[
 							'label' => 'Manual Payment Transaction',
-							'required_features' => [],
+							'required_features' => [64],
 							'url' => 'transaction/manualpayment/list'
 						],
 						[
-							'label' => 'Manual Payment Deals',
-							'required_features' => [],
-							'url' => 'deals/manualpayment/list'
-						],
-						[
-							'label' => 'Bank List',
-							'required_features' => [],
-							'url' => 'transaction/manualpayment/banks'
-						],
-						[
-							'label' => 'Payment Method List',
-							'required_features' => [],
-							'url' => 'transaction/manualpayment/banks/method'
+							'type' => 'group',
+							'required_features' => [64],
+							'required_configs' => [25],
+							'children' => [
+								[
+									'label' => 'Manual Payment Deals',
+									'url' => 'deals/manualpayment/list'
+								],
+								[
+									'label' => 'Bank List',
+									'required_features' => [],
+									'url' => 'transaction/manualpayment/banks'
+								],
+								[
+									'label' => 'Payment Method List',
+									'required_features' => [],
+									'url' => 'transaction/manualpayment/banks/method'
+								],
+							]
 						],
 					],
 					'icon' => 'fa fa-money'
 				],
 				[
 					'label' => 'Report GoSend',
-					'required_features' => [],
+					'required_features' => [249],
 					'url' => 'report/gosend',
 					'icon' => 'fa fa-truck'
 				],
 				[
 					'label' => 'Report Wehelpyou',
-					'required_features' => [],
+					'required_features' => [322],
 					'url' => 'report/wehelpyou',
 					'icon' => 'fa fa-truck'
 				],
 				[
 					'label' => 'Report Payment',
-					'required_features' => [],
+					'required_features' => [263],
 					'type' => 'tree',
 					'children' => [
 						[
@@ -1705,37 +1808,38 @@ return [
 				],
 				[
 					'label' => 'User Rating',
-					'required_features' => [],
+					'required_features' => [356,357],
+					'required_configs' => [122],
 					'type' => 'tree',
 					'children' => [
 						[
 							'label' => 'User Rating List',
-							'required_features' => [],
+							'required_features' => [356],
 							'url' => 'user-rating'
 						],
 						[
 							'label' => 'User Rating Setting',
-							'required_features' => [],
+							'required_features' => [357],
 							'url' => 'user-rating/setting'
 						],
 						[
 							'label' => 'User Rating Report Outlet',
-							'required_features' => [],
+							'required_features' => [356],
 							'url' => 'user-rating/report/outlet'
 						],
 						[
 							'label' => 'User Rating Report Hairstylist',
-							'required_features' => [],
+							'required_features' => [256],
 							'url' => 'user-rating/report/hairstylist'
 						],
 						[
 							'label' => '[Response] Rating Outlet',
-							'required_features' => [],
+							'required_features' => [357],
 							'url' => 'user-rating/autoresponse/outlet'
 						],
 						[
 							'label' => '[Response] Rating Hairstylist',
-							'required_features' => [],
+							'required_features' => [357],
 							'url' => 'user-rating/autoresponse/hairstylist'
 						],
 					],
@@ -1743,7 +1847,7 @@ return [
 				],
 				[
 					'label' => 'Home Service',
-					'required_features' => [],
+					'required_features' => [389],
 					'type' => 'tree',
 					'children' => [
 						[
@@ -1766,7 +1870,7 @@ return [
 				],
 				[
 					'label' => 'Academy',
-					'required_features' => [],
+					'required_features' => [376],
 					'type' => 'tree',
 					'children' => [
 						[
@@ -1839,7 +1943,7 @@ return [
 				],
 				[
 					'label' => 'Online Shop',
-					'required_features' => [],
+					'required_features' => [390, 391],
 					'type' => 'tree',
 					'children' => [
 						[
@@ -1887,13 +1991,13 @@ return [
 				],
 				[
 					'label' => 'Export Commision',
-					'required_features' => [],
+					'required_features' => [69],
 					'url' => 'hair-stylist/commision/filter',
 					'icon' => 'fa fa-download'
 				],
 				[
 					'label' => 'Export Sales Report',
-					'required_features' => [],
+					'required_features' => [69],
 					'url' => 'transaction/report/export/sales',
 					'icon' => 'fa fa-download'
 				],
@@ -1905,25 +2009,25 @@ return [
 			'children' => [
 				[
 					'label' => 'Mark as Pending Invalid',
-					'required_features' => [],
+					'required_features' => [274],
 					'url' => 'transaction/invalid-flag/mark-as-pending-invalid',
 					'icon' => 'fa fa-list-ul'
 				],
 				[
 					'label' => 'Mark as Invalid',
-					'required_features' => [],
+					'required_features' => [274],
 					'url' => 'transaction/invalid-flag/mark-as-invalid',
 					'icon' => 'fa fa-list-ul'
 				],
 				[
 					'label' => 'Mark as Valid',
-					'required_features' => [],
+					'required_features' => [275],
 					'url' => 'transaction/invalid-flag/mark-as-valid',
 					'icon' => 'fa fa-list-ul'
 				],
 				[
 					'label' => 'Log Invalid Flag',
-					'required_features' => [],
+					'required_features' => [276],
 					'url' => 'transaction/log-invalid-flag/list',
 					'icon' => 'fa fa-list-ul'
 				],
@@ -1936,16 +2040,17 @@ return [
 				[
 					'label' => 'Deals',
 					'required_features' => [],
+					'required_configs' => [25,18],
 					'type' => 'tree',
 					'children' => [
 						[
 							'label' => 'New Deals',
-							'required_features' => [],
+							'required_features' => [74],
 							'url' => 'deals/create'
 						],
 						[
 							'label' => 'Deals List',
-							'required_features' => [],
+							'required_features' => [72],
 							'url' => 'deals'
 						],
 						[
