@@ -2103,33 +2103,39 @@ return [
 					'children' => [
 						[
 							'label' => 'New Bundling Category',
-							'required_features' => [],
+							'required_features' => [290],
 							'url' => 'product-bundling/category/create'
 						],
 						[
 							'label' => 'Bundling Category List',
-							'required_features' => [],
+							'required_features' => [288],
 							'url' => 'product-bundling/category'
 						],
 						[
 							'label' => 'New Product Bundling',
-							'required_features' => [],
+							'required_features' => [290],
 							'url' => 'product-bundling/create'
 						],
 						[
-							'label' => 'Product Bundling List',
-							'required_features' => [],
-							'url' => 'product-bundling'
-						],
-						[
-							'label' => 'Manage Position',
-							'required_features' => [],
-							'url' => 'product-bundling/position/assign'
-						],
-						[
-							'label' => 'Setting Name Brand Bundling',
-							'required_features' => [],
-							'url' => 'product-bundling/setting'
+							'type' => 'group',
+							'required_features' => [288],
+							'children' => [
+								[
+									'label' => 'Product Bundling List',
+									'required_features' => [],
+									'url' => 'product-bundling'
+								],
+								[
+									'label' => 'Manage Position',
+									'required_features' => [],
+									'url' => 'product-bundling/position/assign'
+								],
+								[
+									'label' => 'Setting Name Brand Bundling',
+									'required_features' => [],
+									'url' => 'product-bundling/setting'
+								],
+							]
 						],
 					],
 					'icon' => 'icon-present'
@@ -2137,32 +2143,39 @@ return [
 				[
 					'label' => 'Inject Voucher',
 					'required_features' => [],
+					'required_configs' => [26],
 					'type' => 'tree',
 					'children' => [
 						[
 							'label' => 'New Inject Voucher',
-							'required_features' => [],
+							'required_features' => [79],
 							'url' => 'inject-voucher/create'
 						],
 						[
 							'label' => 'Inject Voucher List',
-							'required_features' => [],
+							'required_features' => [77],
 							'url' => 'inject-voucher'
 						],
 						[
-							'label' => '[Response] Receive Inject Voucher',
-							'required_features' => [],
-							'url' => 'transaction/autoresponse/receive-inject-voucher',
-						],
-						[
-							'label' => '[Forward] Create Inject Voucher',
-							'required_features' => [],
-							'url' => 'autoresponse/inject-voucher/create-inject-voucher'
-						],
-						[
-							'label' => '[Forward] Update Inject Voucher',
-							'required_features' => [],
-							'url' => 'autoresponse/inject-voucher/update-inject-voucher'
+							'type' => 'group',
+							'required_features' => [120,122],
+							'children' => [
+								[
+									'label' => '[Response] Receive Inject Voucher',
+									'required_features' => [],
+									'url' => 'transaction/autoresponse/receive-inject-voucher',
+								],
+								[
+									'label' => '[Forward] Create Inject Voucher',
+									'required_features' => [],
+									'url' => 'autoresponse/inject-voucher/create-inject-voucher'
+								],
+								[
+									'label' => '[Forward] Update Inject Voucher',
+									'required_features' => [],
+									'url' => 'autoresponse/inject-voucher/update-inject-voucher'
+								],
+							],
 						],
 					],
 					'icon' => 'fa fa-birthday-cake'
@@ -2174,85 +2187,99 @@ return [
 					'children' => [
 						[
 							'label' => 'New Welcome Voucher',
-							'required_features' => [],
+							'required_features' => [189],
 							'url' => 'welcome-voucher/create'
 						],
 						[
 							'label' => 'Welcome Voucher List',
-							'required_features' => [],
+							'required_features' => [187],
 							'url' => 'welcome-voucher'
 						],
 						[
 							'label' => 'Welcome Voucher Setting',
-							'required_features' => [],
+							'required_features' => [187,190],
 							'url' => 'welcome-voucher/setting'
 						],
 						[
-							'label' => '[Response] Welcome Voucher',
-							'required_features' => [],
-							'url' => 'autoresponse/welcome-voucher/receive-welcome-voucher'
-						],
-						[
-							'label' => '[Forward] Create Welcome Voucher',
-							'required_features' => [],
-							'url' => 'autoresponse/welcome-voucher/create-welcome-voucher'
-						],
-						[
-							'label' => '[Forward] Update Welcome Voucher',
-							'required_features' => [],
-							'url' => 'autoresponse/welcome-voucher/update-welcome-voucher'
+							'type' => 'group',
+							'required_features' => [293],
+							'children' => [
+								[
+									'label' => '[Response] Welcome Voucher',
+									'required_features' => [],
+									'url' => 'autoresponse/welcome-voucher/receive-welcome-voucher'
+								],
+								[
+									'label' => '[Forward] Create Welcome Voucher',
+									'required_features' => [],
+									'url' => 'autoresponse/welcome-voucher/create-welcome-voucher'
+								],
+								[
+									'label' => '[Forward] Update Welcome Voucher',
+									'required_features' => [],
+									'url' => 'autoresponse/welcome-voucher/update-welcome-voucher'
+								],
+							],
 						],
 					],
 					'icon' => 'fa fa-ticket'
 				],
 				[
 					'label' => 'Deals Transaction',
-					'required_features' => [],
+					'required_features' => [72],
 					'url' => 'deals/transaction',
 					'icon' => 'fa fa-bar-chart'
 				],
 				[
 					'label' => 'Promo Campaign',
 					'required_features' => [],
+					'required_configs' => [93],
 					'type' => 'tree',
 					'children' => [
 						[
 							'label' => 'New Promo Campaign',
-							'required_features' => [],
+							'required_features' => [202],
 							'url' => 'promo-campaign/create'
 						],
 						[
 							'label' => 'Promo Campaign List',
-							'required_features' => [],
+							'required_features' => [200],
 							'url' => 'promo-campaign'
 						],
 						[
-							'label' => '[Forward] Create Promo Campaign',
+							'type' => 'group',
 							'required_features' => [],
-							'url' => 'autoresponse/promo-campaign/create-promo-campaign'
-						],
-						[
-							'label' => '[Forward] Update Promo Campaign',
-							'required_features' => [],
-							'url' => 'autoresponse/promo-campaign/update-promo-campaign'
-						],
-						[
-							'label' => 'Share Promo Code Message',
-							'required_features' => [],
-							'url' => 'promo-campaign/share-promo'
+							'children' => [
+								[
+									'label' => '[Forward] Create Promo Campaign',
+									'required_features' => [],
+									'url' => 'autoresponse/promo-campaign/create-promo-campaign'
+								],
+								[
+									'label' => '[Forward] Update Promo Campaign',
+									'required_features' => [],
+									'url' => 'autoresponse/promo-campaign/update-promo-campaign'
+								],
+								[
+									'label' => 'Share Promo Code Message',
+									'required_features' => [],
+									'url' => 'promo-campaign/share-promo'
+								],
+							],
 						],
 					],
 					'icon' => 'fa fa-tag'
 				],
 				[
 					'label' => 'Promo Cashback Setting',
-					'required_features' => [],
+					'required_features' => [233],
 					'url' => 'promo-setting/cashback',
 					'icon' => 'fa fa-money'
 				],
 				[
 					'label' => 'Referral',
-					'required_features' => [],
+					'required_features' => [216],
+					'required_configs' => [115],
 					'type' => 'tree',
 					'children' => [
 						[
@@ -2271,16 +2298,17 @@ return [
 				[
 					'label' => 'Reward',
 					'required_features' => [],
+					'required_configs' => [73],
 					'type' => 'tree',
 					'children' => [
 						[
 							'label' => 'New Reward',
-							'required_features' => [],
+							'required_features' => [132],
 							'url' => 'reward/create'
 						],
 						[
 							'label' => 'Reward List',
-							'required_features' => [],
+							'required_features' => [130,131,133,134],
 							'url' => 'reward'
 						],
 					],
@@ -2289,21 +2317,22 @@ return [
 				[
 					'label' => 'Spin The Wheel',
 					'required_features' => [],
+					'required_configs' => [76],
 					'type' => 'tree',
 					'children' => [
 						[
 							'label' => 'New Item',
-							'required_features' => [],
+							'required_features' => [131],
 							'url' => 'spinthewheel/create'
 						],
 						[
 							'label' => 'Item List',
-							'required_features' => [],
+							'required_features' => [130],
 							'url' => 'spinthewheel/list'
 						],
 						[
 							'label' => 'Setting',
-							'required_features' => [],
+							'required_features' => [134],
 							'url' => 'spinthewheel/setting'
 						],
 					],
@@ -2312,47 +2341,61 @@ return [
 				[
 					'label' => 'Subscription',
 					'required_features' => [],
+					'required_configs' => [84],
 					'type' => 'tree',
 					'children' => [
 						[
 							'label' => 'New Subscription',
-							'required_features' => [],
+							'required_features' => [172],
 							'url' => 'subscription/create'
 						],
 						[
-							'label' => 'Subscription List',
-							'required_features' => [],
-							'url' => 'subscription'
+							'type' => 'group',
+							'required_features' => [173],
+							'children' => [
+								[
+									'label' => 'Subscription List',
+									'required_features' => [],
+									'url' => 'subscription'
+								],
+								[
+									'label' => 'Subscription Claim Report',
+									'required_features' => [],
+									'url' => 'subscription/claim-report'
+								],
+								[
+									'label' => 'Subscription Transaction Report',
+									'required_features' => [],
+									'url' => 'subscription/transaction-report'
+								],
+								[
+									'label' => 'List Export',
+									'required_features' => [],
+									'url' => 'subscription/list-export'
+								],
+							],
 						],
 						[
-							'label' => 'Subscription Claim Report',
-							'required_features' => [],
-							'url' => 'subscription/claim-report'
-						],
-						[
-							'label' => 'Subscription Transaction Report',
-							'required_features' => [],
-							'url' => 'subscription/transaction-report'
-						],
-						[
-							'label' => 'List Export',
-							'required_features' => [],
-							'url' => 'subscription/list-export'
-						],
-						[
-							'label' => '[Response] Get Free Subscription Success',
-							'required_features' => [],
-							'url' => 'transaction/autoresponse/get-free-subscription-success',
-						],
-						[
-							'label' => '[Response] Buy Paid Subscription Success',
-							'required_features' => [],
-							'url' => 'transaction/autoresponse/buy-paid-subscription-success',
-						],
-						[
-							'label' => '[Response] Buy Point Subscription Success',
-							'required_features' => [],
-							'url' => 'transaction/autoresponse/buy-point-subscription-success',
+							'type' => 'group',
+							'required_features' => [97],
+							'required_configs' => [133],
+							'children' => [
+								[
+									'label' => '[Response] Get Free Subscription Success',
+									'required_features' => [],
+									'url' => 'transaction/autoresponse/get-free-subscription-success',
+								],
+								[
+									'label' => '[Response] Buy Paid Subscription Success',
+									'required_features' => [],
+									'url' => 'transaction/autoresponse/buy-paid-subscription-success',
+								],
+								[
+									'label' => '[Response] Buy Point Subscription Success',
+									'required_features' => [],
+									'url' => 'transaction/autoresponse/buy-point-subscription-success',
+								],
+							],
 						],
 					],
 					'icon' => 'fa fa-gift'
@@ -2364,33 +2407,39 @@ return [
 					'children' => [
 						[
 							'label' => 'New Welcome Subscription',
-							'required_features' => [],
+							'required_features' => [266],
 							'url' => 'welcome-subscription/create'
 						],
 						[
 							'label' => 'Welcome Subscription List',
-							'required_features' => [],
+							'required_features' => [264],
 							'url' => 'welcome-subscription'
 						],
 						[
 							'label' => 'Welcome Subscription Setting',
-							'required_features' => [],
+							'required_features' => [264,267],
 							'url' => 'welcome-subscription/setting'
 						],
 						[
-							'label' => '[Response] Receive Welcome Subscription',
-							'required_features' => [],
-							'url' => 'autoresponse/welcome-subscription/receive-welcome-subscription'
-						],
-						[
-							'label' => '[Forward] Create Welcome Subscription',
-							'required_features' => [],
-							'url' => 'autoresponse/welcome-subscription/create-welcome-subscription'
-						],
-						[
-							'label' => '[Forward] Update Welcome Subscription',
-							'required_features' => [],
-							'url' => 'autoresponse/welcome-subscription/update-welcome-subscription'
+							'type' => 'group',
+							'required_features' => [178],
+							'children' => [
+								[
+									'label' => '[Response] Receive Welcome Subscription',
+									'required_features' => [],
+									'url' => 'autoresponse/welcome-subscription/receive-welcome-subscription'
+								],
+								[
+									'label' => '[Forward] Create Welcome Subscription',
+									'required_features' => [],
+									'url' => 'autoresponse/welcome-subscription/create-welcome-subscription'
+								],
+								[
+									'label' => '[Forward] Update Welcome Subscription',
+									'required_features' => [],
+									'url' => 'autoresponse/welcome-subscription/update-welcome-subscription'
+								],
+							],
 						],
 					],
 					'icon' => 'fa fa-ticket'
@@ -2398,39 +2447,40 @@ return [
 				[
 					'label' => 'Achievement',
 					'required_features' => [],
+					'required_configs' => [99],
 					'type' => 'tree',
 					'children' => [
 						[
 							'label' => 'New Achievement',
-							'required_features' => [],
+							'required_features' => [223],
 							'url' => 'achievement/create'
 						],
 						[
 							'label' => 'Achievement List',
-							'required_features' => [],
+							'required_features' => [221],
 							'url' => 'achievement'
 						],
 						[
 							'label' => 'Report Achievement',
-							'required_features' => [],
+							'required_features' => [226],
 							'type' => 'tree',
 							'children' => [
+								[
+									'label' => 'Achievement',
+									'required_features' => [],
+									'url' => 'achievement/report'
+								],
+								[
+									'label' => 'User Achievement',
+									'required_features' => [],
+									'url' => 'achievement/report/user-achievement'
+								],
+								[
+									'label' => 'Membership Achievement',
+									'required_features' => [],
+									'url' => 'achievement/report/membership'
+								],
 							],
-						],
-						[
-							'label' => 'Achievement',
-							'required_features' => [],
-							'url' => 'achievement/report'
-						],
-						[
-							'label' => 'User Achievement',
-							'required_features' => [],
-							'url' => 'achievement/report/user-achievement'
-						],
-						[
-							'label' => 'Membership Achievement',
-							'required_features' => [],
-							'url' => 'achievement/report/membership'
 						],
 					],
 					'icon' => 'fa fa-trophy'
@@ -2438,6 +2488,7 @@ return [
 				[
 					'label' => 'Quest',
 					'required_features' => [],
+					'required_configs' => [100],
 					'type' => 'tree',
 					'children' => [
 						[
@@ -2447,55 +2498,61 @@ return [
 							'children' => [
 								[
 									'label' => 'New Quest Voucher',
-									'required_features' => [],
+									'required_features' => [308],
 									'url' => 'quest-voucher/create'
 								],
 								[
 									'label' => 'Quest Voucher List',
-									'required_features' => [],
+									'required_features' => [306],
 									'url' => 'quest-voucher'
 								],
 								[
 									'label' => '[Forward] Create Quest Voucher',
-									'required_features' => [],
+									'required_features' => [120,122],
 									'url' => 'autoresponse/quest-voucher/create-quest-voucher'
 								],
 								[
 									'label' => '[Forward] Update Quest Voucher',
-									'required_features' => [],
+									'required_features' => [120,122],
 									'url' => 'autoresponse/quest-voucher/update-quest-voucher'
 								],
 							],
 						],
 						[
 							'label' => 'New Quest',
-							'required_features' => [],
+							'required_features' => [229],
 							'url' => 'quest/create'
 						],
 						[
 							'label' => 'Quest List',
-							'required_features' => [],
+							'required_features' => [227],
 							'url' => 'quest'
 						],
 						[
 							'label' => 'Report Quest',
-							'required_features' => [],
+							'required_features' => [232],
 							'url' => 'quest/report'
 						],
 						[
-							'label' => '[Response] Quest Completed',
-							'required_features' => [],
-							'url' => 'autoresponse/quest/quest-completed'
-						],
-						[
-							'label' => '[Response] Receive Quest Point',
-							'required_features' => [],
-							'url' => 'autoresponse/quest/receive-quest-point'
-						],
-						[
-							'label' => '[Response] Receive Quest Voucher',
-							'required_features' => [],
-							'url' => 'autoresponse/quest/receive-quest-voucher'
+							'required_features' => [122],
+							'type' => 'group',
+							'children' => [
+								[
+									'label' => '[Response] Quest Completed',
+									'required_features' => [],
+									'url' => 'autoresponse/quest/quest-completed'
+								],
+								[
+									'label' => '[Response] Receive Quest Point',
+									'required_features' => [],
+									'url' => 'autoresponse/quest/receive-quest-point'
+								],
+								[
+									'label' => '[Response] Receive Quest Voucher',
+									'required_features' => [],
+									'url' => 'autoresponse/quest/receive-quest-voucher'
+								],
+							],
 						],
 					],
 					'icon' => 'fa fa-bullseye'
@@ -2507,28 +2564,34 @@ return [
 					'children' => [
 						[
 							'label' => 'New Promo Payment Gateway',
-							'required_features' => [],
+							'required_features' => [313],
 							'url' => 'disburse/rule-promo-payment-gateway/create'
 						],
 						[
-							'label' => 'Promo Payment Gateway List',
-							'required_features' => [],
-							'url' => 'disburse/rule-promo-payment-gateway'
-						],
-						[
-							'label' => 'Promo Payment Gateway List Transaction',
-							'required_features' => [],
-							'url' => 'disburse/rule-promo-payment-gateway/list-trx'
-						],
-						[
-							'label' => 'Promo Payment Gateway Validation',
-							'required_features' => [],
-							'url' => 'disburse/rule-promo-payment-gateway/validation'
-						],
-						[
-							'label' => 'Promo Payment Gateway Validation Report',
-							'required_features' => [],
-							'url' => 'disburse/rule-promo-payment-gateway/validation/report'
+							'type' => 'group',
+							'required_features' => [311,312,314,315],
+							'children' => [
+								[
+									'label' => 'Promo Payment Gateway List',
+									'required_features' => [],
+									'url' => 'disburse/rule-promo-payment-gateway'
+								],
+								[
+									'label' => 'Promo Payment Gateway List Transaction',
+									'required_features' => [],
+									'url' => 'disburse/rule-promo-payment-gateway/list-trx'
+								],
+								[
+									'label' => 'Promo Payment Gateway Validation',
+									'required_features' => [],
+									'url' => 'disburse/rule-promo-payment-gateway/validation'
+								],
+								[
+									'label' => 'Promo Payment Gateway Validation Report',
+									'required_features' => [],
+									'url' => 'disburse/rule-promo-payment-gateway/validation/report'
+								],
+							],
 						],
 					],
 					'icon' => 'fa fa-tag'
@@ -2548,49 +2611,52 @@ return [
 					'children' => [
 						[
 							'label' => 'Text Replace',
-							'required_features' => [],
+							'required_features' => [96],
 							'url' => 'textreplace'
 						],
 						[
 							'label' => 'Email Header & Footer',
-							'required_features' => [],
+							'required_features' => [97],
 							'url' => 'email-header-footer'
 						],
 						[
 							'label' => 'WhatsApp Setting',
-							'required_features' => [],
+							'required_features' => [74,75],
 							'url' => 'setting/whatsapp'
 						],
 					]
 				],
 				[
 					'label' => 'Contact CS Subject Setting',
-					'required_features' => [],
+					'required_features' => [470],
 					'url' => 'enquiries/setting/subject',
 					'icon' => 'fa fa-phone'
 				],
 				[
 					'label' => 'Enquiries',
-					'required_features' => [],
+					'required_features' => [40],
 					'type' => 'tree',
 					'children' => [
 						[
 							'label' => 'Enquiry List',
-							'required_features' => [],
+							'required_features' => [83,94],
 							'url' => 'enquiries'
 						],
 						[
 							'label' => '[Response] Kritik, Saran & Keluhan',
 							'required_features' => [],
+							'required_configs' => [46],
 							'url' => 'about/autoresponse/enquiry-kritik,-saran-&-keluhan'
 						],
 						[
 							'label' => '[Response] Pengubahan Data Diri',
 							'required_features' => [],
+							'required_configs' => [47],
 							'url' => 'about/autoresponse/enquiry-pengubahan-data-diri'
 						],
 						[
 							'label' => '[Response] Lain - Lain',
+							'required_configs' => [48],
 							'required_features' => [],
 							'url' => 'about/autoresponse/enquiry-lain-_-lain'
 						],
@@ -2599,27 +2665,27 @@ return [
 				],
 				[
 					'label' => 'User Feedback',
-					'required_features' => [],
+					'required_configs' => [90],
 					'type' => 'tree',
 					'children' => [
 						[
 							'label' => 'User Feedback List',
-							'required_features' => [],
+							'required_features' => [179],
 							'url' => 'user-feedback'
 						],
 						[
 							'label' => 'User Feedback Setting',
-							'required_features' => [],
+							'required_features' => [212],
 							'url' => 'user-feedback/setting'
 						],
 						[
 							'label' => 'Report User Feedback',
-							'required_features' => [],
+							'required_features' => [179],
 							'url' => 'user-feedback/report'
 						],
 						[
 							'label' => '[Response] User Feedback',
-							'required_features' => [],
+							'required_features' => [179],
 							'url' => 'user-feedback/autoresponse'
 						],
 					],
@@ -2627,37 +2693,41 @@ return [
 				],
 				[
 					'label' => 'Single Campaign',
-					'required_features' => [],
+					'required_configs' => [50],
 					'type' => 'tree',
 					'children' => [
 						[
 							'label' => 'New Campaign',
-							'required_features' => [],
+							'required_features' => [100],
 							'url' => 'campaign/create'
 						],
 						[
 							'label' => 'Campaign List',
-							'required_features' => [],
+							'required_features' => [98],
 							'url' => 'campaign'
 						],
 						[
 							'label' => 'Email Outbox',
-							'required_features' => [],
+							'required_features' => [104],
+							'required_configs' => [51],
 							'url' => 'campaign/email/outbox'
 						],
 						[
 							'label' => 'SMS Outbox',
-							'required_features' => [],
+							'required_features' => [106],
+							'required_configs' => [52],
 							'url' => 'campaign/sms/outbox'
 						],
 						[
 							'label' => 'Push Outbox',
-							'required_features' => [],
+							'required_features' => [108],
+							'required_configs' => [53],
 							'url' => 'campaign/push/outbox'
 						],
 						[
 							'label' => 'WhatsApp Outbox',
-							'required_features' => [],
+							'required_features' => [108],
+							'required_configs' => [75],
 							'url' => 'campaign/whatsapp/outbox'
 						],
 					],
@@ -2665,27 +2735,27 @@ return [
 				],
 				[
 					'label' => 'Promotion',
-					'required_features' => [],
+					'required_configs' => [72],
 					'type' => 'tree',
 					'children' => [
 						[
 							'label' => 'New Deals Promotion',
-							'required_features' => [],
+							'required_features' => [111],
 							'url' => 'promotion/deals/create'
 						],
 						[
 							'label' => 'Deals Promotion',
-							'required_features' => [],
+							'required_features' => [109],
 							'url' => 'promotion/deals'
 						],
 						[
 							'label' => 'New Promotion',
-							'required_features' => [],
+							'required_features' => [111],
 							'url' => 'promotion/create'
 						],
 						[
 							'label' => 'Promotion List',
-							'required_features' => [],
+							'required_features' => [109],
 							'url' => 'promotion'
 						],
 					],
@@ -2698,12 +2768,12 @@ return [
 					'children' => [
 						[
 							'label' => 'New Point Injection',
-							'required_features' => [],
+							'required_features' => [207],
 							'url' => 'point-injection/create'
 						],
 						[
 							'label' => 'List Point Injection',
-							'required_features' => [],
+							'required_features' => [205,206,208,209],
 							'url' => 'point-injection'
 						],
 					],
@@ -2716,12 +2786,12 @@ return [
 					'children' => [
 						[
 							'label' => 'New Inbox Global',
-							'required_features' => [],
+							'required_features' => [116],
 							'url' => 'inboxglobal/create'
 						],
 						[
 							'label' => 'Inbox Global List',
-							'required_features' => [],
+							'required_features' => [114],
 							'url' => 'inboxglobal'
 						],
 					],
@@ -2729,7 +2799,7 @@ return [
 				],
 				[
 					'label' => 'Annoucement',
-					'required_features' => [],
+					'required_features' => [368, 369, 370, 371, 372],
 					'type' => 'tree',
 					'children' => [
 						[
@@ -2747,7 +2817,7 @@ return [
 				],
 				[
 					'label' => 'Redirect Complex',
-					'required_features' => [],
+					'required_configs' => [119],
 					'type' => 'tree',
 					'children' => [
 						[
@@ -2771,31 +2841,32 @@ return [
 			'children' => [
 				[
 					'label' => 'Mobile Apps Home',
-					'required_features' => [],
+					'required_features' => [15, 16, 17, 18, 144, 145, 146, 147, 241],
 					'url' => 'setting/home',
 					'icon' => 'icon-screen-tablet '
 				],
 				[
 					'label' => 'Setting Outlet Apps',
-					'required_features' => [],
+					'required_features' => [273],
 					'url' => 'setting/outletapp',
 					'icon' => 'fa fa-tablet'
 				],
 				[
 					'label' => 'Setting Outlet Apps',
-					'required_features' => [],
+					'required_features' => [273],
 					'url' => 'setting/outletapp',
 					'icon' => 'fa fa-tablet'
 				],
 				[
 					'label' => 'Setting Mitra Apps',
-					'required_features' => [],
+					'required_features' => [346],
 					'url' => 'setting/mitra-apps',
 					'icon' => 'fa fa-tablet'
 				],
 				[
 					'label' => 'Setting Phone Number',
-					'required_features' => [],
+					'required_features' => [210],
+					'required_configs' => [94],
 					'url' => 'setting/phone',
 					'icon' => 'fa fa-phone'
 				],
@@ -2806,17 +2877,17 @@ return [
 					'children' => [
 						[
 							'label' => 'Content Header And Footer Partner',
-							'required_features' => [],
+							'required_features' => [338],
 							'url' => 'businessdev/setting/partner'
 						],
 						[
 							'label' => 'Content Header And Footer Location',
-							'required_features' => [],
+							'required_features' => [342],
 							'url' => 'businessdev/setting/location'
 						],
 						[
 							'label' => 'Content Header And Footer Hair Stylist',
-							'required_features' => [],
+							'required_features' => [347],
 							'url' => 'businessdev/setting/hairstylist'
 						],
 					],
@@ -2824,7 +2895,7 @@ return [
 				],
 				[
 					'label' => 'Text Menu',
-					'required_features' => [],
+					'required_features' => [160],
 					'url' => 'setting/text_menu',
 					'icon' => 'fa fa-bars'
 				],
@@ -2835,57 +2906,58 @@ return [
 					'children' => [
 						[
 							'label' => 'Fraud Detection Settings',
-							'required_features' => [],
+							'required_features' => [192],
 							'url' => 'setting-fraud-detection'
 						],
 						[
 							'label' => 'Report Fraud Device',
-							'required_features' => [],
+							'required_features' => [193],
 							'url' => 'fraud-detection/report/device'
 						],
 						[
 							'label' => 'Report Fraud Transaction Day',
-							'required_features' => [],
+							'required_features' => [194],
 							'url' => 'fraud-detection/report/transaction-day'
 						],
 						[
 							'label' => 'Report Fraud Transaction Week',
-							'required_features' => [],
+							'required_features' => [195],
 							'url' => 'fraud-detection/report/transaction-week'
 						],
 						[
 							'label' => 'Report Fraud Transaction in Between',
-							'required_features' => [],
+							'required_features' => [215],
 							'url' => 'fraud-detection/report/transaction-between'
 						],
 						[
 							'label' => 'Report Fraud Referral User',
-							'required_features' => [],
+							'required_features' => [217],
+							'required_configs' => [115],
 							'url' => 'fraud-detection/report/referral-user'
 						],
 						[
 							'label' => 'Report Fraud Referral',
-							'required_features' => [],
+							'required_features' => [218],
 							'url' => 'fraud-detection/report/referral'
 						],
 						[
 							'label' => 'Report Fraud Promo Code',
-							'required_features' => [],
+							'required_features' => [219],
 							'url' => 'fraud-detection/report/promo-code'
 						],
 						[
 							'label' => 'List User Fraud',
-							'required_features' => [],
+							'required_features' => [196],
 							'url' => 'fraud-detection/suspend-user'
-						],
-						[
-							'label' => 'Version Control',
-							'required_features' => [],
-							'url' => 'version',
-							'icon' => 'fa fa-info-circle'
 						],
 					],
 					'icon' => 'fa fa-exclamation'
+				],
+				[
+					'label' => 'Version Control',
+					'required_features' => [471],
+					'url' => 'version',
+					'icon' => 'fa fa-info-circle'
 				],
 				[
 					'label' => 'Custom Page',
@@ -2894,12 +2966,12 @@ return [
 					'children' => [
 						[
 							'label' => 'New Custom Page',
-							'required_features' => [],
+							'required_features' => [150],
 							'url' => 'custom-page/create'
 						],
 						[
 							'label' => 'Custom Page List',
-							'required_features' => [],
+							'required_features' => [149,151,152,153],
 							'url' => 'custom-page'
 						],
 					],
@@ -2908,16 +2980,17 @@ return [
 				[
 					'label' => 'Intro Apps',
 					'required_features' => [],
+					'required_configs' => [108],
 					'type' => 'tree',
 					'children' => [
 						[
 							'label' => 'Intro First Install',
-							'required_features' => [],
+							'required_features' => [150],
 							'url' => 'setting/intro/first'
 						],
 						[
 							'label' => 'Tutorial In Home',
-							'required_features' => [],
+							'required_features' => [149, 151, 152, 153],
 							'url' => 'setting/intro/home'
 						],
 					],
@@ -2925,31 +2998,31 @@ return [
 				],
 				[
 					'label' => 'Confirmation Messages',
-					'required_features' => [],
+					'required_features' => [162,163],
 					'url' => 'setting/confirmation-messages',
 					'icon' => 'icon-speech'
 				],
 				[
 					'label' => 'Maintenance Mode',
-					'required_features' => [],
+					'required_features' => [220],
 					'url' => 'setting/maintenance-mode',
 					'icon' => 'icon-wrench'
 				],
 				[
 					'label' => 'Time Expired OTP and Email',
-					'required_features' => [],
+					'required_features' => [251,252],
 					'url' => 'setting/time-expired',
 					'icon' => 'fa fa-envelope'
 				],
 				[
 					'label' => 'Confirmation Letter Logo',
-					'required_features' => [],
+					'required_features' => [338],
 					'url' => 'setting/logo-confir',
 					'icon' => 'fa fa-image'
 				],
 				[
 					'label' => 'Form Survey',
-					'required_features' => [],
+					'required_features' => [339,340],
 					'type' => 'tree',
 					'children' => [
 						[
@@ -2967,19 +3040,19 @@ return [
 				],
 				[
 					'label' => 'Icount Setting',
-					'required_features' => [],
+					'required_features' => [392],
 					'url' => 'setting/setting-icount',
 					'icon' => 'fa fa-gear'
 				],
 				[
 					'label' => 'Setting Global Commission',
-					'required_features' => [],
+					'required_features' => [423],
 					'url' => 'setting/setting-global-commission',
 					'icon' => 'fa fa-money'
 				],
 				[
 					'label' => 'Setting Attendances Date',
-					'required_features' => [],
+					'required_features' => [427],
 					'url' => 'setting/setting-attendances-date',
 					'icon' => 'fa fa-location-arrow'
 				],
@@ -2991,7 +3064,7 @@ return [
 			'children' => [
 				[
 					'label' => 'About Us',
-					'required_features' => [],
+					'required_features' => [85],
 					'url' => 'setting/about',
 					'icon' => 'icon-info'
 				],
@@ -3002,17 +3075,17 @@ return [
 					'children' => [
 						[
 							'label' => 'New FAQ',
-							'required_features' => [],
+							'required_features' => [89],
 							'url' => 'setting/faq/create'
 						],
 						[
 							'label' => 'List FAQ',
-							'required_features' => [],
+							'required_features' => [88],
 							'url' => 'setting/faq'
 						],
 						[
 							'label' => 'Sorting FAQ List',
-							'required_features' => [],
+							'required_features' => [88],
 							'url' => 'setting/faq/sort'
 						],
 					],
@@ -3020,25 +3093,26 @@ return [
 				],
 				[
 					'label' => 'Ketentuan Layanan',
-					'required_features' => [],
+					'required_features' => [86],
 					'url' => 'setting/tos',
 					'icon' => 'icon-note'
 				],
 				[
 					'label' => 'Privacy Policy',
-					'required_features' => [],
+					'required_features' => [367],
 					'url' => 'setting/privacypolicy',
 					'icon' => 'fa fa-lock'
 				],
 				[
 					'label' => 'Delivery Services',
-					'required_features' => [],
+					'required_features' => [154],
+					'required_configs' => [96],
 					'url' => 'delivery-service',
 					'icon' => 'icon-social-dropbox'
 				],
 				[
 					'label' => 'Help Desk',
-					'required_features' => [],
+					'required_features' => [87],
 					'url' => 'enquiries/create',
 					'icon' => 'fa fa-phone'
 				],
@@ -3047,6 +3121,7 @@ return [
 		[
 			'type' => 'group',
 			'label' => 'Disburse',
+			'required_features' => [234],
 			'children' => [
 				[
 					'label' => 'Dashboard',
@@ -3068,7 +3143,7 @@ return [
 				],
 				[
 					'label' => 'List Fail',
-					'required_features' => [],
+					'required_features' => [235],
 					'url' => 'disburse/list/fail-action',
 					'icon' => 'fa fa-list'
 				],
@@ -3080,7 +3155,7 @@ return [
 				],
 				[
 					'label' => 'Settings',
-					'required_features' => [],
+					'required_features' => [235],
 					'type' => 'tree',
 					'children' => [
 						[
@@ -3116,6 +3191,7 @@ return [
 		[
 			'type' => 'group',
 			'label' => 'Report',
+			'required_features' => [125, 126, 127, 128, 129, 271],
 			'children' => [
 				[
 					'label' => 'Report',
@@ -3131,31 +3207,31 @@ return [
 				],
 				[
 					'label' => 'Global',
-					'required_features' => [],
+					'required_features' => [125],
 					'url' => 'report/global',
 					'icon' => 'icon-graph'
 				],
 				[
 					'label' => 'Customer',
-					'required_features' => [],
+					'required_features' => [126],
 					'url' => 'report/customer/summary',
 					'icon' => 'icon-graph'
 				],
 				[
 					'label' => 'Product',
-					'required_features' => [],
+					'required_features' => [127],
 					'url' => 'report/product',
 					'icon' => 'icon-graph'
 				],
 				[
 					'label' => 'Outlet',
-					'required_features' => [],
+					'required_features' => [128],
 					'url' => 'report/outlet',
 					'icon' => 'icon-graph'
 				],
 				[
 					'label' => 'Shift',
-					'required_features' => [],
+					'required_features' => [271],
 					'url' => 'report/shift/summary',
 					'icon' => 'icon-graph'
 				]
