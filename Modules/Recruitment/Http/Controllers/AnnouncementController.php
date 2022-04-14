@@ -53,7 +53,7 @@ class AnnouncementController extends Controller
             return [$item['id_outlet'], $item['outlet_code'].' - '.$item['outlet_name']];
         }, MyHelper::get('outlet/be/list')['result'] ?? []);
 
-		return view('recruitment::employee.announcement.create', $data);
+		return view('recruitment::hair_stylist.announcement.create', $data);
 	}
 
 	public function list(Request $request){

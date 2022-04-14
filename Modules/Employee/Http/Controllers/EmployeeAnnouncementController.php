@@ -176,4 +176,13 @@ class EmployeeAnnouncementController extends Controller
 
 		return view('employee::announcement.create', $data);
 	}
+
+    public function delete($id_employee_announcement){
+		$delete = MyHelper::post('employee/announcement/delete', ['id_employee_announcement' => $id_employee_announcement]);
+		if($delete['status'] == 'success'){
+			return back()->withSuccess($delete['result']);
+		} else{
+			return back()->withErrors($delete['messages']);
+		}
+    }
 }
