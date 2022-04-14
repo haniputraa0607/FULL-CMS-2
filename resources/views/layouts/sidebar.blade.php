@@ -325,7 +325,7 @@
                             @endif
                         </ul>
                     </li>
-					@if(MyHelper::hasAccess([448,449,450,451,452], $grantedFeature))
+					@if(MyHelper::hasAccess([464,465,466,467,468], $grantedFeature))
 					<li class="nav-item {{($submenu_active == 'employee-announcement') ? 'active open' : ''}}">
 						<a href="javascript:;" class="nav-link nav-toggle">
 							<span class="title">Announcement</span>

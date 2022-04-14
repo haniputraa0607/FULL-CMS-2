@@ -150,10 +150,6 @@ class EmployeeAnnouncementController extends Controller
 		$action = MyHelper::post('employee/announcement/detail', ['id_employee_announcement' => $id_employee_announcement]);
 
 		$data['ann'] = $action['result'] ?? [];
-		$data['brands'] = array_map(function($item) {
-            return [$item['id_brand'], $item['name_brand']];
-        }, MyHelper::get('brand/be/list')['result'] ?? []);
-
 		$data['provinces'] = array_map(function($item) {
             return [$item['id_province'], $item['province_name']];
         }, MyHelper::get('province/list')['result'] ?? []);
@@ -164,16 +160,20 @@ class EmployeeAnnouncementController extends Controller
 
         $data['outlets'] = array_map(function($item) {
             return [$item['id_outlet'], $item['outlet_code'].' - '.$item['outlet_name']];
-        }, MyHelper::get('outlet/be/list')['result'] ?? []);
+        }, MyHelper::post('outlet/be/list', ['office_only' => true])['result'] ?? []);
+
+        $data['roles'] = array_map(function($item) {
+            return [$item['id_role'], $item['role_name']];
+        }, MyHelper::get('employee/office-hours/assign')['result'] ?? []);
 
         $data['rule'] = [];
-        foreach ($data['ann']['hairstylist_announcement_rule_parents'][0]['rules'] ?? [] as $key => $val) {
-        	if (in_array($val['subject'], ['id_brand','id_province','id_city','id_outlet','hairstylist_level'])) {
+        foreach ($data['ann']['employee_announcement_rule_parents'][0]['rules'] ?? [] as $key => $val) {
+        	if (in_array($val['subject'], ['id_province','id_city','id_outlet','id_role'])) {
         		$data['rule'][] = [$val['subject'], $val['parameter']];
         	}
         }
-        $data['operator'] = $data['ann']['hairstylist_announcement_rule_parents'][0]['rule'] ?? 'and';
+        $data['operator'] = $data['ann']['employee_announcement_rule_parents'][0]['rule'] ?? 'and';
 
-		return view('recruitment::hair_stylist.announcement.create', $data);
+		return view('employee::announcement.create', $data);
 	}
 }

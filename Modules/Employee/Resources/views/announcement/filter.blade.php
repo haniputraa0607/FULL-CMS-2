@@ -185,7 +185,7 @@
 
                 <div class="form-action col-md-12" style="margin-top:15px">
                     <div class="col-md-5">
-                        <select name="rule" class="form-control input-sm " placeholder="Search Rule" required>
+                        <select name="rule" class="form-control input-sm select2" placeholder="Search Rule" required>
                             <option value="and" @if (isset($rule) && $rule == 'and') selected @endif>Valid when all conditions are met</option>
                             <option value="or" @if (isset($rule) && $rule == 'or') selected @endif>Valid when minimum one condition is met</option>
                         </select>

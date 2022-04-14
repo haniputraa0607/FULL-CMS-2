@@ -93,6 +93,8 @@
 		height: 120
 	  });
 	});
+
+    $('.select2').select2();
 	$('#checkBtn').click(function() {
       checked = $("input[type=checkbox]:checked").length;
       if(!checked) {
