@@ -190,6 +190,7 @@ $grantedFeature     = session('granted_features');
 	                    </div>
 					</div>
 					@endif
+					@if(MyHelper::hasAccess([129], $configs))
 					<div class="form-group row">
 						<label class="col-md-3 control-label text-left" style="text-align: left;">Subscription
 	                        <span class="required" aria-required="true"> * </span>
@@ -204,6 +205,8 @@ $grantedFeature     = session('granted_features');
 	                        </div>
 	                    </div>
 					</div>
+					@endif
+					@if(MyHelper::hasAccess([130], $configs))
 					<div class="form-group row">
 						<label class="col-md-3 control-label text-left" style="text-align: left;">Bundling
 	                        <span class="required" aria-required="true"> * </span>
@@ -218,6 +221,7 @@ $grantedFeature     = session('granted_features');
 	                        </div>
 	                    </div>
 					</div>
+					@endif
 					<input type="hidden" name="update" value="1">
 					
 				</div>
