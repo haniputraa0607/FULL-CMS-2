@@ -219,7 +219,7 @@ return [
 						[
 							'icon' => 'fa fa-envelope',
 							'label' => '[Email] ' . env('POINT_NAME', 'Points') . ' Reset',
-							'url' => 'user/autoresponse/complete-user-profile-point-bonus',
+							'url' => 'autoresponse/balance-resets/report-point-reset',
 						],
 					],
 				],
