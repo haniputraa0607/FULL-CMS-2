@@ -71,7 +71,7 @@ return [
 								],
 								[
 									'label' => 'Departement List',
-									'url' => 'user/departement',
+									'url' => 'user/department',
 									'required_features' => [328,329,330,331,332],
 								],
 								[
