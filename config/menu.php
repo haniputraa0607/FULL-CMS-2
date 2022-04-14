@@ -56,7 +56,7 @@ return [
 						],
 						[
 							'label' => 'User List',
-							'url' => 'user/list',
+							'url' => 'user',
 							'required_features' => [2],
 							'active' => '\View::shared("submenu_active") == "user-list"'
 						],
