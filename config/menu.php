@@ -1221,12 +1221,12 @@ return [
 			'children' => [
 				[
 					'label' => 'Salary Incentive Default HS',
-					'required_features' => [394],
+					'required_features' => [425],
 					'url' => 'recruitment/hair-stylist/default/insentif'
 				],
 				[
 					'label' => 'Salary Cuts Default HS',
-					'required_features' => [393,378],
+					'required_features' => [426],
 					'url' => 'recruitment/hair-stylist/default/potongan'
 				],
 			],
@@ -1385,16 +1385,16 @@ return [
 						],
 						[
 							'type' => 'group',
-							'required_features' => [469],
+							'required_features' => [469,397,407],
 							'children' => [
 								[
 									'label' => 'Manage Outlet Service',
-									'required_features' => [],
+									'required_features' => [397,469],
 									'url' => 'transaction/outlet-service/manage'
 								],
 								[
 									'label' => 'Manage Home Service',
-									'required_features' => [],
+									'required_features' => [407,469],
 									'url' => 'transaction/home-service/manage'
 								],
 							],
