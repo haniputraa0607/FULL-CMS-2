@@ -1472,6 +1472,7 @@ return [
 				[
 					'type' => 'group',
 					'required_configs' => [40,91],
+					'required_features' => [120,122],
 					'children' => [
 						[
 							'label' => '[Response] Create Request Product',
@@ -1527,6 +1528,7 @@ return [
 				[
 					'type' => 'group',
 					'required_configs' => [40,91],
+					'required_features' => [120,122],
 					'children' => [
 						[
 							'label' => '[Response] Create Delivery Product',
@@ -2356,16 +2358,22 @@ return [
 							'url' => 'deals'
 						],
 						[
-							'label' => 'New Point Deals',
-							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "deals-point-create"',
-							'url' => 'deals-point/create'
-						],
-						[
-							'label' => 'Deals Point List',
-							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "deals-point-list"',
-							'url' => 'deals-point'
+							'type' => 'group',
+							'required_configs' => [18],
+							'children' => [
+								[
+									'label' => 'New Point Deals',
+									'required_features' => [74],
+									'active' => '\View::shared("submenu_active") == "deals-point-create"',
+									'url' => 'deals-point/create'
+								],
+								[
+									'label' => 'Deals Point List',
+									'required_features' => [72],
+									'active' => '\View::shared("submenu_active") == "deals-point-list"',
+									'url' => 'deals-point'
+								],
+							],
 						],
 						[
 							'type' => 'group',
@@ -2572,7 +2580,7 @@ return [
 						],
 						[
 							'type' => 'group',
-							'required_features' => [],
+							'required_features' => [120,122],
 							'children' => [
 								[
 									'label' => '[Forward] Create Promo Campaign',
