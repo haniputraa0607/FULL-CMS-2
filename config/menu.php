@@ -192,16 +192,15 @@ return [
 					'label' => 'Profile Completion',
 					'type' => 'tree',
 					'icon' => 'icon-users',
+					'required_features' => [148],
 					'children' => [
 						[
 							'label' => 'User Profile Completion',
 							'url' => 'setting/complete-profile',
-							'required_features' => [148],
 						],
 						[
 							'label' => '[Response] User Profile Completion Point Bonus',
 							'url' => 'user/autoresponse/complete-user-profile-point-bonus',
-							'required_features' => [120],
 						],
 					],
 				],
@@ -2064,34 +2063,40 @@ return [
 							'url' => 'deals-point'
 						],
 						[
-							'label' => '[Response] Claim Free Deals Success',
-							'required_features' => [],
-							'url' => 'transaction/autoresponse/claim-free-deals-success',
-						],
-						[
-							'label' => '[Response] Claim Paid Deals Success',
-							'required_features' => [],
-							'url' => 'transaction/autoresponse/claim-paid-deals-success',
-						],
-						[
-							'label' => '[Response] Claim Point Deals Success',
-							'required_features' => [],
-							'url' => 'transaction/autoresponse/claim-point-deals-success',
-						],
-						[
-							'label' => '[Response] Redeems Deals',
-							'required_features' => [],
-							'url' => 'transaction/autoresponse/redeem-voucher-success',
-						],
-						[
-							'label' => '[Forward] Create Deals',
-							'required_features' => [],
-							'url' => 'autoresponse/deals/create-deals'
-						],
-						[
-							'label' => '[Forward] Update Deals',
-							'required_features' => [],
-							'url' => 'autoresponse/deals/update-deals'
+							'type' => 'group',
+							'required_features' => 95,
+							'children' => [
+								[
+									'label' => '[Response] Claim Free Deals Success',
+									'required_features' => [],
+									'url' => 'transaction/autoresponse/claim-free-deals-success',
+								],
+								[
+									'label' => '[Response] Claim Paid Deals Success',
+									'required_features' => [],
+									'url' => 'transaction/autoresponse/claim-paid-deals-success',
+								],
+								[
+									'label' => '[Response] Claim Point Deals Success',
+									'required_features' => [],
+									'url' => 'transaction/autoresponse/claim-point-deals-success',
+								],
+								[
+									'label' => '[Response] Redeems Deals',
+									'required_features' => [],
+									'url' => 'transaction/autoresponse/redeem-voucher-success',
+								],
+								[
+									'label' => '[Forward] Create Deals',
+									'required_features' => [],
+									'url' => 'autoresponse/deals/create-deals'
+								],
+								[
+									'label' => '[Forward] Update Deals',
+									'required_features' => [],
+									'url' => 'autoresponse/deals/update-deals'
+								],
+							],
 						],
 					],
 					'icon' => 'fa fa-gift'
@@ -2377,7 +2382,7 @@ return [
 						],
 						[
 							'type' => 'group',
-							'required_features' => [97],
+							'required_features' => [178],
 							'required_configs' => [133],
 							'children' => [
 								[
@@ -2979,18 +2984,16 @@ return [
 				],
 				[
 					'label' => 'Intro Apps',
-					'required_features' => [],
+					'required_features' => [168],
 					'required_configs' => [108],
 					'type' => 'tree',
 					'children' => [
 						[
 							'label' => 'Intro First Install',
-							'required_features' => [150],
 							'url' => 'setting/intro/first'
 						],
 						[
 							'label' => 'Tutorial In Home',
-							'required_features' => [149, 151, 152, 153],
 							'url' => 'setting/intro/home'
 						],
 					],
