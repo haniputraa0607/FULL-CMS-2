@@ -1639,7 +1639,7 @@ return [
 				],
 				[
 					'label' => 'Delivery Settings',
-					'required_features' => [250],
+					'required_features' => [320],
 					'type' => 'tree',
 					'children' => [
 						[
@@ -2778,7 +2778,7 @@ return [
 						],
 						[
 							'label' => 'List Point Injection',
-							'required_features' => [205,206,208,209],
+							'required_features' => [205,206,208,209,245],
 							'url' => 'point-injection'
 						],
 					],
@@ -2846,13 +2846,14 @@ return [
 			'children' => [
 				[
 					'label' => 'Mobile Apps Home',
-					'required_features' => [15, 16, 17, 18, 144, 145, 146, 147, 241],
+					'required_features' => [15, 16, 17, 18, 144, 145, 146, 147, 241, 246],
 					'url' => 'setting/home',
 					'icon' => 'icon-screen-tablet '
 				],
 				[
 					'label' => 'Setting Outlet Apps',
 					'required_features' => [273],
+					'required_configs' => [138],
 					'url' => 'setting/outletapp',
 					'icon' => 'fa fa-tablet'
 				],
@@ -3118,35 +3119,35 @@ return [
 		[
 			'type' => 'group',
 			'label' => 'Disburse',
-			'required_features' => [234],
+			'required_features' => [],
 			'children' => [
 				[
 					'label' => 'Dashboard',
-					'required_features' => [],
+					'required_features' => [234],
 					'url' => 'disburse/dashboard',
 					'icon' => 'fa fa-th'
 				],
 				[
 					'label' => 'List All',
-					'required_features' => [],
+					'required_features' => [234],
 					'url' => 'disburse/list/all',
 					'icon' => 'fa fa-list'
 				],
 				[
 					'label' => 'List Success',
-					'required_features' => [],
+					'required_features' => [234],
 					'url' => 'disburse/list/success',
 					'icon' => 'fa fa-list'
 				],
 				[
 					'label' => 'List Fail',
-					'required_features' => [235],
+					'required_features' => [234],
 					'url' => 'disburse/list/fail-action',
 					'icon' => 'fa fa-list'
 				],
 				[
 					'label' => 'List Transaction Online',
-					'required_features' => [],
+					'required_features' => [234],
 					'url' => 'disburse/list/trx',
 					'icon' => 'fa fa-list'
 				],
