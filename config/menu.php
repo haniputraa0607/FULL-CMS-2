@@ -1585,25 +1585,25 @@ return [
 								[
 									'label' => 'Transaction Outlet Service',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("submenu_active") == "transaction-outlet-service"',
 									'url' => 'transaction/outlet-service'
 								],
 								[
 									'label' => 'Transaction Home Service',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("submenu_active") == "transaction-home-service"',
 									'url' => 'transaction/home-service'
 								],
 								[
 									'label' => 'Transaction Shop',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("submenu_active") == "transaction-shop"',
 									'url' => 'transaction/shop'
 								],
 								[
 									'label' => 'Transaction Academy',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("submenu_active") == "transaction-academy"',
 									'url' => 'transaction/academy'
 								],
 							],
@@ -1615,13 +1615,13 @@ return [
 								[
 									'label' => 'Manage Outlet Service',
 									'required_features' => [397,469],
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("submenu_active") == "manage-outlet-service"',
 									'url' => 'transaction/outlet-service/manage'
 								],
 								[
 									'label' => 'Manage Home Service',
 									'required_features' => [407,469],
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("submenu_active") == "manage-home-service"',
 									'url' => 'transaction/home-service/manage'
 								],
 							],
@@ -1633,73 +1633,61 @@ return [
 								[
 									'label' => '[Response] Transaction Success',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'transaction/autoresponse/transaction-success'
 								],
 								[
 									'label' => '[Response] Transaction Expired',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'transaction/autoresponse/transaction-expired'
 								],
 								[
 									'label' => '[Response] Order Accepted',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'transaction/autoresponse/order-accepted'
 								],
 								[
 									'label' => '[Response] Order Ready',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'transaction/autoresponse/order-ready'
 								],
 								[
 									'label' => '[Response] Order Taken',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'transaction/autoresponse/order-taken'
 								],
 								[
 									'label' => '[Response] Transaction Point Achievement',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'transaction/autoresponse/transaction-point-achievement'
 								],
 								[
 									'label' => '[Response] Transaction Failed Point Refund',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'transaction/autoresponse/transaction-failed-point-refund'
 								],
 								[
 									'label' => '[Response] Rejected Order Point Refund',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'transaction/autoresponse/rejected-order-point-refund'
 								],
 								[
 									'label' => '[Response] Transaction Rejected',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'autoresponse/transaction/transaction-rejected'
 								],
 								[
 									'label' => '[Response] Transaction Completed',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'autoresponse/transaction/transaction-completed'
 								],
 								[
 									'label' => '[Response] Delivery Status Update',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'transaction/autoresponse/delivery-status-update'
 								],
 								[
 									'label' => '[Forward] Delivery Rejected',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'autoresponse/transaction/delivery-rejected'
 								],
 								[
@@ -1710,49 +1698,41 @@ return [
 										[
 											'label' => '[Response] Transaction Service Completed',
 											'required_features' => [],
-											'active' => '\View::shared("submenu_active") == "home"',
 											'url' => 'autoresponse/transaction-outlet-service-autoresponse/transaction-service-completed'
 										],
 										[
 											'label' => '[Response] Transaction Product Taken',
 											'required_features' => [],
-											'active' => '\View::shared("submenu_active") == "home"',
 											'url' => 'autoresponse/transaction-outlet-service-autoresponse/transaction-product-taken'
 										],
 										[
 											'label' => '[Response] HS - Transaction Service Created',
 											'required_features' => [],
-											'active' => '\View::shared("submenu_active") == "home"',
 											'url' => 'autoresponse/transaction-outlet-service-autoresponse/mitra-hs---transaction-service-created'
 										],
 										[
 											'label' => '[Response] HS - Transaction Service Rejected',
 											'required_features' => [],
-											'active' => '\View::shared("submenu_active") == "home"',
 											'url' => 'autoresponse/transaction-outlet-service-autoresponse/mitra-hs---transaction-service-rejected'
 										],
 										[
 											'label' => '[Response] HS - Transaction Service Completed',
 											'required_features' => [],
-											'active' => '\View::shared("submenu_active") == "home"',
 											'url' => 'autoresponse/transaction-outlet-service-autoresponse/mitra-hs---transaction-service-completed'
 										],
 										[
 											'label' => '[Response] SPV - Transaction Product Created',
 											'required_features' => [],
-											'active' => '\View::shared("submenu_active") == "home"',
 											'url' => 'autoresponse/transaction-outlet-service-autoresponse/mitra-spv---transaction-product-created'
 										],
 										[
 											'label' => '[Response] SPV - Transaction Product Rejected',
 											'required_features' => [],
-											'active' => '\View::shared("submenu_active") == "home"',
 											'url' => 'autoresponse/transaction-outlet-service-autoresponse/mitra-spv---transaction-product-rejected'
 										],
 										[
 											'label' => '[Response] SPV - Transaction Product Taken',
 											'required_features' => [],
-											'active' => '\View::shared("submenu_active") == "home"',
 											'url' => 'autoresponse/transaction-outlet-service-autoresponse/mitra-spv---transaction-product-taken'
 										],
 									],
@@ -1765,7 +1745,7 @@ return [
 				[
 					'label' => 'Manual Complete Payment',
 					'required_features' => [469],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("submenu_active") == "transaction-complete-payment"',
 					'url' => 'transaction/complete-payment',
 					'icon' => 'fa fa-check'
 				],
@@ -1777,25 +1757,22 @@ return [
 						[
 							'label' => '[Response] Order Taken With Code',
 							'required_features' => [318],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'transaction/autoresponse/order-taken-with-code'
 						],
 						[
 							'label' => '[Response] Order Taken Delivery With Code',
 							'required_features' => [318],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'transaction/autoresponse/order-taken-delivery-with-code'
 						],
 						[
 							'label' => 'New Code',
 							'required_features' => [317],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'response-with-code/create'
 						],
 						[
 							'label' => 'Code List',
 							'required_features' => [316,318,319],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "response-with-code-list"',
 							'url' => 'response-with-code'
 						],
 					],
@@ -1804,7 +1781,7 @@ return [
 				[
 					'label' => 'Failed Void Payment',
 					'required_features' => [299],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("menu_active") == "failed-void-payment"',
 					'url' => 'transaction/failed-void-payment',
 					'icon' => 'fa fa-exclamation-triangle'
 				],
@@ -1812,7 +1789,7 @@ return [
 					'label' => 'Point Log History',
 					'required_features' => [71],
 					'required_configs' => [18],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("menu_active") == "point"',
 					'url' => 'transaction/point',
 					'icon' => 'fa fa-history'
 				],
@@ -1820,7 +1797,7 @@ return [
 					'label' => 'Points ' . env('POINT_NAME', 'Points') . ' History',
 					'required_features' => [71],
 					'required_configs' => [19],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("menu_active") == "balance"',
 					'url' => 'transaction/balance',
 					'icon' => 'fa fa-clock-o'
 				],
@@ -1832,13 +1809,13 @@ return [
 						[
 							'label' => 'Chart Of Account',
 							'required_features' => [400],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "chart-of-account"',
 							'url' => 'chartofaccount'
 						],
 						[
 							'label' => 'Calculation Rule',
 							'required_features' => [58, 59, 60, 62],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "transaction-rule"',
 							'url' => 'transaction/setting/rule'
 						],
 						[
@@ -1846,58 +1823,58 @@ return [
 							'required_features' => [61,63],
 							'required_configs' => [13,14],
 							'required_configs_rule' => 'and',
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "internal-courier"',
 							'url' => 'transaction/internalcourier'
 						],
 						[
 							'label' => 'Global ' . env('POINT_NAME', 'Points') . ' Setting',
 							'required_features' => [58, 59, 60, 62],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "transaction-setting"',
 							'url' => 'transaction/setting/cashback'
 						],
 						[
 							'label' => 'Setting Free Delivery',
 							'required_features' => [],
 							'required_configs' => [79],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "free-delivery"',
 							'url' => 'transaction/setting/free-delivery'
 						],
 						[
 							'label' => 'Credit Card Payment Gateway',
 							'required_features' => [],
 							'required_configs' => [100],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "credit_card_payment_gateway"',
 							'url' => 'setting/credit_card_payment_gateway'
 						],
 						[
 							'label' => 'Setting Payment Method',
 							'required_features' => [250],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "setting-payment-method"',
 							'url' => 'transaction/setting/available-payment'
 						],
 						[
 							'label' => 'Setting Timer Payment Gateway',
 							'required_features' => [272],
 							'required_configs' => [120],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "setting-timer-payment-gateway"',
 							'url' => 'transaction/setting/timer-payment-gateway'
 						],
 						[
 							'label' => 'Setting Refund Reject Order',
 							'required_features' => [250],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "refund-reject-order"',
 							'url' => 'transaction/setting/refund-reject-order'
 						],
 						[
 							'label' => 'Setting Auto Reject Time',
 							'required_features' => [262],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "auto-reject-time"',
 							'url' => 'transaction/setting/auto-reject'
 						],
 						[
 							'label' => 'Transaction Messages',
 							'required_features' => [321],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "transaction-messages"',
 							'url' => 'transaction/setting/transaction-messages'
 						],
 					],
@@ -1911,39 +1888,39 @@ return [
 						[
 							'label' => 'Available Delivery',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "delivery-setting-available"',
 							'url' => 'transaction/setting/available-delivery'
 						],
 						[
 							'label' => 'Upload Logo Delivery',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "delivery-setting-upload-image"',
 							'url' => 'transaction/setting/delivery-upload-image'
 						],
 						[
 							'label' => 'Outlet Availability',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "delivery-setting-outlet"',
 							'url' => 'transaction/setting/delivery-outlet'
 						],
 						[
 							'label' => 'Import/Export Outlet Availability',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "delivery-setting-outlet-import"',
 							'url' => 'transaction/setting/delivery-outlet/import'
 						],
 						[
 							'label' => 'Setting Package Detail Delivery',
 							'required_features' => [],
 							'required_configs' => [13],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "delivery-setting-package-detail"',
 							'url' => 'transaction/setting/package-detail-delivery'
 						],
 						[
 							'label' => '[Forward] WeHelpYou Low Balance',
 							'required_features' => [],
 							'required_configs' => [137],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "forward-wehelpyou"',
 							'url' => 'transaction/setting/forward-why-low-balance'
 						],
 					],
@@ -1958,25 +1935,25 @@ return [
 						[
 							'label' => 'New Category',
 							'required_features' => [257],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "new-category"',
 							'url' => 'payment-method-category/create'
 						],
 						[
 							'label' => 'Category List',
 							'required_features' => [258,259,260],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "category-list"',
 							'url' => 'payment-method-category'
 						],
 						[
 							'label' => 'New Payment Method',
 							'required_features' => [253],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "new-payment-method"',
 							'url' => 'payment-method/create'
 						],
 						[
 							'label' => 'Payment Method List',
 							'required_features' => [254,255,256],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "payment-method-list"',
 							'url' => 'payment-method'
 						],
 					],
@@ -1985,28 +1962,28 @@ return [
 				[
 					'label' => 'Outlet Product Price',
 					'required_features' => [62],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("menu_active") == "product-price"',
 					'url' => 'product/price',
 					'icon' => 'fa fa-tag'
 				],
 				[
 					'label' => 'Outlet Different Price',
 					'required_features' => [62],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("menu_active") == "outlet-different-price"',
 					'url' => 'outlet/different-price',
 					'icon' => 'fa fa-check'
 				],
 				[
 					'label' => 'Default Maximum Order',
 					'required_features' => [197,198],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("menu_active") == "default-max-order"',
 					'url' => 'setting/max_order',
 					'icon' => 'fa fa-shopping-cart'
 				],
 				[
 					'label' => 'Outlet Maximum Order',
 					'required_features' => [192,198],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("menu_active") == "max-order"',
 					'url' => 'outlet/max-order',
 					'icon' => 'fa fa-shopping-cart'
 				],
@@ -2019,19 +1996,19 @@ return [
 						[
 							'label' => 'New Payment Method',
 							'required_features' => [66],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "manual-payment-method-new"',
 							'url' => 'transaction/manualpayment/create'
 						],
 						[
 							'label' => 'Payment Method List',
 							'required_features' => [64],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "manual-payment-method-list"',
 							'url' => 'transaction/manualpayment'
 						],
 						[
 							'label' => 'Manual Payment Transaction',
 							'required_features' => [64],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "manual-payment-list"',
 							'url' => 'transaction/manualpayment/list'
 						],
 						[
@@ -2041,19 +2018,19 @@ return [
 							'children' => [
 								[
 									'label' => 'Manual Payment Deals',
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("submenu_active") == "manual-payment-deals"',
 									'url' => 'deals/manualpayment/list'
 								],
 								[
 									'label' => 'Bank List',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("submenu_active") == "bank"',
 									'url' => 'transaction/manualpayment/banks'
 								],
 								[
 									'label' => 'Payment Method List',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("submenu_active") == "bank-method"',
 									'url' => 'transaction/manualpayment/banks/method'
 								],
 							]
@@ -2064,14 +2041,14 @@ return [
 				[
 					'label' => 'Report GoSend',
 					'required_features' => [249],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("menu_active") == "report-gosend"',
 					'url' => 'report/gosend',
 					'icon' => 'fa fa-truck'
 				],
 				[
 					'label' => 'Report Wehelpyou',
 					'required_features' => [322],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("menu_active") == "report-wehelpyou"',
 					'url' => 'report/wehelpyou',
 					'icon' => 'fa fa-truck'
 				],
@@ -2083,15 +2060,33 @@ return [
 						[
 							'label' => 'Midtrans',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "report-payment-midtrans"',
 							'url' => 'report/payment/midtrans'
 						],
 						[
 							'label' => 'Xendit',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "report-payment-xendit"',
 							'url' => 'report/payment/xendit'
 						],
+						// [
+						// 	'label' => 'Ipay88',
+						// 	'required_features' => [],
+						// 	'active' => '\View::shared("submenu_active") == "report-payment-ipay88"',
+						// 	'url' => 'report/payment/ipay88'
+						// ],
+						// [
+						// 	'label' => 'ShopeePay',
+						// 	'required_features' => [],
+						// 	'active' => '\View::shared("submenu_active") == "report-payment-shopee"',
+						// 	'url' => 'report/payment/shopee'
+						// ],
+						// [
+						// 	'label' => 'List Export',
+						// 	'required_features' => [],
+						// 	'active' => '\View::shared("submenu_active") == "report-payment-export"',
+						// 	'url' => 'report/payment/list-export'
+						// ],
 					],
 					'icon' => 'fa fa-credit-card'
 				],
@@ -2104,37 +2099,35 @@ return [
 						[
 							'label' => 'User Rating List',
 							'required_features' => [356],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "user-rating-list"',
 							'url' => 'user-rating'
 						],
 						[
 							'label' => 'User Rating Setting',
 							'required_features' => [357],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "rating-setting"',
 							'url' => 'user-rating/setting'
 						],
 						[
 							'label' => 'User Rating Report Outlet',
 							'required_features' => [356],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "user-rating-report"',
 							'url' => 'user-rating/report/outlet'
 						],
 						[
 							'label' => 'User Rating Report Hairstylist',
 							'required_features' => [256],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "user-rating-report-hairstylist"',
 							'url' => 'user-rating/report/hairstylist'
 						],
 						[
 							'label' => '[Response] Rating Outlet',
 							'required_features' => [357],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'user-rating/autoresponse/outlet'
 						],
 						[
 							'label' => '[Response] Rating Hairstylist',
 							'required_features' => [357],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'user-rating/autoresponse/hairstylist'
 						],
 					],
@@ -2148,19 +2141,17 @@ return [
 						[
 							'label' => 'Setting',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "home-service-setting"',
 							'url' => 'transaction/setting/home-service'
 						],
 						[
 							'label' => '[Response] HS - Get Order',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'autoresponse/home-service/home-service-mitra-get-order'
 						],
 						[
 							'label' => '[Response] Update Status',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'autoresponse/home-service/home-service-update-status'
 						],
 					],
@@ -2174,79 +2165,70 @@ return [
 						[
 							'label' => 'Setting Banner',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'academy/setting/banner'
 						],
 						[
 							'label' => 'Setting Installment',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'academy/setting/installment'
 						],
 						[
 							'label' => 'Student List',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "academy-transaction-schedule"',
 							'url' => 'academy/transaction/user/schedule'
 						],
 						[
 							'label' => 'Course',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "academy-transaction-outlet-course"',
 							'url' => 'academy/transaction/outlet/course'
 						],
 						[
 							'label' => 'Day Off',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "academy-transaction-day-off"',
 							'url' => 'academy/transaction/user/schedule/day-off'
 						],
 						[
 							'label' => 'Installment Deadline Date',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "academy-transaction-setting"',
 							'url' => 'transaction/setting/academy'
 						],
 						[
 							'label' => '[Response] Academy Course Reminder',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'autoresponse/academy/academy-course-reminder'
 						],
 						[
 							'label' => '[Response] Approve Day Off',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'autoresponse/academy/approve-day-off-user-academy'
 						],
 						[
 							'label' => '[Response] Reject Day Off',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'autoresponse/academy/reject-day-off-user-academy'
 						],
 						[
 							'label' => '[Response] Payment Academy Installment Completed',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'autoresponse/academy/payment-academy-installment-completed'
 						],
 						[
 							'label' => '[Response] Payment Academy Installment Cancelled',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'autoresponse/academy/payment-academy-installment-cancelled'
 						],
 						[
 							'label' => '[Response] Payment Academy Installment Reminder',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'autoresponse/academy/payment-academy-installment-reminder'
 						],
 						[
 							'label' => '[Response] Payment Academy Installment Due Date',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'autoresponse/academy/payment-academy-installment-due-date'
 						],
 					],
@@ -2260,49 +2242,41 @@ return [
 						[
 							'label' => '[Response] Trasaction Online Shope Created',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'autoresponse/online-shop/transaction-online-shop-created'
 						],
 						[
 							'label' => '[Response] Trasaction Online Shope Cancelled',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'autoresponse/online-shop/transaction-online-shop-cancelled'
 						],
 						[
 							'label' => '[Response] Trasaction Online Shope Rejected',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'autoresponse/online-shop/transaction-online-shop-rejected'
 						],
 						[
 							'label' => '[Response] Accepted Online Shop',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'autoresponse/online-shop/accepted-online-shop'
 						],
 						[
 							'label' => '[Response] Ready Online Shop',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'autoresponse/online-shop/ready-online-shop'
 						],
 						[
 							'label' => '[Response] Delivery Online Shop Requested',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'autoresponse/online-shop/delivery-online-shop-requested'
 						],
 						[
 							'label' => '[Response] Transaction Online Shop Complete',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'autoresponse/online-shop/transaction-online-shop-complete'
 						],
 						[
 							'label' => '[Response] Point Received Online Shop',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'autoresponse/online-shop/point-received-online-shop'
 						],
 					],
@@ -2311,14 +2285,12 @@ return [
 				[
 					'label' => 'Export Commision',
 					'required_features' => [69],
-					'active' => '\View::shared("submenu_active") == "home"',
 					'url' => 'hair-stylist/commision/filter',
 					'icon' => 'fa fa-download'
 				],
 				[
 					'label' => 'Export Sales Report',
 					'required_features' => [69],
-					'active' => '\View::shared("submenu_active") == "home"',
 					'url' => 'transaction/report/export/sales',
 					'icon' => 'fa fa-download'
 				],
@@ -2331,28 +2303,28 @@ return [
 				[
 					'label' => 'Mark as Pending Invalid',
 					'required_features' => [274],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("submenu_active") == "mark-as-pending-invalid"',
 					'url' => 'transaction/invalid-flag/mark-as-pending-invalid',
 					'icon' => 'fa fa-list-ul'
 				],
 				[
 					'label' => 'Mark as Invalid',
 					'required_features' => [274],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("submenu_active") == "mark-as-invalid"',
 					'url' => 'transaction/invalid-flag/mark-as-invalid',
 					'icon' => 'fa fa-list-ul'
 				],
 				[
 					'label' => 'Mark as Valid',
 					'required_features' => [275],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("submenu_active") == "mark-as-valid"',
 					'url' => 'transaction/invalid-flag/mark-as-valid',
 					'icon' => 'fa fa-list-ul'
 				],
 				[
 					'label' => 'Log Invalid Flag',
 					'required_features' => [276],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("submenu_active") == "log-invalid-flag"',
 					'url' => 'transaction/log-invalid-flag/list',
 					'icon' => 'fa fa-list-ul'
 				],
@@ -2371,25 +2343,25 @@ return [
 						[
 							'label' => 'New Deals',
 							'required_features' => [74],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "deals-create"',
 							'url' => 'deals/create'
 						],
 						[
 							'label' => 'Deals List',
 							'required_features' => [72],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "deals-list"',
 							'url' => 'deals'
 						],
 						[
 							'label' => 'New Point Deals',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "deals-point-create"',
 							'url' => 'deals-point/create'
 						],
 						[
 							'label' => 'Deals Point List',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "deals-point-list"',
 							'url' => 'deals-point'
 						],
 						[
@@ -2399,37 +2371,31 @@ return [
 								[
 									'label' => '[Response] Claim Free Deals Success',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'transaction/autoresponse/claim-free-deals-success',
 								],
 								[
 									'label' => '[Response] Claim Paid Deals Success',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'transaction/autoresponse/claim-paid-deals-success',
 								],
 								[
 									'label' => '[Response] Claim Point Deals Success',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'transaction/autoresponse/claim-point-deals-success',
 								],
 								[
 									'label' => '[Response] Redeems Deals',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'transaction/autoresponse/redeem-voucher-success',
 								],
 								[
 									'label' => '[Forward] Create Deals',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'autoresponse/deals/create-deals'
 								],
 								[
 									'label' => '[Forward] Update Deals',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'autoresponse/deals/update-deals'
 								],
 							],
@@ -2445,19 +2411,19 @@ return [
 						[
 							'label' => 'New Bundling Category',
 							'required_features' => [290],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "product-bundling-category-new"',
 							'url' => 'product-bundling/category/create'
 						],
 						[
 							'label' => 'Bundling Category List',
 							'required_features' => [288],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "product-bundling-category"',
 							'url' => 'product-bundling/category'
 						],
 						[
 							'label' => 'New Product Bundling',
 							'required_features' => [290],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "product-bundling-create"',
 							'url' => 'product-bundling/create'
 						],
 						[
@@ -2467,19 +2433,19 @@ return [
 								[
 									'label' => 'Product Bundling List',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("submenu_active") == "product-bundling-list"',
 									'url' => 'product-bundling'
 								],
 								[
 									'label' => 'Manage Position',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("submenu_active") == "product-bundling-position"',
 									'url' => 'product-bundling/position/assign'
 								],
 								[
 									'label' => 'Setting Name Brand Bundling',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("submenu_active") == "product-bundling-setting"',
 									'url' => 'product-bundling/setting'
 								],
 							]
@@ -2496,13 +2462,13 @@ return [
 						[
 							'label' => 'New Inject Voucher',
 							'required_features' => [79],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "inject-voucher-create"',
 							'url' => 'inject-voucher/create'
 						],
 						[
 							'label' => 'Inject Voucher List',
 							'required_features' => [77],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "inject-voucher-list"',
 							'url' => 'inject-voucher'
 						],
 						[
@@ -2512,19 +2478,16 @@ return [
 								[
 									'label' => '[Response] Receive Inject Voucher',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'transaction/autoresponse/receive-inject-voucher',
 								],
 								[
 									'label' => '[Forward] Create Inject Voucher',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'autoresponse/inject-voucher/create-inject-voucher'
 								],
 								[
 									'label' => '[Forward] Update Inject Voucher',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'autoresponse/inject-voucher/update-inject-voucher'
 								],
 							],
@@ -2540,19 +2503,19 @@ return [
 						[
 							'label' => 'New Welcome Voucher',
 							'required_features' => [189],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "welcome-voucher-create"',
 							'url' => 'welcome-voucher/create'
 						],
 						[
 							'label' => 'Welcome Voucher List',
 							'required_features' => [187],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "welcome-voucher-list"',
 							'url' => 'welcome-voucher'
 						],
 						[
 							'label' => 'Welcome Voucher Setting',
 							'required_features' => [187,190],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "welcome-voucher-setting"',
 							'url' => 'welcome-voucher/setting'
 						],
 						[
@@ -2562,19 +2525,16 @@ return [
 								[
 									'label' => '[Response] Welcome Voucher',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'autoresponse/welcome-voucher/receive-welcome-voucher'
 								],
 								[
 									'label' => '[Forward] Create Welcome Voucher',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'autoresponse/welcome-voucher/create-welcome-voucher'
 								],
 								[
 									'label' => '[Forward] Update Welcome Voucher',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'autoresponse/welcome-voucher/update-welcome-voucher'
 								],
 							],
@@ -2585,7 +2545,7 @@ return [
 				[
 					'label' => 'Deals Transaction',
 					'required_features' => [72],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("menu_active") == "deals-transaction"',
 					'url' => 'deals/transaction',
 					'icon' => 'fa fa-bar-chart'
 				],
@@ -2598,13 +2558,13 @@ return [
 						[
 							'label' => 'New Promo Campaign',
 							'required_features' => [202],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "promo-campaign-create"',
 							'url' => 'promo-campaign/create'
 						],
 						[
 							'label' => 'Promo Campaign List',
 							'required_features' => [200],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "promo-campaign-list"',
 							'url' => 'promo-campaign'
 						],
 						[
@@ -2614,19 +2574,16 @@ return [
 								[
 									'label' => '[Forward] Create Promo Campaign',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'autoresponse/promo-campaign/create-promo-campaign'
 								],
 								[
 									'label' => '[Forward] Update Promo Campaign',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'autoresponse/promo-campaign/update-promo-campaign'
 								],
 								[
 									'label' => 'Share Promo Code Message',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'promo-campaign/share-promo'
 								],
 							],
@@ -2637,7 +2594,6 @@ return [
 				[
 					'label' => 'Promo Cashback Setting',
 					'required_features' => [233],
-					'active' => '\View::shared("submenu_active") == "home"',
 					'url' => 'promo-setting/cashback',
 					'icon' => 'fa fa-money'
 				],
@@ -2650,13 +2606,12 @@ return [
 						[
 							'label' => 'Referral Setting',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'referral/setting'
 						],
 						[
 							'label' => 'Referral Report',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "referral-report"',
 							'url' => 'referral/report'
 						],
 					],
@@ -2671,13 +2626,13 @@ return [
 						[
 							'label' => 'New Reward',
 							'required_features' => [132],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "reward-create"',
 							'url' => 'reward/create'
 						],
 						[
 							'label' => 'Reward List',
 							'required_features' => [130,131,133,134],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "reward-list"',
 							'url' => 'reward'
 						],
 					],
@@ -2692,19 +2647,19 @@ return [
 						[
 							'label' => 'New Item',
 							'required_features' => [131],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "spinthewheel-new"',
 							'url' => 'spinthewheel/create'
 						],
 						[
 							'label' => 'Item List',
 							'required_features' => [130],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "spinthewheel-list"',
 							'url' => 'spinthewheel/list'
 						],
 						[
 							'label' => 'Setting',
 							'required_features' => [134],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "spinthewheel-setting"',
 							'url' => 'spinthewheel/setting'
 						],
 					],
@@ -2719,7 +2674,7 @@ return [
 						[
 							'label' => 'New Subscription',
 							'required_features' => [172],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "subscription-create"',
 							'url' => 'subscription/create'
 						],
 						[
@@ -2729,25 +2684,25 @@ return [
 								[
 									'label' => 'Subscription List',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("submenu_active") == "subscription-list"',
 									'url' => 'subscription'
 								],
 								[
 									'label' => 'Subscription Claim Report',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("submenu_active") == "subscription-claim-report"',
 									'url' => 'subscription/claim-report'
 								],
 								[
 									'label' => 'Subscription Transaction Report',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("submenu_active") == "subscription-transaction-report"',
 									'url' => 'subscription/transaction-report'
 								],
 								[
 									'label' => 'List Export',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("submenu_active") == "subscription-list-export"',
 									'url' => 'subscription/list-export'
 								],
 							],
@@ -2760,19 +2715,16 @@ return [
 								[
 									'label' => '[Response] Get Free Subscription Success',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'transaction/autoresponse/get-free-subscription-success',
 								],
 								[
 									'label' => '[Response] Buy Paid Subscription Success',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'transaction/autoresponse/buy-paid-subscription-success',
 								],
 								[
 									'label' => '[Response] Buy Point Subscription Success',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'transaction/autoresponse/buy-point-subscription-success',
 								],
 							],
@@ -2788,19 +2740,19 @@ return [
 						[
 							'label' => 'New Welcome Subscription',
 							'required_features' => [266],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "welcome-subscription-create"',
 							'url' => 'welcome-subscription/create'
 						],
 						[
 							'label' => 'Welcome Subscription List',
 							'required_features' => [264],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "welcome-subscription-list"',
 							'url' => 'welcome-subscription'
 						],
 						[
 							'label' => 'Welcome Subscription Setting',
 							'required_features' => [264,267],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "welcome-subscription-setting"',
 							'url' => 'welcome-subscription/setting'
 						],
 						[
@@ -2810,19 +2762,16 @@ return [
 								[
 									'label' => '[Response] Receive Welcome Subscription',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'autoresponse/welcome-subscription/receive-welcome-subscription'
 								],
 								[
 									'label' => '[Forward] Create Welcome Subscription',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'autoresponse/welcome-subscription/create-welcome-subscription'
 								],
 								[
 									'label' => '[Forward] Update Welcome Subscription',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'autoresponse/welcome-subscription/update-welcome-subscription'
 								],
 							],
@@ -2839,13 +2788,13 @@ return [
 						[
 							'label' => 'New Achievement',
 							'required_features' => [223],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "achievement-create"',
 							'url' => 'achievement/create'
 						],
 						[
 							'label' => 'Achievement List',
 							'required_features' => [221],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "achievement-list"',
 							'url' => 'achievement'
 						],
 						[
@@ -2856,19 +2805,19 @@ return [
 								[
 									'label' => 'Achievement',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("submenu_active") == "achievement-report"',
 									'url' => 'achievement/report'
 								],
 								[
 									'label' => 'User Achievement',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("submenu_active") == "achievement-report-user"',
 									'url' => 'achievement/report/user-achievement'
 								],
 								[
 									'label' => 'Membership Achievement',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("submenu_active") == "achievement-report-membership"',
 									'url' => 'achievement/report/membership'
 								],
 							],
@@ -2890,25 +2839,23 @@ return [
 								[
 									'label' => 'New Quest Voucher',
 									'required_features' => [308],
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("child_active") == "quest-voucher-create"',
 									'url' => 'quest-voucher/create'
 								],
 								[
 									'label' => 'Quest Voucher List',
 									'required_features' => [306],
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("child_active") == "quest-voucher-list"',
 									'url' => 'quest-voucher'
 								],
 								[
 									'label' => '[Forward] Create Quest Voucher',
 									'required_features' => [120,122],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'autoresponse/quest-voucher/create-quest-voucher'
 								],
 								[
 									'label' => '[Forward] Update Quest Voucher',
 									'required_features' => [120,122],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'autoresponse/quest-voucher/update-quest-voucher'
 								],
 							],
@@ -2916,19 +2863,19 @@ return [
 						[
 							'label' => 'New Quest',
 							'required_features' => [229],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "quest-create"',
 							'url' => 'quest/create'
 						],
 						[
 							'label' => 'Quest List',
 							'required_features' => [227],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "quest-list"',
 							'url' => 'quest'
 						],
 						[
 							'label' => 'Report Quest',
 							'required_features' => [232],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "quest-report"',
 							'url' => 'quest/report'
 						],
 						[
@@ -2938,19 +2885,16 @@ return [
 								[
 									'label' => '[Response] Quest Completed',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'autoresponse/quest/quest-completed'
 								],
 								[
 									'label' => '[Response] Receive Quest Point',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'autoresponse/quest/receive-quest-point'
 								],
 								[
 									'label' => '[Response] Receive Quest Voucher',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
 									'url' => 'autoresponse/quest/receive-quest-voucher'
 								],
 							],
@@ -2966,7 +2910,7 @@ return [
 						[
 							'label' => 'New Promo Payment Gateway',
 							'required_features' => [313],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "disburse-promo-pg-new"',
 							'url' => 'disburse/rule-promo-payment-gateway/create'
 						],
 						[
@@ -2976,25 +2920,25 @@ return [
 								[
 									'label' => 'Promo Payment Gateway List',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("submenu_active") == "disburse-promo-pg-list"',
 									'url' => 'disburse/rule-promo-payment-gateway'
 								],
 								[
 									'label' => 'Promo Payment Gateway List Transaction',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("submenu_active") == "disburse-promo-pg-list-trx"',
 									'url' => 'disburse/rule-promo-payment-gateway/list-trx'
 								],
 								[
 									'label' => 'Promo Payment Gateway Validation',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("submenu_active") == "disburse-promo-pg-validation"',
 									'url' => 'disburse/rule-promo-payment-gateway/validation'
 								],
 								[
 									'label' => 'Promo Payment Gateway Validation Report',
 									'required_features' => [],
-									'active' => '\View::shared("submenu_active") == "home"',
+									'active' => '\View::shared("submenu_active") == "disburse-promo-pg-validation-report"',
 									'url' => 'disburse/rule-promo-payment-gateway/validation/report'
 								],
 							],
@@ -3011,27 +2955,25 @@ return [
 				[
 					'label' => 'CRM Setting',
 					'required_features' => [],
-					'active' => '\View::shared("submenu_active") == "home"',
-					'url' => 'autocrm',
 					'icon' => 'icon-settings',
 					'type' => 'tree',
 					'children' => [
 						[
 							'label' => 'Text Replace',
 							'required_features' => [96],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "textreplace"',
 							'url' => 'textreplace'
 						],
 						[
 							'label' => 'Email Header & Footer',
 							'required_features' => [97],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "email"',
 							'url' => 'email-header-footer'
 						],
 						[
 							'label' => 'WhatsApp Setting',
 							'required_features' => [74,75],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "whatsapp"',
 							'url' => 'setting/whatsapp'
 						],
 					]
@@ -3039,7 +2981,7 @@ return [
 				[
 					'label' => 'Contact CS Subject Setting',
 					'required_features' => [470],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("submenu_active") == "enquiries-setting-subject"',
 					'url' => 'enquiries/setting/subject',
 					'icon' => 'fa fa-phone'
 				],
@@ -3051,28 +2993,25 @@ return [
 						[
 							'label' => 'Enquiry List',
 							'required_features' => [83,94],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "enquiries-list"',
 							'url' => 'enquiries'
 						],
 						[
 							'label' => '[Response] Kritik, Saran & Keluhan',
 							'required_features' => [],
 							'required_configs' => [46],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'about/autoresponse/enquiry-kritik,-saran-&-keluhan'
 						],
 						[
 							'label' => '[Response] Pengubahan Data Diri',
 							'required_features' => [],
 							'required_configs' => [47],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'about/autoresponse/enquiry-pengubahan-data-diri'
 						],
 						[
 							'label' => '[Response] Lain - Lain',
 							'required_configs' => [48],
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'about/autoresponse/enquiry-lain-_-lain'
 						],
 					],
@@ -3086,25 +3025,24 @@ return [
 						[
 							'label' => 'User Feedback List',
 							'required_features' => [179],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "user-feedback-list"',
 							'url' => 'user-feedback'
 						],
 						[
 							'label' => 'User Feedback Setting',
 							'required_features' => [212],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "feedback-setting"',
 							'url' => 'user-feedback/setting'
 						],
 						[
 							'label' => 'Report User Feedback',
 							'required_features' => [179],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "user-feedback-report"',
 							'url' => 'user-feedback/report'
 						],
 						[
 							'label' => '[Response] User Feedback',
 							'required_features' => [179],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'user-feedback/autoresponse'
 						],
 					],
@@ -3118,41 +3056,41 @@ return [
 						[
 							'label' => 'New Campaign',
 							'required_features' => [100],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "campaign-create"',
 							'url' => 'campaign/create'
 						],
 						[
 							'label' => 'Campaign List',
 							'required_features' => [98],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "campaign-list"',
 							'url' => 'campaign'
 						],
 						[
 							'label' => 'Email Outbox',
 							'required_features' => [104],
 							'required_configs' => [51],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "campaign-email-outbox"',
 							'url' => 'campaign/email/outbox'
 						],
 						[
 							'label' => 'SMS Outbox',
 							'required_features' => [106],
 							'required_configs' => [52],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "campaign-sms-outbox"',
 							'url' => 'campaign/sms/outbox'
 						],
 						[
 							'label' => 'Push Outbox',
 							'required_features' => [108],
 							'required_configs' => [53],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "campaign-push-outbox"',
 							'url' => 'campaign/push/outbox'
 						],
 						[
 							'label' => 'WhatsApp Outbox',
 							'required_features' => [108],
 							'required_configs' => [75],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "campaign-whatsapp-outbox"',
 							'url' => 'campaign/whatsapp/outbox'
 						],
 					],
@@ -3166,25 +3104,25 @@ return [
 						[
 							'label' => 'New Deals Promotion',
 							'required_features' => [111],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "new-deals-promotion"',
 							'url' => 'promotion/deals/create'
 						],
 						[
 							'label' => 'Deals Promotion',
 							'required_features' => [109],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "deals-promotion"',
 							'url' => 'promotion/deals'
 						],
 						[
 							'label' => 'New Promotion',
 							'required_features' => [111],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "promotion-create"',
 							'url' => 'promotion/create'
 						],
 						[
 							'label' => 'Promotion List',
 							'required_features' => [109],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "promotion-list"',
 							'url' => 'promotion'
 						],
 					],
@@ -3198,13 +3136,13 @@ return [
 						[
 							'label' => 'New Point Injection',
 							'required_features' => [207],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "point-injection-create"',
 							'url' => 'point-injection/create'
 						],
 						[
 							'label' => 'List Point Injection',
 							'required_features' => [205,206,208,209,245],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "point-injection-list"',
 							'url' => 'point-injection'
 						],
 					],
@@ -3218,13 +3156,13 @@ return [
 						[
 							'label' => 'New Inbox Global',
 							'required_features' => [116],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "inboxglobal-create"',
 							'url' => 'inboxglobal/create'
 						],
 						[
 							'label' => 'Inbox Global List',
 							'required_features' => [114],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "inboxglobal-list"',
 							'url' => 'inboxglobal'
 						],
 					],
@@ -3243,6 +3181,7 @@ return [
 						[
 							'label' => 'Announcement List',
 							'required_features' => [],
+							'active' => '\View::shared("child_active") == "hairstylist-announcement-list"',
 							'url' => 'recruitment/hair-stylist/announcement'
 						],
 					],
@@ -3256,13 +3195,13 @@ return [
 						[
 							'label' => 'New Redirect Complex',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "redirect-complex-create"',
 							'url' => 'redirect-complex/create'
 						],
 						[
 							'label' => 'Redirect Complex List',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "redirect-complex-list"',
 							'url' => 'redirect-complex'
 						],
 					],
@@ -3277,7 +3216,7 @@ return [
 				[
 					'label' => 'Mobile Apps Home',
 					'required_features' => [15, 16, 17, 18, 144, 145, 146, 147, 241, 246],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("menu_active") == "setting/home"',
 					'url' => 'setting/home',
 					'icon' => 'icon-screen-tablet '
 				],
@@ -3285,14 +3224,14 @@ return [
 					'label' => 'Setting Outlet Apps',
 					'required_features' => [273],
 					'required_configs' => [138],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("menu_active") == "setting/outletapp"',
 					'url' => 'setting/outletapp',
 					'icon' => 'fa fa-tablet'
 				],
 				[
 					'label' => 'Setting Mitra Apps',
 					'required_features' => [346],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("menu_active") == "setting-mitra-apps"',
 					'url' => 'setting/mitra-apps',
 					'icon' => 'fa fa-tablet'
 				],
@@ -3300,7 +3239,7 @@ return [
 					'label' => 'Setting Phone Number',
 					'required_features' => [210],
 					'required_configs' => [94],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("menu_active") == "setting-phone"',
 					'url' => 'setting/phone',
 					'icon' => 'fa fa-phone'
 				],
@@ -3312,19 +3251,19 @@ return [
 						[
 							'label' => 'Content Header And Footer Partner',
 							'required_features' => [338],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "partners"',
 							'url' => 'businessdev/setting/partner'
 						],
 						[
 							'label' => 'Content Header And Footer Location',
 							'required_features' => [342],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "locations"',
 							'url' => 'businessdev/setting/location'
 						],
 						[
 							'label' => 'Content Header And Footer Hair Stylist',
 							'required_features' => [347],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "hair-stylist"',
 							'url' => 'businessdev/setting/hairstylist'
 						],
 					],
@@ -3333,7 +3272,7 @@ return [
 				[
 					'label' => 'Text Menu',
 					'required_features' => [160],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("menu_active") == "setting-text-menu"',
 					'url' => 'setting/text_menu',
 					'icon' => 'fa fa-bars'
 				],
@@ -3345,56 +3284,56 @@ return [
 						[
 							'label' => 'Fraud Detection Settings',
 							'required_features' => [192],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "fraud-detection-update"',
 							'url' => 'setting-fraud-detection'
 						],
 						[
 							'label' => 'Report Fraud Device',
 							'required_features' => [193],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "report-fraud-device"',
 							'url' => 'fraud-detection/report/device'
 						],
 						[
 							'label' => 'Report Fraud Transaction Day',
 							'required_features' => [194],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "report-fraud-transaction-day"',
 							'url' => 'fraud-detection/report/transaction-day'
 						],
 						[
 							'label' => 'Report Fraud Transaction Week',
 							'required_features' => [195],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "report-fraud-transaction-week"',
 							'url' => 'fraud-detection/report/transaction-week'
 						],
 						[
 							'label' => 'Report Fraud Transaction in Between',
 							'required_features' => [215],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "report-fraud-transaction-between"',
 							'url' => 'fraud-detection/report/transaction-between'
 						],
 						[
 							'label' => 'Report Fraud Referral User',
 							'required_features' => [217],
 							'required_configs' => [115],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "report-fraud-referral-user"',
 							'url' => 'fraud-detection/report/referral-user'
 						],
 						[
 							'label' => 'Report Fraud Referral',
 							'required_features' => [218],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "report-fraud-referral"',
 							'url' => 'fraud-detection/report/referral'
 						],
 						[
 							'label' => 'Report Fraud Promo Code',
 							'required_features' => [219],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "report-fraud-promo-code"',
 							'url' => 'fraud-detection/report/promo-code'
 						],
 						[
 							'label' => 'List User Fraud',
 							'required_features' => [196],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "suspend-user"',
 							'url' => 'fraud-detection/suspend-user'
 						],
 					],
@@ -3403,7 +3342,7 @@ return [
 				[
 					'label' => 'Version Control',
 					'required_features' => [471],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("menu_active") == "setting-version"',
 					'url' => 'version',
 					'icon' => 'fa fa-info-circle'
 				],
@@ -3415,13 +3354,12 @@ return [
 						[
 							'label' => 'New Custom Page',
 							'required_features' => [150],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'custom-page/create'
 						],
 						[
 							'label' => 'Custom Page List',
 							'required_features' => [149,151,152,153],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "custom-page-list"',
 							'url' => 'custom-page'
 						],
 					],
@@ -3435,12 +3373,10 @@ return [
 					'children' => [
 						[
 							'label' => 'Intro First Install',
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'setting/intro/first'
 						],
 						[
 							'label' => 'Tutorial In Home',
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'setting/intro/home'
 						],
 					],
@@ -3449,28 +3385,24 @@ return [
 				[
 					'label' => 'Confirmation Messages',
 					'required_features' => [162,163],
-					'active' => '\View::shared("submenu_active") == "home"',
 					'url' => 'setting/confirmation-messages',
 					'icon' => 'icon-speech'
 				],
 				[
 					'label' => 'Maintenance Mode',
 					'required_features' => [220],
-					'active' => '\View::shared("submenu_active") == "home"',
 					'url' => 'setting/maintenance-mode',
 					'icon' => 'icon-wrench'
 				],
 				[
 					'label' => 'Time Expired OTP and Email',
 					'required_features' => [251,252],
-					'active' => '\View::shared("submenu_active") == "home"',
 					'url' => 'setting/time-expired',
 					'icon' => 'fa fa-envelope'
 				],
 				[
 					'label' => 'Confirmation Letter Logo',
 					'required_features' => [338],
-					'active' => '\View::shared("submenu_active") == "home"',
 					'url' => 'setting/logo-confir',
 					'icon' => 'fa fa-image'
 				],
@@ -3482,13 +3414,12 @@ return [
 						[
 							'label' => 'List Form Survey',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'businessdev/form-survey'
 						],
 						[
 							'label' => 'New Form Survey',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "new-form-survey"',
 							'url' => 'businessdev/form-survey/new'
 						],
 					],
@@ -3497,21 +3428,18 @@ return [
 				[
 					'label' => 'Icount Setting',
 					'required_features' => [392],
-					'active' => '\View::shared("submenu_active") == "home"',
 					'url' => 'setting/setting-icount',
 					'icon' => 'fa fa-gear'
 				],
 				[
 					'label' => 'Setting Global Commission',
 					'required_features' => [423],
-					'active' => '\View::shared("submenu_active") == "home"',
 					'url' => 'setting/setting-global-commission',
 					'icon' => 'fa fa-money'
 				],
 				[
 					'label' => 'Setting Attendances Date',
 					'required_features' => [427],
-					'active' => '\View::shared("submenu_active") == "home"',
 					'url' => 'setting/setting-attendances-date',
 					'icon' => 'fa fa-location-arrow'
 				],
@@ -3524,7 +3452,6 @@ return [
 				[
 					'label' => 'About Us',
 					'required_features' => [85],
-					'active' => '\View::shared("submenu_active") == "home"',
 					'url' => 'setting/about',
 					'icon' => 'icon-info'
 				],
@@ -3536,19 +3463,18 @@ return [
 						[
 							'label' => 'New FAQ',
 							'required_features' => [89],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'setting/faq/create'
 						],
 						[
 							'label' => 'List FAQ',
 							'required_features' => [88],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "faq-list"',
 							'url' => 'setting/faq'
 						],
 						[
 							'label' => 'Sorting FAQ List',
 							'required_features' => [88],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "faq-sort"',
 							'url' => 'setting/faq/sort'
 						],
 					],
@@ -3557,14 +3483,12 @@ return [
 				[
 					'label' => 'Ketentuan Layanan',
 					'required_features' => [86],
-					'active' => '\View::shared("submenu_active") == "home"',
 					'url' => 'setting/tos',
 					'icon' => 'icon-note'
 				],
 				[
 					'label' => 'Privacy Policy',
 					'required_features' => [367],
-					'active' => '\View::shared("submenu_active") == "home"',
 					'url' => 'setting/privacypolicy',
 					'icon' => 'fa fa-lock'
 				],
@@ -3572,14 +3496,12 @@ return [
 					'label' => 'Delivery Services',
 					'required_features' => [154],
 					'required_configs' => [96],
-					'active' => '\View::shared("submenu_active") == "home"',
 					'url' => 'delivery-service',
 					'icon' => 'icon-social-dropbox'
 				],
 				[
 					'label' => 'Help Desk',
 					'required_features' => [87],
-					'active' => '\View::shared("submenu_active") == "home"',
 					'url' => 'enquiries/create',
 					'icon' => 'fa fa-phone'
 				],
@@ -3593,35 +3515,35 @@ return [
 				[
 					'label' => 'Dashboard',
 					'required_features' => [234],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("menu_active") == "disburse-dashboard"',
 					'url' => 'disburse/dashboard',
 					'icon' => 'fa fa-th'
 				],
 				[
 					'label' => 'List All',
 					'required_features' => [234],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("menu_active") == "disburse-list-all"',
 					'url' => 'disburse/list/all',
 					'icon' => 'fa fa-list'
 				],
 				[
 					'label' => 'List Success',
 					'required_features' => [234],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("menu_active") == "disburse-list-success"',
 					'url' => 'disburse/list/success',
 					'icon' => 'fa fa-list'
 				],
 				[
 					'label' => 'List Fail',
 					'required_features' => [234],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("menu_active") == "disburse-list-fail-action" || \View::shared("menu_active") == "disburse-list-fail"',
 					'url' => 'disburse/list/fail-action',
 					'icon' => 'fa fa-list'
 				],
 				[
 					'label' => 'List Transaction Online',
 					'required_features' => [234],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("menu_active") == "disburse-list-trx"',
 					'url' => 'disburse/list/trx',
 					'icon' => 'fa fa-list'
 				],
@@ -3633,31 +3555,30 @@ return [
 						[
 							'label' => '[Response] Failed Send Disburse',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
 							'url' => 'disburse/autoresponse/failed-send-disburse'
 						],
 						[
 							'label' => 'Add Bank Account',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "disburse-setting-add-bank-account"',
 							'url' => 'disburse/setting/bank-account'
 						],
 						[
 							'label' => 'Edit Bank Account',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "disburse-setting-edit-bank-account"',
 							'url' => 'disburse/setting/edit-bank-account'
 						],
 						[
 							'label' => 'MDR',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "disburse-setting-mdr"',
 							'url' => 'disburse/setting/mdr'
 						],
 						[
 							'label' => 'Global Setting',
 							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "home"',
+							'active' => '\View::shared("submenu_active") == "disburse-setting-global"',
 							'url' => 'disburse/setting/global'
 						],
 					],
@@ -3673,49 +3594,49 @@ return [
 				[
 					'label' => 'Report',
 					'required_features' => [],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("submenu_active") == "report-single"',
 					'url' => 'report',
 					'icon' => 'icon-graph'
 				],
 				[
 					'label' => 'Compare Report',
 					'required_features' => [],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("submenu_active") == "report-compare"',
 					'url' => 'report/compare',
 					'icon' => 'icon-graph'
 				],
 				[
 					'label' => 'Global',
 					'required_features' => [125],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("submenu_active") == "report-global"',
 					'url' => 'report/global',
 					'icon' => 'icon-graph'
 				],
 				[
 					'label' => 'Customer',
 					'required_features' => [126],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("submenu_active") == "report-customer"',
 					'url' => 'report/customer/summary',
 					'icon' => 'icon-graph'
 				],
 				[
 					'label' => 'Product',
 					'required_features' => [127],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("submenu_active") == "report-product"',
 					'url' => 'report/product',
 					'icon' => 'icon-graph'
 				],
 				[
 					'label' => 'Outlet',
 					'required_features' => [128],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("submenu_active") == "report-outlet"',
 					'url' => 'report/outlet',
 					'icon' => 'icon-graph'
 				],
 				[
 					'label' => 'Shift',
 					'required_features' => [271],
-					'active' => '\View::shared("submenu_active") == "home"',
+					'active' => '\View::shared("submenu_active") == "report-shift"',
 					'url' => 'report/shift/summary',
 					'icon' => 'icon-graph'
 				]
