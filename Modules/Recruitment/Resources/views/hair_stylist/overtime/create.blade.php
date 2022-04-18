@@ -152,15 +152,31 @@
             var start = $("#list_date option:selected").attr('data-timestart');
             var end = $("#list_date option:selected").attr('data-timeend');
             $('#time_start').remove();
-            $('#place_time_start').append('<input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="time_start" value="'+start+'" disabled>')
+            $('#place_time_start').append('<input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_start" value="'+start+'" disabled>')
             $('#time_end').remove();
-            $('#place_time_end').append('<input type="text" id="time_end" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="time_end" value="'+end+'" disabled>')
+            $('#place_time_end').append('<input type="text" id="time_end" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end" value="'+end+'" disabled>')
             $('.timepicker').timepicker({
                 autoclose: true,
                 minuteStep: 5,
                 showSeconds: false,
             });
         })
+
+        function submitOvertime() {
+            var data = $('#create-overtime').serialize();
+    
+            var get_time = $('input[name=time]:checked').val();
+            if(get_time==undefined){
+                document.getElementById('cek_time').style.display = 'block';
+            }else{
+                document.getElementById('cek_time').style.display = 'none';
+            }
+            if (!$('form#create-overtime')[0].checkValidity()) {
+                toastr.warning("Incompleted Data. Please fill blank input.");
+            }else{
+                $('form#create-overtime').submit();
+            }
+        }
     
         $(document).ready(function() {
             $('[data-switch=true]').bootstrapSwitch();
@@ -211,7 +227,7 @@
             </div>
         </div>
         <div class="portlet-body form">
-            <form class="form-horizontal" role="form" action="{{ url('recruitment/hair-stylist/overtime/create') }}" method="post" enctype="multipart/form-data">
+            <form class="form-horizontal" role="form" action="{{ url('recruitment/hair-stylist/overtime/create') }}" method="post" enctype="multipart/form-data" id="create-overtime">
                 <div class="form-body">
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Select Outlet <span class="required" aria-required="true">*</span>
@@ -275,17 +291,17 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Start Overtime<span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu mulai izin untuk hair style" data-container="body"></i></label>
+                        <label for="example-search-input" class="control-label col-md-4">Start Shift<span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu mulai lembur untuk hair style" data-container="body"></i></label>
                         <div class="col-md-3" id="place_time_start">
-                            <input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="time_start" value="00:00" disabled>
+                            <input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_start" value="00:00" disabled>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">End Overtime<span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu selesai izin untuk hair style" data-container="body"></i></label>
+                        <label for="example-search-input" class="control-label col-md-4">End Shift<span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu selesai lembur untuk hair style" data-container="body"></i></label>
                         <div class="col-md-3" id="place_time_end">
-                            <input type="text" id="time_end" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="time_end" value="00:00" disabled>
+                            <input type="text" id="time_end" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end" value="00:00" disabled>
                         </div>
                     </div>
                     <div class="form-group">
@@ -294,20 +310,21 @@
                         <div class="col-md-6">
                             <div class="md-radio-inline">
                                 <div class="md-radio">
-                                    <input type="radio" id="radio14" name="time" class="md-radiobtn" value="before" required>
-                                    <label for="radio14">
+                                    <input type="radio" id="radio-1" name="time" class="md-radiobtn" value="before" required>
+                                    <label for="radio-1">
                                         <span></span>
                                         <span class="check"></span>
                                         <span class="box"></span> Before Shift </label>
                                 </div>
                                 <div class="md-radio">
-                                    <input type="radio" id="radio16" name="time" class="md-radiobtn" value="after" required>
-                                    <label for="radio16">
+                                    <input type="radio" id="radio-2" name="time" class="md-radiobtn" value="after" required>
+                                    <label for="radio-2">
                                         <span></span>
                                         <span class="check"></span>
                                         <span class="box"></span> After Shift </label>
                                 </div>
                             </div>
+                            <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="cek_time">Please select one of the options</p>
                         </div>
                     </div>
                     <div class="form-group">
@@ -323,7 +340,7 @@
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <button type="submit" class="btn blue">Submit</button>
+                            <a onclick="submitOvertime()" class="btn blue">Submit</a>
                         </div>
                     </div>
                 </div>

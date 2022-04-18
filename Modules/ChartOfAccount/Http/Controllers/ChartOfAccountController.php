@@ -61,7 +61,7 @@ class ChartOfAccountController extends Controller
            $page = '?page='.$post['page'];
         }
 
-        $list = MyHelper::post('chartofaccount/'.$page, $post);
+        $list = MyHelper::post('chartofaccount'.$page, $post);
         if(($list['status']??'')=='success'){
             $data['result'] = $list['result']['data'];
             $data['data_total']     = $list['result']['total'];

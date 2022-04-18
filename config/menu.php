@@ -230,6 +230,7 @@ return [
 					'type' => 'tree',
 					'label' => 'Employee',
 					'icon' => 'fa fa-users',
+					'active' => '\View::shared("menu_active") == "employee',
 					'children' => [
 						[
 							'type' => 'tree',
@@ -1245,6 +1246,7 @@ return [
 					'required_features' => [347, 348, 349, 350, 353, 354, 355],
 					'type' => 'tree',
 					'icon' => 'fa fa-cut',
+					'active' => '\View::shared("menu_active") == "hair-stylist"',
 					'children' => [
 						[
 							'label' => 'Category',
@@ -1296,6 +1298,7 @@ return [
                                 [
                                     'label' => 'Announcement List',
                                     'required_features' => [368, 369, 371, 372],
+					                'active' => '\View::shared("child_active") == "hair-stylist-announcement-list"',
                                     'url' => 'recruitment/hair-stylist/announcement'
                                 ],
                             ],
@@ -3167,25 +3170,6 @@ return [
 						],
 					],
 					'icon' => 'icon-feed'
-				],
-				[
-					'label' => 'Annoucement',
-					'required_features' => [368, 369, 370, 371, 372],
-					'type' => 'tree',
-					'children' => [
-						[
-							'label' => 'New Announcement',
-							'required_features' => [],
-							'url' => 'recruitment/hair-stylist/announcement/create'
-						],
-						[
-							'label' => 'Announcement List',
-							'required_features' => [],
-							'active' => '\View::shared("child_active") == "hairstylist-announcement-list"',
-							'url' => 'recruitment/hair-stylist/announcement'
-						],
-					],
-					'icon' => 'fa fa-bullhorn'
 				],
 				[
 					'label' => 'Redirect Complex',
