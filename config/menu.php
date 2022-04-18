@@ -226,6 +226,7 @@ return [
 					'type' => 'tree',
 					'label' => 'Employee',
 					'icon' => 'fa fa-users',
+					'active' => '\View::shared("menu_active") == "employee',
 					'children' => [
 						[
 							'type' => 'tree',
@@ -251,7 +252,28 @@ return [
 									]
 								]
 							]
-						]
+                        ],
+                        [
+                            'label' => 'Annoucement',
+                            'required_features' => [464, 465, 466, 467, 468],
+                            'type' => 'tree',
+					        'active' => '\View::shared("submenu_active") == "employee-announcement',
+                            'children' => [
+                                [
+                                    'label' => 'New Announcement',
+                                    'required_features' => [446],
+					                'active' => '\View::shared("child_active") == "employee-announcement-create"',
+                                    'url' => 'employee/announcement/create'
+                                ],
+                                [
+                                    'label' => 'Announcement List',
+                                    'required_features' => [464, 465, 467, 468],
+					                'active' => '\View::shared("child_active") == "employee-announcement-list"',
+                                    'url' => 'employee/announcement'
+                                ],
+                            ],
+                        ],
+                        
 					]
 				],
 				[
@@ -1063,6 +1085,7 @@ return [
 					'required_features' => [347, 348, 349, 350, 353, 354, 355],
 					'type' => 'tree',
 					'icon' => 'fa fa-cut',
+					'active' => '\View::shared("menu_active") == "hair-stylist"',
 					'children' => [
 						[
 							'label' => 'Category',
@@ -1096,6 +1119,26 @@ return [
 							'required_features' => [],
 							'url' => 'recruitment/hair-stylist/candidate/setting-requirements'
 						],
+                        [
+                            'label' => 'Annoucement',
+                            'required_features' => [368, 369, 370, 371, 372],
+                            'type' => 'tree',
+					        'active' => '\View::shared("submenu_active") == "hair-stylist-announcement',
+                            'children' => [
+                                [
+                                    'label' => 'New Announcement',
+                                    'required_features' => [370],
+					                'active' => '\View::shared("child_active") == "hair-stylist-announcement-create"',
+                                    'url' => 'recruitment/hair-stylist/announcement/create'
+                                ],
+                                [
+                                    'label' => 'Announcement List',
+                                    'required_features' => [368, 369, 371, 372],
+					                'active' => '\View::shared("child_active") == "hair-stylist-announcement-list"',
+                                    'url' => 'recruitment/hair-stylist/announcement'
+                                ],
+                            ],
+                        ],
 						[
 							'label' => '[Response] Register Candidate Hair Stylist',
 							'required_features' => [],
@@ -2801,24 +2844,6 @@ return [
 						],
 					],
 					'icon' => 'icon-feed'
-				],
-				[
-					'label' => 'Annoucement',
-					'required_features' => [368, 369, 370, 371, 372],
-					'type' => 'tree',
-					'children' => [
-						[
-							'label' => 'New Announcement',
-							'required_features' => [],
-							'url' => 'recruitment/hair-stylist/announcement/create'
-						],
-						[
-							'label' => 'Announcement List',
-							'required_features' => [],
-							'url' => 'recruitment/hair-stylist/announcement'
-						],
-					],
-					'icon' => 'fa fa-bullhorn'
 				],
 				[
 					'label' => 'Redirect Complex',
