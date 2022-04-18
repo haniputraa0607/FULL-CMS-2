@@ -192,16 +192,15 @@ return [
 					'label' => 'Profile Completion',
 					'type' => 'tree',
 					'icon' => 'icon-users',
+					'required_features' => [148],
 					'children' => [
 						[
 							'label' => 'User Profile Completion',
 							'url' => 'setting/complete-profile',
-							'required_features' => [148],
 						],
 						[
 							'label' => '[Response] User Profile Completion Point Bonus',
 							'url' => 'user/autoresponse/complete-user-profile-point-bonus',
-							'required_features' => [120],
 						],
 					],
 				],
@@ -1222,12 +1221,12 @@ return [
 			'children' => [
 				[
 					'label' => 'Salary Incentive Default HS',
-					'required_features' => [394],
+					'required_features' => [425],
 					'url' => 'recruitment/hair-stylist/default/insentif'
 				],
 				[
 					'label' => 'Salary Cuts Default HS',
-					'required_features' => [393,378],
+					'required_features' => [426],
 					'url' => 'recruitment/hair-stylist/default/potongan'
 				],
 			],
@@ -1386,16 +1385,16 @@ return [
 						],
 						[
 							'type' => 'group',
-							'required_features' => [469],
+							'required_features' => [469,397,407],
 							'children' => [
 								[
 									'label' => 'Manage Outlet Service',
-									'required_features' => [],
+									'required_features' => [397,469],
 									'url' => 'transaction/outlet-service/manage'
 								],
 								[
 									'label' => 'Manage Home Service',
-									'required_features' => [],
+									'required_features' => [407,469],
 									'url' => 'transaction/home-service/manage'
 								],
 							],
@@ -1640,7 +1639,7 @@ return [
 				],
 				[
 					'label' => 'Delivery Settings',
-					'required_features' => [250],
+					'required_features' => [320],
 					'type' => 'tree',
 					'children' => [
 						[
@@ -2064,34 +2063,40 @@ return [
 							'url' => 'deals-point'
 						],
 						[
-							'label' => '[Response] Claim Free Deals Success',
-							'required_features' => [],
-							'url' => 'transaction/autoresponse/claim-free-deals-success',
-						],
-						[
-							'label' => '[Response] Claim Paid Deals Success',
-							'required_features' => [],
-							'url' => 'transaction/autoresponse/claim-paid-deals-success',
-						],
-						[
-							'label' => '[Response] Claim Point Deals Success',
-							'required_features' => [],
-							'url' => 'transaction/autoresponse/claim-point-deals-success',
-						],
-						[
-							'label' => '[Response] Redeems Deals',
-							'required_features' => [],
-							'url' => 'transaction/autoresponse/redeem-voucher-success',
-						],
-						[
-							'label' => '[Forward] Create Deals',
-							'required_features' => [],
-							'url' => 'autoresponse/deals/create-deals'
-						],
-						[
-							'label' => '[Forward] Update Deals',
-							'required_features' => [],
-							'url' => 'autoresponse/deals/update-deals'
+							'type' => 'group',
+							'required_features' => [95],
+							'children' => [
+								[
+									'label' => '[Response] Claim Free Deals Success',
+									'required_features' => [],
+									'url' => 'transaction/autoresponse/claim-free-deals-success',
+								],
+								[
+									'label' => '[Response] Claim Paid Deals Success',
+									'required_features' => [],
+									'url' => 'transaction/autoresponse/claim-paid-deals-success',
+								],
+								[
+									'label' => '[Response] Claim Point Deals Success',
+									'required_features' => [],
+									'url' => 'transaction/autoresponse/claim-point-deals-success',
+								],
+								[
+									'label' => '[Response] Redeems Deals',
+									'required_features' => [],
+									'url' => 'transaction/autoresponse/redeem-voucher-success',
+								],
+								[
+									'label' => '[Forward] Create Deals',
+									'required_features' => [],
+									'url' => 'autoresponse/deals/create-deals'
+								],
+								[
+									'label' => '[Forward] Update Deals',
+									'required_features' => [],
+									'url' => 'autoresponse/deals/update-deals'
+								],
+							],
 						],
 					],
 					'icon' => 'fa fa-gift'
@@ -2377,7 +2382,7 @@ return [
 						],
 						[
 							'type' => 'group',
-							'required_features' => [97],
+							'required_features' => [178],
 							'required_configs' => [133],
 							'children' => [
 								[
@@ -2773,7 +2778,7 @@ return [
 						],
 						[
 							'label' => 'List Point Injection',
-							'required_features' => [205,206,208,209],
+							'required_features' => [205,206,208,209,245],
 							'url' => 'point-injection'
 						],
 					],
@@ -2841,19 +2846,14 @@ return [
 			'children' => [
 				[
 					'label' => 'Mobile Apps Home',
-					'required_features' => [15, 16, 17, 18, 144, 145, 146, 147, 241],
+					'required_features' => [15, 16, 17, 18, 144, 145, 146, 147, 241, 246],
 					'url' => 'setting/home',
 					'icon' => 'icon-screen-tablet '
 				],
 				[
 					'label' => 'Setting Outlet Apps',
 					'required_features' => [273],
-					'url' => 'setting/outletapp',
-					'icon' => 'fa fa-tablet'
-				],
-				[
-					'label' => 'Setting Outlet Apps',
-					'required_features' => [273],
+					'required_configs' => [138],
 					'url' => 'setting/outletapp',
 					'icon' => 'fa fa-tablet'
 				],
@@ -2979,18 +2979,16 @@ return [
 				],
 				[
 					'label' => 'Intro Apps',
-					'required_features' => [],
+					'required_features' => [168],
 					'required_configs' => [108],
 					'type' => 'tree',
 					'children' => [
 						[
 							'label' => 'Intro First Install',
-							'required_features' => [150],
 							'url' => 'setting/intro/first'
 						],
 						[
 							'label' => 'Tutorial In Home',
-							'required_features' => [149, 151, 152, 153],
 							'url' => 'setting/intro/home'
 						],
 					],
@@ -3121,35 +3119,35 @@ return [
 		[
 			'type' => 'group',
 			'label' => 'Disburse',
-			'required_features' => [234],
+			'required_features' => [],
 			'children' => [
 				[
 					'label' => 'Dashboard',
-					'required_features' => [],
+					'required_features' => [234],
 					'url' => 'disburse/dashboard',
 					'icon' => 'fa fa-th'
 				],
 				[
 					'label' => 'List All',
-					'required_features' => [],
+					'required_features' => [234],
 					'url' => 'disburse/list/all',
 					'icon' => 'fa fa-list'
 				],
 				[
 					'label' => 'List Success',
-					'required_features' => [],
+					'required_features' => [234],
 					'url' => 'disburse/list/success',
 					'icon' => 'fa fa-list'
 				],
 				[
 					'label' => 'List Fail',
-					'required_features' => [235],
+					'required_features' => [234],
 					'url' => 'disburse/list/fail-action',
 					'icon' => 'fa fa-list'
 				],
 				[
 					'label' => 'List Transaction Online',
-					'required_features' => [],
+					'required_features' => [234],
 					'url' => 'disburse/list/trx',
 					'icon' => 'fa fa-list'
 				],
