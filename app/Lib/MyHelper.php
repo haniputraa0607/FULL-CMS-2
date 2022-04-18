@@ -559,6 +559,7 @@ class MyHelper
   }
 
   public static function hasAccess($granted, $features){
+    if (!is_array($granted)) $granted = [$granted];
     foreach($granted as $g){
 		if(!is_array($features)) $features = session('granted_features');
 		if(in_array($g, $features)) return true;

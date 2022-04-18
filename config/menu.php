@@ -2064,7 +2064,7 @@ return [
 						],
 						[
 							'type' => 'group',
-							'required_features' => 95,
+							'required_features' => [95],
 							'children' => [
 								[
 									'label' => '[Response] Claim Free Deals Success',
@@ -2849,12 +2849,6 @@ return [
 					'required_features' => [15, 16, 17, 18, 144, 145, 146, 147, 241],
 					'url' => 'setting/home',
 					'icon' => 'icon-screen-tablet '
-				],
-				[
-					'label' => 'Setting Outlet Apps',
-					'required_features' => [273],
-					'url' => 'setting/outletapp',
-					'icon' => 'fa fa-tablet'
 				],
 				[
 					'label' => 'Setting Outlet Apps',
