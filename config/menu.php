@@ -233,6 +233,32 @@ return [
 					'active' => '\View::shared("menu_active") == "employee',
 					'children' => [
 						[
+							'label' => 'Schedule',
+                            'required_features' => [],
+                            'type' => 'tree',
+					        'active' => '\View::shared("submenu_active") == "employee-schedule',
+							'children' => [
+                                [
+                                    'label' => 'Create Schedule',
+                                    'required_features' => [475],
+					                'active' => '\View::shared("child_active") == "employee-schedule-create"',
+                                    'url' => 'employee/schedule/create'
+                                ],
+                                [
+                                    'label' => 'Schedule List',
+                                    'required_features' => [472, 472, 474],
+					                'active' => '\View::shared("child_active") == "employee-schedule-list"',
+                                    'url' => 'employee/schedule'
+                                ],
+                                [
+                                    'label' => '[Response] Approve Employee Schedule',
+                                    'required_features' => [],
+					                'active' => '\View::shared("child_active") == "employee-schedule-approve"',
+									'url' => 'autoresponse/employee-schedule/approve-employee-schedule'
+                                ],
+                            ],
+						],
+						[
 							'type' => 'tree',
 							'label' => 'Office Hours',
 							'children' => [
