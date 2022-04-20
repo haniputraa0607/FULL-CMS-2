@@ -64,6 +64,7 @@ class EmployeeScheduleController extends Controller
             Session::forget('filter-employee-schedule');
         }
         $getList = MyHelper::post('employee/schedule/list',$post);
+        // return $getList;
 
         if (isset($getList['status']) && $getList['status'] == "success") {
             $data['data']          = $getList['result']['data'];
@@ -94,9 +95,56 @@ class EmployeeScheduleController extends Controller
         $data['months'] = $month;
 
         $data['years'] = MyHelper::get('employee/schedule/year-list')['result'] ?? [];
-        $data['outlets'] = MyHelper::get('outlet/be/list?log_save=0')['result'] ?? [];
+        $data['outlets'] = MyHelper::post('outlet/be/list', ['office_only' => true])['result'] ?? [];
         $data['roles'] = MyHelper::get('employee/office-hours/assign')['result']??[];
 
         return view('employee::schedule.list', $data);
+    }
+
+    public function detail(Request $request, $shift, $id){
+        if($shift == 'use-shift'){
+            $detail = MyHelper::post('employee/schedule/detail/use-shift',['id_employee_schedule' => $id]);
+        }else{
+            $detail = MyHelper::post('employee/schedule/detail/without-shift',['id_employee_schedule' => $id]);
+        }
+
+        if(isset($detail['status']) && $detail['status'] == 'success'){
+            $data = [
+                'title'          => 'Employee',
+                'sub_title'      => 'Schedule',
+                'menu_active'    => 'employee-schedule',
+                'submenu_active' => 'employee-schedule',
+                'child_active' 	 => 'employee-schedule-list',
+                'url_back'       => 'employee/schedule',
+                'shift'          => $shift
+            ];
+
+            $data['data'] = $detail['result'];
+            if($shift == 'use-shift'){
+                return view('employee::schedule.detail_shift', $data);
+            }else{
+                return view('employee::schedule.detail_nonshift', $data);
+            }
+        }else{
+            return redirect('employee/schedule')->withErrors($store['messages']??['Failed get detail schedule']);
+        }
+    }
+
+    public function update(Request $request, $id){
+        $post = $request->except('_token');
+        $post['id_employee_schedule'] = $id;
+        $shift = $post['shift'];
+        unset($post['shift']);
+
+        $update = MyHelper::post('employee/schedule/update',$post);
+        
+        if(isset($update['status']) && $update['status'] == 'success'){
+            if(isset($post['update_type']) && $post['update_type'] == 'approve'){
+                return redirect('employee/schedule/detail/'.$shift.'/'.$id)->withSuccess(['Success approve data schedule']);
+            }
+            return redirect('employee/schedule/detail/'.$shift.'/'.$id)->withSuccess(['Success update data schedule']);
+        }else{
+            return redirect('employee/schedule/detail/'.$shift.'/'.$id)->withErrors($update['messages']??['Failed update data to approved']);
+        }
     }
 }

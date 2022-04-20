@@ -162,7 +162,7 @@
                     <tr>
                         <td>
                             @if(MyHelper::hasAccess([348,349], $grantedFeature))
-                                <a class="btn btn-sm btn-info" target="_blank" href="{{ url('recruitment/hair-stylist/schedule/detail', $val['id_employee_schedule']) }}"><i class="fa fa-edit"></i></a>
+                                <a class="btn btn-sm btn-info" target="_blank" href="{{ url('employee/schedule/detail') }}/{{ str_replace(' ','-',strtolower($val['office_hour_type'])) }}/{{ $val['id_employee_schedule'] }}"><i class="fa fa-edit"></i></a>
                             @endif
                         </td>
                         <td>{{ $val['name'] }}</td>

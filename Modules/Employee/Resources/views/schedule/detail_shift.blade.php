@@ -165,6 +165,7 @@
                 }
             }
         }();
+        
 
         jQuery(document).ready(function() {
             SweetAlert.init()
@@ -206,9 +207,9 @@
 
         <div class="portlet-body">
 	        <div class="form">
-	            <form class="form-horizontal" id="form-submit" role="form" action="{{url($url_back.'/update/'.$data['detail']['id_hairstylist_schedule'])}}" method="post">
+	            <form class="form-horizontal" id="form-submit" role="form" action="{{url($url_back.'/update/'.$data['detail']['id_employee_schedule'])}}" method="post">
 	                <div class="form-body">
-		            	@php
+		                @php
 		            		$status = $data['detail']['approve_at'] ? 'Approved' : ($data['detail']['reject_at'] ? 'Rejected' : 'Pending');
 	                		$color = ($status == 'Approved') ? '#26C281' : (($status == 'Rejected') ? '#E7505A' : '#ffc107');
 	                		$textColor = ($status == 'Pending') ? '#fff' : '#fff';
@@ -228,27 +229,26 @@
 		                    <div class="col-md-6">: {{ $data['detail']['last_updated_by_name'] }}</div>
 		                </div>
 		                <div class="form-group">
-		                    <label class="col-md-2">Full Name</label>
-		                    <div class="col-md-6">: {{ $data['detail']['fullname'] }}</div>
+		                    <label class="col-md-2">Name</label>
+		                    <div class="col-md-6">: {{ $data['detail']['name'] }}</div>
 		                </div>
 		                <div class="form-group">
-		                    <label class="col-md-2">Outlet</label>
+		                    <label class="col-md-2">Office</label>
 		                    <div class="col-md-6">: 
-		                    	@foreach($data['outlets'] as $outlet)
-		                    	<a href="{{ url('outlet/detail') }}/{{ $outlet['outlet_code'] }}">{{ $outlet['outlet_code'].' - '.$outlet['outlet_name'] }}</a>
-		                    	<br/>
-		                    	@endforeach
+		                    	<a href="{{ url('outlet/detail') }}/{{ $data['detail']['outlet']['outlet_code'] }}">{{ $data['detail']['outlet']['outlet_code'].' - '.$data['detail']['outlet']['outlet_name'] }}</a>
 		                    </div>
 		                </div>
-						@php
+                        <input type="hidden" name="id_employee_office_hour" value="{{ $data['detail']['id_employee_office_hour'] }}">
+                        <input type="hidden" name="shift" value="{{ $shift }}">
+                        @php
 							$day = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 							$dayCount = count($day);
-							$hs_schedules = [];
-							foreach ($data['detail']['hairstylist_schedule_dates'] ?? [] as $val) {
+							$employee_schedules = [];
+							foreach ($data['detail']['employee_schedule_dates'] ?? [] as $val) {
 								$year   = date('Y', strtotime($val['date']));
 								$month  = date('m', strtotime($val['date']));
 								$date 	= date('j', strtotime($val['date']));
-								$hs_schedules[$year][$month][$date][$val['shift']] = $val;
+								$employee_schedules[$year][$month][$date][$val['shift']] = $val;
 							}
                             $implode_date = date($data['detail']['schedule_year'].'-'.$data['detail']['schedule_month'].'-01');
 							$scheduleDate = date('Y-m-d', strtotime($implode_date ?? date('Y-m-d')));
@@ -264,7 +264,7 @@
 						@endphp
 						<div class="month-year"><h2>{{ date('F Y', strtotime($scheduleDate)) }}</h1></div>
 						<div class="custom-date-container">
-							<div class="row seven-cols">
+                            <div class="row seven-cols">
 								@for ($i = 0; $i < $dayCount ; $i++)
 									<div class="col-md-1 custom-date-box-header">
 							        	<div class="card text-center">
@@ -275,7 +275,7 @@
 							        </div>
 								@endfor
 							</div>
-							@php
+                            @php
 								$day = [ 
 									1 => 'Minggu', 
 									2 => 'Senin',
@@ -287,14 +287,14 @@
 								];
 							@endphp
 							@for ($i = 1; $i <= 42 ; $i++)
-							    @if ($i % 7 == 1)
+                                @if ($i % 7 == 1)
 							    	@if (empty(($data['list_date'][$index]['day'])))
 							    		@break
 							    	@endif
 									<div class="row seven-cols">
 								@endif
 								@if ($day[$i % 7] == ($data['list_date'][$index]['day'] ?? false))
-									@php
+                                    @php
 										$schInfo = $data['list_date'][$index];
                                         if($schInfo['date']>=date('Y-m-d')){
                                             $can_update = true;
@@ -304,25 +304,25 @@
                                         }else{
                                             $can_update = false;
                                         }
-										if ($schInfo['is_closed'] == 1 || $schInfo['outlet_holiday']){
+                                        if ($schInfo['is_closed'] == 1 || $schInfo['outlet_holiday']){
                                             $can_update = false;
                                         }
 									@endphp
-									<div class="col-md-1 custom-date-box" @if (!$can_update) style="background-color:rgb(230, 230, 230);" @endif>
+                                    <div class="col-md-1 custom-date-box" @if (!$can_update) style="background-color:rgb(230, 230, 230);" @endif>
 							        	<div class="card text-center">
 							        		<div class="card-body">
 								        		<div class="text-right" style="height:10px">
-								        			@if (!empty($schInfo['all_hs_schedule']))
-										        		<i class="fa fa-user tooltips" data-placement="bottom" data-original-title="list hairstylist
+								        			@if (!empty($schInfo['all_employee_schedule']))
+										        		<i class="fa fa-user tooltips" data-placement="bottom" data-original-title="list employees
 										        			<div class='text-left'>
 										        			</br>
-										        			@foreach ($schInfo['all_hs_schedule'] as $val)
+										        			@foreach ($schInfo['all_employee_schedule'] as $val)
 										        				@php
 										        					$status = !empty($val['approve_at']) ? 'approved' : (!empty($val['reject_at']) ? 'rejected' : 'pending');
-										        					$shift = ($val['shift'] == 'Morning') ? 'Morning' : 'Evening';
+										        					$shift = $val['shift'];
 										        					$color = ($status == 'approved') ? 'lightgreen' : (($status == 'rejected') ? 'orangered' : 'yellow');
 										        				@endphp
-																<p style='color: {{ $color }}; margin:0px;'> {{ $val['fullname'].' ('.$shift.') - '.$status }} </p>
+																<p style='color: {{ $color }}; margin:0px;'> {{ $val['name'].' ('.$shift.') - '.$status }} </p>
 										        			@endforeach
 										        		</div>
 														" data-container="body" data-html="true"></i>
@@ -340,15 +340,8 @@
 
 							        			<select name="schedule[{{ $schInfo['date'] }}]" style="font-size:12px" {{ $can_update ? '' : 'disabled' }}>
 							        				<option value=""></option>
-							        				@php
-							        					$shiftIndo = [
-							        						'Morning' => 'Morning',
-							        						'Middle'  => 'Middle',
-							        						'Evening' => 'Evening',
-							        					];
-							        				@endphp
 							        				@foreach ($schInfo['outlet_shift']['shift'] ?? [] as $s)
-						        						<option value="{{ $s }}" {{ $s == $schInfo['selected_shift'] ? 'selected' : null }}> {{ $shiftIndo[$s] }}</option>
+						        						<option value="{{ $s }}" {{ $s == $schInfo['selected_shift'] ? 'selected' : null }}> {{ $s }}</option>
 							        				@endforeach
 							        			</select>
                                                 @if (!$can_update)
@@ -360,26 +353,27 @@
 							        @php
 							        	$index++;
 							        @endphp
-								@else
-							        <div class="col-md-1 custom-date-box" style="background-color:rgb(172, 172, 172);">
+                                @else
+                                    <div class="col-md-1 custom-date-box" style="background-color:rgb(172, 172, 172);">
 							        	<div class="card text-center">
 							        		<div class="card-body">
 							        		</div>
 							        	</div>
 							        </div>
-							    @endif
+                                        
+                                @endif
 
-						        @if ($i % 7 == 0 || $i == 42)
+                                 @if ($i % 7 == 0 || $i == 42)
 									</div>
 								@endif
-							@endfor
-						</div>
+                            @endfor
+                        </div>
 	                </div>
-	                @if(MyHelper::hasAccess([349], $grantedFeature) && $update)
+                    @if(MyHelper::hasAccess([349], $grantedFeature) && $update)
 	                {{ csrf_field() }}
 	                <div class="row" style="text-align: center">
 	                    @if(empty($data['detail']['approve_at']))
-	                        <a class="btn green-jungle approve-schedule" data-name="{{ $data['detail']['fullname'] }}">Approve</a>
+	                        <a class="btn green-jungle approve-schedule" data-name="{{ $data['detail']['name'] }}">Approve</a>
 	                        {{-- 
 		                        @if(empty($data['detail']['reject_at']))
 		                        	<a class="btn red reject-schedule" data-name="{{ $data['detail']['fullname'] }}">Reject</a>

@@ -42,7 +42,7 @@
 			var operator_value = document.getElementsByName(operator)[0];
 			for(i = operator_value.options.length - 1 ; i >= 0 ; i--) operator_value.remove(i);
 			@foreach($roles ?? [] as $role)
-			operator_value.options[operator_value.options.length] = new Option("{{$role['role_name']}}", "{{$role['role_name']}}");
+			operator_value.options[operator_value.options.length] = new Option("{{$role['role_name']}}", "{{$role['id_role']}}");
 			@endforeach
 			
 			var parameter = "conditions["+index+"][parameter]";
@@ -136,8 +136,8 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <select name="subject" class="form-control input-sm select2" placeholder="Search Subject" onChange="changeSubject(this.name)" style="width:100%">
-                                                    <option value="nickname" @if ($con['subject'] == 'nickname') selected @endif>Name</option>
-                                                    <option value="phone_number" @if ($con['subject'] == 'phone_number') selected @endif>Phone</option>
+                                                    <option value="name" @if ($con['subject'] == 'name') selected @endif>Name</option>
+                                                    <option value="phone" @if ($con['subject'] == 'phone') selected @endif>Phone</option>
                                                     <option value="id_outlet" @if ($con['subject'] == 'id_outlet') selected @endif>Office</option>
                                                     <option value="role_name" @if ($con['subject'] == 'role_name') selected @endif>Role Shift</option>
                                                     <option value="status" @if ($con['subject'] == 'status') selected @endif>Status</option>
@@ -148,6 +148,7 @@
                                             <div class="col-md-4">
                                                 <select name="operator" class="form-control input-sm select2" placeholder="Search Operator" id="test" style="width:100%">
                                                     @if($con['subject'] == 'status')
+                                                        <option value="No Status" @if ($con['operator'] == 'No Status') selected @endif>-</option>
                                                         <option value="Pending" @if ($con['operator'] == 'Pending') selected @endif>Pending</option>
                                                         <option value="Approved" @if ($con['operator']  == 'Approved') selected @endif>Approved</option>
                                                         <option value="Rejected" @if ($con['operator']  == 'Rejected') selected @endif>Rejected</option>
@@ -174,7 +175,7 @@
                                                 </select>
                                             </div>
 
-                                            @if (in_array($con['subject'], ['status', 'id_outlet', 'month', 'year']))
+                                            @if (in_array($con['subject'], ['status', 'id_outlet', 'role_name', 'month', 'year']))
                                                 <div class="col-md-3">
                                                     <input type="hidden" placeholder="Keyword" class="form-control" name="parameter" required @if (isset($con['parameter'])) value="{{ $con['parameter'] }}" @endif/>
                                                 </div>
@@ -198,8 +199,8 @@
                                             <div class="col-md-4">
                                                 <select name="subject" class="form-control input-sm select2" placeholder="Search Subject" onChange="changeSubject(this.name)" style="width:100%">
                                                     <option value="" selected disabled>Search Subject</option>
-                                                	<option value="nickname">Name</option>
-                                                    <option value="phone_number">Phone</option>
+                                                	<option value="name">Name</option>
+                                                    <option value="phone">Phone</option>
                                                     <option value="id_outlet">Office</option>
                                                     <option value="role_name">Role Shift</option>
                                                     <option value="status">Status</option>
@@ -233,8 +234,8 @@
                                     <div class="col-md-4">
                                         <select name="subject" class="form-control input-sm select2" placeholder="Search Subject" onChange="changeSubject(this.name)" style="width:100%">
                                             <option value="" selected disabled>Search Subject</option>
-                                            <option value="nickname">Name</option>
-                                            <option value="phone_number">Phone</option>
+                                            <option value="name">Name</option>
+                                            <option value="phone">Phone</option>
                                             <option value="id_outlet">Office</option>
                                             <option value="role_name">Role Shift</option>
                                             <option value="status">Status</option>
