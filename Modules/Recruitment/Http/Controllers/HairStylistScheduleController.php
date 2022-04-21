@@ -96,8 +96,11 @@ class HairStylistScheduleController extends Controller
         $post['id_hairstylist_schedule'] = $id;
 
         $update = MyHelper::post('recruitment/hairstylist/be/schedule/update',$post);
-
+        
         if(isset($update['status']) && $update['status'] == 'success'){
+            if(isset($post['update_type']) && $post['update_type'] == 'approve'){
+                return redirect('recruitment/hair-stylist/schedule/detail/'.$id)->withSuccess(['Success approve data schedule']);
+            }
             return redirect('recruitment/hair-stylist/schedule/detail/'.$id)->withSuccess(['Success update data schedule']);
         }else{
             return redirect('recruitment/hair-stylist/schedule/detail/'.$id)->withErrors($update['messages']??['Failed update data to approved']);
