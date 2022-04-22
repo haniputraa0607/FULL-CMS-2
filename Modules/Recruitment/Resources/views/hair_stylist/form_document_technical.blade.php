@@ -30,14 +30,14 @@
 				<label class="col-md-4 control-label">Test By <span class="required" aria-required="true"> * </span>
 				</label>
 				<div class="col-md-4">
-					<input class="form-control" maxlength="200" type="text" name="data_document[process_name_by]" @if(isset($dataDoc['Technical Tested']['process_name_by'])) value="{{$dataDoc['Technical Tested']['process_name_by']}}" disabled @endif placeholder="Test By" required/>
+					<input class="form-control" maxlength="200" type="text" name="data_document[process_name_by]" @if(isset($dataDoc['Technical Tested'])) value="{{$dataDoc['Technical Tested']['process_name_by']}}" disabled @endif placeholder="Test By" required/>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-md-4 control-label">Notes <span class="required" aria-required="true"> * </span>
 				</label>
 				<div class="col-md-6">
-					<textarea class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Technical Tested']['process_name_by'])) disabled @endif>@if(isset($dataDoc['Technical Tested']['process_notes'])) {{$dataDoc['Technical Tested']['process_notes']}} disabled @endif</textarea>
+					<textarea class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Technical Tested'])) disabled @endif>@if(isset($dataDoc['Technical Tested']['process_notes'])) {{$dataDoc['Technical Tested']['process_notes']}} disabled @endif</textarea>
 				</div>
 			</div>
 			<div class="form-group">
@@ -70,7 +70,7 @@
 		</div>
 		<input type="hidden" name="action_type" id="action_type_technical" value="Technical Tested">
 		<input type="hidden" name="tab_type" value="candidate-status">
-		@if(!isset($dataDoc['Technical Tested']))
+		@if(!isset($dataDoc['Technical Tested']) && $detail['user_hair_stylist_status'] != 'Rejected')
 		<div class="row" style="text-align: center">
 			{{ csrf_field() }}
 			<a class="btn red save" data-name="{{ $detail['fullname'] }}" data-status="Rejected" data-form="technical">Reject</a>
