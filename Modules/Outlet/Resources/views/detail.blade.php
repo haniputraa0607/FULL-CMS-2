@@ -1135,7 +1135,7 @@
                             item.unit_icount.forEach(unit => {
                                 unit.stock = 0;
                                 item.product_icount_outlet_stocks.forEach(stock => {
-                                    if (stock.unit == unit.id_unit_icount) {
+                                    if (stock.unit == unit.unit) {
                                         unit.stock = stock.stock;
                                     }
                                 })
