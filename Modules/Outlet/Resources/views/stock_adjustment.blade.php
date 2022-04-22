@@ -49,6 +49,16 @@
                     <div class="form-group">
                         <div class="input-icon right">
                             <label class="col-md-3 control-label">
+                                Datetime
+                            </label>
+                        </div>
+                        <div class="col-md-5">
+                            <input class="form-control" type="text" id="follow_up" name="follow_up" value="{{ (date('F d, Y @ H:i', strtotime($result['created_at']))) }}" readonly required/>
+                        </div>
+                    </div> 
+                    <div class="form-group">
+                        <div class="input-icon right">
+                            <label class="col-md-3 control-label">
                                 Title
                             </label>
                         </div>
@@ -83,7 +93,7 @@
                             </label>
                         </div>
                         <div class="col-md-2">
-                            <input class="form-control" type="text" id="follow_up" name="follow_up" value="{{ $result['unit_icount']['unit'] }}" readonly required/>
+                            <input class="form-control" type="text" id="follow_up" name="follow_up" value="{{ $result['unit'] }}" readonly required/>
                         </div>
                     </div> 
                     <div class="form-group">
