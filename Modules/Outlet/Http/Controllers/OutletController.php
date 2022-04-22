@@ -1469,4 +1469,27 @@ class OutletController extends Controller
 
         
     }
+
+    public function detailStockAdjustment($outlet_code, $id)
+    {
+        $data = [
+            'title'             => 'Outlet',
+            'sub_title'         => 'Detail Stock Adjustment',
+            'menu_active'       => 'outlet',
+            'submenu_active'    => 'outlet-list'
+        ];
+
+        $post = [
+            'outlet_code' => $outlet_code,
+            'id_product_icount_stock_adjustment' => $id
+        ];
+
+        $detail = MyHelper::post('outlet/stock-adjustment/detail', $post);
+        if(isset($detail['status']) && $detail['status'] == 'success'){
+            $data['result'] = $detail['result'];
+            return view('outlet::stock_adjustment', $data);
+        }else{
+            return back()->withErrors($detail['messages']??['Failed to get data']);
+        }
+    }
 }

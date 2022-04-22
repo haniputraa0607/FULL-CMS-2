@@ -52,6 +52,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'outlet',
     Route::any('detail/{outlet_code}/stock', ['middleware' => 'feature_control:447', 'uses' => 'OutletController@conversionStock']);
     Route::any('detail/{outlet_code}/report/{id_product}/{unit}', ['middleware' => 'feature_control:447', 'uses' => 'OutletController@reportStock']);
     Route::any('detail/{outlet_code}/unit-conversion/{id_conversion}', ['middleware' => 'feature_control:447', 'uses' => 'OutletController@detailUnitConversion']);
+    Route::any('detail/{outlet_code}/stock-adjustment/{id}', ['middleware' => 'feature_control:447', 'uses' => 'OutletController@detailStockAdjustment']);
 
 
     Route::get('max-order/{outlet_code?}', ['middleware' => 'feature_control:197', 'uses' => 'OutletController@maxOrder']);
