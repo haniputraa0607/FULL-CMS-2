@@ -7,8 +7,7 @@ $allMinScore = 0;
 $totalTheories = 0;
 ?>
 @extends('layouts.main-closed')
-@include('recruitment::hair_stylist.detail_schedule')
-@include('recruitment::hair_stylist.detail_box')
+
 
 @section('page-style')
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/datemultiselect/jquery-ui.css') }}" rel="stylesheet" type="text/css" />
@@ -172,7 +171,7 @@ $totalTheories = 0;
 				$.ajax({
 					type : "POST",
 					url : "{{ url('recruitment/hair-stylist/update-status') }}",
-					data : "_token="+token+"&id_user_hair_stylist="+id+"&user_hair_stylist_status=Training Completed",
+					data : "_token="+token+"&id_employee="+id+"&status=Training Completed",
 					success : function(result) {
 						if (result.status == "success") {
 							swal({
@@ -302,7 +301,6 @@ $totalTheories = 0;
         </ul>
     </div><br>
 
-    <a href="{{url($url_back)}}" class="btn green" style="margin-bottom: 2%;"><i class="fa fa-arrow-left"></i> Back</a>
 
     @include('layouts.notifications')
 
@@ -315,99 +313,46 @@ $totalTheories = 0;
 
         <div class="tabbable-line boxless tabbable-reversed">
         	<ul class="nav nav-tabs">
-                <li @if($step_approve == 0) class="active" @endif>
+                <li @if($detail['status'] != 'candidate')) class="active" @endif>
                     <a href="#hs-info" data-toggle="tab"> Info </a>
                 </li>
-                <li @if($step_approve == 1) class="active" @endif>
-                        <a href="#candidate-status" data-toggle="tab"> Status Hairstylist </a>
+                <li @if($detail['status'] == 'candidate') class="active" @endif>
+                        <a href="#candidate-status" data-toggle="tab"> Status Employee </a>
                 </li>
-                @if($detail['user_hair_stylist_status'] == 'Active')
-					<li>
-						<a href="#hs-change-outlet" data-toggle="tab"> Move Outlet </a>
-					</li>
-	                <li>
-	                    <a href="#hs-schedule" data-toggle="tab"> Schedule </a>
-	                </li>
-	                <li>
-	                    <a href="#hs-box" data-toggle="tab"> Box </a>
-	                </li>
-                @endif
             </ul>
         </div>
 
 		<div class="tab-content">
-			<div class="tab-pane @if($step_approve == 0) active @endif form" id="hs-info">
-				<form class="form-horizontal" id="form-submit" role="form" action="{{url($url_back.'/update/'.$detail['id_user_hair_stylist'])}}" method="post" enctype="multipart/form-data">
+			<div class="tab-pane @if($detail['status'] != 'candidate') active @endif form" id="hs-info">
+				<form class="form-horizontal" id="form-submit" role="form" action="{{url($url_back.'/update/'.$detail['id_employee'])}}" method="post" enctype="multipart/form-data">
 					<div class="form-body">
 						<div class="form-group">
 							<label class="col-md-4 control-label">Status</label>
 							<div class="col-md-6">
-								@if($detail['user_hair_stylist_status'] == 'Candidate')
+								@if($detail['status_approved'] == 'submitted')
 									<span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: #9b9e9c;padding: 5px 12px;color: #fff;">Candidate</span>
-								@elseif($detail['user_hair_stylist_status'] == 'Active')
+								@elseif($detail['status'] == 'active')
 									<span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: #26C281;padding: 5px 12px;color: #fff;">Active</span>
-								@elseif($detail['user_hair_stylist_status'] == 'Rejected')
+								@elseif($detail['status'] == 'rejected')
 									<span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: #E7505A;padding: 5px 12px;color: #fff;">Rejected</span>
-								@elseif($detail['user_hair_stylist_status'] == 'Inactive')
+								@elseif($detail['status'] == 'inactive')
 									<span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: #E7505A;padding: 5px 12px;color: #fff;">Inactive</span>
 								@else
-									<span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: #faf21e;padding: 5px 12px;color: #fff;">{{$detail['user_hair_stylist_status'] }}</span>
+									<span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: #faf21e;padding: 5px 12px;color: #fff;">{{$detail['status_approved'] }}</span>
 								@endif
 							</div>
 						</div>
-						<div class="form-group">
-							<label class="col-md-4 control-label">Passed Status</label>
-							<div class="col-md-6" style="margin-top: 0.7%">{{$detail['user_hair_stylist_passed_status']}}</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-4 control-label">Score</label>
-							<div class="col-md-6" style="margin-top: 0.7%">{{$detail['user_hair_stylist_score']}}</div>
-						</div>
-						@if($detail['user_hair_stylist_status'] == 'Active' || $detail['user_hair_stylist_status'] == 'Inactive')
-							<div class="form-group">
-								<label class="col-md-4 control-label">Approve By</label>
-								<div class="col-md-6" style="margin-top: 0.7%">{{$detail['approve_by_name']}}</div>
-							</div>
-							<div class="form-group">
-								<label class="col-md-4 control-label">Join Date</label>
-								<div class="col-md-6" style="margin-top: 0.7%">{{date('d M Y H:i', strtotime($detail['join_date']))}}</div>
-							</div>
-							<div class="form-group">
-								<label class="col-md-4 control-label">Bank Account</label>
-								<div class="col-md-6" style="margin-top: 1%">
-									@if(empty($detail['beneficiary_account']))
-										-
-									@else
-										{{$detail['bank_name']}}<br>
-										{{$detail['beneficiary_name']}}<br>
-										{{$detail['beneficiary_account']}}
-									@endif
-								</div>
-							</div>
-						@endif
-						<div class="form-group">
+						
+<!--						<div class="form-group">
 							<label class="col-md-4 control-label">File Contract</label>
 							<div class="col-md-6" style="margin-top: 0.7%">
 								@if(empty($detail['file_contract']))
 									-
 								@else
-									<a href="{{url('recruitment/hair-stylist/detail/download-file-contract', $detail['id_user_hair_stylist'])}}">hs_{{$detail['user_hair_stylist_code']}}.docx</a>
+									<a href="{{url('recruitment/hair-stylist/detail/download-file-contract', $detail['id_employee'])}}">hs_{{$detail['user_hair_stylist_code']}}.docx</a>
 								@endif
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-4 control-label">NIK</label>
-							<div class="col-md-6" style="margin-top: 0.7%"><b>{{$detail['user_hair_stylist_code']}}</b></div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-4 control-label">ID Card Number <span class="required" aria-required="true"> * </span>
-							</label>
-							<div class="col-md-6">
-								<div class="input-icon right">
-									<input type="text" placeholder="ID Card Number" class="form-control" name="id_card_number" value="{{ $detail['id_card_number']}}" required>
-								</div>
-							</div>
-						</div>
+						</div>-->
 						<div class="form-group">
 							<label class="col-md-4 control-label">Nickname <span class="required" aria-required="true"> * </span>
 							</label>
@@ -418,61 +363,11 @@ $totalTheories = 0;
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-4 control-label">Category <span class="required" aria-required="true"> * </span>
+							<label class="col-md-4 control-label">Name <span class="required" aria-required="true"> * </span>
 							</label>
 							<div class="col-md-6">
 								<div class="input-icon right">
-									<select  class="form-control select2" name="id_hairstylist_category" data-placeholder="Select Category" required>
-										<option></option>
-										@foreach($hairstylist_category??[] as $category)
-											<option value="{{$category['id_hairstylist_category']}}" @if($detail['id_hairstylist_category'] == $category['id_hairstylist_category']) selected @endif>{{$category['hairstylist_category_name']}}</option>
-										@endforeach
-									</select>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-4 control-label">
-								Photo<span class="required" aria-required="true"> <br>(300*300) </span>
-							</label>
-							<div class="col-md-8">
-								<div class="fileinput fileinput-new" data-provides="fileinput">
-									<div class="fileinput-new thumbnail" style="width: 200px; height: 200px;">
-										<img src="@if(isset($detail['user_hair_stylist_photo'])){{$detail['user_hair_stylist_photo']}}@endif" alt="">
-									</div>
-									<div class="fileinput-preview fileinput-exists thumbnail" id="image" style="max-width: 200px; max-height: 200px;"></div>
-									@if(!!in_array($detail['user_hair_stylist_status'], ['Active','Inactive']))
-										<div>
-												<span class="btn default btn-file">
-												<span class="fileinput-new"> Select image </span>
-												<span class="fileinput-exists"> Change </span>
-												<input type="file" class="filePhoto" id="fieldphoto" accept="image/*" name="user_hair_stylist_photo">
-												</span>
-											<a href="javascript:;" id="removeImage" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
-										</div>
-									@endif
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-4 control-label">Level <span class="required" aria-required="true"> * </span>
-							</label>
-							<div class="col-md-6">
-								<div class="input-icon right">
-									<select  class="form-control select2" name="level" data-placeholder="Select level" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) disabled @endif>
-										<option></option>
-										<option value="Supervisor" @if($detail['level'] == 'Supervisor') selected @endif>Supervisor</option>
-										<option value="Hairstylist" @if($detail['level'] == 'Hairstylist') selected @endif>Hairstylist</option>
-									</select>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-4 control-label">Full Name <span class="required" aria-required="true"> * </span>
-							</label>
-							<div class="col-md-6">
-								<div class="input-icon right">
-									<input type="text" placeholder="Full Name" class="form-control" name="fullname" value="{{ $detail['fullname']}}" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) readonly @endif>
+									<input type="text" placeholder="Full Name" class="form-control" name="name" value="{{ $detail['name']}}" required @if(!in_array($detail['status'], ['Active','Inactive'])) readonly @endif>
 								</div>
 							</div>
 						</div>
@@ -481,7 +376,7 @@ $totalTheories = 0;
 							</label>
 							<div class="col-md-6">
 								<div class="input-icon right">
-									<input type="text" placeholder="Email" class="form-control" name="email" value="{{ $detail['email']}}" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) readonly @endif>
+									<input type="text" placeholder="Email" class="form-control" name="email" value="{{ $detail['email']}}" required @if(!in_array($detail['status'], ['Active','Inactive'])) readonly @endif>
 								</div>
 							</div>
 						</div>
@@ -490,7 +385,7 @@ $totalTheories = 0;
 							</label>
 							<div class="col-md-6">
 								<div class="input-icon right">
-									<input type="text" placeholder="Phone" class="form-control" name="phone_number" value="{{ $detail['phone_number']}}" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) readonly @endif>
+									<input type="text" placeholder="Phone" class="form-control" name="phone_number" value="{{ $detail['phone_number']}}" required @if(!in_array($detail['status'], ['Active','Inactive'])) readonly @endif>
 								</div>
 							</div>
 						</div>
@@ -499,7 +394,7 @@ $totalTheories = 0;
 							</label>
 							<div class="col-md-6">
 								<div class="input-icon right">
-									<select  class="form-control select2" name="gender" data-placeholder="Select gender" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) disabled @endif>
+									<select  class="form-control select2" name="gender" data-placeholder="Select gender" required @if(!in_array($detail['status'], ['Active','Inactive'])) disabled @endif>
 										<option></option>
 										<option value="Male" @if($detail['gender'] == 'Male') selected @endif>Male</option>
 										<option value="Female" @if($detail['gender'] == 'Female') selected @endif>Female</option>
@@ -508,11 +403,11 @@ $totalTheories = 0;
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-4 control-label">Nationality <span class="required" aria-required="true"> * </span>
+							<label class="col-md-4 control-label">Country <span class="required" aria-required="true"> * </span>
 							</label>
 							<div class="col-md-6">
 								<div class="input-icon right">
-									<input type="text" placeholder="Nationality" class="form-control" name="nationality" value="{{ $detail['nationality']}}" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) readonly @endif>
+									<input type="text" placeholder="Country" class="form-control" name="country" value="{{ $detail['country']}}" required @if(!in_array($detail['status'], ['Active','Inactive'])) readonly @endif>
 								</div>
 							</div>
 						</div>
@@ -521,20 +416,20 @@ $totalTheories = 0;
 							</label>
 							<div class="col-md-6">
 								<div class="input-icon right">
-									<input type="text" placeholder="Birthplace" class="form-control" name="birthplace" value="{{ $detail['birthplace']}}" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) readonly @endif>
+									<input type="text" placeholder="Birthplace" class="form-control" name="birthplace" value="{{ $detail['birthplace']}}" required @if(!in_array($detail['status'], ['Active','Inactive'])) readonly @endif>
 								</div>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="input-icon right">
 								<label class="col-md-4 control-label">
-									Birthdate
+									Birthday
 									<span class="required" aria-required="true"> * </span>
 								</label>
 							</div>
 							<div class="col-md-6">
 								<div class="input-group">
-									<input type="text" class="datepicker form-control" name="birthdate" value="{{date('d-M-Y', strtotime($detail['birthdate']))}}" required autocomplete="off" @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) readonly @endif>
+									<input type="text" class="datepicker form-control" name="birthday" value="{{date('d-M-Y', strtotime($detail['birthday']))}}" required autocomplete="off" @if(!in_array($detail['status'], ['Active','Inactive'])) readonly @endif>
 									<span class="input-group-btn">
 		                                    <button class="btn default" type="button">
 		                                        <i class="fa fa-calendar"></i>
@@ -548,7 +443,7 @@ $totalTheories = 0;
 							</label>
 							<div class="col-md-6">
 								<div class="input-icon right">
-									<input type="text" placeholder="Religion" class="form-control" name="religion" value="{{ $detail['religion']}}" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) readonly @endif>
+									<input type="text" placeholder="Religion" class="form-control" name="religion" value="{{ $detail['religion']}}" required @if(!in_array($detail['status'], ['Active','Inactive'])) readonly @endif>
 								</div>
 							</div>
 						</div>
@@ -557,7 +452,7 @@ $totalTheories = 0;
 							</label>
 							<div class="col-md-6">
 								<div class="input-icon right">
-									<input type="text" placeholder="Height" class="form-control" name="height" value="{{ (int)$detail['height']}}" @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) readonly @endif>
+									<input type="text" placeholder="Height" class="form-control" name="height" value="{{ (int)$detail['height']}}" @if(!in_array($detail['status'], ['Active','Inactive'])) readonly @endif>
 								</div>
 							</div>
 						</div>
@@ -566,7 +461,7 @@ $totalTheories = 0;
 							</label>
 							<div class="col-md-6">
 								<div class="input-icon right">
-									<input type="text" placeholder="Weight" class="form-control" name="weight" value="{{ (int)$detail['weight']}}" @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) readonly @endif>
+									<input type="text" placeholder="Weight" class="form-control" name="weight" value="{{ (int)$detail['weight']}}" @if(!in_array($detail['status'], ['Active','Inactive'])) readonly @endif>
 								</div>
 							</div>
 						</div>
@@ -575,7 +470,7 @@ $totalTheories = 0;
 							</label>
 							<div class="col-md-6">
 								<div class="input-icon right">
-									<select  class="form-control select2" name="blood_type" data-placeholder="Select blood type" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) disabled @endif>
+									<select  class="form-control select2" name="blood_type" data-placeholder="Select blood type" required @if(!in_array($detail['status'], ['Active','Inactive'])) disabled @endif>
 										<option></option>
 										<option value="A" @if($detail['blood_type'] == 'A') selected @endif>A</option>
 										<option value="B" @if($detail['blood_type'] == 'B') selected @endif>B</option>
@@ -586,98 +481,21 @@ $totalTheories = 0;
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-4 control-label">Recent Address <span class="required" aria-required="true"> * </span>
-							</label>
-							<div class="col-md-6">
-								<textarea type="text" name="recent_address" placeholder="Input recent address here" class="form-control" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) disabled @endif>{{$detail['recent_address']}}</textarea>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-4 control-label">Postal Code <span class="required" aria-required="true"> * </span>
-							</label>
-							<div class="col-md-6">
-								<div class="input-icon right">
-									<input type="text" placeholder="Postal Code" class="form-control" name="postal_code" value="{{ $detail['postal_code']}}" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) readonly @endif>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
 							<label class="col-md-4 control-label">Marital Status <span class="required" aria-required="true"> * </span>
 							</label>
 							<div class="col-md-6">
 								<div class="input-icon right">
-									<select  class="form-control select2" name="marital_status" data-placeholder="Select marital status" required @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) disabled @endif>
+									<select  class="form-control select2" name="marital_status" data-placeholder="Select marital status" required @if(!in_array($detail['status'], ['Active','Inactive'])) disabled @endif>
 										<option></option>
 										<option value="Single" @if($detail['marital_status'] == 'Single') selected @endif>Single</option>
-										<option value="Married" @if($detail['marital_status'] == 'Married') selected @endif>Married</option>
-										<option value="Widowed" @if($detail['marital_status'] == 'Widowed') selected @endif>Widowed</option>
-										<option value="Divorced" @if($detail['marital_status'] == 'Divorced') selected @endif>Divorced</option>
+										<option value="Married" @if($detail['marital_status'] == 'Menikah') selected @endif>Menikah</option>
+										<option value="Widowed" @if($detail['marital_status'] == 'Janda') selected @endif>Janda</option>
+										<option value="Divorced" @if($detail['marital_status'] == 'Duda') selected @endif>Duda</option>
 									</select>
 								</div>
 							</div>
 						</div>
 
-						@if(in_array($detail['user_hair_stylist_status'], ['Active','Inactive']))
-							<div class="form-group">
-								<label  class="control-label col-md-4">Auto Generate Password
-									<i class="fa fa-question-circle tooltips" data-original-title="Jika di centang maka password akan di generate otomatis oleh sistem" data-container="body"></i>
-								</label>
-								<div class="col-md-6">
-									<label class="mt-checkbox mt-checkbox-outline">
-										<input type="checkbox" name="auto_generate_pin" id="auto_generate_pin" class="same checkbox-product-price" onclick="changeAutoGeneratePin()"/>
-										<span></span>
-									</label>
-								</div>
-							</div>
-							<div id="div_password">
-								<div class="form-group">
-									<label for="example-search-input" class="control-label col-md-4">Password
-										<i class="fa fa-question-circle tooltips" data-original-title="Masukkan password yang akan digunakan untuk login" data-container="body"></i>
-									</label>
-									<div class="col-md-6">
-										<input class="form-control" maxlength="6" onkeyup="matchPassword('detail')" type="password" name="pin" id="pin1" value="{{old('pin')}}" placeholder="Enter password" @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) required @endif/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="example-search-input" class="control-label col-md-4">Re-type Password
-										<i class="fa fa-question-circle tooltips" data-original-title="Ketik ulang password yang akan digunakan untuk login" data-container="body"></i>
-									</label>
-									<div class="col-md-6">
-										<input class="form-control" maxlength="6" onkeyup="matchPassword('detail')" type="password" name="pin2" id="pin2" value="{{old('pin2')}}"placeholder="Re-type password" @if(!in_array($detail['user_hair_stylist_status'], ['Active','Inactive'])) required @endif/>
-										<b style="color: red;font-size: 12px;display: none" id="alert_password_detail">Password des not match</b>
-									</div>
-								</div>
-							</div>
-						@endif
-
-						<div class="form-group">
-							<label class="col-md-4 control-label">Assign Outlet</label>
-							<div class="col-md-6">
-								<div class="input-icon right">
-									<select  class="form-control select2" name="id_outlet" data-placeholder="Select outlet" disabled>
-										<option></option>
-										@foreach($outlets as $outlet)
-											<option value="{{$outlet['id_outlet']}}" @if($outlet['id_outlet'] == $detail['id_outlet']) selected @endif>{{$outlet['outlet_code']}} - {{$outlet['outlet_name']}}</option>
-										@endforeach
-									</select>
-								</div>
-							</div>
-						</div>
-                        <div class="form-group">
-                                <label class="col-md-4 control-label">Group<span class="required" aria-required="true"> * </span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Group hair stylist" data-container="body"></i>
-                                </label>
-                                <div class="col-md-6">
-                                        <div class="input-icon right">
-                                                <select  class="form-control select2" name="id_hairstylist_group" data-placeholder="Select Group" required>
-                                                        <option></option>
-                                                        @foreach($groups as $group)
-                                                                <option value="{{$group['id_hairstylist_group']}}" @if($group['id_hairstylist_group'] == $detail['id_hairstylist_group']) selected @endif>{{$group['hair_stylist_group_code']}} - {{$group['hair_stylist_group_name']}}</option>
-                                                        @endforeach
-                                                </select>
-                                        </div>
-                                </div>
-                        </div>
                         @if(!empty($detail['experiences']))
                         <div class="form-group">
 							<label class="col-md-7 control-label" style="font-size: 18px; font-weight: bold; !important;">Work Experience</label>
@@ -722,10 +540,9 @@ $totalTheories = 0;
                             @endforeach
                         @endif
 					</div>
-
 					@if(!empty($detail['documents']))
 						<br>
-						<div style="text-align: center"><h4>Document Hair Stylist</h4></div>
+						<div style="text-align: center"><h4>Document Employee</h4></div>
 						<div class="form-group">
 							<div class="col-md-12">
 								<table class="table table-striped table-bordered table-hover">
@@ -740,29 +557,21 @@ $totalTheories = 0;
 									</tr>
 									</thead>
 									<tbody>
+                                                                         
 									@foreach($detail['documents'] as $doc)
 										<?php
-											if($doc['document_type'] == 'Training Completed'){
-												$dataDoc[$doc['document_type']][] = $doc;
-												$detailTheories = [];
-												foreach ($doc['theories'] as $theory){
-													$detailTheories[$theory['category_title']][] = $theory;
-													$allTotalScore = $allTotalScore + $theory['score'];
-													$allMinScore = $allMinScore + $theory['minimum_score'];
-													$totalTheories++;
-												}
-											}else{
 												$dataDoc[$doc['document_type']] = $doc;
-											}
 										?>
+                                                                        
+                                                                        
 										<tr>
 											<td>
 												@if(!empty($doc['attachment']))
-													<a class="btn blue btn-sm" href="{{url('recruitment/hair-stylist/detail/download-file', $doc['id_user_hair_stylist_document'])}}">Attachment</a>
+													<a class="btn blue btn-sm" href="{{url('recruitment/hair-stylist/detail/download-file', $doc['id_employee_document'])}}">Attachment</a>
 												@endif
 												@if($doc['document_type'] == 'Training Completed' && !empty($detailTheories))
-													<a data-toggle="modal" href="#detail_{{$doc['id_user_hair_stylist_document']}}" class="btn green-jungle btn-sm">Score</a>
-													<div id="detail_{{$doc['id_user_hair_stylist_document']}}" class="modal fade bs-modal-lg" tabindex="-1" aria-hidden="true">
+													<a data-toggle="modal" href="#detail_{{$doc['id_employee_document']}}" class="btn green-jungle btn-sm">Score</a>
+													<div id="detail_{{$doc['id_employee_document']}}" class="modal fade bs-modal-lg" tabindex="-1" aria-hidden="true">
 														<div class="modal-dialog modal-lg">
 															<div class="modal-content">
 																<div class="modal-header">
@@ -836,77 +645,68 @@ $totalTheories = 0;
 						</div>
 					@endif
 
-					@if(MyHelper::hasAccess([349], $grantedFeature) && $detail['user_hair_stylist_status'] != 'Rejected')
+					@if(MyHelper::hasAccess([349], $grantedFeature) && $detail['status'] != 'Rejected')
 						{{ csrf_field() }}
 						<div class="row" style="text-align: center">
-							@if(!in_array($detail['user_hair_stylist_status'], ['Candidate', 'Interviewed', 'Technical Tested', 'Training Completed']))
+							@if(!in_array($detail['status'], ['Candidate', 'Interviewed', 'Technical Tested', 'Training Completed']))
 								<button type="submit" id="btn_submit_detail" class="btn blue">Update</button>
 							@endif
 						</div>
 					@endif
 				</form>
 			</div>
-			<div class="tab-pane @if($step_approve == 1) active @endif" id="candidate-status">
+			<div class="tab-pane @if($detail['status'] == 'candidate') active @endif" id="candidate-status">
 				<br>
 				<br>
 				<div class="row">
 					<div class="col-md-3">
 						<ul class="ver-inline-menu tabbable margin-bottom-10">
-							<li @if($detail['user_hair_stylist_status'] == 'Candidate') class="active" @endif>
-								<a @if(in_array($detail['user_hair_stylist_status'], ['Candidate', 'Interviewed','Active', 'Psychological Tested', 'Technical Tested', 'Training Completed'])) data-toggle="tab" href="#interview" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Interview </a>
+							<li @if($detail['status_approved'] == 'Submitted') class="active" @endif>
+								<a @if(in_array($detail['status_approved'], ['Submitted', 'Interview','Psikotest','HRGA','Contract','Approved','Success'])) data-toggle="tab" href="#interview" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Interview </a>
 							</li>
-							<li @if($detail['user_hair_stylist_status'] == 'Interviewed') class="active" @endif>
-								<a  @if(in_array($detail['user_hair_stylist_status'], ['Interviewed', 'Psychological Tested','Active', 'Technical Tested', 'Training Completed'])) data-toggle="tab" href="#psychological_test" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Psychological Test </a>
+							<li @if($detail['status_approved'] == 'Interview') class="active" @endif>
+								<a  @if(in_array($detail['status_approved'], ['Interview','Psikotest','HRGA','Contract','Approved','Success'])) data-toggle="tab" href="#psychological_test" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Psychological Test </a>
 							</li>
-							<li @if($detail['user_hair_stylist_status'] == 'Psychological Tested') class="active" @endif>
-								<a  @if(in_array($detail['user_hair_stylist_status'], ['Psychological Tested', 'Technical Tested','Active', 'Training Completed'])) data-toggle="tab" href="#technical_test" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Technical Test </a>
+							<li @if($detail['status_approved'] == 'Psikotest') class="active" @endif>
+								<a  @if(in_array($detail['status_approved'], ['Psikotest','HRGA','Contract','Approved','Success'])) data-toggle="tab" href="#hrga" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Approval HRGA </a>
 							</li>
-							<li @if($detail['user_hair_stylist_status'] == 'Technical Tested') class="active" @endif>
-								<a @if(in_array($detail['user_hair_stylist_status'], ['Technical Tested', 'Training Completed','Active'])) data-toggle="tab"  href="#training_result" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Training Result</a>
+							<li @if($detail['status_approved'] == 'HRGA') class="active" @endif>
+								<a  @if(in_array($detail['status_approved'], ['HRGA','Contract','Approved','Success'])) data-toggle="tab" href="#contract" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Contract</a>
 							</li>
-							<li @if($detail['user_hair_stylist_status'] == 'Training Completed') class="active" @endif>
-								<a @if(in_array($detail['user_hair_stylist_status'], ['Training Completed','Active']))  data-toggle="tab"  href="#approve" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Approve </a>
+							<li @if($detail['status_approved'] == 'Contract') class="active" @endif>
+								<a  @if(in_array($detail['status_approved'], ['Contract','Approved','Success'])) data-toggle="tab" href="#approved" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Approve</a>
 							</li>
-							<li @if($detail['user_hair_stylist_status'] == 'Active') class="active" @endif>
-								<a @if(in_array($detail['user_hair_stylist_status'], ['Active']))  data-toggle="tab"  href="#active" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i>Complementary Documents </a>
+							<li @if($detail['status_approved'] == 'Approved' ||$detail['status_approved'] == 'Success' ) class="active" @endif>
+								<a  @if(in_array($detail['status_approved'], ['Approved','Success'])) data-toggle="tab" href="#bank" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Form Bank</a>
 							</li>
+							
 						</ul>
 					</div>
 					<div class="col-md-9">
 						<div class="tab-content">
-							<div class="tab-pane @if($detail['user_hair_stylist_status'] == 'Candidate' || $detail['user_hair_stylist_status'] == 'Rejected') active @endif" id="interview">
-								@include('recruitment::hair_stylist.form_document_interview')
+							<div class="tab-pane @if($detail['status_approved'] == 'Submitted') active @endif" id="interview">
+								@include('employee::employee.form_document_interview')
 							</div>
-							<div class="tab-pane @if($detail['user_hair_stylist_status'] == 'Interviewed') active @endif" id="psychological_test">
-								@include('recruitment::hair_stylist.form_document_psychological')
+							<div class="tab-pane @if($detail['status_approved'] == 'Interview') active @endif" id="psychological_test">
+								@include('employee::employee.form_document_psychological')
 							</div>
-							<div class="tab-pane @if($detail['user_hair_stylist_status'] == 'Psychological Tested') active @endif" id="technical_test">
-								@include('recruitment::hair_stylist.form_document_technical')
+							<div class="tab-pane @if($detail['status_approved'] == 'Psikotest') active @endif" id="hrga">
+								@include('employee::employee.form_document_hrga')
 							</div>
-							<div class="tab-pane @if($detail['user_hair_stylist_status'] == 'Technical Tested') active @endif" id="training_result">
-								@include('recruitment::hair_stylist.form_document_training')
+							<div class="tab-pane @if($detail['status_approved'] == 'HRGA') active @endif" id="contract">
+								@include('employee::employee.form_document_contract')
 							</div>
-							<div class="tab-pane @if($detail['user_hair_stylist_status'] == 'Training Completed') active @endif" id="approve">
-								@include('recruitment::hair_stylist.form_approve')
+							<div class="tab-pane @if($detail['status_approved'] == 'Contract') active @endif" id="approved">
+								@include('employee::employee.form_approve')
 							</div>
-                                                        <div class="tab-pane @if($detail['user_hair_stylist_status'] == 'Active') active @endif" id="active">
-								@include('recruitment::hair_stylist.form_document_pelengkap')
+							<div class="tab-pane @if($detail['status_approved'] == 'Approved'||$detail['status_approved'] == 'Success') active @endif" id="bank">
+								@include('employee::employee.form_document_bank')
 							</div>
+
 						</div>
 					</div>
 				</div>
 			</div>
-			@if($detail['user_hair_stylist_status'] == 'Active')
-				<div class="tab-pane" id="hs-change-outlet">
-					@include('recruitment::hair_stylist.move_outlet')
-				</div>
-				<div class="tab-pane" id="hs-schedule">
-					@yield('detail-schedule')
-				</div>
-				<div class="tab-pane form" id="hs-box">
-					@yield('detail-box')
-				</div>
-			@endif
 		</div>
     </div>
 

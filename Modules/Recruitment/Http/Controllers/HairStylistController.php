@@ -186,6 +186,7 @@ class HairStylistController extends Controller
             	$data['schedules'] = MyHelper::get('recruitment/hairstylist/be/schedule/outlet?id_outlet='.$data['detail']['id_outlet'])['result'] ?? [];
             }
             $data['hairstylist_category'] = MyHelper::get('hairstylist/be/category')['result']??[];
+            $data['category_theories'] = MyHelper::get('theory/with-category')['result']??[];
             return view('recruitment::hair_stylist.detail', $data);
         }else{
             return redirect('recruitment/hair-stylist')->withErrors($store['messages']??['Failed get detail hair stylist']);
@@ -195,13 +196,17 @@ class HairStylistController extends Controller
     public function hsUpdate(Request $request, $id){
         $post = $request->except('_token');
         $post['id_user_hair_stylist'] = $id;
-
         if(!empty($post['user_hair_stylist_photo'])){
             $post['user_hair_stylist_photo'] = MyHelper::encodeImage($post['user_hair_stylist_photo']);
         }else{
             unset($post['user_hair_stylist_photo']);
         }
-
+        if(!empty($post['data_document'])){
+            if(!empty($post['data_document']['attachment'])){
+                $post['data_document']['ext'] = pathinfo($post['data_document']['attachment']->getClientOriginalName(), PATHINFO_EXTENSION);
+                $post['data_document']['attachment'] = MyHelper::encodeImage($post['data_document']['attachment']);
+            }
+        }
         $update = MyHelper::post('recruitment/hairstylist/be/update',$post);
         if(isset($update['status']) && $update['status'] == 'success'){
             return redirect('recruitment/hair-stylist/detail/'.$id)->withSuccess(['Success update data to hair stylist']);
