@@ -318,7 +318,7 @@ $totalTheories = 0;
                 <li @if($step_approve == 0) class="active" @endif>
                     <a href="#hs-info" data-toggle="tab"> Info </a>
                 </li>
-				@if(!in_array($detail['user_hair_stylist_status'], ['Active', 'Inactive', 'Rejected']))
+				@if(!in_array($detail['user_hair_stylist_status'], ['Active', 'Inactive']))
 				<li @if($step_approve == 1) class="active" @endif>
 					<a href="#candidate-status" data-toggle="tab"> Candidate Status </a>
 				</li>
@@ -848,24 +848,24 @@ $totalTheories = 0;
 					@endif
 				</form>
 			</div>
-			@if(!in_array($detail['user_hair_stylist_status'], ['Active', 'Inactive', 'Rejected']))
+			@if(!in_array($detail['user_hair_stylist_status'], ['Active', 'Inactive']))
 			<div class="tab-pane @if($step_approve == 1) active @endif" id="candidate-status">
 				<br>
 				<br>
 				<div class="row">
 					<div class="col-md-3">
 						<ul class="ver-inline-menu tabbable margin-bottom-10">
-							<li @if($detail['user_hair_stylist_status'] == 'Candidate') class="active" @endif>
-								<a @if(in_array($detail['user_hair_stylist_status'], ['Candidate', 'Interviewed', 'Psychological Tested', 'Technical Tested', 'Training Completed'])) data-toggle="tab" href="#interview" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Interview </a>
+							<li @if($detail['user_hair_stylist_status'] == 'Candidate' || $detail['user_hair_stylist_status'] == 'Rejected') class="active" @endif>
+								<a @if(isset($dataDoc['Interviewed']) || in_array($detail['user_hair_stylist_status'], ['Rejected', 'Candidate', 'Interviewed', 'Psychological Tested', 'Technical Tested', 'Training Completed'])) data-toggle="tab" href="#interview" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Interview </a>
 							</li>
 							<li @if($detail['user_hair_stylist_status'] == 'Interviewed') class="active" @endif>
-								<a  @if(in_array($detail['user_hair_stylist_status'], ['Interviewed', 'Psychological Tested', 'Technical Tested', 'Training Completed'])) data-toggle="tab" href="#psychological_test" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Psychological Test </a>
+								<a  @if(isset($dataDoc['Psychological Tested']) || in_array($detail['user_hair_stylist_status'], ['Interviewed', 'Psychological Tested', 'Technical Tested', 'Training Completed'])) data-toggle="tab" href="#psychological_test" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Psychological Test </a>
 							</li>
 							<li @if($detail['user_hair_stylist_status'] == 'Psychological Tested') class="active" @endif>
-								<a  @if(in_array($detail['user_hair_stylist_status'], ['Psychological Tested', 'Technical Tested', 'Training Completed'])) data-toggle="tab" href="#technical_test" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Technical Test </a>
+								<a  @if(isset($dataDoc['Technical Tested']) || in_array($detail['user_hair_stylist_status'], ['Psychological Tested', 'Technical Tested', 'Training Completed'])) data-toggle="tab" href="#technical_test" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Technical Test </a>
 							</li>
 							<li @if($detail['user_hair_stylist_status'] == 'Technical Tested') class="active" @endif>
-								<a @if(in_array($detail['user_hair_stylist_status'], ['Technical Tested', 'Training Completed'])) data-toggle="tab"  href="#training_result" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Training Result</a>
+								<a @if(isset($dataDoc['Training Completed']) || in_array($detail['user_hair_stylist_status'], ['Technical Tested', 'Training Completed'])) data-toggle="tab"  href="#training_result" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Training Result</a>
 							</li>
 							<li @if($detail['user_hair_stylist_status'] == 'Training Completed') class="active" @endif>
 								<a @if(in_array($detail['user_hair_stylist_status'], ['Training Completed']))  data-toggle="tab"  href="#approve" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Approve </a>
@@ -874,7 +874,7 @@ $totalTheories = 0;
 					</div>
 					<div class="col-md-9">
 						<div class="tab-content">
-							<div class="tab-pane @if($detail['user_hair_stylist_status'] == 'Candidate') active @endif" id="interview">
+							<div class="tab-pane @if($detail['user_hair_stylist_status'] == 'Candidate' || $detail['user_hair_stylist_status'] == 'Rejected') active @endif" id="interview">
 								@include('recruitment::hair_stylist.form_document_interview')
 							</div>
 							<div class="tab-pane @if($detail['user_hair_stylist_status'] == 'Interviewed') active @endif" id="psychological_test">

@@ -14,7 +14,7 @@
 							$avgMin = (int)($allMinScore/$totalTheories);
 						}
 					?>
-					@if($avg < $allMinScore)
+					@if($avg < $avgMin)
 						<div style="border: solid 1px red;background-color: red">
 							<h4><b style="color: white">Total Score : {{$avg}}/{{$avgMin}}</b></h4>
 						</div>
@@ -169,10 +169,12 @@
 			</div>
 		</div>
 		<input type="hidden" name="action_type" id="action_type_approve" value="approve">
+		@if($detail['user_hair_stylist_status'] != 'Rejected')
 		<div class="row" style="text-align: center">
 			{{ csrf_field() }}
 			<a class="btn red save" data-name="{{ $detail['fullname'] }}" data-status="Rejected" data-form="approve">Reject</a>
 			<button class="btn green-jungle" id="btn_submit_app">Approve</button>
 		</div>
+		@endif
 	</form>
 </div>

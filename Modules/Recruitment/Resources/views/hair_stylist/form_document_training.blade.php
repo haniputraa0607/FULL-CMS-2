@@ -157,7 +157,6 @@ $idCategoryUse = [];
 					$htmlTheory = '';
 					foreach($category_theories as $ct){
 						if(!in_array($ct['id_theory_category'], $idCategoryUse)){
-							$htmlSelect .= '<option value="'.$ct['id_theory_category'].'">'.$ct['theory_category_name'].'</option>';
 
 							if(empty($ct['child'])){
 								$totalMinimumScore = 0;
@@ -194,6 +193,7 @@ $idCategoryUse = [];
 								}
 
 								if(!empty($j)){
+									$htmlSelect .= '<option value="'.$ct['id_theory_category'].'">'.$ct['theory_category_name'].'</option>';
 									$totalMinimumScore = (int)($totalMinimumScore/$j);
 									$htmlTheory .= '<br><hr style="border-top: 1px solid black;">';
 
@@ -261,6 +261,7 @@ $idCategoryUse = [];
 								}
 
 								if(!empty($j)){
+									$htmlSelect .= '<option value="'.$ct['id_theory_category'].'">'.$ct['theory_category_name'].'</option>';
 									$totalMinimumScore = (int)($totalMinimumScore/$j);
 									$htmlTheory .= '<br><hr style="border-top: 1px solid black;">';
 
@@ -306,11 +307,13 @@ $idCategoryUse = [];
 				<input type="hidden" name="data_document[document_type]" value="Training Completed">
 			</div>
 			<input type="hidden" name="action_type" id="action_type_training" value="Training Completed">
+			@if($detail['user_hair_stylist_status'] != 'Rejected')
 			<div class="row" style="text-align: center">
 				{{ csrf_field() }}
 				<a class="btn red save" data-name="{{ $detail['fullname'] }}" data-status="Rejected" data-form="training">Reject</a>
 				<button class="btn blue" id="btn_submit_traning">Submit</button>
 			</div>
+			@endif
 		</form>
 	</div>
 </div>
