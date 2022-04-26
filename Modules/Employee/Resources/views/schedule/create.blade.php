@@ -94,7 +94,11 @@
                         if (response.status == 'success') {
                             swal("Sent!", "Schedule has been created, please input detail schedule", "success")
                             var id_schedule = response["result"]["id_employee_schedule"];
-                            location.href = "{{url('employee/schedule/detail')}}/"+id_schedule;
+                            if(response["result"]["shift"] == 'Without Shift'){
+                                location.href = "{{url('employee/schedule/detail/without-shift')}}/"+id_schedule;
+                            }else if(response["result"]["shift"] == 'Use Shift'){
+                                location.href = "{{url('employee/schedule/detail/use-shift')}}/"+id_schedule;
+                            }
                         }
                         else if(response.status == "fail"){
                             swal("Error!", response['messages'], "error")

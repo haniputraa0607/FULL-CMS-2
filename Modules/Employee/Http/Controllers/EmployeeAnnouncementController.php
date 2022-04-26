@@ -13,7 +13,7 @@ class EmployeeAnnouncementController extends Controller
 {
     public function create(Request $request){
 		$data = [
-            'title'          	=> 'Announcement',
+            'title'          	=> 'Employee',
             'sub_title'      	=> 'New Announcement',
             'menu_active'    	=> 'employee',
             'submenu_active' 	=> 'employee-announcement',
@@ -59,7 +59,7 @@ class EmployeeAnnouncementController extends Controller
         $post = $request->all();
 
         $data = [
-            'title'          	=> 'Announcement',
+            'title'          	=> 'Employee',
             'sub_title'      	=> 'Announcement List',
             'menu_active'    	=> 'employee',
             'submenu_active' 	=> 'employee-announcement',
@@ -134,7 +134,7 @@ class EmployeeAnnouncementController extends Controller
 
     public function edit(Request $request, $id_employee_announcement) {
 		$data = [
-            'title'          	=> 'Announcement',
+            'title'          	=> 'Employee',
             'sub_title'      	=> 'Edit Announcement',
             'menu_active'    	=> 'employee',
             'submenu_active' 	=> 'employee-announcement',

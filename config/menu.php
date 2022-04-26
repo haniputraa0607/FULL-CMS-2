@@ -251,6 +251,24 @@ return [
                                     'url' => 'employee/schedule'
                                 ],
                                 [
+                                    'label' => 'Attendance Setting',
+                                    'required_features' => [],
+					                'active' => '\View::shared("child_active") == "employee-attendance-setting"',
+                                    'url' => 'employee/attendance/setting'
+                                ],
+                                [
+                                    'label' => 'Attendance',
+                                    'required_features' => [],
+					                'active' => '\View::shared("child_active") == "employee-attendance"',
+                                    'url' => 'employee/attendance'
+                                ],
+                                [
+                                    'label' => 'Attendance Pending',
+                                    'required_features' => [],
+					                'active' => '\View::shared("child_active") == "employee-attendance-pending"',
+                                    'url' => 'employee/attendance/pending'
+                                ],
+                                [
                                     'label' => '[Response] Approve Employee Schedule',
                                     'required_features' => [],
 					                'active' => '\View::shared("child_active") == "employee-schedule-approve"',
