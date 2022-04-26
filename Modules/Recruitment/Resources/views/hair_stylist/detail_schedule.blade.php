@@ -51,7 +51,7 @@
 @section('detail-schedule')
 	<div class="this-month">
 		@php
-			$day = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+			$day = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 			$dayCount = count($day);
 			$hs_schedules = [];
 			foreach ($detail['hairstylist_schedules'] ?? [] as $schedule) {
@@ -103,8 +103,16 @@
 			    	@endif
 					<div class="row seven-cols">
 				@endif
+                @php
+                    $this_date = date('Y-m-d', strtotime($thisMonthYear.'-'.$thisMonth.'-'.$thisMonthDate[$tmIndex]['date']));
+                    if($this_date>=date('Y-m-d')){
+                        $can_update = true;
+                    }else{
+                        $can_update = false;
+                    }    
+                @endphp
 				@if ($day[$i % 7] == ($thisMonthDate[$tmIndex]['day'] ?? false))
-					<div class="col-md-1 custom-date-box">
+					<div class="col-md-1 custom-date-box" @if (!$can_update) style="background-color:rgb(230, 230, 230);" @endif>
 			        	<div class="card text-center">
 			        		<div class="card-body">
 				        		<div class="text-right" style="height:10px">
@@ -115,7 +123,7 @@
 						        			@foreach ($schedules[$thisMonthYear][$thisMonth][$thisMonthDate[$tmIndex]['date']] as $schedule)
 						        				@php
 						        					$status = !empty($schedule['approve_at']) ? 'approved' : (!empty($schedule['reject_at']) ? 'rejected' : 'pending');
-						        					$shift = ($schedule['shift'] == 'Morning') ? 'Pagi' : 'Sore';
+						        					$shift = $schedule['shift'];
 						        					$color = ($status == 'approved') ? 'lightgreen' : (($status == 'rejected') ? 'orangered' : 'yellow');
 						        				@endphp
 												<p style='color: {{ $color }}; margin:0px;'> {{ $schedule['fullname'].' ('.$shift.') - '.$status }} </p>
@@ -142,10 +150,10 @@
 			        			@endphp
 			        			<select disabled>
 			        				<option></option>
-			        				<option {{ $shift == 'Morning' ? 'selected' : null }}>Pagi</option>
-			        				<option {{ $shift == 'Middle' ? 'selected' : null }}>Tengah</option>
-			        				<option {{ $shift == 'Evening' ? 'selected' : null }}>Sore</option>
-			        				<option {{ $shift == 'Full' ? 'selected' : null }}>Pagi & Sore</option>
+			        				<option {{ $shift == 'Morning' ? 'selected' : null }}>Morning</option>
+			        				<option {{ $shift == 'Middle' ? 'selected' : null }}>Middle</option>
+			        				<option {{ $shift == 'Evening' ? 'selected' : null }}>Evening</option>
+			        				<option {{ $shift == 'Full' ? 'selected' : null }}>Full</option>
 			        			</select>
 			        		</div>
 			        	</div>
@@ -171,7 +179,7 @@
 
 	<div class="next-month" style="margin-top: 50px;">
 		@php
-			$day = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            $day = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 			$dayCount = count($day);
 			$nextMonth = date('m', strtotime("+1 Month".date('Y-m-01')));
 			$nextMonthYear = date('Y', strtotime("+1 Month".date('Y-m-01')));
@@ -211,7 +219,15 @@
 					<div class="row seven-cols">
 				@endif
 				@if ($day[$i % 7] == ($nextMonthDate[$nmIndex]['day'] ?? false))
-					<div class="col-md-1 custom-date-box">
+                    @php
+                        $this_date = date('Y-m-d', strtotime($nextMonthYear.'-'.$nextMonth.'-'.$nextMonthDate[$nmIndex]['date']));
+                        if($this_date>=date('Y-m-d')){
+                            $can_update = true;
+                        }else{
+                            $can_update = false;
+                        }    
+                    @endphp
+					<div class="col-md-1 custom-date-box" @if (!$can_update) style="background-color:rgb(230, 230, 230);" @endif>
 			        	<div class="card text-center">
 			        		<div class="card-body">
 				        		<div class="text-right" style="height:10px">
@@ -222,7 +238,7 @@
 						        			@foreach ($schedules[$nextMonthYear][$nextMonth][$nextMonthDate[$nmIndex]['date']] as $schedule)
 						        				@php
 						        					$status = !empty($schedule['approve_at']) ? 'approved' : (!empty($schedule['reject_at']) ? 'rejected' : 'pending');
-						        					$shift = ($schedule['shift'] == 'Morning') ? 'Pagi' : 'Sore';
+						        					$shift = $schedule['shift'];
 						        					$color = ($status == 'approved') ? 'lightgreen' : (($status == 'rejected') ? 'orangered' : 'yellow');
 						        				@endphp
 												<p style='color: {{ $color }}; margin:0px;'> {{ $schedule['fullname'].' ('.$shift.') - '.$status }} </p>
@@ -249,10 +265,10 @@
 			        			@endphp
 			        			<select disabled>
 			        				<option></option>
-			        				<option {{ $shift == 'Morning' ? 'selected' : null }}>Pagi</option>
-			        				<option {{ $shift == 'Middle' ? 'selected' : null }}>Tengah</option>
-			        				<option {{ $shift == 'Evening' ? 'selected' : null }}>Sore</option>
-			        				<option {{ $shift == 'Full' ? 'selected' : null }}>Pagi & Sore</option>
+			        				<option {{ $shift == 'Morning' ? 'selected' : null }}>Morning</option>
+			        				<option {{ $shift == 'Middle' ? 'selected' : null }}>Middle</option>
+			        				<option {{ $shift == 'Evening' ? 'selected' : null }}>Evening</option>
+			        				<option {{ $shift == 'Full' ? 'selected' : null }}>Full</option>
 			        			</select>
 			        		</div>
 			        	</div>
