@@ -135,6 +135,8 @@
 		        						$shift = 'Morning';
 		        					} elseif ($hs_schedules[$thisMonthYear][$thisMonth][$thisMonthDate[$tmIndex]['date']]['Evening'] ?? false) {
 		        						$shift = 'Evening';
+		        					} elseif ($hs_schedules[$thisMonthYear][$thisMonth][$thisMonthDate[$tmIndex]['date']]['Middle'] ?? false) {
+		        						$shift = 'Middle';
 		        					}
 
 			        			@endphp
@@ -240,6 +242,8 @@
 		        						$shift = 'Morning';
 		        					} elseif ($hs_schedules[$nextMonthYear][$nextMonth][$nextMonthDate[$nmIndex]['date']]['Evening'] ?? false) {
 		        						$shift = 'Evening';
+		        					} elseif ($hs_schedules[$nextMonthYear][$nextMonth][$nextMonthDate[$nmIndex]['date']]['Middle'] ?? false) {
+		        						$shift = 'Middle';
 		        					}
 
 			        			@endphp
