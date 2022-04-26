@@ -384,6 +384,8 @@ class Controller extends BaseController
     	$allowedEndpoint = [
     		'time',
     		'xendit-account/update',
+    		'product/be/icount/list',
+    		'outlet/stock/adjust',
     	];
     	if (in_array($path, $allowedEndpoint)) {
 	    	$header = [];

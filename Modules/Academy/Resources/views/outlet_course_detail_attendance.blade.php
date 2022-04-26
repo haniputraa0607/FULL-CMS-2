@@ -191,9 +191,29 @@ $submitCheck = true;
                         <div class="col-md-3">
                             <ul class="ver-inline-menu tabbable margin-bottom-10">
                                 @foreach($theory_category as $index=>$tc)
-                                    <li @if($index == 0) class="active" @endif>
-                                        <a data-toggle="tab" href="#theory_category_{{$tc['id_theory_category']}}"><i class="fa fa-cog"></i> @if(strlen($tc['theory_category_name']) > 16) {{substr($tc['theory_category_name'],0, 20)}} ... @else {{$tc['theory_category_name']}} @endif </a>
-                                    </li>
+                                    <?php
+                                        if(empty($tc['child'])){
+                                            $j = 0;
+                                            foreach ($tc['theory'] as $noTheo=>$theory){
+                                                $j++;
+                                            }
+                                        }else{
+                                             $j = 0;
+                                             foreach ($tc['child'] as $child){
+                                                 if(!empty($child['theory'])){
+                                                     $j++;
+                                                 }
+                                             }
+                                        }
+
+                                        if($j > 0){
+                                            $htmlClick = '';
+                                            $htmlClick .= '<li '.($index == 0 ? 'class="active"':'').'>';
+                                            $htmlClick .= '<a data-toggle="tab" href="#theory_category_'.$tc['id_theory_category'].'"><i class="fa fa-cog"></i> '.(strlen($tc['theory_category_name']) > 16 ? substr($tc['theory_category_name'],0, 20) : $tc['theory_category_name']).'</a>';
+                                            $htmlClick .= '</li>';
+                                            echo $htmlClick;
+                                        }
+                                    ?>
                                 @endforeach
                             </ul>
                         </div>

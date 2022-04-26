@@ -7,7 +7,7 @@
 				<label class="col-md-4 control-label">Notes
 				</label>
 				<div class="col-md-6">
-					<textarea class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Psychological Tested']['process_name_by'])) disabled @endif>@if(isset($dataDoc['Psychological Tested']['process_notes'])) {{$dataDoc['Psychological Tested']['process_notes']}} disabled @endif</textarea>
+					<textarea class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Psychological Tested']['process_notes'])) disabled @endif>@if(isset($dataDoc['Psychological Tested']['process_notes'])) {{$dataDoc['Psychological Tested']['process_notes']}} @endif</textarea>
 				</div>
 			</div>
 			<div class="form-group">
@@ -15,9 +15,9 @@
 				<div class="col-md-6">
 					@if(isset($dataDoc['Psychological Tested']['attachment']))
 						@if(empty($dataDoc['Psychological Tested']['attachment']))
-							<p style="margin-top: 2%">No file</p>
+							<p style="margin-top: 2.3%">No file</p>
 						@else
-							<a style="margin-top: 2%" class="btn blue btn-xs" href="{{url('recruitment/hair-stylist/detail/download-file', $dataDoc['Psychological Tested']['id_user_hair_stylist_document'])}}"><i class="fa fa-download"></i></a>
+							<a style="margin-top: 2.3%" class="btn blue btn-xs" href="{{url('recruitment/hair-stylist/detail/download-file', $dataDoc['Psychological Tested']['id_user_hair_stylist_document'])}}"><i class="fa fa-download"></i></a>
 						@endif
 					@else
 						<div class="fileinput fileinput-new" data-provides="fileinput">
@@ -39,7 +39,7 @@
 			<input type="hidden" name="data_document[document_type]" value="Psychological Tested">
 		</div>
 		<input type="hidden" name="action_type" id="action_type_psychological" value="Psychological Tested">
-		@if(!isset($dataDoc['Psychological Tested']))
+		@if(!isset($dataDoc['Psychological Tested']) && $detail['user_hair_stylist_status'] != 'Rejected')
 		<div class="row" style="text-align: center">
 			{{ csrf_field() }}
 			<a class="btn red save" data-name="{{ $detail['fullname'] }}" data-status="Rejected" data-form="psychological">Reject</a>

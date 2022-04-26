@@ -16,6 +16,15 @@
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .sweet-alert {
+            z-index: 10053;
+        }
+        .sweet-overlay {
+            z-index: 10052; !important
+        }
+    </style>
 @endsection
 
 @section('page-script')
@@ -31,6 +40,7 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/datatables/datatables.min.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-confirmation/bootstrap-confirmation.min.js') }}" type="text/javascript"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
 
     <script type="text/javascript">
         $('.timepicker').timepicker({
@@ -1009,6 +1019,142 @@
             }
         })
     }
+</script>
+<script type="text/javascript">
+    const productIcountUnit = {};
+    function updateSelectUnit() {
+        const selectedProduct = $('.select_product_icount').val();
+        if (!selectedProduct) {
+            return;
+        }
+        const units = productIcountUnit[$('.select_product_icount').val()];
+        const options = [];
+        if (units) {
+            for (key in units) {
+                unit = units[key];
+                options.push(`<option value="${unit.id_unit_icount}">${unit.unit}</option>`);
+            }
+        }
+        $('#form_stock_adjustment_submit :input[name=unit]').html(options.join(''));
+        unitSelected();
+    }
+
+    function unitSelected() {
+        const units = productIcountUnit[$('.select_product_icount').val()];
+        let unit = undefined;
+        units.forEach(unitx => {
+            if (unitx.id_unit_icount == $('#form_stock_adjustment_submit :input[name=unit]').val()) {
+                unit = unitx;
+            }
+        })
+        if (unit) {
+            $('#form_stock_adjustment_submit :input[name=current_stock]').val(unit.stock);
+            $('#form_stock_adjustment_submit :input[name=new_stock]').val(unit.stock);
+            $('#form_stock_adjustment_submit :input[name=stock_adjustment]').val(0);
+        }
+    }
+
+    function adjustStock(column) {
+        let a, b, c;
+        const stock = $('#form_stock_adjustment_submit :input[name=current_stock]').val();
+        if (column == 'new_stock') {
+            a = $(`#form_stock_adjustment_submit :input[name=new_stock]`);
+            b = $(`#form_stock_adjustment_submit :input[name=stock_adjustment]`);
+            b.val(parseInt(a.val()) - parseInt(stock));
+        } else {
+            a = $(`#form_stock_adjustment_submit :input[name=stock_adjustment]`);
+            b = $(`#form_stock_adjustment_submit :input[name=new_stock]`);
+            b.val(parseInt(a.val()) + parseInt(stock));
+        }
+    }
+
+    function submitStockAdjustment() {
+        $.ajax({
+            method: 'POST',
+            url: '{{url('fire/outlet/stock/adjust')}}',
+            data: {
+                id_outlet: {{$outlet[0]['id_outlet']}},
+                id_product_icount: $('.select_product_icount').val(),
+                unit: $('#form_stock_adjustment_submit :input[name=unit]').val(),
+                stock_adjustment: $('#form_stock_adjustment_submit :input[name=stock_adjustment]').val(),
+                notes: $('#form_stock_adjustment_submit :input[name=notes]').val(),
+                title: $('#form_stock_adjustment_submit :input[name=title]').val(),
+                _token: '{{csrf_token()}}',
+            },
+            success: function(response) {
+                if (response.status == 'success') {
+                    $('#form_stock_adjustment_submit :input').val('').change();
+                    $('#form_stock_adjustment_submit :input[name=title]').val('Stock Adjustment');
+                    swal({
+                            title: 'Success', 
+                            text: 'Success adjust stock', 
+                            type: 'success'
+                        }, 
+                        function() {
+                            window.location.hash = '#product_icount';
+                            window.location.reload();
+                        }
+                    );
+                    $('#modal_stock_adjustment').modal('hide');
+                    return;
+                } else {
+                    if (response.messages) {
+                        swal('Error', response.messages.join('\n'), 'error');
+                    } else {
+                        swal('Error', 'Something went wrong', 'error');
+                    }
+                }
+            },
+        });
+    }
+
+    $(document).ready(() => {
+        $('.select_product_icount').select2({
+            ajax: {
+                url: '{{url('fire/product/be/icount/list')}}',
+                dataType: 'json',
+                data: function (params) {
+                    var query = {
+                        q: params.term,
+                        for_select2: 1,
+                        id_outlet: {{$outlet[0]['id_outlet']}},
+                    };
+
+                    return query;
+                },
+                processResults: response => {
+                    const result = {
+                        results : [],
+                        pagination: {
+                            more: false,
+                        }
+                    };
+                    if (response.result) {
+                        result.results = response.result.map(item => {
+                            const unit_icount = {};
+                            item.unit_icount.forEach(unit => {
+                                unit.stock = 0;
+                                item.product_icount_outlet_stocks.forEach(stock => {
+                                    if (stock.unit == unit.unit) {
+                                        unit.stock = stock.stock;
+                                    }
+                                })
+                                unit_icount[unit.id_unit_icount] = unit;
+                            })
+                            productIcountUnit[item.id_product_icount] = item.unit_icount;
+                            return {
+                                'id': item.id_product_icount,
+                                'text': item.name
+                            };
+                        });
+                    }
+                    return result;
+                },
+                delay: 250,
+            },
+            minimumInputLength: 1,
+        });
+    })
 </script>
 @endsection
 
