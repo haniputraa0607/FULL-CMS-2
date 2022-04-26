@@ -235,7 +235,7 @@
 		                <div class="form-group">
 		                    <label class="col-md-2">Office</label>
 		                    <div class="col-md-6">: 
-		                    	<a href="{{ url('outlet/detail') }}/{{ $data['detail']['outlet']['outlet_code'] }}">{{ $data['detail']['outlet']['outlet_code'].' - '.$data['detail']['outlet']['outlet_name'] }}</a>
+		                    	<a href="{{ url('office-branch/detail') }}/{{ $data['detail']['outlet']['outlet_code'] }}">{{ $data['detail']['outlet']['outlet_code'].' - '.$data['detail']['outlet']['outlet_name'] }}</a>
 		                    </div>
 		                </div>
                         <input type="hidden" name="id_employee_office_hour" value="{{ $data['detail']['id_employee_office_hour'] }}">
@@ -341,7 +341,7 @@
 							        			<select name="schedule[{{ $schInfo['date'] }}]" style="font-size:12px" {{ $can_update ? '' : 'disabled' }}>
 							        				<option value=""></option>
 							        				@foreach ($schInfo['outlet_shift']['shift'] ?? [] as $s)
-						        						<option value="{{ $s }}" {{ $s == $schInfo['selected_shift'] ? 'selected' : null }}> {{ $s }}</option>
+						        						<option value="{{ $s }}" {{ strtolower($s) == strtolower($schInfo['selected_shift']) ? 'selected' : null }}> {{ $s }}</option>
 							        				@endforeach
 							        			</select>
                                                 @if (!$can_update)

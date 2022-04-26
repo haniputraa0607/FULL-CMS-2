@@ -74,7 +74,7 @@ class HairstylistAttendanceController extends Controller
 
             return response()->json($arr_result);
         }
-
+        
         return view('recruitment::attendance.index', $data);
     }
 
