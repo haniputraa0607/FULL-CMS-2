@@ -37,4 +37,18 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
 	    Route::post('update/{id}', ['middleware' => 'feature_control:474', 'uses' => 'EmployeeScheduleController@update']);
 	    Route::post('/check', ['middleware' => 'feature_control:475', 'uses' => 'EmployeeScheduleController@check']);
     });
+
+    Route::group(['prefix' => 'attendance'], function(){
+        Route::get('/', ['uses' => 'EmployeeAttendanceController@list']);
+        Route::post('/', ['uses' => 'EmployeeAttendanceController@filter']);
+        Route::get('detail/{id}', ['uses' => 'EmployeeAttendanceController@detail']);
+        Route::post('detail/{id}', ['uses' => 'EmployeeAttendanceController@filter']);
+        Route::any('setting', ['uses' => 'EmployeeAttendanceController@setting']);
+        Route::get('pending', ['uses' => 'EmployeeAttendanceController@listPending']);
+        Route::post('pending', ['uses' => 'EmployeeAttendanceController@filterPending']);
+        Route::get('pending/detail/{id}', ['uses' => 'EmployeeAttendanceController@detailPending']);
+        Route::post('pending/detail/{id}', ['uses' => 'EmployeeAttendanceController@filterPending']);
+        Route::post('pending/detail/{id}/update', ['uses' => 'EmployeeAttendanceController@updatePending']);
+    });
+
 });

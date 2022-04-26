@@ -149,7 +149,7 @@
 		                <div class="form-group">
 		                    <label class="col-md-2">Office</label>
 		                    <div class="col-md-6">: 
-		                    	<a href="{{ url('outlet/detail') }}/{{ $data['detail']['outlet']['outlet_code'] }}">{{ $data['detail']['outlet']['outlet_code'].' - '.$data['detail']['outlet']['outlet_name'] }}</a>
+		                    	<a href="{{ url('office-branch/detail') }}/{{ $data['detail']['outlet']['outlet_code'] }}">{{ $data['detail']['outlet']['outlet_code'].' - '.$data['detail']['outlet']['outlet_name'] }}</a>
 		                    </div>
 		                </div>
 	                </div>
