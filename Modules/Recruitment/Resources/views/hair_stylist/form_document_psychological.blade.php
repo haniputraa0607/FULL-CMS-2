@@ -19,6 +19,8 @@
 						@else
 							<a style="margin-top: 2.3%" class="btn blue btn-xs" href="{{url('recruitment/hair-stylist/detail/download-file', $dataDoc['Psychological Tested']['id_user_hair_stylist_document'])}}"><i class="fa fa-download"></i></a>
 						@endif
+					@elseif($detail['user_hair_stylist_status'] != 'Candidate')
+						<p style="margin-top: 2.3%">-</p>
 					@else
 						<div class="fileinput fileinput-new" data-provides="fileinput">
 							<div class="input-group input-large">
