@@ -32,14 +32,14 @@
 					Passed Status & Score<span class="required" aria-required="true"> * </span>
 				</label>
 				<div class="col-md-3">
-					<select class="form-control select2" name="user_hair_stylist_passed_status">
+                                    <select @if($detail['user_hair_stylist_status'] != 'Candidate') disabled @endif class="form-control select2" name="user_hair_stylist_passed_status">
 						<option value="Passed" @if($avg >= $avgMin) selected @endif>Passed</option>
 						<option value="Not Passed" @if($avg < $avgMin) selected @endif>Not Passed</option>
 					</select>
 				</div>
 				<div class="col-md-3">
 					<div class="input-group">
-						<input type="text" class="numeric form-control" name="user_hair_stylist_score" value="{{$avg}}">
+						<input type="text" @if($detail['user_hair_stylist_status'] != 'Candidate') disabled @endif  class="numeric form-control" name="user_hair_stylist_score" value="{{$avg}}">
 						<span class="input-group-addon">minimum {{$avgMin}}</span>
 					</div>
 				</div>
@@ -49,7 +49,7 @@
 				</label>
 				<div class="col-md-6">
 					<div class="input-icon right">
-						<input type="text" placeholder="ID Card Number" class="form-control" name="id_card_number" required>
+						<input type="text" placeholder="ID Card Number" @if($detail['user_hair_stylist_status'] != 'Candidate') disabled @endif value="{{ $detail['id_card_number']??''}}"  class="form-control" name="id_card_number" required>
 					</div>
 				</div>
 			</div>
@@ -58,7 +58,7 @@
 				</label>
 				<div class="col-md-6">
 					<div class="input-icon right">
-						<input type="text" placeholder="Nickname" class="form-control" name="nickname" autocomplete="new-nickname" required>
+						<input type="text" @if($detail['user_hair_stylist_status'] != 'Candidate') disabled @endif  placeholder="Nickname" class="form-control" value="{{ $detail['nickname']??''}}" name="nickname" autocomplete="new-nickname" required>
 					</div>
 				</div>
 			</div>
@@ -67,10 +67,10 @@
 				</label>
 				<div class="col-md-6">
 					<div class="input-icon right">
-						<select  class="form-control select2" name="id_hairstylist_category" data-placeholder="Select Category" required>
+						<select  class="form-control select2" @if($detail['user_hair_stylist_status'] != 'Candidate') disabled @endif  name="id_hairstylist_category" data-placeholder="Select Category" required>
 							<option></option>
 							@foreach($hairstylist_category??[] as $category)
-								<option value="{{$category['id_hairstylist_category']}}">{{$category['hairstylist_category_name']}}</option>
+								<option value="{{$category['id_hairstylist_category']}}" @if($detail['id_hairstylist_category'] == $category['id_hairstylist_category']) selected @endif>{{$category['hairstylist_category_name']}}</option>
 							@endforeach
 						</select>
 					</div>
@@ -81,14 +81,16 @@
 				</label>
 				<div class="col-md-6">
 					<div class="input-icon right">
-						<select  class="form-control select2" name="level" data-placeholder="Select level" required>
+						<select  class="form-control select2" @if($detail['user_hair_stylist_status'] != 'Candidate') disabled @endif  name="level" data-placeholder="Select level" required>
 							<option></option>
-							<option value="Supervisor">Supervisor</option>
-							<option value="Hairstylist">Hairstylist</option>
+							<option value="Supervisor" @if($detail['level'] == 'Supervisor') selected @endif>Supervisor</option>
+							<option value="Hairstylist" @if($detail['level'] == 'Hairstylist') selected @endif>Hairstylist</option>
 						</select>
 					</div>
 				</div>
 			</div>
+                        
+                        @if($detail['user_hair_stylist_status'] == 'Candidate') 
 			<div class="form-group">
 				<label class="col-md-4 control-label">
 					Photo<span class="required" aria-required="true"> <br>(300*300) </span>
@@ -100,7 +102,7 @@
 							<span class="btn default btn-file">
 							<span class="fileinput-new"> Select image </span>
 							<span class="fileinput-exists"> Change </span>
-							<input type="file" class="filePhoto" id="fieldphoto" accept="image/*" name="user_hair_stylist_photo">
+							<input type="file" class="filePhoto" @if($detail['user_hair_stylist_status'] != 'Candidate') disabled @endif  id="fieldphoto" accept="image/*" name="user_hair_stylist_photo">
 							</span>
 							<a href="javascript:;" id="removeImage" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
 						</div>
@@ -137,16 +139,17 @@
 					</div>
 				</div>
 			</div>
+                         @endif 
 			<div class="form-group">
 				<label class="col-md-4 control-label">Assign Outlet <span class="required" aria-required="true"> * </span>
 					<i class="fa fa-question-circle tooltips" data-original-title="Penempatan outlet untuk hair stylist" data-container="body"></i>
 				</label>
 				<div class="col-md-6">
 					<div class="input-icon right">
-						<select  class="form-control select2" name="id_outlet" data-placeholder="Select outlet" required>
+						<select @if($detail['user_hair_stylist_status'] != 'Candidate') disabled @endif  class="form-control select2" name="id_outlet" data-placeholder="Select outlet" required>
 							<option></option>
 							@foreach($outlets as $outlet)
-								<option value="{{$outlet['id_outlet']}}">{{$outlet['outlet_code']}} - {{$outlet['outlet_name']}}</option>
+								<option value="{{$outlet['id_outlet']}}" @if($outlet['id_outlet'] == $detail['id_outlet']) selected @endif>{{$outlet['outlet_code']}} - {{$outlet['outlet_name']}}</option>
 							@endforeach
 						</select>
 					</div>
@@ -158,18 +161,19 @@
 				</label>
 				<div class="col-md-6">
 					<div class="input-icon right">
-						<select  class="form-control select2" required name="id_hairstylist_group" data-placeholder="Select Group" required>
+						<select  class="form-control select2" @if($detail['user_hair_stylist_status'] != 'Candidate') disabled @endif  required name="id_hairstylist_group" data-placeholder="Select Group" required>
 							<option></option>
 							@foreach($groups as $group)
-								<option value="{{$group['id_hairstylist_group']}}">{{$group['hair_stylist_group_code']}} - {{$group['hair_stylist_group_name']}}</option>
+								<option value="{{$group['id_hairstylist_group']}}" @if($group['id_hairstylist_group'] == $detail['id_hairstylist_group']) selected @endif>{{$group['hair_stylist_group_code']}} - {{$group['hair_stylist_group_name']}}</option>
 							@endforeach
 						</select>
 					</div>
 				</div>
 			</div>
 		</div>
+            
 		<input type="hidden" name="action_type" id="action_type_approve" value="approve">
-		@if($detail['user_hair_stylist_status'] != 'Rejected')
+		@if($detail['user_hair_stylist_status'] != 'Rejected'&& $detail['user_hair_stylist_status'] == 'Candidate')
 		<div class="row" style="text-align: center">
 			{{ csrf_field() }}
 			<a class="btn red save" data-name="{{ $detail['fullname'] }}" data-status="Rejected" data-form="approve">Reject</a>
