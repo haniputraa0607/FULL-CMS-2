@@ -12,7 +12,7 @@
 					@else
 						<div class="input-icon right">
 							<div class="input-group">
-								<input type="text" class="form_datetime form-control" name="data_document[process_date]" required autocomplete="off" placeholder="Interview Date" @if($detail['user_hair_stylist_status'] == 'Rejected') disabled @endif>
+								<input type="text" class="form_datetime form-control" name="data_document[process_date]" required autocomplete="off" placeholder="Interview Date" @if($detail['user_hair_stylist_status'] != 'Candidate') disabled @endif>
 								<span class="input-group-btn">
 						<button class="btn default" type="button">
 							<i class="fa fa-calendar"></i>
