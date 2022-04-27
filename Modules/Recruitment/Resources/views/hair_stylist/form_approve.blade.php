@@ -49,7 +49,7 @@
 				</label>
 				<div class="col-md-6">
 					<div class="input-icon right">
-						<input type="text" placeholder="ID Card Number" @if($detail['user_hair_stylist_status'] != 'Candidate') disabled @endif value="{{ $detail['id_card_number']??''}}"  class="form-control" name="id_card_number" required>
+						<input type="text" placeholder="ID Card Number" @if($detail['user_hair_stylist_status'] != 'Candidate') disabled @endif value="{{ $detail['id_card_number']}}" class="form-control" name="id_card_number" required>
 					</div>
 				</div>
 			</div>

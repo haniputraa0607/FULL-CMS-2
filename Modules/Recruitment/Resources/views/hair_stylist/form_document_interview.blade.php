@@ -12,7 +12,7 @@
 					@else
 						<div class="input-icon right">
 							<div class="input-group">
-								<input type="text" class="form_datetime form-control" name="data_document[process_date]" required autocomplete="off" placeholder="Interview Date" @if($detail['user_hair_stylist_status'] == 'Rejected' && $detail['user_hair_stylist_status'] != 'Candidate') disabled @endif>
+								<input type="text" class="form_datetime form-control" name="data_document[process_date]" required autocomplete="off" placeholder="Interview Date" @if($detail['user_hair_stylist_status'] == 'Rejected') disabled @endif>
 								<span class="input-group-btn">
 						<button class="btn default" type="button">
 							<i class="fa fa-calendar"></i>
@@ -30,14 +30,14 @@
 				<label class="col-md-4 control-label">Interview By <span class="required" aria-required="true"> * </span>
 				</label>
 				<div class="col-md-4">
-					<input class="form-control" maxlength="200" type="text" name="data_document[process_name_by]" @if(isset($dataDoc['Interviewed']['process_name_by'])) value="{{$dataDoc['Interviewed']['process_name_by']}}" disabled @endif placeholder="Interview by" required @if($detail['user_hair_stylist_status'] == 'Rejected' && $detail['user_hair_stylist_status'] != 'Candidate') disabled @endif/>
+					<input class="form-control" maxlength="200" type="text" name="data_document[process_name_by]" @if(isset($dataDoc['Interviewed']['process_name_by'])) value="{{$dataDoc['Interviewed']['process_name_by']}}" disabled @endif placeholder="Interview by" required @if($detail['user_hair_stylist_status'] != 'Candidate') disabled @endif />
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-md-4 control-label">Notes <span class="required" aria-required="true"> * </span>
 				</label>
 				<div class="col-md-6">
-					<textarea class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Interviewed']['process_name_by'])) disabled @endif @if($detail['user_hair_stylist_status'] == 'Rejected' && $detail['user_hair_stylist_status'] != 'Candidate') disabled @endif>@if(isset($dataDoc['Interviewed']['process_notes'])) {{$dataDoc['Interviewed']['process_notes']}} @endif</textarea>
+					<textarea class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Interviewed']['process_name_by'])) disabled @endif @if($detail['user_hair_stylist_status'] != 'Candidate') disabled @endif>@if(isset($dataDoc['Interviewed']['process_notes'])) {{$dataDoc['Interviewed']['process_notes']}} @endif</textarea>
 				</div>
 			</div>
 			<div class="form-group">
@@ -49,9 +49,9 @@
 						@else
 							<a style="margin-top: 2.3%" class="btn blue btn-xs" href="{{url('recruitment/hair-stylist/detail/download-file', $dataDoc['Interviewed']['id_user_hair_stylist_document'])}}"><i class="fa fa-download"></i></a>
 						@endif
-					@elseif($detail['user_hair_stylist_status'] == 'Rejected')
+					@elseif($detail['user_hair_stylist_status'] != 'Candidate')
 						<p style="margin-top: 2.3%">-</p>
-					@elseif($detail['user_hair_stylist_status'] == 'Candidate')
+					@else
 						<div class="fileinput fileinput-new" data-provides="fileinput">
 							<div class="input-group input-large">
 								<div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
