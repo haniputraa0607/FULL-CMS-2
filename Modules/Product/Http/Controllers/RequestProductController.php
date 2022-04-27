@@ -26,6 +26,7 @@ class RequestProductController extends Controller
             'sub_title'      => 'List Request Product',
             'menu_active'    => 'request-product',
             'submenu_active' => 'list-request-product',
+            'from'           => 'Product'
         ];
         
         $order = 'created_at';
@@ -59,6 +60,7 @@ class RequestProductController extends Controller
         $data['order_type'] = $orderType;
         $post['order'] = $order;
         $post['order_type'] = $orderType;
+        $post['from'] = 'Product';
 
         $list = MyHelper::post('req-product'.$page, $post);
 
@@ -116,6 +118,7 @@ class RequestProductController extends Controller
     public function store(Request $request)
     {
         $post = $request->except('_token');
+        $post['from'] = 'Product';
         $result = MyHelper::post('req-product/create', $post);
 
         if(isset($result['status']) && $result['status'] == 'success'){
@@ -149,6 +152,8 @@ class RequestProductController extends Controller
             'sub_title'      => 'Detail Request Product',
             'menu_active'    => 'request-product',
             'submenu_active' => 'list-request-product',
+            'from'           => 'Product',
+            'form_update'    => url('req-product/update'),
         ];
         if(isset($result['status']) && $result['status'] == 'success'){
             $data['result'] = $result['result']['request_product'];
@@ -180,7 +185,9 @@ class RequestProductController extends Controller
     public function update(Request $request)
     {
         $post = $request->except('_token');
+        $post['from'] = 'Product';
         $result = MyHelper::post('req-product/update', $post);
+        
         if(isset($post['status']) && $post['status']=='Draft'){
             return $result;
         }
@@ -225,12 +232,17 @@ class RequestProductController extends Controller
         if(isset($result['status']) && $result['status'] == 'success'){
             $post_product = ['buyable' => 'true'];
             if(isset($data['result']['id_request_product'])){
-                if($data['result']['request_product_outlet']['location_outlet']['company_type']=='PT IMA'){
-                    $company = 'ima';
-                }elseif($data['result']['request_product_outlet']['location_outlet']['company_type']=='PT IMS'){
-                    $company = 'ims';
+                if($data['result']['from'] == 'Asset'){
+                    $post_product['company_type'] = 'ima';
+                    $post_product['from'] = 'Assets';
+                }else{
+                    if($data['result']['request_product_outlet']['location_outlet']['company_type']=='PT IMA'){
+                        $company = 'ima';
+                    }elseif($data['result']['request_product_outlet']['location_outlet']['company_type']=='PT IMS'){
+                        $company = 'ims';
+                    }
+                    $post_product['company_type'] = $company;
                 }
-                $post_product['company_type'] = $company;
             }
             $data['products'] = MyHelper::post('product/be/icount/list', $post_product)['result'] ?? [];
             $data['outlets'] = MyHelper::get('mitra/request/outlet')['result'] ?? [];
