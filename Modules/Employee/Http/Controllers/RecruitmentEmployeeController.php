@@ -27,6 +27,79 @@ class RecruitmentEmployeeController extends Controller
             return $post;
         }
     }
+    public function index(Request $request){
+      
+         $post = $request->all();
+        $url = $request->url();
+        $data = [
+                'title'          => 'Employee',
+                'sub_title'      => 'List Employee',
+                'menu_active'    => 'employee',
+                'submenu_active' => 'list-employee',
+            ];
+            $data['status'] = 'Candidate';
+            $session = "filter-list-employee";
+         if( ($post['rule']??false) && !isset($post['draw']) ){
+             session([$session => $post]);
+        }elseif($post['clear']??false){
+            session([$session => null]);
+        }
+        if(isset($post['reset']) && $post['reset'] == 1){
+            Session::forget($session);
+        }elseif(Session::has($session) && !empty($post) && !isset($post['filter'])){
+            $pageSession = 1;
+            if(isset($post['page'])){
+                $pageSession = $post['page'];
+            }
+            $post = Session::get($session);
+            $post['page'] = $pageSession;
+            
+        }
+        if(isset($post['rule'])){
+        	$data['rule'] = array_map('array_values', $post['rule']);
+        }
+        $page = '?page=1';
+        if(isset($post['page'])){
+            $page = '?page='.$post['page'];
+        }
+        $post['status'] = $data['status'];
+        $list = MyHelper::post('employee/be/recruitment'.$page, $post);
+        if(($list['status']??'')=='success'){
+            $data['data']          = $list['result']['data'];
+            $data['data_total']     = $list['result']['total'];
+            $data['data_per_page']   = $list['result']['from'];
+            $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;
+            $data['data_paginator'] = new LengthAwarePaginator($list['result']['data'], $list['result']['total'], $list['result']['per_page'], $list['result']['current_page'], ['path' => url()->current()]);
+        }else{
+            $data['data']          = [];
+            $data['data_total']     = 0;
+            $data['data_per_page']   = 0;
+            $data['data_up_to']      = 0;
+            $data['data_paginator'] = false;
+        }
+        if($post){
+            Session::put($session,$post);
+        }
+        return view('employee::employee.index', $data);
+    }
+    public function detail(Request $request,$id){
+        $post = $request->all();
+        $detail = MyHelper::post('employee/be/recruitment/detail',['id_employee' => $id]);
+        if(isset($detail['status']) && $detail['status'] == 'success'){
+            $data = [
+                'title'          => 'Employee',
+                'sub_title'      => 'Detail Employee',
+                'menu_active'    => 'employee',
+                'submenu_active' => 'employee-detail',
+                'url_back'      => 'employee/recruitment',
+                'page_type'     => 'candidate'
+            ];
+            $data['detail'] = $detail['result'];
+            return view('employee::employee.detail', $data);
+        }else{
+            return redirect('employee/recruitment/candidate')->withErrors($store['messages']??['Failed get detail candidate']);
+        }
+    }
     public function candidate(Request $request){
       
          $post = $request->all();
@@ -38,7 +111,7 @@ class RecruitmentEmployeeController extends Controller
                 'submenu_active' => 'list-candidate-employee',
             ];
             $data['status'] = 'Candidate';
-            $session = "filter-list-employee";
+            $session = "filter-list-candidate-employee";
          if( ($post['rule']??false) && !isset($post['draw']) ){
              session([$session => $post]);
         }elseif($post['clear']??false){
@@ -88,7 +161,7 @@ class RecruitmentEmployeeController extends Controller
         if(isset($detail['status']) && $detail['status'] == 'success'){
             $data = [
                 'title'          => 'Recruitment',
-                'sub_title'      => 'Candidate',
+                'sub_title'      => 'Candidate Employee',
                 'menu_active'    => 'employee',
                 'submenu_active' => 'employee-candidate',
                 'url_back'      => 'employee/recruitment/candidate',
