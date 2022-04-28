@@ -547,7 +547,7 @@ $totalTheories = 0;
                         @endforeach
                     @endif
                                     </div>
-                                    @if(!empty($detail['documents']))
+                                    @if(!empty($detail['employee']['documents']))
                                             <br>
                                             <div style="text-align: center"><h4>Document Employee</h4></div>
                                             <div class="form-group">
@@ -565,7 +565,7 @@ $totalTheories = 0;
                                                                     </thead>
                                                                     <tbody>
 
-                                                                    @foreach($detail['documents'] as $doc)
+                                                                    @foreach($detail['employee']['documents'] as $doc)
                                                                             <?php
                                                                                             $dataDoc[$doc['document_type']] = $doc;
                                                                             ?>
