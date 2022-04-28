@@ -30,7 +30,7 @@
 				<label class="col-md-4 control-label">Interview By <span class="required" aria-required="true"> * </span>
 				</label>
 				<div class="col-md-4">
-					<input class="form-control" maxlength="200" type="text" name="data_document[process_name_by]" @if(isset($dataDoc['Interviewed']['process_name_by'])) value="{{$dataDoc['Interviewed']['process_name_by']}}" disabled @endif placeholder="Interview by" required @if($detail['user_hair_stylist_status'] != 'Candidate') disabled @endif />
+					<input class="form-control" maxlength="200" type="text" name="data_document[process_name_by]" @if(isset($dataDoc['Interviewed']['process_name_by'])) value="{{$dataDoc['Interviewed']['process_name_by']}}" disabled @endif placeholder="Interview by" required />
 				</div>
 			</div>
 			<div class="form-group">

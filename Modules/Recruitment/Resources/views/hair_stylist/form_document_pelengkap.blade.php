@@ -1,5 +1,5 @@
 <div style="margin-top: -4%">
-	<form class="form-horizontal" id="form_psychological" role="form" action="{{url($url_back.'/update/'.$detail['id_user_hair_stylist'])}}" method="post" enctype="multipart/form-data">
+	<form class="form-horizontal" role="form" action="{{url($url_back.'/update/'.$detail['id_user_hair_stylist'])}}" method="post" enctype="multipart/form-data">
 		<div class="form-body">
 			<div style="text-align: center"><h3>Data Complementary </h3></div>
 			<hr style="border-top: 2px dashed;">
