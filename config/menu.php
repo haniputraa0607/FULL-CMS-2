@@ -232,6 +232,26 @@ return [
 					'icon' => 'fa fa-users',
 					'active' => '\View::shared("menu_active") == "employee',
 					'children' => [
+                                                [
+                                                    'label' => 'Recruitment',
+                                                    'required_features' => [],
+                                                    'type' => 'tree',
+                                                    'active' => '\View::shared("submenu_active") == "employee-recruitment',
+                                                    'children' => [
+                                                                [
+                                                                    'label' => 'List Employee',
+                                                                    'required_features' => [481],
+                                                                    'active' => '\View::shared("child_active") == "list-employee-recruitment"',
+                                                                    'url' => 'employee/recruitment/'
+                                                                ],
+                                                                [
+                                                                    'label' => 'List Candidate',
+                                                                    'required_features' => [481],
+                                                                    'active' => '\View::shared("child_active") == "list-employee-recruitment-candidate"',
+                                                                    'url' => 'employee/recruitment/candidate'
+                                                                ],
+                                                            ],
+						],
 						[
 							'label' => 'Schedule',
                             'required_features' => [],
@@ -303,7 +323,7 @@ return [
 								]
 							]
                         ],
-                        [
+                                                [
                             'label' => 'Annoucement',
                             'required_features' => [],
                             'type' => 'tree',
