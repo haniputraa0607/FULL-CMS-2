@@ -77,6 +77,15 @@
         @else
         var count_product_service_use = {{count($result['request_product_detail'])}};
         @endif
+
+        @if ($from == 'Asset')
+        var fromL = 'asset';
+        var fromU = 'Asset';
+        @else
+        var fromL = 'product';
+        var fromU = 'Product';
+        @endif
+
         function addProductServiceUse() {
             var company = $('#id_outlet option:selected').attr('data-company');
             var html_select = '';
@@ -109,6 +118,9 @@
             var html = '<div id="div_product_use_'+count_product_service_use+'">'+
             '<div class="form-group">'+
             '<div class="col-md-2" style="padding: 1px">'+
+            ' @if (($from == 'Asset'))'+
+           '<input type="text" class="form-control" value="Assets" id="product_use_filter_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][filter]" required readonly>'+
+            '@else'+
             '<select class="form-control select2" id="product_use_filter_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][filter]" required placeholder="Select product filter" style="width: 100%" onchange="productFilter('+count_product_service_use+',this.value)">'+
             '<option selected disabled></option>'+
             '<option value="Inventory">Inventory</option>'+
@@ -116,6 +128,7 @@
             '<option value="Service">Service</option>'+
             '<option value="Assets">Assets</option>'+
             '</select>'+
+            '@endif'+
             '</div>'+
             '<div class="col-md-4" style="padding: 1px">'+
             '<select class="form-control select2" id="product_use_code_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][id_product_icount]" required placeholder="Select product use" style="width: 100%" onchange="changeUnit('+count_product_service_use+',this.value)">'+
@@ -136,8 +149,10 @@
             '<div class="col-md-2" style="padding: 1px">'+
             '<select class="form-control select2" id="product_use_budget_'+count_product_service_use+'" name="product_icount['+count_product_service_use+'][budget_code]" required placeholder="Select budget code" style="width: 100%">'+
             '<option></option>'+
+            ' @if (($from != 'Asset'))'+
             '<option>Invoice</option>'+
             '<option>Beban</option>'+
+            '@endif'+
             '<option>Assets</option>'+
             '</select>'+
             '</div>'+
@@ -341,7 +356,7 @@
                 }else{
                     if(delete_array.includes(i)==false){
                         var index_not_completed = p+1;
-                        swal("Error!", "Please Complete Data Product "+index_not_completed+".", "error")
+                        swal("Error!", "Please Complete Data "+fromU+" "+index_not_completed+".", "error")
                         return false;
                     }
                 }
@@ -358,18 +373,18 @@
             }
             $.ajax({
                 type : "POST",
-                url : "{{url('req-product/update')}}",
+                url : "{{$form_update}}",
                 data : data,
                 success : function(response) {
                     if (response.status == 'success') {
-                        swal("Sent!", "Request Product has beed updated as draft", "success")
-                        location.href = "{{url('req-product/detail')}}/"+{{ $result['id_request_product'] }};
+                        swal("Sent!", "Request "+fromU+" has beed updated as draft", "success")
+                        location.href = "{{url()->current()}}";
                     }
                     else if(response.status == "fail"){
-                        swal("Error!", "Failed to updated the request product.", "error")
+                        swal("Error!", "Failed to updated the request "+fromL+".", "error")
                     }
                     else {
-                        swal("Error!", "Something went wrong. Failed to updated the request product.", "error")
+                        swal("Error!", "Something went wrong. Failed to updated the request "+fromL+".", "error")
                     }
                 }
             });
@@ -409,7 +424,7 @@
             </div>
         </div>
         <div class="portlet-body form">
-            <form class="form-horizontal" role="form" action="{{ url('req-product/update') }}" method="post" enctype="multipart/form-data">
+            <form class="form-horizontal" role="form" action="{{ $form_update }}" method="post" enctype="multipart/form-data">
                 <div class="form-body">
                     <input class="form-control" type="hidden" id="input-code" name="id_request_product" value="{{$result['id_request_product']}}" readonly/>
                     <div class="form-group">
@@ -562,6 +577,9 @@
                                     <div class="form-group">
                                         <div class="col-md-2" style="padding: 1px">
                                             @if(MyHelper::hasAccess([413], $grantedFeature))
+                                            @if ($from == 'Asset')
+                                            <input type="text" class="form-control" value="Assets" id="product_use_filter_{{$key}}" name="product_icount[{{$key}}][filter]" required readonly>
+                                            @else
                                             <select class="form-control select2" id="product_use_filter_{{$key}}" name="product_icount[{{$key}}][filter]" required placeholder="Select product filter" style="width: 100%" onchange="productFilter({{$key}},this.value)" {{ $result['status'] != 'Draft' ? 'disabled' : '' }}>
                                                 <option selected disabled></option>
                                                 <option value="Inventory" @if($value['filter'] == 'Inventory') selected @endif>Inventory</option>
@@ -569,6 +587,7 @@
                                                 <option value="Service" @if($value['filter'] == 'Service') selected @endif>Service</option>
                                                 <option value="Assets" @if($value['filter'] == 'Assets') selected @endif>Assets</option>
                                             </select>
+                                            @endif
                                             @else
                                             <input class="form-control" type="text" id="product_use_filter_{{$key}}" value="{{$value['filter']}}" name="product_icount[{{$key}}][filter]" required placeholder="Select product status" style="width: 100%" readonly/>
                                             @endif
@@ -586,7 +605,7 @@
                                                     }   
                                                 @endphp
                                                 @foreach($products as $product_use)
-                                                    @if ($product_use['company_type'] == $company_type_outlet)
+                                                    @if ($product_use['company_type'] == $company_type_outlet || $from == 'Asset')
                                                     <option value="{{$product_use['id_product_icount']}}" @if($product_use['id_product_icount'] == $value['id_product_icount']) selected @endif>{{$product_use['code']}} - {{$product_use['name']}}</option>
                                                     @endif
                                                 @endforeach
@@ -668,6 +687,9 @@
                                 <div id="div_product_use_0">
                                     <div class="form-group">
                                         <div class="col-md-2" style="padding: 1px">
+                                            @if ($from == 'Asset')
+                                            <input type="text" class="form-control" value="Assets" id="product_use_filter_0" name="product_icount[0][filter]" required readonly>
+                                            @else
                                             <select class="form-control select2" id="product_use_filter_0" name="product_icount[0][filter]" required placeholder="Select product filter" style="width: 100%" onchange="productFilter(0,this.value)" {{ $result['status'] != 'Draft' ? 'disabled' : '' }}>
                                                 <option selected disabled></option>
                                                 <option value="Inventory" >Inventory</option>
@@ -675,6 +697,7 @@
                                                 <option value="Service" >Service</option>
                                                 <option value="Assets" >Assets</option>
                                             </select>
+                                            @endif
                                         </div>
                                         <div class="col-md-4" style="padding: 1px">
                                             @if(MyHelper::hasAccess([413], $grantedFeature))
@@ -689,7 +712,7 @@
                                                     }   
                                                 @endphp
                                                 @foreach($products as $product_use)
-                                                    @if ($product_use['company_type'] == $company_type_outlet)
+                                                    @if ($product_use['company_type'] == $company_type_outlet || $from == 'Asset')
                                                     <option value="{{$product_use['id_product_icount']}}">{{$product_use['code']}} - {{$product_use['name']}}</option>
                                                     @endif
                                                 @endforeach
@@ -713,8 +736,10 @@
                                             @if(MyHelper::hasAccess([415], $grantedFeature))
                                             <select class="form-control select2" id="product_use_budget_0" name="product_icount[0][budget_code]" required placeholder="Select product status" style="width: 100%" {{ $result['status'] != 'Draft' ? 'disabled' : '' }}>
                                                 <option></option>
+                                                @if ($from != 'Asset')
                                                 <option value="Invoice" >Invoice</option>
                                                 <option value="Beban" >Beban</option>
+                                                @endif
                                                 <option value="Assets" >Assets</option>
                                             </select>
                                             @endif
