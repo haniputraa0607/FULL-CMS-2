@@ -1572,6 +1572,7 @@ return [
 				[
 					'label' => 'Create Delivery Product',
 					'required_features' => [416],
+					'active' => '\View::shared("submenu_active") == "create-delivery-product"',
 					'url' => 'dev-product/create'
 				],
 				[

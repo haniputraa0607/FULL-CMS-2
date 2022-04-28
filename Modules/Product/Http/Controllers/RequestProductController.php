@@ -217,6 +217,7 @@ class RequestProductController extends Controller
             'sub_title'      => 'Create Delivery Product',
             'menu_active'    => 'delivery-product',
             'submenu_active' => 'create-delivery-product',
+            'from'           => 'Product'
         ];
 
         if($id){
@@ -233,16 +234,15 @@ class RequestProductController extends Controller
             $post_product = ['buyable' => 'true'];
             if(isset($data['result']['id_request_product'])){
                 if($data['result']['from'] == 'Asset'){
-                    $post_product['company_type'] = 'ima';
                     $post_product['from'] = 'Assets';
-                }else{
-                    if($data['result']['request_product_outlet']['location_outlet']['company_type']=='PT IMA'){
-                        $company = 'ima';
-                    }elseif($data['result']['request_product_outlet']['location_outlet']['company_type']=='PT IMS'){
-                        $company = 'ims';
-                    }
-                    $post_product['company_type'] = $company;
+                    $data['from'] = 'Asset';
                 }
+                if($data['result']['request_product_outlet']['location_outlet']['company_type']=='PT IMA'){
+                    $company = 'ima';
+                }elseif($data['result']['request_product_outlet']['location_outlet']['company_type']=='PT IMS'){
+                    $company = 'ims';
+                }
+                $post_product['company_type'] = $company;
             }
             $data['products'] = MyHelper::post('product/be/icount/list', $post_product)['result'] ?? [];
             $data['outlets'] = MyHelper::get('mitra/request/outlet')['result'] ?? [];
@@ -354,6 +354,9 @@ class RequestProductController extends Controller
             $data['outlets'] = MyHelper::get('mitra/request/outlet')['result'] ?? [];
             $post_product = ['buyable' => 'true'];
             if(isset($data['result']['id_delivery_product'])){
+                if($data['result']['from'] == 'Asset'){
+                    $post_product['from'] = 'Assets';
+                }
                 if($data['result']['delivery_product_outlet']['location_outlet']['company_type']=='PT IMA'){
                     $company = 'ima';
                 }elseif($data['result']['delivery_product_outlet']['location_outlet']['company_type']=='PT IMS'){
