@@ -194,7 +194,11 @@
                                         </td>
                                         <td>
                                             @if(MyHelper::hasAccess([412], $grantedFeature))
-                                            <a href="{{ url('req-product/detail/'.$request['id_request_product']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
+                                                @if ($from == 'Product')
+                                                <a href="{{ url('req-product/detail/'.$request['id_request_product']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
+                                                @else
+                                                <a href="{{ url('req-asset/detail/'.$request['id_request_product']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
+                                                @endif
                                             @endif
                                             @if(MyHelper::hasAccess([414], $grantedFeature))
                                                 @if ($request['status'] == 'Pending')

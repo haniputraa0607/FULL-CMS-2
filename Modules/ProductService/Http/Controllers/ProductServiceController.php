@@ -111,8 +111,8 @@ class ProductServiceController extends Controller
             $data['brands'] = MyHelper::get('brand/be/list')['result']??[];
             $data['list_product_service_use'] = MyHelper::get('product-service/product-use/list')['result']??[];
             $data['product_uses'] = MyHelper::post('product/be/icount/list', ['type' => 'product_service'])['result'] ?? [];
-            $data['product_uses_ima'] = MyHelper::post('product/be/icount/list', ['type' => 'service', 'company_type' => 'ima'])['result'] ?? [];
-            $data['product_uses_ims'] = MyHelper::post('product/be/icount/list', ['type' => 'service', 'company_type' => 'ims'])['result'] ?? [];
+            $data['product_uses_ima'] = MyHelper::post('product/be/icount/list', ['type' => 'service', 'buyable' => 'true', 'company_type' => 'ima'])['result'] ?? [];
+            $data['product_uses_ims'] = MyHelper::post('product/be/icount/list', ['type' => 'service', 'buyable' => 'true', 'company_type' => 'ims'])['result'] ?? [];
             $data['product_icount_use_ima'] = $data['product'][0]['product_icount_use_ima'] ?? [];
             $data['product_icount_use_ims'] = $data['product'][0]['product_icount_use_ims'] ?? [];
             $data['product_hairstylist_category'] = array_column($data['product'][0]['product_hs_category']??[], 'id_hairstylist_category');

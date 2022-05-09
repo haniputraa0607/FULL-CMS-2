@@ -455,6 +455,7 @@
             <form class="form-horizontal" role="form" action="{{ url('dev-product/store') }}" method="post" enctype="multipart/form-data">
                 <div class="form-body">
                     <div class="form-group">
+                        <input type="hidden" name="from" value="{{ $from }}">
                         <label for="example-search-input" class="control-label col-md-4">Outlet Name <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Nama outlet yang membuat permintaan produk" data-container="body"></i></label>
                         <div class="col-md-5">

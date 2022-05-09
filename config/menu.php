@@ -1534,6 +1534,17 @@ return [
 					'url' => 'req-product'
 				],
 				[
+					'label' => 'Create Request Asset',
+					'required_features' => [476],
+					'url' => 'req-asset/create'
+				],
+				[
+					'label' => 'List Request Asset',
+					'required_features' => [477],
+					'active' => '\View::shared("submenu_active") == "list-request-assets"',
+					'url' => 'req-asset'
+				],
+				[
 					'type' => 'group',
 					'required_configs' => [40,91],
 					'required_features' => [120,122],
@@ -1581,6 +1592,7 @@ return [
 				[
 					'label' => 'Create Delivery Product',
 					'required_features' => [416],
+					'active' => '\View::shared("submenu_active") == "create-delivery-product"',
 					'url' => 'dev-product/create'
 				],
 				[
