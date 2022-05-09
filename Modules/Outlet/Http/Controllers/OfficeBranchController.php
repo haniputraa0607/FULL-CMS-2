@@ -248,19 +248,19 @@ class OfficeBranchController extends Controller
                     ]);
 
                     if ($validator->fails()) {
-                        return redirect('outlet/detail/'.$code.'#pin')
+                        return redirect('office-branch/detail/'.$code.'#pin')
                                     ->withErrors($validator)
                                     ->withInput();
                     }
                 }
 
                 $save = MyHelper::post('outlet/update/pin', $post);
-                return parent::redirect($save, 'Outlet pin has been changed.', 'outlet/detail/'.$code.'#pin');
+                return parent::redirect($save, 'Outlet pin has been changed.', 'office-branch/detail/'.$code.'#pin');
             }
 
             if (isset($post['generate_pin_outlet'])) {
                 $save          = MyHelper::post('outlet/update/pin', $post);
-                return parent::redirect($save, 'Outlet photo has been added.', 'outlet/detail/'.$code.'#photo');
+                return parent::redirect($save, 'Outlet photo has been added.', 'office-branch/detail/'.$code.'#photo');
             }
 
             // photo
@@ -269,7 +269,7 @@ class OfficeBranchController extends Controller
 
                 // save
                 $save          = MyHelper::post('outlet/photo/create', $post);
-                return parent::redirect($save, 'Outlet photo has been added.', 'outlet/detail/'.$code.'#photo');
+                return parent::redirect($save, 'Outlet photo has been added.', 'office-branch/detail/'.$code.'#photo');
             }
 
             // order photo
@@ -286,11 +286,11 @@ class OfficeBranchController extends Controller
                     $save = MyHelper::post('outlet/photo/update', $data);
 
                     if (!isset($save['status']) || $save['status'] != "success") {
-                        return redirect('outlet/detail/'.$code.'#photo')->witherrors(['Something went wrong. Please try again.']);
+                        return redirect('office-branch/detail/'.$code.'#photo')->witherrors(['Something went wrong. Please try again.']);
                     }
                 }
 
-                return redirect('outlet/detail/'.$code.'#photo')->with('success', ['Photo\'s order has been updated']);
+                return redirect('office-branch/detail/'.$code.'#photo')->with('success', ['Photo\'s order has been updated']);
             }
 
             // update
@@ -320,7 +320,7 @@ class OfficeBranchController extends Controller
                 }
 
                 if (isset($save['status']) && $save['status'] == "success") {
-                    return parent::redirect($save, 'Outlet has been updated.', 'outlet/detail/'.$code.'#info');
+                    return parent::redirect($save, 'Outlet has been updated.', 'office-branch/detail/'.$code.'#info');
                 }else {
                        if (isset($save['errors'])) {
                            return back()->withErrors($save['errors'])->withInput();

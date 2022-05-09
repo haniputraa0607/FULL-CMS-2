@@ -372,7 +372,7 @@
                             </label>
                         </div>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" name="outlet_code" value="{{ old('outlet_code') }}" placeholder="Outlet Code" required>
+                            <input type="text" class="form-control" name="outlet_code" value="{{ old('outlet_code') }}" placeholder="Outlet Branch Code" required>
                         </div>
                     </div>
 
@@ -385,7 +385,7 @@
                             </label>
                         </div>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" name="outlet_name" value="{{ old('outlet_name') }}" placeholder="Outlet Name" required>
+                            <input type="text" class="form-control" name="outlet_name" value="{{ old('outlet_name') }}" placeholder="Outlet Branch Name" required>
                         </div>
                     </div>
 
@@ -462,7 +462,7 @@
                             </label>
                         </div>
                         <div class="col-md-9">
-                            <textarea name="outlet_address" class="form-control" placeholder="Outlet Address">{{ old('outlet_address') }}</textarea>
+                            <textarea name="outlet_address" class="form-control" placeholder="Outlet Branch Address">{{ old('outlet_address') }}</textarea>
                         </div>
                     </div>
 
@@ -474,7 +474,7 @@
                             </label>
                         </div>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" name="outlet_phone" value="{{ old('outlet_phone') }}" placeholder="Outlet Phone">
+                            <input type="text" class="form-control" name="outlet_phone" value="{{ old('outlet_phone') }}" placeholder="Outlet Branch Phone">
                         </div>
                     </div>
 
@@ -487,7 +487,7 @@
                             </label>
                         </div>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" name="outlet_email" value="{{ old('outlet_email') }}" placeholder="Outlet Email" required>
+                            <input type="text" class="form-control" name="outlet_email" value="{{ old('outlet_email') }}" placeholder="Outlet Branch Email" required>
                         </div>
                     </div>
 
