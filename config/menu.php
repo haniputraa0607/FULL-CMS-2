@@ -2063,7 +2063,7 @@ return [
 				],
 				[
 					'label' => 'Outlet Maximum Order',
-					'required_features' => [192,198],
+					'required_features' => [197,198],
 					'active' => '\View::shared("menu_active") == "max-order"',
 					'url' => 'outlet/max-order',
 					'icon' => 'fa fa-shopping-cart'

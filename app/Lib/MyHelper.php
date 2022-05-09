@@ -348,6 +348,7 @@ class MyHelper
       if(!is_array(json_decode($response->getBody(), true)));
 		return json_decode($response->getBody(), true);
     }catch (\GuzzleHttp\Exception\RequestException $e) {
+      dd($e);
         try{
           if($e->getResponse()){
               $response = $e->getResponse()->getBody()->getContents();

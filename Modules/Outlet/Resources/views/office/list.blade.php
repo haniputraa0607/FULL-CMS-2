@@ -96,13 +96,13 @@
                 success : function(result) {
                     if (result == "success") {
                         $('#sample_1').DataTable().row(column).remove().draw();
-                        toastr.info("Outlet has been deleted.");
+                        toastr.info("Office branch has been deleted.");
                     }
                     else if(result == "fail"){
-                        toastr.warning("Failed to delete outlet. Outlet has been used.");
+                        toastr.warning("Failed to delete office branch. Office branch has been used.");
                     }
                     else {
-                        toastr.warning("Something went wrong. Failed to delete outlet.");
+                        toastr.warning("Something went wrong. Failed to delete office branch.");
                     }
                 }
             });
@@ -129,7 +129,7 @@
                         document.getElementById('atr-'+id).innerHTML = state;
                         $('#sample_1').DataTable().rows().invalidate()
                             .draw();
-                        toastr.info("Outlet status has been updated.");
+                        toastr.info("Office branch status has been updated.");
                     }
                     else {
                         toastr.warning(result.messages);
