@@ -31,7 +31,7 @@
 				</label>
 				<div class="col-md-4">
 					@if(isset($dataDoc['Contract']))
-						<input type="text" class="datepicker form-control" value="{{date('d-F-Y', strtotime($detail['end_date']))}}" disabled>
+						<input type="text" class="form_datetime form-control" value="{{date('d-F-Y', strtotime($detail['end_date']))}}" disabled>
 					@else
 						<div class="input-icon right">
 							<div class="input-group">
