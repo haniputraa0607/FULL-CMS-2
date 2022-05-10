@@ -35,7 +35,7 @@
 										<i class="fa fa-question-circle tooltips" data-original-title="{{env('POINT_NAME', 'Points')}} yang diperoleh user ketika melengkapi data profil" data-container="body"></i>
 									</label>
 									<div class="fileinput fileinput-new col-md-4">
-										<input class="form-control" type="text" name="complete_profile_cashback" value="{{ old('complete_profile_cashback',$complete_profile['complete_profile_cashback']??'') }}" required>
+										<input class="form-control" type="number" name="complete_profile_cashback" value="{{ old('complete_profile_cashback',$complete_profile['complete_profile_cashback']??'') }}" required>
 									</div>
 								</div>
 							</div>

@@ -7,7 +7,7 @@
 				<label class="col-md-4 control-label">Notes
 				</label>
 				<div class="col-md-6">
-					<textarea @if($detail['user_hair_stylist_status'] != 'Candidate') disabled @endif class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Psychological Tested']['process_notes'])) disabled @endif>@if(isset($dataDoc['Psychological Tested']['process_notes'])) {{$dataDoc['Psychological Tested']['process_notes']}} @endif</textarea>
+					<textarea class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Psychological Tested']['process_notes'])) disabled @endif>@if(isset($dataDoc['Psychological Tested']['process_notes'])) {{$dataDoc['Psychological Tested']['process_notes']}} @endif</textarea>
 				</div>
 			</div>
 			<div class="form-group">
@@ -42,13 +42,11 @@
 		</div>
 		<input type="hidden" name="action_type" id="action_type_psychological" value="Psychological Tested">
 		@if(!isset($dataDoc['Psychological Tested']) && $detail['user_hair_stylist_status'] != 'Rejected')
-                @if($detail['user_hair_stylist_status'] != 'Candidate')
 		<div class="row" style="text-align: center">
 			{{ csrf_field() }}
 			<a class="btn red save" data-name="{{ $detail['fullname'] }}" data-status="Rejected" data-form="psychological">Reject</a>
 			<button class="btn blue">Submit</button>
 		</div>
-                @endif
 		@endif
 </form>
 </div>

@@ -35,7 +35,8 @@ class RecruitmentEmployeeController extends Controller
                 'title'          => 'Employee',
                 'sub_title'      => 'List Employee',
                 'menu_active'    => 'employee',
-                'submenu_active' => 'list-employee',
+                'submenu_active' => 'employee-recruitment',
+                'child_active'   => 'list-employee-recruitment',
             ];
             $data['status'] = 'Candidate';
             $session = "filter-list-employee";
@@ -90,12 +91,13 @@ class RecruitmentEmployeeController extends Controller
                 'title'          => 'Employee',
                 'sub_title'      => 'Detail Employee',
                 'menu_active'    => 'employee',
-                'submenu_active' => 'employee-detail',
+                'submenu_active' => 'employee-recruitment',
+                'child_active'   => 'list-employee-recruitment',
                 'url_back'      => 'employee/recruitment',
                 'page_type'     => 'candidate'
             ];
-            $data['detail'] = $detail['result'];
-            return view('employee::employee.detail', $data);
+           $data['detail'] = $detail['result'];
+           return view('employee::employee.detail', $data);
         }else{
             return redirect('employee/recruitment/candidate')->withErrors($store['messages']??['Failed get detail candidate']);
         }
@@ -108,7 +110,8 @@ class RecruitmentEmployeeController extends Controller
                 'title'          => 'Candidate Employee',
                 'sub_title'      => 'List Candidate Employee',
                 'menu_active'    => 'employee',
-                'submenu_active' => 'list-candidate-employee',
+                'submenu_active' => 'employee-recruitment',
+                'child_active'   => 'list-employee-recruitment-candidate',
             ];
             $data['status'] = 'Candidate';
             $session = "filter-list-candidate-employee";
@@ -163,7 +166,8 @@ class RecruitmentEmployeeController extends Controller
                 'title'          => 'Recruitment',
                 'sub_title'      => 'Candidate Employee',
                 'menu_active'    => 'employee',
-                'submenu_active' => 'employee-candidate',
+                'submenu_active' => 'employee-recruitment',
+                'child_active'   => 'list-employee-recruitment-candidate',
                 'url_back'      => 'employee/recruitment/candidate',
                 'page_type'     => 'candidate'
             ];
