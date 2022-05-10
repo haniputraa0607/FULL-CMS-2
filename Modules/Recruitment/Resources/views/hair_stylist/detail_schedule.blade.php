@@ -104,12 +104,13 @@
 					<div class="row seven-cols">
 				@endif
                 @php
-                    $this_date = date('Y-m-d', strtotime($thisMonthYear.'-'.$thisMonth.'-'.$thisMonthDate[$tmIndex]['date']));
-                    if($this_date>=date('Y-m-d')){
-                        $can_update = true;
-                    }else{
-                        $can_update = false;
-                    }    
+					$can_update = false;
+					if(isset($thisMonthDate[$tmIndex]['date'])){
+						$this_date = date('Y-m-d', strtotime($thisMonthYear.'-'.$thisMonth.'-'.$thisMonthDate[$tmIndex]['date']));
+						if($this_date>=date('Y-m-d')){
+							$can_update = true;
+						}
+					}
                 @endphp
 				@if ($day[$i % 7] == ($thisMonthDate[$tmIndex]['day'] ?? false))
 					<div class="col-md-1 custom-date-box" @if (!$can_update) style="background-color:rgb(230, 230, 230);" @endif>
