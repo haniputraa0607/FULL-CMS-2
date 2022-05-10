@@ -105,11 +105,11 @@ class EmployeeTimeOffOvertimeController extends Controller
         }
     }
 
-    public function listHS(Request $request)
+    public function listEmployee(Request $request)
     {
         $post = $request->except('_token');
-        $list_hs = MyHelper::post('employee/timeoff/list-hs', $post);
-        return $list_hs;
+        $list_employee = MyHelper::post('employee/timeoff/list-employee', $post);
+        return $list_employee;
     }
 
     public function listDate(Request $request)

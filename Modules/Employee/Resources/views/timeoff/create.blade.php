@@ -74,7 +74,7 @@
             var list = '<option></option>';
             $.ajax({
                 type : "POST",
-                url : "{{ url('employee/timeoff/list-hs') }}",
+                url : "{{ url('employee/timeoff/list-employee') }}",
                 data : {
                     '_token' : '{{csrf_token()}}',
                     'id_outlet' : val,
@@ -99,7 +99,7 @@
 
         function selectEmployee(val){
             var data = {
-                'id' : val,
+                'id_employee' : val,
                 'month' : $('#month').val(),
                 'year' : $('#year').val(),
             };
@@ -339,7 +339,7 @@
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih nama kantor karyawan yang akan mengajukan izin" data-container="body"></i></label>
                         <div class="col-md-5">
                             <select class="form-control select2" name="id_outlet" required onchange="changeOutlet(this.value)">
-                                <option value="" selected disabled>Select Employee</option>
+                                <option value="" selected disabled>Select Office</option>
                                 @foreach($offices as $out => $office)
                                     <option value="{{$office['id_outlet']}}">{{$office['outlet_name']}}</option>
                                 @endforeach
@@ -352,8 +352,8 @@
                         <div class="col-md-5">
                             <select class="form-control select2" name="id_employee" required id="list_employee" onchange="selectEmployee(this.value)">
                                 <option value="" selected disabled>Select Employee</option>
-                                @foreach($employees as $o => $hs)
-                                    <option value="{{$hs['id']}}">{{$hs['name']}}</option>
+                                @foreach($employees as $o => $employee)
+                                    <option value="{{$employee['id']}}">{{$employee['name']}}</option>
                                 @endforeach
                             </select>
                         </div>
