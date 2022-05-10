@@ -2309,17 +2309,17 @@ return [
 					'type' => 'tree',
 					'children' => [
 						[
-							'label' => '[Response] Trasaction Online Shope Created',
+							'label' => '[Response] Transaction Online Shop Created',
 							'required_features' => [],
 							'url' => 'autoresponse/online-shop/transaction-online-shop-created'
 						],
 						[
-							'label' => '[Response] Trasaction Online Shope Cancelled',
+							'label' => '[Response] Transaction Online Shop Cancelled',
 							'required_features' => [],
 							'url' => 'autoresponse/online-shop/transaction-online-shop-cancelled'
 						],
 						[
-							'label' => '[Response] Trasaction Online Shope Rejected',
+							'label' => '[Response] Transaction Online Shop Rejected',
 							'required_features' => [],
 							'url' => 'autoresponse/online-shop/transaction-online-shop-rejected'
 						],
@@ -2339,7 +2339,7 @@ return [
 							'url' => 'autoresponse/online-shop/delivery-online-shop-requested'
 						],
 						[
-							'label' => '[Response] Transaction Online Shop Complete',
+							'label' => '[Response] Transaction Online Shop Completed',
 							'required_features' => [],
 							'url' => 'autoresponse/online-shop/transaction-online-shop-complete'
 						],
