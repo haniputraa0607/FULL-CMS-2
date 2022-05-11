@@ -2,6 +2,7 @@
     use App\Lib\MyHelper;
     $grantedFeature     = session('granted_features');
     
+    
  ?>
  @extends('layouts.main')
 
@@ -55,7 +56,8 @@
             minuteStep: 5,
             showSeconds: false,
         });
-
+    </script>
+    <script>
         $('.select2').select2();
         function changeSelect(){
             setTimeout(function(){
@@ -69,46 +71,59 @@
             'todayHighlight' : true,
             'autoclose' : true
         });
+        
+        function approvedTimeOff () {
+            var id_employee_time_off = {{$result['id_employee_time_off']}};
+            var id_outlet = {{$result['outlet']['id_outlet']}};
+            var id = {{$result['employee']['id']}};
+            var date = $('#list_date').val();
+            var time_start = $('input[type=text][name=time_start]').val();
+            var time_end = $('input[type=text][name=time_end]').val();
 
-        function changeOutlet(val){
-            var list = '<option></option>';
-            $.ajax({
-                type : "POST",
-                url : "{{ url('employee/timeoff/list-employee') }}",
-                data : {
-                    '_token' : '{{csrf_token()}}',
-                    'id_outlet' : val,
-                },
-                success : function(result) {
-                    $('#list_employee').empty();
-                    if(result.length > 0){
-                        $.each(result, function(i, index) {
-                            list += '<option value="'+index.id+'">'+index.name+'</option>';
-                          });
-                    }
-                    $('#list_employee').append(list);
-                    $(".select2").select2({
-                        placeholder: "Search"
-                    });
-                },
-                error : function(result) {
-                    toastr.warning("Something went wrong. Failed to get list employee.");
-                }
-            });
-        }
-
-        function selectEmployee(val){
             var data = {
-                'id_employee' : val,
-                'month' : $('#month').val(),
-                'year' : $('#year').val(),
+                '_token' : '{{csrf_token()}}',
+                'id_employee_time_off' : id_employee_time_off,
+                'id_outlet' : id_outlet,
+                'id_employee' : id,
+                'date' : date,
+                'time_start' : time_start,
+                'time_end' : time_end,
+                'approve' : true
             };
-            listDate(data);
+            swal({
+                    title: "Approve?",
+                    text: "This employee request time off will be approved",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-success",
+                    confirmButtonText: "Yes, Approve this request!",
+                    closeOnConfirm: false
+                },
+                function(){
+                    $.ajax({
+                        type : "POST",
+                        url : "{{url('employee/timeoff/update')}}/"+id_employee_time_off,
+                        data : data,
+                        success : function(response) {
+                            if (response.status == 'success') {
+                                swal("Sent!", "Employee request time off has been approved", "success")
+                                location.href = "{{url('employee/timeoff/detail')}}/"+id_employee_time_off;
+                            }
+                            else if(response.status == "fail"){
+                                swal("Error!", "Failed to approve employee request time off.", "error")
+                            }
+                            else {
+                                swal("Error!", "Something went wrong. Failed to approve employee request time off.", "error")
+                            }
+                        }
+                    });
+                }
+            );
         }
 
         function selectMonth(val){
             var data = {
-                'id_employee' : $('#list_employee').val(),
+                'id_employee' : $('#list_hs').val(),
                 'month' : val,
                 'year' : $('#year').val(),
             };
@@ -118,7 +133,7 @@
 
         function selectYear(val){
             var data = {
-                'id_employee' : $('#list_employee').val(),
+                'id_user_hair_stylist' : $('#list_hs').val(),
                 'month' : $('#month').val(),
                 'year' : val,
             };
@@ -152,135 +167,22 @@
 
         $('#list_date').on("change",function(){
             var value = $(this).val();
-            var start = $("#list_date option:selected").attr('data-timestart');
-            var end = $("#list_date option:selected").attr('data-timeend');
             var id = $("#list_date option:selected").attr('data-id');
-            $('#time_start').remove();
-            $('#place_time_start').append('<input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_start" value="'+start+'" readonly>');
-            $('#time_end').remove();
-            $('#place_time_end').append('<input type="text" id="time_end" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end" value="'+end+'" readonly>');
-            $('.timepicker').timepicker({
-                autoclose: true,
-                minuteStep: 5,
-                showSeconds: false,
-            });
             var type = $('input[type=hidden][name=id_employee_schedule]').val(id);
         });
 
-        function submitTimeOff() {
-
-            var cek_start_time = $('#cek_start_time').css('display');
-            var cek_end_time = $('#cek_end_time').css('display');
-            var cek_smaller = $('#cek_smaller').css('display');
-            var cek_bigger = $('#cek_bigger').css('display');
-
-            if(cek_start_time == 'block'){
-                toastr.warning("Start Time Off cannot be smaller than the shift schedule");
-            }else if(cek_end_time == 'block'){
-                toastr.warning("End Time Off cannot be bigger than the shift schedule");
-            }else if(cek_smaller == 'block'){
-                toastr.warning("Start Time Off cannot be bigger than the end time off");
-            }else if(cek_bigger == 'block'){
-                toastr.warning("End Time Off cannot be smaller than the start time off");
-            }else{
-                var data = $('#create-time-off').serialize();
-    
-                if (!$('form#create-time-off')[0].checkValidity()) {
-                    toastr.warning("Incompleted Data. Please fill blank input.");
-                }else{
-                    $('form#create-time-off').submit();
-                }
-            }
-
-        }
-
-        $('#place_time_start').on("change","#time_start",function(){
-            var list = $('#list_date option:selected').val();
-            if(list!=''){
-                changeStartTime();
-            }
-            if($(this).val()!='0:00'){
-                checkStartEnd();
-            }
-        });
-
-        function changeStartTime(){
-            var split =  $('#place_time_start #time_start').val().split(":");
-            var time_start_picker = $("#list_date option:selected").attr('data-timestart').split(":");
-            var smaller = false;
-            if(parseInt(split[0]) >= parseInt(time_start_picker[0])){
-                if(parseInt(split[0]) == parseInt(time_start_picker[0]) && parseInt(split[1]) < parseInt(time_start_picker[1])){
-                    smaller = true;
-                }
-            }else{
-                smaller = true;
-            }
-            if(smaller == true){
-                document.getElementById('cek_start_time').style.display = 'block';
-            }else{
-                document.getElementById('cek_start_time').style.display = 'none';
-            }
-        }
-
-        $('#place_time_end').on("change","#time_end",function(){
-            var list = $('#list_date option:selected').val();
-            if(list!=''){
-                changeEndTime();
-            }
-            if($(this).val()!='0:00'){
-                checkStartEnd();
-            }
-        });
+        function submitTimeOff(value) {
+            var data = $('#update-time-off').serialize();
         
-        function changeEndTime(){
-            var split =  $('#place_time_end #time_end').val().split(":");
-            var time_end_picker = $("#list_date option:selected").attr('data-timeend').split(":");
-            var bigger = false;
-            if(parseInt(split[0]) <= parseInt(time_end_picker[0])){
-                if(parseInt(split[0]) == parseInt(time_end_picker[0]) && parseInt(split[1]) > parseInt(time_end_picker[1])){
-                    bigger = true;
+            if (!$('form#update-time-off')[0].checkValidity()) {
+                toastr.warning("Incompleted Data. Please fill blank input.");
+            }else{
+                if(value=='submit'){
+                    $('form#update-time-off').submit();
+                }else if(value=='approve'){
+                    approvedTimeOff();
                 }
-            }else{
-                bigger = true;
             }
-            if(bigger == true){
-                document.getElementById('cek_end_time').style.display = 'block';
-            }else{
-                document.getElementById('cek_end_time').style.display = 'none';
-            }
-        }
-
-        function checkStartEnd(){
-            var end = $('#place_time_end #time_end').val().split(":");
-            var start = $('#place_time_start #time_start').val().split(":");
-            var smaller = false;
-            if(parseInt(start[0]) <= parseInt(end[0])){
-                if(parseInt(start[0]) == parseInt(end[0]) && parseInt(start[1]) >= parseInt(end[1])){
-                    smaller = true;
-                }
-            }else{
-                smaller = true;
-            }
-            if(smaller == true){
-                document.getElementById('cek_smaller').style.display = 'block';
-            }else{
-                document.getElementById('cek_smaller').style.display = 'none';
-            }
-
-            var bigger = false;
-            if(parseInt(end[0]) >= parseInt(start[0])){
-                if(parseInt(end[0]) == parseInt(start[0]) && parseInt(end[1]) <= parseInt(start[1])){
-                    bigger = true;
-                }
-            }else{
-                bigger = true;
-            }
-            if(bigger == true){
-                document.getElementById('cek_bigger').style.display = 'block';
-            }else{
-                document.getElementById('cek_bigger').style.display = 'none';
-            }
-
         }
     
         $(document).ready(function() {
@@ -332,50 +234,42 @@
             </div>
         </div>
         <div class="portlet-body form">
-            <form class="form-horizontal" role="form" action="{{ url('employee/timeoff/create') }}" method="post" enctype="multipart/form-data" id="create-time-off">
+            <form class="form-horizontal" role="form" action="{{ url('employee/timeoff/update') }}/{{ $result['id_employee_time_off'] }}" method="post" enctype="multipart/form-data" id="update-time-off">
                 <div class="form-body">
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Select Office <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih nama kantor karyawan yang akan mengajukan izin" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <select class="form-control select2" name="id_outlet" required onchange="changeOutlet(this.value)">
-                                <option value="" selected disabled>Select Office</option>
-                                @foreach($offices as $out => $office)
-                                    <option value="{{$office['id_outlet']}}">{{$office['outlet_name']}}</option>
-                                @endforeach
-                            </select>
+                            <input class="form-control" type="text" placeholder="Outlet name" value="{{ $result['outlet']['outlet_name'] }}" readonly required/>
+                            <input class="form-control" type="hidden" name="id_outlet" value="{{ $result['outlet']['id_outlet'] }}" readonly/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Select Employee <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih nama karyawan yang akan dibuat permohonan izin" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <select class="form-control select2" name="id_employee" required id="list_employee" onchange="selectEmployee(this.value)">
-                                <option value="" selected disabled>Select Employee</option>
-                                @foreach($employees as $o => $employee)
-                                    <option value="{{$employee['id']}}">{{$employee['name']}}</option>
-                                @endforeach
-                            </select>
+                            <input class="form-control" type="text" placeholder="Employee name" value="{{ $result['employee']['name'] }}" readonly required/>
+                            <input class="form-control" type="hidden" name="id_employee" id="list_hs"  value="{{ $result['employee']['id'] }}" readonly/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Month <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk bulan yang di pilih" data-container="body"></i></label>
                         <div class="col-md-3">
-                            <select class="form-control select2" name="month" id="month" required onchange="selectMonth(this.value)">
+                            <select class="form-control select2" name="month" id="month" required onchange="selectMonth(this.value)" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
                                 <option value="" selected disabled>Select Month</option>
-                                <option value="1">January</option>
-                                <option value="2">February</option>
-                                <option value="3">March</option>
-                                <option value="4">April</option>
-                                <option value="5">May</option>
-                                <option value="6">June</option>
-                                <option value="7">July</option>
-                                <option value="8">August</option>
-                                <option value="9">September</option>
-                                <option value="10">October</option>
-                                <option value="11">November</option>
-                                <option value="12">December</option>
+                                <option value="1" @if(isset($result['month'])) @if($result['month'] == 1) selected @endif @endif>January</option>
+                                <option value="2" @if(isset($result['month'])) @if($result['month'] == 2) selected @endif @endif>February</option>
+                                <option value="3" @if(isset($result['month'])) @if($result['month'] == 3) selected @endif @endif>March</option>
+                                <option value="4" @if(isset($result['month'])) @if($result['month'] == 4) selected @endif @endif>April</option>
+                                <option value="5" @if(isset($result['month'])) @if($result['month'] == 5) selected @endif @endif>May</option>
+                                <option value="6" @if(isset($result['month'])) @if($result['month'] == 6) selected @endif @endif>June</option>
+                                <option value="7" @if(isset($result['month'])) @if($result['month'] == 7) selected @endif @endif>July</option>
+                                <option value="8" @if(isset($result['month'])) @if($result['month'] == 8) selected @endif @endif>August</option>
+                                <option value="9" @if(isset($result['month'])) @if($result['month'] == 9) selected @endif @endif>September</option>
+                                <option value="10" @if(isset($result['month'])) @if($result['month'] == 10) selected @endif @endif>October</option>
+                                <option value="11" @if(isset($result['month'])) @if($result['month'] == 11) selected @endif @endif>November</option>
+                                <option value="12" @if(isset($result['month'])) @if($result['month'] == 12) selected @endif @endif>December</option>
                             </select>
                         </div>
                     </div>
@@ -383,59 +277,53 @@
                         <label for="example-search-input" class="control-label col-md-4">Year <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk tahun yang di pilih" data-container="body"></i></label>
                         <div class="col-md-2">
-                            <input class="form-control numberonly" type="text" maxlength="4" id="year" name="year" placeholder="Enter year" value="" required onchange="selectYear(this.value)"/>
+                            <input class="form-control numberonly" type="text" maxlength="4" id="year" name="year" placeholder="Enter year" value="{{ $result['year'] }}" required onchange="selectYear(this.value)" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Select Date Time Off <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih tanggal karyawan akan izin" data-container="body"></i></label>
                         <div class="col-md-3">
+                            @if(isset($result['approve_by']) || isset($result['reject_at'])) 
+                            <input type="text" class="datepicker form-control" value="{{ date('d F Y', strtotime($result['date'])) }}" disabled>
+                            @else
                             <select class="form-control select2" name="date" required id="list_date">
                                 <option value="" selected disabled>Select Date</option>
+                                @foreach($result['list_date'] ?? [] as $d => $date)
+                                    <option value="{{$date['date']}}" data-id="{{ $date['id_employee_schedule'] }}" data-timestart="{{ $date['time_start'] }}" data-timeend="{{ $date['time_end'] }}"  @if(isset($result['date'])) @if(date('Y-m-d', strtotime($result['date'])) == date('Y-m-d', strtotime($date['date']))) selected @endif @endif> {{$date['date_format']}}</option>
+                                @endforeach
                             </select>
+                            @endif
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Start Time Off<span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu mulai izin untuk hair style" data-container="body"></i></label>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-6" id="place_time_start">
-                                    <input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_start" value="0:00" readonly>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="cek_start_time">Start Time Off cannot be smaller than the shift schedule</p>
-                                    <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="cek_smaller">Start Time Off cannot be bigger than the end time off</p>
-                                </div>
-                            </div>
+                        <label for="example-search-input" class="control-label col-md-4">Requested By <span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Permohonan dibuat oleh user ini" data-container="body"></i></label>
+                        <div class="col-md-5">
+                            <input class="form-control" type="text" placeholder="Enter request by" value="{{ $result['request']['name'] }}" required readonly/>
                         </div>
                     </div>
+                    @if (isset($result['approve']))
                     <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">End Time Off<span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu selesai izin untuk hair style" data-container="body"></i></label>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-6" id="place_time_end">
-                                    <input type="text" id="time_end" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end" value="0:00" readonly>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="cek_end_time">End Time Off cannot be bigger than the shift schedule</p>
-                                    <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="cek_bigger">End Time Off cannot be smaller than the start time off</p>
-                                </div>
-                            </div>
+                        <label for="example-search-input" class="control-label col-md-4">Approved By <span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Permohonan disetujui oleh user ini" data-container="body"></i></label>
+                        <div class="col-md-5">
+                            <input class="form-control" type="text" placeholder="Enter request by" value="{{ $result['approve']['name'] }}" required readonly/>
                         </div>
                     </div>
+                    @endif
                     <input type="hidden" name="id_employee_schedule" value="">
                 </div>
                 <div class="form-actions">
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <a onclick="submitTimeOff()" class="btn blue">Submit</a>
+                            @if (empty($result['reject_at']))
+                                @if(empty($result['approve']))
+                                <a onclick="submitTimeOff('submit')" class="btn blue" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>Submit</a>
+                                <a onclick="submitTimeOff('approve')" id="approve" class="btn green approve">Approve</a>
+                                @endif
+                            @endif
                         </div>
                     </div>
                 </div>
