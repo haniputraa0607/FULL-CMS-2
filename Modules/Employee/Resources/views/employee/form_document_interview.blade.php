@@ -1,5 +1,5 @@
 <div style="margin-top: -4%">
-	<form class="form-horizontal" id="form_interview" role="form" action="{{url($url_back.'/update/'.$detail['id_employee'])}}" method="post" enctype="multipart/form-data">
+	<form class="form-horizontal" id="form_interview" role="form" action="{{url('employee/recruitment/update/'.$detail['id_employee'])}}" method="post" enctype="multipart/form-data">
 		<div class="form-body">
 			<div style="text-align: center"><h3>Data Interview</h3></div>
 			<hr style="border-top: 2px dashed;">
