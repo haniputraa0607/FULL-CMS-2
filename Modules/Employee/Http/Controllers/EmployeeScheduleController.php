@@ -105,7 +105,7 @@ class EmployeeScheduleController extends Controller
         if($shift == 'use-shift'){
             $detail = MyHelper::post('employee/schedule/detail/use-shift',['id_employee_schedule' => $id]);
         }else{
-            $detail = MyHelper::post('employee/schedule/detail/without-shift',['id_employee_schedule' => $id]);
+            return $detail = MyHelper::post('employee/schedule/detail/without-shift',['id_employee_schedule' => $id]);
         }
 
         if(isset($detail['status']) && $detail['status'] == 'success'){
