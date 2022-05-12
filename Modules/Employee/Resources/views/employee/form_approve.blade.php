@@ -1,5 +1,5 @@
 <div style="margin-top: -4%">
-	<form class="form-horizontal" id="form_approve" role="form" action="{{url($url_back.'/update/'.$detail['id_employee'])}}" method="post" enctype="multipart/form-data">
+	<form class="form-horizontal" id="form_approve" role="form" action="{{url('employee/recruitment/update/'.$detail['id_employee'])}}" method="post" enctype="multipart/form-data">
 		<div class="form-body">
 			<div style="text-align: center"><h3>Approve Action</h3></div>
                         <hr style="border-top: 2px dashed;">
@@ -39,6 +39,34 @@
 			<input type="hidden" name="data_document[document_type]" value="Approved">
                           <hr style="border-top: 2px dashed;">
                         @if($detail['status_approved'] == 'Contract')
+			<div class="form-group">
+				<label  class="control-label col-md-4">Office
+                                    <span class="required" aria-required="true"> * </span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Kantor admin" data-container="body"></i>
+				</label>
+				<div class="col-md-6">
+                                    <select name="id_outlet" class="form-control input-sm select2" data-placeholder="Search Outlet" required>
+                                                <option></option>
+                                                @foreach($outlets as $key => $val)
+                                                    <option value="{{ $val['id_outlet'] }}">{{ $val['outlet_code'] }} - {{ $val['outlet_name'] }}</option>
+                                                @endforeach
+                                            </select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label  class="control-label col-md-4">Role
+                                    <span class="required" aria-required="true"> * </span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Jabatan admin" data-container="body"></i>
+				</label>
+				<div class="col-md-6">
+					<select name="id_role" class="form-control input-sm select2" data-placeholder="Search Role" required>
+                                            <option></option>
+                                            @foreach($roles as $key => $val)
+                                                <option value="{{ $val['id_role'] }}" >{{ $val['role_name'] }}</option>
+                                            @endforeach
+                                        </select>
+				</div>
+			</div>
 			<div class="form-group">
 				<label  class="control-label col-md-4">Auto Generate PIN
 					<i class="fa fa-question-circle tooltips" data-original-title="Jika di centang maka pin akan di generate otomatis oleh sistem" data-container="body"></i>

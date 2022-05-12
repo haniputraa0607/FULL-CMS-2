@@ -233,6 +233,26 @@ return [
                     'required_features' => [472, 442, 464, 489],
 					'active' => '\View::shared("menu_active") == "employee',
 					'children' => [
+                                                [
+                                                    'label' => 'Recruitment',
+                                                    'required_features' => [],
+                                                    'type' => 'tree',
+                                                    'active' => '\View::shared("submenu_active") == "employee-recruitment',
+                                                    'children' => [
+                                                                [
+                                                                    'label' => 'List Employee',
+                                                                    'required_features' => [481],
+                                                                    'active' => '\View::shared("child_active") == "list-employee-recruitment"',
+                                                                    'url' => 'employee/recruitment/'
+                                                                ],
+                                                                [
+                                                                    'label' => 'List Candidate',
+                                                                    'required_features' => [481],
+                                                                    'active' => '\View::shared("child_active") == "list-employee-recruitment-candidate"',
+                                                                    'url' => 'employee/recruitment/candidate'
+                                                                ],
+                                                            ],
+						],
 						[
 							'label' => 'Schedule',
                             'required_features' => [],
@@ -324,7 +344,7 @@ return [
 								]
 							]
                         ],
-                        [
+                                                [
                             'label' => 'Annoucement',
                             'required_features' => [464],
                             'type' => 'tree',
@@ -2064,7 +2084,7 @@ return [
 				],
 				[
 					'label' => 'Outlet Maximum Order',
-					'required_features' => [192,198],
+					'required_features' => [197,198],
 					'active' => '\View::shared("menu_active") == "max-order"',
 					'url' => 'outlet/max-order',
 					'icon' => 'fa fa-shopping-cart'

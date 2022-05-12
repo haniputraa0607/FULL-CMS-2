@@ -1,5 +1,5 @@
 <div style="margin-top: -4%">
-	<form class="form-horizontal" id="form_interview" role="form" action="{{url($url_back.'/update/'.$detail['id_employee'])}}" method="post" enctype="multipart/form-data">
+	<form class="form-horizontal" id="form_interview" role="form" action="{{url('employee/recruitment/update/'.$detail['id_employee'])}}" method="post" enctype="multipart/form-data">
 		<div class="form-body">
 			<div style="text-align: center"><h3>Data Contract</h3></div>
 			<hr style="border-top: 2px dashed;">
@@ -31,7 +31,7 @@
 				</label>
 				<div class="col-md-4">
 					@if(isset($dataDoc['Contract']))
-						<input type="text" class="datepicker form-control" value="{{date('d-F-Y', strtotime($detail['end_date']))}}" disabled>
+						<input type="text" class="form_datetime form-control" value="{{date('d-F-Y', strtotime($detail['end_date']))}}" disabled>
 					@else
 						<div class="input-icon right">
 							<div class="input-group">

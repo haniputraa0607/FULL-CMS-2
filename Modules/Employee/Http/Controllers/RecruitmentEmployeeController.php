@@ -35,7 +35,8 @@ class RecruitmentEmployeeController extends Controller
                 'title'          => 'Employee',
                 'sub_title'      => 'List Employee',
                 'menu_active'    => 'employee',
-                'submenu_active' => 'list-employee',
+                'submenu_active' => 'employee-recruitment',
+                'child_active'   => 'list-employee-recruitment',
             ];
             $data['status'] = 'Candidate';
             $session = "filter-list-employee";
@@ -90,12 +91,15 @@ class RecruitmentEmployeeController extends Controller
                 'title'          => 'Employee',
                 'sub_title'      => 'Detail Employee',
                 'menu_active'    => 'employee',
-                'submenu_active' => 'employee-detail',
+                'submenu_active' => 'employee-recruitment',
+                'child_active'   => 'list-employee-recruitment',
                 'url_back'      => 'employee/recruitment',
                 'page_type'     => 'candidate'
             ];
-            $data['detail'] = $detail['result'];
-            return view('employee::employee.detail', $data);
+           $data['detail'] = $detail['result'];
+           $data['roles'] = MyHelper::get('users/role/list-all')['result'] ?? [];
+           $data['outlets'] = MyHelper::post('outlet/be/list',['office_only'=>1])['result'] ?? [];
+           return view('employee::employee.detail', $data);
         }else{
             return redirect('employee/recruitment/candidate')->withErrors($store['messages']??['Failed get detail candidate']);
         }
@@ -108,7 +112,8 @@ class RecruitmentEmployeeController extends Controller
                 'title'          => 'Candidate Employee',
                 'sub_title'      => 'List Candidate Employee',
                 'menu_active'    => 'employee',
-                'submenu_active' => 'list-candidate-employee',
+                'submenu_active' => 'employee-recruitment',
+                'child_active'   => 'list-employee-recruitment-candidate',
             ];
             $data['status'] = 'Candidate';
             $session = "filter-list-candidate-employee";
@@ -163,7 +168,8 @@ class RecruitmentEmployeeController extends Controller
                 'title'          => 'Recruitment',
                 'sub_title'      => 'Candidate Employee',
                 'menu_active'    => 'employee',
-                'submenu_active' => 'employee-candidate',
+                'submenu_active' => 'employee-recruitment',
+                'child_active'   => 'list-employee-recruitment-candidate',
                 'url_back'      => 'employee/recruitment/candidate',
                 'page_type'     => 'candidate'
             ];
@@ -173,7 +179,7 @@ class RecruitmentEmployeeController extends Controller
             return redirect('employee/recruitment/candidate')->withErrors($store['messages']??['Failed get detail candidate']);
         }
     }
-     public function candidateUpdate(Request $request, $id){
+     public function update(Request $request, $id){
         $post = $request->except('_token');
         if(!empty($post['start_date'])){
             $post['start_date'] = date('Y-m-d', strtotime($post['start_date']));
@@ -192,7 +198,7 @@ class RecruitmentEmployeeController extends Controller
                 $post['data_document']['attachment'] = MyHelper::encodeImage($post['data_document']['attachment']);
             }
         }
-        $update = MyHelper::post('employee/be/recruitment/update',$post);
+       $update = MyHelper::post('employee/be/recruitment/update',$post);
         if(isset($update['status']) && $update['status'] == 'success' && $post['update_type'] == 'approve'){
             return redirect('employee/recruitment/candidate/detail/'.$id)->withSuccess(['Success update data to approved']);
         }elseif(isset($update['status']) && $update['status'] == 'success'){
