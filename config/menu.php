@@ -290,24 +290,24 @@ return [
 					                'active' => '\View::shared("child_active") == "employee-attendance-pending"',
                                     'url' => 'employee/attendance/pending'
                                 ],
-                                [
-                                    'label' => 'Create Request Time Off',
-                                    'required_features' => [],
-                                    'active' => '\View::shared("child_active") == "employee-timeoff-create"',
-                                    'url' => 'employee/timeoff/create'
-                                ],
+                                // [
+                                //     'label' => 'Create Request Time Off',
+                                //     'required_features' => [],
+                                //     'active' => '\View::shared("child_active") == "employee-timeoff-create"',
+                                //     'url' => 'employee/timeoff/create'
+                                // ],
                                 [
                                     'label' => 'List Request Time Off',
                                     'required_features' => [],
                                     'active' => '\View::shared("child_active") == "employee-timeoff-list"',
                                     'url' => 'employee/timeoff'
                                 ],
-                                [
-                                    'label' => 'Create Request Overtime',
-                                    'required_features' => [],
-                                    'active' => '\View::shared("child_active") == "employee-overtime-create"',
-                                    'url' => 'employee/overtime/create'
-                                ],
+                                // [
+                                //     'label' => 'Create Request Overtime',
+                                //     'required_features' => [],
+                                //     'active' => '\View::shared("child_active") == "employee-overtime-create"',
+                                //     'url' => 'employee/overtime/create'
+                                // ],
                                 [
                                     'label' => 'List Request Overtime',
                                     'required_features' => [],
@@ -345,7 +345,7 @@ return [
 							]
                         ],
                                                 [
-                            'label' => 'Annoucement',
+                            'label' => 'Announcement',
                             'required_features' => [464],
                             'type' => 'tree',
 					        'active' => '\View::shared("submenu_active") == "employee-announcement',
