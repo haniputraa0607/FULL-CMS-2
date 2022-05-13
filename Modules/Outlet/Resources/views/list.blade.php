@@ -268,6 +268,17 @@
                                     @if(!empty($value['today']['open'])){{ date('H:i', strtotime($value['today']['open'])) }}@endif
                                     @if(!empty($value['today']['open']) && !empty($value['today']['close']))-@endif
                                     @if(!empty($value['today']['close'])){{ date('H:i', strtotime($value['today']['close'])) }}@endif
+                                    @if(!empty($value['today']))
+                                        <?php
+                                            $time = [
+                                                7 => 'WIB',
+                                                8 => 'WITA',
+                                                9 => 'WIT'
+                                            ];
+
+                                            echo ' '.$time[$value['time_zone_utc']]??'WIB';
+                                        ?>
+                                    @endif
                                 </td>
                                 <td>
                                     <input type="checkbox" name="outlet_status" @if($value['outlet_status'] == 'Active') checked @endif data-id="{{ $value['id_outlet'] }}" class="make-switch switch-change" data-size="small" data-on-text="Active" data-off-text="Inactive">
