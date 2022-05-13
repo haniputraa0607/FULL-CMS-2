@@ -5,7 +5,8 @@ namespace Modules\Outlet\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
-use MyHelper;
+use App\Lib\MyHelper;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class OfficeBranchController extends Controller
 {
