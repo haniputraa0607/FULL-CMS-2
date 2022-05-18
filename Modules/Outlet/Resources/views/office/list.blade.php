@@ -247,6 +247,17 @@
                                     @if(!empty($value['today']['open'])){{ date('H:i', strtotime($value['today']['open'])) }}@endif
                                     @if(!empty($value['today']['open']) && !empty($value['today']['close']))-@endif
                                     @if(!empty($value['today']['close'])){{ date('H:i', strtotime($value['today']['close'])) }}@endif
+                                    @if(!empty($value['today']))
+                                    <?php
+                                        $time = [
+                                            7 => 'WIB',
+                                            8 => 'WITA',
+                                            9 => 'WIT'
+                                        ];
+
+                                        echo ' '.$time[$value['time_zone_utc']]??'WIB';
+                                    ?>
+                                @endif
                                 </td>
                                 @if(MyHelper::hasAccess([25,27,28], $grantedFeature))
                                     <td style="width: 90px;">

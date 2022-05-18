@@ -72,6 +72,11 @@ function showDetail(dom) {
 
     $('#modal-detail').modal('show');
 }
+
+function htmlEntities(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&apos;').replace(/"/g, '&quot;');
+}
+
 $(document).ready(function() {
     table = $('#main-table').DataTable({
         serverSide: true, 
@@ -122,7 +127,7 @@ $(document).ready(function() {
                 orderable: false,
                 render: (data, type, full) => {
                     return `
-                        <button onclick="showDetail(this)" data-data='${JSON.stringify(full)}' class="btn btn-primary btn-sm">Detail</button>
+                        <button onclick="showDetail(this)" data-data='${htmlEntities(JSON.stringify(full))}' class="btn btn-primary btn-sm">Detail</button>
                     `;
                 }
             },

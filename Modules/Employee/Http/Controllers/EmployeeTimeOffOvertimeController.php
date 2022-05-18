@@ -189,4 +189,119 @@ class EmployeeTimeOffOvertimeController extends Controller
             }
         }
     }
+
+    public function listOvertime(Request $request)
+    {
+        $rule = false;
+        $post = $request->all();
+        $data = [
+            'title'          	=> 'Employee',
+            'sub_title'      	=> 'List Request Employee Overtime',
+            'menu_active'    	=> 'employee-schedule',
+            'submenu_active' 	=> 'employee-schedule',
+            'child_active' 		=> 'employee-overtime-list',
+        ];
+        
+        $order = 'created_at';
+        $orderType = 'desc';
+        $sorting = 0;
+        if(isset($post['sorting'])){
+            $sorting = 1;
+            $order = $post['order'];
+            $orderType = $post['order_type'];
+        }
+        if(isset($post['reset']) && $post['reset'] == 1){
+            Session::forget('filter-employee-list-overtime');
+            $post['filter_type'] = 'today';
+        }elseif(Session::has('filter-employee-list-overtime') && !empty($post) && !isset($post['filter'])){
+            $pageSession = 1;
+            if(isset($post['page'])){
+                $pageSession = $post['page'];
+            }
+            $post = Session::get('filter-employee-list-overtime');
+            $post['page'] = $pageSession;
+            if($sorting == 0 && !empty($post['order'])){
+                $order = $post['order'];
+                $orderType = $post['order_type'];
+            }
+        }
+        $page = '?page=1';
+        if(isset($post['page'])){
+            $page = '?page='.$post['page'];
+        }
+        $data['order'] = $order;
+        $data['order_type'] = $orderType;
+        $post['order'] = $order;
+        $post['order_type'] = $orderType;
+
+        $list = MyHelper::post('employee/overtime/list'.$page, $post);
+
+        if(($list['status']??'')=='success'){
+            $data['data']          = $list['result']['data'];
+            $data['data_total']     = $list['result']['total'];
+            $data['data_per_page']   = $list['result']['from'];
+            $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;
+            $data['data_paginator'] = new LengthAwarePaginator($list['result']['data'], $list['result']['total'], $list['result']['per_page'], $list['result']['current_page'], ['path' => url()->current()]);
+            $data['rule'] = $rule;
+        }else{
+            $data['data']          = [];
+            $data['data_total']     = 0;
+            $data['data_per_page']   = 0;
+            $data['data_up_to']      = 0;
+            $data['data_paginator'] = false;
+            $data['rule'] = false;
+        }
+
+        if($post){
+            Session::put('filter-employee-list-overtime',$post);
+        }
+
+        return view('employee::overtime.list', $data);
+    }
+
+    public function detailOvertime($id)
+    {  
+        $data = [
+            'title'          	=> 'Employee',
+            'sub_title'      	=> 'Detail Request Employee Overtime',
+            'menu_active'    	=> 'employee-schedule',
+            'submenu_active' 	=> 'employee-schedule',
+            'child_active' 		=> 'employee-overtime-list',
+        ];
+        $result = MyHelper::post('employee/overtime/detail', ['id_employee_overtime' => $id]);
+
+        if(isset($result['status']) && $result['status'] == 'success'){
+            $data['result'] = $result['result']['time_off'];
+            $data['result']['month'] = date('m', strtotime( $data['result']['date']));
+            $data['result']['year'] = date('Y', strtotime( $data['result']['date']));
+            $data['result']['list_date'] = MyHelper::post('employee/timeoff/list-date', ['id_employee' => $data['result']['employee']['id'],'month' => $data['result']['month'],'year' => $data['result']['year']])['result'] ?? [];
+            $time = MyHelper::post('employee/timeoff/list-date', ['id_employee' => $data['result']['employee']['id'],'month' => $data['result']['month'],'year' => $data['result']['year'], 'date' => $data['result']['date'], 'type' => 'getDetail'])['result'] ?? [];
+            // return $data;
+            return view('employee::overtime.detail', $data);
+        }else{
+            return redirect('employee/overtime')->withErrors($result['messages'] ?? ['Failed get detail employee request overtime']);
+        }
+    }
+
+    public function updateOvertime(Request $request, $id)
+    {
+        $post = $request->except('_token');
+        $post['id_employee_overtime'] = $id;
+        $update = MyHelper::post('employee/overtime/update', $post);
+
+        if(isset($post['approve'])){
+            return $update;
+        }
+        if(isset($update['status']) && $update['status'] == 'success'){
+            return redirect('employee/overtime/detail/'.$id)->withSuccess(['Success udpated employee request overtime']);
+        }else{
+            return redirect('employee/overtime/detail/'.$id)->withErrors($result['messages'] ?? ['Failed updated employee request overtime']);
+        }
+    }
+
+    public function deleteOvertime($id)
+    {
+        $result = MyHelper::post("employee/overtime/delete", ['id_employee_overtime' => $id]);
+        return $result;
+    }
 }
