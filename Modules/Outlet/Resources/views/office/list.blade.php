@@ -149,7 +149,7 @@
 			            let name    = $(this).data('name');
 			            $(this).click(function() {
 			                swal({
-								title: code+" - "+name+"\n\nAre you sure want to delete this outlet?",
+								title: code+" - "+name+"\n\nAre you sure want to delete this office?",
 								text: "Your will not be able to recover this data!",
 								type: "warning",
 								showCancelButton: true,
@@ -165,14 +165,14 @@
 					                success : function(result) {
 					                    if (result == "success") {
 					                        $('#sample_1').DataTable().row(column).remove().draw();
-											swal("Deleted!", "Outlet has been deleted.", "success")
+											swal("Deleted!", "Office has been deleted.", "success")
 											SweetAlert.init()
 					                    }
 					                    else if(result == "fail"){
-											swal("Error!", "Failed to delete outlet. Outlet has been used.", "error")
+											swal("Error!", "Failed to delete office. Office has been used.", "error")
 					                    }
 					                    else {
-											swal("Error!", "Something went wrong. Failed to delete outlet.", "error")
+											swal("Error!", "Something went wrong. Failed to delete office.", "error")
 					                    }
 					                }
 					            });
