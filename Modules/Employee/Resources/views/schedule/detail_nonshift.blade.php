@@ -190,8 +190,8 @@
                                 <tr class="{{ $class }}">
                                     <td class="text-nowrap">{{ $list['date'] }}</td>
                                     <td class="text-nowrap text-center">{{ $v_status }}</td>
-                                    <td class="text-nowrap text-center">@if ($status){{ $list['time_start'] }} @else - @endif</td>
-                                    <td class="text-nowrap text-center">@if ($status){{ $list['time_end'] }} @else - @endif</td>
+                                    <td class="text-nowrap text-center">@if ($status){{ $list['time_start'] }} {{ $list['zone'] }} @else - @endif</td>
+                                    <td class="text-nowrap text-center">@if ($status){{ $list['time_end'] }} {{ $list['zone'] }} @else - @endif</td>
                                 </tr>
                                 @endforeach
                             </tbody>
