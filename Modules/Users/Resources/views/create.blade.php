@@ -42,6 +42,14 @@
 			} else {
 				$('#select_department, #select_job_level').hide().find('select').prop('disabled', true);
 			}
+
+			if(userLevel == 'Customer'){
+				$('.div_role_outlet').hide();
+				$('.select_outlet_role').prop('required',false);
+			}else{
+				$('.div_role_outlet').show();
+				$('.select_outlet_role').prop('required',true);
+			}
 		}
 		$(document).ready(function(){
 			changeTrigger();
@@ -278,11 +286,11 @@
 							<div class="col-md-9">
 								<select name="level" class="form-control input-sm select2">
 									<option value="Admin">Admin</option>
-									<option value="Customer" selected>Customer</option>
+									<option value="Customer">Customer</option>
 								</select>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group div_role_outlet">
 							<div class="input-icon right">
 								<label class="col-md-3 control-label">
 									Outlet
@@ -291,7 +299,7 @@
 								</label>
 							</div>
 							<div class="col-md-9">
-								<select name="id_outlet" class="form-control input-sm select2" data-placeholder="Search Outlet">
+								<select name="id_outlet" class="form-control input-sm select2 select_outlet_role" data-placeholder="Search Outlet">
 									<option></option>
 									@foreach($outlets as $key => $val)
 										<option value="{{ $val['id_outlet'] }}">{{ $val['outlet_code'] }} - {{ $val['outlet_name'] }}</option>
@@ -299,7 +307,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group div_role_outlet">
 							<div class="input-icon right">
 								<label class="col-md-3 control-label">
 									Role
@@ -308,7 +316,7 @@
 								</label>
 							</div>
 							<div class="col-md-9">
-								<select name="id_role" class="form-control input-sm select2" data-placeholder="Search Role">
+								<select name="id_role" class="form-control input-sm select2 select_outlet_role" data-placeholder="Search Role">
 									<option></option>
 									@foreach($roles as $key => $val)
 										<option value="{{ $val['id_role'] }}">{{ $val['role_name'] }}</option>
