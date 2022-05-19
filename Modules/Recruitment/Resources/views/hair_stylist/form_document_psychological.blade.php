@@ -7,7 +7,7 @@
 				<label class="col-md-4 control-label">Notes
 				</label>
 				<div class="col-md-6">
-					<textarea class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Psychological Tested']['process_notes'])) disabled @endif>@if(isset($dataDoc['Psychological Tested']['process_notes'])) {{$dataDoc['Psychological Tested']['process_notes']}} @endif</textarea>
+					<textarea class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Psychological Tested'])) disabled @endif>@if(isset($dataDoc['Psychological Tested']['process_notes'])) {{$dataDoc['Psychological Tested']['process_notes']}} @endif</textarea>
 				</div>
 			</div>
 			<div class="form-group">
