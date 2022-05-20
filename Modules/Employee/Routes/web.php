@@ -59,6 +59,18 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
         Route::post('pending/detail/{id}/update', ['uses' => 'EmployeeAttendanceController@updatePending']);
     });
 
+    Route::group(['prefix' => 'attendance-outlet'], function(){
+        Route::get('/', ['uses' => 'EmployeeOutletAttendanceController@list']);
+        Route::post('/', ['uses' => 'EmployeeOutletAttendanceController@filter']);
+        Route::get('detail/{id}', ['uses' => 'EmployeeOutletAttendanceController@detail']);
+        Route::post('detail/{id}', ['uses' => 'EmployeeOutletAttendanceController@filter']);
+        Route::get('pending', ['uses' => 'EmployeeOutletAttendanceController@listPending']);
+        Route::post('pending', ['uses' => 'EmployeeOutletAttendanceController@filterPending']);
+        Route::get('pending/detail/{id}', ['uses' => 'EmployeeOutletAttendanceController@detailPending']);
+        Route::post('pending/detail/{id}', ['uses' => 'EmployeeOutletAttendanceController@filterPending']);
+        Route::post('pending/detail/{id}/update', ['uses' => 'EmployeeOutletAttendanceController@updatePending']);
+    });
+
     Route::group(['prefix' => 'timeoff'], function()
 	{
 	    Route::any('/', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@listTimeOff']);
