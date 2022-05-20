@@ -286,9 +286,9 @@ class TransactionSettingController extends Controller
         if (empty($request->all())) {
             $data = [
                 'title'          => 'Order',
-                'menu_active'    => 'home-service-setting',
-                'sub_title'      => 'Home Service Settings',
-                'submenu_active' => 'home-service-setting'
+                'menu_active'    => 'academy-transaction',
+                'sub_title'      => 'academy-transaction-setting',
+                'submenu_active' => 'academy-transaction-setting'
             ];
 
             $data['result'] = MyHelper::get('transaction/setting/academy')['result']??[];

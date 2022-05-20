@@ -83,11 +83,13 @@ $submitCheck = true;
                 $("#btn_submit_attendance").attr("disabled", false);
             }
 
-            $('.conclusion').each(function() {
-                if($(this).val() === ""){
-                    $("#btn_submit_attendance").attr("disabled", true);
-                }
-            });
+            if({{$detail['last_meeting']}} == {{$detail['meeting']}}){
+                $('.conclusion').each(function() {
+                    if($(this).val() === ""){
+                        $("#btn_submit_attendance").attr("disabled", true);
+                    }
+                });
+            }
         }
     </script>
 @endsection
@@ -190,6 +192,9 @@ $submitCheck = true;
                     <div class="row">
                         <div class="col-md-3">
                             <ul class="ver-inline-menu tabbable margin-bottom-10">
+                                <?php
+                                    $theory_final = [];
+                                ?>
                                 @foreach($theory_category as $index=>$tc)
                                     <?php
                                         if(empty($tc['child'])){
@@ -207,12 +212,17 @@ $submitCheck = true;
                                         }
 
                                         if($j > 0){
-                                            $htmlClick = '';
-                                            $htmlClick .= '<li '.($index == 0 ? 'class="active"':'').'>';
-                                            $htmlClick .= '<a data-toggle="tab" href="#theory_category_'.$tc['id_theory_category'].'"><i class="fa fa-cog"></i> '.(strlen($tc['theory_category_name']) > 16 ? substr($tc['theory_category_name'],0, 20) : $tc['theory_category_name']).'</a>';
-                                            $htmlClick .= '</li>';
-                                            echo $htmlClick;
+                                            $theory_final[] = $tc;
                                         }
+                                    ?>
+                                @endforeach
+                                @foreach($theory_final as $index=>$tc)
+                                    <?php
+                                        $htmlClick = '';
+                                        $htmlClick .= '<li '.($index == 0 ? 'class="active"':'').'>';
+                                        $htmlClick .= '<a data-toggle="tab" href="#theory_category_'.$tc['id_theory_category'].'"><i class="fa fa-cog"></i> '.(strlen($tc['theory_category_name']) > 16 ? substr($tc['theory_category_name'],0, 20) : $tc['theory_category_name']).'</a>';
+                                        $htmlClick .= '</li>';
+                                        echo $htmlClick;
                                     ?>
                                 @endforeach
                             </ul>
@@ -220,7 +230,7 @@ $submitCheck = true;
 
                         <div class="col-md-9">
                             <div class="tab-content">
-                            @foreach($theory_category as $index=>$ct)
+                            @foreach($theory_final as $index=>$ct)
                                 <div class="tab-pane @if($index == 0) active @endif" id="theory_category_{{$ct['id_theory_category']}}">
                                     <div style="text-align: center"><h3>{{$ct['theory_category_name']}}</h3></div>
                                     <hr style="border-top: 2px dashed;">
