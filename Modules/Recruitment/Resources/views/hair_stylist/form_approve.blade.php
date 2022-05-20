@@ -14,7 +14,7 @@
 							$avgMin = (int)($allMinScore/$totalTheories);
 						}
 					?>
-					@if($avg < $avgMin)
+					@if($avg < $avgMin || ($avg == 0 && $avgMin == 0))
 						<div style="border: solid 1px red;background-color: red">
 							<h4><b style="color: white">Total Score : {{$avg}}/{{$avgMin}}</b></h4>
 						</div>
@@ -49,7 +49,7 @@
 				</label>
 				<div class="col-md-6">
 					<div class="input-icon right">
-						<input type="text" placeholder="ID Card Number" value="{{ $detail['id_card_number']}}" class="form-control" name="id_card_number" required>
+						<input type="text" placeholder="ID Card Number" value="{{ $detail['id_card_number']}}" maxlength="25" class="form-control card_number" name="id_card_number" required>
 					</div>
 				</div>
 			</div>

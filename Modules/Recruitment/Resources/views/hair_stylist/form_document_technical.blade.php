@@ -12,7 +12,7 @@
 					@else
 						<div class="input-icon right">
 							<div class="input-group">
-								<input type="text" class="form_datetime form-control" name="data_document[process_date]" required autocomplete="off" placeholder="Test Date">
+								<input type="text" class="form_datetime form-control" name="data_document[process_date]" required autocomplete="off" placeholder="Test Date" required>
 								<span class="input-group-btn">
 						<button class="btn default" type="button">
 							<i class="fa fa-calendar"></i>
@@ -30,14 +30,14 @@
 				<label class="col-md-4 control-label">Test By <span class="required" aria-required="true"> * </span>
 				</label>
 				<div class="col-md-4">
-					<input class="form-control" maxlength="200" type="text" name="data_document[process_name_by]" @if(isset($dataDoc['Technical Tested'])) value="{{$dataDoc['Technical Tested']['process_name_by']}}" disabled @endif placeholder="Test By" required/>
+					<input class="form-control" maxlength="200" type="text" name="data_document[process_name_by]" @if(isset($dataDoc['Technical Tested'])) value="{{$dataDoc['Technical Tested']['process_name_by']}}" disabled @else required @endif placeholder="Test By" required/>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-md-4 control-label">Notes <span class="required" aria-required="true"> * </span>
 				</label>
 				<div class="col-md-6">
-					<textarea class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Technical Tested'])) disabled @endif>@if(isset($dataDoc['Technical Tested']['process_notes'])) {{$dataDoc['Technical Tested']['process_notes']}} disabled @endif</textarea>
+					<textarea class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Technical Tested'])) disabled @else required @endif>@if(isset($dataDoc['Technical Tested']['process_notes'])) {{$dataDoc['Technical Tested']['process_notes']}} @endif</textarea>
 				</div>
 			</div>
 			<div class="form-group">
@@ -49,8 +49,6 @@
 						@else
 							<a style="margin-top: 2%" class="btn blue btn-xs" href="{{url('recruitment/hair-stylist/detail/download-file', $dataDoc['Technical Tested']['id_user_hair_stylist_document'])}}"><i class="fa fa-download"></i></a>
 						@endif
-					@elseif($detail['user_hair_stylist_status'] != 'Candidate')
-						<p style="margin-top: 2.3%">-</p>
 					@else
 						<div class="fileinput fileinput-new" data-provides="fileinput">
 							<div class="input-group input-large">
