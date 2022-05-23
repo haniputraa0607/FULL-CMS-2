@@ -38,6 +38,15 @@
                 return [$sh['shift_name'], $sh['shift_name']];
             }, $shift)) !!},
         },
+        id_outlet:{
+            display:'Outlet',
+            operator:[],
+            opsi:{!! json_encode(array_map(function ($item) {
+                return [$item['id_outlet'], $item['outlet_name']];
+            }, $outlets)) !!},
+            type:'multiple_select',
+            placeholder: 'Select Outlet'
+        },
     };
 </script>
 
@@ -47,15 +56,13 @@ function showDetail(dom) {
     const data = $(dom).data('data');
     $('#modal-detail [name=date]').val(new Date(data.date).toLocaleString('id-ID',{day:"2-digit",month:"short",year:"numeric"}));
     $('#modal-detail [name=shift]').val(data.shift);
-    $('#modal-detail [name=outlet]').val(data.outlet ? data.outlet.outlet_name : '-');
-    $('#modal-detail [name=status]').val(data.status);
-    $('#modal-detail [name=clock_in_requirement]').val(data.clock_in_requirement ? data.clock_in_requirement : data.time_start);
+    $('#modal-detail [name=office]').val(data.office ? data.office : '-');
+    $('#modal-detail [name=outlet]').val(data.in_outlet ? data.in_outlet : '-');
     $('#modal-detail [name=clock_in]').val(data.clock_in);
-    $('#modal-detail [name=clock_out_requirement]').val(data.clock_out_requirement ? data.clock_out_requirement : data.time_end);
     $('#modal-detail [name=clock_out]').val(data.clock_out);
 
     let html = '';
-    html = data.attendance_logs.map(item => {
+    html = data.outlet_attendance_logs.map(item => {
         return `
         <tr>
             <td>${new Date(item.datetime).toLocaleString('id-ID',{hour:"2-digit",minute:"2-digit"})}</td>
@@ -74,7 +81,6 @@ function showDetail(dom) {
 function htmlEntities(str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&apos;').replace(/"/g, '&quot;');
 }
-
 
 $(document).ready(function() {
     table = $('#main-table').DataTable({
@@ -95,32 +101,9 @@ $(document).ready(function() {
                 data: 'date',
                 render: data => new Date(data).toLocaleString('id-ID',{day:"2-digit",month:"short",year:"numeric"}),
             },
-            {
-                data: 'outlet',
-                render: outlet => outlet ? outlet.outlet_name : '-',
-            },
-            {data: 'shift'},
+            {data: 'in_outlet'},
             {data: 'clock_in'},
             {data: 'clock_out'},
-            {
-                data: 'status',
-                render: (data, type, full) => {
-                    let color = null;
-                    switch (data) {
-                        case 'Absent':
-                            color = 'danger';
-                            break;
-                        case 'On Time':
-                            color = 'success';
-                            break;
-                        case 'Late':
-                            color = 'warning';
-                            break;
-                    }
-
-                    return color ? `<div class="badge badge-${color}">${data}</div>` : '';
-                }
-            },
             {
                 data: 'id',
                 orderable: false,
@@ -174,10 +157,8 @@ $(document).ready(function() {
                     <tr>
                         <th>Date</th>
                         <th>Outlet</th>
-                        <th>Shift</th>
                         <th>Clock In</th>
                         <th>Clock Out</th>
-                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -198,6 +179,12 @@ $(document).ready(function() {
                         </div>
                     </div>
                     <div class="form-group row">
+                        <label class="col-md-3 control-label">Office</label>
+                        <div class="col-md-8">
+                            <input type="text" name="office" class="form_datetime form-control"  disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label class="col-md-3 control-label">Outlet</label>
                         <div class="col-md-8">
                             <input type="text" name="outlet" class="form_datetime form-control"  disabled>
@@ -209,19 +196,7 @@ $(document).ready(function() {
                             <input type="text" name="shift" class="form_datetime form-control"  disabled>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-md-3 control-label">Attendance Status</label>
-                        <div class="col-md-8">
-                            <input type="text" name="status" class="form_datetime form-control"  disabled>
-                        </div>
-                    </div>
                     <h3>Clock In</h3>
-                    <div class="form-group row">
-                        <label class="col-md-3 control-label">Clock In Requirement</label>
-                        <div class="col-md-8">
-                            <input type="text" name="clock_in_requirement" class="form_datetime form-control"  disabled>
-                        </div>
-                    </div>
                     <div class="form-group row">
                         <label class="col-md-3 control-label">Clock In</label>
                         <div class="col-md-8">
@@ -230,18 +205,12 @@ $(document).ready(function() {
                     </div>
                     <h3>Clock Out</h3>
                     <div class="form-group row">
-                        <label class="col-md-3 control-label">Clock Out Requirement</label>
-                        <div class="col-md-8">
-                            <input type="text" name="clock_out_requirement" class="form_datetime form-control"  disabled>
-                        </div>
-                    </div>
-                    <div class="form-group row">
                         <label class="col-md-3 control-label">Clock Out</label>
                         <div class="col-md-8">
                             <input type="text" name="clock_out" class="form_datetime form-control"  disabled>
                         </div>
                     </div>
-                    <h3>Attendance Logs</h3>
+                    <h3>Attendance Outlet Logs</h3>
                     <table class="table">
                         <thead>
                             <tr>

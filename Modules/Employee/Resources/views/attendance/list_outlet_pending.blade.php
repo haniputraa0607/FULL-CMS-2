@@ -76,7 +76,7 @@ $(document).ready(function() {
                 orderable: false,
                 render: (data, type, full) => {
                     return `
-                        <a href="${'{{url('employee/attendance/pending/detail/::id::')}}'.replace('::id::', data)}" class="btn btn-primary btn-sm">Detail</a>
+                        <a href="${'{{url('employee/attendance-outlet/pending/detail/::id::')}}'.replace('::id::', data)}" class="btn btn-primary btn-sm">Detail</a>
                     `;
                 }
             },
@@ -115,7 +115,7 @@ $(document).ready(function() {
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">List Employee Attendance</span>
+                <span class="caption-subject sbold uppercase font-blue">List Employee Attendance Outlet</span>
             </div>
         </div>
         <div class="portlet-body form">

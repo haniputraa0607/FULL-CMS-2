@@ -314,7 +314,7 @@ class EmployeeAttendanceController extends Controller
             'menu_active'    => 'employee',
             'submenu_active' => 'employee-schedule',
             'child_active'   => 'employee-attendance-pending',
-            'filter_title'   => 'Filter Date',
+            'filter_title'   => 'Filter Detail Employee Pending Attendance',
             'filter_date'    => true,
             'shift'          => MyHelper::post('employee/shift', ['id' => $id])['result']??[],
         ];
