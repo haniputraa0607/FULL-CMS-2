@@ -79,6 +79,11 @@
             var date = $('#list_date').val();
             var time_start = $('input[type=text][name=time_start]').val();
             var time_end = $('input[type=text][name=time_end]').val();
+            var use_quota_time_off = null;
+            if ($('.check_quota').is(":checked"))
+            {
+                use_quota_time_off = 1;
+            }
 
             var data = {
                 '_token' : '{{csrf_token()}}',
@@ -88,6 +93,7 @@
                 'date' : date,
                 'time_start' : time_start,
                 'time_end' : time_end,
+                'use_quota_time_off' : use_quota_time_off,
                 'approve' : true
             };
             swal({
@@ -301,6 +307,13 @@
                             <i class="fa fa-question-circle tooltips" data-original-title="Permohonan dibuat oleh user ini" data-container="body"></i></label>
                         <div class="col-md-5">
                             <input class="form-control" type="text" placeholder="Enter request by" value="{{ $result['request']['name'] }}" required readonly/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="example-search-input" class="control-label col-md-4">Uses Quota Time Off<span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Memakai jatah cuti atau tidak" data-container="body"></i></label>
+                        <div class="col-md-3">
+                            <input type="checkbox" class="make-switch check_quota" data-size="small" data-on-color="info" data-on-text="Yes" data-off-color="default" name='use_quota_time_off' data-off-text="No" @if($result['use_quota_time_off'] == 1) checked @endif @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
                         </div>
                     </div>
                     @if (isset($result['approve']))
