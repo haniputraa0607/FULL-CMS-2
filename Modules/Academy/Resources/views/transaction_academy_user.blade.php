@@ -93,7 +93,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($res['transaction_payment_status'] == 'Completed')
+                                        @if ($res['transaction_payment_status'] == 'Completed' || ($res['transaction_payment_status'] == 'Pending' && count($res['transaction_academy']['completed_installment']) == count($res['transaction_academy']['all_installment'])))
                                             <div class="badge badge-success">Completed</div>
                                         @elseif($res['transaction_payment_status'] == 'Cancelled')
                                             <div class="badge badge-danger">Cancelled</div>

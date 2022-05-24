@@ -278,6 +278,26 @@ $totalTheories = 0;
 				$("#alert_password_"+form_type).hide();
 			}
 		}
+
+		$('.card_number').keypress(function (e) {
+			var regex = new RegExp("^[0-9]+$");
+			var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+
+			var check_browser = navigator.userAgent.search("Firefox");
+
+			if(check_browser == -1){
+				if (regex.test(str) || e.which == 8) {
+					return true;
+				}
+			}else{
+				if (regex.test(str) || e.which == 8 ||  e.keyCode === 46 || (e.keyCode >= 37 && e.keyCode <= 40)) {
+					return true;
+				}
+			}
+
+			e.preventDefault();
+			return false;
+		});
     </script>
 @endsection
 
@@ -404,7 +424,7 @@ $totalTheories = 0;
 							</label>
 							<div class="col-md-6">
 								<div class="input-icon right">
-									<input type="text" placeholder="ID Card Number" class="form-control" name="id_card_number" value="{{ $detail['id_card_number']}}" required>
+									<input type="text" placeholder="ID Card Number" maxlength="25" class="form-control card_number" name="id_card_number" value="{{ $detail['id_card_number']}}" required>
 								</div>
 							</div>
 						</div>

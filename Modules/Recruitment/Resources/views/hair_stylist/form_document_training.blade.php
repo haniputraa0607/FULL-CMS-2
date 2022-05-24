@@ -131,7 +131,7 @@ $idCategoryUse = [];
 					<label class="col-md-2 control-label" style="text-align: left">Notes <span class="required" aria-required="true"> * </span>
 					</label>
 					<div class="col-md-6">
-						<textarea class="form-control" name="data_document[process_notes]" placeholder="Notes">@if(isset($dataDoc['Training Completed']['process_notes'])) {{$dataDoc['Training Completed']['process_notes']}} @endif</textarea>
+						<textarea class="form-control" name="data_document[process_notes]" placeholder="Notes" required></textarea>
 					</div>
 				</div>
 				<div class="form-group">

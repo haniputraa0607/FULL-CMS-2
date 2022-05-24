@@ -12,7 +12,7 @@
 					@else
 						<div class="input-icon right">
 							<div class="input-group">
-								<input type="text" class="form_datetime form-control" name="data_document[process_date]" required autocomplete="off" placeholder="Interview Date" @if($detail['user_hair_stylist_status'] != 'Candidate') disabled @endif>
+								<input type="text" class="form_datetime form-control" name="data_document[process_date]" required autocomplete="off" placeholder="Interview Date" @if($detail['user_hair_stylist_status'] != 'Candidate') disabled @else required @endif>
 								<span class="input-group-btn">
 						<button class="btn default" type="button">
 							<i class="fa fa-calendar"></i>
@@ -30,14 +30,14 @@
 				<label class="col-md-4 control-label">Interview By <span class="required" aria-required="true"> * </span>
 				</label>
 				<div class="col-md-4">
-					<input class="form-control" maxlength="200" type="text" name="data_document[process_name_by]" @if(isset($dataDoc['Interviewed']['process_name_by'])) value="{{$dataDoc['Interviewed']['process_name_by']}}" disabled @endif placeholder="Interview by" required />
+					<input class="form-control" maxlength="200" type="text" name="data_document[process_name_by]" @if(isset($dataDoc['Interviewed'])) value="{{$dataDoc['Interviewed']['process_name_by']}}" disabled @else required @endif placeholder="Interview by" required />
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-md-4 control-label">Notes <span class="required" aria-required="true"> * </span>
 				</label>
 				<div class="col-md-6">
-					<textarea class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Interviewed']['process_name_by'])) disabled @endif @if($detail['user_hair_stylist_status'] != 'Candidate') disabled @endif>@if(isset($dataDoc['Interviewed']['process_notes'])) {{$dataDoc['Interviewed']['process_notes']}} @endif</textarea>
+					<textarea class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Interviewed'])) disabled @else required @endif >@if(isset($dataDoc['Interviewed']['process_notes'])) {{$dataDoc['Interviewed']['process_notes']}} @endif</textarea>
 				</div>
 			</div>
 			<div class="form-group">
