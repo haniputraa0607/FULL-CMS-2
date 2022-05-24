@@ -10,6 +10,7 @@
 <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
 <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/datatables/datatables.min.js') }}" type="text/javascript"></script>
 <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') }}" type="text/javascript"></script>
+<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-confirmation/bootstrap-confirmation.min.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('page-script')
@@ -22,22 +23,22 @@
             operator:[],
             opsi:[]
         },
-        name:{
-            display:'Employee Name',
-            operator:[
-                ['=','='],
-                ['like','like'],
-            ],
-            opsi:[],
-        },
-        id_role:{
-            display:'Role',
+        shift:{
+            display:'Shift',
             operator:[],
-            opsi:{!! json_encode(array_map(function ($item) {
-                return [$item['id_role'], $item['role_name']];
-            }, $roles)) !!},
+            opsi:{!! json_encode(array_map(function ($sh) {
+                return [$sh['shift_name'], $sh['shift_name']];
+            }, $shift)) !!},
         },
-        id_outlets:{
+        type:{
+            display:'Type',
+            operator:[],
+            opsi:[
+                ['clock_in', 'Clock In'],
+                ['clock_out', 'Clock Out'],
+            ],
+        },
+        id_outlet:{
             display:'Outlet',
             operator:[],
             opsi:{!! json_encode(array_map(function ($item) {
@@ -50,12 +51,10 @@
 </script>
 
 <script type="text/javascript">
-
 var table;
 $(document).ready(function() {
     table = $('#main-table').DataTable({
         serverSide: true, 
-        searching: false,
         ajax: {
             url : "{{url()->current()}}",
             data: function (data) {
@@ -68,19 +67,44 @@ $(document).ready(function() {
             }
         },
         columns: [
-            {data: 'name'},
-            {data: 'role_name'},
-            {data: 'total_pending'},
             {
-                data: 'id',
+                data: 'datetime',
+                render: data => new Date(data).toLocaleString('id-ID',{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"}),
+            },
+            {data: 'shift'},
+            {data: 'outlet_name'},
+            {
+                data: 'type',
+                render: data => data == 'clock_in' ? 'Clock In' : 'Clock Out',
+            },
+            {
+                data: 'latitude',
+                render: (data, type, full) => full.latitude && full.longitude ? `<a href="https://maps.google.com/maps?q=${full.latitude},${full.longitude}" target="_blank">Show Location</a>` : '<em class="text-muted">No data</em>',
+            },
+            {
+                data: 'photo_url',
+                render: data => data ? `<a href="${data}" target="_blank">Show Photo</a>` : '<em class="text-muted">No data</em>',
+            },
+            {
+                data: 'notes',
+                render: data => data ? data : '-',
+            },
+            {
+                data: 'id_employee_outlet_attendance_log',
                 orderable: false,
                 render: (data, type, full) => {
                     return `
-                        <a href="${'{{url('employee/attendance/pending/detail/::id::')}}'.replace('::id::', data)}" class="btn btn-primary btn-sm">Detail</a>
+                        <form action="{{url()->current()}}/update" method="post">
+                        @csrf
+                        <input type="hidden" name="id_employee_outlet_attendance_log" value="${data}"/>
+                        <button type="submit" name="status" value="Approved" class="btn btn-primary btn-sm btn-inline" data-toggle="confirmation"><i class="fa fa-check"></i></button>
+                        <button type="submit" name="status" value="Rejected" class="btn btn-danger btn-sm btn-inline" data-toggle="confirmation"><i class="fa fa-times"></i></button>
+                        </form>
                     `;
                 }
             },
-        ]
+        ],
+        drawCallback: item => $('[data-toggle=confirmation]').confirmation(),
     });
 });
 </script>
@@ -115,17 +139,21 @@ $(document).ready(function() {
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">List Employee Attendance</span>
+                <span class="caption-subject sbold uppercase font-blue">List Pending Attendance</span>
             </div>
         </div>
         <div class="portlet-body form">
             <table class="table table-striped table-bordered table-hover" width="100%" id="main-table">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Role</th>
-                        <th>Total Pending</th>
-                        <th>Action</th>
+                        <th>Datetime</th>
+                        <th>Shift</th>
+                        <th>Outlet</th>
+                        <th>Type</th>
+                        <th>Location</th>
+                        <th>Photo</th>
+                        <th>Notes</th>
+                        <th width="70px">Action</th>
                     </tr>
                 </thead>
             </table>

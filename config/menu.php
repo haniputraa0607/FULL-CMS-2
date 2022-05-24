@@ -1382,7 +1382,7 @@ return [
 							'url' => 'recruitment/hair-stylist/candidate/setting-requirements'
 						],
                         [
-                            'label' => 'Annoucement',
+                            'label' => 'Announcement',
                             'required_features' => [368, 369, 370, 371, 372],
                             'type' => 'tree',
 					        'active' => '\View::shared("submenu_active") == "hair-stylist-announcement',
