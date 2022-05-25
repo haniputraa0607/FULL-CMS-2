@@ -116,7 +116,7 @@ class HairStylistScheduleController extends Controller
             'child_active' 		=> 'hairstylist-schedule-create',
         ];
         
-        $data['hair_stylists'] = MyHelper::post('recruitment/hairstylist/be/list', [])['result']['data'];
+        $data['hair_stylists'] = MyHelper::post('recruitment/hairstylist/be/list', ['without_paginate' => true])['result'];
         return view('recruitment::hair_stylist.schedule.create', $data);
     }
 

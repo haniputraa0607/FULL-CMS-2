@@ -290,6 +290,12 @@ return [
 					                'active' => '\View::shared("child_active") == "employee-attendance-pending"',
                                     'url' => 'employee/attendance/pending'
                                 ],
+								[
+                                    'label' => 'Attendance Request',
+                                    'required_features' => [491],
+					                'active' => '\View::shared("child_active") == "employee-attendance-request"',
+                                    'url' => 'employee/attendance-request'
+                                ],
                                 [
                                     'label' => 'Attendance Outlet',
                                     'required_features' => [492, 493],

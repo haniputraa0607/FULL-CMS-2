@@ -60,7 +60,7 @@ function showDetail(dom) {
     html = data.attendance_logs.map(item => {
         return `
         <tr>
-            <td>${new Date(item.datetime).toLocaleString('id-ID',{hour:"2-digit",minute:"2-digit"})}</td>
+            <td>${new Date(item.datetime).toLocaleString('id-ID',{hour:"2-digit",minute:"2-digit"})} ${item.time_zone}</td>
             <td>${item.type == 'clock_in' ? 'Clock In' : 'Clock Out'}</td>
             <td>${item.notes ? item.notes : '-'}</td>
             <td>${item.latitude && item.longitude ? `<a href="https://maps.google.com/maps?q=${item.latitude},${item.longitude}" target="_blank">Show Location</a>` : '<em class="text-muted">No data</em>'}</td>
