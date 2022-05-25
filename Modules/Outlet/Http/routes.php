@@ -60,7 +60,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'outlet',
 
     // photo
     Route::post('photo/delete', ['middleware' => 'feature_control:31', 'uses' => 'OutletController@deletePhoto']);
-    Route::post('schedule/save', ['middleware' => 'feature_control:31', 'uses' => 'OutletController@scheduleSave']);
+    Route::post('schedule/save', ['middleware' => [], 'uses' => 'OutletController@scheduleSave']);
     //different price
     Route::get('different-price', ['middleware' => 'feature_control:24', 'uses' => 'OutletController@differentPrice']);
     Route::post('different-price', ['middleware' => 'feature_control:24', 'uses' => 'OutletController@getDifferentPrice']);
