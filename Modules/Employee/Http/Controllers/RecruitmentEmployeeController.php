@@ -99,14 +99,16 @@ class RecruitmentEmployeeController extends Controller
            $data['detail'] = $detail['result'];
            $data['roles'] = MyHelper::get('users/role/list-all')['result'] ?? [];
            $data['outlets'] = MyHelper::post('outlet/be/list',['office_only'=>1])['result'] ?? [];
-           return view('employee::employee.detail', $data);
+           $data['bank'] = MyHelper::get('employee/be/recruitment/bank')['result'] ?? [];
+           $data['cities'] = MyHelper::get('city/list')['result']??[];
+          return view('employee::employee.detail', $data);
         }else{
             return redirect('employee/recruitment/candidate')->withErrors($store['messages']??['Failed get detail candidate']);
         }
     }
     public function candidate(Request $request){
       
-         $post = $request->all();
+        $post = $request->all();
         $url = $request->url();
         $data = [
                 'title'          => 'Candidate Employee',
@@ -174,6 +176,10 @@ class RecruitmentEmployeeController extends Controller
                 'page_type'     => 'candidate'
             ];
             $data['detail'] = $detail['result'];
+            $data['roles'] = MyHelper::get('users/role/list-all')['result'] ?? [];
+            $data['outlets'] = MyHelper::post('outlet/be/list',['office_only'=>1])['result'] ?? [];
+            $data['bank'] = MyHelper::get('employee/be/recruitment/bank')['result'] ?? [];
+            $data['cities'] = MyHelper::get('city/list')['result']??[];
             return view('employee::employee.detail', $data);
         }else{
             return redirect('employee/recruitment/candidate')->withErrors($store['messages']??['Failed get detail candidate']);
@@ -181,11 +187,19 @@ class RecruitmentEmployeeController extends Controller
     }
      public function update(Request $request, $id){
         $post = $request->except('_token');
-        if(!empty($post['start_date'])){
-            $post['start_date'] = date('Y-m-d', strtotime($post['start_date']));
-        }
-        if(!empty($post['end_date'])){
-            $post['end_date'] = date('Y-m-d', strtotime($post['end_date']));
+        
+        if($post['action_type'] == 'Contract'){
+            if(!empty($post['status_employee'])){
+                $post['status_employee'] = 1;
+            }else{
+                $post['status_employee'] = 0;
+                if(!empty($post['start_date'])){
+                    $post['start_date'] = date('Y-m-d', strtotime($post['start_date']));
+                }
+                if(!empty($post['end_date'])){
+                    $post['end_date'] = date('Y-m-d', strtotime($post['end_date']));
+                }
+            }
         }
         if(empty($post['action_type'])){
             return redirect('employee/recruitment/candidate/detail/'.$id)->withErrors(['Action type can not be empty']);
@@ -199,6 +213,7 @@ class RecruitmentEmployeeController extends Controller
             }
         }
        $update = MyHelper::post('employee/be/recruitment/update',$post);
+       
         if(isset($update['status']) && $update['status'] == 'success' && $post['update_type'] == 'approve'){
             return redirect('employee/recruitment/candidate/detail/'.$id)->withSuccess(['Success update data to approved']);
         }elseif(isset($update['status']) && $update['status'] == 'success'){
@@ -206,5 +221,20 @@ class RecruitmentEmployeeController extends Controller
         }else{
             return redirect('employee/recruitment/candidate/detail/'.$id)->withErrors($update['messages']??['Failed update data to approved']);
         }
+    }
+    public function reject(Request $request, $id){
+        $post = $request->except('_token');
+        $post['id_employee'] = $id;
+        $update = MyHelper::post('employee/be/recruitment/reject',$post);
+        return $update;
+    }
+     public function complement(Request $request, $id){
+        $post = $request->except('_token');
+        if(isset($post['is_tax'])){
+            $post['is_tax'] = 1;
+        }else{
+            $post['is_tax'] = 0;
+        }
+        return $post;
     }
 }

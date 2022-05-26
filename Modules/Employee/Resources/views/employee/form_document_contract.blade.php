@@ -4,46 +4,59 @@
 			<div style="text-align: center"><h3>Data Contract</h3></div>
 			<hr style="border-top: 2px dashed;">
                         <div class="form-group">
-				<label class="col-md-4 control-label">Start Date <span class="required" aria-required="true"> * </span>
+				<label  class="control-label col-md-4">Type Contract Employee
+					<i class="fa fa-question-circle tooltips" data-original-title="Jika di centang maka sebegai karyawan tetap, jika tidak maka sebagai karyawan kontrak" data-container="body"></i>
 				</label>
 				<div class="col-md-4">
+                                    <input type="checkbox" class="make-switch" id="status_employee" data-size="small" onchange="changeStatusEmployee()" data-on-color="success" data-on-text="Tetap" name="status_employee" data-off-color="default" data-off-text="Kontrak" @if($detail['status_employee']==1) checked @endif  @if(isset($dataDoc['Contract'])) disabled @endif>
+                                </div>
+			</div>
+                        <div class="form-group" id="show_start">
+				<label class="col-md-4 control-label">Start Date <span class="required" aria-required="true"> * </span>
+				</label>
+				<div class="col-md-4" >
 					@if(isset($dataDoc['Contract']))
-						<input type="text" id="start" class="form_datetime form-control" value="{{date('d-F-Y', strtotime($detail['start_date']))}}" disabled>
+                                            @if($detail['status_employee']==0)
+                                                <input type="text" id="start" class="form_datetime form-control" value="{{date('d-F-Y', strtotime($detail['start_date']))}}" disabled>
+                                            @endif 
 					@else
 						<div class="input-icon right">
 							<div class="input-group">
-								<input type="text" class="datepicker form-control" name="start_date" id="start_date" onchange='myFunction()' required autocomplete="off" placeholder="Start Date Contract">
-								<span class="input-group-btn">
-						<button class="btn default" type="button">
-							<i class="fa fa-calendar"></i>
-						</button>
-						<button class="btn default" type="button">
-							<i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai contract" data-container="body"></i>
-						</button>
-						</span>
+                                                            <input type="text" class="form-control datepicker" name="start_date" id="start_date" onchange='myFunction()' required autocomplete="off" placeholder="Start Date Contract">
+                                                            <span class="input-group-btn">
+                                                                <button class="btn default" type="button">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                </button>
+                                                                <button class="btn default" type="button">
+                                                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai contract" data-container="body"></i>
+                                                                </button>
+                                                            </span> 
 							</div>
 						</div>
 					@endif
 				</div>
 			</div>
-                        <div class="form-group">
+                        <div class="form-group" id="show_end">
 				<label class="col-md-4 control-label">End Date <span class="required" aria-required="true"> * </span>
 				</label>
 				<div class="col-md-4">
 					@if(isset($dataDoc['Contract']))
-						<input type="text" class="form_datetime form-control" value="{{date('d-F-Y', strtotime($detail['end_date']))}}" disabled>
+                                                @if($detail['status_employee']==0)
+                                                    <input type="text" class="form_datetime form-control" value="{{date('d-F-Y', strtotime($detail['end_date']))}}" disabled>
+                                                @endif 
+						
 					@else
 						<div class="input-icon right">
 							<div class="input-group">
-                                                            <input type="text" class="datepicker form-control" name="end_date" id="end_date" onchange='myFunction()' required autocomplete="off" placeholder="End Date Contract">
-								<span class="input-group-btn">
-						<button class="btn default" type="button">
-							<i class="fa fa-calendar"></i>
-						</button>
-						<button class="btn default" type="button">
-							<i class="fa fa-question-circle tooltips" data-original-title="Tanggal selesai contract" data-container="body"></i>
-						</button>
-						</span>
+                                                            <input type="text" class="form-control datepicker" name="end_date" id="end_date" onchange='myFunction()' required autocomplete="off" placeholder="End Date Contract">
+							<span class="input-group-btn">
+                                                            <button class="btn default" type="button">
+                                                                    <i class="fa fa-calendar"></i>
+                                                            </button>
+                                                            <button class="btn default" type="button">
+                                                                    <i class="fa fa-question-circle tooltips" data-original-title="Tanggal selesai contract" data-container="body"></i>
+                                                            </button>
+                                                        </span>
 							</div>
 						</div>
 					@endif
@@ -88,8 +101,10 @@
 		@if(!isset($dataDoc['Contract']))
 		<div class="row" style="text-align: center">
 			{{ csrf_field() }}
-			<a class="btn red save" data-name="{{ $detail['name'] }}" data-status="Rejected" data-form="interview">Reject</a>
-                        <button id='submit' class="btn blue" disabled>Submit</button>
+			@if(in_array($detail['status'], ['candidate']))
+                            <a class="btn red save" data-name="{{ $detail['name'] }}" data-status="Rejected" data-form="interview">Reject</a>
+                            <button class="btn blue">Submit</button>
+                        @endif
 		</div>
 		@endif
 </form>

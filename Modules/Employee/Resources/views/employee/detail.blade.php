@@ -68,8 +68,26 @@ $totalTheories = 0;
                                     closeOnConfirm: false
                                 },
                                 function(){
-                                    $('#action_type_'+form).val(status);
-                                    $('form#form_'+form).submit();
+                                   $.ajax({
+                                        type : "POST",
+                                        url : "{{url('employee/recruitment/reject/'.$detail['id_employee'])}}",
+                                        data : {
+                                            '_token' : '{{csrf_token()}}'
+                                        },
+                                        success : function(response) {
+                                            if (response.status == 'success') {
+                                                swal("Deleted!", "Employee has been rejected.", "success")
+                                                SweetAlert.init()
+                                                location.href = "{{url('employee/recruitment/update/'.$detail['id_employee'])}}"
+                                            }
+                                            else if(response.status == "fail"){
+                                                swal("Error!", "Failed to reject employee.", "error")
+                                            }
+                                            else {
+                                                swal("Error!", "Something went wrong. Failed to reject employee.", "error")
+                                            }
+                                        }
+                                    });
                                 });
                         })
                     })
@@ -79,6 +97,10 @@ $totalTheories = 0;
 
         jQuery(document).ready(function() {
             SweetAlert.init()
+            @if($detail['status_employee']==1)
+                $("#show_start").hide();
+                $("#show_end").hide();
+            @endif
         });
 
 		$(".filePhoto").change(function(e) {
@@ -132,7 +154,19 @@ $totalTheories = 0;
 				$('#pinapp2').prop('required', true);
 			}
 		}
-		
+		function changeStatusEmployee() {
+			if(document.getElementById('status_employee').checked){
+				$("#show_start").hide();
+				$("#show_end").hide();
+				$('#start_date').prop('required', false);
+				$('#end_date').prop('required', false);
+			}else{
+				$("#show_start").show();
+				$("#show_end").show();
+				$('#start_date').prop('required', true);
+				$('#end_date').prop('required', true);
+			}
+		}
 		function submitScore() {
 			$("#list_data_training").hide();
 			$("#form_data_training").show();
@@ -331,7 +365,7 @@ $totalTheories = 0;
 
 		<div class="tab-content">
                     <div class="tab-pane @if($detail['status'] != 'candidate') active @endif form" id="hs-info">
-                            <form class="form-horizontal" id="form-submit" role="form" action="{{url($url_back.'/update/'.$detail['id_employee'])}}" method="post" enctype="multipart/form-data">
+                            <form class="form-horizontal" id="form-submit" role="form" action="{{url('employee/recruitment/complement/'.$detail['id_employee'])}}" method="post" enctype="multipart/form-data">
                                     <div class="form-body">
                                             <div class="form-group">
                                                     <label class="col-md-4 control-label">Status</label>
@@ -349,41 +383,40 @@ $totalTheories = 0;
                                                             @endif
                                                     </div>
                                             </div>
-
-<!--						<div class="form-group">
-                                                    <label class="col-md-4 control-label">File Contract</label>
-                                                    <div class="col-md-6" style="margin-top: 0.7%">
-                                                            @if(empty($detail['file_contract']))
-                                                                    -
-                                                            @else
-                                                                    <a href="{{url('recruitment/hair-stylist/detail/download-file-contract', $detail['id_employee'])}}">hs_{{$detail['user_hair_stylist_code']}}.docx</a>
-                                                            @endif
-                                                    </div>
-                                            </div>-->
-                                            <div class="form-group">
-                                                    <label class="col-md-4 control-label">Nickname <span class="required" aria-required="true"> * </span>
-                                                    </label>
-                                                    <div class="col-md-6">
-                                                            <div class="input-icon right">
-                                                                    <input type="text" placeholder="Nickname" class="form-control" name="nickname" value="{{ $detail['nickname']}}" required>
-                                                            </div>
-                                                    </div>
-                                            </div>
                                             <div class="form-group">
                                                     <label class="col-md-4 control-label">Name <span class="required" aria-required="true"> * </span>
                                                     </label>
                                                     <div class="col-md-6">
                                                             <div class="input-icon right">
-                                                                    <input type="text" placeholder="Full Name" class="form-control" name="name" value="{{ $detail['name']}}" required @if(!in_array($detail['status'], ['Active','Inactive'])) readonly @endif>
+                                                                    <input type="text" placeholder="Full Name" class="form-control" name="name" value="{{ $detail['name']??''}}" required >
                                                             </div>
                                                     </div>
                                             </div>
+                                            <div class="form-group">
+                                                    <label class="col-md-4 control-label">Nickname <span class="required" aria-required="true"> * </span>
+                                                    </label>
+                                                    <div class="col-md-6">
+                                                            <div class="input-icon right">
+                                                                    <input type="text" placeholder="Nickname" class="form-control" name="nickname" value="{{ $detail['nickname']??''}}" required>
+                                                            </div>
+                                                    </div>
+                                            </div>
+                                            
                                             <div class="form-group">
                                                     <label class="col-md-4 control-label">Email <span class="required" aria-required="true"> * </span>
                                                     </label>
                                                     <div class="col-md-6">
                                                             <div class="input-icon right">
-                                                                    <input type="text" placeholder="Email" class="form-control" name="email" value="{{ $detail['email']}}" required @if(!in_array($detail['status'], ['Active','Inactive'])) readonly @endif>
+                                                                    <input type="text" placeholder="Email" class="form-control" name="email" value="{{ $detail['email']??''}}" disabled >
+                                                            </div>
+                                                    </div>
+                                            </div>
+                                            <div class="form-group">
+                                                    <label class="col-md-4 control-label">Address <span class="required" aria-required="true"> * </span>
+                                                    </label>
+                                                    <div class="col-md-6">
+                                                            <div class="input-icon right">
+                                                                    <input type="text" placeholder="address" class="form-control" name="address" value="{{ $detail['address']??''}}" required >
                                                             </div>
                                                     </div>
                                             </div>
@@ -392,7 +425,16 @@ $totalTheories = 0;
                                                     </label>
                                                     <div class="col-md-6">
                                                             <div class="input-icon right">
-                                                                    <input type="text" placeholder="Phone" class="form-control" name="phone_number" value="{{ $detail['phone_number']}}" required @if(!in_array($detail['status'], ['Active','Inactive'])) readonly @endif>
+                                                                    <input type="text" placeholder="Phone" class="form-control" name="phone" value="{{ $detail['phone']??''}}" disabled >
+                                                            </div>
+                                                    </div>
+                                            </div>
+                                            <div class="form-group">
+                                                    <label class="col-md-4 control-label">Phone Number <span class="required" aria-required="true"> * </span>
+                                                    </label>
+                                                    <div class="col-md-6">
+                                                            <div class="input-icon right">
+                                                                    <input type="text" placeholder="Phone Number" class="form-control" name="phone_number" value="{{ $detail['phone_number']??''}}" disabled >
                                                             </div>
                                                     </div>
                                             </div>
@@ -401,7 +443,7 @@ $totalTheories = 0;
                                                     </label>
                                                     <div class="col-md-6">
                                                             <div class="input-icon right">
-                                                                    <select  class="form-control select2" name="gender" data-placeholder="Select gender" required @if(!in_array($detail['status'], ['Active','Inactive'])) disabled @endif>
+                                                                    <select  class="form-control select2" name="gender" data-placeholder="Select gender" required>
                                                                             <option></option>
                                                                             <option value="Male" @if($detail['gender'] == 'Male') selected @endif>Male</option>
                                                                             <option value="Female" @if($detail['gender'] == 'Female') selected @endif>Female</option>
@@ -414,7 +456,7 @@ $totalTheories = 0;
                                                     </label>
                                                     <div class="col-md-6">
                                                             <div class="input-icon right">
-                                                                    <input type="text" placeholder="Country" class="form-control" name="country" value="{{ $detail['country']}}" required @if(!in_array($detail['status'], ['Active','Inactive'])) readonly @endif>
+                                                                    <input type="text" placeholder="country" class="form-control" name="country" value="{{ $detail['country']??''}}" required >
                                                             </div>
                                                     </div>
                                             </div>
@@ -423,7 +465,7 @@ $totalTheories = 0;
                                                     </label>
                                                     <div class="col-md-6">
                                                             <div class="input-icon right">
-                                                                    <input type="text" placeholder="Birthplace" class="form-control" name="birthplace" value="{{ $detail['birthplace']}}" required @if(!in_array($detail['status'], ['Active','Inactive'])) readonly @endif>
+                                                                    <input type="text" placeholder="birthplace" class="form-control" name="birthplace" value="{{ $detail['birthplace']??''}}" required >
                                                             </div>
                                                     </div>
                                             </div>
@@ -436,7 +478,7 @@ $totalTheories = 0;
                                                     </div>
                                                     <div class="col-md-6">
                                                             <div class="input-group">
-                                                                    <input type="text" class="datepicker form-control" name="birthday" value="{{date('d-M-Y', strtotime($detail['birthday']))}}" required autocomplete="off" @if(!in_array($detail['status'], ['Active','Inactive'])) readonly @endif>
+                                                                    <input type="text" class="datepicker form-control" name="birthday" value="{{date('d-M-Y', strtotime($detail['birthday']))}}" required autocomplete="off" >
                                                                     <span class="input-group-btn">
                                                 <button class="btn default" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -446,11 +488,37 @@ $totalTheories = 0;
                                                     </div>
                                             </div>
                                             <div class="form-group">
+                                                    <label  class="control-label col-md-4">Office
+                                                        <span class="required" aria-required="true"> * </span>
+                                                    </label>
+                                                    <div class="col-md-6">
+                                                        <select name="id_outlet" class="form-control input-sm select2" data-placeholder="Search Outlet" required>
+                                                                    <option></option>
+                                                                    @foreach($outlets as $key => $val)
+                                                                    <option value="{{ $val['id_outlet'] }}" @if($detail['id_outlet']==$val['id_outlet']) selected @endif>{{ $val['outlet_code'] }} - {{ $val['outlet_name'] }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                    </div>
+                                            </div>
+                                            <div class="form-group">
+                                                    <label  class="control-label col-md-4">Role
+                                                        <span class="required" aria-required="true"> * </span>
+                                                    </label>
+                                                    <div class="col-md-6">
+                                                            <select name="id_role" class="form-control input-sm select2" data-placeholder="Search Role" required>
+                                                                <option></option>
+                                                                @foreach($roles as $key => $val)
+                                                                    <option value="{{ $val['id_role'] }}" @if($detail['id_role']==$val['id_role']) selected @endif>{{ $val['role_name'] }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                    </div>
+                                            </div>
+                                            <div class="form-group">
                                                     <label class="col-md-4 control-label">Religion <span class="required" aria-required="true"> * </span>
                                                     </label>
                                                     <div class="col-md-6">
                                                             <div class="input-icon right">
-                                                                    <input type="text" placeholder="Religion" class="form-control" name="religion" value="{{ $detail['religion']}}" required @if(!in_array($detail['status'], ['Active','Inactive'])) readonly @endif>
+                                                                    <input type="text" placeholder="Religion" class="form-control" name="religion" value="{{ $detail['religion']??''}}" required >
                                                             </div>
                                                     </div>
                                             </div>
@@ -459,7 +527,7 @@ $totalTheories = 0;
                                                     </label>
                                                     <div class="col-md-6">
                                                             <div class="input-icon right">
-                                                                    <input type="text" placeholder="Height" class="form-control" name="height" value="{{ (int)$detail['height']}}" @if(!in_array($detail['status'], ['Active','Inactive'])) readonly @endif>
+                                                                    <input type="text" placeholder="Height" class="form-control" name="height" value="{{ (int)$detail['height']??''}}" >
                                                             </div>
                                                     </div>
                                             </div>
@@ -468,8 +536,92 @@ $totalTheories = 0;
                                                     </label>
                                                     <div class="col-md-6">
                                                             <div class="input-icon right">
-                                                                    <input type="text" placeholder="Weight" class="form-control" name="weight" value="{{ (int)$detail['weight']}}" @if(!in_array($detail['status'], ['Active','Inactive'])) readonly @endif>
+                                                                    <input type="text" placeholder="Weight" class="form-control" name="weight" value="{{ (int)$detail['weight']??''}}" >
                                                             </div>
+                                                    </div>
+                                            </div>
+                                            <div class="form-group">
+                                                    <label class="col-md-4 control-label">Place of Origin
+                                                    </label>
+                                                    <div class="col-md-6">
+                                                            <div class="input-icon right">
+                                                                    <input type="text" placeholder="Place of Origin" class="form-control" name="place_of_origin" value="{{$detail['place_of_origin']??''}}" >
+                                                            </div>
+                                                    </div>
+                                            </div>
+                                            <div class="form-group">
+                                                    <label class="col-md-4 control-label">Card Number
+                                                    </label>
+                                                    <div class="col-md-6">
+                                                            <div class="input-icon right">
+                                                                    <input type="text" placeholder="Card Number" class="form-control" name="card_number" value="{{$detail['card_number']??''}}" >
+                                                            </div>
+                                                    </div>
+                                            </div>
+                                            <div class="form-group">
+                                                    <label  class="control-label col-md-4">City Card Number
+                                                        <span class="required" aria-required="true"> * </span>
+                                                    </label>
+                                                    <div class="col-md-6">
+                                                            <select name="id_city_ktp" class="form-control input-sm select2" data-placeholder="Search City Card Number" required>
+                                                                <option></option>
+                                                                @foreach($cities as $key => $val)
+                                                                    <option value="{{ $val['id_city'] }}" @if($detail['id_city_ktp']==$val['id_city']) selected @endif>{{ $val['city_name'] }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                    </div>
+                                            </div>
+                                            <div class="form-group">
+                                                    <label  class="control-label col-md-4">Address Card Number
+                                                        <span class="required" aria-required="true"> * </span>
+                                                    </label>
+                                                    <div class="col-md-6">
+                                                            <input type="text" placeholder="Address Card Number" class="form-control" name="address_ktp" value="{{ $detail['address_ktp']??''}}" required >
+                                                    </div>
+                                            </div>
+                                            <div class="form-group">
+                                                    <label  class="control-label col-md-4">Postcode Card Number
+                                                        <span class="required" aria-required="true"> * </span></i>
+                                                    </label>
+                                                    <div class="col-md-6">
+                                                            <input type="text" placeholder="Postcode Card Number" class="form-control" name="postcode_ktp" value="{{ $detail['postcode_ktp']??''}}" required >
+                                                    </div>
+                                            </div>
+                                            <div class="form-group">
+                                                    <label  class="control-label col-md-4">City Domicile
+                                                        <span class="required" aria-required="true"> * </span>
+                                                    </label>
+                                                    <div class="col-md-6">
+                                                            <select name="id_city_ktp" class="form-control input-sm select2" data-placeholder="Search City Domicile" required>
+                                                                <option></option>
+                                                                @foreach($cities as $key => $val)
+                                                                    <option value="{{ $val['id_city'] }}" @if($detail['id_city_domicile']==$val['id_city']) selected @endif>{{ $val['city_name'] }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                    </div>
+                                            </div>
+                                            <div class="form-group">
+                                                    <label  class="control-label col-md-4">Address Domicile
+                                                        <span class="required" aria-required="true"> * </span>
+                                                    </label>
+                                                    <div class="col-md-6">
+                                                            <input type="text" placeholder="Address Domicile" class="form-control" name="address_domicile" value="{{ $detail['address_domicile']??''}}" required >
+                                                    </div>
+                                            </div>
+                                            <div class="form-group">
+                                                    <label  class="control-label col-md-4">Postcode Domicile
+                                                        <span class="required" aria-required="true"> * </span></i>
+                                                    </label>
+                                                    <div class="col-md-6">
+                                                            <input type="text" placeholder="Postcode Domicile" class="form-control" name="postcode_domicile" value="{{ $detail['postcode_domicile']??''}}" required >
+                                                    </div>
+                                            </div>
+                                            <div class="form-group">
+                                                    <label  class="control-label col-md-4">Status Domicile
+                                                        <span class="required" aria-required="true"> * </span></i>
+                                                    </label>
+                                                    <div class="col-md-6">
+                                                            <input type="text" placeholder="Status Domicile" class="form-control" name="status_address_domicile" value="{{ $detail['status_address_domicile']??''}}" required >
                                                     </div>
                                             </div>
                                             <div class="form-group">
@@ -477,7 +629,7 @@ $totalTheories = 0;
                                                     </label>
                                                     <div class="col-md-6">
                                                             <div class="input-icon right">
-                                                                    <select  class="form-control select2" name="blood_type" data-placeholder="Select blood type" required @if(!in_array($detail['status'], ['Active','Inactive'])) disabled @endif>
+                                                                    <select  class="form-control select2" name="blood_type" data-placeholder="Select blood type" required>
                                                                             <option></option>
                                                                             <option value="A" @if($detail['blood_type'] == 'A') selected @endif>A</option>
                                                                             <option value="B" @if($detail['blood_type'] == 'B') selected @endif>B</option>
@@ -492,9 +644,9 @@ $totalTheories = 0;
                                                     </label>
                                                     <div class="col-md-6">
                                                             <div class="input-icon right">
-                                                                    <select  class="form-control select2" name="marital_status" data-placeholder="Select marital status" required @if(!in_array($detail['status'], ['Active','Inactive'])) disabled @endif>
+                                                                    <select  class="form-control select2" name="marital_status" data-placeholder="Select marital status" required>
                                                                             <option></option>
-                                                                            <option value="Single" @if($detail['marital_status'] == 'Single') selected @endif>Single</option>
+                                                                            <option value="Lajang" @if($detail['marital_status'] == 'Lajang') selected @endif>Lajang</option>
                                                                             <option value="Married" @if($detail['marital_status'] == 'Menikah') selected @endif>Menikah</option>
                                                                             <option value="Widowed" @if($detail['marital_status'] == 'Janda') selected @endif>Janda</option>
                                                                             <option value="Divorced" @if($detail['marital_status'] == 'Duda') selected @endif>Duda</option>
@@ -652,10 +804,10 @@ $totalTheories = 0;
                                             </div>
                                     @endif
 
-                                    @if(MyHelper::hasAccess([349], $grantedFeature) && $detail['status'] != 'Rejected')
+                                    @if(MyHelper::hasAccess([349], $grantedFeature) && $detail['status'] != 'rejected')
                                             {{ csrf_field() }}
                                             <div class="row" style="text-align: center">
-                                                    @if(!in_array($detail['status'], ['Candidate', 'Interviewed', 'Technical Tested', 'Training Completed']))
+                                                    @if(in_array($detail['status'], ['candidate','active']))
                                                             <button type="submit" id="btn_submit_detail" class="btn blue">Update</button>
                                                     @endif
                                             </div>
@@ -684,7 +836,7 @@ $totalTheories = 0;
                                                             <a  @if(in_array($detail['status_approved'], ['Contract','Approved','Success'])) data-toggle="tab" href="#approved" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Approve</a>
                                                     </li>
                                                     <li @if($detail['status_approved'] == 'Approved' ||$detail['status_approved'] == 'Success' ) class="active" @endif>
-                                                            <a  @if(in_array($detail['status_approved'], ['Approved','Success'])) data-toggle="tab" href="#bank" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Form Bank</a>
+                                                            <a  @if(in_array($detail['status_approved'], ['Approved','Success'])) data-toggle="tab" href="#bank" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Data Complement</a>
                                                     </li>
 
                                             </ul>

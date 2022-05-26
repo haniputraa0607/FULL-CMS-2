@@ -49,8 +49,10 @@
 		@if(!isset($dataDoc['HRGA']))
 		<div class="row" style="text-align: center">
 			{{ csrf_field() }}
-			<a class="btn red save" data-name="{{ $detail['name'] }}" data-status="Rejected" data-form="interview">Reject</a>
-			<button class="btn blue">Submit</button>
+			@if(in_array($detail['status'], ['candidate']))
+                            <a class="btn red save" data-name="{{ $detail['name'] }}" data-status="Rejected" data-form="interview">Reject</a>
+                            <button class="btn blue">Submit</button>
+                        @endif
 		</div>
 		@endif
 </form>
