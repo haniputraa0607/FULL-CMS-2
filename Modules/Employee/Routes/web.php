@@ -43,6 +43,8 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
         Route::any('candidate', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@candidate']);
         Route::any('candidate/detail/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@detailcandidate']);
         Route::any('update/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@update']);
+        Route::post('complement/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@complement']);
+        Route::any('reject/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@reject']);
 //        Route::any('create', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@create']);
     });
 
