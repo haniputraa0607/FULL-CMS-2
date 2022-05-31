@@ -191,6 +191,7 @@ class RecruitmentEmployeeController extends Controller
         if($post['action_type'] == 'Contract'){
             if(!empty($post['status_employee'])){
                 $post['status_employee'] = 1;
+                $post['start_date'] = date('Y-m-d', strtotime($post['start_date']));
             }else{
                 $post['status_employee'] = 0;
                 if(!empty($post['start_date'])){
@@ -230,11 +231,20 @@ class RecruitmentEmployeeController extends Controller
     }
      public function complement(Request $request, $id){
         $post = $request->except('_token');
-        if(isset($post['is_tax'])){
-            $post['is_tax'] = 1;
-        }else{
-            $post['is_tax'] = 0;
+        if(isset($post['form'])){
+            if(isset($post['is_tax'])){
+                $post['is_tax'] = 1;
+            }else{
+                $post['is_tax'] = 0;
+            }
         }
-        return $post;
+        $post['id_employee'] = $id;
+        $update = MyHelper::post('employee/be/recruitment/complement',$post);
+         return $update;
+        if(isset($update['status']) && $update['status'] == 'success'){
+            return redirect('employee/recruitment/detail/'.$id)->withSuccess(['Success update data']);
+        }else{
+            return redirect('employee/recruitment/detail/'.$id)->withErrors($update['messages']??['Failed update data']);
+        }
     }
 }
