@@ -617,6 +617,14 @@ $totalTheories = 0;
                                                     </div>
                                             </div>
                                             <div class="form-group">
+                                                    <label  class="control-label col-md-4">Phone Number
+                                                        <span class="required" aria-required="true"> * </span></i>
+                                                    </label>
+                                                    <div class="col-md-6">
+                                                            <input type="text" placeholder="Phone Number" class="form-control" name="phone_number" value="{{ $detail['phone_number']??''}}" required >
+                                                    </div>
+                                            </div>
+                                            <div class="form-group">
                                                     <label  class="control-label col-md-4">Status Domicile
                                                         <span class="required" aria-required="true"> * </span></i>
                                                     </label>
