@@ -240,7 +240,6 @@ class RecruitmentEmployeeController extends Controller
         }
         $post['id_employee'] = $id;
         $update = MyHelper::post('employee/be/recruitment/complement',$post);
-         return $update;
         if(isset($update['status']) && $update['status'] == 'success'){
             return redirect('employee/recruitment/detail/'.$id)->withSuccess(['Success update data']);
         }else{
