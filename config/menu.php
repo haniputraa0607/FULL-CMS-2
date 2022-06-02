@@ -308,6 +308,12 @@ return [
 					                'active' => '\View::shared("child_active") == "employee-attendance-outlet-pending"',
                                     'url' => 'employee/attendance-outlet/pending'
                                 ],
+																[
+																	'label' => 'Attendance Outlet Request',
+																	'required_features' => [492],
+												'active' => '\View::shared("child_active") == "employee-attendance-outlet-request"',
+																	'url' => 'employee/attendance-outlet/request'
+															],
                                 // [
                                 //     'label' => 'Create Request Time Off',
                                 //     'required_features' => [],

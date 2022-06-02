@@ -10,7 +10,6 @@
 <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
 <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/datatables/datatables.min.js') }}" type="text/javascript"></script>
 <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') }}" type="text/javascript"></script>
-<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-confirmation/bootstrap-confirmation.min.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('page-script')
@@ -23,29 +22,40 @@
             operator:[],
             opsi:[]
         },
-        shift:{
-            display:'Shift',
-            operator:[],
-            opsi:{!! json_encode(array_map(function ($sh) {
-                return [$sh['shift_name'], $sh['shift_name']];
-            }, $shift)) !!},
-        },
-        type:{
-            display:'Type',
-            operator:[],
-            opsi:[
-                ['clock_in', 'Clock In'],
-                ['clock_out', 'Clock Out'],
+        name:{
+            display:'Employee Name',
+            operator:[
+                ['=','='],
+                ['like','like'],
             ],
+            opsi:[],
+        },
+        id_role:{
+            display:'Role',
+            operator:[],
+            opsi:{!! json_encode(array_map(function ($item) {
+                return [$item['id_role'], $item['role_name']];
+            }, $roles)) !!},
+        },
+        id_outlets:{
+            display:'Office',
+            operator:[],
+            opsi:{!! json_encode(array_map(function ($item) {
+                return [$item['id_outlet'], $item['outlet_name']];
+            }, $offices)) !!},
+            type:'multiple_select',
+            placeholder: 'Select Office'
         },
     };
 </script>
 
 <script type="text/javascript">
+
 var table;
 $(document).ready(function() {
     table = $('#main-table').DataTable({
         serverSide: true, 
+        searching: false,
         ajax: {
             url : "{{url()->current()}}",
             data: function (data) {
@@ -58,37 +68,20 @@ $(document).ready(function() {
             }
         },
         columns: [
+            {data: 'name'},
+            {data: 'outlet_name'},
+            {data: 'role_name'},
+            {data: 'total_pending'},
             {
-                data: 'attendance_date',
-                render: data => new Date(data).toLocaleString('id-ID',{day:"2-digit",month:"short",year:"numeric"}),
-            },
-            {data: 'shift'},
-            {data: 'clock_in'},
-            {data: 'clock_out'},
-            {
-                data: 'clock_in_requirement',
-                render: (data, type, full) => full.clock_in_requirement+' - '+full.clock_out_requirement,
-            },
-            {
-                data: 'notes',
-                render: data => data ? data : '-',
-            },
-            {
-                data: 'id_employee_outlet_attendance_request',
+                data: 'id',
                 orderable: false,
                 render: (data, type, full) => {
                     return `
-                        <form action="{{url()->current()}}/update" method="post">
-                        @csrf
-                        <input type="hidden" name="id_employee_attendance_request" value="${data}"/>
-                        <button type="submit" name="status" value="Approved" class="btn btn-primary btn-sm btn-inline" data-toggle="confirmation"><i class="fa fa-check"></i></button>
-                        <button type="submit" name="status" value="Rejected" class="btn btn-danger btn-sm btn-inline" data-toggle="confirmation"><i class="fa fa-times"></i></button>
-                        </form>
+                        <a href="${'{{url('employee/attendance-outlet/request/detail/::id::')}}'.replace('::id::', data)}" class="btn btn-primary btn-sm">Detail</a>
                     `;
                 }
             },
-        ],
-        drawCallback: item => $('[data-toggle=confirmation]').confirmation(),
+        ]
     });
 });
 </script>
@@ -123,20 +116,18 @@ $(document).ready(function() {
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">List Request Attendance</span>
+                <span class="caption-subject sbold uppercase font-blue">List Employee Attendance Request</span>
             </div>
         </div>
         <div class="portlet-body form">
-            <table class="table table-striped table-bordered table-hover text-center" width="100%" id="main-table">
+            <table class="table table-striped table-bordered table-hover" width="100%" id="main-table">
                 <thead>
                     <tr>
-                        <th>Attendance Date</th>
-                        <th>Shift</th>
-                        <th>Clock In</th>
-                        <th>Clock Out</th>
-                        <th>Requirement</th>
-                        <th>Notes</th>
-                        <th width="70px">Action</th>
+                        <th>Name</th>
+                        <th>Office</th>
+                        <th>Role</th>
+                        <th>Total Pending</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
             </table>

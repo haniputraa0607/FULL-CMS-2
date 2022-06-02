@@ -62,7 +62,7 @@ $(document).ready(function() {
                 data: 'attendance_date',
                 render: data => new Date(data).toLocaleString('id-ID',{day:"2-digit",month:"short",year:"numeric"}),
             },
-            {data: 'shift'},
+            {data: 'outlet_name'},
             {data: 'clock_in'},
             {data: 'clock_out'},
             {
@@ -80,8 +80,8 @@ $(document).ready(function() {
                     return `
                         <form action="{{url()->current()}}/update" method="post">
                         @csrf
-                        <input type="hidden" name="id_employee_attendance_request" value="${data}"/>
-                        <button type="submit" name="status" value="Approved" class="btn btn-primary btn-sm btn-inline" data-toggle="confirmation"><i class="fa fa-check"></i></button>
+                        <input type="hidden" name="id_employee_outlet_attendance_request" value="${data}"/>
+                        <button type="submit" name="status" value="Accepted" class="btn btn-primary btn-sm btn-inline" data-toggle="confirmation"><i class="fa fa-check"></i></button>
                         <button type="submit" name="status" value="Rejected" class="btn btn-danger btn-sm btn-inline" data-toggle="confirmation"><i class="fa fa-times"></i></button>
                         </form>
                     `;
@@ -123,7 +123,7 @@ $(document).ready(function() {
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">List Request Attendance</span>
+                <span class="caption-subject sbold uppercase font-blue">List Request Attendance Outlet</span>
             </div>
         </div>
         <div class="portlet-body form">
@@ -131,7 +131,7 @@ $(document).ready(function() {
                 <thead>
                     <tr>
                         <th>Attendance Date</th>
-                        <th>Shift</th>
+                        <th>Outlet</th>
                         <th>Clock In</th>
                         <th>Clock Out</th>
                         <th>Requirement</th>
