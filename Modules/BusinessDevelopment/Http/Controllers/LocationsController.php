@@ -470,9 +470,12 @@ class LocationsController extends Controller
                 "rental_price" => "required",
                 "service_charge" => "required",
                 "promotion_levy" => "required",
-                "start_date" => "different:end_date",
-                "end_date" => "different:start_date",
             ]);
+            if(!empty($request['start_date']) && !empty($request['end_date'])){
+                if($request['end_date'] == $request['start_date']){
+                    return redirect('businessdev/locations/detail/'.$request['id_location'].$tab)->withErrors($result['messages'] ?? ['The start date and end date must be different.']);
+                }
+            }
             $update_data_location["status"] = 'Active';
             $update_data_location["code"] = $request['location_code'];
             $update_data_location["rental_price" ] = preg_replace("/[^0-9]/", "", $request["rental_price"]);

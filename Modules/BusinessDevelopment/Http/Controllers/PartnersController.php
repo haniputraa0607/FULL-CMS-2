@@ -718,13 +718,16 @@ class PartnersController extends Controller
                 "handover_date" => date('Y-m-d', strtotime($request['handover_date'])),
                 'from' => 'Select Location',
                 'id_partner' => $request['id_partner'],
-                "start_date" => "different:end_date",
-                "end_date" => "different:start_date",
             ];
             $form_survey = [
                 "id_partner"  => $request["id_partner"],
                 "id_location"  => $request["id_location"],
             ];
+            if(!empty($request['start_date']) && !empty($request['end_date'])){
+                if($request['end_date'] == $request['start_date']){
+                    return redirect('businessdev/partners/detail/'.$request['id_partner'].$tab)->withErrors($result['messages'] ?? ['The start date and end date must be different.']);
+                }
+            }
             if ($request['start_date']!=null){
                 $update_data_location['start_date'] = date('Y-m-d', strtotime($request['start_date']));
             } 
@@ -818,7 +821,7 @@ class PartnersController extends Controller
         if(isset($form_survey) && !empty($form_survey)){
             $post['form_survey'] = $form_survey;
         }     
-        
+
         $partner_step = MyHelper::post('partners/update', $update_partner);
         if (isset($partner_step['status']) && $partner_step['status'] == 'success') {
             if (isset($update_data_location) && !empty($update_data_location)) {
