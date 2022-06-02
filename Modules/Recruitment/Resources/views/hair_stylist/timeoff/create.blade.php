@@ -138,7 +138,7 @@
                         var new_result = jQuery.parseJSON(JSON.stringify(result['result']));
                         $('#list_date').empty();
                         $.each(new_result, function(i, index) {
-                            list += '<option value="'+index.date+'" data-id="'+index.id_hairstylist_schedule_date+'" data-timestart="'+index.time_start+'" data-timeend="'+index.time_end+'">'+index.date_format+'</option>';
+                            list += '<option value="'+index.date+'" data-id="'+index.id_hairstylist_schedule_date+'" data-timestart="'+index.time_start+'" data-timeend="'+index.time_end+'" data-timezone="'+index.timezone+'">'+index.date_format+'</option>';
                         });
                         $('#list_date').append(list);
                         $(".select2").select2({
@@ -156,10 +156,13 @@
             var start = $("#list_date option:selected").attr('data-timestart');
             var end = $("#list_date option:selected").attr('data-timeend');
             var id = $("#list_date option:selected").attr('data-id');
+            var timezone = $("#list_date option:selected").attr('data-timezone');
+            $('#timezone_start').remove();
+            $('#timezone_end').remove();
             $('#time_start').remove();
-            $('#place_time_start').append('<input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_start" value="'+start+'" readonly>');
+            $('#place_time_start').append('<input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_start" value="'+start+'" readonly><span class="input-group-addon" id="timezone_start">'+timezone+'</span>');
             $('#time_end').remove();
-            $('#place_time_end').append('<input type="text" id="time_end" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end" value="'+end+'" readonly>');
+            $('#place_time_end').append('<input type="text" id="time_end" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end" value="'+end+'" readonly><span class="input-group-addon" id="timezone_end">'+timezone+'</span>');
             $('.timepicker').timepicker({
                 autoclose: true,
                 minuteStep: 5,
@@ -400,10 +403,9 @@
                         <label for="example-search-input" class="control-label col-md-4">Start Time Off<span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu mulai izin untuk hair style" data-container="body"></i></label>
                         <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-6" id="place_time_start">
-                                    <input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_start" value="0:00" readonly>
-                                </div>
+                            <div class="col-md-5 input-group" id="place_time_start">
+                                <input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_start" value="0:00" readonly>
+                                <span class="input-group-addon" id="timezone_start">WIB</span>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -417,10 +419,9 @@
                         <label for="example-search-input" class="control-label col-md-4">End Time Off<span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu selesai izin untuk hair style" data-container="body"></i></label>
                         <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-6" id="place_time_end">
-                                    <input type="text" id="time_end" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end" value="0:00" readonly>
-                                </div>
+                            <div class="col-md-5 input-group" id="place_time_end">
+                                <input type="text" id="time_end" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end" value="0:00" readonly>
+                                <span class="input-group-addon" id="timezone_end">WIB</span>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
