@@ -15,7 +15,7 @@
 	                <div class="portlet-body">
 	                    <form action="{{url('setting/social_media')}}" class="form-horizontal" enctype="multipart/form-data" method="POST" role="form">
 	                        <div class="form-body">
-	                            <div class="form-group row">
+{{-- 	                            <div class="form-group row">
 	                                <label class="text-right col-md-3">
 	                                    Facebook Url
 	                                </label>
@@ -23,13 +23,21 @@
 	                                    <input class="form-control" name="facebook_url" type="text" value="{{ $social_media['facebook'] }}" autocomplete="off">
 	                                </div>
 	                            </div>
-
+ --}}
 	                            <div class="form-group row">
 	                                <label class="text-right col-md-3">
 	                                    Instagram Url
 	                                </label>
 	                                <div class="col-md-6">
 	                                    <input class="form-control" name="instagram_url" type="text" value="{{ $social_media['instagram'] }}" autocomplete="off">
+	                                </div>
+	                            </div>
+	                            <div class="form-group row">
+	                                <label class="text-right col-md-3">
+	                                    Youtube Url
+	                                </label>
+	                                <div class="col-md-6">
+	                                    <input class="form-control" name="youtube_url" type="text" value="{{ $social_media['youtube'] }}" autocomplete="off">
 	                                </div>
 	                            </div>
 								<div class="form-actions" style="text-align:center">
