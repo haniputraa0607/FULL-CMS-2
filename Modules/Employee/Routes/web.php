@@ -71,6 +71,11 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
         Route::get('pending/detail/{id}', ['uses' => 'EmployeeOutletAttendanceController@detailPending']);
         Route::post('pending/detail/{id}', ['uses' => 'EmployeeOutletAttendanceController@filterPending']);
         Route::post('pending/detail/{id}/update', ['uses' => 'EmployeeOutletAttendanceController@updatePending']);
+        Route::get('request', ['uses' => 'EmployeeOutletAttendanceController@listRequest']);
+        Route::post('request', ['uses' => 'EmployeeOutletAttendanceController@filterRequest']);
+        Route::get('request/detail/{id}', ['uses' => 'EmployeeOutletAttendanceController@detailRequest']);
+        Route::post('request/detail/{id}', ['uses' => 'EmployeeOutletAttendanceController@filterRequest']);
+        Route::post('request/detail/{id}/update', ['uses' => 'EmployeeOutletAttendanceController@updateRequest']);
     });
 
     Route::group(['prefix' => 'attendance-request'], function(){

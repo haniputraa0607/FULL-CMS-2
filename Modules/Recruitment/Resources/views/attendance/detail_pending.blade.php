@@ -88,7 +88,7 @@ $(document).ready(function() {
         columns: [
             {
                 data: 'datetime',
-                render: data => new Date(data).toLocaleString('id-ID',{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"}),
+                render: (data, type, full) => new Date(data).toLocaleString('id-ID',{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})+' '+full.timezone,
             },
             {data: 'shift'},
             {
@@ -97,7 +97,7 @@ $(document).ready(function() {
             },
             {
                 data: 'type',
-                render: (data, type, full) => data == 'clock_in' ? full.clock_in_requirement : full.clock_out_requirement,
+                render: (data, type, full) => data == 'clock_in' ? full.clock_in_requirement+' '+full.timezone : full.clock_out_requirement+' '+full.timezone,
             },
             {
                 data: 'latitude',
