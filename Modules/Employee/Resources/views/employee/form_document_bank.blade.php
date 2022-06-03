@@ -61,19 +61,21 @@
 				<div class="col-md-6">
 					<select name="type" class="form-control input-sm select2" data-placeholder="Search Type" required>
                                             <option></option>
-                                            <option value="0" @if($detail['type']??''==0) selected @endif>NIK</option>
-                                            <option value="1" @if($detail['type']??''==1) selected @endif>NPWP</option>
-                                            <option value="2" @if($detail['type']??''==2) selected @endif>Others</option>
+                                            <option value="0" @if($detail['type']==0) selected @endif>NIK</option>
+                                            <option value="1" @if($detail['type']==1) selected @endif>NPWP</option>
+                                            <option value="2" @if($detail['type']==2) selected @endif>Others</option>
                                         </select>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-md-4 control-label">Notes</label>
 				<div class="col-md-6">
-					<textarea class="form-control" name="notes" placeholder="Notes" ></textarea>
+					<textarea class="form-control" name="notes" placeholder="Notes" >{{$detail['notes']}}</textarea>
 				</div>
 			</div>
-                        <input class="form-control" maxlength="200" type="text" name="contact_person" value="{{$detail['contact_person']??''}}" placeholder="Contact Person" required/>
+                        <input class="form-control" maxlength="200" type="hidden" name="form" value="1" placeholder="Contact Person" required/>
+				
+                        
 		</div>
 		@if(in_array($detail['status'], ['active']))
 		<div class="row" style="text-align: center">

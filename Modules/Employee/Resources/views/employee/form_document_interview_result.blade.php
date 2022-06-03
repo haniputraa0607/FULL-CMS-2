@@ -1,18 +1,18 @@
 <div style="margin-top: -4%">
 	<form class="form-horizontal" id="form_interview" role="form" action="{{url('employee/recruitment/update/'.$detail['id_employee'])}}" method="post" enctype="multipart/form-data">
 		<div class="form-body">
-			<div style="text-align: center"><h3>Data Interview Invitation</h3></div>
+			<div style="text-align: center"><h3>Data Interview Result Invitation</h3></div>
 			<hr style="border-top: 2px dashed;">
 			<div class="form-group">
-				<label class="col-md-4 control-label">Interview Invitation Date <span class="required" aria-required="true"> * </span>
+				<label class="col-md-4 control-label">Interview Result Date <span class="required" aria-required="true"> * </span>
 				</label>
 				<div class="col-md-4">
-					@if(isset($dataDoc['Interview Invitation']))
-						<input type="text" class="form_datetime form-control" value="{{date('d-F-Y H:i', strtotime($dataDoc['Interview Invitation']['process_date']))}}" disabled>
+					@if(isset($dataDoc['Interview Result']))
+						<input type="text" class="form_datetime form-control" value="{{date('d-F-Y H:i', strtotime($dataDoc['Interview Result']['process_date']))}}" disabled>
 					@else
 						<div class="input-icon right">
 							<div class="input-group">
-								<input type="text" class="form_datetime form-control" name="data_document[process_date]" required autocomplete="off" placeholder="Interview Invitation Date">
+								<input type="text" class="form_datetime form-control" name="data_document[process_date]" required autocomplete="off" placeholder="Interview Result Date">
 								<span class="input-group-btn">
 						<button class="btn default" type="button">
 							<i class="fa fa-calendar"></i>
@@ -27,20 +27,27 @@
 				</div>
 			</div>
 			<div class="form-group">
+				<label class="col-md-4 control-label">Interview Result By <span class="required" aria-required="true"> * </span>
+				</label>
+				<div class="col-md-4">
+					<input class="form-control" maxlength="200" type="text" name="data_document[process_name_by]" @if(isset($dataDoc['Interview Result']['process_name_by'])) value="{{$dataDoc['Interview Result']['process_name_by']}}" disabled @endif placeholder="Interview Result by" required/>
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="col-md-4 control-label">Notes <span class="required" aria-required="true"> * </span>
 				</label>
 				<div class="col-md-6">
-					<textarea class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Interview Invitation']['process_name_by'])) disabled @endif>@if(isset($dataDoc['Interview Invitation']['process_notes'])) {{$dataDoc['Interview Invitation']['process_notes']}}  @endif</textarea>
+					<textarea class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Interview Result']['process_name_by'])) disabled @endif>@if(isset($dataDoc['Interview Result']['process_notes'])) {{$dataDoc['Interview Result']['process_notes']}}  @endif</textarea>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-md-4 control-label">Attachment</label>
 				<div class="col-md-6">
-					@if(isset($dataDoc['Interview Invitation']['attachment']))
-						@if(empty($dataDoc['Interview Invitation']['attachment']))
+					@if(isset($dataDoc['Interview Result']['attachment']))
+						@if(empty($dataDoc['Interview Result']['attachment']))
 							<p style="margin-top: 2%">No file</p>
 						@else
-							<a style="margin-top: 2%" class="btn blue btn-xs" href="{{url('recruitment/hair-stylist/detail/download-file', $dataDoc['Interview Invitation']['id_employee_document'])}}"><i class="fa fa-download"></i></a>
+							<a style="margin-top: 2%" class="btn blue btn-xs" href="{{url('recruitment/hair-stylist/detail/download-file', $dataDoc['Interview Result']['id_employee_document'])}}"><i class="fa fa-download"></i></a>
 						@endif
 					@else
 						<div class="fileinput fileinput-new" data-provides="fileinput">
@@ -59,10 +66,10 @@
 					@endif
 				</div>
 			</div>
-			<input type="hidden" name="data_document[document_type]" value="Interview Invitation">
+			<input type="hidden" name="data_document[document_type]" value="Interview Result">
 		</div>
-		<input type="hidden" name="action_type" id="action_type_interview" value="Interview Invitation">
-		@if(!isset($dataDoc['Interview Invitation']))
+		<input type="hidden" name="action_type" id="action_type_interview" value="Interview Result">
+		@if(!isset($dataDoc['Interview Result']))
 		<div class="row" style="text-align: center">
 			{{ csrf_field() }}
                         @if(in_array($detail['status'], ['candidate']))
