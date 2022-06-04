@@ -384,6 +384,59 @@ $totalTheories = 0;
                                                     </div>
                                             </div>
                                             <div class="form-group">
+							<label class="col-md-4 control-label">Status Contract</label>
+							<div class="col-md-6" style="margin-top: 0.7%">
+								@if(empty($detail['status_employee']==1))
+									Karyawan Tetap
+								@else
+									Karyawan Kontrak
+								@endif
+							</div>
+						</div>
+                                            <div class="form-group">
+							<label class="col-md-4 control-label">Type</label>
+							<div class="col-md-6" style="margin-top: 0.7%">
+								@if(empty($detail['type']==0))
+                                                                    NIK
+								@elseif(empty($detail['type']==1))
+                                                                    NPWP
+                                                                @else
+                                                                    Others
+								@endif
+							</div>
+						</div>
+                                            @if(empty($detail['status_employee']==1))
+                                            <div class="form-group">
+							<label class="col-md-4 control-label">Start Working</label>
+							<div class="col-md-6" style="margin-top: 0.7%">
+								{{date('d M Y ', strtotime($detail['start_date']))}}
+							</div>
+						</div>
+                                            @else
+                                            <div class="form-group">
+							<label class="col-md-4 control-label">Start Contract</label>
+							<div class="col-md-6" style="margin-top: 0.7%">
+								{{date('d M Y', strtotime($detail['start_date']))}}
+							</div>
+						</div>
+                                            <div class="form-group">
+							<label class="col-md-4 control-label">End Contract</label>
+							<div class="col-md-6" style="margin-top: 0.7%">
+								{{date('d M Y', strtotime($detail['end_date']))}}
+							</div>
+						</div>
+                                            @endif
+                                            <div class="form-group">
+							<label class="col-md-4 control-label">File Contract</label>
+							<div class="col-md-6" style="margin-top: 0.7%">
+								@if(empty($detail['surat_perjanjian']))
+									-
+								@else
+									<a href="{{url('recruitment/hair-stylist/detail/download-file-contract', $detail['id_employee'])}}">{{$detail['code']}}.docx</a>
+								@endif
+							</div>
+						</div>
+                                            <div class="form-group">
                                                     <label class="col-md-4 control-label">Name <span class="required" aria-required="true"> * </span>
                                                     </label>
                                                     <div class="col-md-6">
