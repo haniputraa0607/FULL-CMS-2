@@ -384,6 +384,59 @@ $totalTheories = 0;
                                                     </div>
                                             </div>
                                             <div class="form-group">
+							<label class="col-md-4 control-label">Status Contract</label>
+							<div class="col-md-6" style="margin-top: 0.7%">
+								@if(empty($detail['status_employee']==1))
+									Karyawan Tetap
+								@else
+									Karyawan Kontrak
+								@endif
+							</div>
+						</div>
+                                            <div class="form-group">
+							<label class="col-md-4 control-label">Type</label>
+							<div class="col-md-6" style="margin-top: 0.7%">
+								@if(empty($detail['type']==0))
+                                                                    NIK
+								@elseif(empty($detail['type']==1))
+                                                                    NPWP
+                                                                @else
+                                                                    Others
+								@endif
+							</div>
+						</div>
+                                            @if(empty($detail['status_employee']==1))
+                                            <div class="form-group">
+							<label class="col-md-4 control-label">Start Working</label>
+							<div class="col-md-6" style="margin-top: 0.7%">
+								{{date('d M Y ', strtotime($detail['start_date']))}}
+							</div>
+						</div>
+                                            @else
+                                            <div class="form-group">
+							<label class="col-md-4 control-label">Start Contract</label>
+							<div class="col-md-6" style="margin-top: 0.7%">
+								{{date('d M Y', strtotime($detail['start_date']))}}
+							</div>
+						</div>
+                                            <div class="form-group">
+							<label class="col-md-4 control-label">End Contract</label>
+							<div class="col-md-6" style="margin-top: 0.7%">
+								{{date('d M Y', strtotime($detail['end_date']))}}
+							</div>
+						</div>
+                                            @endif
+                                            <div class="form-group">
+							<label class="col-md-4 control-label">File Contract</label>
+							<div class="col-md-6" style="margin-top: 0.7%">
+								@if(empty($detail['surat_perjanjian']))
+									-
+								@else
+									<a href="{{url('recruitment/hair-stylist/detail/download-file-contract', $detail['id_employee'])}}">{{$detail['code']}}.docx</a>
+								@endif
+							</div>
+						</div>
+                                            <div class="form-group">
                                                     <label class="col-md-4 control-label">Name <span class="required" aria-required="true"> * </span>
                                                     </label>
                                                     <div class="col-md-6">
@@ -829,10 +882,13 @@ $totalTheories = 0;
                                     <div class="col-md-3">
                                             <ul class="ver-inline-menu tabbable margin-bottom-10">
                                                     <li @if($detail['status_approved'] == 'Submitted') class="active" @endif>
-                                                            <a @if(in_array($detail['status_approved'], ['Submitted', 'Interview','Psikotest','HRGA','Contract','Approved','Success'])) data-toggle="tab" href="#interview" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Interview </a>
+                                                            <a @if(in_array($detail['status_approved'], ['Submitted', 'Interview Invitation','Interview Result','Psikotest','HRGA','Contract','Approved','Success'])) data-toggle="tab" href="#interview" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Interview Invitation </a>
                                                     </li>
-                                                    <li @if($detail['status_approved'] == 'Interview') class="active" @endif>
-                                                            <a  @if(in_array($detail['status_approved'], ['Interview','Psikotest','HRGA','Contract','Approved','Success'])) data-toggle="tab" href="#psychological_test" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Psychological Test </a>
+                                                    <li @if($detail['status_approved'] == 'Interview Invitation') class="active" @endif>
+                                                            <a @if(in_array($detail['status_approved'], ['Interview Invitation','Interview Result','Psikotest','HRGA','Contract','Approved','Success'])) data-toggle="tab" href="#interview-result" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Interview Result </a>
+                                                    </li>
+                                                    <li @if($detail['status_approved'] == 'Interview Result') class="active" @endif>
+                                                            <a  @if(in_array($detail['status_approved'], ['Interview Result','Psikotest','HRGA','Contract','Approved','Success'])) data-toggle="tab" href="#psychological_test" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Psychological Test </a>
                                                     </li>
                                                     <li @if($detail['status_approved'] == 'Psikotest') class="active" @endif>
                                                             <a  @if(in_array($detail['status_approved'], ['Psikotest','HRGA','Contract','Approved','Success'])) data-toggle="tab" href="#hrga" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Approval HRGA </a>
@@ -854,7 +910,10 @@ $totalTheories = 0;
                                                     <div class="tab-pane @if($detail['status_approved'] == 'Submitted') active @endif" id="interview">
                                                             @include('employee::employee.form_document_interview')
                                                     </div>
-                                                    <div class="tab-pane @if($detail['status_approved'] == 'Interview') active @endif" id="psychological_test">
+                                                <div class="tab-pane @if($detail['status_approved'] == 'Interview Invitation') active @endif" id="interview-result">
+                                                            @include('employee::employee.form_document_interview_result')
+                                                    </div>
+                                                    <div class="tab-pane @if($detail['status_approved'] == 'Interview Result') active @endif" id="psychological_test">
                                                             @include('employee::employee.form_document_psychological')
                                                     </div>
                                                     <div class="tab-pane @if($detail['status_approved'] == 'Psikotest') active @endif" id="hrga">
