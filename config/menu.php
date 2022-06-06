@@ -338,6 +338,14 @@ return [
                                     'active' => '\View::shared("child_active") == "employee-overtime-list"',
                                     'url' => 'employee/overtime'
                                 ],
+                                [
+									'label' => '[Response] Reminder Clock In',
+									'url' => 'user/autoresponse/reminder-employee-to-clock-in',
+								],
+                                [
+									'label' => '[Response] Reminder Clock Out',
+									'url' => 'user/autoresponse/reminder-employee-to-clock-out',
+								],
                             ],
 						],
 						[
