@@ -705,7 +705,6 @@ return [
 						[
 							'label' => 'New Product',
 							'url' => 'product/create',
-							'required_configs' => [1],
 							'required_features' => [50],
 						],
 						[
