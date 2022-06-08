@@ -581,4 +581,13 @@ class HairstylistAttendanceController extends Controller
             }
         }
     }
+
+    public function deleteAttendance(Request $request, $id)
+    {
+        $update = MyHelper::post('recruitment/hairstylist/be/attendance/delete', $request->all());
+        if (($update['status'] ?? false) == 'success') {
+            return back()->withSuccess([$update['result']['message'] ?? 'Success delete attendance']);
+        }
+        return back()->withErrors($update['messages'] ?? ['Something went wrong']);
+    }
 }
