@@ -444,9 +444,9 @@ class HairStylistController extends Controller
         }else{
             $data = MyHelper::post('hairstylist/be/export-payroll',$post);
             if (isset($data['status']) && $data['status'] == "success") {
-                $dataExport['data'] = $data['result'];
-                $data = new PayrollExport($dataExport);
-                return Excel::download($data,'Payroll_'.$request->start_date.'-'.$request->end_date.'.xls');
+                $dataExport = $data['result'];
+                $data = new PayrollExport($dataExport); 
+                return Excel::download($data,'Payroll_'.date('YmdHis').'.xls');
             }else {
                 return back()->withErrors(['Something when wrong. Please try again.'])->withInput();
             }

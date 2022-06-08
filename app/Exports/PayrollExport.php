@@ -20,7 +20,7 @@ class PayrollExport implements WithMultipleSheets
     public function sheets(): array
     {
         $sheets = [];
-        $sheets['Payroll'] = new Payroll($this->request);
+        $sheets['Payroll'] = new Payrolls($this->request);
         return $sheets;
     }
 }
