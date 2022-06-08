@@ -10,6 +10,7 @@ use Session;
 use App\Lib\MyHelper;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Excel;
+use App\Exports\PayrollExport;
 
 class HairStylistController extends Controller
 {
@@ -425,5 +426,30 @@ class HairStylistController extends Controller
     public function categoryDelete(Request $request, $id){
         $delete = MyHelper::post('hairstylist/be/category/delete', ['id_hairstylist_category' => $id]);
         return $delete;
+    }
+    
+    public function exportPayroll(Request $request){
+        $post = $request->except('_token');
+
+        if(empty($post)){
+            $data = [
+                'title'          => 'Transaction',
+                'sub_title'      => 'Export Payroll',
+                'menu_active'    => 'hair-stylist-export-payroll',
+                'submenu_active' => 'hair-stylist-export-payroll',
+            ];
+
+            $data['outlets'] = MyHelper::get('outlet/be/list/simple')['result']??[];
+            return view('recruitment::hair_stylist.export_payroll', $data);
+        }else{
+            $data = MyHelper::post('hairstylist/be/export-payroll',$post);
+            if (isset($data['status']) && $data['status'] == "success") {
+                $dataExport['data'] = $data['result'];
+                $data = new PayrollExport($dataExport);
+                return Excel::download($data,'Payroll_'.$request->start_date.'-'.$request->end_date.'.xls');
+            }else {
+                return back()->withErrors(['Something when wrong. Please try again.'])->withInput();
+            }
+        }
     }
 }
