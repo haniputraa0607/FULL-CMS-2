@@ -82,7 +82,7 @@
                         <span class="btn default btn-file">
                         <span class="fileinput-new"> Select image </span>
                         <span class="fileinput-exists"> Change </span>
-                        <input type="file" class="file" id="fieldphoto" accept="image/*" name="photo">
+                        <input type="file" class="file" id="fieldphoto" accept="image/*" name="photo" @if(empty($syu['photos'][0]['url_product_photo'])) required @endif>
                         </span>
 
                         <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
@@ -106,7 +106,7 @@
                         <span class="btn default btn-file">
                         <span class="fileinput-new"> Select image </span>
                         <span class="fileinput-exists"> Change </span>
-                        <input type="file" class="filePhotoDetail" id="fieldphotodetail" accept="image/*" name="product_photo_detail">
+                        <input type="file" class="filePhotoDetail" id="fieldphotodetail" accept="image/*" name="product_photo_detail" @if(empty($syu['product_photo_detail'])) required @endif>
                         </span>
 
                         <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
@@ -121,7 +121,7 @@
            </label>
            <div class="col-md-3">
                <div class="input-group">
-                   <input name="product_academy_duration" maxlength="255" class="form-control" value="{{ $syu['product_academy_duration'] }}">
+                   <input name="product_academy_duration" maxlength="255" class="form-control" value="{{ $syu['product_academy_duration'] }}" required>
                    <span class="input-group-addon">
                         Month
                     </span>
@@ -135,7 +135,7 @@
             </label>
             <div class="col-md-3">
                 <div class="input-group">
-                    <input name="product_academy_total_meeting" maxlength="255" class="form-control" value="{{ $syu['product_academy_total_meeting'] }}">
+                    <input name="product_academy_total_meeting" maxlength="255" class="form-control" value="{{ $syu['product_academy_total_meeting'] }}" required>
                     <span class="input-group-addon">
                         X
                     </span>
@@ -149,7 +149,7 @@
             </label>
             <div class="col-md-3">
                 <div class="input-group">
-                    <input name="product_academy_hours_meeting" maxlength="2" class="form-control" value="{{ $syu['product_academy_hours_meeting'] }}">
+                    <input name="product_academy_hours_meeting" maxlength="2" class="form-control" value="{{ $syu['product_academy_hours_meeting'] }}" required>
                     <span class="input-group-addon">
                         Hours
                     </span>
@@ -177,13 +177,13 @@
             </label>
             <div class="col-md-8">
                 <div class="input-icon right">
-                    <textarea name="product_short_description" class="form-control">{{ $syu['product_short_description'] }}</textarea>
+                    <textarea name="product_short_description" class="form-control" required>{{ $syu['product_short_description'] }}</textarea>
                 </div>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="multiple" class="control-label col-md-3">Long Description <span class="required" aria-required="true"> * </span>
+            <label for="multiple" class="control-label col-md-3">Long Description
                 <i class="fa fa-question-circle tooltips" data-original-title="Deskripsi Produk" data-container="body"></i>
             </label>
             <div class="col-md-8">

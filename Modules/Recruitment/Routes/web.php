@@ -15,6 +15,8 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'hair-sty
 {
     Route::get('commision/filter', ['uses' => 'HairStylistController@exportCommision']);
     Route::post('commision/export', ['uses' => 'HairStylistController@exportCommision']);
+    Route::get('payroll/filter', ['uses' => 'HairStylistController@exportPayroll']);
+    Route::post('payroll/export', ['uses' => 'HairStylistController@exportPayroll']);
 
     Route::group(['prefix' => 'category'], function(){
         Route::get('create', ['uses' => 'HairStylistController@categoryCreate']);
@@ -93,6 +95,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
 	    Route::post('/', ['middleware' => 'feature_control:353,354,355', 'uses' => 'HairstylistAttendanceController@filter']);
 	    Route::get('detail/{id}', ['middleware' => 'feature_control:354', 'uses' => 'HairstylistAttendanceController@detail']);
 	    Route::post('detail/{id}', ['middleware' => 'feature_control:354', 'uses' => 'HairstylistAttendanceController@filter']);
+	    Route::post('delete/{id}', ['middleware' => 'feature_control:525', 'uses' => 'HairstylistAttendanceController@deleteAttendance']);
 	});
 
 	Route::group(['prefix' => 'attendance-pending'], function()

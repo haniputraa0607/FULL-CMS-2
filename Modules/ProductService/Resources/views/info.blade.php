@@ -56,7 +56,7 @@
                 </label>
             </div>
             <div class="col-md-8">
-                <select class="select2 form-control" name="product_hs_category[]" multiple>
+                <select class="select2 form-control" name="product_hs_category[]" multiple required>
                     @foreach($hairstylist_category as $val)
                         <option value="{{$val['id_hairstylist_category']}}" @if(in_array($val['id_hairstylist_category'], $product_hairstylist_category)) selected @endif>{{$val['hairstylist_category_name']}}</option>
                     @endforeach
@@ -153,7 +153,7 @@
                         <span class="btn default btn-file">
                         <span class="fileinput-new"> Select image </span>
                         <span class="fileinput-exists"> Change </span>
-                        <input type="file" class="file" id="fieldphoto" accept="image/*" name="photo">
+                        <input type="file" class="file" id="fieldphoto" accept="image/*" name="photo" @if(empty($syu['photos'][0]['url_product_photo'])) required @endif>
                         </span>
 
                         <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>

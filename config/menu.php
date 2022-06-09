@@ -230,7 +230,7 @@ return [
 					'type' => 'tree',
 					'label' => 'Employee',
 					'icon' => 'fa fa-users',
-                    'required_features' => [472, 442, 464, 489],
+                                        'required_features' => [472, 442, 464, 489,481],
 					'active' => '\View::shared("menu_active") == "employee',
 					'children' => [
                                                 [
@@ -250,6 +250,25 @@ return [
                                                                     'required_features' => [481],
                                                                     'active' => '\View::shared("child_active") == "list-employee-recruitment-candidate"',
                                                                     'url' => 'employee/recruitment/candidate'
+                                                                ],
+                                                                [
+                                                                    'label' => '[Response] Interview Invitation',
+                                                                    'required_features' => [481],
+                                                                    'url' => 'autoresponse/employee/interview-invitation-employee'
+                                                                ],
+                                                            ],
+						],
+                                                [
+                                                    'label' => 'Income',
+                                                    'required_features' => [],
+                                                    'type' => 'tree',
+                                                    'active' => '\View::shared("submenu_active") == "employee-income',
+                                                    'children' => [
+                                                                [
+                                                                    'label' => 'Setting Delivery Income',
+                                                                    'required_features' => [481],
+                                                                    'active' => '\View::shared("child_active") == "setting-delivery-income"',
+                                                                    'url' => 'employee/income/setting-delivery'
                                                                 ],
                                                             ],
 						],
@@ -694,7 +713,6 @@ return [
 						[
 							'label' => 'New Product',
 							'url' => 'product/create',
-							'required_configs' => [1],
 							'required_features' => [50],
 						],
 						[
@@ -2415,6 +2433,12 @@ return [
 						],
 					],
 					'icon' => 'fa fa-ship'
+				],
+                                [
+					'label' => 'Export Payroll',
+					'required_features' => [69],
+					'url' => 'hair-stylist/payroll/filter',
+					'icon' => 'fa fa-download'
 				],
 				[
 					'label' => 'Export Commision',
