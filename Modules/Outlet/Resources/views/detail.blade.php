@@ -24,6 +24,9 @@
         .sweet-overlay {
             z-index: 10052; !important
         }
+        .datepicker{
+            padding: 6px 12px;
+        }
     </style>
 @endsection
 
@@ -43,6 +46,11 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
 
     <script type="text/javascript">
+        $('.datepicker').datepicker({
+            'format' : 'dd MM yyyy',
+            'todayHighlight' : true,
+            'autoclose' : true
+        });
         $('.timepicker').timepicker({
             autoclose: true,
             minuteStep: 5,
