@@ -24,6 +24,8 @@ class RequestAssetController extends Controller
         ];
         
         $data['outlets'] = MyHelper::get('mitra/request/outlet')['result'] ?? [];
+        $data['offices'] = MyHelper::get('mitra/request/office')['result'] ?? [];
+        $data['outlets'] = array_merge($data['outlets'],$data['offices']);
         $data['catalogs'] = MyHelper::post('req-product/list-catalog', ['company' => 'ima']);
         $data['conditions'] = "";
 
@@ -132,6 +134,8 @@ class RequestAssetController extends Controller
         
             $data['products'] = MyHelper::post('product/be/icount/list', $post_product) ?? [];
             $data['outlets'] = MyHelper::get('mitra/request/outlet')['result'] ?? [];
+            $data['offices'] = MyHelper::get('mitra/request/office')['result'] ?? [];
+            $data['outlets'] = array_merge($data['outlets'],$data['offices']);
             $data['conditions'] = "";
 
             return view('product::request_product.detail', $data);

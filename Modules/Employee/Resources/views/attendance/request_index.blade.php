@@ -126,7 +126,7 @@ $(document).ready(function() {
                         <th>Name</th>
                         <th>Office</th>
                         <th>Role</th>
-                        <th>Total Pending</th>
+                        <th>Total Request</th>
                         <th>Action</th>
                     </tr>
                 </thead>
