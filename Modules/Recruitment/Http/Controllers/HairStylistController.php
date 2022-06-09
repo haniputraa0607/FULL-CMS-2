@@ -77,7 +77,7 @@ class HairStylistController extends Controller
 
             $data['detail'] = $detail['result'];
             $data['outlets'] = MyHelper::get('outlet/be/list/simple')['result']??[];
-            $data['groups'] = MyHelper::get('recruitment/hairstylist/be/group')['result']['data']??[];
+            $data['groups'] = MyHelper::get('recruitment/hairstylist/be/group?length=100')['result']['data']??[];
             $data['category_theories'] = MyHelper::get('theory/with-category')['result']??[];
             $data['step_approve'] = $post['step_approve']??0;
             $data['hairstylist_category'] = MyHelper::get('hairstylist/be/category')['result']??[];
@@ -178,7 +178,7 @@ class HairStylistController extends Controller
 
             $data['detail'] = $detail['result'];
             $data['outlets'] = MyHelper::get('outlet/be/list/simple')['result'] ?? [];
-            $data['groups'] = MyHelper::get('recruitment/hairstylist/be/group/')['result']['data']??[];
+            $data['groups'] = MyHelper::get('recruitment/hairstylist/be/group?length=100')['result']['data']??[];
             $order = MyHelper::post('recruitment/hairstylist/be/info-order', ['id_user_hair_stylist' => $id]);
             $data['order_outlet'] = $order['result']['order_outlet']??[];
             $data['order_home'] = $order['result']['order_home']??[];

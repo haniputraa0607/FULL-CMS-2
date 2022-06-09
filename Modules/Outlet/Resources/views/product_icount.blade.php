@@ -55,7 +55,7 @@
                         <div class="row" style="margin-bottom:10px">
                             <label class="col-md-3 text-right" style="padding-top:5px">Unit</label>
                             <div class="col-md-4">
-                                <select class="select2" name="unit" data-placeholder="Select unit"></select>
+                                <select class="select2" name="unit" data-placeholder="Select unit" onchange="unitSelected()"></select>
                             </div>
                         </div>
                         <div class="row" style="margin-bottom:10px">
