@@ -1572,6 +1572,12 @@ return [
 					'url' => 'recruitment/hair-stylist/default/insentif'
 				],
 				[
+					'label' => 'Salary Overtime Default HS',
+					'required_features' => [425],
+					'active' => '\View::shared("submenu_active") == "default-hair-stylist-overtime"',
+					'url' => 'recruitment/hair-stylist/default/overtime'
+				],
+				[
 					'label' => 'Salary Cuts Default HS',
 					'required_features' => [426],
 					'active' => '\View::shared("submenu_active") == "default-hair-stylist-potongan"',
