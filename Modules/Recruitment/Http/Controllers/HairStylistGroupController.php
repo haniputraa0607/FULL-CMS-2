@@ -241,10 +241,6 @@ class HairStylistGroupController extends Controller
                                 'message'=>'Total of unpaid leave at work'
                             ), 
                             array(
-                                'keyword'=>'total_overtime',
-                                'message'=>'Total of hour overtime at work'
-                            ), 
-                            array(
                                 'keyword'=>'+',
                                 'message'=>'Added'
                             ), 
@@ -515,10 +511,7 @@ class HairStylistGroupController extends Controller
                          'id_hairstylist_group' => $post['id_hairstylist_group'][$key],
                          'value' => $post['value'][$key],
                      );
-                    $query = MyHelper::post('recruitment/hairstylist/be/group/overtime/create', $b);
-                        if(isset($query['status']) && $query['status'] == 'fail'){
-                                return redirect(url()->previous().'#overtime')->withErrors($query['messages']);
-                        }
+                   $query = MyHelper::post('recruitment/hairstylist/be/group/overtime/create', $b);
                  }
                  return redirect(url()->previous().'#overtime')->withSuccess(['Hair Stylist Group Overtime Create Success']);
                
@@ -786,10 +779,6 @@ class HairStylistGroupController extends Controller
                                 'message'=>'Total of unpaid leave at work'
                             ), 
                             array(
-                                'keyword'=>'total_overtime',
-                                'message'=>'Total of hour overtime at work'
-                            ),
-                            array(
                                 'keyword'=>'+',
                                 'message'=>'Added'
                             ), 
@@ -873,10 +862,6 @@ class HairStylistGroupController extends Controller
                                 'keyword'=>'total_absen',
                                 'message'=>'Total of unpaid leave at work'
                             ), 
-                            array(
-                                'keyword'=>'total_overtime',
-                                'message'=>'Total of hour overtime at work'
-                            ),
                             array(
                                 'keyword'=>'+',
                                 'message'=>'Added'
@@ -979,10 +964,6 @@ class HairStylistGroupController extends Controller
                                 'message'=>'Total of unpaid leave at work'
                             ), 
                             array(
-                                'keyword'=>'total_overtime',
-                                'message'=>'Total of hour overtime at work'
-                            ),
-                            array(
                                 'keyword'=>'+',
                                 'message'=>'Added'
                             ), 
@@ -1065,10 +1046,6 @@ class HairStylistGroupController extends Controller
                             array(
                                 'keyword'=>'total_absen',
                                 'message'=>'Total of unpaid leave at work'
-                            ), 
-                            array(
-                                'keyword'=>'total_overtime',
-                                'message'=>'Total of hour overtime at work'
                             ),
                             array(
                                 'keyword'=>'+',
