@@ -273,91 +273,99 @@ return [
                                                             ],
 						],
 						[
-                                                    'label' => 'Schedule',
-                                                    'required_features' => [],
-                                                    'type' => 'tree',
-                                                    'required_features' => [472],
-                                                    'active' => '\View::shared("submenu_active") == "employee-schedule',
-                                                    'children' => [
-                                                                [
-                                                                    'label' => 'Create Schedule',
-                                                                    'required_features' => [475],
-                                                                    'active' => '\View::shared("child_active") == "employee-schedule-create"',
-                                                                    'url' => 'employee/schedule/create'
-                                                                ],
-                                                                [
-                                                                    'label' => 'Schedule List',
-                                                                    'required_features' => [472, 472, 474],
-                                                                    'active' => '\View::shared("child_active") == "employee-schedule-list"',
-                                                                    'url' => 'employee/schedule'
-                                                                ],
-                                                                [
-                                                                    'label' => 'Attendance Setting',
-                                                                    'required_features' => [],
-                                                                    'active' => '\View::shared("child_active") == "employee-attendance-setting"',
-                                                                    'url' => 'employee/attendance/setting'
-                                                                ],
-                                                                [
-                                                                    'label' => 'Attendance',
-                                                                    'required_features' => [489, 490],
-                                                                    'active' => '\View::shared("child_active") == "employee-attendance"',
-                                                                    'url' => 'employee/attendance'
-                                                                ],
-                                                                [
-                                                                    'label' => 'Attendance Pending',
-                                                                    'required_features' => [491],
-                                                                    'active' => '\View::shared("child_active") == "employee-attendance-pending"',
-                                                                    'url' => 'employee/attendance/pending'
-                                                                ],
-                                                                                                [
-                                                                    'label' => 'Attendance Request',
-                                                                    'required_features' => [491],
-                                                                    'active' => '\View::shared("child_active") == "employee-attendance-request"',
-                                                                    'url' => 'employee/attendance-request'
-                                                                ],
-                                                                [
-                                                                    'label' => 'Attendance Outlet',
-                                                                    'required_features' => [492, 493],
-                                                                    'active' => '\View::shared("child_active") == "employee-attendance-outlet"',
-                                                                    'url' => 'employee/attendance-outlet'
-                                                                ],
-                                                                [
-                                                                    'label' => 'Attendance Outlet Pending',
-                                                                    'required_features' => [494],
-                                                                    'active' => '\View::shared("child_active") == "employee-attendance-outlet-pending"',
-                                                                    'url' => 'employee/attendance-outlet/pending'
-                                                                ],
-                                                                [
-                                                                        'label' => 'Attendance Outlet Request',
-                                                                        'required_features' => [492],
-                                                                        'active' => '\View::shared("child_active") == "employee-attendance-outlet-request"',
-                                                                        'url' => 'employee/attendance-outlet/request'
-                                                                ],
-                                                            // [
-                                                            //     'label' => 'Create Request Time Off',
-                                                            //     'required_features' => [],
-                                                            //     'active' => '\View::shared("child_active") == "employee-timeoff-create"',
-                                                            //     'url' => 'employee/timeoff/create'
-                                                            // ],
-                                                                [
-                                                                    'label' => 'List Request Time Off',
-                                                                    'required_features' => [],
-                                                                    'active' => '\View::shared("child_active") == "employee-timeoff-list"',
-                                                                    'url' => 'employee/timeoff'
-                                                                ],
-                                                                // [
-                                                                //     'label' => 'Create Request Overtime',
-                                                                //     'required_features' => [],
-                                                                //     'active' => '\View::shared("child_active") == "employee-overtime-create"',
-                                                                //     'url' => 'employee/overtime/create'
-                                                                // ],
-                                                                [
-                                                                    'label' => 'List Request Overtime',
-                                                                    'required_features' => [],
-                                                                    'active' => '\View::shared("child_active") == "employee-overtime-list"',
-                                                                    'url' => 'employee/overtime'
-                                                                ],
-                                                            ],
+							'label' => 'Schedule',
+                            'required_features' => [],
+                            'type' => 'tree',
+                            'required_features' => [472],
+					        'active' => '\View::shared("submenu_active") == "employee-schedule',
+							'children' => [
+                                [
+                                    'label' => 'Create Schedule',
+                                    'required_features' => [475],
+					                'active' => '\View::shared("child_active") == "employee-schedule-create"',
+                                    'url' => 'employee/schedule/create'
+                                ],
+                                [
+                                    'label' => 'Schedule List',
+                                    'required_features' => [472, 472, 474],
+					                'active' => '\View::shared("child_active") == "employee-schedule-list"',
+                                    'url' => 'employee/schedule'
+                                ],
+                                [
+                                    'label' => 'Attendance Setting',
+                                    'required_features' => [],
+					                'active' => '\View::shared("child_active") == "employee-attendance-setting"',
+                                    'url' => 'employee/attendance/setting'
+                                ],
+                                [
+                                    'label' => 'Attendance',
+                                    'required_features' => [489, 490],
+					                'active' => '\View::shared("child_active") == "employee-attendance"',
+                                    'url' => 'employee/attendance'
+                                ],
+                                [
+                                    'label' => 'Attendance Pending',
+                                    'required_features' => [491],
+					                'active' => '\View::shared("child_active") == "employee-attendance-pending"',
+                                    'url' => 'employee/attendance/pending'
+                                ],
+								[
+                                    'label' => 'Attendance Request',
+                                    'required_features' => [491],
+					                'active' => '\View::shared("child_active") == "employee-attendance-request"',
+                                    'url' => 'employee/attendance-request'
+                                ],
+                                [
+                                    'label' => 'Attendance Outlet',
+                                    'required_features' => [492, 493],
+					                'active' => '\View::shared("child_active") == "employee-attendance-outlet"',
+                                    'url' => 'employee/attendance-outlet'
+                                ],
+                                [
+                                    'label' => 'Attendance Outlet Pending',
+                                    'required_features' => [494],
+					                'active' => '\View::shared("child_active") == "employee-attendance-outlet-pending"',
+                                    'url' => 'employee/attendance-outlet/pending'
+                                ],
+																[
+																	'label' => 'Attendance Outlet Request',
+																	'required_features' => [492],
+												'active' => '\View::shared("child_active") == "employee-attendance-outlet-request"',
+																	'url' => 'employee/attendance-outlet/request'
+															],
+                                // [
+                                //     'label' => 'Create Request Time Off',
+                                //     'required_features' => [],
+                                //     'active' => '\View::shared("child_active") == "employee-timeoff-create"',
+                                //     'url' => 'employee/timeoff/create'
+                                // ],
+                                [
+                                    'label' => 'List Request Time Off',
+                                    'required_features' => [],
+                                    'active' => '\View::shared("child_active") == "employee-timeoff-list"',
+                                    'url' => 'employee/timeoff'
+                                ],
+                                // [
+                                //     'label' => 'Create Request Overtime',
+                                //     'required_features' => [],
+                                //     'active' => '\View::shared("child_active") == "employee-overtime-create"',
+                                //     'url' => 'employee/overtime/create'
+                                // ],
+                                [
+                                    'label' => 'List Request Overtime',
+                                    'required_features' => [],
+                                    'active' => '\View::shared("child_active") == "employee-overtime-list"',
+                                    'url' => 'employee/overtime'
+                                ],
+                                [
+									'label' => '[Response] Reminder Clock In',
+									'url' => 'user/autoresponse/reminder-employee-to-clock-in',
+								],
+                                [
+									'label' => '[Response] Reminder Clock Out',
+									'url' => 'user/autoresponse/reminder-employee-to-clock-out',
+								],
+                            ],
 						],
 						[
 							'type' => 'tree',

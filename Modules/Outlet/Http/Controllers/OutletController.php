@@ -1492,4 +1492,11 @@ class OutletController extends Controller
             return back()->withErrors($detail['messages']??['Failed to get data']);
         }
     }
+
+    public function exportProductLog(Request $request, $outlet_code){
+        $post = $request->except('_token');
+        $post['outlet_code'] = $outlet_code;
+        return $data = MyHelper::post('outlet/export-product-icount-log', $post);
+
+    }
 }

@@ -16,8 +16,8 @@
             <div class="col-md-1">
                 <b>Qty</b>
             </div>
-            <div class="col-md-1">
-                <b>Optional</b>
+            <div class="col-md-1 text-center">
+                <b>Custom QTY"</b>
             </div>
         </div>
         <div id="div_product_use_ima">
@@ -122,8 +122,8 @@
             <div class="col-md-1">
                 <b>Qty</b>
             </div>
-            <div class="col-md-1">
-                <b>Optional</b>
+            <div class="col-md-1 text-center">
+                <b>Custom QTY"</b>
             </div>
         </div>
         <div id="div_product_use_ims">

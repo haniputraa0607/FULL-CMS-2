@@ -276,6 +276,15 @@ class UsersController extends Controller
             ['value' => 'Home','title' => 'Home']
         ];
 
+        if($subject == 'reminder-employee-to-clock-in' || $subject == 'reminder-employee-to-clock-out'){
+            $data['click_inbox'][] = [
+                'value' => 'employee_inbox','title' => 'Employee Inbox'
+            ];
+            $data['click_notification'][] = [
+                'value' => 'employee_inbox','title' => 'Employee Inbox'
+            ];
+        }
+
         if ($subject == 'pin-create') {
 	        $data['click_notification'] = [
 	            ['value' => "No Action",'title' => 'No Action']

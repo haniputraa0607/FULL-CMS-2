@@ -287,7 +287,7 @@ class EmployeeTimeOffOvertimeController extends Controller
     {
         $post = $request->except('_token');
         $post['id_employee_overtime'] = $id;
-        $update = MyHelper::post('employee/overtime/update', $post);
+        return $update = MyHelper::post('employee/overtime/update', $post);
 
         if(isset($post['approve'])){
             return $update;

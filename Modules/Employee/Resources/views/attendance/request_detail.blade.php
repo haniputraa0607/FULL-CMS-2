@@ -74,14 +74,14 @@ $(document).ready(function() {
                 render: data => data ? data : '-',
             },
             {
-                data: 'id_employee_outlet_attendance_request',
+                data: 'id_employee_attendance_request',
                 orderable: false,
                 render: (data, type, full) => {
                     return `
                         <form action="{{url()->current()}}/update" method="post">
                         @csrf
                         <input type="hidden" name="id_employee_attendance_request" value="${data}"/>
-                        <button type="submit" name="status" value="Approved" class="btn btn-primary btn-sm btn-inline" data-toggle="confirmation"><i class="fa fa-check"></i></button>
+                        <button type="submit" name="status" value="Accepted" class="btn btn-primary btn-sm btn-inline" data-toggle="confirmation"><i class="fa fa-check"></i></button>
                         <button type="submit" name="status" value="Rejected" class="btn btn-danger btn-sm btn-inline" data-toggle="confirmation"><i class="fa fa-times"></i></button>
                         </form>
                     `;

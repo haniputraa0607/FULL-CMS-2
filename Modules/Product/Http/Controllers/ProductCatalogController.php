@@ -143,6 +143,8 @@ class ProductCatalogController extends Controller
         if(isset($result['status']) && $result['status'] == 'success'){
             $data['result'] = $result['result']['product_catalog'];
             $data['outlets'] = MyHelper::get('mitra/request/outlet')['result'] ?? [];
+            $data['offices'] = MyHelper::get('mitra/request/office')['result'] ?? [];
+            $data['outlets'] = array_merge($data['outlets'],$data['offices']);
             $post_product = ['buyable' => 'true'];
             $post_product['company_type'] = $data['result']['company_type'];
             $data['products'] = MyHelper::post('product/be/icount/list', $post_product)['result'] ?? [];

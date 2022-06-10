@@ -103,6 +103,8 @@ class RequestProductController extends Controller
 
         $data['products'] = MyHelper::post('product/be/icount/list', ['buyable' => 'true'])['result'] ?? [];
         $data['outlets'] = MyHelper::get('mitra/request/outlet')['result'] ?? [];
+        $data['offices'] = MyHelper::get('mitra/request/office')['result'] ?? [];
+        $data['outlets'] = array_merge($data['outlets'],$data['offices']);
         $data['catalogs'] = MyHelper::post('req-product/list-catalog', []);
         $data['conditions'] = "";
 
@@ -168,6 +170,8 @@ class RequestProductController extends Controller
 
             $data['products'] = MyHelper::post('product/be/icount/list', $post_product) ?? [];
             $data['outlets'] = MyHelper::get('mitra/request/outlet')['result'] ?? [];
+            $data['offices'] = MyHelper::get('mitra/request/office')['result'] ?? [];
+            $data['outlets'] = array_merge($data['outlets'],$data['offices']);
             $data['conditions'] = "";
 
             return view('product::request_product.detail', $data);
@@ -246,6 +250,8 @@ class RequestProductController extends Controller
             }
             $data['products'] = MyHelper::post('product/be/icount/list', $post_product)['result'] ?? [];
             $data['outlets'] = MyHelper::get('mitra/request/outlet')['result'] ?? [];
+            $data['offices'] = MyHelper::get('mitra/request/office')['result'] ?? [];
+            $data['outlets'] = array_merge($data['outlets'],$data['offices']);
             $data['conditions'] = "";
 
             return view('product::request_product.create_delivery', $data);
@@ -352,6 +358,8 @@ class RequestProductController extends Controller
         if(isset($result['status']) && $result['status'] == 'success'){
             $data['result'] = $result['result']['delivery_product'];
             $data['outlets'] = MyHelper::get('mitra/request/outlet')['result'] ?? [];
+            $data['offices'] = MyHelper::get('mitra/request/office')['result'] ?? [];
+            $data['outlets'] = array_merge($data['outlets'],$data['offices']);
             $post_product = ['buyable' => 'true'];
             if(isset($data['result']['id_delivery_product'])){
                 if($data['result']['from'] == 'Asset'){
