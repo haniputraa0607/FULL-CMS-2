@@ -1,7 +1,3 @@
-@include('recruitment::group.filter_commission')
-@include('recruitment::group.filter_hs')
-@include('recruitment::group.filter_insentif')
-@include('recruitment::group.filter_potongan')
 <?php
     use App\Lib\MyHelper;
     $grantedFeature     = session('granted_features');
@@ -53,7 +49,7 @@
               formatCurrency($(this), "blur");
             }
         });
-
+        
 
         function formatNumber(n) {
           // format number 1000000 to 1,234,567
@@ -115,13 +111,17 @@
           input[0].setSelectionRange(caret_pos, caret_pos);
         }
     })
+    function addFormula(param){
+		var textvalue = $('#formula').val();
+		var textvaluebaru = textvalue+" "+param;
+		$('#formula').val(textvaluebaru);
+        }
     </script>
     
-    @yield('child-script')
 @endsection
 
 @section('content')
-S
+
     <div class="page-bar">
         <ul class="page-breadcrumb">
             <li>
@@ -147,100 +147,94 @@ S
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">Detail Hair Stylist Group</span>
+                <span class="caption-subject sbold uppercase font-blue">Default Overtime Salary Hair Stylist</span>
             </div>
         </div>
         <div class="tabbable-line tabbable-full-width">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="#overview" data-toggle="tab"> Group Overview </a>
+                    <a href="#overview" data-toggle="tab"> List Default Overtime</a>
                 </li>
                 <li>
-                    <a href="#hs" data-toggle="tab">List Hair Stylist</a>
-                </li>
-                <li>
-                    <a href="#status" data-toggle="tab">List Product</a>
-                </li>
-                <li>
-                    <a href="#insentif" data-toggle="tab">Incentive</a>
-                </li>
-                <li>
-                    <a href="#overtime" data-toggle="tab">Overtime</a>
-                </li>
-                <li>
-                    <a href="#potongan" data-toggle="tab">Cuts Salary</a>
+                    <a href="#create" data-toggle="tab">Create Default Overtime</a>
                 </li>
             </ul>
-        <div class="tab-content">
+            <div class="tab-content">
             <div class="tab-pane active" id="overview">
                 <div class="portlet-body form">
-                    <form role="form" class="form-horizontal" action="{{url('recruitment/hair-stylist/group/update')}}" method="POST" enctype="multipart/form-data">
-					{{ csrf_field() }}
-                                        <input type="hidden" value="{{$result['id_hairstylist_group']}}" name="id_hairstylist_group" placeholder="Masukkan nama grup" class="form-control" required />
-					<div class="form-body">
-						<div class="form-group">
-							<div class="input-icon right">
-							    <label class="col-md-3 control-label">
-							    Name Group
-							    <span class="required" aria-required="true"> * </span>
-							    <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nama grup" data-container="body"></i>
-							    </label>
-							</div>
-							<div class="col-md-9">
-								<input type="text" name="hair_stylist_group_name" value="{{$result['hair_stylist_group_name']}}" placeholder="Masukkan nama grup" class="form-control" required />
-							</div> 
-						</div>
-						<div class="form-group">
-							<div class="input-icon right">
-							    <label class="col-md-3 control-label">
-							    Group code
-							    <span class="required" aria-required="true"> * </span>
-							    <i class="fa fa-question-circle tooltips" data-original-title="Masukkan code grup, tidak boleh sama dengan code grup lain" data-container="body"></i>
-							    </label>
-							</div>
-							<div class="col-md-9">
-								<input type="text" name="hair_stylist_group_code"  value="{{$result['hair_stylist_group_code']}}" placeholder="Masukkan code grup" class="form-control" required />
-							</div> 
-						</div>
-						<div class="form-group">
-							<div class="input-icon right">
-							    <label class="col-md-3 control-label">
-							    Group Description
-							    <span class="required" aria-required="true"> * </span>
-							    <i class="fa fa-question-circle tooltips" data-original-title="Diskripsi grup" data-container="body"></i>
-							    </label>
-							</div>
-							<div class="col-md-9">
-								<textarea type="text" name="hair_stylist_group_description"  placeholder="Input descripton here..." class="form-control">{{$result['hair_stylist_group_description']}}</textarea>
-							</div>
-						</div>
-					</div>
-                                        
-					<div class="form-actions" style="text-align:center;">
-						{{ csrf_field() }}
-						<button type="submit" class="btn blue" id="checkBtn">Update</button>
-					</div>
-				</form>
+                    @yield('filter')
+                    
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <span class="caption-subject font-blue sbold uppercase">{{ $sub_title }}</span>
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover" id="kt_datatable">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-nowrap text-center">Hours</th>
+                                        <th class="text-nowrap text-center">Value</th>
+                                        <th class="text-nowrap text-center">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @if(!empty($data))
+                                        @foreach($data as $dt)
+                                            <tr data-id="{{ $dt['id_hairstylist_group_default_overtimes'] }}">
+                                                <td style="text-align: center;">{{$dt['hours']}}</td>
+                                                <td style="text-align: center;">{{"Rp " . number_format($dt['value']??0,2,',','.')}}</td>
+                                                <td style="text-align: center;">
+                                                   <a href="{{ url('recruitment/hair-stylist/default/overtime/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
+                                                   <a class="btn btn-sm red btn-primary" href="{{url('recruitment/hair-stylist/default/overtime/delete/'.$dt['id_enkripsi'])}}"><i class="fa fa-trash-o"></i> Delete</a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="10" style="text-align: center">Data Not Available</td>
+                                        </tr>
+                                    @endif
+                                    </tbody>
+                                </table>
+                    </div>
+                    </div>
+                </div>
                 </div>
             </div>
-            <div class="tab-pane" id="status">
-                @include('recruitment::group.commission')
-            </div>
-            <div class="tab-pane" id="hs">
-                @include('recruitment::group.hs')
-            </div>
-            <div class="tab-pane" id="insentif">
-                @include('recruitment::group.insentif')
-            </div>
-            <div class="tab-pane" id="overtime">
-                @include('recruitment::group.overtime')
-            </div>
-            <div class="tab-pane" id="potongan">
-                @include('recruitment::group.potongan')
+            <div class="tab-pane" id="create">
+                <form class="form-horizontal" role="form" action="{{url('recruitment/hair-stylist/default/overtime/create')}}" method="post" enctype="multipart/form-data">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Hours<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Jumlah Jam" data-container="body"></i>
+                                    </label>
+                                    <div class="col-md-6">
+                                        <input type="number" name="hours" value="{{old('hours')}}" placeholder="Masukkan jam overtime" class="form-control" required />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Besar insentif yang diterima oleh hairstylist" data-container="body"></i>
+                                    </label>
+                                    <div class="col-md-6">
+                                        <input type="text" name="value" id='value' value="{{old('value')}}" data-type="currency" placeholder="Masukkan besar insentif" class="form-control" required />
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    {{ csrf_field() }}
+                                    <div class="row">
+                                        <div class="col-md-offset-4 col-md-8">
+                                            <button type="submit" class="btn blue">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
             </div>
         </div>
+        </div>
     </div>
-    
-    
-
 @endsection
