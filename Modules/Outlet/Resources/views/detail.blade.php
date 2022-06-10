@@ -1049,6 +1049,12 @@
 
     function unitSelected() {
         const units = productIcountUnit[$('.select_product_icount').val()];
+        if (units == undefined) {
+            $('#form_stock_adjustment_submit :input[name=current_stock]').val('');
+            $('#form_stock_adjustment_submit :input[name=new_stock]').val('');
+            $('#form_stock_adjustment_submit :input[name=stock_adjustment]').val('');
+            return;
+        }
         let unit = undefined;
         units.forEach(unitx => {
             if (unitx.id_unit_icount == $('#form_stock_adjustment_submit :input[name=unit]').val()) {

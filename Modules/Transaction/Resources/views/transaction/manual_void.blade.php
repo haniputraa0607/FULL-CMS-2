@@ -168,9 +168,9 @@
 
                         const buttons = [
                             `<button type="button" class="btn ${row.need_manual_void == 1 ? 'yellow confirm-btn' : 'green detail-btn'} btn-sm btn-outline" data-data='${JSON.stringify(row)}'>${row.need_manual_void == 1 ? 'Confirm Process' : 'Detail Refund'} ${row.need_manual_void == 1 ? tooltipConfirmProcess : tooltipDetailRefund}</button>`,
-                            `<a class="btn blue btn-sm btn-outline" href="{{url('transaction/detail')}}/${row.id_transaction}/${row.trasaction_type == 'Pickup Order' ? 'pickup order' : 'delivery'}">Detail Transaction ${tooltipDetailTransaction}</a>`
+                            `<a class="btn blue btn-sm btn-outline" href="{{url('transaction')}}/${row.transaction_from}/detail/${row.id_transaction}">Detail Transaction ${tooltipDetailTransaction}</a>`
                         ];
-                        if (['shopeepay', 'midtrans'].includes(row.trasaction_payment_type.toLowerCase()) && row.need_manual_void == '1') {
+                        if (['shopeepay', 'midtrans', 'xendit'].includes(row.trasaction_payment_type.toLowerCase()) && row.need_manual_void == '1') {
                             buttons.unshift(`<button type="button" class="btn green btn-sm btn-outline retry-btn" data-data='${JSON.stringify(row)}'>Retry ${tooltipRetry}</button>`);
                         }
 
