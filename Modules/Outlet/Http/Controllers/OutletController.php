@@ -19,6 +19,7 @@ use ZipArchive;
 
 use App\Exports\MultisheetExport;
 use App\Imports\FirstSheetOnlyImport;
+use App\Exports\ProductLogExport;
 
 class OutletController extends Controller
 {
@@ -1496,7 +1497,14 @@ class OutletController extends Controller
     public function exportProductLog(Request $request, $outlet_code){
         $post = $request->except('_token');
         $post['outlet_code'] = $outlet_code;
-        return $data = MyHelper::post('outlet/export-product-icount-log', $post);
+        $data = MyHelper::post('outlet/export-product-icount-log', $post);
+        if (isset($data['status']) && $data['status'] == "success") {
+            $dataExport = $data['result'];
+            $data = new ProductLogExport($dataExport, $post); 
+            return Excel::download($data,'Report_Stock_'.$outlet_code.date('Ymd',strtotime($post['start_date'])).'_'.date('Ymd',strtotime($post['end_date'])).'.xls');
+        }else {
+            return back()->withErrors(['Something when wrong. Please try again.'])->withInput();
+        }
 
     }
 }
