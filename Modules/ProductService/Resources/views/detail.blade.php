@@ -822,6 +822,9 @@
                 <li>
                     <a href="#visibility" data-toggle="tab"> Visibility </a>
                 </li>
+                <li>
+                    <a href="#commission" data-toggle="tab">Commission Default </a>
+                </li>
             </ul>
         </div>
         <div class="portlet-body">
@@ -843,6 +846,9 @@
                 </div>
                 <div class="tab-pane" id="visibility">
                     @include('productservice::visibility_global')
+                </div>
+                <div class="tab-pane" id="commission">
+                     @include('productservice::commission')
                 </div>
             </div>
         </div>

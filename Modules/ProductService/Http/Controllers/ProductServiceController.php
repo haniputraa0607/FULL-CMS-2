@@ -117,6 +117,8 @@ class ProductServiceController extends Controller
             $data['product_icount_use_ims'] = $data['product'][0]['product_icount_use_ims'] ?? [];
             $data['product_hairstylist_category'] = array_column($data['product'][0]['product_hs_category']??[], 'id_hairstylist_category');
             $data['hairstylist_category'] = MyHelper::get('hairstylist/be/category')['result']??[];
+            $data['commission'] = MyHelper::post('product/be/commission',['product_code' => $code])['result'] ?? [];
+            $data['product_code'] = $code;
             return view('productservice::detail', $data);
         }
         else {
@@ -333,5 +335,15 @@ class ProductServiceController extends Controller
         }
         $result = MyHelper::post('product/position/assign', $post);
         return parent::redirect($result, 'Position product service has been save.', 'product-service/position/assign');
+    }
+    function submitCommission(Request $request){
+        $post = $request->except('_token');
+        $save = MyHelper::post('product/be/commission/create', $post);
+        if (isset($save['status']) && $save['status'] == "success") {
+            return redirect('product-service/detail/'.$post['product_code'].'#commission')->with('success', ['Commission has been save.']);
+        }
+        else {
+            return redirect('product-service/detail/'.$post['product_code'].'#commission')->witherrors(['Something went wrong. Please try again.']);
+        }
     }
 }
