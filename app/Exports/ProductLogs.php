@@ -33,7 +33,6 @@ class ProductLogs implements FromArray, WithTitle,  ShouldAutoSize, WithEvents
                 1 => date('d F Y',strtotime($this->post['start_date'])).' - '.date('d F Y',strtotime($this->post['end_date'])), 
             ],
         ];
-        $index = 0;
         foreach($this->request as $key => $val){
             $body[] = [
                 [
@@ -71,7 +70,6 @@ class ProductLogs implements FromArray, WithTitle,  ShouldAutoSize, WithEvents
     {
         $register = [
                 AfterSheet::class    => function(AfterSheet $event) {
-                    $last = count($this->request['PCS']);
                     $styleArray = [
                         'borders' => [
                             'allBorders' => [
@@ -101,13 +99,28 @@ class ProductLogs implements FromArray, WithTitle,  ShouldAutoSize, WithEvents
                             ],
                         ],
                     ];
-                    $x_coor = MyHelper::getNameFromNumber(count($this->request['PCS'][0]??[]));
-                    $event->sheet->getStyle('A1:'.$x_coor.($last+1))->applyFromArray($styleArray);
-                    $headRange = 'A1:'.$x_coor.'1';
-                    $event->sheet->getStyle($headRange)->applyFromArray($styleHead);
+                    $index = 0;
+                    $first = 4;
+                    $last = 4;
+                    $column = 0;
+                    foreach($this->request ?? [] as $key => $val){
+                        if($index == 0){
+                            $column = MyHelper::getNameFromNumber(count($val[0]??[]));
+                        }
+                        $last = $last + count($val);
+                        $x_coor = $column;
+                        $event->sheet->getStyle('A'.($first+1).':'.$x_coor.($last+1))->applyFromArray($styleArray, null, 'E6', true);
+                        $headRange = 'A'.($first+1).':'.$x_coor.($first+1);
+                        $event->sheet->getStyle($headRange)->applyFromArray($styleHead);
+                        $event->sheet->mergeCells('B'.($first+2).':D'.($first+2));
+                        $event->sheet->mergeCells('B'.($last+1).':D'.($last+1));
+                        $index++;
+                        $first = $first + count($val) + 3;
+                        $last = $last + 3;
+                    }
+
                 },
             ];
-        $register = [];
         return $register;
     }
 }
