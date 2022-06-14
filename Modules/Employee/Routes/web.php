@@ -53,6 +53,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
         Route::post('/', ['uses' => 'EmployeeAttendanceController@filter']);
         Route::get('detail/{id}', ['uses' => 'EmployeeAttendanceController@detail']);
         Route::post('detail/{id}', ['uses' => 'EmployeeAttendanceController@filter']);
+        Route::post('delete/{id}', ['uses' => 'EmployeeAttendanceController@deleteDetail']);
         Route::any('setting', ['uses' => 'EmployeeAttendanceController@setting']);
         Route::get('pending', ['uses' => 'EmployeeAttendanceController@listPending']);
         Route::post('pending', ['uses' => 'EmployeeAttendanceController@filterPending']);
@@ -66,6 +67,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
         Route::post('/', ['uses' => 'EmployeeOutletAttendanceController@filter']);
         Route::get('detail/{id}', ['uses' => 'EmployeeOutletAttendanceController@detail']);
         Route::post('detail/{id}', ['uses' => 'EmployeeOutletAttendanceController@filter']);
+        Route::post('delete/{id}', ['uses' => 'EmployeeOutletAttendanceController@deleteDetail']);
         Route::get('pending', ['uses' => 'EmployeeOutletAttendanceController@listPending']);
         Route::post('pending', ['uses' => 'EmployeeOutletAttendanceController@filterPending']);
         Route::get('pending/detail/{id}', ['uses' => 'EmployeeOutletAttendanceController@detailPending']);
