@@ -2,6 +2,7 @@
 
 namespace Modules\Transaction\Http\Controllers;
 
+use App\Exports\DataExport;
 use App\Exports\MultisheetExport;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -2102,8 +2103,10 @@ class TransactionController extends Controller
             $data = MyHelper::post('transaction/report/export/sales',$post);
 
             if (isset($data['status']) && $data['status'] == "success") {
-                $dataExport['All Type'] = $data['result'];
-                $data = new MultisheetExport($dataExport);
+                $dataExport['head'] = array_keys($data['result'][0]);
+                $dataExport['body'] = $data['result'];
+                $dataExport['title'] = 'sales_report_'.date('Ymdhis');
+                $data = new DataExport($dataExport);
                 return Excel::download($data,'sales_report_'.date('Ymdhis').'.xls');
             }else {
                 return back()->withErrors(['Something when wrong. Please try again.'])->withInput();
