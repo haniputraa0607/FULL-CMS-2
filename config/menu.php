@@ -1574,6 +1574,12 @@ return [
 			'type' => 'tree',
 			'children' => [
 				[
+					'label' => 'Salary Fixed Incentive Default HS',
+					'required_features' => [425],
+					'active' => '\View::shared("submenu_active") == "default-hair-stylist-fixed-incentive"',
+					'url' => 'recruitment/hair-stylist/default/fixed-incentive'
+				],
+				[
 					'label' => 'Salary Incentive Default HS',
 					'required_features' => [425],
 					'active' => '\View::shared("submenu_active") == "default-hair-stylist-insentif"',
