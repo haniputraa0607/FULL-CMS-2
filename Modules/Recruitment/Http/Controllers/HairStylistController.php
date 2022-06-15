@@ -2,6 +2,7 @@
 
 namespace Modules\Recruitment\Http\Controllers;
 
+use App\Exports\DataExport;
 use App\Exports\MultisheetExport;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -339,8 +340,10 @@ class HairStylistController extends Controller
             $data = MyHelper::post('hairstylist/be/export-commision',$post);
 
             if (isset($data['status']) && $data['status'] == "success") {
-                $dataExport['All Type'] = $data['result'];
-                $data = new MultisheetExport($dataExport);
+                $dataExport['head'] = array_keys($data['result'][0]);
+                $dataExport['body'] = $data['result'];
+                $dataExport['title'] = 'Commision_'.date('Ymdhis');
+                $data = new DataExport($dataExport);
                 return Excel::download($data,'Commision_'.date('Ymdhis').'.xls');
             }else {
                 return back()->withErrors(['Something when wrong. Please try again.'])->withInput();
