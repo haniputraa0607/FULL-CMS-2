@@ -2102,7 +2102,7 @@ class TransactionController extends Controller
         }else{
             $data = MyHelper::post('transaction/report/export/sales',$post);
 
-            if (isset($data['status']) && $data['status'] == "success") {
+            if (isset($data['status']) && $data['status'] == "success" && !empty($data['result'])) {
                 $dataExport['head'] = array_keys($data['result'][0]);
                 $dataExport['body'] = $data['result'];
                 $dataExport['title'] = 'sales_report_'.date('Ymdhis');
