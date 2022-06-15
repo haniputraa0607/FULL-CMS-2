@@ -31,7 +31,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                        @if(!empty($insentif))
+                                        @if(!empty($overtime))
                                         @foreach($overtime as $key => $dt)
                                             <tr style="text-align: center" >
                                                 <td style="text-align: center">{{$dt['hours']??null}}</td>

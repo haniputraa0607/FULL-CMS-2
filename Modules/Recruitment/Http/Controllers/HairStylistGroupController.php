@@ -222,7 +222,9 @@ class HairStylistGroupController extends Controller
                             array_push($val5,$value);
                         }  
                         $data['overtime'] = $val5;
-                        $data['lisths'] = MyHelper::post('recruitment/hairstylist/be/group/hs',['id_hairstylist_group'=>$id])??[];
+                        $fixed_incentive = MyHelper::post('recruitment/hairstylist/be/group/fixed-incentive',$post4)['result']??[];
+                        $data['fixed_incentive'] = $fixed_incentive;
+                        $data['lisths'] = MyHelper::post('recruitment/hairstylist/be/group/hs',['id_hairstylist_group'=>$id])['result']??[];
                         $textreplace = array(
                             array(
                                 'keyword'=>'value',
