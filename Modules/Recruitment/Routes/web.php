@@ -147,6 +147,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
             Route::post('insentif/create-rumus-insentif', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@create_rumus_insentif']);
             Route::any('insentif/delete-rumus-insentif/{id}', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@delete_rumus_insentif']);
 	    Route::post('overtime/create', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@create_overtime']);	    
+	    Route::post('fixed-incentive/create', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistFixedIncentiveController@create_fixed_incentive']);	    
             Route::post('potongan/create', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@create_potongan']);	    
 	    Route::post('potongan/update', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@update_potongan']);	    
 	    Route::get('potongan/detail/{id}', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@detail_potongan']);	    
@@ -179,6 +180,18 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
                 Route::get('detail/{id}', ['middleware' => 'feature_control:426', 'uses' => 'HairStylistGroupController@default_detail_overtime']);	    
                 Route::any('delete/{id}', ['middleware' => 'feature_control:426', 'uses' => 'HairStylistGroupController@default_delete_overtime']);	    
                 Route::any('/', ['middleware' => 'feature_control:426', 'uses' => 'HairStylistGroupController@default_index_overtime']);	    
+            });
+            Route::group(['prefix' => 'fixed-incentive'], function()
+            {
+                Route::post('create', ['middleware' => 'feature_control:426', 'uses' => 'HairStylistFixedIncentiveController@default_create']);	    
+                Route::post('update', ['middleware' => 'feature_control:426', 'uses' => 'HairStylistFixedIncentiveController@default_update']);	    
+                Route::get('detail/{id}', ['middleware' => 'feature_control:426', 'uses' => 'HairStylistFixedIncentiveController@default_detail']);	    
+                Route::any('delete/{id}', ['middleware' => 'feature_control:426', 'uses' => 'HairStylistFixedIncentiveController@default_delete']);	    
+                Route::any('/', ['middleware' => 'feature_control:426', 'uses' => 'HairStylistFixedIncentiveController@default_index']);	    
+                Route::any('/type1', ['middleware' => 'feature_control:426', 'uses' => 'HairStylistFixedIncentiveController@create_type1']);	    
+                Route::any('/type2', ['middleware' => 'feature_control:426', 'uses' => 'HairStylistFixedIncentiveController@create_type2']);	    
+                Route::any('/detail/delete/{id}', ['middleware' => 'feature_control:426', 'uses' => 'HairStylistFixedIncentiveController@delete_detail']);	    
+                
             });
         });
 });
