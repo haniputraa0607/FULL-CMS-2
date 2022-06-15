@@ -39,7 +39,7 @@ class HairStylistFixedIncentiveController extends Controller
                             'title'             => 'Default Fixed Incentive Hair Stylist',
                             'sub_title'         => 'Default Fixed Incentive Salary Hairstylist',
                             'menu_active'       => 'default-hair-stylist',
-                            'submenu_active'    => 'default-hair-stylist-fixed_incentive'
+                            'submenu_active'    => 'default-hair-stylist-fixed-incentive'
                         ];
                    $session = 'default-hair-stylist-fixed_incentive';
                  if( ($post['rule']??false) && !isset($post['draw']) ){
