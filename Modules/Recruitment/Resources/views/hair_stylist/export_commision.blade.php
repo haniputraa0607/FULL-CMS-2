@@ -10,6 +10,7 @@
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2-bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/icheck/skins/all.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('page-plugin')
@@ -26,6 +27,21 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/form-repeater.js') }}" type="text/javascript"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/icheck/icheck.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#chkall').on('ifChanged', function(event) {
+                if(this.checked) {
+                    $("#outlets > option").prop("selected", "selected");
+                    $("#outlets").trigger("change");
+                }else{
+                    $("#outlets > option").removeAttr("selected");
+                    $("#outlets").trigger("change");
+                }
+            });
+        });
+
+    </script>
 @endsection
 
 @extends('layouts.main')
@@ -96,12 +112,16 @@
                         </label>
                         <div class="col-md-6">
                             <div class="input-icon right">
-                                <select  class="form-control select2" multiple name="id_outlet[]" data-placeholder="Select Outlet" required>
-                                    <option></option>
+                                <select  class="form-control select2" multiple name="id_outlet[]" id="outlets" data-placeholder="Select Outlet" required>
                                     @foreach($outlets as $outlet)
                                         <option value="{{$outlet['id_outlet']}}">{{$outlet['outlet_code']}} - {{$outlet['outlet_name']}}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="icheck-list">
+                                <label><input type="checkbox" class="icheck" id="chkall"> All Outlet</label>
                             </div>
                         </div>
                     </div>
