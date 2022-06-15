@@ -10,6 +10,7 @@
 <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
 <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/datatables/datatables.min.js') }}" type="text/javascript"></script>
 <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') }}" type="text/javascript"></script>
+<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-confirmation/bootstrap-confirmation.min.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('page-script')
@@ -96,6 +97,9 @@ $(document).ready(function() {
                 return res.data;
             }
         },
+        drawCallback: () => {
+            $('[data-toggle=confirmation]').confirmation();
+        },
         columns: [
             {
                 data: 'date',
@@ -110,6 +114,12 @@ $(document).ready(function() {
                 render: (data, type, full) => {
                     return `
                         <button onclick="showDetail(this)" data-data='${htmlEntities(JSON.stringify(full))}' class="btn btn-primary btn-sm">Detail</button>
+                        @if(\MyHelper::hasAccess([527], $grantedFeature))
+                        <form action="{{str_replace('detail', 'delete', url()->current())}}" method="post">
+                        @csrf
+                        <button type="submit" value=\'${full.id_employee_outlet_attendance}\' name="id_employee_outlet_attendance" class="btn btn-danger btn-sm" data-toggle="confirmation" data-popout="true" data-btn-ok-class="btn-danger btn-xs btn">Delete</button>
+                        </form>
+                        @endif
                     `;
                 }
             },
