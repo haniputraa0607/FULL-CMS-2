@@ -566,4 +566,13 @@ class EmployeeAttendanceController extends Controller
         }
         return back()->withErrors($update['messages'] ?? ['Something went wrong']);
     }
+
+    public function deleteDetail(Request $request){
+        $post = $request->except('_token');
+        $delete = MyHelper::post('employee/attendance/delete', $post);
+        if (($delete['status'] ?? false) == 'success') {
+            return back()->withSuccess([$delete['result']['message'] ?? 'Success delete attendance']);
+        }
+        return back()->withErrors($delete['messages'] ?? ['Something went wrong']);
+    }
 }

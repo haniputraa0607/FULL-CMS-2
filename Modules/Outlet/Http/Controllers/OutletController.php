@@ -1507,4 +1507,13 @@ class OutletController extends Controller
         }
 
     }
+
+    public function refreshProduct($code_outlet){
+        $refresh = MyHelper::post('outlet/refresh-product', ['outlet_code' => $code_outlet]);
+        if (isset($refresh['status']) && $refresh['status'] == "success") {
+            return back()->withSuccess(['Success to refresh product']);
+        }else {
+            return back()->withErrors(['Something when wrong. Failed to refresh product.'])->withInput();
+        }
+    }
 }

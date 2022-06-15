@@ -1,4 +1,7 @@
 @php $out = $outlet[0]; @endphp
+<div style="padding:10px 0" class="text-right">
+    <a href="{{ url()->current() }}/refresh-product" class="btn btn-success">Refresh Product</a>
+</div>
 <table class="table datatable">
     <thead>
         <tr>
