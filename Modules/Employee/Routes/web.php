@@ -107,5 +107,14 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
 	    Route::get('detail/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@detailOvertime']);
 	    Route::post('update/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@updateOvertime']);
 	});
+	Route::group(['prefix' => 'income'], function()
+	{
+	    Route::any('/setting-delivery', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeIncomeController@setting_delivery']);
+	    Route::group(['prefix' => 'default'], function()
+            {
+                Route::any('/basic-salary', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeIncomeController@default_basic_salary']);
+                
+            });
+	});
 
 });

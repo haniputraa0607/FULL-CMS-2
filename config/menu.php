@@ -267,8 +267,20 @@ return [
                                                                 [
                                                                     'label' => 'Setting Delivery Income',
                                                                     'required_features' => [481],
-                                                                    'active' => '\View::shared("child_active") == "setting-delivery-income"',
                                                                     'url' => 'employee/income/setting-delivery'
+                                                                ],
+                                                                [
+                                                                'label' => 'Default Income',
+                                                                'required_features' => [],
+                                                                'type' => 'tree',
+                                                                'active' => '\View::shared("submenu_active") == "employee-income',
+                                                                'children' => [
+                                                                            [
+                                                                                'label' => 'Basic Salary',
+                                                                                'required_features' => [],
+                                                                                'url' => 'employee/income/default/basic-salary'
+                                                                            ],
+                                                                        ],
                                                                 ],
                                                             ],
 						],

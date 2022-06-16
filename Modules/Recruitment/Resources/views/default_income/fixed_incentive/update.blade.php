@@ -40,7 +40,16 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
     
 <script>
+        function changeType(type=$("#type").val()) {
+			if(type== "Type 1"){
+				$("#formulas").hide();
+			}else{
+				$("#formulas").show();
+				$('#formula').prop('required', true);
+			}
+		}
   $(document).ready(function () {
+      changeType("{{$result['type']}}")
         $("input[data-type='currency']").on({
             keyup: function() {
               formatCurrency($(this));
@@ -189,23 +198,22 @@
                                                         <i class="fa fa-question-circle tooltips" data-original-title="Type fixed incentive, Type 1 hanya satu data, Type 2 banyak data detail" data-container="body"></i>
                                                     </label>
                                                     <div class="col-md-6">
-                                                        <select  class="form-control select2" name="type" data-placeholder="Select Type" required>
-                                                                <option></option>
+                                                        <select  class="form-control" name="type" id="type" data-placeholder="Select Type" onchange="changeType()" required>
+                                                                
                                                                 <option value="Type 1" @if($result['type'] == 'Type 1') selected @endif>Type 1</option>
                                                                 <option value="Type 2" @if($result['type'] == 'Type 2') selected @endif>Type 2</option>
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="form-group" id="formulas">
                                                     <label class="col-md-4 control-label">Formula<span class="required" aria-required="true">*</span>
                                                         <i class="fa fa-question-circle tooltips" data-original-title="Outlet age dihitung dari pertama kali outlet buka data detail ada beberapa (Type 2), years of service dihitung dari masa kerja data detail ada beberapa (Type 2), monthly data detail hanya ada 1 (Type 1)" data-container="body"></i>
                                                     </label>
                                                     <div class="col-md-6">
-                                                        <select  class="form-control select2" name="formula" data-placeholder="Select formula" required>
-                                                                <option></option>
+                                                        <select  class="form-control" name="formula" data-placeholder="Select formula" required>
+                                                               
                                                                 <option value="outlet_age" @if($result['formula'] == 'outlet_age') selected @endif>Outlet Age</option>
                                                                 <option value="years_of_service" @if($result['formula'] == 'years_of_service') selected @endif>Years of service</option>
-                                                                <option value="monthly" @if($result['formula'] == 'monthly') selected @endif>Monthly</option>
                                                         </select>
                                                     </div>
                                                 </div>
