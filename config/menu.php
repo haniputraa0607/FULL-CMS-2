@@ -77,6 +77,11 @@ return [
 									'required_features' => [328,329,330,331,332],
 								],
 								[
+									'label' => 'Setting Department Balance Reset',
+									'url' => 'setting/department_balance_reset',
+									'required_features' => [328,329,330,331,332],
+								],
+								[
 									'label' => 'New Role',
 									'url' => 'role/create',
 									'required_features' => [334],

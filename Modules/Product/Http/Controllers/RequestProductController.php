@@ -176,7 +176,7 @@ class RequestProductController extends Controller
 
             return view('product::request_product.detail', $data);
         }else{
-            return redirect('req-product')->withErrors($result['messages'] ?? ['Failed get detail user mitra']);
+            return redirect('req-product')->withErrors($result['messages'] ?? ['Failed update request']);
         }
     }
 
@@ -199,7 +199,7 @@ class RequestProductController extends Controller
         if(isset($result['status']) && $result['status'] == 'success'){
             return redirect('req-product/detail/'.$post['id_request_product'])->withSuccess(['Success update request product']);
         }else{
-            return redirect('req-product/detail/'.$post['id_request_product'])->withErrors($result['messages'] ?? ['Failed update request product']);
+            return redirect('req-product/detail/'.$post['id_request_product'])->withErrors($result['messages'] ?? ['Failed update request product'])->withInput();
         }
     }
 
@@ -395,7 +395,7 @@ class RequestProductController extends Controller
         if(isset($result['status']) && $result['status'] == 'success'){
             return redirect('dev-product/detail/'.$post['id_delivery_product'])->withSuccess(['Success update delivery product']);
         }else{
-            return redirect('dev-product/detail/'.$post['id_delivery_product'])->withErrors($result['messages'] ?? ['Failed update delivery product']);
+            return redirect('dev-product/detail/'.$post['id_delivery_product'])->withErrors($result['messages'] ?? ['Failed update delivery product'])->withInput();
         }
     }
 

@@ -149,6 +149,10 @@ class SettingController extends Controller
             $sub = 'balance-reset';
             $active = 'balance-reset';
             $subTitle = env('POINT_NAME', 'Points').' Reset';
+        }elseif ($key == 'department_balance_reset') {
+            $sub = 'department-balance-reset';
+            $active = 'department-balance-reset';
+            $subTitle = 'Department Balance Reset';
         } elseif ($key == 'default_outlet') {
             $sub = 'default-outlet';
             $active = 'outlet';
@@ -186,7 +190,7 @@ class SettingController extends Controller
             $data['span'] = $span;
         }
 
-        if ($key == 'point_reset' || $key == 'balance_reset') {
+        if ($key == 'point_reset' || $key == 'balance_reset' || $key='department_balance_reset') {
             $request = MyHelper::post('setting', ['key-like' => $key]);
             if (isset($request['status']) && $request['status'] == 'success') {
                 $data['result'] = $request['result'];
