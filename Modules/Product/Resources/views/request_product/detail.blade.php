@@ -619,7 +619,7 @@
                                             <input class="form-control" type="hidden" id="product_use_code_{{$key}}" value="{{$value['id_product_icount']}}" name="product_icount[{{$key}}][id_product_icount]" required placeholder="Select product use" style="width: 100%" readonly/>
                                             @endif
                                         </div>
-                                        <div @if($result['status']=='Draft') class="col-md-2" @else class="col-md-1" @endif style="padding: 1px">
+                                        <div @if($result['status']=='Draft') class="col-md-2" @else class="col-md-2" @endif style="padding: 1px">
                                             @if(MyHelper::hasAccess([413], $grantedFeature))
                                             <select class="form-control select2" id="product_use_unit_{{$key}}" name="product_icount[{{$key}}][unit]" required placeholder="Select unit" style="width: 100%" onchange="emptyQty({{$key}},this.value)" {{ $result['status'] != 'Draft' ? 'disabled' : '' }}>
                                                 <option></option>
