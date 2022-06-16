@@ -436,7 +436,7 @@ class HairStylistGroupController extends Controller
                                 return redirect(url()->previous().'#insentif')->withErrors($query['messages']);
                         }
                  }
-                   return redirect(url()->previous().'#insentif')->withSuccess(['Hair Stylist Group Incentive Create Success']);
+                   return redirect(url()->previous().'#insentif')->withSuccess(['Hair Stylist Group Incentive Update Success']);
               }
               public function delete_insentif($id)
               {
@@ -515,7 +515,7 @@ class HairStylistGroupController extends Controller
                      );
                    $query = MyHelper::post('recruitment/hairstylist/be/group/overtime/create', $b);
                  }
-                 return redirect(url()->previous().'#overtime')->withSuccess(['Hair Stylist Group Overtime Create Success']);
+                 return redirect(url()->previous().'#overtime')->withSuccess(['Hair Stylist Group Overtime Update Success']);
                
               }
            public function create_potongan(Request $request)
@@ -536,7 +536,7 @@ class HairStylistGroupController extends Controller
                                 return redirect(url()->previous().'#potongan')->withErrors($query['messages']);
                         }
                  }
-                 return redirect(url()->previous().'#potongan')->withSuccess(['Hair Stylist Group Cuts Salary Create Success']);
+                 return redirect(url()->previous().'#potongan')->withSuccess(['Hair Stylist Group Cuts Salary Update Success']);
                
               }
             public function update_potongan(Request $request)

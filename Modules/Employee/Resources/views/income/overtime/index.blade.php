@@ -40,16 +40,7 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
     
 <script>
-    function changeType() {
-			if( $("#type").val()== "Type 1"){
-				$("#formulas").hide();
-			}else{
-				$("#formulas").show();
-				$('#formula').prop('required', true);
-			}
-		}
   $(document).ready(function () {
-      $("#formulas").hide();
         $("input[data-type='currency']").on({
             keyup: function() {
               formatCurrency($(this));
@@ -120,6 +111,11 @@
           input[0].setSelectionRange(caret_pos, caret_pos);
         }
     })
+    function addFormula(param){
+		var textvalue = $('#formula').val();
+		var textvaluebaru = textvalue+" "+param;
+		$('#formula').val(textvaluebaru);
+        }
     </script>
     
 @endsection
@@ -151,16 +147,16 @@
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">Default Fixed Incentive Salary Hair Stylist</span>
+                <span class="caption-subject sbold uppercase font-blue">Default Overtime Salary Hair Stylist</span>
             </div>
         </div>
         <div class="tabbable-line tabbable-full-width">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="#overview" data-toggle="tab"> List Default Fixed Incentive</a>
+                    <a href="#overview" data-toggle="tab"> List Default Overtime</a>
                 </li>
                 <li>
-                    <a href="#create" data-toggle="tab">Create Default Fixed Incentive</a>
+                    <a href="#create" data-toggle="tab">Create Default Overtime</a>
                 </li>
             </ul>
             <div class="tab-content">
@@ -179,22 +175,20 @@
                         <table class="table table-striped table-bordered table-hover" id="kt_datatable">
                                     <thead>
                                     <tr>
-                                        <th class="text-nowrap text-center">Name</th>
-                                        <th class="text-nowrap text-center">Type</th>
-                                        <th class="text-nowrap text-center">Formula</th>
+                                        <th class="text-nowrap text-center">Hours</th>
+                                        <th class="text-nowrap text-center">Value</th>
                                         <th class="text-nowrap text-center">Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @if(!empty($data))
                                         @foreach($data as $dt)
-                                            <tr data-id="{{ $dt['id_hairstylist_group_default_fixed_incentive'] }}">
-                                                <td style="text-align: center;">{{$dt['name_fixed_incentive']}}</td>
-                                                <td style="text-align: center;">{{$dt['type']}}</td>
-                                                <td style="text-align: center;">{{$dt['formula']}}</td>
+                                            <tr data-id="{{ $dt['id_employee_default_overtimes'] }}">
+                                                <td style="text-align: center;">{{$dt['hours']}}</td>
+                                                <td style="text-align: center;">{{"Rp " . number_format($dt['value']??0,2,',','.')}}</td>
                                                 <td style="text-align: center;">
-                                                   <a href="{{ url('recruitment/hair-stylist/default/fixed-incentive/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
-                                                   <a class="btn btn-sm red btn-primary" href="{{url('recruitment/hair-stylist/default/fixed_incentive/delete/'.$dt['id_enkripsi'])}}"><i class="fa fa-trash-o"></i> Delete</a>
+                                                   <a href="{{ url('recruitment/hair-stylist/default/overtime/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
+                                                   <a class="btn btn-sm red btn-primary" href="{{url('recruitment/hair-stylist/default/overtime/delete/'.$dt['id_enkripsi'])}}"><i class="fa fa-trash-o"></i> Delete</a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -211,36 +205,22 @@
                 </div>
             </div>
             <div class="tab-pane" id="create">
-                <form class="form-horizontal" role="form" action="{{url('recruitment/hair-stylist/default/fixed-incentive/create')}}" method="post" enctype="multipart/form-data">
+                <form class="form-horizontal" role="form" action="{{url('recruitment/hair-stylist/default/overtime/create')}}" method="post" enctype="multipart/form-data">
                             <div class="form-body">
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label">Name<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Name Fixed Incentive" data-container="body"></i>
+                                    <label class="col-md-4 control-label">Hours<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Jumlah Jam" data-container="body"></i>
                                     </label>
                                     <div class="col-md-6">
-                                        <input type="text" name="name_fixed_incentive" value="{{old('name_fixed_incentive')}}" placeholder="Masukkan name fixed incentive" class="form-control" required />
+                                        <input type="number" name="hours" value="{{old('hours')}}" placeholder="Masukkan jam overtime" class="form-control" required />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label">Type<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Type fixed incentive, Type 1 hanya satu data, Type 2 banyak data detail" data-container="body"></i>
+                                    <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Besar insentif yang diterima oleh hairstylist" data-container="body"></i>
                                     </label>
                                     <div class="col-md-6">
-                                        <select  class="form-control select2" name="type" id="type" onchange="changeType()" data-placeholder="Select Type" required>
-                                                <option value="Type 1">Type 1</option>
-                                                <option value="Type 2" >Type 2</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group" id="formulas">
-                                    <label class="col-md-4 control-label">Formula<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Outlet age dihitung dari pertama kali outlet buka data detail ada beberapa (Type 2), years of service dihitung dari masa kerja data detail ada beberapa (Type 2), monthly data detail hanya ada 1 (Type 1)" data-container="body"></i>
-                                    </label>
-                                    <div class="col-md-6">
-                                        <select class="form-control" name="formula" id="formula" data-placeholder="Select formula">
-                                                <option value="outlet_age" @if(old('formula') == 'outlet_age') selected @endif>Outlet Age</option>
-                                                <option value="years_of_service" @if(old('formula') == 'years_of_service') selected @endif>Years of service</option>
-                                        </select>
+                                        <input type="text" name="value" id='value' value="{{old('value')}}" data-type="currency" placeholder="Masukkan besar insentif" class="form-control" required />
                                     </div>
                                 </div>
                                 <div class="form-actions">

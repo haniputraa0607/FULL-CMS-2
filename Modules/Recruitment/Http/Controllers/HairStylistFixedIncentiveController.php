@@ -22,12 +22,16 @@ class HairStylistFixedIncentiveController extends Controller
                'id_hairstylist_group' => $post['id_hairstylist_group'][$key],
                'value' => $post['value'][$key],
            );
-           $query = MyHelper::post('recruitment/hairstylist/be/group/fixed-incentive/create', $b);
+            $query = MyHelper::post('recruitment/hairstylist/be/group/fixed-incentive/create', $b);
               if(isset($query['status']) && $query['status'] != 'success'){
+                  return array(
+                      'p'=>$b,
+                      'return'=> $query
+                  );
                       return redirect(url()->previous().'#fixed')->withErrors($query['messages']);
               }
        }
-         return redirect(url()->previous().'#fixed')->withSuccess(['Hair Stylist Group Fixed Incentive Create Success']);
+         return redirect(url()->previous().'#fixed')->withSuccess(['Hair Stylist Group Fixed Incentive Update Success']);
     }
     
     //default_fixed_incentive 
@@ -80,6 +84,9 @@ class HairStylistFixedIncentiveController extends Controller
               {
                  $post = $request->except('_token');
                  $post['value'] = str_replace(',','', $post['value']??0);
+                 if($post['type']=="Type 1"){
+                    $post['formula'] = "monthly"; 
+                 }
                  $query = MyHelper::post('recruitment/hairstylist/be/group/fixed-incentive/default/create', $post);
                         if(isset($query['status']) && $query['status'] == 'success'){
                                 return back()->withSuccess(['Hair Stylist Group Incentive Create Success']);
@@ -102,7 +109,9 @@ class HairStylistFixedIncentiveController extends Controller
             public function default_update(Request $request)
               {
                  $post = $request->except('_token');
-                 $post['value'] = str_replace(',','', $post['value']??0);
+                 if($post['type']=="Type 1"){
+                    $post['formula'] = "monthly"; 
+                 }
                  $query = MyHelper::post('recruitment/hairstylist/be/group/fixed-incentive/default/update', $post);
                         if(isset($query['status']) && $query['status'] == 'success'){
                             return back()->withSuccess(['Hair Stylist Group Incentive Update Success']);
@@ -120,7 +129,7 @@ class HairStylistFixedIncentiveController extends Controller
                                   'title'             => 'Default Hair Stylist Fixed Incentive',
                                    'sub_title'         => 'Detail Default Hair Stylist Fixed Incentive',
                                    'menu_active'       => 'default-hair-stylist',
-                                   'submenu_active'    => 'default-hair-stylist-fixed_incentive'
+                                   'submenu_active'    => 'default-hair-stylist-fixed-incentive'
                                ];
                         $data['result']=$query['result'];
                         $data['detail'] = MyHelper::post('recruitment/hairstylist/be/group/fixed-incentive/default/detail/list',['id_hairstylist_group_default_fixed_incentive'=>$id])['result']??[];
