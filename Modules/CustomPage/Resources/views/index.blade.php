@@ -105,7 +105,7 @@
                     @if(!empty($result))
                         @foreach($result as $res)
                             <tr>
-                                <td> {{ $res['custom_page_title'] }} </td>
+                                <td> {{ $res['custom_page_title'] }} {!!(MyHelper::explodeSlug($res['id_custom_page'])[0]??'') == 1 ? '<span class="badge badge-primary">Homepage</badge>' : ''!!} </td>
                                 <td> {{ $res['custom_page_menu'] }} </td>
                                 <td> {{ $res['custom_page_button_form'] }} </td>
                                 <td> {{ $res['custom_page_button_form_text'] }} </td>
@@ -114,7 +114,7 @@
                                         @if(MyHelper::hasAccess([156], $grantedFeature))
                                             <a href="{{ url('custom-page/edit', $res['id_custom_page']) }}" class="btn blue"><i class="fa fa-edit"></i></a>
                                         @endif
-                                        @if(MyHelper::hasAccess([157], $grantedFeature))
+                                        @if(MyHelper::hasAccess([157], $grantedFeature) && (MyHelper::explodeSlug($res['id_custom_page'])[0]??'') != 1)
                                             <a data-toggle="confirmation" href="{{ url('custom-page/delete', $res['id_custom_page']) }}" data-popout="true" class="btn red delete" data-id="{{ $res['id_custom_page'] }}"><i class="fa fa-trash-o"></i></a>
                                         @endif
                                     </td>
