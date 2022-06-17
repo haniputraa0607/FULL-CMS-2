@@ -13,8 +13,8 @@
 
 Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'hair-stylist'], function()
 {
-    Route::get('commision/filter', ['uses' => 'HairStylistController@exportCommision']);
-    Route::post('commision/export', ['uses' => 'HairStylistController@exportCommision']);
+    Route::get('commission/filter', ['uses' => 'HairStylistController@exportCommission']);
+    Route::post('commission/export', ['uses' => 'HairStylistController@exportCommission']);
     Route::get('payroll/filter', ['uses' => 'HairStylistController@exportPayroll']);
     Route::post('payroll/export', ['uses' => 'HairStylistController@exportPayroll']);
 
