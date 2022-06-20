@@ -53,7 +53,7 @@
     <script type="text/javascript">
         $('.timepicker').timepicker({
             autoclose: true,
-            minuteStep: 5,
+            minuteStep: 1,
             showSeconds: false,
         });
     </script>
@@ -73,50 +73,57 @@
         });
         
         $('#approve').click(function() {
-            var id_hairstylist_overtime = {{$result['id_hairstylist_overtime']}};
-            var id_hs = {{$result['id_user_hair_stylist']}};
-            var date = $('#list_date').val();
-            var duration = $('input[type=text][name=duration]').val();
-            var time = $('input[name=time]:checked').val();
+            var check_after = $('#duration_after').css('display');
+            var check_before = $('#duration_before').css('display');
+            if (check_after == 'block' || check_before == 'block') {
+                toastr.warning("Incompleted Data. Please fill blank input.");
+            }else{
+                var id_hairstylist_overtime = {{$result['id_hairstylist_overtime']}};
+                var id_hs = {{$result['id_user_hair_stylist']}};
+                var date = $('#list_date').val();
+                var duration = $('input[type=text][name=duration]').val();
+                var time = $('input[name=time]:checked').val();
 
-            var data = {
-                '_token' : '{{csrf_token()}}',
-                'id_hairstylist_overtime' : id_hairstylist_overtime,
-                'id_hs' : id_hs,
-                'date' : date,
-                'time' : time,
-                'duration' : duration,
-                'approve' : true
-            };
-            swal({
-                    title: "Confirm?",
-                    text: "This hair style request overtime will be approved",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonClass: "btn-success",
-                    confirmButtonText: "Yes, Approve this request!",
-                    closeOnConfirm: false
-                },
-                function(){
-                    $.ajax({
-                        type : "POST",
-                        url : "{{url('recruitment/hair-stylist/overtime/update')}}/"+id_hairstylist_overtime,
-                        data : data,
-                        success : function(response) {
-                            if (response.status == 'success') {
-                                swal("Sent!", "Hair Stylist request overtime has been approved", "success")
-                                location.href = "{{url('recruitment/hair-stylist/overtime/detail')}}/"+id_hairstylist_overtime;
+                var data = {
+                    '_token' : '{{csrf_token()}}',
+                    'id_hairstylist_overtime' : id_hairstylist_overtime,
+                    'id_hs' : id_hs,
+                    'date' : date,
+                    'time' : time,
+                    'duration' : duration,
+                    'approve' : true
+                };
+                swal({
+                        title: "Confirm?",
+                        text: "This hair style request overtime will be approved",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-success",
+                        confirmButtonText: "Yes, Approve this request!",
+                        closeOnConfirm: false
+                    },
+                    function(){
+                        $.ajax({
+                            type : "POST",
+                            url : "{{url('recruitment/hair-stylist/overtime/update')}}/"+id_hairstylist_overtime,
+                            data : data,
+                            success : function(response) {
+                                if (response.status == 'success') {
+                                    swal("Sent!", "Hair Stylist request overtime has been approved", "success")
+                                    location.href = "{{url('recruitment/hair-stylist/overtime/detail')}}/"+id_hairstylist_overtime;
+                                }
+                                else if(response.status == "fail"){
+                                    swal("Error!", "Failed to approve hair stylist request 0vertime.", "error")
+                                }
+                                else {
+                                    swal("Error!", "Something went wrong. Failed to approve hair stylist request overtime.", "error")
+                                }
                             }
-                            else if(response.status == "fail"){
-                                swal("Error!", "Failed to approve hair stylist request 0vertime.", "error")
-                            }
-                            else {
-                                swal("Error!", "Something went wrong. Failed to approve hair stylist request overtime.", "error")
-                            }
-                        }
-                    });
-                }
-            );
+                        });
+                    }
+                );
+            }
+            
         })
 
         function selectMonth(val){
@@ -176,7 +183,7 @@
             $('#place_time_end').append('<input type="text" id="time_end" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end" value="'+end+'" disabled><span class="input-group-addon" id="timezone_end">'+timezone+'</span>')
             $('.timepicker').timepicker({
                 autoclose: true,
-                minuteStep: 5,
+                minuteStep: 1,
                 showSeconds: false,
             });
         })
@@ -190,12 +197,86 @@
             }else{
                 document.getElementById('cek_time').style.display = 'none';
             }
-            if (!$('form#update-overtime')[0].checkValidity()) {
+            var check_after = $('#duration_after').css('display');
+            var check_before = $('#duration_before').css('display');
+            
+            if (!$('form#update-overtime')[0].checkValidity() || check_after == 'block' || check_before == 'block') {
                 toastr.warning("Incompleted Data. Please fill blank input.");
             }else{
                 $('form#update-overtime').submit();
             }
         }
+
+        function check_duration(){
+            var list = $('#list_date option:selected').val();
+            if(list!=''){
+                var get_time = $('input[name=time]:checked').val();
+                if(get_time!=undefined){
+                    var split = $('#duration').val().split(":");
+                    var style = '';
+                    var id_alert = '';
+                    if(get_time=='before'){
+                        var time = $('#time_start').val().split(":");
+                        var minute = 0;
+                        var hour = 0;
+                        var hold = 0;
+                        minute = parseInt(time[1]) - parseInt(split[1]);
+                        if(minute < 0){
+                            minute = parseInt(minute) + 60;
+                            hold = 1;
+                        }
+                        hour = parseInt(time[0]) - parseInt(split[0]) - parseInt(hold);
+                        if(hour>=0){
+                            if(minute>=0){
+                                style = 'none';
+                            }else{
+                                style = 'block';
+                            }   
+                        }else{
+                            style = 'block';
+                        }
+                        document.getElementById('duration_before').style.display = style;
+                    }else if(get_time=='after'){
+                        var time = $('#time_end').val().split(":");
+                        var minute = 0;
+                        var hour = 0;
+                        var hold = 0;
+                        minute = parseInt(split[1]) + parseInt(time[1]);
+                        if(minute > 60){
+                            minute = parseInt(minute) - 60;
+                            hold = 1;
+                        }
+                        hour = parseInt(split[0]) + parseInt(time[0]) + parseInt(hold);
+                        if(hour<=23){
+                            if(minute<=59){
+                                style = 'none';
+                            }else{
+                                style = 'block';
+                            }   
+                        }else{
+                            style = 'block';
+                        }
+                        document.getElementById('duration_after').style.display = style;
+                    }
+                }
+            }
+        }
+
+        $('#duration').on('change',function(){
+            check_duration();
+        });
+
+        $('input[name=time]').on('change',function(){
+            var list = $('#list_date option:selected').val();
+            if(list!=''){
+                var time = $('#time_start').val();
+                if(time!='0:00'){
+                    document.getElementById('duration_before').style.display = 'none';
+                    document.getElementById('duration_after').style.display = 'none';
+                    check_duration();
+                }
+            }
+        });
     
         $(document).ready(function() {
             $('[data-switch=true]').bootstrapSwitch();
@@ -354,8 +435,16 @@
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Duration <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Durasi waktu lembur hair stylist" data-container="body"></i></label>
-                        <div class="col-md-2">
-                            <input type="text" data-placeholder="select duration" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="duration" value="{{ $result['duration'] }}" data-show-meridian="false" id="duration" readonly @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                        <div class="col-md-6">
+                            <div class="col-md-3 input-group">
+                                <input type="text" data-placeholder="select duration" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="duration" value="{{ $result['duration'] }}" data-show-meridian="false" id="duration" readonly @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="duration_after">Maximal time for overtime after shift is 23:59</p>
+                                    <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="duration_before">Maximal time for overtime before shift is 00:00</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">

@@ -48,7 +48,7 @@
     <script type="text/javascript">
         $('.timepicker').timepicker({
             autoclose: true,
-            minuteStep: 5,
+            minuteStep: 1,
             showSeconds: false,
         });
     </script>
@@ -160,7 +160,7 @@
             $('#place_time_end').append('<input type="text" id="time_end" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end" value="'+end+'" disabled><span class="input-group-addon" id="timezone_end">'+timezone+'</span>')
             $('.timepicker').timepicker({
                 autoclose: true,
-                minuteStep: 5,
+                minuteStep: 1,
                 showSeconds: false,
             });
         })
@@ -174,12 +174,87 @@
             }else{
                 document.getElementById('cek_time').style.display = 'none';
             }
-            if (!$('form#create-overtime')[0].checkValidity()) {
+            var check_after = $('#duration_after').css('display');
+            var check_before = $('#duration_before').css('display');
+
+            if (!$('form#create-overtime')[0].checkValidity() || check_after == 'block' || check_before == 'block') {
                 toastr.warning("Incompleted Data. Please fill blank input.");
             }else{
                 $('form#create-overtime').submit();
             }
         }
+
+
+        function check_duration(){
+            var list = $('#list_date option:selected').val();
+            if(list!=''){
+                var get_time = $('input[name=time]:checked').val();
+                if(get_time!=undefined){
+                    var split = $('#duration').val().split(":");
+                    var style = '';
+                    var id_alert = '';
+                    if(get_time=='before'){
+                        var time = $('#time_start').val().split(":");
+                        var minute = 0;
+                        var hour = 0;
+                        var hold = 0;
+                        minute = parseInt(time[1]) - parseInt(split[1]);
+                        if(minute < 0){
+                            minute = parseInt(minute) + 60;
+                            hold = 1;
+                        }
+                        hour = parseInt(time[0]) - parseInt(split[0]) - parseInt(hold);
+                        if(hour>=0){
+                            if(minute>=0){
+                                style = 'none';
+                            }else{
+                                style = 'block';
+                            }   
+                        }else{
+                            style = 'block';
+                        }
+                        document.getElementById('duration_before').style.display = style;
+                    }else if(get_time=='after'){
+                        var time = $('#time_end').val().split(":");
+                        var minute = 0;
+                        var hour = 0;
+                        var hold = 0;
+                        minute = parseInt(split[1]) + parseInt(time[1]);
+                        if(minute > 60){
+                            minute = parseInt(minute) - 60;
+                            hold = 1;
+                        }
+                        hour = parseInt(split[0]) + parseInt(time[0]) + parseInt(hold);
+                        if(hour<=23){
+                            if(minute<=59){
+                                style = 'none';
+                            }else{
+                                style = 'block';
+                            }   
+                        }else{
+                            style = 'block';
+                        }
+                        document.getElementById('duration_after').style.display = style;
+                    }
+                }
+            }
+        }
+
+        $('#duration').on('change',function(){
+            check_duration();
+        });
+
+        $('input[name=time]').on('change',function(){
+            var list = $('#list_date option:selected').val();
+            if(list!=''){
+                var time = $('#time_start').val();
+                if(time!='0:00'){
+                    document.getElementById('duration_before').style.display = 'none';
+                    document.getElementById('duration_after').style.display = 'none';
+                    check_duration();
+                }
+            }
+        });
     
         $(document).ready(function() {
             $('[data-switch=true]').bootstrapSwitch();
@@ -339,8 +414,16 @@
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Duration <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Durasi waktu lembur hair stylist" data-container="body"></i></label>
-                        <div class="col-md-2">
-                            <input type="text" data-placeholder="select duration" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="duration" value="00:00" data-show-meridian="false" readonly>
+                        <div class="col-md-6">
+                            <div class="col-md-3 input-group">
+                                <input type="text" data-placeholder="select duration" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="duration" value="00:00" data-show-meridian="false" readonly id="duration">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="duration_after">Maximal time for overtime after shift is 23:59</p>
+                                    <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="duration_before">Maximal time for overtime before shift is 00:00</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <input type="hidden" name="id_hairstylist_schedule_date" value="">

@@ -53,7 +53,7 @@
     <script type="text/javascript">
         $('.timepicker').timepicker({
             autoclose: true,
-            minuteStep: 5,
+            minuteStep: 1,
             showSeconds: false,
         });
 
@@ -165,7 +165,7 @@
             $('#place_time_end').append('<input type="text" id="time_end" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end" value="'+end+'" readonly><span class="input-group-addon" id="timezone_end">'+timezone+'</span>');
             $('.timepicker').timepicker({
                 autoclose: true,
-                minuteStep: 5,
+                minuteStep: 1,
                 showSeconds: false,
             });
             var type = $('input[type=hidden][name=id_hairstylist_schedule_date]').val(id);
