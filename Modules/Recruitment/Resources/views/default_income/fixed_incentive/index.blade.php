@@ -180,6 +180,7 @@
                                     <thead>
                                     <tr>
                                         <th class="text-nowrap text-center">Name</th>
+                                        <th class="text-nowrap text-center">Status</th>
                                         <th class="text-nowrap text-center">Type</th>
                                         <th class="text-nowrap text-center">Formula</th>
                                         <th class="text-nowrap text-center">Action</th>
@@ -190,6 +191,7 @@
                                         @foreach($data as $dt)
                                             <tr data-id="{{ $dt['id_hairstylist_group_default_fixed_incentive'] }}">
                                                 <td style="text-align: center;">{{$dt['name_fixed_incentive']}}</td>
+                                                <td style="text-align: center;">@if($dt['status']=="incentive") Incentive @else Salary Cut @endif</td>
                                                 <td style="text-align: center;">{{$dt['type']}}</td>
                                                 <td style="text-align: center;">{{$dt['formula']}}</td>
                                                 <td style="text-align: center;">
@@ -222,13 +224,25 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="col-md-4 control-label">Status<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Type fixed incentive, Type 1 hanya satu data, Type 2 banyak data detail" data-container="body"></i>
+                                    </label>
+                                    <div class="col-md-6">
+                                        <select  class="form-control select2" name="status" id="status"  data-placeholder="Select Type" required>
+                                                <option></option>
+                                                <option value="incentive" @if(old('status') == 'incentive') selected @endif>Incentive</option>
+                                                <option value="salary_cut" @if(old('status') == 'salary_cut') selected @endif>Salary Cut</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label class="col-md-4 control-label">Type<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Type fixed incentive, Type 1 hanya satu data, Type 2 banyak data detail" data-container="body"></i>
                                     </label>
                                     <div class="col-md-6">
-                                        <select  class="form-control select2" name="type" id="type" onchange="changeType()" data-placeholder="Select Type" required>
-                                                <option value="Type 1">Type 1</option>
-                                                <option value="Type 2" >Type 2</option>
+                                        <select  class="form-control" name="type" id="type" onchange="changeType()" data-placeholder="Select Type" required>
+                                                <option value="Type 1" @if(old('type') == 'Type 1') selected @endif>Type 1</option>
+                                                <option value="Type 2" @if(old('type') == 'Type 2') selected @endif>Type 2</option>
                                         </select>
                                     </div>
                                 </div>
