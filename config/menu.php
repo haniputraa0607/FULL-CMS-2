@@ -2471,9 +2471,9 @@ return [
 					'icon' => 'fa fa-download'
 				],
 				[
-					'label' => 'Export Commision',
+					'label' => 'Export Commission',
 					'required_features' => [69],
-					'url' => 'hair-stylist/commision/filter',
+					'url' => 'hair-stylist/commission/filter',
 					'icon' => 'fa fa-download'
 				],
 				[

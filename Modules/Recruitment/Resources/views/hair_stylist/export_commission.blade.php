@@ -80,7 +80,7 @@
             </div>
         </div>
         <div class="portlet-body">
-            <form class="form-horizontal" role="form" action="{{url('hair-stylist/commision/export')}}" method="post">
+            <form class="form-horizontal" role="form" action="{{url('hair-stylist/commission/export')}}" method="post">
                 <div class="form-body">
                     <div class="form-group">
                         <label class="col-md-2 control-label">Date Start :</label>

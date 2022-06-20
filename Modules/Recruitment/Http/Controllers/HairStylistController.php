@@ -323,28 +323,28 @@ class HairStylistController extends Controller
         }
     }
 
-    public function exportCommision(Request $request){
+    public function exportCommission(Request $request){
         $post = $request->except('_token');
 
         if(empty($post)){
             $data = [
                 'title'          => 'Transaction',
-                'sub_title'      => 'Export Commision',
-                'menu_active'    => 'hair-stylist-export-commision',
-                'submenu_active' => 'hair-stylist-export-commision',
+                'sub_title'      => 'Export Commission',
+                'menu_active'    => 'hair-stylist-export-commission',
+                'submenu_active' => 'hair-stylist-export-commission',
             ];
 
             $data['outlets'] = MyHelper::get('outlet/be/list/simple')['result']??[];
-            return view('recruitment::hair_stylist.export_commision', $data);
+            return view('recruitment::hair_stylist.export_commission', $data);
         }else{
-            $data = MyHelper::post('hairstylist/be/export-commision',$post);
+            $data = MyHelper::post('hairstylist/be/export-commission',$post);
 
             if (isset($data['status']) && $data['status'] == "success" && !empty($data['result'])) {
                 $dataExport['head'] = array_keys($data['result'][0]);
                 $dataExport['body'] = $data['result'];
-                $dataExport['title'] = 'Commision_'.date('Ymdhis');
+                $dataExport['title'] = 'Commission_'.date('Ymdhis');
                 $data = new DataExport($dataExport);
-                return Excel::download($data,'Commision_'.date('Ymdhis').'.xls');
+                return Excel::download($data,'Commission_'.date('Ymdhis').'.xls');
             }else {
                 return back()->withErrors(['Something when wrong. Please try again.'])->withInput();
             }
