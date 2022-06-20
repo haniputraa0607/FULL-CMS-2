@@ -194,6 +194,18 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
+                                                    <label class="col-md-4 control-label">Status<span class="required" aria-required="true">*</span>
+                                                        <i class="fa fa-question-circle tooltips" data-original-title="Type fixed incentive, Type 1 hanya satu data, Type 2 banyak data detail" data-container="body"></i>
+                                                    </label>
+                                                    <div class="col-md-6">
+                                                        <select  class="form-control select2" name="status" id="status"  data-placeholder="Select Type" required>
+                                                                <option></option>
+                                                                <option value="incentive" @if($result['status'] == 'incentive') selected @endif>Incentive</option>
+                                                                <option value="salary_cut" @if($result['status'] == 'salary_cut') selected @endif>Salary Cut</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
                                                     <label class="col-md-4 control-label">Type<span class="required" aria-required="true">*</span>
                                                         <i class="fa fa-question-circle tooltips" data-original-title="Type fixed incentive, Type 1 hanya satu data, Type 2 banyak data detail" data-container="body"></i>
                                                     </label>
