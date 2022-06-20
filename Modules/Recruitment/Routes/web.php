@@ -130,6 +130,15 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
 	    Route::get('detail/{id}', ['middleware' => 'feature_control:429', 'uses' => 'HairStylistUpdateDataController@detail']);
 	    Route::post('update/{id}', ['middleware' => 'feature_control:430', 'uses' => 'HairStylistUpdateDataController@update']);
 	});
+	Route::group(['prefix' => 'loan'], function()
+	{
+	    Route::any('/category', ['middleware' => 'feature_control:428,429,430', 'uses' => 'HairStylistLoanController@index_category']);
+	    Route::post('/category/create', ['middleware' => 'feature_control:428,429,430', 'uses' => 'HairStylistLoanController@create_category']);
+	    Route::post('/category/delete/{id}', ['middleware' => 'feature_control:428,429,430', 'uses' => 'HairStylistLoanController@delete_category']);
+	    Route::any('/', ['middleware' => 'feature_control:428,429,430', 'uses' => 'HairStylistLoanController@index']);
+	    Route::post('/create', ['middleware' => 'feature_control:428,429,430', 'uses' => 'HairStylistLoanController@create']);
+	    Route::get('/detail/{id}', ['middleware' => 'feature_control:428,429,430', 'uses' => 'HairStylistLoanController@detail']);
+	});
 
 	Route::group(['prefix' => 'group'], function()
 	{
