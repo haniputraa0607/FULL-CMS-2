@@ -383,6 +383,9 @@
                     else if(response.status == "fail"){
                         swal("Error!", "Failed to updated the request "+fromL+".", "error")
                     }
+                    else if(response.status == "fail_balance"){
+                        swal("Error!", "Department Balance is not enough.", "error")
+                    }
                     else {
                         swal("Error!", "Something went wrong. Failed to updated the request "+fromL+".", "error")
                     }
