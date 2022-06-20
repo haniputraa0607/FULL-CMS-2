@@ -297,7 +297,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Value" data-container="body"></i>
                                     </label>
                                     <div class="col-md-6">
-                                        <input type="text" name="value" id='value' value="{{old('value')}}" data-type="currency" placeholder="Masukkan besaran value" class="form-control" required />
+                                        <input type="text" name="value" id='value' value="{{old('range')}}" data-type="currency" placeholder="Masukkan besaran value" class="form-control" required />
                                     </div>
                                 </div>
                                 <div class="form-actions">

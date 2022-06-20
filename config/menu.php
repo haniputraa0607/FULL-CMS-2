@@ -1614,6 +1614,25 @@ return [
 					'active' => '\View::shared("submenu_active") == "default-hair-stylist-potongan"',
 					'url' => 'recruitment/hair-stylist/default/potongan'
 				],
+				[
+					'label' => 'Salary Cuts Loan HS',
+					'required_features' => [426],
+					'type' => 'tree',
+					'children' => [
+                                                [
+                                                        'label' => 'Category Loan',
+                                                        'required_features' => [425],
+                                                        'active' => '\View::shared("submenu_active") == "category-loan"',
+                                                        'url' => 'recruitment/hair-stylist/loan/category'
+                                                ],
+                                                [
+                                                        'label' => 'Loan Hs',
+                                                        'required_features' => [425],
+                                                        'active' => '\View::shared("submenu_active") == "hs-loan"',
+                                                        'url' => 'recruitment/hair-stylist/loan'
+                                                ],
+                                        ],
+				],
 			],
 			'icon' => 'fa fa-money'
 		],

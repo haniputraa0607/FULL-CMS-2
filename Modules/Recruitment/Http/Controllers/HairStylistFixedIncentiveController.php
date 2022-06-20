@@ -24,10 +24,6 @@ class HairStylistFixedIncentiveController extends Controller
            );
             $query = MyHelper::post('recruitment/hairstylist/be/group/fixed-incentive/create', $b);
               if(isset($query['status']) && $query['status'] != 'success'){
-                  return array(
-                      'p'=>$b,
-                      'return'=> $query
-                  );
                       return redirect(url()->previous().'#fixed')->withErrors($query['messages']);
               }
        }
