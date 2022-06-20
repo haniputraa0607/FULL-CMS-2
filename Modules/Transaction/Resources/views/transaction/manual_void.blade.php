@@ -113,6 +113,9 @@
                             case 'ipay88':
                                 return `${value} (${row.transaction_payment_ipay88.payment_method})`;
                                 break;
+                            case 'xendit':
+                                return `${value} (${row.transaction_payment_xendit.type})`;
+                                break;
                         }
                         return value;
                     }
@@ -131,6 +134,9 @@
 
                             case 'shopeepay':
                                 return row.transaction_payment_shopee_pay?.transaction_sn;
+                                break;
+                            case 'xendit':
+                                return row.transaction_payment_xendit?.xendit_id;
                                 break;
                         }
                         return '';
@@ -170,7 +176,7 @@
                             `<button type="button" class="btn ${row.need_manual_void == 1 ? 'yellow confirm-btn' : 'green detail-btn'} btn-sm btn-outline" data-data='${JSON.stringify(row)}'>${row.need_manual_void == 1 ? 'Confirm Process' : 'Detail Refund'} ${row.need_manual_void == 1 ? tooltipConfirmProcess : tooltipDetailRefund}</button>`,
                             `<a class="btn blue btn-sm btn-outline" href="{{url('transaction')}}/${row.transaction_from}/detail/${row.id_transaction}">Detail Transaction ${tooltipDetailTransaction}</a>`
                         ];
-                        if (['shopeepay', 'midtrans', 'xendit'].includes(row.trasaction_payment_type.toLowerCase()) && row.need_manual_void == '1') {
+                        if (['xendit'].includes(row.trasaction_payment_type.toLowerCase()) && ["OVO","DANA","LINKAJA","SHOPEEPAY","SAKUKU"].includes(row.transaction_payment_xendit.type.toUpperCase()) && row.need_manual_void == '1' && row.failed_void_reason !== null) {
                             buttons.unshift(`<button type="button" class="btn green btn-sm btn-outline retry-btn" data-data='${JSON.stringify(row)}'>Retry ${tooltipRetry}</button>`);
                         }
 
