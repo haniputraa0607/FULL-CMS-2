@@ -53,7 +53,7 @@
     <script type="text/javascript">
         $('.timepicker').timepicker({
             autoclose: true,
-            minuteStep: 5,
+            minuteStep: 1,
             showSeconds: false,
         });
     </script>
@@ -208,7 +208,7 @@
             $('#place_time_end').append('<input type="text" id="time_end" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end" value="'+end+'" disabled>')
             $('.timepicker').timepicker({
                 autoclose: true,
-                minuteStep: 5,
+                minuteStep: 1,
                 showSeconds: false,
             });
             $('#time_start_overtime').val('00:00');

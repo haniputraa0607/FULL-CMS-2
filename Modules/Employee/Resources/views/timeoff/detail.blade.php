@@ -53,7 +53,7 @@
     <script type="text/javascript">
         $('.timepicker').timepicker({
             autoclose: true,
-            minuteStep: 5,
+            minuteStep: 1,
             showSeconds: false,
         });
     </script>
