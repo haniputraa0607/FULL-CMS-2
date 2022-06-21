@@ -183,12 +183,10 @@
                             `<a class="btn blue btn-sm btn-outline" href="{{url('transaction')}}/${row.transaction_from}/detail/${row.id_transaction}">Detail Transaction ${tooltipDetailTransaction}</a>`
                         ];
 
-                        if (row.need_manual_void == '1' && row.failed_void_reason !== null) {
-                            if(row.trasaction_payment_type.toLowerCase() == 'xendit' && ["OVO","DANA","LINKAJA","SHOPEEPAY","SAKUKU"].includes(row.transaction_payment_xendit.type.toUpperCase())){
-                                buttons.unshift(`<button type="button" class="btn green btn-sm btn-outline retry-btn" data-data='${JSON.stringify(row)}' data-idtransaction='${row.id_transaction}'>Retry ${tooltipRetry}</button>`);
-                            }else if(row.trasaction_payment_type.toLowerCase() == 'midtrans'){
-                                buttons.unshift(`<button type="button" class="btn green btn-sm btn-outline retry-btn" data-data='${JSON.stringify(row)}' data-idtransaction='${row.id_transaction}'>Retry ${tooltipRetry}</button>`);
-                            }
+                        if(row.need_manual_void == '1' && row.trasaction_payment_type.toLowerCase() == 'xendit' && ["OVO","DANA","LINKAJA","SHOPEEPAY","SAKUKU"].includes(row.transaction_payment_xendit.type.toUpperCase())){
+                            buttons.unshift(`<button type="button" class="btn green btn-sm btn-outline retry-btn" data-data='${JSON.stringify(row)}' data-idtransaction='${row.id_transaction}'>Retry ${tooltipRetry}</button>`);
+                        }else if(row.need_manual_void == '1' && row.trasaction_payment_type.toLowerCase() == 'midtrans'){
+                            buttons.unshift(`<button type="button" class="btn green btn-sm btn-outline retry-btn" data-data='${JSON.stringify(row)}' data-idtransaction='${row.id_transaction}'>Retry ${tooltipRetry}</button>`);
                         }
 
                         return buttons.join('');
