@@ -1981,7 +1981,7 @@ return [
 				[
 					'label' => 'Failed Void Payment',
 					'required_features' => [299],
-					'required_configs' => [10001],
+//					'required_configs' => [10001],
 					'active' => '\View::shared("menu_active") == "failed-void-payment"',
 					'url' => 'transaction/failed-void-payment',
 					'icon' => 'fa fa-exclamation-triangle'
