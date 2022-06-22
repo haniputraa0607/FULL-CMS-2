@@ -1073,4 +1073,73 @@ class HairStylistGroupController extends Controller
                     }
                    
               }
+    public function setting_income(Request $request){
+            $post = $request->except('_token');
+            $data = [
+                'title'          => 'Setting Income Hairstylist',
+                'menu_active'    => 'setting-hs-income',
+                'submenu_active'    => 'setting-hs-income',
+            ];
+           
+            $mid =  MyHelper::get('setting/hs-income-calculation-mid');
+            if($mid){
+                $data['mid'] = array(
+                    'key' =>$mid['key'],
+                    'value_text'=>json_decode($mid['value_text'])
+                );
+            }
+            $end =  MyHelper::get('setting/hs-income-calculation-end');
+            if($end){
+                $data['end'] = array(
+                    'key' =>$end['key'],
+                    'value_text'=>json_decode($end['value_text'])
+                );
+            }
+            $incentive = MyHelper::get('recruitment/hairstylist/be/group/setting_insentif')['result']??[];
+            $list_potongan = array(array(
+                'code'=>'product_commission',
+                'name'=>'Product Commission'
+            ));
+            foreach($incentive as $value){
+                $incen = array(
+                    'code'=>'incentive_'.$value['code'],
+                    'name'=>$value['name'],
+                );
+                array_push($list_potongan,$incen);
+            }
+            $potongan = MyHelper::get('recruitment/hairstylist/be/group/setting_potongan')['result']??[];
+            foreach($potongan as $value){
+                $incen = array(
+                    'code'=>'salary_cut_'.$value['code'],
+                    'name'=>$value['name'],
+                );
+                array_push($list_potongan,$incen);
+            }
+            $data['list'] = $list_potongan;
+//            return $data['mid']['value_text'];
+            
+            return view('recruitment::group.setting_calculation', $data);
+        }
+        public function setting_income_middle(Request $request)
+              {
+                 $post = $request->except('_token');
+                 $query = MyHelper::post('setting/hs-income-calculation-mid-create', $post);
+                        if(isset($query['status']) && $query['status'] == 'success'){
+                                return back()->withSuccess(['Update Setting Success']);
+                        } else{
+                                return back()->withInput($request->input())->withErrors($query['messages']);
+                        }
+                   
+              }
+        public function setting_income_end(Request $request)
+              {
+                 $post = $request->except('_token');
+                 $query = MyHelper::post('setting/hs-income-calculation-end-create', $post);
+                        if(isset($query['status']) && $query['status'] == 'success'){
+                                return back()->withSuccess(['Update Setting Success']);
+                        } else{
+                                return back()->withInput($request->input())->withErrors($query['messages']);
+                        }
+                   
+              }
 }
