@@ -169,6 +169,10 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
 	    Route::any('commission/filter_hs', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@filter_hs']);	 	    
 	    Route::any('commission/filter_insentif', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@filter_insentif']);	 	    
 	    Route::any('commission/filter_potongan', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@filter_potongan']);	 	    
+	    
+            Route::any('setting-income', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@setting_income']);	 	    
+            Route::any('setting-income-middle', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@setting_income_middle']);	 	    
+            Route::any('setting-income-end', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@setting_income_end']);	 	    
 	});
 	Route::group(['prefix' => 'default'], function()
 	{

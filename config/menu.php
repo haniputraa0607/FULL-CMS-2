@@ -1591,6 +1591,12 @@ return [
 			'type' => 'tree',
 			'children' => [
 				[
+					'label' => 'Setting Incentive & Salary Cuts',
+					'required_features' => [425],
+					'active' => '\View::shared("submenu_active") == "default-hair-stylist-fixed-incentive"',
+					'url' => 'recruitment/hair-stylist/group/setting-income'
+				],
+				[
 					'label' => 'Salary Fixed Incentive Default HS',
 					'required_features' => [425],
 					'active' => '\View::shared("submenu_active") == "default-hair-stylist-fixed-incentive"',
@@ -1626,7 +1632,7 @@ return [
                                                         'url' => 'recruitment/hair-stylist/loan/category'
                                                 ],
                                                 [
-                                                        'label' => 'Loan Hs',
+                                                        'label' => 'Loan HS',
                                                         'required_features' => [425],
                                                         'active' => '\View::shared("submenu_active") == "hs-loan"',
                                                         'url' => 'recruitment/hair-stylist/loan'
