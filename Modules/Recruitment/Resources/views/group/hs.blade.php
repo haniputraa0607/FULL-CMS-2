@@ -69,7 +69,7 @@
                                              <option value=""></option>
                                             @if(isset($lisths))
                                                 @foreach($lisths as $row)
-                                                        <option value="{{$row['id_user_hair_stylist']}}">{{$row['nickname']}} - {{$row['fullname']}}</option>
+                                                        <option value="{{$row['id_user_hair_stylist']}}">{{$row['user_hair_stylist_code']}} - {{$row['fullname']}}</option>
                                                 @endforeach
                                             @endif
                                         </select>

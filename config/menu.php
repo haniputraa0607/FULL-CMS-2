@@ -1597,6 +1597,12 @@ return [
 					'url' => 'recruitment/hair-stylist/group/setting-income'
 				],
 				[
+					'label' => 'Setting Overtime',
+					'required_features' => [425],
+					'active' => '\View::shared("submenu_active") == "setting-hs-overtime"',
+					'url' => 'recruitment/hair-stylist/group/setting-overtime'
+				],
+				[
 					'label' => 'Salary Fixed Incentive Default HS',
 					'required_features' => [425],
 					'active' => '\View::shared("submenu_active") == "default-hair-stylist-fixed-incentive"',
