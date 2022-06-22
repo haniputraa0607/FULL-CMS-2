@@ -259,6 +259,7 @@
                 $('#time_start_overtime').prop('disabled', false);
             }else if(time=='after'){
                 $('#time_start_overtime').val('{{ $result['schedule_out'] }}');
+                $('#time_end_overtime').val('23:59');
                 $('#time_start_overtime').prop('disabled', true);
                 $('#time_end_overtime').prop('disabled', false);
             }
@@ -299,6 +300,66 @@
                 document.getElementById('cek_end_rest').style.display = 'block';
             }else{
                 document.getElementById('cek_end_rest').style.display = 'none';
+            }
+        });
+
+        $('#time_start_overtime').on('change',function(){
+            var list = $('#list_date option:selected').val();
+            if(list!=''){
+                var get_time = $('input[name=time]:checked').val();
+                if(get_time=='before'){
+                        var time = $(this).val().split(":");
+                        console.log(time);
+                        var minute = 0;
+                        var hour = 0;
+                        var hold = 0;
+                        minute = parseInt(time[1]) - parseInt(split[1]);
+                        if(minute < 0){
+                            minute = parseInt(minute) + 60;
+                            hold = 1;
+                        }
+                        hour = parseInt(time[0]) - parseInt(split[0]) - parseInt(hold);
+                        if(hour>=0){
+                            if(minute>=0){
+                                style = 'none';
+                            }else{
+                                style = 'block';
+                            }   
+                        }else{
+                            style = 'block';
+                        }
+                        document.getElementById('duration_before').style.display = style;
+                    }
+            }
+        });
+
+        $('#time_end_overtime').on('change',function(){
+            var list = $('#list_date option:selected').val();
+            if(list!=''){
+                var get_time = $('input[name=time]:checked').val();
+                if(get_time=='after'){
+                        var time = $(this).val().split(":");
+                        console.log(time);
+                        var minute = 0;
+                        var hour = 0;
+                        var hold = 0;
+                        minute = parseInt(split[1]) + parseInt(time[1]);
+                        if(minute > 60){
+                            minute = parseInt(minute) - 60;
+                            hold = 1;
+                        }
+                        hour = parseInt(split[0]) + parseInt(time[0]) + parseInt(hold);
+                        if(hour<=23){
+                            if(minute<=59){
+                                style = 'none';
+                            }else{
+                                style = 'block';
+                            }   
+                        }else{
+                            style = 'block';
+                        }
+                        document.getElementById('duration_after').style.display = style;
+                    }
             }
         });
     
@@ -455,15 +516,29 @@
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Start Overtime<span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu mulai lembur untuk karyawan" data-container="body"></i></label>
-                        <div class="col-md-3" id="place_time_start">
-                            <input type="text" id="time_start_overtime" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_start_overtime" value="{{ $result['start_overtime'] }}" @if($result['time']=='after') disabled @endif @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                        <div class="col-md-3">
+                            <div class="col-md-12 input-group" id="place_time_start">
+                                <input type="text" id="time_start_overtime" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_start_overtime" value="{{ $result['start_overtime'] }}" @if($result['time']=='after') disabled @endif @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="duration_before">Minimal time start is 00:00</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">End Overtime<span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu selesai lembur untuk karyawan" data-container="body"></i></label>
-                        <div class="col-md-3" id="place_time_end">
-                            <input type="text" id="time_end_overtime" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end_overtime" value="{{ $result['end_overtime'] }}" @if($result['time']=='before') disabled @endif @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                        <div class="col-md-3">
+                            <div class="col-md-12 input-group" id="place_time_end">
+                                <input type="text" id="time_end_overtime" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end_overtime" value="{{ $result['end_overtime'] }}" @if($result['time']=='before') disabled @endif @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="duration_after">Maximal time end is 23:59</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
