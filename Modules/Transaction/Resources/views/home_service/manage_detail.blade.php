@@ -19,6 +19,12 @@
     	.datepicker{
 			padding: 6px 12px;
 		}
+		.border-0 {
+			/*border: 0px;*/
+		}
+		.text-bold {
+			font-weight: bold;
+		}
     </style>
 @endsection
 
@@ -149,24 +155,145 @@
         </div>
         <div class="tabbable-line tabbable-full-width">
             <ul class="nav nav-tabs">
-                {{-- <li class="active">
-                    <a href="#detail" data-toggle="tab"> Detail </a>
-                </li> --}}
                 <li class="active">
+                    <a href="#detail" data-toggle="tab"> Detail </a>
+                </li>
+                <li>
                     <a href="#update" data-toggle="tab"> Update </a>
                 </li>
             </ul>
 	        <div class="tab-content">
-	        	<div class="tab-pane" id="detail">
+	        	<div class="tab-pane active" id="detail">
+					@if (!empty($data['product_service']))
+		            	<div class="portlet light bordered">
+							<div class="portlet-title">
+								<div class="caption font-blue ">
+									<span class="caption-subject sbold uppercase">Home Service</span>
+								</div>
+							</div>
+							@php
+								$statusHS = [
+									'Finding Hair Stylist' => [
+										'color' => 'grey',
+										'status' => 'Transaction waiting to finding hair stylist'
+									],
+									'Get Hair Stylist' => [
+										'color' => 'yellow',
+										'status' => 'Customer already get a hair stylist'
+									],
+									'On The Way' => [
+										'color' => 'yellow',
+										'status' => 'Hair stylist is his the way to the customer'
+									],
+									'Arrived' => [
+										'color' => 'yellow',
+										'status' => 'Hair stylist has arrived at the customer location'
+									],
+									'Start Service' => [
+										'color' => 'blue',
+										'status' => 'Service has started'
+									],
+									'Completed' => [
+										'color' => 'green',
+										'status' => 'Service has been completed'
+									],
+									'Cancelled' => [
+										'color' => 'red',
+										'status' => 'Service canceled'
+									],
+								];
+							@endphp
+							<div class="portlet box {{ $statusHS[$data['hair_stylist_status']]['color'] }}">
+								<div class="portlet-title">
+									<div class="caption">
+										<i class="fa fa-gear"></i>Status Transaction Home Service</div>
+									<div class="tools">
+										<a href="javascript:;" class="collapse"> </a>
+									</div>
+								</div>
+								<div class="portlet-body">
+									<h5> {{ $statusHS[$data['hair_stylist_status']]['status'] }} </h5>
+								</div>
+							</div>
+							<div class="portlet-body form">
+				                <div class="form-horizontal" role="form" action="{{url('businessdev/partners/update')}}" method="post" enctype="multipart/form-data">
+				            		@foreach ($data['product_service'] as $key => $s)
+										<div class="portlet light bordered">
+											<div class="portlet-title">
+												<div class="caption font-blue ">
+													<span class="caption-subject sbold uppercase">Service {{ $key+1 }}</span>
+												</div>
+											</div>
+											<div class="portlet-body form">
+								                <div class="form-horizontal" role="form" action="{{url('businessdev/partners/update')}}" method="post" enctype="multipart/form-data">
+								                    <div class="form-body">
+														<div div class="form-group">
+															<label class="control-label col-md-4">Status </label>
+															 <div class="col-md-5">
+																 @php
+																	 $serviceStatus = 'Pending';
+																	 $statusColor = '#c9c9c7';
+ 
+																	 if(isset($data['hair_stylist_status']) && $data['hair_stylist_status'] == 'Start Service'){
+																		 $serviceStatus = 'In Progress';
+																		 $statusColor = '#ffc107';
+																	 }
+																	 if ($s['transaction_product_completed_at']) {
+																		 $serviceStatus =  'Completed';
+																		 $statusColor = '#26C281';
+																	 } 
+																	 if ($s['reject_at']) {
+																		 $serviceStatus =  'Rejected';
+																		 $statusColor = '#E7505A';
+																	 }
+																 @endphp
+																 <span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: {{ $statusColor }}; padding: 5px 12px; color: #fff; margin-top: 5px">{{ $serviceStatus }}</span>
+															 </div>
+														 </div>
+														 <div class="form-group">
+															 <label class="control-label col-md-4">Hair Stylist </label>
+															 <div class="col-md-5">
+																 <span class="form-control border-0 text-bold">{{ $data['hair_stylist_name'] }}</span>
+															 </div>
+														 </div>
+														 <div class="form-group">
+							                                <label class="control-label col-md-4">Schedule Date </label>
+							                                <div class="col-md-5">
+											                    <span class="form-control border-0 text-bold">{{ $data['booking_date'] }}</span>
+							                                </div>
+							                            </div>
 
+							                            <div class="form-group">
+							                                <label class="control-label col-md-4">Schedule Time </label>
+							                                <div class="col-md-5">
+											                    <span class="form-control border-0 text-bold">{{ $data['booking_time'] }} {{ $data['booking_time_zone'] }}</span>
+							                                </div>
+							                            </div>
 
+							                            <div class="form-group">
+							                                <label class="control-label col-md-4">Service Name </label>
+							                                <div class="col-md-5">
+											                    <span class="form-control border-0 text-bold">{{ $s['product']['product_name'] }}</span>
+							                                </div>
+							                            </div>
 
-	        		{{-- Detail Here --}}
-
-
-
+							                            <div class="form-group">
+							                                <label class="control-label col-md-4">Subtotal </label>
+							                                <div class="col-md-5">
+											                    <span class="form-control border-0 text-bold">IDR {{ number_format(($s['transaction_product_subtotal']),0,',','.') }}</span>
+							                                </div>
+							                            </div>
+													</div>
+												</div>
+											</div>
+										</div>
+									@endforeach
+								</div>
+							</div>
+						</div>
+					@endif
 	        	</div>
-	        	<div class="tab-pane active" id="update">
+	        	<div class="tab-pane" id="update">
                 	<div class="portlet light bordered">
 						<div class="portlet-title">
 							<div class="caption font-blue ">

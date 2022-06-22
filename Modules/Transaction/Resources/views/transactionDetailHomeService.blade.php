@@ -478,8 +478,8 @@
                         {{$data['destination_name']??''}}<br>
                         {{$data['destination_phone']??''}}<br>
                         {{$data['destination_address']}}{{(!empty($data['destination_note'])? ' (notes : '.$data['destination_note'].')': "")}}<br>
-                        Book time : {{date('d M Y H:i', strtotime($data['booking_date'].' '.$data['booking_time']))}}<br>
-                        Hair stylist : {{(empty($data['hair_stylist_name'])? '-':$data['hair_stylist_name']).' ('.$data['hair_stylist_outlet_name'].')'}}<br>
+                        Book time : {{date('d M Y H:i', strtotime($data['booking_date'].' '.$data['booking_time']))}} {{ $data['booking_time_zone'] }}<br>
+                        Hair stylist : {{ (empty($data['hair_stylist_name'])? '-' : $data['hair_stylist_name'].' ('.$data['hair_stylist_outlet_name'].')') }}<br>
                     </div>
                 </div>
             </div>
@@ -488,7 +488,7 @@
 	    <div class="kotak-biasa" style="background-color: #FFFFFF;padding: 15px;margin-top: 10px;box-shadow: 0 0.7px 3.3px #eeeeee;">
 	        <div class="row space-bottom">
 	            <div class="col-4 text-black-grey-light text-14px WorkSans-Bold">Transaksi</div>
-	            <div class="col-8 text-grey-white text-right text-medium-grey text-12px WorkSans-Regular">{{ date('d', strtotime($data['transaction_date'])) }} {{ $bulan[date('n', strtotime($data['transaction_date']))] }} {{ date('Y H:i', strtotime($data['transaction_date'])) }}</div>
+	            <div class="col-8 text-grey-white text-right text-medium-grey text-12px WorkSans-Regular">{{ date('d', strtotime($data['transaction_date'])) }} {{ $bulan[date('n', strtotime($data['transaction_date']))] }} {{ date('Y H:i', strtotime($data['transaction_date'])) }} {{ $data['transaction_date_timezone'] }}</div>
 	        </div>
 	        <div class="row space-text">
 	            <div class="col-4"></div>
