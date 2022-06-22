@@ -1132,14 +1132,32 @@ class HairStylistGroupController extends Controller
                    
               }
         public function setting_income_end(Request $request)
-              {
-                 $post = $request->except('_token');
-                 $query = MyHelper::post('setting/hs-income-calculation-end-create', $post);
-                        if(isset($query['status']) && $query['status'] == 'success'){
-                                return back()->withSuccess(['Update Setting Success']);
-                        } else{
-                                return back()->withInput($request->input())->withErrors($query['messages']);
-                        }
-                   
-              }
+        {
+           $post = $request->except('_token');
+           $query = MyHelper::post('setting/hs-income-calculation-end-create', $post);
+                  if(isset($query['status']) && $query['status'] == 'success'){
+                          return back()->withSuccess(['Update Setting Success']);
+                  } else{
+                          return back()->withInput($request->input())->withErrors($query['messages']);
+                  }
+
+        }
+        public function setting_overtime(Request $request){
+            $post = $request->except('_token');
+            $data = [
+                'title'          => 'Setting Overtime Hairstylist',
+                'menu_active'    => 'setting-hs-overtime',
+                'submenu_active'    => 'setting-hs-overtime',
+            ];
+           if($post){
+                $query = MyHelper::post('setting/overtime-hs-create', $post);
+                  if(isset($query['status']) && $query['status'] == 'success'){
+                          return back()->withSuccess(['Update Setting Success']);
+                  } else{
+                          return back()->withInput($request->input())->withErrors($query['messages']);
+                  }
+           }
+            $data['result'] =  MyHelper::get('setting/overtime-hs');
+            return view('recruitment::group.setting_overtime', $data);
+        }
 }
