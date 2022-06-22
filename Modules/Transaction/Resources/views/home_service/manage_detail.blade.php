@@ -266,7 +266,7 @@
 							                            <div class="form-group">
 							                                <label class="control-label col-md-4">Schedule Time </label>
 							                                <div class="col-md-5">
-											                    <span class="form-control border-0 text-bold">{{ $data['booking_time'] }}</span>
+											                    <span class="form-control border-0 text-bold">{{ $data['booking_time'] }} {{ $data['booking_time_zone'] }}</span>
 							                                </div>
 							                            </div>
 

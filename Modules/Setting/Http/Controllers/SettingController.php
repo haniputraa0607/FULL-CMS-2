@@ -190,7 +190,7 @@ class SettingController extends Controller
             $data['span'] = $span;
         }
 
-        if ($key == 'point_reset' || $key == 'balance_reset' || $key='department_balance_reset') {
+        if ($key == 'point_reset' || $key == 'balance_reset' || $key == 'department_balance_reset') {
             $request = MyHelper::post('setting', ['key-like' => $key]);
             if (isset($request['status']) && $request['status'] == 'success') {
                 $data['result'] = $request['result'];

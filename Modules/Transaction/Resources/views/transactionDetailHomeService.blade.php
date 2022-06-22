@@ -479,7 +479,7 @@
                         {{$data['destination_phone']??''}}<br>
                         {{$data['destination_address']}}{{(!empty($data['destination_note'])? ' (notes : '.$data['destination_note'].')': "")}}<br>
                         Book time : {{date('d M Y H:i', strtotime($data['booking_date'].' '.$data['booking_time']))}} {{ $data['booking_time_zone'] }}<br>
-                        Hair stylist : {{(empty($data['hair_stylist_name'])? '-':$data['hair_stylist_name']).' ('.$data['hair_stylist_outlet_name'].')'}}<br>
+                        Hair stylist : {{ (empty($data['hair_stylist_name'])? '-' : $data['hair_stylist_name'].' ('.$data['hair_stylist_outlet_name'].')') }}<br>
                     </div>
                 </div>
             </div>
