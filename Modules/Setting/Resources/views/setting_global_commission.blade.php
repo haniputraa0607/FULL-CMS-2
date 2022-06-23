@@ -72,22 +72,22 @@ $configs     		= session('configs');
 				<form role="form" class="form-horizontal" action="{{url('setting/setting-global-commission')}}" method="POST" enctype="multipart/form-data">
 					{{ csrf_field() }}
 					<div class="form-body">
-                                                <div class="form-group">
-                                                    <label for="example-search-input" class="control-label col-md-4">Percent</label>
-                                                    <div class="col-md-5">
-                                                        <input type="checkbox" class="make-switch" data-size="small" onchange="myFunction()" data-on-color="success" data-on-text="Percent" name="percent" data-off-color="default" data-off-text="Nominal" @if($result['value']??0==1) checked @endif id="percent">
-                                                    </div>
-                                                </div>
-                                               
-                                                <div id="id_commission">
-                                                     <div class="form-group">
-                                                    <label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>
-                                                        <i class="fa fa-question-circle tooltips" data-original-title="Percent minimal 1% maksimal 99%" data-container="body"></i></label>
-                                                    <div class="col-md-3">
-                                                        <input class="form-control" required type="number" id="commission" value="{{$result['value_text']??0}}" @if($result['value']??'' == 1) min="1" max="99" @endif name="commission" placeholder="Enter Commission"/>
-                                                    </div>
-                                                </div>
-                                                </div>
+						<div class="form-group">
+							<label for="example-search-input" class="control-label col-md-4">Percent</label>
+							<div class="col-md-5">
+								<input type="checkbox" class="make-switch" data-size="small" onchange="myFunction()" data-on-color="success" data-on-text="Percent" name="percent" data-off-color="default" data-off-text="Nominal" @if($result['value']??0==1) checked @endif id="percent">
+							</div>
+						</div>
+					   
+						<div id="id_commission">
+							 <div class="form-group">
+							<label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>
+								<i class="fa fa-question-circle tooltips" data-original-title="Percent minimal 1% maksimal 99%" data-container="body"></i></label>
+							<div class="col-md-3">
+								<input class="form-control" required type="number" id="commission" value="{{$result['value_text']??0}}" @if($result['value']??'' == 1) min="1" max="99" @endif name="commission" placeholder="Enter Commission"/>
+							</div>
+						</div>
+						</div>
 					</div>
                                         
 					<div class="form-actions" style="text-align:center;">
