@@ -254,14 +254,20 @@
 							                                <label class="control-label col-md-4">Status </label>
 							                                <div class="col-md-5">
 							                                	@php
-							                                		$serviceStatus = 'Active';
-							                                		if ($s['detail']['transaction_product_service']['is_conflict']) {
-							                                			$serviceStatus =  'Conflict';
-							                                		} 
+							                                		$serviceStatus = 'Pending';
+																	$statusColor = '#c9c9c7';
+																	if(isset($s['detail']['transaction_product_service']['service_status']) && $s['detail']['transaction_product_service']['service_status'] == 'In Progress'){
+																		$serviceStatus = 'In Progress';
+																		$statusColor = '#ffc107';
+																	}
+																	if ($s['detail']['transaction_product_completed_at']) {
+							                                			$serviceStatus =  'Completed';
+																		$statusColor = '#26C281';
+																	} 
 							                                		if ($s['detail']['reject_at']) {
 							                                			$serviceStatus =  'Rejected';
+																		$statusColor = '#E7505A';
 							                                		}
-							                                		$statusColor = ($serviceStatus == 'Active') ? '#26C281' : (($serviceStatus == 'Rejected') ? '#E7505A' : '#ffc107');
 							                                	@endphp
 											                    <span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: {{ $statusColor }}; padding: 5px 12px; color: #fff; margin-top: 5px">{{ $serviceStatus }}</span>
 							                                </div>
