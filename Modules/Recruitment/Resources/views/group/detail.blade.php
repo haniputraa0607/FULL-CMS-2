@@ -162,6 +162,9 @@ S
                     <a href="#status" data-toggle="tab">List Product</a>
                 </li>
                 <li>
+                    <a href="#proteksi" data-toggle="tab">Proteksi Outlet</a>
+                </li>
+                <li>
                     <a href="#fixed" data-toggle="tab">Fixed Incentive</a>
                 </li>
                 <li>
@@ -231,6 +234,9 @@ S
             </div>
             <div class="tab-pane" id="hs">
                 @include('recruitment::group.hs')
+            </div>
+            <div class="tab-pane" id="proteksi">
+                @include('recruitment::group.proteksi')
             </div>
             <div class="tab-pane" id="fixed">
                 @include('recruitment::group.fixed-incentive')

@@ -41,7 +41,7 @@
     
 <script>
         function changeType(type=$("#type").val()) {
-			if(type== "Type 1"){
+			if(type== "Single"){
 				$("#formulas").hide();
 			}else{
 				$("#formulas").show();
@@ -164,7 +164,7 @@
                 <li class="active">
                     <a href="#update" data-toggle="tab"> Update Fixed Incentive</a>
                 </li>
-                @if($result['type'] == 'Type 2')  
+                @if($result['type'] == 'Multiple')  
                 <li>
                     <a href="#overview" data-toggle="tab"> List Detail Default Fixed Incentive</a>
                 </li>
@@ -189,15 +189,15 @@
                                                     <label class="col-md-4 control-label">Name<span class="required" aria-required="true">*</span>
                                                         <i class="fa fa-question-circle tooltips" data-original-title="Name Fixed Incentive" data-container="body"></i>
                                                     </label>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         <input type="text" name="name_fixed_incentive" value="{{$result['name_fixed_incentive']??''}}" placeholder="Masukkan name fixed incentive" class="form-control" required />
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-md-4 control-label">Status<span class="required" aria-required="true">*</span>
-                                                        <i class="fa fa-question-circle tooltips" data-original-title="Type fixed incentive, Type 1 hanya satu data, Type 2 banyak data detail" data-container="body"></i>
+                                                        <i class="fa fa-question-circle tooltips" data-original-title="Type fixed incentive, Single hanya satu data, Multiple banyak data detail" data-container="body"></i>
                                                     </label>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-3">
                                                         <select  class="form-control select2" name="status" id="status"  data-placeholder="Select Type" required>
                                                                 <option></option>
                                                                 <option value="incentive" @if($result['status'] == 'incentive') selected @endif>Incentive</option>
@@ -207,21 +207,21 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-md-4 control-label">Type<span class="required" aria-required="true">*</span>
-                                                        <i class="fa fa-question-circle tooltips" data-original-title="Type fixed incentive, Type 1 hanya satu data, Type 2 banyak data detail" data-container="body"></i>
+                                                        <i class="fa fa-question-circle tooltips" data-original-title="Type fixed incentive, Single hanya satu data, Multiple banyak data detail" data-container="body"></i>
                                                     </label>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-3">
                                                         <select  class="form-control" name="type" id="type" data-placeholder="Select Type" onchange="changeType()" required>
                                                                 
-                                                                <option value="Type 1" @if($result['type'] == 'Type 1') selected @endif>Type 1</option>
-                                                                <option value="Type 2" @if($result['type'] == 'Type 2') selected @endif>Type 2</option>
+                                                                <option value="Single" @if($result['type'] == 'Single') selected @endif>Single</option>
+                                                                <option value="Multiple" @if($result['type'] == 'Multiple') selected @endif>Multiple</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group" id="formulas">
                                                     <label class="col-md-4 control-label">Formula<span class="required" aria-required="true">*</span>
-                                                        <i class="fa fa-question-circle tooltips" data-original-title="Outlet age dihitung dari pertama kali outlet buka data detail ada beberapa (Type 2), years of service dihitung dari masa kerja data detail ada beberapa (Type 2), monthly data detail hanya ada 1 (Type 1)" data-container="body"></i>
+                                                        <i class="fa fa-question-circle tooltips" data-original-title="Outlet age dihitung dari pertama kali outlet buka data detail ada beberapa (Multiple), years of service dihitung dari masa kerja data detail ada beberapa (Multiple), monthly data detail hanya ada 1 (Single)" data-container="body"></i>
                                                     </label>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-3">
                                                         <select  class="form-control" name="formula" data-placeholder="Select formula" required>
                                                                
                                                                 <option value="outlet_age" @if($result['formula'] == 'outlet_age') selected @endif>Outlet Age</option>
@@ -241,7 +241,7 @@
 				</form>
 			</div>
             </div>
-                 @if($result['type'] == 'Type 2')  
+                 @if($result['type'] == 'Multiple')  
             <div class="tab-pane" id="overview">
                 <div class="portlet-body form">
                 <div class="portlet light bordered">
@@ -260,7 +260,7 @@
                                     @if(!empty($detail))
                                         @foreach($detail as $dts)
                                             <tr data-id="{{ $dts['id_hairstylist_group_default_fixed_incentive_detail'] }}">
-                                                <td style="text-align: center;">{{$dts['range']}}</td>
+                                                <td style="text-align: center;">{{$dts['ranges']}}</td>
                                                 <td style="text-align: center;">{{number_format($dts['value']??0,0,',',',')}}</td>
                                                 <td style="text-align: center;">
                                                    <a class="btn btn-sm red btn-primary" href="{{url('recruitment/hair-stylist/default/fixed-incentive/detail/delete/'.$dts['id_hairstylist_group_default_fixed_incentive_detail'])}}"><i class="fa fa-trash-o"></i> Delete</a>
@@ -288,7 +288,7 @@
                                     <label class="col-md-4 control-label">Range<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Range formula" data-container="body"></i>
                                     </label>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <input type="number" name="range" value="{{old('range')}}" placeholder="Masukkan range" class="form-control" required />
                                     </div>
                                 </div>
@@ -296,7 +296,7 @@
                                     <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Value" data-container="body"></i>
                                     </label>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <input type="text" name="value" id='value' value="{{old('value')}}" data-type="currency" placeholder="Masukkan besaran value" class="form-control" required />
                                     </div>
                                 </div>

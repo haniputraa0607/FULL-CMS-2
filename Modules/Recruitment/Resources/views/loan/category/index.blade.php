@@ -212,7 +212,7 @@
                                     <label class="col-md-4 control-label">Name<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Name Category Loan" data-container="body"></i>
                                     </label>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <input type="text" name="name_category_loan" value="{{old('name_category_loan')}}" placeholder="Masukkan name category loan" class="form-control" required />
                                     </div>
                                 </div>

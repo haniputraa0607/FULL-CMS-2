@@ -154,7 +154,7 @@
                                         <label class="col-md-4 control-label">Name<span class="required" aria-required="true">*</span>
                                             <i class="fa fa-question-circle tooltips" data-original-title="Nama Potongan" data-container="body"></i>
                                         </label>
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
                                             <input type="text" name="name" value='{{$result['name']??''}}' placeholder="Masukkan nama potongan" class="form-control" required />
                                         </div>
                                     </div>
@@ -162,7 +162,7 @@
                                         <label class="col-md-4 control-label">Code<span class="required" aria-required="true">*</span>
                                             <i class="fa fa-question-circle tooltips" data-original-title="Code potongan (unik)" data-container="body"></i>
                                         </label>
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
                                             <input type="text" name="code" value='{{$result['code']??''}}' placeholder="Masukkan code potongan" class="form-control" required />
                                         </div>
                                     </div>
@@ -170,7 +170,7 @@
                                         <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
                                             <i class="fa fa-question-circle tooltips" data-original-title="Besar potongan yang diterima oleh hairstylist" data-container="body"></i>
                                         </label>
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
                                             <input type="text" value="{{number_format($result['value']??0,0,',',',')}}"  name="value" id='value' data-type="currency" placeholder="Masukkan besar potongan" class="form-control" required />
                                         </div>
                                     </div>

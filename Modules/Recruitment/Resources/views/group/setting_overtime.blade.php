@@ -153,8 +153,8 @@ $configs     		= session('configs');
                                                      <div class="form-group">
                                                     <label for="example-search-input" class="control-label col-md-4">Overtime<span class="required" aria-required="true">*</span>
                                                         <i class="fa fa-question-circle tooltips" data-original-title="Minimal waktu overtime (1-59)" data-container="body"></i></label>
-                                                    <div class="col-md-6">
-                                                        <input type="number" name="value" min="1" max="59" value="{{$result['value']??0}}" placeholder="Masukkan waktu (minutes)" class="form-control" required />
+                                                    <div class="col-md-2">
+                                                        <input type="number" name="value" min="1" max="60" value="{{$result['value']??0}}" placeholder="Masukkan waktu (minutes)" class="form-control" required />
                                                     </div>
                                                 </div>
                                                 </div>

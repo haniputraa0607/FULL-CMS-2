@@ -1593,7 +1593,7 @@ return [
 				[
 					'label' => 'Setting Incentive & Salary Cuts',
 					'required_features' => [425],
-					'active' => '\View::shared("submenu_active") == "default-hair-stylist-fixed-incentive"',
+					'active' => '\View::shared("submenu_active") == "setting-hs-income"',
 					'url' => 'recruitment/hair-stylist/group/setting-income'
 				],
 				[
@@ -1601,6 +1601,12 @@ return [
 					'required_features' => [425],
 					'active' => '\View::shared("submenu_active") == "setting-hs-overtime"',
 					'url' => 'recruitment/hair-stylist/group/setting-overtime'
+				],
+				[
+					'label' => 'Setting Proteksi',
+					'required_features' => [425],
+					'active' => '\View::shared("submenu_active") == "setting-hs-proteksi"',
+					'url' => 'recruitment/hair-stylist/group/setting-proteksi'
 				],
 				[
 					'label' => 'Salary Fixed Incentive Default HS',

@@ -146,15 +146,29 @@ $configs     		= session('configs');
 				</div>
 			</div>
 			<div class="portlet-body form">
-				<form role="form" class="form-horizontal" action="{{url('recruitment/hair-stylist/group/setting-income-middle')}}" method="POST" enctype="multipart/form-data">
+				<form role="form" class="form-horizontal" action="{{url('recruitment/hair-stylist/group/setting-income')}}" method="POST" enctype="multipart/form-data">
 					{{ csrf_field() }}
 					<div class="form-body">
-                                                <div id="id_commission">
-                                                     <div class="form-group">
+                                            <div id="id_commission">
+                                                <div class="form-group">
+                                                    <label for="example-search-input" class="control-label col-md-4">Date<span class="required" aria-required="true">*</span>
+                                                        <i class="fa fa-question-circle tooltips" data-original-title="tanggal pertengahan perhitungan absensi" data-container="body"></i></label>
+                                                    <div class="col-md-2">
+                                                        <input value="{{$result['mid_date']??''}}" required type="number" min="1" max="28" name="mid_date" id="mid_date" class="form-control" placeholder="Enter date">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="example-search-input" class="control-label col-md-4">Delivery date<span class="required" aria-required="true">*</span>
+                                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal pengiriman pendapatan tengah bulan" data-container="body"></i></label>
+                                                    <div class="col-md-2">
+                                                        <input value="{{$result['delivery_mid_date']??''}}" required type="number" min="1" max="28" name="delivery_mid_date" id="delivery_mid_date" class="form-control" placeholder="Enter date">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
                                                     <label for="example-search-input" class="control-label col-md-4">Calculation Income Middle<span class="required" aria-required="true">*</span>
                                                         <i class="fa fa-question-circle tooltips" data-original-title="Besaran gaji pokok" data-container="body"></i></label>
                                                     <div class="col-md-6">
-                                                      <select class="form-control select2" multiple="multiple" name="code[]" id="code" data-placeholder="Select">
+                                                      <select class="form-control select2" multiple="multiple" name="hs_income_calculation_mid[]" id="code" data-placeholder="Select">
                                                                 <option></option>
                                                                 @foreach($list as $val)
                                                                 <option value="{{$val['code']}}" >{{$val['name']}}</option>
@@ -162,48 +176,42 @@ $configs     		= session('configs');
                                                         </select>
                                                     </div>
                                                 </div>
-                                                </div>
+                                            </div>
 					</div>
-                                        
-					<div class="form-actions" style="text-align:center;">
-						{{ csrf_field() }}
-						<button type="submit" class="btn blue" id="checkBtn">Update</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-        </div>
-        <div class="row" style="margin-top:20px">
-            <div class="col-md-12">
-		<div class="portlet light bordered">
-			<div class="portlet-title">
-				<div class="caption font-blue ">
-					<i class="icon-settings font-blue "></i>
-					<span class="caption-subject bold uppercase">This menu is used to set a ended calculation income hairstylist</span>
-				</div>
-			</div>
-			<div class="portlet-body form">
-				<form role="form" class="form-horizontal" action="{{url('recruitment/hair-stylist/group/setting-income-end')}}" method="POST" enctype="multipart/form-data">
-					{{ csrf_field() }}
-					<div class="form-body">
-                                               
+                                        <div class="caption font-blue ">
+                                                <i class="icon-settings font-blue "></i>
+                                                <span class="caption-subject bold uppercase">This menu is used to set a ended calculation income hairstylist</span>
+                                        </div>
+                                        <div class="form-body">
                                                 <div id="id_commission">
-                                                     <div class="form-group">
-                                                    <label for="example-search-input" class="control-label col-md-4">Calculation Income Ended<span class="required" aria-required="true">*</span>
-                                                        <i class="fa fa-question-circle tooltips" data-original-title="Besaran gaji pokok" data-container="body"></i></label>
-                                                    <div class="col-md-6">
-                                                      <select class="form-control select2" multiple="multiple" name="code[]" id="code_end" data-placeholder="Select">
-                                                                <option></option>
-                                                                @foreach($list as $val)
-                                                                <option value="{{$val['code']}}" >{{$val['name']}}</option>
-                                                                @endforeach
-                                                        </select>
+                                                    <div class="form-group">
+                                                        <label for="example-search-input" class="control-label col-md-4">Date<span class="required" aria-required="true">*</span>
+                                                            <i class="fa fa-question-circle tooltips" data-original-title="Tanggal perhitungan akhir absensi" data-container="body"></i></label>
+                                                        <div class="col-md-2">
+                                                            <input value="{{$result['end_date']??''}}" requiredrequired type="number" min="2" max="28" name="end_date" id="end_date" class="form-control" placeholder="Enter start date">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="example-search-input" class="control-label col-md-4">Delivery date<span class="required" aria-required="true">*</span>
+                                                            <i class="fa fa-question-circle tooltips" data-original-title="Tanggal pengiriman pendapatan akhir bulan" data-container="body"></i></label>
+                                                        <div class="col-md-2">
+                                                            <input value="{{$result['delivery_end_date']??''}}" required type="number" min="1" max="28" name="delivery_end_date" id="delivery_end_date" class="form-control" placeholder="Enter date">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="example-search-input" class="control-label col-md-4">Calculation Income Ended<span class="required" aria-required="true">*</span>
+                                                            <i class="fa fa-question-circle tooltips" data-original-title="Besaran gaji pokok" data-container="body"></i></label>
+                                                        <div class="col-md-6">
+                                                          <select class="form-control select2" multiple="multiple" name="hs_income_calculation_end[]" id="code_end" data-placeholder="Select">
+                                                                    <option></option>
+                                                                    @foreach($list as $val)
+                                                                    <option value="{{$val['code']}}" >{{$val['name']}}</option>
+                                                                    @endforeach
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                </div>
 					</div>
-                                        
 					<div class="form-actions" style="text-align:center;">
 						{{ csrf_field() }}
 						<button type="submit" class="btn blue" id="checkBtn">Update</button>
