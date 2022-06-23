@@ -21,7 +21,7 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="table_insentif">
                        
-                           @if($fixed['type'] == "Type 2")
+                           @if($fixed['type'] == "Multiple")
                             <div class="table-responsive">
                             <form role="form" action="{{url('recruitment/hair-stylist/group/fixed-incentive/create')}}" method="post" enctype="multipart/form-data">
                          <table class="table table-striped table-bordered table-hover" id="kt_datatable">
@@ -38,7 +38,7 @@
                                         @if(!empty($fixed['detail']))
                                         @foreach($fixed['detail'] as $key => $dt)
                                             <tr style="text-align: center" >
-                                                <td style="text-align: center">{{$dt['range']??null}}</td>
+                                                <td style="text-align: center">{{$dt['ranges']??null}}</td>
                                                 <td style="text-align: center">
                                                     <input type="hidden" name="id_hairstylist_group[]" value="{{$id}}"/>
                                                     <input type="hidden" name="id_hairstylist_group_default_fixed_incentive_detail[]" value="{{$dt['id_hairstylist_group_default_fixed_incentive_detail']}}"/>

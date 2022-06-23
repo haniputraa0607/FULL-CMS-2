@@ -224,6 +224,8 @@ class HairStylistGroupController extends Controller
                         $data['overtime'] = $val5;
                         $fixed_incentive = MyHelper::post('recruitment/hairstylist/be/group/fixed-incentive',$post4)['result']??[];
                         $data['fixed_incentive'] = $fixed_incentive;
+                        $proteksi = MyHelper::post('recruitment/hairstylist/be/group/proteksi',$post4)['result']??[];
+                        $data['proteksi'] = $proteksi;
                         $data['lisths'] = MyHelper::post('recruitment/hairstylist/be/group/hs',['id_hairstylist_group'=>$id])['result']??[];
                         $textreplace = array(
                             array(
@@ -1080,7 +1082,14 @@ class HairStylistGroupController extends Controller
                 'menu_active'    => 'setting-hs-income',
                 'submenu_active'    => 'setting-hs-income',
             ];
-           
+           if($post){
+            $query = MyHelper::post('setting/attendances_date_create', $post);;
+            if(($query['status']??'')=='success'){
+                return redirect('recruitment/hair-stylist/group/setting-income')->with('success',['Success update data']);
+            }else{
+                return redirect('recruitment/hair-stylist/group/setting-income')->withErrors([$query['message']]);
+            }
+        }else{
             $mid =  MyHelper::get('setting/hs-income-calculation-mid');
             if($mid){
                 $data['mid'] = array(
@@ -1116,9 +1125,11 @@ class HairStylistGroupController extends Controller
                 array_push($list_potongan,$incen);
             }
             $data['list'] = $list_potongan;
-//            return $data['mid']['value_text'];
+            $query = MyHelper::get('setting/attendances_date');
+            $data['result'] = $query;
             
             return view('recruitment::group.setting_calculation', $data);
+        }
         }
         public function setting_income_middle(Request $request)
               {
@@ -1159,5 +1170,37 @@ class HairStylistGroupController extends Controller
            }
             $data['result'] =  MyHelper::get('setting/overtime-hs');
             return view('recruitment::group.setting_overtime', $data);
+        }
+        public function setting_proteksi(Request $request){
+            $post = $request->except('_token');
+            $data = [
+                'title'          => 'Setting Proteksi Hairstylist',
+                'menu_active'    => 'setting-hs-proteksi',
+                'submenu_active'    => 'setting-hs-proteksi',
+            ];
+           if($post){
+               $post['value'] = str_replace(',','', $post['value']??0);
+                $query = MyHelper::post('setting/proteksi-hs-create', $post);
+                  if(isset($query['status']) && $query['status'] == 'success'){
+                          return back()->withSuccess(['Update Setting Success']);
+                  } else{
+                          return back()->withInput($request->input())->withErrors($query['messages']);
+                  }
+           }
+            $data['result'] =  MyHelper::get('setting/proteksi-hs')['value_text']??[];
+            if($data['result']){
+            $data['result'] = json_decode($data['result'],true);
+            }
+            return view('recruitment::group.setting_proteksi', $data);
+        }
+        public function create_proteksi(Request $request){
+            $post = $request->except('_token');
+            $post['value'] = str_replace(',','', $post['value']??0);
+            $query = MyHelper::post('recruitment/hairstylist/be/group/proteksi/create', $post);
+            if(isset($query['status']) && $query['status'] == 'success'){
+                    return back()->withSuccess(['Hair Stylist Group Proteksi Update Success']);
+            } else{
+                    return back()->withInput($request->input())->withErrors($query['messages']);
+            }
         }
 }

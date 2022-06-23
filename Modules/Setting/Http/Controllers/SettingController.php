@@ -1630,9 +1630,9 @@ class SettingController extends Controller
         if($post){
             $query = MyHelper::post('setting/attendances_date_create', $post);;
             if(($query['status']??'')=='success'){
-                return redirect('setting/setting-attendances-date')->with('success',['Success update data']);
+                return redirect('recruitment/hair-stylist/group/setting-income')->with('success',['Success update data']);
             }else{
-                return redirect('setting/setting-attendances-date')->withErrors([$query['message']]);
+                return redirect('recruitment/hair-stylist/group/setting-income')->withErrors([$query['message']]);
             }
         }else{
             $query = MyHelper::get('setting/attendances_date');

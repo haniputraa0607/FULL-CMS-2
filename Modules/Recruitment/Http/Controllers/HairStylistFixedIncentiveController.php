@@ -67,7 +67,7 @@ class HairStylistFixedIncentiveController extends Controller
                    $page = '?page='.$post['page'];
                }
               
-               $list = MyHelper::post('recruitment/hairstylist/be/group/fixed-incentive/default'.$page, $post)['result']??[];
+              $list = MyHelper::post('recruitment/hairstylist/be/group/fixed-incentive/default'.$page, $post)['result']??[];
                $val = array();
                 foreach ($list as $value){
                     $value['id_enkripsi'] = MyHelper::createSlug($value['id_hairstylist_group_default_fixed_incentive'],$value['created_at']);
@@ -80,7 +80,7 @@ class HairStylistFixedIncentiveController extends Controller
               {
                  $post = $request->except('_token');
                  $post['value'] = str_replace(',','', $post['value']??0);
-                 if($post['type']=="Type 1"){
+                 if($post['type']=="Single"){
                     $post['formula'] = "monthly"; 
                  }
                  $query = MyHelper::post('recruitment/hairstylist/be/group/fixed-incentive/default/create', $post);
@@ -105,7 +105,7 @@ class HairStylistFixedIncentiveController extends Controller
             public function default_update(Request $request)
               {
                  $post = $request->except('_token');
-                 if($post['type']=="Type 1"){
+                 if($post['type']=="Single"){
                     $post['formula'] = "monthly"; 
                  }
                  $query = MyHelper::post('recruitment/hairstylist/be/group/fixed-incentive/default/update', $post);

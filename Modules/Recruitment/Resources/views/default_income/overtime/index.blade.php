@@ -211,7 +211,7 @@
                                     <label class="col-md-4 control-label">Hours<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Jumlah Jam" data-container="body"></i>
                                     </label>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <input type="number" name="hours" value="{{old('hours')}}" placeholder="Masukkan jam overtime" class="form-control" required />
                                     </div>
                                 </div>
@@ -219,7 +219,7 @@
                                     <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Besar insentif yang diterima oleh hairstylist" data-container="body"></i>
                                     </label>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <input type="text" name="value" id='value' value="{{old('value')}}" data-type="currency" placeholder="Masukkan besar insentif" class="form-control" required />
                                     </div>
                                 </div>
