@@ -13,8 +13,8 @@
 
 Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'hair-stylist'], function()
 {
-    Route::get('commision/filter', ['uses' => 'HairStylistController@exportCommision']);
-    Route::post('commision/export', ['uses' => 'HairStylistController@exportCommision']);
+    Route::get('commission/filter', ['uses' => 'HairStylistController@exportCommission']);
+    Route::post('commission/export', ['uses' => 'HairStylistController@exportCommission']);
     Route::get('payroll/filter', ['uses' => 'HairStylistController@exportPayroll']);
     Route::post('payroll/export', ['uses' => 'HairStylistController@exportPayroll']);
 
@@ -130,6 +130,15 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
 	    Route::get('detail/{id}', ['middleware' => 'feature_control:429', 'uses' => 'HairStylistUpdateDataController@detail']);
 	    Route::post('update/{id}', ['middleware' => 'feature_control:430', 'uses' => 'HairStylistUpdateDataController@update']);
 	});
+	Route::group(['prefix' => 'loan'], function()
+	{
+	    Route::any('/category', ['middleware' => 'feature_control:428,429,430', 'uses' => 'HairStylistLoanController@index_category']);
+	    Route::post('/category/create', ['middleware' => 'feature_control:428,429,430', 'uses' => 'HairStylistLoanController@create_category']);
+	    Route::post('/category/delete/{id}', ['middleware' => 'feature_control:428,429,430', 'uses' => 'HairStylistLoanController@delete_category']);
+	    Route::any('/', ['middleware' => 'feature_control:428,429,430', 'uses' => 'HairStylistLoanController@index']);
+	    Route::post('/create', ['middleware' => 'feature_control:428,429,430', 'uses' => 'HairStylistLoanController@create']);
+	    Route::get('/detail/{id}', ['middleware' => 'feature_control:428,429,430', 'uses' => 'HairStylistLoanController@detail']);
+	});
 
 	Route::group(['prefix' => 'group'], function()
 	{
@@ -160,6 +169,14 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
 	    Route::any('commission/filter_hs', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@filter_hs']);	 	    
 	    Route::any('commission/filter_insentif', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@filter_insentif']);	 	    
 	    Route::any('commission/filter_potongan', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@filter_potongan']);	 	    
+	    
+            Route::post('proteksi/create', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@create_proteksi']);	 	    
+            
+            Route::any('setting-overtime', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@setting_overtime']);	 	    
+            Route::any('setting-proteksi', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@setting_proteksi']);	 	    
+            Route::any('setting-income', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@setting_income']);	 	    
+            Route::any('setting-income-middle', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@setting_income_middle']);	 	    
+            Route::any('setting-income-end', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@setting_income_end']);	 	    
 	});
 	Route::group(['prefix' => 'default'], function()
 	{

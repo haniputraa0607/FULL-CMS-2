@@ -1,5 +1,10 @@
-
+<?php
+use App\Lib\MyHelper;
+$grantedFeature     = session('granted_features');
+$configs     		= session('configs');
+?>
 @extends('layouts.main')
+
 
 @section('page-style')
 	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
@@ -34,7 +39,6 @@
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/components-multi-select.min.js') }}" type="text/javascript"></script>
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/components-date-time-pickers.min.js') }}" type="text/javascript"></script>
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/ui-confirmations.min.js') }}" type="text/javascript"></script>
-	   
 <script>
   $(document).ready(function () {
         $("input[data-type='currency']").on({
@@ -45,7 +49,7 @@
               formatCurrency($(this), "blur");
             }
         });
-
+        
 
         function formatNumber(n) {
           // format number 1000000 to 1,234,567
@@ -112,85 +116,48 @@
 		var textvaluebaru = textvalue+" "+param;
 		$('#formula').val(textvaluebaru);
         }
-    </script>
+    </script>	
 @endsection
 
 @section('content')
- <div class="page-bar">
-        <ul class="page-breadcrumb">
-            <li>
-                <a href="/">Home</a>
-                <i class="fa fa-circle"></i>
-            </li>
-            <li>
-                <span>{{ $title }}</span>
-                @if (!empty($sub_title))
-                    <i class="fa fa-circle"></i>
-                @endif
-            </li>
-            @if (!empty($sub_title))
-            <li>
-                <span>{{ $sub_title }}</span>
-            </li>
-            @endif
-        </ul>
-    </div>
-@include('layouts.notifications')
-<div class="row" style="margin-top:20px">
-	<div class="col-md-12">
+	<div class="page-bar">
+		<ul class="page-breadcrumb">
+			<li>
+				<a href="{{url('/')}}">Home</a>
+				<i class="fa fa-circle"></i>
+			</li>
+			<li>
+				{{$title}}
+			</li>
+		</ul>
+	</div>
+	<br>
+
+
+	@include('layouts.notifications')
+	<br>
+        <div class="row" style="margin-top:20px">
+            <div class="col-md-12">
 		<div class="portlet light bordered">
 			<div class="portlet-title">
 				<div class="caption font-blue ">
 					<i class="icon-settings font-blue "></i>
-					<span class="caption-subject bold uppercase">Update Default Incentive Hair Stylist</span>
+					<span class="caption-subject bold uppercase">This menu is used to set a overtime minutes</span>
 				</div>
 			</div>
 			<div class="portlet-body form">
-				<form role="form" class="form-horizontal" action="{{url('recruitment/hair-stylist/default/insentif/update')}}" method="POST" enctype="multipart/form-data">
+				<form role="form" class="form-horizontal" action="{{url('recruitment/hair-stylist/group/setting-overtime')}}" method="POST" enctype="multipart/form-data">
 					{{ csrf_field() }}
 					<div class="form-body">
-						<input type="hidden" name="id_hairstylist_group_default_insentifs" value="{{$result['id_hairstylist_group_default_insentifs']}}">
-                                                <div class="form-group">
-                                        <label class="col-md-4 control-label">Name<span class="required" aria-required="true">*</span>
-                                            <i class="fa fa-question-circle tooltips" data-original-title="Nama Insentif" data-container="body"></i>
-                                        </label>
-                                        <div class="col-md-3">
-                                            <input type="text" name="name" value='{{$result['name']??''}}' placeholder="Masukkan nama insentif" class="form-control" required />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label">Code<span class="required" aria-required="true">*</span>
-                                            <i class="fa fa-question-circle tooltips" data-original-title="Code insentif (unik)" data-container="body"></i>
-                                        </label>
-                                        <div class="col-md-3">
-                                            <input type="text" name="code" value='{{$result['code']??''}}' placeholder="Masukkan code insentif" class="form-control" required />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
-                                            <i class="fa fa-question-circle tooltips" data-original-title="Besar insentif yang diterima oleh hairstylist" data-container="body"></i>
-                                        </label>
-                                        <div class="col-md-3">
-                                            <input type="text" value="{{number_format($result['value']??0,0,',',',')}}"  name="value" id='value' data-type="currency" placeholder="Masukkan besar insentif" class="form-control" required />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label">Formula<span class="required" aria-required="true">*</span>
-                                            <i class="fa fa-question-circle tooltips" data-original-title="Rumus insentif yang digunakan dalam perhitungan pendapatan hairstylist (value * frekuensi)" data-container="body"></i>
-                                        </label>
-                                        <div class="col-md-6">
-                                            <textarea name="formula" id="formula" class="form-control" placeholder="Enter rumus insentif">{{$result['formula']??''}}</textarea>
-                                            <br>
-                                            <div class="row">
-                                                  @foreach($textreplace as $key=>$row)
-                                                          <div class="col-md-4" style="margin-bottom:5px;">
-                                                                  <span class="btn dark btn-xs btn-block btn-outline var" data-toggle="tooltip" title="{{ $row['message'] }}" onClick="addFormula('{{ $row['keyword'] }}');">{{ str_replace('_',' ',$row['keyword']) }}</span>
-                                                          </div>
-                                                  @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-                                              
+                                                <div id="id_commission">
+                                                     <div class="form-group">
+                                                    <label for="example-search-input" class="control-label col-md-4">Overtime<span class="required" aria-required="true">*</span>
+                                                        <i class="fa fa-question-circle tooltips" data-original-title="Minimal waktu overtime (1-59)" data-container="body"></i></label>
+                                                    <div class="col-md-2">
+                                                        <input type="number" name="value" min="1" max="60" value="{{$result['value']??0}}" placeholder="Masukkan waktu (minutes)" class="form-control" required />
+                                                    </div>
+                                                </div>
+                                                </div>
 					</div>
                                         
 					<div class="form-actions" style="text-align:center;">
@@ -201,5 +168,5 @@
 			</div>
 		</div>
 	</div>
-</div>
-@endsection 
+    </div>
+@endsection

@@ -62,6 +62,7 @@ class TransactionSettingController extends Controller
             'refund_midtrans' => MyHelper::post('setting', ['key' => 'refund_midtrans'])['result']['value']??0,
             'refund_ipay88' => MyHelper::post('setting', ['key' => 'refund_ipay88'])['result']['value']??0,
             'refund_shopeepay' => MyHelper::post('setting', ['key' => 'refund_shopeepay'])['result']['value']??0,
+            'refund_xendit' => MyHelper::post('setting', ['key' => 'refund_xendit'])['result']['value']??0,
             'refund_failed_process_balance' => MyHelper::post('setting', ['key' => 'refund_failed_process_balance'])['result']['value']??0,
         ];
 
@@ -89,6 +90,7 @@ class TransactionSettingController extends Controller
             'refund_midtrans' => ['value', $request->refund_midtrans?1:0],
             'refund_ipay88' => ['value', $request->refund_ipay88?1:0],
             'refund_shopeepay' => ['value', $request->refund_shopeepay?1:0],
+            'refund_xendit' => ['value', $request->refund_xendit?1:0],
             'refund_failed_process_balance' => ['value', $request->refund_failed_process_balance?1:0]
         ];
         $data = MyHelper::post('setting/update2', ['update' => $sendData]);

@@ -113,6 +113,9 @@
                             case 'ipay88':
                                 return `${value} (${row.transaction_payment_ipay88.payment_method})`;
                                 break;
+                            case 'xendit':
+                                return `${value} (${row.transaction_payment_xendit.type})`;
+                                break;
                         }
                         return value;
                     }
@@ -132,6 +135,9 @@
                             case 'shopeepay':
                                 return row.transaction_payment_shopee_pay?.transaction_sn;
                                 break;
+                            case 'xendit':
+                                return row.transaction_payment_xendit?.xendit_id;
+                                break;
                         }
                         return '';
                     }
@@ -142,7 +148,13 @@
                 },
                 {
                     data: 'manual_refund_nominal',
-                    render:  value => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(value)
+                    render: function(value, type, row){
+                        if(value > 0){
+                            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(value)
+                        }else{
+                            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(row.transaction_grandtotal)
+                        }
+                    }
                 },
                 {
                     data: 'failed_void_reason'
@@ -170,8 +182,11 @@
                             `<button type="button" class="btn ${row.need_manual_void == 1 ? 'yellow confirm-btn' : 'green detail-btn'} btn-sm btn-outline" data-data='${JSON.stringify(row)}'>${row.need_manual_void == 1 ? 'Confirm Process' : 'Detail Refund'} ${row.need_manual_void == 1 ? tooltipConfirmProcess : tooltipDetailRefund}</button>`,
                             `<a class="btn blue btn-sm btn-outline" href="{{url('transaction')}}/${row.transaction_from}/detail/${row.id_transaction}">Detail Transaction ${tooltipDetailTransaction}</a>`
                         ];
-                        if (['shopeepay', 'midtrans', 'xendit'].includes(row.trasaction_payment_type.toLowerCase()) && row.need_manual_void == '1') {
-                            buttons.unshift(`<button type="button" class="btn green btn-sm btn-outline retry-btn" data-data='${JSON.stringify(row)}'>Retry ${tooltipRetry}</button>`);
+
+                        if(row.need_manual_void == '1' && row.trasaction_payment_type.toLowerCase() == 'xendit' && ["OVO","DANA","LINKAJA","SHOPEEPAY","SAKUKU"].includes(row.transaction_payment_xendit.type.toUpperCase())){
+                            buttons.unshift(`<button type="button" class="btn green btn-sm btn-outline retry-btn" data-data='${JSON.stringify(row)}' data-idtransaction='${row.id_transaction}'>Retry ${tooltipRetry}</button>`);
+                        }else if(row.need_manual_void == '1' && row.trasaction_payment_type.toLowerCase() == 'midtrans'){
+                            buttons.unshift(`<button type="button" class="btn green btn-sm btn-outline retry-btn" data-data='${JSON.stringify(row)}' data-idtransaction='${row.id_transaction}'>Retry ${tooltipRetry}</button>`);
                         }
 
                         return buttons.join('');
@@ -197,9 +212,11 @@
         $('#table-failed-void').on('click', '.retry-btn', function() {
             const parent = $(this).parents('tr');
             const data = $(this).data('data');
+            const idtransaction =  $(this).data('idtransaction');
+
             $.blockUI({ message: '<h1>Please wait...</h1>' });
             $.post("{{url('transaction/retry-void-payment/retry')}}", {
-                id_transaction: data.id_transaction,
+                id_transaction: idtransaction,
                 _token: "{{csrf_token()}}"
             }, function(response) {
                 if (response.status == 'success') {

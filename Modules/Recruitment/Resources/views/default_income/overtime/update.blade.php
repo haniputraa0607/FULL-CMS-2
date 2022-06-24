@@ -154,7 +154,7 @@
                                         <label class="col-md-4 control-label">Hours<span class="required" aria-required="true">*</span>
                                             <i class="fa fa-question-circle tooltips" data-original-title="Jumlah Jam" data-container="body"></i>
                                         </label>
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
                                             <input type="number" name="hours" value="{{$result['hours']}}" placeholder="Masukkan jam overtime" class="form-control" required />
                                         </div>
                                     </div>
@@ -162,7 +162,7 @@
                                         <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
                                             <i class="fa fa-question-circle tooltips" data-original-title="Besar overtime yang diterima oleh hairstylist" data-container="body"></i>
                                         </label>
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
                                             <input type="text" value="{{number_format($result['value']??0,0,',',',')}}"  name="value" id='value' data-type="currency" placeholder="Masukkan besar overtime" class="form-control" required />
                                         </div>
                                     </div>

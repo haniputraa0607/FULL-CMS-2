@@ -147,49 +147,86 @@
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">Default Overtime Salary Hair Stylist</span>
+                <span class="caption-subject sbold uppercase font-blue">Detail Loan Hair Stylist</span>
             </div>
         </div>
         <div class="tabbable-line tabbable-full-width">
-            <ul class="nav nav-tabs">
-                <li class="active">
-                    <a href="#overview" data-toggle="tab"> List Default Overtime</a>
-                </li>
-                <li>
-                    <a href="#create" data-toggle="tab">Create Default Overtime</a>
-                </li>
-            </ul>
-            <div class="tab-content">
-            <div class="tab-pane active" id="overview">
+          
+            <div class="tab-pane active" id="update">
                 <div class="portlet-body form">
-                    @yield('filter')
-                    
-                <div class="portlet light bordered">
-                    <div class="portlet-title">
-                        <div class="caption">
-                            <span class="caption-subject font-blue sbold uppercase">{{ $sub_title }}</span>
+                    <form role="form" class="form-horizontal" action="{{url('recruitment/hair-stylist/default/fixed-incentive/update')}}" method="POST" enctype="multipart/form-data">
+                            {{ csrf_field() }}
+                        <div class="row">
+                            <div class="col-sm-6"><div class="form-body">
+                                      <div class="form-group">
+                                        <div class="col-md-4">Name Hs</div>
+                                        <div class="col-md-6">
+                                           : {{$data['fullname']??''}}
+                                        </div>
+                                       </div>
+                                      <div class="form-group">
+                                        <div class="col-md-4">Code Hs</div>
+                                        <div class="col-md-6">
+                                           : {{$data['user_hair_stylist_code']??''}}
+                                        </div>
+                                       </div>
+                                      <div class="form-group">
+                                        <label class="col-md-4">Category Loan</label>
+                                        <div class="col-md-6">
+                                           : {{$data['name_category_loan']??''}}
+                                        </div>
+                                       </div>
+                            </div></div>
+                            <div class="col-sm-6"><div class="form-body">
+                                      <div class="form-group">
+                                        <label class="col-md-4">Amount</label>
+                                        <div class="col-md-6">
+                                            : Rp {{number_format($data['amount']??0,0,',',',')}}
+                                        </div>
+                                       </div>
+                                      <div class="form-group">
+                                        <label class="col-md-4">Installment</label>
+                                        <div class="col-md-6">
+                                            : {{$data['installment']??''}}
+                                        </div>
+                                       </div>
+                                      <div class="form-group">
+                                        <label class="col-md-4">Type</label>
+                                        <div class="col-md-6">
+                                            : {{$data['type']??''}}
+                                        </div>
+                                      </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="portlet-body form">
+                    </form>
+                </div>
+                <div class="portlet-body form">
                         <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover" id="kt_datatable">
                                     <thead>
                                     <tr>
-                                        <th class="text-nowrap text-center">Hours</th>
-                                        <th class="text-nowrap text-center">Value</th>
-                                        <th class="text-nowrap text-center">Action</th>
+                                        <th class="text-nowrap text-center">Return Date</th>
+                                        <th class="text-nowrap text-center">Pay Date</th>
+                                        <th class="text-nowrap text-center">Amount</th>
+                                        <th class="text-nowrap text-center">Status</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @if(!empty($data))
-                                        @foreach($data as $dt)
-                                            <tr data-id="{{ $dt['id_hairstylist_group_default_overtimes'] }}">
-                                                <td style="text-align: center;">{{$dt['hours']}}</td>
-                                                <td style="text-align: center;">{{"Rp " . number_format($dt['value']??0,2,',','.')}}</td>
+                                    @if(!empty($data['loan']))
+                                        @foreach($data['loan'] as $dts)
+                                            <tr>
+                                                <td style="text-align: center;">{{$dts['return_date']}}</td>
+                                                <td style="text-align: center;">{{$dts['date_pay']??''}}</td>
+                                                <td style="text-align: center;">{{number_format($dts['amount_return']??0,0,',',',')}}</td>
                                                 <td style="text-align: center;">
-                                                   <a href="{{ url('recruitment/hair-stylist/default/overtime/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
-                                                   <a class="btn btn-sm red btn-primary" href="{{url('recruitment/hair-stylist/default/overtime/delete/'.$dt['id_enkripsi'])}}"><i class="fa fa-trash-o"></i> Delete</a>
-                                                </td>
+                                                    @if($dts['status_return'] == 'Pending')
+                                                                    <span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: #9b9e9c;padding: 5px 12px;color: #fff;">Pending</span>
+                                                            @else
+                                                                    <span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: #26C281;padding: 5px 12px;color: #fff;">Success</span>
+                                                            @endif
+                                                    </td>
+                                                
                                             </tr>
                                         @endforeach
                                     @else
@@ -201,40 +238,7 @@
                                 </table>
                     </div>
                     </div>
-                </div>
-                </div>
             </div>
-            <div class="tab-pane" id="create">
-                <form class="form-horizontal" role="form" action="{{url('recruitment/hair-stylist/default/overtime/create')}}" method="post" enctype="multipart/form-data">
-                            <div class="form-body">
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label">Hours<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Jumlah Jam" data-container="body"></i>
-                                    </label>
-                                    <div class="col-md-3">
-                                        <input type="number" name="hours" value="{{old('hours')}}" placeholder="Masukkan jam overtime" class="form-control" required />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Besar insentif yang diterima oleh hairstylist" data-container="body"></i>
-                                    </label>
-                                    <div class="col-md-3">
-                                        <input type="text" name="value" id='value' value="{{old('value')}}" data-type="currency" placeholder="Masukkan besar insentif" class="form-control" required />
-                                    </div>
-                                </div>
-                                <div class="form-actions">
-                                    {{ csrf_field() }}
-                                    <div class="row">
-                                        <div class="col-md-offset-4 col-md-8">
-                                            <button type="submit" class="btn blue">Submit</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-            </div>
-        </div>
         </div>
     </div>
 @endsection
