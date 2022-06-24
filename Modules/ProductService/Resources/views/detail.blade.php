@@ -534,7 +534,7 @@
                     else {
                         toastr.warning("Please check dimension of your photo.");
                         $('#imageproduct').children('img').attr('src', 'https://www.placehold.it/300x300/EFEFEF/AAAAAA&amp;text=no+image');
-                        $('#fieldphoto').val("");
+                        $('#remove_fieldphoto').trigger( "click" );
 
                     }
                 };
