@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 
 use App\Lib\MyHelper;
+use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Distributions\F;
 
 class SettingController extends Controller
 {
@@ -1600,7 +1601,7 @@ class SettingController extends Controller
             return view('setting::icount.setting_icount', $data);
         }
     }
-    public function setting_global_commission(Request $request){
+    public function settingGlobalCommission(Request $request){
         $post = $request->except('_token');
         $data = [
             'title'          => 'Setting Global Commission Engine',
@@ -1618,6 +1619,15 @@ class SettingController extends Controller
             $query = MyHelper::get('setting/global_commission_product');
             $data['result'] = $query;
             return view('setting::setting_global_commission', $data);
+        }
+    }
+    public function settingGlobalCommissionRefresh(Request $request){
+        $post = $request->except('_token');
+        $data = MyHelper::post('setting/global_commission_product_refresh', $post);
+        if (isset($data['status']) && $data['status'] == "success") {
+            return back()->withSuccess(['Succes to refresh commission transaction']);
+        }else {
+            return back()->withErrors($data['messages'] ?? ['Something when wrong. Please try again.'])->withInput();
         }
     }
     public function attendances_date(Request $request){
