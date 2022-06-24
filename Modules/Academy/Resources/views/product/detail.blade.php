@@ -655,7 +655,35 @@
                     else {
                         toastr.warning("Please check dimension of your photo.");
                         $('#imageproduct').children('img').attr('src', 'https://www.placehold.it/300x300/EFEFEF/AAAAAA&amp;text=no+image');
-                        $('#fieldphoto').val("");
+                        $('#remove_fieldphoto').trigger( "click" );
+
+                    }
+                };
+
+                image.src = _URL.createObjectURL(file);
+            }
+
+        });
+
+        $(".filePhotoDetail").change(function(e) {
+            var widthImg  = 720;
+            var heightImg = 360;
+
+            var _URL = window.URL || window.webkitURL;
+            var image, file;
+
+            if ((file = this.files[0])) {
+                image = new Image();
+
+                image.onload = function() {
+                    if (this.width == widthImg && this.height == heightImg) {
+                        // image.src = _URL.createObjectURL(file);
+                        //    $('#formimage').submit()
+                    }
+                    else {
+                        toastr.warning("Please check dimension of your photo.");
+                        $('#imageproductDetail').children('img').attr('src', 'https://www.placehold.it/720x360/EFEFEF/AAAAAA&amp;text=no+image');
+                        $('#remove_fieldphotodetail').trigger( "click" );
 
                     }
                 };

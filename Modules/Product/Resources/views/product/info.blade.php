@@ -165,10 +165,10 @@
                         <span class="btn default btn-file">
                         <span class="fileinput-new"> Select image </span>
                         <span class="fileinput-exists"> Change </span>
-                        <input type="file" class="file" id="fieldphoto" accept="image/*" name="photo">
+                        <input type="file" class="file" id="fieldphoto" accept="image/*" name="photo" @if(empty($syu['photos'][0]['url_product_photo'])) required @endif>
                         </span>
 
-                        <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                        <a href="javascript:;" id="remove_fieldphoto" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
                     </div>
                 </div>
             </div>
@@ -188,7 +188,7 @@
                         <span class="btn default btn-file">
                         <span class="fileinput-new"> Select image </span>
                         <span class="fileinput-exists"> Change </span>
-                        <input type="file" class="filePhotoDetail" id="fieldphotodetail" accept="image/*" name="product_photo_detail">
+                        <input type="file" class="filePhotoDetail" id="fieldphotodetail" accept="image/*" name="product_photo_detail" @if(empty($syu['product_photo_detail'])) required @endif>
                         </span>
 
                         <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
