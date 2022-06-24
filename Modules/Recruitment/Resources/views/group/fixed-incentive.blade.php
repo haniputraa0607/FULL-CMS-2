@@ -40,9 +40,9 @@
                                             <tr style="text-align: center" >
                                                 <td style="text-align: center">{{$dt['ranges']??null}}</td>
                                                 <td style="text-align: center">
-                                                    <input type="hidden" name="id_hairstylist_group[]" value="{{$id}}"/>
-                                                    <input type="hidden" name="id_hairstylist_group_default_fixed_incentive_detail[]" value="{{$dt['id_hairstylist_group_default_fixed_incentive_detail']}}"/>
-                                                    <input type="text" name="value[]" id='value' value="@if($dt['default']==1 && $dt['value'] != null){{number_format($dt['value']??null,0,',',',')}}@endif" data-type="currency" placeholder="{{number_format($dt['default_value']??0,0,',',',')}}" class="form-control" /></input></td>
+                                                    <input type="hidden" name="id_hairstylist_group[]" value="{{$id}}"  @if($dt['id_hairstylist_group_default_fixed_incentive_detail']==null) disabled @endif/>
+                                                    <input type="hidden" name="id_hairstylist_group_default_fixed_incentive_detail[]" value="{{$dt['id_hairstylist_group_default_fixed_incentive_detail']}}"  @if($dt['id_hairstylist_group_default_fixed_incentive_detail']==null) disabled @endif/>
+                                                    <input type="text" @if($dt['id_hairstylist_group_default_fixed_incentive_detail']==null) disabled @endif name="value[]" id='value' value="@if($dt['default']==1 && $dt['value'] != null){{number_format($dt['value']??null,0,',',',')}}@endif" data-type="currency" placeholder="{{number_format($dt['default_value']??0,0,',',',')}}" class="form-control" /></input></td>
                                                 
                                             </tr>
                                         @endforeach

@@ -263,7 +263,9 @@
                                                 <td style="text-align: center;">{{$dts['ranges']}}</td>
                                                 <td style="text-align: center;">{{number_format($dts['value']??0,0,',',',')}}</td>
                                                 <td style="text-align: center;">
+                                                    @if(!isset($dts['default']))
                                                    <a class="btn btn-sm red btn-primary" href="{{url('recruitment/hair-stylist/default/fixed-incentive/detail/delete/'.$dts['id_hairstylist_group_default_fixed_incentive_detail'])}}"><i class="fa fa-trash-o"></i> Delete</a>
+                                                   @endif
                                                 </td>
                                             </tr>
                                         @endforeach
