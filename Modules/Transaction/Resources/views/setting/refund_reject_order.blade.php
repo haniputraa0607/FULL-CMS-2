@@ -114,6 +114,7 @@
                     </select>
                 </div>
             </div>
+            {{--
             <div class="form-group">
                 <div class="input-icon right">
                     <label class="col-md-3 control-label">
@@ -144,6 +145,7 @@
                     </select>
                 </div>
             </div>
+            --}}
             <div class="form-group">
                 <div class="input-icon right">
                     <label class="col-md-3 control-label">
