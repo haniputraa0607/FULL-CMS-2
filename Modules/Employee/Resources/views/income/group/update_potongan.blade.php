@@ -107,11 +107,6 @@
           input[0].setSelectionRange(caret_pos, caret_pos);
         }
     })
-    function addFormula(param){
-		var textvalue = $('#formula').val();
-		var textvaluebaru = textvalue+" "+param;
-		$('#formula').val(textvaluebaru);
-        }
     </script>
 @endsection
 
@@ -142,30 +137,38 @@
 			<div class="portlet-title">
 				<div class="caption font-blue ">
 					<i class="icon-settings font-blue "></i>
-					<span class="caption-subject bold uppercase">Update Default Overtime Hair Stylist</span>
+					<span class="caption-subject bold uppercase">Update Potongan Hair Stylist Group</span>
 				</div>
 			</div>
 			<div class="portlet-body form">
-				<form role="form" class="form-horizontal" action="{{url('employee/income/default/overtime/update')}}" method="POST" enctype="multipart/form-data">
+				<form role="form" class="form-horizontal" action="{{url('recruitment/hair-stylist/group/potongan/update')}}" method="POST" enctype="multipart/form-data">
 					{{ csrf_field() }}
 					<div class="form-body">
-						<input type="hidden" name="id_employee_role_default_overtime" value="{{$result['id_employee_role_default_overtime']}}">
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label">Hours<span class="required" aria-required="true">*</span>
-                                            <i class="fa fa-question-circle tooltips" data-original-title="Jumlah Jam" data-container="body"></i>
-                                        </label>
-                                        <div class="col-md-6">
-                                            <input type="number" name="hours" value="{{$result['hours']}}" placeholder="Masukkan jam overtime" class="form-control" required />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
-                                            <i class="fa fa-question-circle tooltips" data-original-title="Besar overtime yang diterima oleh hairstylist" data-container="body"></i>
-                                        </label>
-                                        <div class="col-md-6">
-                                            <input type="text" value="{{number_format($result['value']??0,0,',',',')}}"  name="value" id='value' data-type="currency" placeholder="Masukkan besar overtime" class="form-control" required />
-                                        </div>
-                                    </div>
+						<input type="hidden" name="id_hairstylist_group_potongan" value="{{$result['id_hairstylist_group_potongan']}}">
+                                                <div class="form-group">
+                                                <label class="col-md-4 control-label">Name<span class="required" aria-required="true">*</span>
+                                                    <i class="fa fa-question-circle tooltips" data-original-title="Nama potongan yang berasal dari data default potongan" data-container="body"></i>
+                                                </label>
+                                                    <div class="col-md-6">
+                                                        <input disabled type="text" value="{{$result['name']??''}}" name="name_potongan" placeholder="Masukkan nama potongan" class="form-control" required />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
+                                                        <i class="fa fa-question-circle tooltips" data-original-title="Value potongan dari pergrup digunakan untuk perhitungan pendapatan hairstylist" data-container="body"></i>
+                                                    </label>
+                                                    <div class="col-md-6">
+                                                        <input type="text" name="value" value="{{number_format($result['value']??0,0,',',',')}}" id='value' data-type="currency" placeholder="Masukkan nama potongan" class="form-control" required />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label">Formula<span class="required" aria-required="true">*</span>
+                                                        <i class="fa fa-question-circle tooltips" data-original-title="Rumus perhitungan potongan pergrup (value * frekuensi)" data-container="body"></i>
+                                                    </label>
+                                                    <div class="col-md-6">
+                                                        <textarea name="formula" id="formula" class="form-control" placeholder="Enter rumus potongan">{{$result['formula']??''}}</textarea>
+                                                    </div>
+                                                </div>
                                               
 					</div>
                                         
@@ -178,4 +181,28 @@
 		</div>
 	</div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="text/javascript">
+        function myFunction() {
+          var id_percent     	=  $("input[name='percent']:checked").val();
+              if(id_percent == 'on'){
+                 var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span><i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label><div class="col-md-6"><input class="form-control" required type="number" id="commission" name="commission" min="1" max="99" placeholder="Enter Commission Percent"/></div></div>';
+              }else{
+                 var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
+                         <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
+                        <div class="col-md-6">\
+                          <input class="form-control" required type="number" id="commission" name="commission"  placeholder="Enter Commission Nominal"/>\
+                        </div></div>'; 
+
+              }
+          $('#id_commission').html(html);
+        }
+        $(document).ready(function () {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+            });
+        </script>
 @endsection 

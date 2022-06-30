@@ -1,3 +1,7 @@
+@include('recruitment::group.filter_commission')
+@include('recruitment::group.filter_hs')
+@include('recruitment::group.filter_insentif')
+@include('recruitment::group.filter_potongan')
 <?php
     use App\Lib\MyHelper;
     $grantedFeature     = session('granted_features');
@@ -49,7 +53,7 @@
               formatCurrency($(this), "blur");
             }
         });
-        
+
 
         function formatNumber(n) {
           // format number 1000000 to 1,234,567
@@ -111,13 +115,9 @@
           input[0].setSelectionRange(caret_pos, caret_pos);
         }
     })
-    function addFormula(param){
-		var textvalue = $('#formula').val();
-		var textvaluebaru = textvalue+" "+param;
-		$('#formula').val(textvaluebaru);
-        }
     </script>
     
+    @yield('child-script')
 @endsection
 
 @section('content')
@@ -147,94 +147,40 @@
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">Default Overtime Salary Hair Stylist</span>
+                <span class="caption-subject sbold uppercase font-blue">Role {{$result['role_name']}}</span>
             </div>
         </div>
         <div class="tabbable-line tabbable-full-width">
             <ul class="nav nav-tabs">
-                <li class="active">
-                    <a href="#overview" data-toggle="tab"> List Default Overtime</a>
+                <li  class="active">
+                    <a href="#fixed" data-toggle="tab">Fixed Incentive</a>
                 </li>
                 <li>
-                    <a href="#create" data-toggle="tab">Create Default Overtime</a>
+                    <a href="#overtime" data-toggle="tab">Overtime</a>
+                </li>
+                <li>
+                    <a href="#insentif" data-toggle="tab">Incentive</a>
+                </li>
+                <li>
+                    <a href="#potongan" data-toggle="tab">Cuts Salary</a>
                 </li>
             </ul>
-            <div class="tab-content">
-            <div class="tab-pane active" id="overview">
-                <div class="portlet-body form">
-                    @yield('filter')
-                    
-                <div class="portlet light bordered">
-                    <div class="portlet-title">
-                        <div class="caption">
-                            <span class="caption-subject font-blue sbold uppercase">{{ $sub_title }}</span>
-                        </div>
-                    </div>
-                    <div class="portlet-body form">
-                        <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover" id="kt_datatable">
-                                    <thead>
-                                    <tr>
-                                        <th class="text-nowrap text-center">Hours</th>
-                                        <th class="text-nowrap text-center">Value</th>
-                                        <th class="text-nowrap text-center">Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @if(!empty($data))
-                                        @foreach($data as $dt)
-                                            <tr data-id="{{ $dt['id_employee_role_default_overtime'] }}">
-                                                <td style="text-align: center;">{{$dt['hours']}}</td>
-                                                <td style="text-align: center;">{{"Rp " . number_format($dt['value']??0,2,',','.')}}</td>
-                                                <td style="text-align: center;">
-                                                   <a href="{{ url('employee/income/default/overtime/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
-                                                   <a class="btn btn-sm red btn-primary" href="{{url('employee/income/default/overtime/delete/'.$dt['id_enkripsi'])}}"><i class="fa fa-trash-o"></i> Delete</a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @else
-                                        <tr>
-                                            <td colspan="10" style="text-align: center">Data Not Available</td>
-                                        </tr>
-                                    @endif
-                                    </tbody>
-                                </table>
-                    </div>
-                    </div>
-                </div>
-                </div>
+        <div class="tab-content">
+            <div class="tab-pane active" id="fixed">
+                @include('employee::income.role.fixed-incentive')
             </div>
-            <div class="tab-pane" id="create">
-                <form class="form-horizontal" role="form" action="{{url('employee/income/default/overtime/create')}}" method="post" enctype="multipart/form-data">
-                            <div class="form-body">
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label">Hours<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Jumlah Jam" data-container="body"></i>
-                                    </label>
-                                    <div class="col-md-6">
-                                        <input type="number" name="hours" value="{{old('hours')}}" placeholder="Masukkan jam overtime" class="form-control" required />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Besar insentif yang diterima oleh hairstylist" data-container="body"></i>
-                                    </label>
-                                    <div class="col-md-6">
-                                        <input type="text" name="value" id='value' value="{{old('value')}}" data-type="currency" placeholder="Masukkan besar insentif" class="form-control" required />
-                                    </div>
-                                </div>
-                                <div class="form-actions">
-                                    {{ csrf_field() }}
-                                    <div class="row">
-                                        <div class="col-md-offset-4 col-md-8">
-                                            <button type="submit" class="btn blue">Submit</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+            <div class="tab-pane" id="insentif">
+                @include('employee::income.role.insentif')
             </div>
-        </div>
+            <div class="tab-pane" id="overtime">
+                @include('employee::income.role.overtime')
+            </div>
+            <div class="tab-pane" id="potongan">
+                @include('employee::income.role.potongan')
+            </div>
         </div>
     </div>
+    
+    
+
 @endsection

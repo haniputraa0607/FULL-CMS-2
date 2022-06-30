@@ -110,8 +110,71 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
 	Route::group(['prefix' => 'income'], function()
 	{
 	    Route::any('/setting-delivery', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeIncomeController@setting_delivery']);
-	    Route::group(['prefix' => 'default'], function()
+            Route::group(['prefix' => 'role'], function()
+                {  
+                    Route::any('detail/{id}', ['middleware' => 'feature_control:396', 'uses' => 'EmployeeRoleController@detail']);	  	    
+                    Route::any('/', ['middleware' => 'feature_control:393', 'uses' => 'EmployeeRoleController@index']);	    	    
+                    Route::post('fixed-incentive/create', ['middleware' => 'feature_control:396', 'uses' => 'EmployeeFixedIncentiveController@create_fixed_incentive']);
+                     Route::group(['prefix' => 'incentive'], function()
+                    {
+                        Route::post('create', ['middleware' => 'feature_control:425', 'uses' => 'EmployeeIncentiveController@create_incentive']);	    
+                            	
+                    });	 	    
+                     Route::group(['prefix' => 'salary-cut'], function()
+                    {
+                        Route::post('create', ['middleware' => 'feature_control:425', 'uses' => 'EmployeeSalaryCutController@create_salary_cut']);	    
+                            	
+                    });	 	    
+                });
+            Route::group(['prefix' => 'loan'], function()
             {
+                Route::any('/category', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@index_category']);
+                Route::post('/category/create', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@create_category']);
+                Route::post('/category/delete/{id}', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@delete_category']);
+                Route::any('/', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@index']);
+                Route::post('/create', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@create']);
+                Route::get('/detail/{id}', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@detail']);
+            });
+            Route::group(['prefix' => 'default'], function()
+            {
+                Route::group(['prefix' => 'incentive'], function()
+            {
+                Route::post('create', ['middleware' => 'feature_control:425', 'uses' => 'EmployeeIncentiveController@default_create_insentif']);	    
+                Route::post('update', ['middleware' => 'feature_control:425', 'uses' => 'EmployeeIncentiveController@default_update_insentif']);	    
+                Route::get('detail/{id}', ['middleware' => 'feature_control:425', 'uses' => 'EmployeeIncentiveController@default_detail_insentif']);	    
+                Route::any('delete/{id}', ['middleware' => 'feature_control:425', 'uses' => 'EmployeeIncentiveController@default_delete_insentif']);	    
+                Route::any('/', ['middleware' => 'feature_control:425', 'uses' => 'EmployeeIncentiveController@default_index_insentif']);	    	
+            });
+            Route::group(['prefix' => 'salary-cut'], function()
+            {
+                Route::post('create', ['middleware' => 'feature_control:426', 'uses' => 'EmployeeSalaryCutController@default_create_salary_cut']);	    
+                Route::post('update', ['middleware' => 'feature_control:426', 'uses' => 'EmployeeSalaryCutController@default_update_salary_cut']);	    
+                Route::get('detail/{id}', ['middleware' => 'feature_control:426', 'uses' => 'EmployeeSalaryCutController@default_detail_salary_cut']);	    
+                Route::any('delete/{id}', ['middleware' => 'feature_control:426', 'uses' => 'EmployeeSalaryCutController@default_delete_salary_cut']);	    
+                Route::any('/', ['middleware' => 'feature_control:426', 'uses' => 'EmployeeSalaryCutController@default_index_salary_cut']);	 
+            });
+                Route::group(['prefix' => 'overtime'], function()
+                {
+                    Route::post('create', ['middleware' => 'feature_control:426', 'uses' => 'EmployeeOvertimeController@default_create']);	    
+                    Route::post('update', ['middleware' => 'feature_control:426', 'uses' => 'EmployeeOvertimeController@default_update']);	    
+                    Route::get('detail/{id}', ['middleware' => 'feature_control:426', 'uses' => 'EmployeeOvertimeController@default_detail']);	    
+                    Route::any('delete/{id}', ['middleware' => 'feature_control:426', 'uses' => 'EmployeeOvertimeController@default_delete']);	    
+                    Route::any('/', ['middleware' => 'feature_control:426', 'uses' => 'EmployeeOvertimeController@default_index']);	      
+                    Route::any('/detail/delete/{id}', ['middleware' => 'feature_control:426', 'uses' => 'EmployeeOvertimeController@delete_detail']);	    
+
+                });
+                Route::group(['prefix' => 'fixed-incentive'], function()
+                {
+                    Route::post('create', ['middleware' => 'feature_control:426', 'uses' => 'EmployeeFixedIncentiveController@default_create']);	    
+                    Route::post('update', ['middleware' => 'feature_control:426', 'uses' => 'EmployeeFixedIncentiveController@default_update']);	    
+                    Route::get('detail/{id}', ['middleware' => 'feature_control:426', 'uses' => 'EmployeeFixedIncentiveController@default_detail']);	    
+                    Route::any('delete/{id}', ['middleware' => 'feature_control:426', 'uses' => 'EmployeeFixedIncentiveController@default_delete']);	    
+                    Route::any('/', ['middleware' => 'feature_control:426', 'uses' => 'EmployeeFixedIncentiveController@default_index']);	    
+                    Route::any('/type1', ['middleware' => 'feature_control:426', 'uses' => 'EmployeeFixedIncentiveController@create_type1']);	    
+                    Route::any('/type2', ['middleware' => 'feature_control:426', 'uses' => 'EmployeeFixedIncentiveController@create_type2']);	    
+                    Route::any('/detail/delete/{id}', ['middleware' => 'feature_control:426', 'uses' => 'EmployeeFixedIncentiveController@delete_detail']);	    
+
+                });
                 Route::any('/basic-salary', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeIncomeController@default_basic_salary']);
                 
             });

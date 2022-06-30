@@ -1,3 +1,4 @@
+@include('recruitment::default_income.filter')
 <?php
     use App\Lib\MyHelper;
     $grantedFeature     = session('granted_features');
@@ -118,6 +119,7 @@
         }
     </script>
     
+    @yield('child-script')
 @endsection
 
 @section('content')
@@ -147,16 +149,16 @@
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">Default Overtime Salary Hair Stylist</span>
+                <span class="caption-subject sbold uppercase font-blue">Default Incentive Employee</span>
             </div>
         </div>
         <div class="tabbable-line tabbable-full-width">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="#overview" data-toggle="tab"> List Default Overtime</a>
+                    <a href="#overview" data-toggle="tab"> List Default Incentive</a>
                 </li>
                 <li>
-                    <a href="#create" data-toggle="tab">Create Default Overtime</a>
+                    <a href="#create" data-toggle="tab">Create Default Incentive</a>
                 </li>
             </ul>
             <div class="tab-content">
@@ -175,20 +177,24 @@
                         <table class="table table-striped table-bordered table-hover" id="kt_datatable">
                                     <thead>
                                     <tr>
-                                        <th class="text-nowrap text-center">Hours</th>
+                                        <th class="text-nowrap text-center">Name</th>
+                                        <th class="text-nowrap text-center">Code</th>
                                         <th class="text-nowrap text-center">Value</th>
+                                        <th class="text-nowrap text-center">Formula</th>
                                         <th class="text-nowrap text-center">Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @if(!empty($data))
                                         @foreach($data as $dt)
-                                            <tr data-id="{{ $dt['id_employee_role_default_overtime'] }}">
-                                                <td style="text-align: center;">{{$dt['hours']}}</td>
+                                            <tr data-id="{{ $dt['id_employee_role_default_incentive'] }}">
+                                                <td style="text-align: center;">{{$dt['name']}}</td>
+                                                <td style="text-align: center;">{{$dt['code']}}</td>
                                                 <td style="text-align: center;">{{"Rp " . number_format($dt['value']??0,2,',','.')}}</td>
+                                                <td style="text-align: center;">{{$dt['formula']}}</td>
                                                 <td style="text-align: center;">
-                                                   <a href="{{ url('employee/income/default/overtime/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
-                                                   <a class="btn btn-sm red btn-primary" href="{{url('employee/income/default/overtime/delete/'.$dt['id_enkripsi'])}}"><i class="fa fa-trash-o"></i> Delete</a>
+                                                   <a href="{{ url('employee/income/default/incentive/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
+                                                   <a class="btn btn-sm red btn-primary" href="{{url('employee/income/default/incentive/delete/'.$dt['id_enkripsi'])}}"><i class="fa fa-trash-o"></i> Delete</a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -199,28 +205,57 @@
                                     @endif
                                     </tbody>
                                 </table>
+                        <div class="paginator-right">
+                             @if ($data_paginator)
+                                {{ $data_paginator->links() }}
+                            @endif  
+                        </div>
                     </div>
                     </div>
                 </div>
                 </div>
             </div>
             <div class="tab-pane" id="create">
-                <form class="form-horizontal" role="form" action="{{url('employee/income/default/overtime/create')}}" method="post" enctype="multipart/form-data">
+                <form class="form-horizontal" role="form" action="{{url('employee/income/default/incentive/create')}}" method="post" enctype="multipart/form-data">
                             <div class="form-body">
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label">Hours<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Jumlah Jam" data-container="body"></i>
+                                    <label class="col-md-4 control-label">Name<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama insentif" data-container="body"></i>
                                     </label>
-                                    <div class="col-md-6">
-                                        <input type="number" name="hours" value="{{old('hours')}}" placeholder="Masukkan jam overtime" class="form-control" required />
+                                    <div class="col-md-3">
+                                        <input type="text" name="name" value="{{old('name')}}" placeholder="Masukkan nama insentif" class="form-control" required />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Code<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Code insentif (unik)" data-container="body"></i>
+                                    </label>
+                                    <div class="col-md-3">
+                                        <input type="text" name="code" value="{{old('code')}}" placeholder="Masukkan code insentif" class="form-control" required />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Besar insentif yang diterima oleh hairstylist" data-container="body"></i>
                                     </label>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <input type="text" name="value" id='value' value="{{old('value')}}" data-type="currency" placeholder="Masukkan besar insentif" class="form-control" required />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Formula<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Rumus insentif yang digunakan dalam perhitungan pendapatan hairstylist (value * frekuensi)" data-container="body"></i>
+                                    </label>
+                                    <div class="col-md-6">
+                                          <textarea name="formula" id="formula" class="form-control" placeholder="Enter rumus insentif">{{old('formula')}}</textarea>
+                                          <br>
+                                          <div class="row">
+                                                @foreach($textreplace as $key=>$row)
+                                                        <div class="col-md-4" style="margin-bottom:5px;">
+                                                                <span class="btn dark btn-xs btn-block btn-outline var" data-toggle="tooltip" title="{{ $row['message'] }}" onClick="addFormula('{{ $row['keyword'] }}');">{{ str_replace('_',' ',$row['keyword']) }}</span>
+                                                        </div>
+                                                @endforeach
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-actions">

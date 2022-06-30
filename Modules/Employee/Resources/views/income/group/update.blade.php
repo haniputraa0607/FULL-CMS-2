@@ -34,85 +34,7 @@
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/components-multi-select.min.js') }}" type="text/javascript"></script>
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/components-date-time-pickers.min.js') }}" type="text/javascript"></script>
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/ui-confirmations.min.js') }}" type="text/javascript"></script>
-	   
-<script>
-  $(document).ready(function () {
-        $("input[data-type='currency']").on({
-            keyup: function() {
-              formatCurrency($(this));
-            },
-            blur: function() { 
-              formatCurrency($(this), "blur");
-            }
-        });
-
-
-        function formatNumber(n) {
-          // format number 1000000 to 1,234,567
-          return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-        }
-
-
-        function formatCurrency(input, blur) {
-          // appends $ to value, validates decimal side
-          // and puts cursor back in right position.
-
-          // get input value
-          var input_val = input.val();
-
-          // don't validate empty input
-          if (input_val === "") { return; }
-
-          // original length
-          var original_len = input_val.length;
-
-          // initial caret position 
-          var caret_pos = input.prop("selectionStart");
-
-          // check for decimal
-          if (input_val.indexOf(".") >= 0) {
-
-            // get position of first decimal
-            // this prevents multiple decimals from
-            // being entered
-            var decimal_pos = input_val.indexOf(".");
-
-            // split number by decimal point
-            var left_side = input_val.substring(0, decimal_pos);
-
-            // add commas to left side of number
-            left_side = formatNumber(left_side);
-
-
-            // join number by .
-            input_val = left_side ;
-
-          } else {
-            // no decimal entered
-            // add commas to number
-            // remove all non-digits
-            input_val = formatNumber(input_val);
-            input_val = input_val;
-
-            // final formatting
-            
-          }
-
-          // send updated string to input
-          input.val(input_val);
-
-          // put caret back in the right position
-          var updated_len = input_val.length;
-          caret_pos = updated_len - original_len + caret_pos;
-          input[0].setSelectionRange(caret_pos, caret_pos);
-        }
-    })
-    function addFormula(param){
-		var textvalue = $('#formula').val();
-		var textvaluebaru = textvalue+" "+param;
-		$('#formula').val(textvaluebaru);
-        }
-    </script>
+	
 @endsection
 
 @section('content')
@@ -142,31 +64,42 @@
 			<div class="portlet-title">
 				<div class="caption font-blue ">
 					<i class="icon-settings font-blue "></i>
-					<span class="caption-subject bold uppercase">Update Default Overtime Hair Stylist</span>
+					<span class="caption-subject bold uppercase">Update Commission Hair Stylist Group</span>
 				</div>
 			</div>
 			<div class="portlet-body form">
-				<form role="form" class="form-horizontal" action="{{url('employee/income/default/overtime/update')}}" method="POST" enctype="multipart/form-data">
+				<form role="form" class="form-horizontal" action="{{url('recruitment/hair-stylist/group/commission/update')}}" method="POST" enctype="multipart/form-data">
 					{{ csrf_field() }}
 					<div class="form-body">
-						<input type="hidden" name="id_employee_role_default_overtime" value="{{$result['id_employee_role_default_overtime']}}">
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label">Hours<span class="required" aria-required="true">*</span>
-                                            <i class="fa fa-question-circle tooltips" data-original-title="Jumlah Jam" data-container="body"></i>
-                                        </label>
-                                        <div class="col-md-6">
-                                            <input type="number" name="hours" value="{{$result['hours']}}" placeholder="Masukkan jam overtime" class="form-control" required />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
-                                            <i class="fa fa-question-circle tooltips" data-original-title="Besar overtime yang diterima oleh hairstylist" data-container="body"></i>
-                                        </label>
-                                        <div class="col-md-6">
-                                            <input type="text" value="{{number_format($result['value']??0,0,',',',')}}"  name="value" id='value' data-type="currency" placeholder="Masukkan besar overtime" class="form-control" required />
-                                        </div>
-                                    </div>
-                                              
+						<input type="hidden" name="id_hairstylist_group" value="{{$result['id_hairstylist_group']}}">
+						<input type="hidden" name="id_product" value="{{$result['id_product']}}">
+                                                <div class="form-group">
+                                                    <label for="example-search-input" class="control-label col-md-4">Group</label>
+                                                    <div class="col-md-5">
+                                                        <input class="form-control" disabled type="text"value="{{$result['hair_stylist_group_name']}}" placeholder="Enter Commission"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="example-search-input" class="control-label col-md-4">Product</label>
+                                                    <div class="col-md-5">
+                                                        <input class="form-control" disabled type="text" id="commission_percent" name="commission_percent" value="{{$result['product_name']}}" placeholder="Enter Commission"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="example-search-input" class="control-label col-md-4">Percent</label>
+                                                    <div class="col-md-5">
+                                                        <input type="checkbox" class="make-switch brand_visibility" onchange="myFunction()"  data-size="small" data-on-color="info" data-on-text="Percent" data-off-color="default" name='percent' data-off-text="Nominal" {{$result['percent']?'checked':''}}>
+                                                    </div>
+                                                </div>
+                                                <div id='id_commission'>
+                                                    <div class="form-group">
+                                                    <label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>
+                                                        <i class="fa fa-question-circle tooltips" data-original-title="Percent minimal 1% maksimal 99%" data-container="body"></i></label>
+                                                    <div class="col-md-5">
+                                                        <input class="form-control" required type="number" id="commission_percent" value="{{$result['commission_percent']??0}}" name="commission_percent" placeholder="Enter Commission"/>
+                                                    </div>
+                                                </div>
+                                                </div>
 					</div>
                                         
 					<div class="form-actions" style="text-align:center;">
@@ -178,4 +111,28 @@
 		</div>
 	</div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="text/javascript">
+        function myFunction() {
+          var id_percent     	=  $("input[name='percent']:checked").val();
+              if(id_percent == 'on'){
+                 var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span><i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label><div class="col-md-6"><input class="form-control" required type="number" id="commission" name="commission_percent" min="1" max="99" placeholder="Enter Commission Percent"/></div></div>';
+              }else{
+                 var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
+                         <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
+                        <div class="col-md-6">\
+                          <input class="form-control" required type="number" id="commission" name="commission_percent"  placeholder="Enter Commission Nominal"/>\
+                        </div></div>'; 
+
+              }
+          $('#id_commission').html(html);
+        }
+        $(document).ready(function () {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+            });
+        </script>
 @endsection 

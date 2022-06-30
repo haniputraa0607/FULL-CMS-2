@@ -39,7 +39,84 @@ $configs     		= session('configs');
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/components-multi-select.min.js') }}" type="text/javascript"></script>
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/components-date-time-pickers.min.js') }}" type="text/javascript"></script>
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/ui-confirmations.min.js') }}" type="text/javascript"></script>
-	
+<script>
+  $(document).ready(function () {
+        $("input[data-type='currency']").on({
+            keyup: function() {
+              formatCurrency($(this));
+            },
+            blur: function() { 
+              formatCurrency($(this), "blur");
+            }
+        });
+        
+
+        function formatNumber(n) {
+          // format number 1000000 to 1,234,567
+          return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        }
+
+
+        function formatCurrency(input, blur) {
+          // appends $ to value, validates decimal side
+          // and puts cursor back in right position.
+
+          // get input value
+          var input_val = input.val();
+
+          // don't validate empty input
+          if (input_val === "") { return; }
+
+          // original length
+          var original_len = input_val.length;
+
+          // initial caret position 
+          var caret_pos = input.prop("selectionStart");
+
+          // check for decimal
+          if (input_val.indexOf(".") >= 0) {
+
+            // get position of first decimal
+            // this prevents multiple decimals from
+            // being entered
+            var decimal_pos = input_val.indexOf(".");
+
+            // split number by decimal point
+            var left_side = input_val.substring(0, decimal_pos);
+
+            // add commas to left side of number
+            left_side = formatNumber(left_side);
+
+
+            // join number by .
+            input_val = left_side ;
+
+          } else {
+            // no decimal entered
+            // add commas to number
+            // remove all non-digits
+            input_val = formatNumber(input_val);
+            input_val = input_val;
+
+            // final formatting
+            
+          }
+
+          // send updated string to input
+          input.val(input_val);
+
+          // put caret back in the right position
+          var updated_len = input_val.length;
+          caret_pos = updated_len - original_len + caret_pos;
+          input[0].setSelectionRange(caret_pos, caret_pos);
+        }
+    })
+    function addFormula(param){
+		var textvalue = $('#formula').val();
+		var textvaluebaru = textvalue+" "+param;
+		$('#formula').val(textvaluebaru);
+        }
+    </script>	
 @endsection
 
 @section('content')
@@ -60,40 +137,33 @@ $configs     		= session('configs');
 	@include('layouts.notifications')
 	<br>
         <div class="row" style="margin-top:20px">
-	<div class="col-md-12">
+            <div class="col-md-12">
 		<div class="portlet light bordered">
 			<div class="portlet-title">
 				<div class="caption font-blue ">
 					<i class="icon-settings font-blue "></i>
-					<span class="caption-subject bold uppercase">This menu is used to set a delivery income</span>
+					<span class="caption-subject bold uppercase">This menu is used to set a overtime minutes</span>
 				</div>
 			</div>
 			<div class="portlet-body form">
-				<form role="form" class="form-horizontal" action="{{url('employee/income/setting-delivery')}}" method="POST" enctype="multipart/form-data">
+				<form role="form" class="form-horizontal" action="{{url('recruitment/hair-stylist/group/setting-proteksi')}}" method="POST" enctype="multipart/form-data">
 					{{ csrf_field() }}
 					<div class="form-body">
-                                               
                                                 <div id="id_commission">
-                                                    <div class="form-group">
-                                                        <label for="example-search-input" class="control-label col-md-4">Start Attendance<span class="required" aria-required="true">*</span>
-                                                            <i class="fa fa-question-circle tooltips" data-original-title="Tanggal perhitungan mulai absensi" data-container="body"></i></label>
-                                                        <div class="col-md-6">
-                                                            <input class="form-control" required type="number" id="start" onkeyup="myFunction()" value="{{$start??''}}" min='2' max='28' name="start" placeholder="Enter Start Attendance"/>
-                                                        </div>
+                                                     <div class="form-group">
+                                                    <label for="example-search-input" class="control-label col-md-4">Range<span class="required" aria-required="true">*</span>
+                                                        <i class="fa fa-question-circle tooltips" data-original-title="Maksimal umur outlet(bulan) yang dapat di proteksi" data-container="body"></i></label>
+                                                    <div class="col-md-3">
+                                                        <input type="number" name="range" value="{{$result['range']??''}}" placeholder="Masukkan umur outlet yang dapat di proteksi" class="form-control" required />
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="example-search-input" class="control-label col-md-4">End Attendance <i class="fa fa-question-circle tooltips" data-original-title="Tanggal perhitungan selesai absensi" data-container="body"></i></label>
-                                                        <div class="col-md-6">
-                                                            <input class="form-control" required type="number" id="end" value="{{$end??''}}" min='1' max='28' name="end" readonly placeholder="Enter Delivery Income"/>
-                                                        </div>
+                                                </div>
+                                                     <div class="form-group">
+                                                    <label for="example-search-input" class="control-label col-md-4">Nominal<span class="required" aria-required="true">*</span>
+                                                        <i class="fa fa-question-circle tooltips" data-original-title="Maksimal umur outlet(bulan) yang dapat di proteksi" data-container="body"></i></label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" name="value" data-type="currency" value="{{number_format($result['value']??0,0,',',',')}}" placeholder="Masukan besaran nilai proteksi" class="form-control" required />
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="example-search-input" class="control-label col-md-4">Delivery Income<span class="required" aria-required="true">*</span>
-                                                            <i class="fa fa-question-circle tooltips" data-original-title="Tanggal income dikirim" data-container="body"></i></label>
-                                                        <div class="col-md-6">
-                                                            <input class="form-control" required type="number" id="value" value="{{$value??''}}" min='1' max='28' name="value" placeholder="Enter Delivery Income"/>
-                                                        </div>
-                                                    </div>
+                                                </div>
                                                 </div>
 					</div>
                                         
@@ -105,13 +175,5 @@ $configs     		= session('configs');
 			</div>
 		</div>
 	</div>
-</div>
-<script>
-function myFunction() {
- var x = document.getElementById("start").value;
- if(1<x && x<28){
-     document.getElementById("end").value = x-1;
- }
-}
-</script>
+    </div>
 @endsection
