@@ -202,10 +202,12 @@
             var value = $(this).val();
             var start = $("#list_date option:selected").attr('data-timestart');
             var end = $("#list_date option:selected").attr('data-timeend');
+            $('#timezone_start').remove();
+            $('#timezone_end').remove();
             $('#time_start').remove();
-            $('#place_time_start').append('<input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_start" value="'+start+'" disabled>')
+            $('#place_time_start').append('<div class="input-group"><input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_start" value="'+start+'" disabled><span class="input-group-addon" id="timezone_start">{{ $result['time_zone'] }}</span></div>')
             $('#time_end').remove();
-            $('#place_time_end').append('<input type="text" id="time_end" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end" value="'+end+'" disabled>')
+            $('#place_time_end').append('<div class="input-group"><input type="text" id="time_end" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end" value="'+end+'" disabled><span class="input-group-addon" id="timezone_end">{{ $result['time_zone'] }}</span></div>')
             $('.timepicker').timepicker({
                 autoclose: true,
                 minuteStep: 1,
@@ -478,7 +480,10 @@
                         <label for="example-search-input" class="control-label col-md-4">Start Shift<span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Waktu karyawan mulai kerja" data-container="body"></i></label>
                         <div class="col-md-3" id="place_time_start">
-                            <input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_start" value="{{ $result['schedule_in'] }}" disabled>
+                            <div class="input-group">
+                                <input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_start" value="{{ $result['schedule_in'] }}" disabled>
+                                <span class="input-group-addon" id="timezone_start">{{ $result['time_zone'] }}</span>
+                            </div>
                             <input type="hidden" name="schedule_in" value="{{ $result['schedule_in'] }}">
                         </div>
                     </div>
@@ -486,7 +491,10 @@
                         <label for="example-search-input" class="control-label col-md-4">End Shift<span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Waktu karywan selesai kerja" data-container="body"></i></label>
                         <div class="col-md-3" id="place_time_end">
-                            <input type="text" id="time_end" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end" value="{{ $result['schedule_out'] }}" disabled>
+                            <div class="input-group">
+                                <input type="text" id="time_end" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end" value="{{ $result['schedule_out'] }}" disabled>
+                                <span class="input-group-addon" id="timezone_end">{{ $result['time_zone'] }}</span>
+                            </div>
                             <input type="hidden" name="schedule_out" value="{{ $result['schedule_out'] }}">
                         </div>
                     </div>
@@ -517,8 +525,9 @@
                         <label for="example-search-input" class="control-label col-md-4">Start Overtime<span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu mulai lembur untuk karyawan" data-container="body"></i></label>
                         <div class="col-md-3">
-                            <div class="col-md-12 input-group" id="place_time_start">
+                            <div class="col-md-12 input-group">
                                 <input type="text" id="time_start_overtime" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_start_overtime" value="{{ $result['start_overtime'] }}" @if($result['time']=='after') disabled @endif @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                                <span class="input-group-addon">{{ $result['time_zone'] }}</span>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -531,8 +540,9 @@
                         <label for="example-search-input" class="control-label col-md-4">End Overtime<span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu selesai lembur untuk karyawan" data-container="body"></i></label>
                         <div class="col-md-3">
-                            <div class="col-md-12 input-group" id="place_time_end">
+                            <div class="col-md-12 input-group">
                                 <input type="text" id="time_end_overtime" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end_overtime" value="{{ $result['end_overtime'] }}" @if($result['time']=='before') disabled @endif @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                                <span class="input-group-addon">{{ $result['time_zone'] }}</span>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -544,16 +554,22 @@
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">Start Rest<span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu mulai istirahat lembur untuk karyawan" data-container="body"></i></label>
-                        <div class="col-md-3" id="place_time_start">
-                            <input type="text" id="time_start_rest" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="rest_before" value="{{ $result['rest_before'] }}" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <input type="text" id="time_start_rest" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="rest_before" value="{{ $result['rest_before'] }}" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                                <span class="input-group-addon">{{ $result['time_zone'] }}</span>
+                            </div>
                             <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="cek_start_rest">Start rest overtime cant smaller than start overtime</p>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-search-input" class="control-label col-md-4">End Rest<span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu selesai istirahat lembur untuk karyawan" data-container="body"></i></label>
-                        <div class="col-md-3" id="place_time_end">
-                            <input type="text" id="time_end_rest" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="rest_after" value="{{ $result['rest_after'] }}" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <input type="text" id="time_end_rest" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="rest_after" value="{{ $result['rest_after'] }}" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                                <span class="input-group-addon">{{ $result['time_zone'] }}</span>
+                            </div>
                             <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="cek_end_rest">End rest overtime cant bigger than end overtime</p>
                         </div>
                     </div>
