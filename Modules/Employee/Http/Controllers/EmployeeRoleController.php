@@ -74,10 +74,10 @@ class EmployeeRoleController extends Controller
                 $id_before = $id;
                 $id = MyHelper::explodeSlug($id)[0]??'';
                 $data = [ 
-                                  'title'             => 'Hair Stylist Group',
-                                  'sub_title'         => 'Detail Hair Stylist Group',
-                                  'menu_active'       => 'hair-stylist-group',
-                                  'submenu_active'    => 'list-hair-stylist-group'
+                                  'title'             => 'Role',
+                                  'sub_title'         => 'Detail Role',
+                                  'menu_active'       => 'Role',
+                                  'submenu_active'    => 'list-role'
                                 ];
                 $query = MyHelper::post('employee/role/detail',['id_role'=>$id]);
                 if(isset($query['status']) && $query['status'] == 'success'){
