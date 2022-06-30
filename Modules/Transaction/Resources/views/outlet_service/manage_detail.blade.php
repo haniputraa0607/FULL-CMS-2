@@ -58,6 +58,8 @@
 			$('.update-service-input').prop('required', false);
 			let serviceObj = $('select[name=id_transaction_product_service] option:selected');
 			let service = serviceObj.val();
+			$('#schedule_date').val('');
+			$('#schedule_time').val('');
 
 			if (service != '') {
 				let date = serviceObj.data('date') ?? null;
@@ -71,7 +73,7 @@
 				$('#update-service-section [name="schedule_date"]').datepicker("setDate", $.datepicker.parseDate( "yy-mm-dd", date ));
 
 				$('#update-service-section [name="schedule_time"]').timepicker('setTime', time);
-	        	$('#update-service-section select[name="id_user_hair_stylist"]').val(hs).trigger('change');
+	        	$('#update-service-section select[name="id_user_hair_stylist"]').val(hs);
 
 	        	$('#update-service-section [name="id_transaction_product"]').val(idTrxProduct);
 
@@ -168,6 +170,7 @@
 							if(result.status == 'success' && result.result.length > 0){
 								var res = result.result;
 								for(var i = 0;i<res.length;i++){
+									console.log(time+'|'+hs_time);
 									if(res[i].available_status === true) {
 										html += '<option value="' + res[i].id_user_hair_stylist + '">' + res[i].nickname + ' - ' + res[i].name + '</option>';
 									}else if(res[i].available_status === false && hs == res[i].id_user_hair_stylist && date == hs_date && time == hs_time){
@@ -240,6 +243,9 @@
 							</div>
 			                <div class="portlet-body form">
 				                <div class="form-horizontal" role="form" action="{{url('businessdev/partners/update')}}" method="post" enctype="multipart/form-data">
+									<?php
+										$oneIsCompleted = 0;
+									?>
 				            		@foreach ($data['service'] as $s)
 				            			<div class="portlet light bordered">
 											<div class="portlet-title">
@@ -263,6 +269,7 @@
 																	if ($s['detail']['transaction_product_completed_at']) {
 							                                			$serviceStatus =  'Completed';
 																		$statusColor = '#26C281';
+                                                                        $oneIsCompleted = 1;
 																	} 
 							                                		if ($s['detail']['reject_at']) {
 							                                			$serviceStatus =  'Rejected';
@@ -379,7 +386,7 @@
 	            </div>
 
 	            <div class="tab-pane" id="update">
-	            	@if (empty($data['need_manual_void']))
+	            	@if (empty($data['need_manual_void']) && $oneIsCompleted == 0)
 		            	<div class="text-right">
 	        				<a data-toggle="modal" href="#reject-transaction" class="btn red" style="margin-bottom: 15px">Reject Transaction</a>
 		            	</div>
