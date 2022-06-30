@@ -41,6 +41,16 @@ $configs     		= session('configs');
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/ui-confirmations.min.js') }}" type="text/javascript"></script>
 <script>
   $(document).ready(function () {
+       var vals = <?php echo json_encode($mid['value_text']); ?>;
+        vals.forEach(function(e){
+        $('#code').find('option[value="'+e+'"]').attr("selected", "selected");
+        $('#code').trigger('change');
+        });
+        var valss = <?php echo json_encode($end['value_text']); ?>;
+        valss.forEach(function(e){
+        $('#code_end').find('option[value="'+e+'"]').attr("selected", "selected");
+        $('#code_end').trigger('change');
+        });
         $("input[data-type='currency']").on({
             keyup: function() {
               formatCurrency($(this));
@@ -223,20 +233,3 @@ $configs     		= session('configs');
         </div>
 
 @endsection
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-<script>
-   $(document).ready(function() {
-        var vals = <?php echo json_encode($mid['value_text']); ?>;
-        vals.forEach(function(e){
-        $('#code').find('option[value="'+e+'"]').attr("selected", "selected");
-        });
-        });
-</script>
-<script>
-   $(document).ready(function() {
-        var valss = <?php echo json_encode($end['value_text']); ?>;
-        valss.forEach(function(e){
-        $('#code_end').find('option[value="'+e+'"]').attr("selected", "selected");
-        });
-        });
-</script>
