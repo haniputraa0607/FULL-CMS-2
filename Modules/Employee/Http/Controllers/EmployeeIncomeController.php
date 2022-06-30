@@ -17,7 +17,11 @@ class EmployeeIncomeController extends Controller
             'submenu_active'    => 'setting-delivery-income',
         ];
         if($post){
-            $query = MyHelper::post('setting/setting-delivery-income-create', $post);
+            $post['value_text']=array(
+                'start'=>$post['start'],
+                'end'=>$post['end'],
+            );
+           $query = MyHelper::post('setting/setting-delivery-income-create', $post);
             if(($query['status']??'')=='success'){
                 return back()->with('success',['Success update data']);
             }else{
@@ -25,7 +29,10 @@ class EmployeeIncomeController extends Controller
             }
         }else{
             $query = MyHelper::get('setting/setting-delivery-income');
-            $data['result'] = $query;
+            $data['value'] = $query['value'];
+            $query['value_text'] = json_decode($query['value_text'],true);
+            $data['start'] = $query['value_text']['start'];
+            $data['end'] = $query['value_text']['end'];
             return view('employee::income.setting_delivery_income', $data);
         }
     }

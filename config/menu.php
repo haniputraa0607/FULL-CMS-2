@@ -267,8 +267,13 @@ return [
                                                     'label' => 'Income',
                                                     'required_features' => [],
                                                     'type' => 'tree',
-                                                    'active' => '\View::shared("submenu_active") == "employee-income',
                                                     'children' => [
+                                                                [
+                                                                    'label' => 'Role',
+                                                                    'required_features' => [481],
+                                                                    'url' => 'employee/income/role',
+                                                                    'active' => '\View::shared("submenu_active") == "list-role"',
+                                                                ],
                                                                 [
                                                                     'label' => 'Setting Delivery Income',
                                                                     'required_features' => [481],
@@ -278,12 +283,54 @@ return [
                                                                 'label' => 'Default Income',
                                                                 'required_features' => [],
                                                                 'type' => 'tree',
-                                                                'active' => '\View::shared("submenu_active") == "employee-income',
                                                                 'children' => [
                                                                             [
                                                                                 'label' => 'Basic Salary',
                                                                                 'required_features' => [],
                                                                                 'url' => 'employee/income/default/basic-salary'
+                                                                            ],
+                                                                            [
+                                                                                'label' => 'Fixed Incentive',
+                                                                                'required_features' => [],
+                                                                                'active' => '\View::shared("child_active") == "default-employee-fixed-incentive"',
+                                                                                'url' => 'employee/income/default/fixed-incentive'
+                                                                            ],
+                                                                            [
+                                                                                'label' => 'Overtime',
+                                                                                'required_features' => [],
+                                                                                'active' => '\View::shared("child_active") == "default-employee-overtime"',
+                                                                                'url' => 'employee/income/default/overtime'
+                                                                            ],
+                                                                            [
+                                                                                'label' => 'Incentive',
+                                                                                'required_features' => [],
+                                                                                'active' => '\View::shared("child_active") == "default-employee-incentive"',
+                                                                                'url' => 'employee/income/default/incentive'
+                                                                            ],
+                                                                            [
+                                                                                'label' => 'Salary Cut',
+                                                                                'required_features' => [],
+                                                                                'active' => '\View::shared("child_active") == "default-employee-salary-cut"',
+                                                                                'url' => 'employee/income/default/salary-cut'
+                                                                            ],
+                                                                        ],
+                                                                ],
+                                                                [
+                                                                    'label' => 'Custom Salary Cuts',
+                                                                    'required_features' => [481],
+                                                                    'type' => 'tree',
+                                                                    'children' => [
+                                                                            [
+                                                                                'label' => 'Category Loan',
+                                                                                'required_features' => [],
+                                                                                'active' => '\View::shared("child_active") == "category-loan"',
+                                                                                'url' => 'employee/income/loan/category'
+                                                                            ],
+                                                                            [
+                                                                                'label' => 'Loan',
+                                                                                'required_features' => [],
+                                                                                'active' => '\View::shared("child_active") == "employee-loan"',
+                                                                                'url' => 'employee/income/loan'
                                                                             ],
                                                                         ],
                                                                 ],

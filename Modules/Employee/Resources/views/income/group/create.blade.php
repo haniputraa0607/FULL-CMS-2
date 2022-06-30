@@ -1,10 +1,4 @@
-<?php
-use App\Lib\MyHelper;
-$grantedFeature     = session('granted_features');
-$configs     		= session('configs');
-?>
 @extends('layouts.main')
-
 
 @section('page-style')
 	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
@@ -43,75 +37,74 @@ $configs     		= session('configs');
 @endsection
 
 @section('content')
-	<div class="page-bar">
-		<ul class="page-breadcrumb">
-			<li>
-				<a href="{{url('/')}}">Home</a>
-				<i class="fa fa-circle"></i>
-			</li>
-			<li>
-				{{$title}}
-			</li>
-		</ul>
-	</div>
-	<br>
-
-
-	@include('layouts.notifications')
-	<br>
-        <div class="row" style="margin-top:20px">
+<div class="page-bar">
+	<ul class="page-breadcrumb">
+		<li>
+                    <a href="{{url('/')}}">Home</a>
+                    <i class="fa fa-circle"></i>
+		</li>
+		<li class="active">{{$title}}</li>
+	</ul>
+</div>
+@include('layouts.notifications')
+<div class="row" style="margin-top:20px">
 	<div class="col-md-12">
 		<div class="portlet light bordered">
 			<div class="portlet-title">
 				<div class="caption font-blue ">
 					<i class="icon-settings font-blue "></i>
-					<span class="caption-subject bold uppercase">This menu is used to set a delivery income</span>
+					<span class="caption-subject bold uppercase">New Hair Stylist Group</span>
 				</div>
 			</div>
 			<div class="portlet-body form">
-				<form role="form" class="form-horizontal" action="{{url('employee/income/setting-delivery')}}" method="POST" enctype="multipart/form-data">
+				<form role="form" class="form-horizontal" action="{{url('recruitment/hair-stylist/group/create')}}" method="POST" enctype="multipart/form-data">
 					{{ csrf_field() }}
 					<div class="form-body">
-                                               
-                                                <div id="id_commission">
-                                                    <div class="form-group">
-                                                        <label for="example-search-input" class="control-label col-md-4">Start Attendance<span class="required" aria-required="true">*</span>
-                                                            <i class="fa fa-question-circle tooltips" data-original-title="Tanggal perhitungan mulai absensi" data-container="body"></i></label>
-                                                        <div class="col-md-6">
-                                                            <input class="form-control" required type="number" id="start" onkeyup="myFunction()" value="{{$start??''}}" min='2' max='28' name="start" placeholder="Enter Start Attendance"/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="example-search-input" class="control-label col-md-4">End Attendance <i class="fa fa-question-circle tooltips" data-original-title="Tanggal perhitungan selesai absensi" data-container="body"></i></label>
-                                                        <div class="col-md-6">
-                                                            <input class="form-control" required type="number" id="end" value="{{$end??''}}" min='1' max='28' name="end" readonly placeholder="Enter Delivery Income"/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="example-search-input" class="control-label col-md-4">Delivery Income<span class="required" aria-required="true">*</span>
-                                                            <i class="fa fa-question-circle tooltips" data-original-title="Tanggal income dikirim" data-container="body"></i></label>
-                                                        <div class="col-md-6">
-                                                            <input class="form-control" required type="number" id="value" value="{{$value??''}}" min='1' max='28' name="value" placeholder="Enter Delivery Income"/>
-                                                        </div>
-                                                    </div>
-                                                </div>
+						<div class="form-group">
+							<div class="input-icon right">
+							    <label class="col-md-3 control-label">
+							    Name Group
+							    <span class="required" aria-required="true"> * </span>
+							    <i class="fa fa-question-circle tooltips" data-original-title="Masukkan nama grup" data-container="body"></i>
+							    </label>
+							</div>
+							<div class="col-md-9">
+								<input type="text" name="hair_stylist_group_name" placeholder="Masukkan nama grup" class="form-control" required />
+							</div> 
+						</div>
+						<div class="form-group">
+							<div class="input-icon right">
+							    <label class="col-md-3 control-label">
+							    Group code
+							    <span class="required" aria-required="true"> * </span>
+							    <i class="fa fa-question-circle tooltips" data-original-title="Masukkan code grup, tidak boleh sama dengan code grup lain" data-container="body"></i>
+							    </label>
+							</div>
+							<div class="col-md-9">
+								<input type="text" name="hair_stylist_group_code" placeholder="Masukkan code grup" class="form-control" required />
+							</div> 
+						</div>
+						<div class="form-group">
+							<div class="input-icon right">
+							    <label class="col-md-3 control-label">
+							    Group Description
+							    <span class="required" aria-required="true"> * </span>
+							    <i class="fa fa-question-circle tooltips" data-original-title="Diskripsi grup" data-container="body"></i>
+							    </label>
+							</div>
+							<div class="col-md-9">
+								<textarea type="text" name="hair_stylist_group_description" placeholder="Input descripton here..." class="form-control"></textarea>
+							</div>
+						</div>
 					</div>
                                         
 					<div class="form-actions" style="text-align:center;">
 						{{ csrf_field() }}
-						<button type="submit" class="btn blue" id="checkBtn">Update</button>
+						<button type="submit" class="btn blue" id="checkBtn">Create</button>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
 </div>
-<script>
-function myFunction() {
- var x = document.getElementById("start").value;
- if(1<x && x<28){
-     document.getElementById("end").value = x-1;
- }
-}
-</script>
-@endsection
+@endsection 
