@@ -221,6 +221,8 @@ $configs     		= session('configs');
 		</div>
 	</div>
         </div>
+
+@endsection
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script>
    $(document).ready(function() {
@@ -238,4 +240,3 @@ $configs     		= session('configs');
         });
         });
 </script>
-@endsection
