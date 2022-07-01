@@ -14,6 +14,10 @@ return [
 			'required_configs_rule' => 'or',
 			'required_features' => [1,2], // kalau parent tidak ada ketentuan khusus cukup taruh di child nya aja
 			'required_features_rule' => 'or',
+            'badge' => [
+                'type' => 'info', // info | success | warning | danger
+                'value' => '\View::shared("total_inbox")', // for eval
+            ],
 		],
 		*/
 
