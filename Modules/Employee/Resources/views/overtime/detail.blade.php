@@ -269,6 +269,7 @@
 
         $('#time_start_rest').change(function(){
             var split =  $('#time_start_overtime').val().split(":");
+            var split2 =  $('#time_end_overtime').val().split(":");
             var this_val = $(this).val().split(":");
             var check = false;
             if(parseInt(split[0]) <= parseInt(this_val[0])){
@@ -277,6 +278,18 @@
                 }
             }else{
                 check = true;
+            }
+
+            if(parseInt(split2[0]) >= parseInt(this_val[0])){
+                if(parseInt(split2[0]) == parseInt(this_val[0]) && parseInt(split2[1]) < parseInt(this_val[1])){
+                    check = true;
+                }
+            }else{
+                check = true;
+            }
+
+            if($(this).val() == '0:00' && $('#time_end_rest').val() == '0:00'){
+                check = false;
             }
 
             if(check == true){
@@ -288,6 +301,7 @@
 
         $('#time_end_rest').change(function(){
             var split =  $('#time_end_overtime').val().split(":");
+            var split2 =  $('#time_start_overtime').val().split(":");
             var this_val = $(this).val().split(":");
             var check = false;
             if(parseInt(split[0]) >= parseInt(this_val[0])){
@@ -296,6 +310,18 @@
                 }
             }else{
                 check = true;
+            }
+
+            if(parseInt(split2[0]) <= parseInt(this_val[0])){
+                if(parseInt(split2[0]) == parseInt(this_val[0]) && parseInt(split2[1]) > parseInt(this_val[1])){
+                    check = true;
+                }
+            }else{
+                check = true;
+            }
+
+            if($(this).val() == '0:00' && $('#time_start_rest').val() == '0:00'){
+                check = false;
             }
 
             if(check == true){
@@ -556,7 +582,7 @@
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu mulai istirahat lembur untuk karyawan" data-container="body"></i></label>
                         <div class="col-md-3">
                             <div class="input-group">
-                                <input type="text" id="time_start_rest" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="rest_before" value="{{ $result['rest_before'] }}" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                                <input type="text" id="time_start_rest" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="rest_before" value="{{ $result['rest_before'] ?? '00:00' }}" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
                                 <span class="input-group-addon">{{ $result['time_zone'] }}</span>
                             </div>
                             <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="cek_start_rest">Start rest overtime cant smaller than start overtime</p>
@@ -567,7 +593,7 @@
                             <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu selesai istirahat lembur untuk karyawan" data-container="body"></i></label>
                         <div class="col-md-3">
                             <div class="input-group">
-                                <input type="text" id="time_end_rest" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="rest_after" value="{{ $result['rest_after'] }}" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                                <input type="text" id="time_end_rest" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="rest_after" value="{{ $result['rest_after'] ?? '00:00'}}" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
                                 <span class="input-group-addon">{{ $result['time_zone'] }}</span>
                             </div>
                             <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="cek_end_rest">End rest overtime cant bigger than end overtime</p>
