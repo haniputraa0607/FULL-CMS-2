@@ -797,7 +797,7 @@ class ProductController extends Controller
                 unset($post['product_icount_ims']);
             }
 
-            if (isset($post['id_product_category'])) {
+            if (isset($post['product_name'])) {
                 // kalo 0 => uncategorize
                 if ($post['id_product_category'] == 0  || empty($post['id_product_category'])) {
                     $post['id_product_category'] = null;
