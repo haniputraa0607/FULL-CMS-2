@@ -920,6 +920,11 @@ class MyHelper
         $menu['type'] = ($menu['label'] ?? false) ? 'tree' : 'group';
       }
 
+      if (($menu['type'] ?? 'single') != 'group' && ($menu['badge'] ?? false)) {
+        $marginRight = ($menu['type'] ?? 'single') != 'single' ? 20 : 0;
+        $menu['label'] .= '<span class="badge badge-'. ($menu['badge']['type'] ?? 'info') .' pull-right" style="margin-right:' . $marginRight . 'px">' .eval('return ' . $menu['badge']['value'] . ';'). '</span>';
+      }
+
       switch ($menu['type'] ?? 'single') {
         case 'tree':
           $submenu = '<li class="nav-item %active%"><a href="' . $url . '" class="nav-link nav-toggle">' . $icon . '<span class="title">' . $menu['label'] . '</span><span class="arrow %active%"></span></a><ul class="sub-menu">';
