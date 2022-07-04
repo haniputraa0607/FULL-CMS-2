@@ -35,6 +35,45 @@ $totalTheories = 0;
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js')}}"></script>
     <script>
+function myFunction() {
+  var start = document.getElementById("start_date").value;
+  var end = document.getElementById("end_date").value;
+  if(start < end){
+     $("#submit").removeAttr('disabled');
+  }
+}
+</script>
+        <script>
+        function npwp(id){
+            $(id).inputmask("remove");
+            $(id).inputmask({
+                mask: "99.999.999.9-999.999",
+                removeMaskOnSubmit: true,
+                placeholder:"",
+                prefix: "",
+                //digits: 0,
+                // groupSeparator: '.',
+                rightAlign: false,
+                greedy: false,
+                autoGroup: true,
+                digitsOptional: false,
+            });
+        }
+        function bank(id){
+            $(id).inputmask("remove");
+            $(id).inputmask({
+                mask: "9999999999999999999999999",
+                removeMaskOnSubmit: true,
+                placeholder:"",
+                prefix: "",
+                //digits: 0,
+                // groupSeparator: '.',
+                rightAlign: false,
+                greedy: false,
+                autoGroup: true,
+                digitsOptional: false,
+            });
+        }
         $('.datepicker').datepicker({
             'format' : 'd-M-yyyy',
             'todayHighlight' : true,
@@ -96,6 +135,8 @@ $totalTheories = 0;
         }();
 
         jQuery(document).ready(function() {
+            npwp('#npwp');
+            bank('#bank');
             SweetAlert.init()
             @if($detail['status_employee']==1)
                 $("#show_start").hide();
@@ -156,9 +197,7 @@ $totalTheories = 0;
 		}
 		function changeStatusEmployee() {
 			if(document.getElementById('status_employee').checked){
-				$("#show_start").hide();
 				$("#show_end").hide();
-				$('#start_date').prop('required', false);
 				$('#end_date').prop('required', false);
 			}else{
 				$("#show_start").show();
@@ -787,7 +826,7 @@ $totalTheories = 0;
                                                                             <tr>
                                                                                     <td>
                                                                                             @if(!empty($doc['attachment']))
-                                                                                                    <a class="btn blue btn-sm" href="{{url('recruitment/hair-stylist/detail/download-file', $doc['id_employee_document'])}}">Attachment</a>
+                                                                                                    <a class="btn blue btn-sm" href="{{ $doc['attachment']}}">Attachment</a>
                                                                                             @endif
                                                                                             @if($doc['document_type'] == 'Training Completed' && !empty($detailTheories))
                                                                                                     <a data-toggle="modal" href="#detail_{{$doc['id_employee_document']}}" class="btn green-jungle btn-sm">Score</a>

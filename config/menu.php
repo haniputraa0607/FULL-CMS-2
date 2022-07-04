@@ -1642,60 +1642,49 @@ return [
 			'type' => 'tree',
 			'children' => [
 				[
-					'label' => 'Setting Incentive & Salary Cuts',
+					'label' => 'Setting Income',
 					'required_features' => [425],
 					'active' => '\View::shared("submenu_active") == "setting-hs-income"',
 					'url' => 'recruitment/hair-stylist/group/setting-income'
 				],
 				[
-					'label' => 'Setting Overtime',
-					'required_features' => [425],
-					'active' => '\View::shared("submenu_active") == "setting-hs-overtime"',
-					'url' => 'recruitment/hair-stylist/group/setting-overtime'
-				],
-				[
-					'label' => 'Setting Proteksi',
-					'required_features' => [425],
-					'active' => '\View::shared("submenu_active") == "setting-hs-proteksi"',
-					'url' => 'recruitment/hair-stylist/group/setting-proteksi'
-				],
-				[
-					'label' => 'Salary Fixed Incentive Default HS',
+					'label' => 'HS Dynamic Incentive / Salary Cut',
 					'required_features' => [425],
 					'active' => '\View::shared("submenu_active") == "default-hair-stylist-fixed-incentive"',
 					'url' => 'recruitment/hair-stylist/default/fixed-incentive'
 				],
+                                
 				[
-					'label' => 'Salary Incentive Default HS',
-					'required_features' => [425],
-					'active' => '\View::shared("submenu_active") == "default-hair-stylist-insentif"',
-					'url' => 'recruitment/hair-stylist/default/insentif'
-				],
-				[
-					'label' => 'Salary Overtime Default HS',
+					'label' => 'HS Overtime',
 					'required_features' => [425],
 					'active' => '\View::shared("submenu_active") == "default-hair-stylist-overtime"',
 					'url' => 'recruitment/hair-stylist/default/overtime'
 				],
 				[
-					'label' => 'Salary Cuts Default HS',
+					'label' => 'HS Incentive',
+					'required_features' => [425],
+					'active' => '\View::shared("submenu_active") == "default-hair-stylist-insentif"',
+					'url' => 'recruitment/hair-stylist/default/insentif'
+				],
+				[
+					'label' => 'HS Salary Cuts',
 					'required_features' => [426],
 					'active' => '\View::shared("submenu_active") == "default-hair-stylist-potongan"',
 					'url' => 'recruitment/hair-stylist/default/potongan'
 				],
 				[
-					'label' => 'Salary Cuts Loan HS',
+					'label' => 'HS Custom Salary Cut',
 					'required_features' => [426],
 					'type' => 'tree',
 					'children' => [
                                                 [
-                                                        'label' => 'Category Loan',
+                                                        'label' => 'Category',
                                                         'required_features' => [425],
                                                         'active' => '\View::shared("submenu_active") == "category-loan"',
                                                         'url' => 'recruitment/hair-stylist/loan/category'
                                                 ],
                                                 [
-                                                        'label' => 'Loan HS',
+                                                        'label' => 'Custom Salary Cut',
                                                         'required_features' => [425],
                                                         'active' => '\View::shared("submenu_active") == "hs-loan"',
                                                         'url' => 'recruitment/hair-stylist/loan'

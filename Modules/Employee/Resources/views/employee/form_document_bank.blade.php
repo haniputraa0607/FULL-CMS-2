@@ -29,7 +29,7 @@
                         <div class="form-group">
 				<label class="col-md-4 control-label">NPWP</label>
 				<div class="col-md-6">
-					<input class="form-control" maxlength="200" type="text" name="npwp" value="{{$detail['npwp']??''}}" placeholder="NPWP" required/>
+					<input class="form-control" id="npwp" maxlength="200" type="text" name="npwp" value="{{$detail['npwp']??''}}" placeholder="NPWP" required/>
 				</div>
 			</div>
                         <div class="form-group">
