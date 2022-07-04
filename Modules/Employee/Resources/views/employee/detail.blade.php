@@ -59,7 +59,7 @@ function myFunction() {
                 digitsOptional: false,
             });
         }
-        function bank(id){
+        function banks(id){
             $(id).inputmask("remove");
             $(id).inputmask({
                 mask: "9999999999999999999999999",
@@ -136,11 +136,10 @@ function myFunction() {
 
         jQuery(document).ready(function() {
             npwp('#npwp');
-            bank('#bank');
+            banks('#banks');
             SweetAlert.init()
             @if($detail['status_employee']==1)
                $("#show_end").hide();
-                $("#show_start").show();
             @endif
         });
 
