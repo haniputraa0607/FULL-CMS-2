@@ -188,7 +188,7 @@ class RecruitmentEmployeeController extends Controller
      public function update(Request $request, $id){
         $post = $request->except('_token');
         
-        if($post['action_type'] == 'Contract'){
+        if($post['action_type'] == 'Approved'){
             if(!empty($post['status_employee'])){
                 $post['status_employee'] = 1;
                 $post['start_date'] = date('Y-m-d', strtotime($post['start_date']));
