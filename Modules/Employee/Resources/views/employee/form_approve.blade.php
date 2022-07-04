@@ -9,22 +9,20 @@
 					<i class="fa fa-question-circle tooltips" data-original-title="Jika di centang maka sebegai karyawan tetap, jika tidak maka sebagai karyawan kontrak" data-container="body"></i>
 				</label>
 				<div class="col-md-4">
-                                    <input type="checkbox" class="make-switch" id="status_employee" data-size="small" onchange="changeStatusEmployee()" data-on-color="success" data-on-text="Tetap" name="status_employee" data-off-color="default" data-off-text="Kontrak" @if($detail['status_employee']==1) checked @endif  @if(isset($dataDoc['Contract'])) disabled @endif>
+                                    <input type="checkbox" class="make-switch" id="status_employee" data-size="small" onchange="changeStatusEmployee()" data-on-color="success" data-on-text="Tetap" name="status_employee" data-off-color="default" data-off-text="Kontrak" @if($detail['status_employee']==1) checked @endif  @if(isset($dataDoc['Approved'])) disabled @endif>
                                 </div>
 			</div>
                         <div class="form-group" id="show_start">
 				<label class="col-md-4 control-label">Start Date <span class="required" aria-required="true"> * </span>
 				</label>
 				<div class="col-md-4" >
-					@if(isset($dataDoc['Contract']))
-                                            @if($detail['status_employee']==0)
+					@if(isset($dataDoc['Approved']))
                                                 <input type="text" id="start" class="form_datetime form-control" value="{{date('d-F-Y', strtotime($detail['start_date']))}}" disabled>
-                                            @endif 
-					@else
+                                          @else
 						<div class="input-icon right">
 							<div class="input-group">
-                                                            <input type="text" class="form-control datepicker" name="start_date" id="start_date" value="{{date('Y-m-d')}}"  required autocomplete="off" placeholder="Start Date Contract">
-                                                            <input type="hidden" class="form-control datepicker" name="start_date" value="{{date('Y-m-d')}}" required autocomplete="off" placeholder="Start Date Contract">
+                                                            <input type="text" class="form-control" disabled name="start_date" id="start_date" value="{{date('Y-m-d')}}"  required autocomplete="off" placeholder="Start Date Approved">
+                                                            <input type="hidden" class="form-control datepicker" name="start_date" value="{{date('Y-m-d')}}" required autocomplete="off" placeholder="Start Date Approved">
                                                             <span class="input-group-btn">
                                                                 <button class="btn default" type="button">
                                                                         <i class="fa fa-calendar"></i>
@@ -42,7 +40,7 @@
 				<label class="col-md-4 control-label">End Date <span class="required" aria-required="true"> * </span>
 				</label>
 				<div class="col-md-4">
-					@if(isset($dataDoc['Contract']))
+					@if(isset($dataDoc['Approved']))
                                                 @if($detail['status_employee']==0)
                                                     <input type="text" class="form_datetime form-control" value="{{date('d-F-Y', strtotime($detail['end_date']))}}" disabled>
                                                 @endif 
@@ -50,7 +48,7 @@
 					@else
 						<div class="input-icon right">
 							<div class="input-group">
-                                                            <input type="text" class="form-control datepicker" name="end_date" id="end_date" onchange='myFunction()' required autocomplete="off" placeholder="End Date Contract">
+                                                            <input type="text" class="form-control datepicker" name="end_date" id="end_date" onchange='myFunction()' required autocomplete="off" placeholder="End Date Approved">
 							<span class="input-group-btn">
                                                             <button class="btn default" type="button">
                                                                     <i class="fa fa-calendar"></i>
@@ -65,10 +63,10 @@
 				</div>
 			</div>
                         <div class="form-group">
-				<label class="col-md-4 control-label">Notes
+				<label class="col-md-4 control-label">Notes<span class="required" aria-required="true"> * </span>
 				</label>
 				<div class="col-md-6">
-					<textarea class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Approved']['process_notes'])) disabled @endif>@if(isset($dataDoc['Approved']['process_notes'])) {{$dataDoc['Approved']['process_notes']}}  @endif</textarea>
+					<textarea required class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Approved']['process_notes'])) disabled @endif>@if(isset($dataDoc['Approved']['process_notes'])) {{$dataDoc['Approved']['process_notes']}}  @endif</textarea>
 				</div>
 			</div>
 			<div class="form-group">

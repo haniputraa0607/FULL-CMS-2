@@ -139,7 +139,7 @@ function myFunction() {
             bank('#bank');
             SweetAlert.init()
             @if($detail['status_employee']==1)
-                $("#show_start").hide();
+                $("#show_start").show();
                 $("#show_end").hide();
             @endif
         });
