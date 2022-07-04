@@ -3,11 +3,70 @@
 		<div class="form-body">
 			<div style="text-align: center"><h3>Approve Action</h3></div>
                         <hr style="border-top: 2px dashed;">
-			<div class="form-group">
-				<label class="col-md-4 control-label">Notes
+			
+                        <div class="form-group">
+				<label  class="control-label col-md-4">Type Contract Employee
+					<i class="fa fa-question-circle tooltips" data-original-title="Jika di centang maka sebegai karyawan tetap, jika tidak maka sebagai karyawan kontrak" data-container="body"></i>
+				</label>
+				<div class="col-md-4">
+                                    <input type="checkbox" class="make-switch" id="status_employee" data-size="small" onchange="changeStatusEmployee()" data-on-color="success" data-on-text="Tetap" name="status_employee" data-off-color="default" data-off-text="Kontrak" @if($detail['status_employee']==1) checked @endif  @if(isset($dataDoc['Approved'])) disabled @endif>
+                                </div>
+			</div>
+                        <div class="form-group" id="show_start">
+				<label class="col-md-4 control-label">Start Date <span class="required" aria-required="true"> * </span>
+				</label>
+				<div class="col-md-4" >
+					@if(isset($dataDoc['Approved']))
+                                                <input type="text" id="start" class="form_datetime form-control" value="{{date('d-F-Y', strtotime($detail['start_date']))}}" disabled>
+                                          @else
+						<div class="input-icon right">
+							<div class="input-group">
+                                                            <input type="text" class="form-control" disabled name="start_date" id="start_date" value="{{date('Y-m-d')}}"  required autocomplete="off" placeholder="Start Date Approved">
+                                                            <input type="hidden" class="form-control datepicker" name="start_date" value="{{date('Y-m-d')}}" required autocomplete="off" placeholder="Start Date Approved">
+                                                            <span class="input-group-btn">
+                                                                <button class="btn default" type="button">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                </button>
+                                                                <button class="btn default" type="button">
+                                                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai contract" data-container="body"></i>
+                                                                </button>
+                                                            </span> 
+							</div>
+						</div>
+					@endif
+				</div>
+			</div>
+                        <div class="form-group" id="show_end">
+				<label class="col-md-4 control-label">End Date <span class="required" aria-required="true"> * </span>
+				</label>
+				<div class="col-md-4">
+					@if(isset($dataDoc['Approved']))
+                                                @if($detail['status_employee']==0)
+                                                    <input type="text" class="form_datetime form-control" value="{{date('d-F-Y', strtotime($detail['end_date']))}}" disabled>
+                                                @endif 
+						
+					@else
+						<div class="input-icon right">
+							<div class="input-group">
+                                                            <input type="text" class="form-control datepicker" name="end_date" id="end_date" onchange='myFunction()' required autocomplete="off" placeholder="End Date Approved">
+							<span class="input-group-btn">
+                                                            <button class="btn default" type="button">
+                                                                    <i class="fa fa-calendar"></i>
+                                                            </button>
+                                                            <button class="btn default" type="button">
+                                                                    <i class="fa fa-question-circle tooltips" data-original-title="Tanggal selesai contract" data-container="body"></i>
+                                                            </button>
+                                                        </span>
+							</div>
+						</div>
+					@endif
+				</div>
+			</div>
+                        <div class="form-group">
+				<label class="col-md-4 control-label">Notes<span class="required" aria-required="true"> * </span>
 				</label>
 				<div class="col-md-6">
-					<textarea class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Approved']['process_notes'])) disabled @endif>@if(isset($dataDoc['Approved']['process_notes'])) {{$dataDoc['Approved']['process_notes']}}  @endif</textarea>
+					<textarea required class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Approved']['process_notes'])) disabled @endif>@if(isset($dataDoc['Approved']['process_notes'])) {{$dataDoc['Approved']['process_notes']}}  @endif</textarea>
 				</div>
 			</div>
 			<div class="form-group">
@@ -17,7 +76,7 @@
 						@if(empty($dataDoc['Approved']['attachment']))
 							<p style="margin-top: 2%">No file</p>
 						@else
-							<a style="margin-top: 2%" class="btn blue btn-xs" href="{{url('recruitment/hair-stylist/detail/download-file', $dataDoc['Approved']['id_employee_document'])}}"><i class="fa fa-download"></i></a>
+							<a style="margin-top: 2%" class="btn blue btn-xs" href="{{$dataDoc['Approved']['attachment'] }} "><i class="fa fa-download"></i></a>
 						@endif
 					@else
 						<div class="fileinput fileinput-new" data-provides="fileinput">

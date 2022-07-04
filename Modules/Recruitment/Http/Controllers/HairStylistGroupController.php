@@ -1127,8 +1127,12 @@ class HairStylistGroupController extends Controller
             $data['list'] = $list_potongan;
             $query = MyHelper::get('setting/attendances_date');
             $data['result'] = $query;
-            
-            return view('recruitment::group.setting_calculation', $data);
+            $data['overtime'] = MyHelper::get('setting/overtime-hs');
+            $data['proteksi'] =  MyHelper::get('setting/proteksi-hs')['value_text']??[];
+            if($data['proteksi']){
+            $data['proteksi'] = json_decode($data['result'],true);
+            }
+            return view('recruitment::group.setting', $data);
         }
         }
         public function setting_income_middle(Request $request)

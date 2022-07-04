@@ -35,6 +35,45 @@ $totalTheories = 0;
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js')}}"></script>
     <script>
+function myFunction() {
+  var start = document.getElementById("start_date").value;
+  var end = document.getElementById("end_date").value;
+  if(start < end){
+     $("#submit").removeAttr('disabled');
+  }
+}
+</script>
+        <script>
+        function npwp(id){
+            $(id).inputmask("remove");
+            $(id).inputmask({
+                mask: "99.999.999.9-999.999",
+                removeMaskOnSubmit: true,
+                placeholder:"",
+                prefix: "",
+                //digits: 0,
+                // groupSeparator: '.',
+                rightAlign: false,
+                greedy: false,
+                autoGroup: true,
+                digitsOptional: false,
+            });
+        }
+        function bank(id){
+            $(id).inputmask("remove");
+            $(id).inputmask({
+                mask: "9999999999999999999999999",
+                removeMaskOnSubmit: true,
+                placeholder:"",
+                prefix: "",
+                //digits: 0,
+                // groupSeparator: '.',
+                rightAlign: false,
+                greedy: false,
+                autoGroup: true,
+                digitsOptional: false,
+            });
+        }
         $('.datepicker').datepicker({
             'format' : 'd-M-yyyy',
             'todayHighlight' : true,
@@ -96,10 +135,12 @@ $totalTheories = 0;
         }();
 
         jQuery(document).ready(function() {
+            npwp('#npwp');
+            bank('#bank');
             SweetAlert.init()
             @if($detail['status_employee']==1)
-                $("#show_start").hide();
-                $("#show_end").hide();
+               $("#show_end").hide();
+                $("#show_start").show();
             @endif
         });
         
@@ -175,6 +216,44 @@ $totalTheories = 0;
         function backToListTraining() {
                 $("#list_data_training").show();
                 $("#form_data_training").hide();
+        }
+        function changeAutoGeneratePin() {
+                if(document.getElementById('auto_generate_pin').checked){
+                        $("#div_password").hide();
+                        $('#pin1').prop('required', false);
+                        $('#pin2').prop('required', false);
+                }else{
+                        $("#div_password").show();
+                        $('#pin1').prop('required', true);
+                        $('#pin2').prop('required', true);
+                }
+        }
+        
+        function changeAutoGeneratePinApprove() {
+                if(document.getElementById('auto_generate_pin').checked){
+                        $("#div_password").hide();
+                        $('#pinapp1').prop('required', false);
+                        $('#pinapp2').prop('required', false);
+                }else{
+                        $("#div_password").show();
+                        $('#pinapp1').prop('required', true);
+                        $('#pinapp2').prop('required', true);
+                }
+        }
+        function changeStatusEmployee() {
+                if(document.getElementById('status_employee').checked){
+                        $("#show_end").hide();
+                        $('#end_date').prop('required', false);
+                }else{
+                        $("#show_start").show();
+                        $("#show_end").show();
+                        $('#start_date').prop('required', true);
+                        $('#end_date').prop('required', true);
+                }
+        }
+        function submitScore() {
+                $("#list_data_training").hide();
+                $("#form_data_training").show();
         }
 
         var prev_id_theory = '';
@@ -902,7 +981,7 @@ $totalTheories = 0;
                                                                             <tr>
                                                                                     <td>
                                                                                             @if(!empty($doc['attachment']))
-                                                                                                    <a class="btn blue btn-sm" href="{{url('recruitment/hair-stylist/detail/download-file', $doc['id_employee_document'])}}">Attachment</a>
+                                                                                                    <a class="btn blue btn-sm" href="{{ $doc['attachment']}}">Attachment</a>
                                                                                             @endif
                                                                                             @if($doc['document_type'] == 'Training Completed' && !empty($detailTheories))
                                                                                                     <a data-toggle="modal" href="#detail_{{$doc['id_employee_document']}}" class="btn green-jungle btn-sm">Score</a>

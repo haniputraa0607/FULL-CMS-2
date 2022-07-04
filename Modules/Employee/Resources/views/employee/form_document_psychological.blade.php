@@ -17,7 +17,7 @@
 						@if(empty($dataDoc['Psikotest']['attachment']))
 							<p style="margin-top: 2%">No file</p>
 						@else
-							<a style="margin-top: 2%" class="btn blue btn-xs" href="{{url('recruitment/hair-stylist/detail/download-file', $dataDoc['Psikotest']['id_employee_document'])}}"><i class="fa fa-download"></i></a>
+							<a style="margin-top: 2%" class="btn blue btn-xs" href="{{$dataDoc['Psikotest']['attachment'] }} "><i class="fa fa-download"></i></a>
 						@endif
 					@else
 						<div class="fileinput fileinput-new" data-provides="fileinput">
