@@ -102,213 +102,299 @@ $totalTheories = 0;
                 $("#show_end").hide();
             @endif
         });
+        
+        $(".filePhoto").change(function(e) {
+                var widthImg  = 300;
+                var heightImg = 300;
 
-		$(".filePhoto").change(function(e) {
-			var widthImg  = 300;
-			var heightImg = 300;
+                var _URL = window.URL || window.webkitURL;
+                var image, file;
 
-			var _URL = window.URL || window.webkitURL;
-			var image, file;
+                if ((file = this.files[0])) {
+                        image = new Image();
 
-			if ((file = this.files[0])) {
-				image = new Image();
+                        image.onload = function() {
+                                if (this.width != widthImg && this.height != heightImg) {
+                                        toastr.warning("Please check dimension of your photo.");
+                                        $('#image').children('img').attr('src', 'https://www.placehold.it/720x360/EFEFEF/AAAAAA&amp;text=no+image');
+                                        $('#filePhoto').val("");
+                                        $("#removeImage").trigger( "click" );
+                                }
+                        };
 
-				image.onload = function() {
-					if (this.width != widthImg && this.height != heightImg) {
-						toastr.warning("Please check dimension of your photo.");
-						$('#image').children('img').attr('src', 'https://www.placehold.it/720x360/EFEFEF/AAAAAA&amp;text=no+image');
-						$('#filePhoto').val("");
-						$("#removeImage").trigger( "click" );
-					}
-				};
+                        image.src = _URL.createObjectURL(file);
+                }
 
-				image.src = _URL.createObjectURL(file);
-			}
+        });
 
-		});
+        $('.numeric').on('input', function (event) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+        });
 
-		$('.numeric').on('input', function (event) {
-			this.value = this.value.replace(/[^0-9]/g, '');
-		});
+        function changeAutoGeneratePin() {
+                if(document.getElementById('auto_generate_pin').checked){
+                        $("#div_password").hide();
+                        $('#pin1').prop('required', false);
+                        $('#pin2').prop('required', false);
+                }else{
+                        $("#div_password").show();
+                        $('#pin1').prop('required', true);
+                        $('#pin2').prop('required', true);
+                }
+        }
+        
+        function changeAutoGeneratePinApprove() {
+                if(document.getElementById('auto_generate_pin').checked){
+                        $("#div_password").hide();
+                        $('#pinapp1').prop('required', false);
+                        $('#pinapp2').prop('required', false);
+                }else{
+                        $("#div_password").show();
+                        $('#pinapp1').prop('required', true);
+                        $('#pinapp2').prop('required', true);
+                }
+        }
+        function changeStatusEmployee() {
+                if(document.getElementById('status_employee').checked){
+                        $("#show_start").hide();
+                        $("#show_end").hide();
+                        $('#start_date').prop('required', false);
+                        $('#end_date').prop('required', false);
+                }else{
+                        $("#show_start").show();
+                        $("#show_end").show();
+                        $('#start_date').prop('required', true);
+                        $('#end_date').prop('required', true);
+                }
+        }
+        function submitScore() {
+                $("#list_data_training").hide();
+                $("#form_data_training").show();
+        }
 
-		function changeAutoGeneratePin() {
-			if(document.getElementById('auto_generate_pin').checked){
-				$("#div_password").hide();
-				$('#pin1').prop('required', false);
-				$('#pin2').prop('required', false);
-			}else{
-				$("#div_password").show();
-				$('#pin1').prop('required', true);
-				$('#pin2').prop('required', true);
-			}
-		}
-		
-		function changeAutoGeneratePinApprove() {
-			if(document.getElementById('auto_generate_pin').checked){
-				$("#div_password").hide();
-				$('#pinapp1').prop('required', false);
-				$('#pinapp2').prop('required', false);
-			}else{
-				$("#div_password").show();
-				$('#pinapp1').prop('required', true);
-				$('#pinapp2').prop('required', true);
-			}
-		}
-		function changeStatusEmployee() {
-			if(document.getElementById('status_employee').checked){
-				$("#show_start").hide();
-				$("#show_end").hide();
-				$('#start_date').prop('required', false);
-				$('#end_date').prop('required', false);
-			}else{
-				$("#show_start").show();
-				$("#show_end").show();
-				$('#start_date').prop('required', true);
-				$('#end_date').prop('required', true);
-			}
-		}
-		function submitScore() {
-			$("#list_data_training").hide();
-			$("#form_data_training").show();
-		}
+        function backToListTraining() {
+                $("#list_data_training").show();
+                $("#form_data_training").hide();
+        }
 
-		function backToListTraining() {
-			$("#list_data_training").show();
-			$("#form_data_training").hide();
-		}
+        var prev_id_theory = '';
+        function changeCategoryTheory(value) {
+                $("#cat_"+value).show();
+                if(prev_id_theory !== ''){
+                        $("#cat_"+prev_id_theory).hide();
+                }
+                prev_id_theory = value;
+                conclusionScore(value);
+                validationConclusion(value);
+        }
+        
+        function nextStepFromTrainingResult(id) {
+                var token  	= "{{ csrf_token() }}";
+                swal({
+                        title: 'Are you sure want to next step "Approve"?',
+                        text: "Your will not be able to recover this data!",
+                        type: "info",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-info",
+                        confirmButtonText: "Yes, to next step!",
+                        closeOnConfirm: false
+                },
+                function(){
+                        $.ajax({
+                                type : "POST",
+                                url : "{{ url('recruitment/hair-stylist/update-status') }}",
+                                data : "_token="+token+"&id_employee="+id+"&status=Training Completed",
+                                success : function(result) {
+                                        if (result.status == "success") {
+                                                swal({
+                                                        title: 'Updated!',
+                                                        text: "Success updated status.",
+                                                        type: "success",
+                                                        showCancelButton: false,
+                                                        showConfirmButton: false
+                                                });
+                                                SweetAlert.init()
+                                                location.href = "{{url('recruitment/hair-stylist/candidate/detail')}}"+"/"+id+"?step_approve=1";
+                                        }
+                                        else {
+                                                toastr.warning(result.messages);
+                                        }
+                                }
+                        });
+                });
+        }
+        
+        function conclusionScore(id) {
+                var total = 0;
+                var j = 0;
+                var disable_status = 0;
+                $('#conclusion_score_'+id).val('');
+                $('.score_theory_'+id).each(function(i, obj) {
+                        j++;
+                        var score_id = obj.id;
+                        var value = $('#'+score_id).val();
+                        var split = score_id.split('_');
+                        var id_theory = split[1];
+                        var minimum = $('#minimum_score_'+id_theory).val();
+                        $('#error_text_'+id_theory).hide();
 
-		var prev_id_theory = '';
-		function changeCategoryTheory(value) {
-			$("#cat_"+value).show();
-			if(prev_id_theory !== ''){
-				$("#cat_"+prev_id_theory).hide();
-			}
-			prev_id_theory = value;
-			conclusionScore(value);
-			validationConclusion(value);
-		}
-		
-		function nextStepFromTrainingResult(id) {
-			var token  	= "{{ csrf_token() }}";
-			swal({
-				title: 'Are you sure want to next step "Approve"?',
-				text: "Your will not be able to recover this data!",
-				type: "info",
-				showCancelButton: true,
-				confirmButtonClass: "btn-info",
-				confirmButtonText: "Yes, to next step!",
-				closeOnConfirm: false
-			},
-			function(){
-				$.ajax({
-					type : "POST",
-					url : "{{ url('recruitment/hair-stylist/update-status') }}",
-					data : "_token="+token+"&id_employee="+id+"&status=Training Completed",
-					success : function(result) {
-						if (result.status == "success") {
-							swal({
-								title: 'Updated!',
-								text: "Success updated status.",
-								type: "success",
-								showCancelButton: false,
-								showConfirmButton: false
-							});
-							SweetAlert.init()
-							location.href = "{{url('recruitment/hair-stylist/candidate/detail')}}"+"/"+id+"?step_approve=1";
-						}
-						else {
-							toastr.warning(result.messages);
-						}
-					}
-				});
-			});
-		}
-		
-		function conclusionScore(id) {
-			var total = 0;
-			var j = 0;
-			var disable_status = 0;
-			$('#conclusion_score_'+id).val('');
-			$('.score_theory_'+id).each(function(i, obj) {
-				j++;
-				var score_id = obj.id;
-				var value = $('#'+score_id).val();
-				var split = score_id.split('_');
-				var id_theory = split[1];
-				var minimum = $('#minimum_score_'+id_theory).val();
-				$('#error_text_'+id_theory).hide();
+                        if(parseInt(value) < parseInt(minimum)){
+                                $('#passed_status_'+id_theory).val('Not Passed').trigger("change");
+                        }else{
+                                $('#passed_status_'+id_theory).val('Passed').trigger("change");
+                        }
 
-				if(parseInt(value) < parseInt(minimum)){
-					$('#passed_status_'+id_theory).val('Not Passed').trigger("change");
-				}else{
-					$('#passed_status_'+id_theory).val('Passed').trigger("change");
-				}
+                        if(value > 100){
+                                disable_status = 1;
+                                $('#error_text_'+id_theory).show();
+                        }
+                        if(value){
+                                total = total + parseInt(value);
+                        }
+                });
 
-				if(value > 100){
-					disable_status = 1;
-					$('#error_text_'+id_theory).show();
-				}
-				if(value){
-					total = total + parseInt(value);
-				}
-			});
+                var average = parseInt(total/j);
+                $('#conclusion_score_'+id).val(average);
 
-			var average = parseInt(total/j);
-			$('#conclusion_score_'+id).val(average);
+                var total_minimum_score = $('#conclusion_minimum_score_'+id).val();
+                if(average < total_minimum_score){
+                        $('#conclusion_status_'+id).val('Not Passed').trigger("change");
+                }else{
+                        $('#conclusion_status_'+id).val('Passed').trigger("change");
+                }
 
-			var total_minimum_score = $('#conclusion_minimum_score_'+id).val();
-			if(average < total_minimum_score){
-				$('#conclusion_status_'+id).val('Not Passed').trigger("change");
-			}else{
-				$('#conclusion_status_'+id).val('Passed').trigger("change");
-			}
+                if(disable_status == 1){
+                        $("#btn_submit_traning").attr("disabled", true);
+                }else{
+                        $("#btn_submit_traning").attr("disabled", false);
+                }
 
-			if(disable_status == 1){
-				$("#btn_submit_traning").attr("disabled", true);
-			}else{
-				$("#btn_submit_traning").attr("disabled", false);
-			}
+                validationConclusion(id, 1);
+        }
+        
+        function validationConclusion(id, not_check = 0) {
+                var score = $('#conclusion_score_'+id).val();
+                if(score > 100){
+                        $('#conclusion_error_text_'+id).show();
+                        $("#btn_submit_traning").attr("disabled", true);
+                }else{
+                        $('#conclusion_error_text_'+id).hide();
+                        $("#btn_submit_traning").attr("disabled", false);
+                }
 
-			validationConclusion(id, 1);
-		}
-		
-		function validationConclusion(id, not_check = 0) {
-			var score = $('#conclusion_score_'+id).val();
-			if(score > 100){
-				$('#conclusion_error_text_'+id).show();
-				$("#btn_submit_traning").attr("disabled", true);
-			}else{
-				$('#conclusion_error_text_'+id).hide();
-				$("#btn_submit_traning").attr("disabled", false);
-			}
+                if(not_check == 0){
+                        var total_minimum_score = $('#conclusion_minimum_score_'+id).val();
+                        if(parseInt(score) < parseInt(total_minimum_score)){
+                                $('#conclusion_status_'+id).val('Not Passed').trigger("change");
+                        }else{
+                                $('#conclusion_status_'+id).val('Passed').trigger("change");
+                        }
+                }
+        }
+        
+        function matchPassword(form_type) {
+                if(form_type == 'detail'){
+                        var pin_1 = $('#pin1').val();
+                        var pin_2 = $('#pin2').val();
+                }else{
+                        var pin_1 = $('#pinapp1').val();
+                        var pin_2 = $('#pinapp2').val();
+                }
 
-			if(not_check == 0){
-				var total_minimum_score = $('#conclusion_minimum_score_'+id).val();
-				if(parseInt(score) < parseInt(total_minimum_score)){
-					$('#conclusion_status_'+id).val('Not Passed').trigger("change");
-				}else{
-					$('#conclusion_status_'+id).val('Passed').trigger("change");
-				}
-			}
-		}
-		
-		function matchPassword(form_type) {
-			if(form_type == 'detail'){
-				var pin_1 = $('#pin1').val();
-				var pin_2 = $('#pin2').val();
-			}else{
-				var pin_1 = $('#pinapp1').val();
-				var pin_2 = $('#pinapp2').val();
-			}
+                if(pin_1 != pin_2){
+                        $("#btn_submit_"+form_type).attr("disabled", true);
+                        $("#alert_password_"+form_type).show();
+                }else{
+                        $("#btn_submit_"+form_type).attr("disabled", false);
+                        $("#alert_password_"+form_type).hide();
+                }
+        }
+        function showBusinessUpdate() {
+                $('#update-business-form').removeClass('hidden');
+                $('#view-business-partner-id').addClass('hidden');
+        }
+        function hideBusinessUpdate() {
+                $('#update-business-form').addClass('hidden');
+                $('#view-business-partner-id').removeClass('hidden');
+        }
+        function createBusinessPartner(){
+                const button = $('#view-business-partner-id button');
+                const id_employee = <?php echo $detail['id_employee'] ?>;
+                const thisButton = $('#create-business-show-btn').html('<i class="fa fa-spinner fa-spin"></i>')
+                
+                button.prop('disabled', true);
+                $.ajax({
+                        method: "POST",
+                        url: "{{url('employee/recruitment/create-business-partner')}}",
+                        data: {
+                                _token: "{{csrf_token()}}",
+                                id_employee: id_employee,
+                        },
+                        success: response => {
+                                console.log(response);
+                                if (response.status == 'success') {
+                                        thisButton.html('Create');
+                                        button.prop('disabled', false);
+                                        button.addClass('hidden');
+                                        $('#view-business-partner-id span').html(response.id_business_partner);
+                                        toastr.info('Success to create Business Partner ID');
+                                } else {
+                                        thisButton.html('Create');
+                                        button.prop('disabled', false);
+                                        toastr.error(response?.messages);
+                                }
+                        },
+                        error: errors => {
+                                thisButton.html('Create');
+                                button.prop('disabled', false);
+                                toastr.error('Failed to create Business Partner ID');
+                        }
+                })
+        }
+        function submitBusinessUpdate(){
+                const id_business_partner = $('#update-business-form :input[name=businees_partner_id]').val();
+                const id_employee = <?php echo $detail['id_employee'] ?>;
+                const button = $('#update-business-form button');
+                
 
-			if(pin_1 != pin_2){
-				$("#btn_submit_"+form_type).attr("disabled", true);
-				$("#alert_password_"+form_type).show();
-			}else{
-				$("#btn_submit_"+form_type).attr("disabled", false);
-				$("#alert_password_"+form_type).hide();
-			}
-		}
+                if(id_business_partner=="" || id_business_partner==undefined){
+                        toastr.error('Please input Business Partner ID');
+                }else{
+                        const okButton = $('#update-business-form #update-business-ok-btn').html('<i class="fa fa-spinner fa-spin"></i>');
+                        button.prop('disabled', true);
+
+                        $.ajax({
+                        method: "POST",
+                        url: "{{url('employee/recruitment/create-business-partner')}}",
+                        data: {
+                                _token: "{{csrf_token()}}",
+                                id_employee: id_employee,
+                                id_business_partner: id_business_partner,
+                        },
+                        success: response => {
+                                console.log(response);
+                                okButton.html('<i class="fa fa-check"></i>');
+                                button.prop('disabled', false);
+                                if (response.status == 'success') {
+                                        hideBusinessUpdate();
+                                        $('#view-business-partner-id button').addClass('hidden');
+                                        $('#view-business-partner-id span').html(response.id_business_partner);
+                                        toastr.info('Success to create Business Partner ID');
+                                } else {
+                                        toastr.error(response?.messages);
+                                }
+
+                        },
+                        error: errors => {
+                                console.log(errors);
+                                okButton.html('<i class="fa fa-check"></i>');
+                                button.prop('disabled', false);
+
+                        }
+                })
+                }
+                
+        }
     </script>
 @endsection
 
@@ -427,15 +513,44 @@ $totalTheories = 0;
 						</div>
                                             @endif
                                             <div class="form-group">
-							<label class="col-md-4 control-label">File Contract</label>
-							<div class="col-md-6" style="margin-top: 0.7%">
-								@if(empty($detail['surat_perjanjian']))
-									-
-								@else
-									<a href="{{url('recruitment/hair-stylist/detail/download-file-contract', $detail['id_employee'])}}">{{$detail['code']}}.docx</a>
-								@endif
-							</div>
-						</div>
+                                                    <label class="col-md-4 control-label">File Contract</label>
+                                                    <div class="col-md-6" style="margin-top: 0.7%">
+                                                            @if(empty($detail['surat_perjanjian']))
+                                                                    -
+                                                            @else
+                                                                    <a href="{{url('recruitment/hair-stylist/detail/download-file-contract', $detail['id_employee'])}}">{{$detail['code']}}.docx</a>
+                                                            @endif
+                                                    </div>
+                                            </div>
+                                            <div class="form-group">
+                                                    <label class="col-md-4 control-label">Business Partner ID</label>
+                                                    <div class="col-md-6" >
+                                                        <div class="row">
+                                                                <div class="hidden col-md-6" id="update-business-form">
+                                                                    <div class="input-group">
+                                                                        <input type="text" name="businees_partner_id" class="form-control" placeholder="Input Business Partner ID" value="{{$detail['id_business_partner']}}">
+                                                                        <div class="input-group-btn">
+                                                                            <button type="button" class="btn btn-primary" id="update-business-ok-btn" onclick="submitBusinessUpdate()"><i class="fa fa-check"></i></button>
+                                                                            <button type="button" class="btn btn-danger" id="update-business-cancel-btn" onclick="hideBusinessUpdate()"><i class="fa fa-times"></i></button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        <div class=" control-label"  id="view-business-partner-id" style="text-align: left;">
+                                                                <span>
+                                                                        @if(empty($detail['id_business_partner']))
+                                                                                <em class="text-muted">Not Set</em>
+                                                                        @else
+                                                                                {{ $detail['id_business_partner'] }}
+                                                                        @endif
+                                                                </span>
+                                                                @if(empty($detail['id_business_partner']))
+                                                                        <button type="button" style="margin-left: 10px;" type="button" class="btn btn-primary btn-xs" id="update-business-show-btn" onclick="showBusinessUpdate()">Update</button>
+                                                                        <button type="button" type="button" class="btn btn-success btn-xs" id="create-business-show-btn" onclick="createBusinessPartner()">Create</button>
+                                                                @endif
+                                                        </div>
+                                                    </div>
+                                            </div>
                                             <div class="form-group">
                                                     <label class="col-md-4 control-label">Name <span class="required" aria-required="true"> * </span>
                                                     </label>

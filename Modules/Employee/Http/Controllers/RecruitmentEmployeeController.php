@@ -229,7 +229,7 @@ class RecruitmentEmployeeController extends Controller
         $update = MyHelper::post('employee/be/recruitment/reject',$post);
         return $update;
     }
-     public function complement(Request $request, $id){
+    public function complement(Request $request, $id){
         $post = $request->except('_token');
         if(isset($post['form'])){
             if(isset($post['is_tax'])){
@@ -245,5 +245,10 @@ class RecruitmentEmployeeController extends Controller
         }else{
             return redirect('employee/recruitment/detail/'.$id)->withErrors($update['messages']??['Failed update data']);
         }
+    }
+
+    public function CreateBusinessPartner(Request $request){
+        $post = $request->except('_token');
+        return $update = MyHelper::post('employee/be/recruitment/create-business-partner',$post);
     }
 }
