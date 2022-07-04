@@ -1,5 +1,5 @@
 <div style="margin-top: -4%">
-	<form class="form-horizontal" id="form_psychological" role="form" action="{{url('employee/recruitment/complement/'.$detail['id_employee'])}}" method="post" enctype="multipart/form-data">
+	<form class="form-horizontal"  role="form" action="{{url('employee/recruitment/complement/'.$detail['id_employee'])}}" method="post" enctype="multipart/form-data">
 		<div class="form-body">
 			<div style="text-align: center"><h3>Data Complement</h3></div>
 			<hr style="border-top: 2px dashed;">
@@ -23,7 +23,7 @@
                         <div class="form-group">
 				<label class="col-md-4 control-label">Bank Account Number</label>
 				<div class="col-md-6">
-					<input class="form-control" maxlength="200" type="text" name="bank_account_number" value="{{$detail['bank_account_number']??''}}" placeholder="Bank Account Number" required/>
+					<input class="form-control" maxlength="200" id="banks" type="text" name="bank_account_number" value="{{$detail['bank_account_number']??''}}" placeholder="Bank Account Number" required/>
 				</div>
 			</div>
                         <div class="form-group">
