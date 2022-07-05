@@ -1130,7 +1130,7 @@ class HairStylistGroupController extends Controller
             $data['overtime'] = MyHelper::get('setting/overtime-hs');
             $data['proteksi'] =  MyHelper::get('setting/proteksi-hs')['value_text']??[];
             if($data['proteksi']){
-            $data['proteksi'] = json_decode($data['result'],true);
+           $data['proteksi'] = json_decode($data['proteksi'],true);
             }
             $data['date'] = MyHelper::get('setting/total-date-hs');
             return view('recruitment::group.setting', $data);
