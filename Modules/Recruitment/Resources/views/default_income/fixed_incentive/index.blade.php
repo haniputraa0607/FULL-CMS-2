@@ -196,7 +196,7 @@
                                                 <td style="text-align: center;">{{$dt['formula']}}</td>
                                                 <td style="text-align: center;">
                                                    <a href="{{ url('recruitment/hair-stylist/default/fixed-incentive/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
-                                                   <a class="btn btn-sm red btn-primary" href="{{url('recruitment/hair-stylist/default/fixed_incentive/delete/'.$dt['id_enkripsi'])}}"><i class="fa fa-trash-o"></i> Delete</a>
+                                                   <a class="btn btn-sm red btn-primary" href="{{url('recruitment/hair-stylist/default/fixed-incentive/delete/'.$dt['id_enkripsi'])}}"><i class="fa fa-trash-o"></i> Delete</a>
                                                 </td>
                                             </tr>
                                         @endforeach

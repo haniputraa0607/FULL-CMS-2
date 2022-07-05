@@ -668,7 +668,7 @@ class HairStylistGroupController extends Controller
               public function default_delete_overtime($id)
               {
                 $id = MyHelper::explodeSlug($id)[0]??'';
-                 $query = MyHelper::post('recruitment/hairstylist/be/group/overtime/default/delete', ['id_hairstylist_group_default_insentifs'=>$id]);
+                 $query = MyHelper::post('recruitment/hairstylist/be/group/overtime/default/delete', ['id_hairstylist_group_default_overtimes'=>$id]);
                         if(isset($query['status']) && $query['status'] == 'success'){
                                 return back()->withSuccess(['Delete Success']);
                         } else{
