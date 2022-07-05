@@ -614,7 +614,7 @@ function myFunction() {
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                        </div>
                                                         <div class=" control-label"  id="view-business-partner-id" style="text-align: left;">
                                                                 <span>
                                                                         @if(empty($detail['id_business_partner']))

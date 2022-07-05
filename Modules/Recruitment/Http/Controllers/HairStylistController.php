@@ -457,7 +457,7 @@ class HairStylistController extends Controller
     }
 
     public function CreateBusinessPartner(Request $request){
-        return $post = $request->except('_token');
+        $post = $request->except('_token');
         return $update = MyHelper::post('recruitment/hairstylist/be/create-business-partner',$post);
     }
 }
