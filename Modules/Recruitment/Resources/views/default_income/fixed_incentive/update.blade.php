@@ -259,7 +259,7 @@
                                     <tbody>
                                     @if(!empty($detail))
                                         @foreach($detail as $dts)
-                                            <tr data-id="{{ $dts['id_hairstylist_group_default_fixed_incentive_detail'] }}">
+                                            <tr data-id="{{ $dts['id_hairstylist_group_default_fixed_incentive_detail']??'' }}">
                                                 <td style="text-align: center;">{{$dts['ranges']}}</td>
                                                 <td style="text-align: center;">{{number_format($dts['value']??0,0,',',',')}}</td>
                                                 <td style="text-align: center;">

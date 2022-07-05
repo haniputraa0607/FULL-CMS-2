@@ -184,8 +184,8 @@
                         <table class="table table-striped table-bordered table-hover" id="kt_datatable">
                                     <thead>
                                     <tr>
-                                        <th class="text-nowrap text-center">Code HS</th>
-                                        <th class="text-nowrap text-center">Name HS</th>
+                                        <th class="text-nowrap text-center">Code</th>
+                                        <th class="text-nowrap text-center">Name</th>
                                         <th class="text-nowrap text-center">Name category</th>
                                         <th class="text-nowrap text-center">Amount</th>
                                         <th class="text-nowrap text-center">Installment</th>
@@ -228,10 +228,10 @@
                             <div class="form-body">
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Employee<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Name hairstylist" data-container="body"></i>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Name Employee" data-container="body"></i>
                                     </label>
                                     <div class="col-md-3">
-                                        <select class="form-control select2" name="id_user" id="id_user" data-placeholder="Select hairstylist">
+                                        <select class="form-control select2" name="id_user" id="id_user" data-placeholder="Select Employee">
                                                 <option></option>
                                                 @foreach($hs as $val)
                                                 <option value="{{$val['id']}}" >{{$val['code']}} {{$val['name']}}</option>
