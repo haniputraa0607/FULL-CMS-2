@@ -129,52 +129,17 @@ class OfficeBranchController extends Controller
                 'submenu_active' => 'office-branch-new',
             ];
 
-            // province
-            $data['province'] = app('Modules\Outlet\Http\Controllers\OutletController')->getPropinsi();
-            $data['brands'] = MyHelper::get('brand/be/list')['result']??[];
-            $data['delivery'] = MyHelper::get('transaction/be/available-delivery')['result']['delivery']??[];
+            $data['outlets'] = MyHelper::get('outlet/list-convert')['result']??[];
             return view('outlet::office.create', $data);
         }
         else {
-
-            if(!empty($post['outlet_latitude']) && (strpos($post['outlet_latitude'], ',') !== false || $post['outlet_latitude'] == 'NaN')){
-                return back()->withErrors(['Please input invalid latitude']);
-            }
-
-            if(!empty($post['outlet_longitude']) && (strpos($post['outlet_longitude'], ',') !== false || $post['outlet_longitude'] == 'NaN')){
-                return back()->withErrors(['Please input invalid longitude']);
-            }
-
-            if(isset($post['ampas'])){
-                unset($post['ampas']);
-            }
-            if (isset($post['next'])) {
-                $next = 1;
-                unset($post['next']);
-            }
-
-            $post = array_filter($post);
-
-            $save = MyHelper::post('outlet/create', $post);
+            $save = MyHelper::post('outlet/convert-outlet', $post);
             // return $save;
             if (isset($save['status']) && $save['status'] == "success") {
-                if (isset($next)) {
-                    return parent::redirect($save, 'Office Branch has been created.', 'office-branch/detail/'.$save['result']['outlet_code'].'#photo');
-                }
-                else {
-                    return parent::redirect($save, 'Office Branch has been created.', 'office-branch/list');
-                }
+                return parent::redirect($save, 'Office Branch has been created.', 'office-branch/detail/'.$save['result']['outlet_code']);
             }else {
-                   if (isset($save['errors'])) {
-                       return back()->withErrors($save['errors'])->withInput();
-                   }
-
-                   if (isset($save['status']) && $save['status'] == "fail") {
-                       return back()->withErrors($save['messages'])->withInput();
-                   }
-
-                   return back()->withErrors(['Something when wrong. Please try again.'])->withInput();
-               }
+                return back()->withErrors($save['messages']??['Something when wrong. Please try again.'])->withInput();
+            }
 
         }
     }
