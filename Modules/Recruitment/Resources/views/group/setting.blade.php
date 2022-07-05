@@ -171,6 +171,9 @@
                 <li>
                     <a href="#proteksi" data-toggle="tab">Proteksi</a>
                 </li>
+                <li>
+                    <a href="#total" data-toggle="tab">Total Date</a>
+                </li>
             </ul>
             <div class="tab-content">
             <div class="tab-pane active" id="incentive">
@@ -312,6 +315,37 @@
                                                         <i class="fa fa-question-circle tooltips" data-original-title="Maksimal umur outlet(bulan) yang dapat di proteksi" data-container="body"></i></label>
                                                     <div class="col-md-3">
                                                         <input type="text" name="value" data-type="currency" value="{{number_format($proteksi['value']??0,0,',',',')}}" placeholder="Masukan besaran nilai proteksi" class="form-control" required />
+                                                    </div>
+                                                </div>
+                                                </div>
+					</div>
+                                        
+					<div class="form-actions" style="text-align:center;">
+						{{ csrf_field() }}
+						<button type="submit" class="btn blue" id="checkBtn">Update</button>
+					</div>
+				</form>
+			</div>
+		</div>
+            </div>
+            <div class="tab-pane" id="total">
+                <div class="portlet light">
+			<div class="portlet-title">
+				<div class="caption font-blue ">
+					<i class="icon-settings font-blue "></i>
+					<span class="caption-subject bold uppercase">This menu is used to set a overtime minutes</span>
+				</div>
+			</div>
+			<div class="portlet-body form">
+				<form role="form" class="form-horizontal" action="{{url('recruitment/hair-stylist/group/setting-date')}}" method="POST" enctype="multipart/form-data">
+					{{ csrf_field() }}
+					<div class="form-body">
+                                                <div id="id_commission">
+                                                     <div class="form-group">
+                                                    <label for="example-search-input" class="control-label col-md-4">Total Date<span class="required" aria-required="true">*</span>
+                                                        <i class="fa fa-question-circle tooltips" data-original-title="Total hari dalam satu bulan" data-container="body"></i></label>
+                                                    <div class="col-md-2">
+                                                        <input type="number" name="value" min="1" max="60" value="{{$date['value']??0}}" placeholder="Masukkan waktu (minutes)" class="form-control" required />
                                                     </div>
                                                 </div>
                                                 </div>

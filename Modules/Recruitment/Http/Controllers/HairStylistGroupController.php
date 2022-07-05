@@ -1132,6 +1132,7 @@ class HairStylistGroupController extends Controller
             if($data['proteksi']){
             $data['proteksi'] = json_decode($data['result'],true);
             }
+            $data['date'] = MyHelper::get('setting/total-date-hs');
             return view('recruitment::group.setting', $data);
         }
         }
@@ -1174,6 +1175,18 @@ class HairStylistGroupController extends Controller
            }
             $data['result'] =  MyHelper::get('setting/overtime-hs');
             return view('recruitment::group.setting_overtime', $data);
+        }
+        public function setting_total_date(Request $request){
+            $post = $request->except('_token');
+           if($post){
+                $query = MyHelper::post('setting/total-date-hs-create', $post);
+                  if(isset($query['status']) && $query['status'] == 'success'){
+                          return back()->withSuccess(['Update Setting Success']);
+                  } else{
+                          return back()->withInput($request->input())->withErrors($query['messages']);
+                  }
+           }
+           return back()->withInput($request->input())->withErrors(['Incomplete Data']);
         }
         public function setting_proteksi(Request $request){
             $post = $request->except('_token');

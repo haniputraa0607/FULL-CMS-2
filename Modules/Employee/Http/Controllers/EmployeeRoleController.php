@@ -118,6 +118,8 @@ class EmployeeRoleController extends Controller
                         $data['overtime'] = $val5;
                         $fixed_incentive = MyHelper::post('employee/role/fixed-incentive',$post4)['result']??[];
                         $data['fixed_incentive'] = $fixed_incentive;
+                        $basic_salary = MyHelper::post('employee/role/basic-salary',$post4)['result']??[];
+                        $data['basic_salary'] = $basic_salary;
                         $textreplace = array(
                             array(
                                 'keyword'=>'value',
@@ -158,4 +160,14 @@ class EmployeeRoleController extends Controller
                         return back()->withErrors($query['messages']);
                 }
               }
+    public function create_basic(Request $request)
+    {
+       $post = $request->except('_token');
+       $post['value'] = str_replace(',','', $post['value']??0);
+       $query = MyHelper::post('employee/role/basic-salary-create', $post);
+          if(isset($query['status']) && $query['status'] != 'success'){
+                  return redirect(url()->previous().'#basic')->withErrors($query['messages']);
+          }
+         return redirect(url()->previous().'#basic')->withSuccess(['Employee Basic Salary Update Success']);
+    }
 }
