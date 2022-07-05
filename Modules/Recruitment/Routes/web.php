@@ -46,6 +46,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
     Route::post('update-box/{id}', ['middleware' => 'feature_control:349', 'uses' => 'HairStylistController@hsUpdateBox']);
     Route::post('update-status', ['middleware' => 'feature_control:349', 'uses' => 'HairStylistController@updateStatus']);
     Route::post('move-outlet/{id}', ['middleware' => 'feature_control:349', 'uses' => 'HairStylistController@moveOutlet']);
+    Route::post('create-business-partner', ['middleware' => 'feature_control:349', 'uses' => 'HairStylistController@CreateBusinessPartner']);
 
 	Route::group(['prefix' => 'request'], function()
 	{

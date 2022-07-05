@@ -298,6 +298,93 @@ $totalTheories = 0;
 			e.preventDefault();
 			return false;
 		});
+
+		function showBusinessUpdate() {
+                $('#update-business-form').removeClass('hidden');
+                $('#view-business-partner-id').addClass('hidden');
+        }
+        function hideBusinessUpdate() {
+                $('#update-business-form').addClass('hidden');
+                $('#view-business-partner-id').removeClass('hidden');
+        }
+		function createBusinessPartner(){
+                const button = $('#view-business-partner-id button');
+                const id_user_hair_stylist = <?php echo $detail['id_user_hair_stylist'] ?>;
+                const thisButton = $('#create-business-show-btn').html('<i class="fa fa-spinner fa-spin"></i>')
+                
+                button.prop('disabled', true);
+                $.ajax({
+                        method: "POST",
+                        url: "{{url('recruitment/hair-stylist/create-business-partner')}}",
+                        data: {
+                                _token: "{{csrf_token()}}",
+                                id_user_hair_stylist: id_user_hair_stylist,
+                        },
+                        success: response => {
+                                console.log(response);
+                                if (response.status == 'success') {
+                                        thisButton.html('Create');
+                                        button.prop('disabled', false);
+                                        button.addClass('hidden');
+                                        $('#view-business-partner-id span').html(response.id_business_partner);
+                                        toastr.info('Success to create Business Partner ID');
+                                } else {
+                                        thisButton.html('Create');
+                                        button.prop('disabled', false);
+                                        toastr.error(response?.messages);
+                                }
+                        },
+                        error: errors => {
+                                thisButton.html('Create');
+                                button.prop('disabled', false);
+                                toastr.error('Failed to create Business Partner ID');
+                        }
+                })
+        }
+		function submitBusinessUpdate(){
+                const id_business_partner = $('#update-business-form :input[name=businees_partner_id]').val();
+                const id_user_hair_stylist = <?php echo $detail['id_user_hair_stylist'] ?>;
+                const button = $('#update-business-form button');
+                
+
+                if(id_business_partner=="" || id_business_partner==undefined){
+                        toastr.error('Please input Business Partner ID');
+                }else{
+                        const okButton = $('#update-business-form #update-business-ok-btn').html('<i class="fa fa-spinner fa-spin"></i>');
+                        button.prop('disabled', true);
+
+                        $.ajax({
+                        method: "POST",
+                        url: "{{url('recruitment/hair-stylist/create-business-partner')}}",
+                        data: {
+                                _token: "{{csrf_token()}}",
+                                id_user_hair_stylist: id_user_hair_stylist,
+                                id_business_partner: id_business_partner,
+                        },
+                        success: response => {
+                                console.log(response);
+                                okButton.html('<i class="fa fa-check"></i>');
+                                button.prop('disabled', false);
+                                if (response.status == 'success') {
+                                        hideBusinessUpdate();
+                                        $('#view-business-partner-id button').addClass('hidden');
+                                        $('#view-business-partner-id span').html(response.id_business_partner);
+                                        toastr.info('Success to create Business Partner ID');
+                                } else {
+                                        toastr.error(response?.messages);
+                                }
+
+                        },
+                        error: errors => {
+                                console.log(errors);
+                                okButton.html('<i class="fa fa-check"></i>');
+                                button.prop('disabled', false);
+
+                        }
+                })
+                }
+                
+        }
     </script>
 @endsection
 
@@ -418,6 +505,36 @@ $totalTheories = 0;
 						<div class="form-group">
 							<label class="col-md-4 control-label">NIK</label>
 							<div class="col-md-6" style="margin-top: 0.7%"><b>{{$detail['user_hair_stylist_code']}}</b></div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-4 control-label">Business Partner ID <span class="required" aria-required="true"> * </span>
+							</label>
+							<div class="col-md-6">
+								<div class="row">
+									<div class="hidden col-md-6" id="update-business-form">
+										<div class="input-group">
+											<input type="text" name="businees_partner_id" class="form-control" placeholder="Input Business Partner ID" value="{{$detail['id_business_partner']}}">
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-primary" id="update-business-ok-btn" onclick="submitBusinessUpdate()"><i class="fa fa-check"></i></button>
+												<button type="button" class="btn btn-danger" id="update-business-cancel-btn" onclick="hideBusinessUpdate()"><i class="fa fa-times"></i></button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class=" control-label"  id="view-business-partner-id" style="text-align: left;">
+									<span>
+											@if(empty($detail['id_business_partner']))
+													<em class="text-muted">Not Set</em>
+											@else
+													{{ $detail['id_business_partner'] }}
+											@endif
+									</span>
+									@if(empty($detail['id_business_partner']))
+											<button type="button" style="margin-left: 10px;" type="button" class="btn btn-primary btn-xs" id="update-business-show-btn" onclick="showBusinessUpdate()">Update</button>
+											<button type="button" type="button" class="btn btn-success btn-xs" id="create-business-show-btn" onclick="createBusinessPartner()">Create</button>
+									@endif
+							</div>
+							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-4 control-label">ID Card Number <span class="required" aria-required="true"> * </span>
