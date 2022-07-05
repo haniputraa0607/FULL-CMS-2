@@ -172,6 +172,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
 	    
             Route::post('proteksi/create', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@create_proteksi']);	 	    
             
+            Route::any('setting-date', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@setting_total_date']);	 	    
             Route::any('setting-overtime', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@setting_overtime']);	 	    
             Route::any('setting-proteksi', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@setting_proteksi']);	 	    
             Route::any('setting-income', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@setting_income']);	 	    

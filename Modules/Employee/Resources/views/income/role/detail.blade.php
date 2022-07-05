@@ -153,6 +153,9 @@
         <div class="tabbable-line tabbable-full-width">
             <ul class="nav nav-tabs">
                 <li  class="active">
+                    <a href="#basic" data-toggle="tab">Basic Salary</a>
+                </li>
+                <li >
                     <a href="#fixed" data-toggle="tab">Fixed Incentive</a>
                 </li>
                 <li>
@@ -166,7 +169,10 @@
                 </li>
             </ul>
         <div class="tab-content">
-            <div class="tab-pane active" id="fixed">
+            <div class="tab-pane active" id="basic">
+                @include('employee::income.role.basic')
+            </div>
+            <div class="tab-pane" id="fixed">
                 @include('employee::income.role.fixed-incentive')
             </div>
             <div class="tab-pane" id="insentif">
