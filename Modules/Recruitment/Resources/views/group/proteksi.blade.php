@@ -30,7 +30,7 @@
                                                 </div>
                                                      <div class="form-group">
                                                     <label for="example-search-input" class="control-label col-md-4">Nominal<span class="required" aria-required="true">*</span>
-                                                        <i class="fa fa-question-circle tooltips" data-original-title="Maksimal umur outlet(bulan) yang dapat di proteksi" data-container="body"></i></label>
+                                                        <i class="fa fa-question-circle tooltips" data-original-title="Nominal maksimal yang di dapat saat proteksi" data-container="body"></i></label>
                                                     <div class="col-md-4">
                                                         <input type="text" name="value" data-type="currency" value="{{$proteksi['value_group']??''}}" placeholder="{{$proteksi['value']??''}}" class="form-control" required />
                                                     </div>
