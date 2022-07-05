@@ -151,7 +151,7 @@
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">Default Fixed Incentive Salary Hair Stylist</span>
+                <span class="caption-subject sbold uppercase font-blue">Default Fixed Incentive Salary Employee</span>
             </div>
         </div>
         <div class="tabbable-line tabbable-full-width">
@@ -196,7 +196,7 @@
                                                 <td style="text-align: center;">{{$dt['formula']}}</td>
                                                 <td style="text-align: center;">
                                                    <a href="{{ url('employee/income/default/fixed-incentive/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
-                                                   <a class="btn btn-sm red btn-primary" href="{{url('employee/income/default/fixed_incentive/delete/'.$dt['id_enkripsi'])}}"><i class="fa fa-trash-o"></i> Delete</a>
+                                                   <a class="btn btn-sm red btn-primary" href="{{url('employee/income/default/fixed-incentive/delete/'.$dt['id_enkripsi'])}}"><i class="fa fa-trash-o"></i> Delete</a>
                                                 </td>
                                             </tr>
                                         @endforeach

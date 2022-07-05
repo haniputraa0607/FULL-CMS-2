@@ -131,7 +131,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
             {
                 Route::any('/category', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@index_category']);
                 Route::post('/category/create', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@create_category']);
-                Route::post('/category/delete/{id}', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@delete_category']);
+                Route::any('/category/delete/{id}', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@delete_category']);
                 Route::any('/', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@index']);
                 Route::post('/create', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@create']);
                 Route::get('/detail/{id}', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@detail']);

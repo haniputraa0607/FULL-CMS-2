@@ -147,7 +147,7 @@
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">Default Overtime Salary Hair Stylist</span>
+                <span class="caption-subject sbold uppercase font-blue">Default Overtime Salary Employee</span>
             </div>
         </div>
         <div class="tabbable-line tabbable-full-width">
