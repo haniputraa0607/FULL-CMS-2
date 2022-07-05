@@ -115,7 +115,7 @@ $(document).ready(function() {
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">List Employee Attendance Outlet</span>
+                <span class="caption-subject sbold uppercase font-blue">List Employee Attendance Outlet Pending</span>
             </div>
         </div>
         <div class="portlet-body form">
