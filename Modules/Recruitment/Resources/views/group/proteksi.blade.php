@@ -24,16 +24,26 @@
                                                      <div class="form-group">
                                                     <label for="example-search-input" class="control-label col-md-4">Range<span class="required" aria-required="true">*</span>
                                                         <i class="fa fa-question-circle tooltips" data-original-title="Maksimal umur outlet(bulan) yang dapat di proteksi" data-container="body"></i></label>
-                                                    <div class="col-md-4">
-                                                        <input type="number" name="range" value="{{$proteksi['range']??''}}" placeholder="{{$proteksi['range']??''}}" class="form-control" disabled />
-                                                    </div>
+                                                    <div class="col-md-4 input-group">
+                                                           <input type="number" name="range" value="{{$proteksi['range']??''}}" placeholder="{{$proteksi['range']??''}}" class="form-control" disabled />
+                                                            <span class="input-group-btn">
+                                                                <button class="btn default" type="button">
+                                                                  month
+                                                                </button>
+                                                            </span>
+                                                        </div>      
                                                 </div>
                                                      <div class="form-group">
                                                     <label for="example-search-input" class="control-label col-md-4">Nominal<span class="required" aria-required="true">*</span>
                                                         <i class="fa fa-question-circle tooltips" data-original-title="Nominal maksimal yang di dapat saat proteksi" data-container="body"></i></label>
-                                                    <div class="col-md-4">
-                                                        <input type="text" name="value" data-type="currency" value="{{$proteksi['value_group']??''}}" placeholder="{{$proteksi['value']??''}}" class="form-control" required />
-                                                    </div>
+                                                        <div class="col-md-4 input-group">
+                                                           <span class="input-group-btn">
+                                                                <button class="btn default" type="button">
+                                                                  Rp
+                                                                </button>
+                                                            </span>
+                                                             <input type="text" name="value" data-type="currency" value="{{number_format($proteksi['value_group']??0,0,',',',')}}" placeholder="{{$proteksi['value']??''}}" class="form-control" required />
+                                                        </div>
                                                 </div>
                                                 </div>
 					</div>

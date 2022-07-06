@@ -27,7 +27,12 @@
                                                      <div class="form-group">
                                                     <label for="example-search-input" class="control-label col-md-4">Default Basic Salary<span class="required" aria-required="true">*</span>
                                                         <i class="fa fa-question-circle tooltips" data-original-title="Besaran gaji pokok" data-container="body"></i></label>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-5 input-group">
+                                                        <span class="input-group-btn">
+                                                            <button class="btn default" type="button">
+                                                              Rp
+                                                            </button>
+                                                        </span>
                                                         <input class="form-control" required type="text" id="value" data-type="currency" value="{{number_format($basic_salary['value_role']??0,0,',',',')}}" name="value" placeholder="{{number_format($basic_salary['value']??0,0,',',',')}}"/>
                                                     </div>
                                                 </div>

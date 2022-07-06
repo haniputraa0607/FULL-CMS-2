@@ -74,7 +74,7 @@ function myFunction() {
                 digitsOptional: false,
             });
         }
-        $('.datepicker').datepicker({
+        $('.date-picker').datepicker({
             'format' : 'd-M-yyyy',
             'todayHighlight' : true,
             'autoclose' : true
@@ -140,6 +140,7 @@ function myFunction() {
             SweetAlert.init()
             @if($detail['status_employee']==1)
                $("#show_end").hide();
+               $('#end_date').prop('required', false);
             @endif
         });
         
@@ -524,6 +525,9 @@ function myFunction() {
                 <li >
                         <a href="#job-experience" data-toggle="tab"> Job Experience</a>
                 </li>
+<!--                <li >
+                        <a href="#question" data-toggle="tab"> Question</a>
+                </li>-->
             </ul>
         </div>
 
@@ -550,7 +554,7 @@ function myFunction() {
                                             <div class="form-group">
 							<label class="col-md-4 control-label">Status Contract</label>
 							<div class="col-md-6" style="margin-top: 0.7%">
-								@if(empty($detail['status_employee']==1))
+								@if($detail['status_employee']==1)
 									Karyawan Tetap
 								@else
 									Karyawan Kontrak
@@ -569,7 +573,7 @@ function myFunction() {
 								@endif
 							</div>
 						</div>
-                                            @if(empty($detail['status_employee']==1))
+                                            @if($detail['status_employee']==1)
                                             <div class="form-group">
 							<label class="col-md-4 control-label">Start Working</label>
 							<div class="col-md-6" style="margin-top: 0.7%">
@@ -676,15 +680,6 @@ function myFunction() {
                                                     </div>
                                             </div>
                                             <div class="form-group">
-                                                    <label class="col-md-4 control-label">Phone Number <span class="required" aria-required="true"> * </span>
-                                                    </label>
-                                                    <div class="col-md-6">
-                                                            <div class="input-icon right">
-                                                                    <input type="text" placeholder="Phone Number" class="form-control" name="phone_number" value="{{ $detail['phone_number']??''}}" disabled >
-                                                            </div>
-                                                    </div>
-                                            </div>
-                                            <div class="form-group">
                                                     <label class="col-md-4 control-label">Gender <span class="required" aria-required="true"> * </span>
                                                     </label>
                                                     <div class="col-md-6">
@@ -724,7 +719,7 @@ function myFunction() {
                                                     </div>
                                                     <div class="col-md-6">
                                                             <div class="input-group">
-                                                                    <input type="text" class="datepicker form-control" name="birthday" value="{{date('d-M-Y', strtotime($detail['birthday']))}}" required autocomplete="off" >
+                                                                    <input type="text" class="form-control date-picker" name="birthday" value="{{date('d-M-Y', strtotime($detail['birthday']))}}" required autocomplete="off" >
                                                                     <span class="input-group-btn">
                                                 <button class="btn default" type="button">
                                                     <i class="fa fa-calendar"></i>
@@ -1277,6 +1272,9 @@ function myFunction() {
                                 </table>
                         @endif
                         
+                    </div>
+                    <div class="tab-pane" id="question">
+			@include('employee::employee.question')
                     </div>
 		</div>
     </div>

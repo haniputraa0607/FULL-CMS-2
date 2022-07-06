@@ -22,7 +22,7 @@
 						<div class="input-icon right">
 							<div class="input-group">
                                                             <input type="text" class="form-control" disabled name="start_date" id="start_date" value="{{date('Y-m-d')}}"  required autocomplete="off" placeholder="Start Date Approved">
-                                                            <input type="hidden" class="form-control datepicker" name="start_date" value="{{date('Y-m-d')}}" required autocomplete="off" placeholder="Start Date Approved">
+                                                            <input type="hidden" class="form-control date-picker" name="start_date" value="{{date('Y-m-d')}}" required autocomplete="off" placeholder="Start Date Approved">
                                                             <span class="input-group-btn">
                                                                 <button class="btn default" type="button">
                                                                         <i class="fa fa-calendar"></i>
@@ -42,7 +42,7 @@
 				<div class="col-md-4">
 					@if(isset($dataDoc['Approved']))
                                                 @if($detail['status_employee']==0)
-                                                    <input type="text" class="form_datetime form-control" value="{{date('d-F-Y', strtotime($detail['end_date']))}}" disabled>
+                                                    <input type="text" class="date-picker form-control" value="{{date('d-F-Y', strtotime($detail['end_date']))}}" disabled>
                                                 @endif 
 						
 					@else
