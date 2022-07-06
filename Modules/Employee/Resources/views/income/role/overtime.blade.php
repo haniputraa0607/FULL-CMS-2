@@ -38,8 +38,17 @@
                                                 <td style="text-align: center">
                                                     <input type="hidden" name="id_role[]" value="{{$id}}"/>
                                                     <input type="hidden" name="id_employee_role_default_overtime[]" value="{{$dt['id_employee_role_default_overtime']}}"/>
-                                                    <input type="text" name="value[]" id='value' value="@if($dt['default']==1 && $dt['value'] != null){{number_format($dt['value']??null,0,',',',')}}@endif" data-type="currency" placeholder="{{number_format($dt['default_value']??0,0,',',',')}}" class="form-control" /></input></td>
-                                                
+                                                    <div class="input-group">
+                                                        <span class="input-group-btn">
+                                                            <button class="btn default" type="button">
+                                                              Rp
+                                                            </button>
+                                                        </span>
+                                                        <input type="text" name="value[]" id='value' value="@if($dt['default']==1 && $dt['value'] != null){{number_format($dt['value']??null,0,',',',')}}@endif" data-type="currency" placeholder="{{number_format($dt['default_value']??0,0,',',',')}}" class="form-control" /></input>
+                                                        
+                                                    </div>
+                                                    </td>
+                                                    
                                             </tr>
                                         @endforeach
                                     @else

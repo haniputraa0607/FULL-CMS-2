@@ -290,15 +290,25 @@
                                     <label class="col-md-4 control-label">Range<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Range formula" data-container="body"></i>
                                     </label>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4 input-group">
                                         <input type="number" name="range" value="{{old('range')}}" placeholder="Masukkan range" class="form-control" required />
+                                        <span class="input-group-btn">
+                                            <button class="btn default" type="button">
+                                              month
+                                            </button>
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Value" data-container="body"></i>
                                     </label>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4 input-group">
+                                        <span class="input-group-btn">
+                                            <button class="btn default" type="button">
+                                              Rp
+                                            </button>
+                                        </span>
                                         <input type="text" name="value" id='value' value="{{old('value')}}" data-type="currency" placeholder="Masukkan besaran value" class="form-control" required />
                                     </div>
                                 </div>
@@ -324,7 +334,12 @@
                                 <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Besar tunjangan" data-container="body"></i>
                                 </label>
-                                <div class="col-md-6">
+                                <div class="col-md-4 input-group">
+                                    <span class="input-group-btn">
+                                        <button class="btn default" type="button">
+                                          Rp
+                                        </button>
+                                    </span>
                                     <input type="text" name="value" id='value' value="{{number_format($detail['value']??0,0,',',',')}}" data-type="currency" placeholder="Masukkan besaran value" class="form-control" required />
                                 </div>
                             </div>

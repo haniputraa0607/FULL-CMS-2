@@ -42,8 +42,15 @@
                                                 <td style="text-align: center">
                                                     <input type="hidden" name="id_role[]" value="{{$id}}"  @if($dt['id_employee_role_default_fixed_incentive_detail']==null) disabled @endif/>
                                                     <input type="hidden" name="id_employee_role_default_fixed_incentive_detail[]" value="{{$dt['id_employee_role_default_fixed_incentive_detail']}}"  @if($dt['id_employee_role_default_fixed_incentive_detail']==null) disabled @endif/>
-                                                    <input type="text" @if($dt['id_employee_role_default_fixed_incentive_detail']==null) disabled @endif name="value[]" id='value' value="@if($dt['default']==1 && $dt['value'] != null){{number_format($dt['value']??null,0,',',',')}}@endif" data-type="currency" placeholder="{{number_format($dt['default_value']??0,0,',',',')}}" class="form-control" /></input></td>
-                                                
+                                                    <div class="input-group">
+                                                        <span class="input-group-btn">
+                                                            <button class="btn default" type="button">
+                                                              Rp
+                                                            </button>
+                                                        </span>
+                                                        <input type="text" @if($dt['id_employee_role_default_fixed_incentive_detail']==null) disabled @endif name="value[]" id='value' value="@if($dt['default']==1 && $dt['value'] != null){{number_format($dt['value']??null,0,',',',')}}@endif" data-type="currency" placeholder="{{number_format($dt['default_value']??0,0,',',',')}}" class="form-control" /></input>
+                                                    </div>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     @else
@@ -69,7 +76,12 @@
                                         <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
                                             <i class="fa fa-question-circle tooltips" data-original-title="Besar tunjangan" data-container="body"></i>
                                         </label>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 input-group">
+                                            <span class="input-group-btn">
+                                                <button class="btn default" type="button">
+                                                  Rp
+                                                </button>
+                                            </span>
                                             <input type="text" name="value[]" id='value' value="@if($fixed['detail'][0]['default']==1 && $fixed['detail'][0]['value'] != null){{number_format($fixed['detail'][0]['value']??null,0,',',',')}}@endif" data-type="currency" placeholder="{{number_format($fixed['detail'][0]['default_value']??0,0,',',',')}}" class="form-control" required />
                                         </div>
                                     </div>

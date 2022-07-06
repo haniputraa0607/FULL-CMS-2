@@ -77,21 +77,36 @@ $configs     		= session('configs');
                                                     <div class="form-group">
                                                         <label for="example-search-input" class="control-label col-md-4">Start Attendance<span class="required" aria-required="true">*</span>
                                                             <i class="fa fa-question-circle tooltips" data-original-title="Tanggal perhitungan mulai absensi" data-container="body"></i></label>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-4 input-group">
                                                             <input class="form-control" required type="number" id="start" onkeyup="myFunction()" value="{{$start??''}}" min='2' max='28' name="start" placeholder="Enter Start Attendance"/>
+                                                            <span class="input-group-btn">
+                                                                <button class="btn default" type="button">
+                                                                  days
+                                                                </button>
+                                                            </span>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="example-search-input" class="control-label col-md-4">End Attendance <i class="fa fa-question-circle tooltips" data-original-title="Tanggal perhitungan selesai absensi" data-container="body"></i></label>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-4 input-group">
                                                             <input class="form-control" required type="number" id="end" value="{{$end??''}}" min='1' max='28' name="end" readonly placeholder="Enter Delivery Income"/>
+                                                            <span class="input-group-btn">
+                                                                <button class="btn default" type="button">
+                                                                  days
+                                                                </button>
+                                                            </span>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="example-search-input" class="control-label col-md-4">Delivery Income<span class="required" aria-required="true">*</span>
                                                             <i class="fa fa-question-circle tooltips" data-original-title="Tanggal income dikirim" data-container="body"></i></label>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-4 input-group">
                                                             <input class="form-control" required type="number" id="value" value="{{$value??''}}" min='1' max='28' name="value" placeholder="Enter Delivery Income"/>
+                                                            <span class="input-group-btn">
+                                                                <button class="btn default" type="button">
+                                                                  days
+                                                                </button>
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
