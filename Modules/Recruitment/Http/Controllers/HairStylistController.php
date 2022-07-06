@@ -189,6 +189,7 @@ class HairStylistController extends Controller
             }
             $data['hairstylist_category'] = MyHelper::get('hairstylist/be/category')['result']??[];
             $data['category_theories'] = MyHelper::get('theory/with-category')['result']??[];
+            $data['banks'] = MyHelper::get('disburse/bank')['result']??[];
             return view('recruitment::hair_stylist.detail', $data);
         }else{
             return redirect('recruitment/hair-stylist')->withErrors($store['messages']??['Failed get detail hair stylist']);
@@ -459,5 +460,16 @@ class HairStylistController extends Controller
     public function CreateBusinessPartner(Request $request){
         $post = $request->except('_token');
         return $update = MyHelper::post('recruitment/hairstylist/be/create-business-partner',$post);
+    }
+
+    public function bankAccountSave(Request $request){
+        $post = $request->except('_token');
+        $update = MyHelper::post('recruitment/hairstylist/be/bank-account/save', $post);
+
+        if (isset($update['status']) && $update['status'] == "success") {
+            return redirect('recruitment/hair-stylist/detail/'.$post['id_user_hair_stylist'].'#bank-account')->withSuccess(['Success save data']);
+        }else{
+            return redirect('recruitment/hair-stylist/detail/'.$post['id_user_hair_stylist'].'#bank-account')->withErrors($update['messages']??['Failed get data']);
+        }
     }
 }
