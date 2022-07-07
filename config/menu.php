@@ -16,7 +16,7 @@ return [
 			'required_features_rule' => 'or',
             'badge' => [
                 'type' => 'info', // info | success | warning | danger
-                'value' => '\View::shared("total_inbox")', // for eval
+                'value' => 'total_home', // for eval
             ],
 		],
 		*/
