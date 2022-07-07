@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Routing\UrlGenerator;
+use MyHelper;
+use View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,10 @@ class AppServiceProvider extends ServiceProvider
             {
                 $view->with('configs', session('configs'));
                 $view->with('grantedFeature', session('granted_features'));
+
+                $badges = MyHelper::get('sidebar-badge')['result'] ?? [];
+                View::share('sidebar_badges', $badges);
+                View::share('total_inbox', 123);
             });
     }
 
