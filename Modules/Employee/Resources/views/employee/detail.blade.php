@@ -44,6 +44,21 @@ function myFunction() {
 }
 </script>
         <script>
+        function number(id){
+            $(id).inputmask("remove");
+            $(id).inputmask({
+                mask: "9999 9999 999999",
+                removeMaskOnSubmit: true,
+                placeholder:"",
+                prefix: "",
+                //digits: 0,
+                // groupSeparator: '.',
+                rightAlign: false,
+                greedy: false,
+                autoGroup: true,
+                digitsOptional: false,
+            });
+        }
         function npwp(id){
             $(id).inputmask("remove");
             $(id).inputmask({
@@ -137,6 +152,7 @@ function myFunction() {
         jQuery(document).ready(function() {
             npwp('#npwp');
             banks('#banks');
+            number('#phone_emergency_contact');
             SweetAlert.init()
             @if($detail['status_employee']==1)
                $("#show_end").hide();
@@ -504,7 +520,7 @@ function myFunction() {
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">Detail {{$sub_title}}</span>
+                <span class="caption-subject sbold uppercase font-blue">{{$sub_title}}</span>
             </div>
         </div>
 
@@ -517,6 +533,9 @@ function myFunction() {
                         <a href="#candidate-status" data-toggle="tab"> Status Employee </a>
                 </li>
                 <li >
+                        <a href="#contact" data-toggle="tab"> Emergency Contact </a>
+                </li>
+                <li >
                         <a href="#family" data-toggle="tab"> Family </a>
                 </li>
                 <li >
@@ -525,9 +544,9 @@ function myFunction() {
                 <li >
                         <a href="#job-experience" data-toggle="tab"> Job Experience</a>
                 </li>
-<!--                <li >
+                <li >
                         <a href="#question" data-toggle="tab"> Question</a>
-                </li>-->
+                </li>
             </ul>
         </div>
 
@@ -1275,6 +1294,9 @@ function myFunction() {
                     </div>
                     <div class="tab-pane" id="question">
 			@include('employee::employee.question')
+                    </div>
+                    <div class="tab-pane" id="contact">
+			@include('employee::employee.contact')
                     </div>
 		</div>
     </div>
