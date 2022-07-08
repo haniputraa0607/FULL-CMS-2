@@ -47,6 +47,9 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
         Route::any('reject/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@reject']);
         Route::any('create-business-partner', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@CreateBusinessPartner']);
 //        Route::any('create', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@create']);
+        Route::any('contact/create/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@contact_create']);
+        Route::any('contact/delete/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@contact_delete']);
+        
     });
 
     Route::group(['prefix' => 'attendance'], function(){
