@@ -175,7 +175,7 @@ class RecruitmentEmployeeController extends Controller
                 'url_back'      => 'employee/recruitment/candidate',
                 'page_type'     => 'candidate'
             ];
-            return $data['detail'] = $detail['result'];
+            $data['detail'] = $detail['result'];
             $data['roles'] = MyHelper::get('users/role/list-all')['result'] ?? [];
             $data['outlets'] = MyHelper::post('outlet/be/list',['office_only'=>1])['result'] ?? [];
             $data['bank'] = MyHelper::get('employee/be/recruitment/bank')['result'] ?? [];
