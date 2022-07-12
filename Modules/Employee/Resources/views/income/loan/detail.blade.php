@@ -6,14 +6,26 @@
 
 @section('page-style')
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/datemultiselect/jquery-ui.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/datemultiselect/jquery-ui.multidatespicker.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2-bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-select/css/bootstrap-select.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" type="text/css" />
+    <style>
+        .datepicker{
+            padding: 6px 12px;
+           }
+    </style>
+@endsection
+
+@section('page-plugin')
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/jquery-repeater/jquery.repeater.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('page-script')
@@ -44,17 +56,7 @@
 
     </script>
 <script>
-    function changeType() {
-			if( $("#type").val()== "Type 1"){
-				$("#id_employee_category_loans").hide();
-			}else{
-				$("#id_employee_category_loans").show();
-				$('#id_employee_category_loan').prop('required', true);
-			}
-		}
   $(document).ready(function () {
-  
-      $("#id_employee_category_loans").hide();
         $("input[data-type='currency']").on({
             keyup: function() {
               formatCurrency($(this));
@@ -125,6 +127,11 @@
           input[0].setSelectionRange(caret_pos, caret_pos);
         }
     })
+    function addFormula(param){
+		var textvalue = $('#formula').val();
+		var textvaluebaru = textvalue+" "+param;
+		$('#formula').val(textvaluebaru);
+        }
     </script>
     
 @endsection
@@ -156,87 +163,24 @@
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">Default Loan Employee</span>
+                <span class="caption-subject sbold uppercase font-blue">Detail Sales Payment</span>
             </div>
         </div>
         <div class="tabbable-line tabbable-full-width">
-            <ul class="nav nav-tabs">
-                <li class="active">
-                    <a href="#overview" data-toggle="tab"> List Loan</a>
-                </li>
-                <li>
-                    <a href="#create" data-toggle="tab">Create Loan</a>
-                </li>
-            </ul>
-            <div class="tab-content">
-            <div class="tab-pane active" id="overview">
+          
+            <div class="tab-pane active" id="update">
                 <div class="portlet-body form">
-                    @yield('filter')
-                    
-                <div class="portlet light bordered">
-                    <div class="portlet-title">
-                        <div class="caption">
-                            <span class="caption-subject font-blue sbold uppercase">{{ $sub_title }}</span>
-                        </div>
-                    </div>
-                    <div class="portlet-body form">
-                        <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover" id="kt_datatable">
-                                    <thead>
-                                    <tr>
-                                        <th class="text-nowrap text-center">Code</th>
-                                        <th class="text-nowrap text-center">Name</th>
-                                        <th class="text-nowrap text-center">Name category</th>
-                                        <th class="text-nowrap text-center">Amount</th>
-                                        <th class="text-nowrap text-center">Installment</th>
-                                        <th class="text-nowrap text-center">Effective Date</th>
-                                        <th class="text-nowrap text-center">Type</th>
-                                        <th class="text-nowrap text-center">Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @if(!empty($data))
-                                        @foreach($data as $dt)
-                                            <tr data-id="{{ $dt['id_employee_loan'] }}">
-                                                <td style="text-align: center;">{{$dt['code']}}</td>
-                                                <td style="text-align: center;">{{$dt['name']}}</td>
-                                                <td style="text-align: center;">{{$dt['name_category_loan']}}</td>
-                                                <td style="text-align: center;">{{number_format($dt['amount']??0,0,',',',')}}</td>
-                                                <td style="text-align: center;">{{$dt['installment']}}</td>
-                                                <td style="text-align: center;">{{date('d M Y',strtotime($dt['effective_date']))}}</td>
-                                                <td style="text-align: center;">{{$dt['type']}}</td>
-                                                <td style="text-align: center;">
-                                                   <a href="{{ url('employee/income/loan/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
-                                                   
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @else
-                                        <tr>
-                                            <td colspan="10" style="text-align: center">Data Not Available</td>
-                                        </tr>
-                                    @endif
-                                    </tbody>
-                                </table>
-                    </div>
-                    </div>
-                </div>
-                </div>
-            </div>
-            <div class="tab-pane" id="create">
-                <form class="form-horizontal" role="form" action="{{url('employee/income/loan/create')}}" method="post" enctype="multipart/form-data">
+                    <form class="form-horizontal" role="form" action="{{url('employee/income/loan/sales/create')}}" method="post" enctype="multipart/form-data">
                             <div class="form-body">
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Employee<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Name Employee" data-container="body"></i>
                                     </label>
                                     <div class="col-md-4 input-group">
-                                        <select class="form-control select2" name="id_user" id="id_user" data-placeholder="Select Employee">
-                                                <option></option>
-                                                @foreach($hs as $val)
-                                                <option value="{{$val['id']}}" >{{$val['code']}} {{$val['name']}}</option>
-                                                @endforeach
-                                        </select>
+                                        <input class="form-control" name="id_user" id="id_user" value="{{$data['name']}}" data-placeholder="Select Employee" disabled="">
+                                        <input class="form-control" type="hidden" name="id_user" id="id_user" value="{{$data['id_user']}}" data-placeholder="Select Employee" >
+                                        <input class="form-control" type="hidden" name="id_employee_sales_payment" id="id_employee_sales_payment" value="{{$data['id_employee_sales_payment']}}" data-placeholder="Select Employee" >
+                                               
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -287,7 +231,7 @@
                                     </label>
                                     <div class="col-md-4 input-group">
                                         <select hidden required class="form-control" name="type" id="id_employee_category_loan" data-placeholder="Select category loan">
-                                              <option value="CRM" >CRM</option>
+                                              <option value="Icount" >Icount</option>
                                         </select>
                                     </div>
                                 </div>
@@ -307,8 +251,8 @@
                                 </div>
                             </div>
                         </form>
+                </div>
             </div>
-        </div>
         </div>
     </div>
 @endsection

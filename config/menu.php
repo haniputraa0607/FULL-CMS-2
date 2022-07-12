@@ -336,6 +336,12 @@ return [
                                                                                 'active' => '\View::shared("child_active") == "employee-loan"',
                                                                                 'url' => 'employee/income/loan'
                                                                             ],
+                                                                            [
+                                                                                'label' => 'Sales Payment',
+                                                                                'required_features' => [],
+                                                                                'active' => '\View::shared("child_active") == "employee-loan-sales-payment"',
+                                                                                'url' => 'employee/income/loan/sales'
+                                                                            ],
                                                                         ],
                                                                 ],
                                                             ],

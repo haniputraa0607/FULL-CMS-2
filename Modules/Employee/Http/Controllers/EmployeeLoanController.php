@@ -150,6 +150,80 @@ class EmployeeLoanController extends Controller
         if(isset($query['status']) && $query['status'] != 'success'){
                 return redirect(url()->previous().'#fixed')->withErrors($query['messages']);
         }
-         return redirect(url()->previous())->withSuccess(['Hair Stylist Loan Success']);
+         return redirect(url()->previous())->withSuccess(['Loan Success']);
+    }
+    
+    //sales payment
+     public function index_sales(Request $request)
+    {
+         $post = $request->all();
+         $url = $request->url();
+         $data = [ 
+                    'title'             => 'Sales Payment Employee',
+                    'sub_title'         => 'Sales Payment Employee',
+                    'menu_active'       => 'employee-loan-sales-payment',
+                    'child_active'      => 'employee-loan-sales-payment',
+                ];
+           $session = 'category-loan';
+         if( ($post['rule']??false) && !isset($post['draw']) ){
+            session([$session => $post]);
+
+       }elseif($post['clear']??false){
+           session([$session => null]);
+       }
+       if(isset($post['reset']) && $post['reset'] == 1){
+           Session::forget($session);
+       }elseif(Session::has($session) && !empty($post) && !isset($post['filter'])){
+           $pageSession = 1;
+           if(isset($post['page'])){
+               $pageSession = $post['page'];
+           }
+           $post = Session::get($session);
+           $post['page'] = $pageSession;
+
+       }
+       if(isset($post['rule'])){
+               $data['rule'] = array_map('array_values', $post['rule']);
+       }
+       $page = '?page=1';
+       if(isset($post['page'])){
+           $page = '?page='.$post['page'];
+       }
+    $list = MyHelper::post('employee/loan/sales'.$page, $post)['result']??[];
+       $val = array();
+        foreach ($list as $value){
+            $value['id_enkripsi'] = MyHelper::createSlug($value['id_employee_sales_payment'],$value['created_at']);
+            array_push($val,$value);
+        }
+        $data['data'] = $val;
+        $data['hs'] = MyHelper::post('employee/loan/hs'.$page, $post)['result']??[];
+        $data['categorys'] = MyHelper::post('employee/loan/category/list'.$page, $post)['result']??[];
+        return view('employee::income.loan.index_sales',$data);
+    }
+     public function detail_sales($id)
+    {
+         $id = MyHelper::explodeSlug($id)[0]??'';
+         $data = [ 
+                    'title'             => 'Sales Payment Employee',
+                    'sub_title'         => 'Detail Sales Payment Employee',
+                    'menu_active'       => 'employee-loan-sales-payment',
+                    'child_active'      => 'employee-loan-sales-payment',
+                ];
+         
+        $list = MyHelper::post('employee/loan/sales/detail', ['id_employee_sales_payment'=>$id])['result']??[];
+        $data['data'] = $list;
+        $data['categorys'] = MyHelper::post('employee/loan/category/list',['id_employee_sales_payment'=>$id])['result']??[];
+        return view('employee::income.loan.detail',$data);
+    }
+     public function create_sales(Request $request)
+    {
+         $post = $request->except('_token');
+        $post['amount'] = str_replace(',','', $post['amount']??0);
+        $post['effective_date'] = date('Y-m-d',strtotime($post['effective_date']));
+        $query = MyHelper::post('employee/loan/sales/create', $post);
+        if(isset($query['status']) && $query['status'] != 'success'){
+                return redirect(url()->previous())->withErrors($query['messages']);
+        }
+         return redirect('employee/income/loan')->withSuccess(['Loan Success']);
     }
 }
