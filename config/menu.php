@@ -340,6 +340,63 @@ return [
                                                                 ],
                                                             ],
 						],
+                                                [
+                                                    'label' => 'Asset & Inventory',
+                                                    'required_features' => [],
+                                                    'type' => 'tree',
+                                                    'children' => [
+                                                                [
+                                                                    'label' => 'Category Asset & Inventory',
+                                                                    'required_features' => [],
+                                                                    'active' => '\View::shared("submenu_active") == "category-asset-inventory"',
+                                                                    'url' => 'employee/asset-inventory/category'
+                                                                ],
+                                                                [
+                                                                    'label' => 'Asset & Inventory',
+                                                                    'required_features' => [],
+                                                                    'active' => '\View::shared("submenu_active") == "asset-inventory"',
+                                                                    'url' => 'employee/asset-inventory'
+                                                                ],
+                                                                [
+                                                                    'label' => 'Loan Asset & Inventory',
+                                                                    'required_features' => [],
+                                                                    'type' => 'tree',
+                                                                    'children' => [
+                                                                            [
+                                                                                'label' => 'List Pending',
+                                                                                'required_features' => [],
+                                                                                'active' => '\View::shared("child_active") == "asset-inventory-loan-pending"',
+                                                                                'url' => 'employee/asset-inventory/loan/pending'
+                                                                            ],
+                                                                            [
+                                                                                'label' => 'History Loan',
+                                                                                'required_features' => [],
+                                                                                'active' => '\View::shared("child_active") == "asset-inventory-loan"',
+                                                                                'url' => 'employee/asset-inventory/loan'
+                                                                            ],
+                                                                        ],
+                                                                ],
+                                                                [
+                                                                    'label' => 'Return Asset & Inventory',
+                                                                    'required_features' => [],
+                                                                    'type' => 'tree',
+                                                                    'children' => [
+                                                                            [
+                                                                                'label' => 'List Pending',
+                                                                                'required_features' => [],
+                                                                                'active' => '\View::shared("child_active") == "asset-inventory-return-pending"',
+                                                                                'url' => 'employee/asset-inventory/return/pending'
+                                                                            ],
+                                                                            [
+                                                                                'label' => 'History Return',
+                                                                                'required_features' => [],
+                                                                                'active' => '\View::shared("child_active") == "asset-inventory-return"',
+                                                                                'url' => 'employee/asset-inventory/return'
+                                                                            ],
+                                                                        ],
+                                                                ],
+                                                            ],
+						],
 						[
 							'label' => 'Schedule',
                             'required_features' => [],

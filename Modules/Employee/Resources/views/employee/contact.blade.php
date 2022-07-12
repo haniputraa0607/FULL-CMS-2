@@ -68,11 +68,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nomor telepon dari kerabat atau relasi yang dapat dihubungi" data-container="body"></i></label>
                                     <div class="col-md-5 input-group">
                                         <input class="form-control" type="text" id="phone_emergency_contact" name="phone_emergency_contact" required/>
-                                         <span class="input-group-btn">
-                                                                <button class="btn default" type="button">
-                                                                 <i class="fa fa-phone" ></i>
-                                                                </button>
-                                                            </span>
+                                         
                                     </div>
                                 </div>
                                 <div class="form-actions">
