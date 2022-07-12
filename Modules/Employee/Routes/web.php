@@ -139,6 +139,10 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
                 Route::any('/', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@index']);
                 Route::post('/create', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@create']);
                 Route::get('/detail/{id}', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@detail']);
+                
+                Route::any('/sales', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@index_sales']);
+                Route::any('/sales/detail/{id}', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@detail_sales']);
+                Route::any('/sales/create', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@create_sales']);
             });
             Route::group(['prefix' => 'default'], function()
             {
