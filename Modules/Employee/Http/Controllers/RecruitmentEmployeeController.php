@@ -246,6 +246,24 @@ class RecruitmentEmployeeController extends Controller
             return redirect('employee/recruitment/detail/'.$id)->withErrors($update['messages']??['Failed update data']);
         }
     }
+    public function contact_create(Request $request,$id){
+        $post = $request->except('_token');
+        $update = MyHelper::post('employee/be/profile/emergency/create',$post);
+        if(isset($update['status']) && $update['status'] == 'success'){
+            return redirect('employee/recruitment/detail/'.$id.'#contact')->withSuccess(['Success create contact data']);
+        }else{
+            return redirect('employee/recruitment/detail/'.$id.'#contact')->withErrors($update['messages']??['Failed update data']);
+        }
+    }
+    public function contact_delete($id){
+        $post['id_employee_emergency_contact'] = $id;
+        $update = MyHelper::post('employee/be/profile/emergency/delete',$post);
+        if(isset($update['status']) && $update['status'] == 'success'){
+            return redirect()->back()->withSuccess(['Success delete contact data']);
+        }else{
+            return redirect()->back()->withErrors($update['messages']??['Failed update data']);
+        }
+    }
 
     public function CreateBusinessPartner(Request $request){
         $post = $request->except('_token');

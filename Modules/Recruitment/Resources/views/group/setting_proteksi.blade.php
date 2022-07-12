@@ -159,7 +159,7 @@ $configs     		= session('configs');
                                                 </div>
                                                      <div class="form-group">
                                                     <label for="example-search-input" class="control-label col-md-4">Nominal<span class="required" aria-required="true">*</span>
-                                                        <i class="fa fa-question-circle tooltips" data-original-title="Maksimal umur outlet(bulan) yang dapat di proteksi" data-container="body"></i></label>
+                                                        <i class="fa fa-question-circle tooltips" data-original-title="Nominal maksimal yang di dapat saat proteksi" data-container="body"></i></label>
                                                     <div class="col-md-3">
                                                         <input type="text" name="value" data-type="currency" value="{{number_format($result['value']??0,0,',',',')}}" placeholder="Masukan besaran nilai proteksi" class="form-control" required />
                                                     </div>

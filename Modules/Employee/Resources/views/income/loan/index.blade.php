@@ -184,8 +184,8 @@
                         <table class="table table-striped table-bordered table-hover" id="kt_datatable">
                                     <thead>
                                     <tr>
-                                        <th class="text-nowrap text-center">Code HS</th>
-                                        <th class="text-nowrap text-center">Name HS</th>
+                                        <th class="text-nowrap text-center">Code</th>
+                                        <th class="text-nowrap text-center">Name</th>
                                         <th class="text-nowrap text-center">Name category</th>
                                         <th class="text-nowrap text-center">Amount</th>
                                         <th class="text-nowrap text-center">Installment</th>
@@ -228,10 +228,10 @@
                             <div class="form-body">
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Employee<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Name hairstylist" data-container="body"></i>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Name Employee" data-container="body"></i>
                                     </label>
-                                    <div class="col-md-3">
-                                        <select class="form-control select2" name="id_user" id="id_user" data-placeholder="Select hairstylist">
+                                    <div class="col-md-4 input-group">
+                                        <select class="form-control select2" name="id_user" id="id_user" data-placeholder="Select Employee">
                                                 <option></option>
                                                 @foreach($hs as $val)
                                                 <option value="{{$val['id']}}" >{{$val['code']}} {{$val['name']}}</option>
@@ -243,7 +243,7 @@
                                     <label class="col-md-4 control-label">Name Category<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Name category" data-container="body"></i>
                                     </label>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4 input-group">
                                         <select class="form-control select2" name="id_employee_category_loan" id="id_employee_category_loan" data-placeholder="Select category loan">
                                                 <option></option>
                                                 @foreach($categorys as $list)
@@ -256,7 +256,12 @@
                                     <label class="col-md-4 control-label">Amount<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Besar peminjaman" data-container="body"></i>
                                     </label>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4 input-group">
+                                        <span class="input-group-btn">
+                                                            <button class="btn default" type="button">
+                                                              Rp
+                                                            </button>
+                                                        </span>
                                         <input type="text" name="amount" id='amount' value="{{old('amount')}}" data-type="currency" placeholder="Masukkan besaran peminjaman" class="form-control" required />
                                     </div>
                                 </div>
@@ -264,7 +269,7 @@
                                     <label class="col-md-4 control-label">Installment<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Jumlah cicilan" data-container="body"></i>
                                     </label>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4 input-group">
                                         <input type="number" name="installment" id='installment' value="{{old('installment')}}" min="1" placeholder="Masukkan jumlah" class="form-control" required />
                                     </div>
                                 </div>
@@ -272,7 +277,7 @@
                                     <label class="col-md-4 control-label">Effective Date<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai pengembalian" data-container="body"></i>
                                     </label>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4 input-group">
                                         <input type="text" class="form-control datepicker" name="effective_date" id="effective_date" placeholder="Effective Date Contract" required>
                                     </div>
                                 </div>
@@ -280,7 +285,7 @@
                                     <label class="col-md-4 control-label">Type<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Type" data-container="body"></i>
                                     </label>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4 input-group">
                                         <select required class="form-control" name="type" id="id_employee_category_loan" data-placeholder="Select category loan">
                                               <option value="Flat" >Flat</option>
                                         </select>
@@ -288,7 +293,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Notes</label>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 input-group">
                                         <textarea type="text" class="form-control" name="notes" id="notes" placeholder="Masukkan notes" ></textarea>
                                     </div>
                                 </div>

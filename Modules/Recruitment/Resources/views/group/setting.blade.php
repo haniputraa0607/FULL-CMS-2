@@ -171,6 +171,9 @@
                 <li>
                     <a href="#proteksi" data-toggle="tab">Proteksi</a>
                 </li>
+                <li>
+                    <a href="#total" data-toggle="tab">Total Date</a>
+                </li>
             </ul>
             <div class="tab-content">
             <div class="tab-pane active" id="incentive">
@@ -189,21 +192,31 @@
                                                     <div class="form-group">
                                                         <label for="example-search-input" class="control-label col-md-4">Date<span class="required" aria-required="true">*</span>
                                                             <i class="fa fa-question-circle tooltips" data-original-title="tanggal pertengahan perhitungan absensi" data-container="body"></i></label>
-                                                        <div class="col-md-2">
+                                                        <div class="col-md-4 input-group">
                                                             <input value="{{$result['mid_date']??''}}" required type="number" min="1" max="28" name="mid_date" id="mid_date" class="form-control" placeholder="Enter date">
+                                                            <span class="input-group-btn">
+                                                                <button class="btn default" type="button">
+                                                                  days
+                                                                </button>
+                                                            </span>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="example-search-input" class="control-label col-md-4">Delivery date<span class="required" aria-required="true">*</span>
                                                             <i class="fa fa-question-circle tooltips" data-original-title="Tanggal pengiriman pendapatan tengah bulan" data-container="body"></i></label>
-                                                        <div class="col-md-2">
+                                                        <div class="col-md-4 input-group">
                                                             <input value="{{$result['delivery_mid_date']??''}}" required type="number" min="1" max="28" name="delivery_mid_date" id="delivery_mid_date" class="form-control" placeholder="Enter date">
+                                                            <span class="input-group-btn">
+                                                                <button class="btn default" type="button">
+                                                                  days
+                                                                </button>
+                                                            </span>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="example-search-input" class="control-label col-md-4">Calculation Income Middle<span class="required" aria-required="true">*</span>
                                                             <i class="fa fa-question-circle tooltips" data-original-title="Besaran gaji pokok" data-container="body"></i></label>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6 input-group">
                                                           <select class="form-control select2" multiple="multiple" name="hs_income_calculation_mid[]" id="code" data-placeholder="Select">
                                                                     <option></option>
                                                                     @foreach($list as $val)
@@ -223,21 +236,31 @@
                                                         <div class="form-group">
                                                             <label for="example-search-input" class="control-label col-md-4">Date<span class="required" aria-required="true">*</span>
                                                                 <i class="fa fa-question-circle tooltips" data-original-title="Tanggal perhitungan akhir absensi" data-container="body"></i></label>
-                                                            <div class="col-md-2">
+                                                            <div class="col-md-4 input-group">
                                                                 <input value="{{$result['end_date']??''}}" requiredrequired type="number" min="2" max="28" name="end_date" id="end_date" class="form-control" placeholder="Enter start date">
+                                                                <span class="input-group-btn">
+                                                                <button class="btn default" type="button">
+                                                                  days
+                                                                </button>
+                                                            </span>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="example-search-input" class="control-label col-md-4">Delivery date<span class="required" aria-required="true">*</span>
                                                                 <i class="fa fa-question-circle tooltips" data-original-title="Tanggal pengiriman pendapatan akhir bulan" data-container="body"></i></label>
-                                                            <div class="col-md-2">
+                                                            <div class="col-md-4 input-group">
                                                                 <input value="{{$result['delivery_end_date']??''}}" required type="number" min="1" max="28" name="delivery_end_date" id="delivery_end_date" class="form-control" placeholder="Enter date">
+                                                                <span class="input-group-btn">
+                                                                <button class="btn default" type="button">
+                                                                  days
+                                                                </button>
+                                                            </span>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="example-search-input" class="control-label col-md-4">Calculation Income Ended<span class="required" aria-required="true">*</span>
                                                                 <i class="fa fa-question-circle tooltips" data-original-title="Besaran gaji pokok" data-container="body"></i></label>
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-6 input-group">
                                                               <select class="form-control select2" multiple="multiple" name="hs_income_calculation_end[]" id="code_end" data-placeholder="Select">
                                                                         <option></option>
                                                                         @foreach($list as $val)
@@ -270,12 +293,18 @@
 					<div class="form-body">
                                                 <div id="id_commission">
                                                      <div class="form-group">
-                                                    <label for="example-search-input" class="control-label col-md-4">Overtime<span class="required" aria-required="true">*</span>
-                                                        <i class="fa fa-question-circle tooltips" data-original-title="Minimal waktu overtime (1-59)" data-container="body"></i></label>
-                                                    <div class="col-md-2">
-                                                        <input type="number" name="value" min="1" max="60" value="{{$overtime['value']??0}}" placeholder="Masukkan waktu (minutes)" class="form-control" required />
+                                                        <label for="example-search-input" class="control-label col-md-4">Overtime<span class="required" aria-required="true">*</span>
+                                                            <i class="fa fa-question-circle tooltips" data-original-title="Menu ini digunakan untuk menentukan minimal waktu lembur dalam menit untuk dihitung sebagai 1 jam lembur" data-container="body"></i></label>
+                                                        <div class="col-md-4 input-group">
+                                                            <input type="number" name="value" min="1" max="60" value="{{$overtime['value']??0}}" placeholder="Masukkan waktu (minutes)" class="form-control" required />
+                                                            <span class="input-group-btn">
+                                                                <button class="btn default" type="button">
+                                                                  minutes
+                                                                </button>
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                    
                                                 </div>
 					</div>
                                         
@@ -303,16 +332,63 @@
                                                      <div class="form-group">
                                                     <label for="example-search-input" class="control-label col-md-4">Range<span class="required" aria-required="true">*</span>
                                                         <i class="fa fa-question-circle tooltips" data-original-title="Maksimal umur outlet(bulan) yang dapat di proteksi" data-container="body"></i></label>
-                                                    <div class="col-md-3">
-                                                        <input type="number" name="range" value="{{$proteksi['range']??''}}" placeholder="Masukkan umur outlet yang dapat di proteksi" class="form-control" required />
-                                                    </div>
+                                                    
+                                                    <div class="col-md-4 input-group">
+                                                            <input type="number" name="range" value="{{$proteksi['range']??''}}" placeholder="Masukkan umur outlet yang dapat di proteksi" class="form-control" required />
+                                                            <span class="input-group-btn">
+                                                                <button class="btn default" type="button">
+                                                                  month
+                                                                </button>
+                                                            </span>
+                                                        </div>     
                                                 </div>
                                                      <div class="form-group">
                                                     <label for="example-search-input" class="control-label col-md-4">Nominal<span class="required" aria-required="true">*</span>
-                                                        <i class="fa fa-question-circle tooltips" data-original-title="Maksimal umur outlet(bulan) yang dapat di proteksi" data-container="body"></i></label>
-                                                    <div class="col-md-3">
+                                                        <i class="fa fa-question-circle tooltips" data-original-title="Nominal maksimal umur outlet(bulan) yang dapat di proteksi" data-container="body"></i></label>
+                                                    <div class="col-md-4 input-group">
+                                                        <span class="input-group-btn">
+                                                                <button class="btn default" type="button">
+                                                                  Rp
+                                                                </button>
+                                                            </span>
                                                         <input type="text" name="value" data-type="currency" value="{{number_format($proteksi['value']??0,0,',',',')}}" placeholder="Masukan besaran nilai proteksi" class="form-control" required />
                                                     </div>
+                                                </div>
+                                                </div>
+					</div>
+                                        
+					<div class="form-actions" style="text-align:center;">
+						{{ csrf_field() }}
+						<button type="submit" class="btn blue" id="checkBtn">Update</button>
+					</div>
+				</form>
+			</div>
+		</div>
+            </div>
+            <div class="tab-pane" id="total">
+                <div class="portlet light">
+			<div class="portlet-title">
+				<div class="caption font-blue ">
+					<i class="icon-settings font-blue "></i>
+					<span class="caption-subject bold uppercase">This menu is used to set a overtime minutes</span>
+				</div>
+			</div>
+			<div class="portlet-body form">
+				<form role="form" class="form-horizontal" action="{{url('recruitment/hair-stylist/group/setting-date')}}" method="POST" enctype="multipart/form-data">
+					{{ csrf_field() }}
+					<div class="form-body">
+                                                <div id="id_commission">
+                                                     <div class="form-group">
+                                                    <label for="example-search-input" class="control-label col-md-4">Total Days<span class="required" aria-required="true">*</span>
+                                                        <i class="fa fa-question-circle tooltips" data-original-title="Menu ini digunakan untuk menentukan total tanggal dalam menentukan besaran dinamyc incentive/salary cut" data-container="body"></i></label>
+                                                    <div class="col-md-4 input-group">
+                                                            <input type="number" name="value" min="1" max="31" value="{{$date['value']??0}}" placeholder="Masukkan jumlah hari (days)" class="form-control" required />
+                                                            <span class="input-group-btn">
+                                                                <button class="btn default" type="button">
+                                                                  days
+                                                                </button>
+                                                            </span>
+                                                        </div>     
                                                 </div>
                                                 </div>
 					</div>

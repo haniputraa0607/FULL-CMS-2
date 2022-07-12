@@ -7,7 +7,7 @@
 				<label class="col-md-4 control-label">Notes <span class="required" aria-required="true"> * </span>
 				</label>
 				<div class="col-md-6">
-					<textarea class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Contract']['process_notes'])) disabled @endif>@if(isset($dataDoc['Contract']['process_notes'])) {{$dataDoc['Contract']['process_notes']}}  @endif</textarea>
+					<textarea class="form-control" required name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Contract']['process_notes'])) disabled @endif>@if(isset($dataDoc['Contract']['process_notes'])) {{$dataDoc['Contract']['process_notes']}}  @endif</textarea>
 				</div>
 			</div>
 			<div class="form-group">

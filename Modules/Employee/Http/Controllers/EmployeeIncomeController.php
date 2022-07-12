@@ -29,10 +29,13 @@ class EmployeeIncomeController extends Controller
             }
         }else{
             $query = MyHelper::get('setting/setting-delivery-income');
-            $data['value'] = $query['value'];
-            $query['value_text'] = json_decode($query['value_text'],true);
-            $data['start'] = $query['value_text']['start'];
-            $data['end'] = $query['value_text']['end'];
+            $data['value'] = $query['value']??'';
+            if(isset($query['value_text'])){
+                
+            $query['value_text'] = json_decode($query['value_text'],true)??[];
+            }
+            $data['start'] = $query['value_text']['start']??'';
+            $data['end'] = $query['value_text']['end']??'';
             return view('employee::income.setting_delivery_income', $data);
         }
     }

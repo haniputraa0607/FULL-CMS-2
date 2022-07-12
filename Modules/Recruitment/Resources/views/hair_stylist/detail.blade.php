@@ -385,6 +385,23 @@ $totalTheories = 0;
                 }
                 
         }
+
+		$('.onlynumber').keypress(function (e) {
+			var regex = new RegExp("^[0-9]");
+			var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+			var check_browser = navigator.userAgent.search("Firefox");
+			if(check_browser == -1){
+				if (regex.test(str) || e.which == 8) {
+					return true;
+				}
+			}else{
+				if (regex.test(str) || e.which == 8 ||  e.keyCode === 46 || (e.keyCode >= 37 && e.keyCode <= 40)) {
+					return true;
+				}
+			}
+			e.preventDefault();
+			return false;
+		});
     </script>
 @endsection
 
@@ -438,6 +455,9 @@ $totalTheories = 0;
 	                <li>
 	                    <a href="#hs-box" data-toggle="tab"> Box </a>
 	                </li>
+					<li>
+						<a href="#bank-account" data-toggle="tab"> Bank Account </a>
+					</li>
                 @endif
             </ul>
         </div>
@@ -513,7 +533,7 @@ $totalTheories = 0;
 								<div class="row">
 									<div class="hidden col-md-6" id="update-business-form">
 										<div class="input-group">
-											<input type="text" name="businees_partner_id" class="form-control" placeholder="Input Business Partner ID" value="{{$detail['id_business_partner']}}">
+											<input type="text" name="businees_partner_id" class="form-control" placeholder="Input Business Partner ID" value="{{$detail['id_business_partner']??null}}">
 											<div class="input-group-btn">
 												<button type="button" class="btn btn-primary" id="update-business-ok-btn" onclick="submitBusinessUpdate()"><i class="fa fa-check"></i></button>
 												<button type="button" class="btn btn-danger" id="update-business-cancel-btn" onclick="hideBusinessUpdate()"><i class="fa fa-times"></i></button>
@@ -1042,6 +1062,9 @@ $totalTheories = 0;
 				</div>
 				<div class="tab-pane form" id="hs-box">
 					@yield('detail-box')
+				</div>
+				<div class="tab-pane form" id="bank-account">
+					@include('recruitment::hair_stylist.bank_account')
 				</div>
 			@endif
 		</div>

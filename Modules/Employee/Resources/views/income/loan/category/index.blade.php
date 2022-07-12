@@ -151,7 +151,7 @@
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">Default Category Loan Hair Stylist</span>
+                <span class="caption-subject sbold uppercase font-blue">Default Category Loan Employee</span>
             </div>
         </div>
         <div class="tabbable-line tabbable-full-width">

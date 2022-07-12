@@ -921,8 +921,13 @@ class MyHelper
       }
 
       if (($menu['type'] ?? 'single') != 'group' && ($menu['badge'] ?? false)) {
+        if (strpos($menu['badge']['value'], 'View::shared')) {
+          $badge = eval('return ' . $menu['badge']['value'] . ';');
+        } else {
+          $badge = \View::shared('sidebar_badges')[$menu['badge']['value']] ?? '';
+        }
         $marginRight = ($menu['type'] ?? 'single') != 'single' ? 20 : 0;
-        $menu['label'] .= '<span class="badge badge-'. ($menu['badge']['type'] ?? 'info') .' pull-right" style="margin-right:' . $marginRight . 'px">' .eval('return ' . $menu['badge']['value'] . ';'). '</span>';
+        $menu['label'] .= '<span class="badge badge-'. ($menu['badge']['type'] ?? 'info') .' pull-right" style="margin-right:' . $marginRight . 'px">' .$badge. '</span>';
       }
 
       switch ($menu['type'] ?? 'single') {

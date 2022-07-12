@@ -668,7 +668,7 @@ class HairStylistGroupController extends Controller
               public function default_delete_overtime($id)
               {
                 $id = MyHelper::explodeSlug($id)[0]??'';
-                 $query = MyHelper::post('recruitment/hairstylist/be/group/overtime/default/delete', ['id_hairstylist_group_default_insentifs'=>$id]);
+                 $query = MyHelper::post('recruitment/hairstylist/be/group/overtime/default/delete', ['id_hairstylist_group_default_overtimes'=>$id]);
                         if(isset($query['status']) && $query['status'] == 'success'){
                                 return back()->withSuccess(['Delete Success']);
                         } else{
@@ -1130,8 +1130,9 @@ class HairStylistGroupController extends Controller
             $data['overtime'] = MyHelper::get('setting/overtime-hs');
             $data['proteksi'] =  MyHelper::get('setting/proteksi-hs')['value_text']??[];
             if($data['proteksi']){
-            $data['proteksi'] = json_decode($data['result'],true);
+           $data['proteksi'] = json_decode($data['proteksi'],true);
             }
+            $data['date'] = MyHelper::get('setting/total-date-hs');
             return view('recruitment::group.setting', $data);
         }
         }
@@ -1174,6 +1175,18 @@ class HairStylistGroupController extends Controller
            }
             $data['result'] =  MyHelper::get('setting/overtime-hs');
             return view('recruitment::group.setting_overtime', $data);
+        }
+        public function setting_total_date(Request $request){
+            $post = $request->except('_token');
+           if($post){
+                $query = MyHelper::post('setting/total-date-hs-create', $post);
+                  if(isset($query['status']) && $query['status'] == 'success'){
+                          return back()->withSuccess(['Update Setting Success']);
+                  } else{
+                          return back()->withInput($request->input())->withErrors($query['messages']);
+                  }
+           }
+           return back()->withInput($request->input())->withErrors(['Incomplete Data']);
         }
         public function setting_proteksi(Request $request){
             $post = $request->except('_token');

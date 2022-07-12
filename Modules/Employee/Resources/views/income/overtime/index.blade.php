@@ -147,7 +147,7 @@
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">Default Overtime Salary Hair Stylist</span>
+                <span class="caption-subject sbold uppercase font-blue">Default Overtime Salary Employee</span>
             </div>
         </div>
         <div class="tabbable-line tabbable-full-width">
@@ -211,15 +211,25 @@
                                     <label class="col-md-4 control-label">Hours<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Jumlah Jam" data-container="body"></i>
                                     </label>
-                                    <div class="col-md-6">
+                                    <div class="col-md-5 input-group">
                                         <input type="number" name="hours" value="{{old('hours')}}" placeholder="Masukkan jam overtime" class="form-control" required />
+                                        <span class="input-group-btn">
+                                                <button class="btn default" type="button">
+                                                  Rp
+                                                </button>
+                                            </span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Besar insentif yang diterima oleh hairstylist" data-container="body"></i>
                                     </label>
-                                    <div class="col-md-6">
+                                    <div class="col-md-5 input-group">
+                                        <span class="input-group-btn">
+                                                <button class="btn default" type="button">
+                                                  Rp
+                                                </button>
+                                            </span>
                                         <input type="text" name="value" id='value' value="{{old('value')}}" data-type="currency" placeholder="Masukkan besar insentif" class="form-control" required />
                                     </div>
                                 </div>
