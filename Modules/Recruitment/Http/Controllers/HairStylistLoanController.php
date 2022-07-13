@@ -150,4 +150,77 @@ class HairStylistLoanController extends Controller
         }
          return redirect(url()->previous())->withSuccess(['Hair Stylist Loan Success']);
     }
+    
+     public function index_sales(Request $request)
+    {
+         $post = $request->all();
+         $url = $request->url();
+         $data = [ 
+                    'title'             => 'Sales Payment HS',
+                    'sub_title'         => 'Sales Payment HS',
+                    'menu_active'       => 'hs-loan-sales-payment',
+                    'child_active'      => 'hs-loan-sales-payment',
+                ];
+           $session = 'category-loan';
+         if( ($post['rule']??false) && !isset($post['draw']) ){
+            session([$session => $post]);
+
+       }elseif($post['clear']??false){
+           session([$session => null]);
+       }
+       if(isset($post['reset']) && $post['reset'] == 1){
+           Session::forget($session);
+       }elseif(Session::has($session) && !empty($post) && !isset($post['filter'])){
+           $pageSession = 1;
+           if(isset($post['page'])){
+               $pageSession = $post['page'];
+           }
+           $post = Session::get($session);
+           $post['page'] = $pageSession;
+
+       }
+       if(isset($post['rule'])){
+               $data['rule'] = array_map('array_values', $post['rule']);
+       }
+       $page = '?page=1';
+       if(isset($post['page'])){
+           $page = '?page='.$post['page'];
+       }
+        $list = MyHelper::post('recruitment/hairstylist/be/loan/sales'.$page, $post)['result']??[];
+       $val = array();
+        foreach ($list as $value){
+            $value['id_enkripsi'] = MyHelper::createSlug($value['id_hairstylist_sales_payment'],$value['created_at']);
+            array_push($val,$value);
+        }
+      $data['data'] = $val;
+         $data['hs'] = MyHelper::post('recruitment/hairstylist/be/loan/hs'.$page, $post)['result']??[];
+         $data['categorys'] = MyHelper::post('recruitment/hairstylist/be/loan/category/list'.$page, $post)['result']??[];
+        return view('recruitment::loan.index_sales',$data);
+    }
+     public function detail_sales($id)
+    {
+         $id = MyHelper::explodeSlug($id)[0]??'';
+         $data = [ 
+                    'title'             => 'Sales Payment Employee',
+                    'sub_title'         => 'Detail Sales Payment Employee',
+                    'menu_active'       => 'employee-loan-sales-payment',
+                    'child_active'      => 'employee-loan-sales-payment',
+                ];
+         
+        $list = MyHelper::post('recruitment/hairstylist/be/loan/sales/detail', ['id_hairstylist_sales_payment'=>$id])['result']??[];
+        $data['data'] = $list;
+        $data['categorys'] = MyHelper::post('recruitment/hairstylist/be/loan/category/list', ['id_employee_sales_payment'=>$id])['result']??[];
+        return view('recruitment::loan.detail',$data);
+    }
+     public function create_sales(Request $request)
+    {
+         $post = $request->except('_token');
+        $post['amount'] = str_replace(',','', $post['amount']??0);
+        $post['effective_date'] = date('Y-m-d',strtotime($post['effective_date']));
+        $query = MyHelper::post('recruitment/hairstylist/be/loan/sales/create', $post);
+        if(isset($query['status']) && $query['status'] != 'success'){
+                return redirect(url()->previous())->withErrors($query['messages']);
+        }
+         return redirect('recruitment/hair-stylist/loan')->withSuccess(['Loan Success']);
+    }
 }
