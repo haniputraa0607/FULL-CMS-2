@@ -144,7 +144,6 @@ class EmployeeAssetInventoryController extends Controller
     {
         $post = $request->except('_token');
         $post['amount'] = str_replace(',','', $post['amount']??0);
-        $post['effective_date'] = date('Y-m-d',strtotime($post['effective_date']));
         $query = MyHelper::post('employee/be/asset-inventory/create', $post);
         if(isset($query['status']) && $query['status'] != 'success'){
                 return redirect(url()->previous().'#fixed')->withErrors($query['messages']);
