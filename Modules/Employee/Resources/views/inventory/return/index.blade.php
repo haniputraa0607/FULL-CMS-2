@@ -183,7 +183,7 @@
                                                 <td style="text-align: center;">{{$dt['name_asset_inventory']}}</td>
                                                 <td style="text-align: center;">{{$dt['name_category_asset_inventory']}}</td>
                                                 <td style="text-align: center;">{{$dt['code']}}</td>
-                                                <td style="text-align: center;">{{$dt['qty']}}</td>
+                                                <td style="text-align: center;">{{$dt['qty_logs']}}</td>
                                                 <td style="text-align: center;">{{$dt['user']['name']}}</td>
                                                 <td style="text-align: center;">
                                                    <a href="{{ url('employee/asset-inventory/return/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
