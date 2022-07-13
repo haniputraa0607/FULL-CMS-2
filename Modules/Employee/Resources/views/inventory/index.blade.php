@@ -230,7 +230,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nama dari asset & inventory" data-container="body"></i>
                                     </label>
                                     <div class="col-md-4 input-group">
-                                        <input type="text" name="installment" id='name_asset_inventory' value="{{old('name_asset_inventory')}}" min="1" placeholder="Masukkan Nama dari asset & inventory" class="form-control" required />
+                                        <input type="text" name="name_asset_inventory" id='name_asset_inventory' value="{{old('name_asset_inventory')}}" min="1" placeholder="Masukkan Nama dari asset & inventory" class="form-control" required />
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -238,7 +238,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Jumlah asset " data-container="body"></i>
                                     </label>
                                     <div class="col-md-4 input-group">
-                                        <input type="number" name="installment" id='qty' value="{{old('qty')}}" min="1" placeholder="Masukkan jumlah" class="form-control" required />
+                                        <input type="number" name="qty" id='qty' value="{{old('qty')}}" min="1" placeholder="Masukkan jumlah" class="form-control" required />
                                     </div>
                                 </div>
                                 <div class="form-actions">
