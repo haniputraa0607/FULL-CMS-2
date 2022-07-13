@@ -153,7 +153,7 @@ class EmployeeAssetInventoryController extends Controller
     public function delete($id)
     {
        $id = MyHelper::explodeSlug($id)[0]??'';
-       return $query = MyHelper::post('employee/be/asset-inventory/delete', ['id_asset_inventory'=>$id]);
+       $query = MyHelper::post('employee/be/asset-inventory/delete', ['id_asset_inventory'=>$id]);
               if(isset($query['status']) && $query['status'] == 'success'){
                       return back()->withSuccess(['Delete Success']);
               } else{
