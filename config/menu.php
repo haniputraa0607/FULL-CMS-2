@@ -241,6 +241,10 @@ return [
 					'icon' => 'fa fa-users',
                                         'required_features' => [472, 442, 464, 489,481],
 					'active' => '\View::shared("menu_active") == "employee',
+                                        'badge'=>[
+                                                'type'=>'warning',
+                                                'value'=>'employee',
+                                            ],
 					'children' => [
                                                 [
                                                     'label' => 'Recruitment',
@@ -350,6 +354,10 @@ return [
                                                     'label' => 'Asset & Inventory',
                                                     'required_features' => [],
                                                     'type' => 'tree',
+                                                    'badge'=>[
+                                                        'type'=>'warning',
+                                                        'value'=>'asset_inventory',
+                                                    ],
                                                     'children' => [
                                                                 [
                                                                     'label' => 'Category Asset & Inventory',
@@ -364,7 +372,7 @@ return [
                                                                     'url' => 'employee/asset-inventory'
                                                                 ],
                                                                 [
-                                                                    'label' => 'Loan Asset & Inventory',
+                                                                    'label' => 'Loan',
                                                                     'required_features' => [],
                                                                     'type' => 'tree',
                                                                     'children' => [
@@ -372,7 +380,11 @@ return [
                                                                                 'label' => 'List Pending',
                                                                                 'required_features' => [],
                                                                                 'active' => '\View::shared("child_active") == "asset-inventory-loan-pending"',
-                                                                                'url' => 'employee/asset-inventory/loan/pending'
+                                                                                'url' => 'employee/asset-inventory/loan/pending',
+                                                                                'badge'=>[
+                                                                                        'type'=>'warning',
+                                                                                        'value'=>'asset_inventory_loan_pending',
+                                                                                    ],
                                                                             ],
                                                                             [
                                                                                 'label' => 'History Loan',
@@ -383,7 +395,7 @@ return [
                                                                         ],
                                                                 ],
                                                                 [
-                                                                    'label' => 'Return Asset & Inventory',
+                                                                    'label' => 'Return',
                                                                     'required_features' => [],
                                                                     'type' => 'tree',
                                                                     'children' => [
@@ -391,7 +403,11 @@ return [
                                                                                 'label' => 'List Pending',
                                                                                 'required_features' => [],
                                                                                 'active' => '\View::shared("child_active") == "asset-inventory-return-pending"',
-                                                                                'url' => 'employee/asset-inventory/return/pending'
+                                                                                'url' => 'employee/asset-inventory/return/pending',
+                                                                                'badge'=>[
+                                                                                        'type'=>'warning',
+                                                                                        'value'=>'asset_inventory_return_pending',
+                                                                                    ],
                                                                             ],
                                                                             [
                                                                                 'label' => 'History Return',
@@ -1752,10 +1768,24 @@ return [
                                                         'active' => '\View::shared("submenu_active") == "hs-loan"',
                                                         'url' => 'recruitment/hair-stylist/loan'
                                                 ],
+                                                [
+                                                    'label' => 'Sales Payment HS',
+                                                    'required_features' => [],
+                                                    'active' => '\View::shared("child_active") == "hs-loan-sales-payment"',
+                                                    'url' => 'recruitment/hair-stylist/loan/sales',
+                                                    'badge'=>[
+                                                        'type'=>'warning',
+                                                        'value'=>'total_sales_payment',
+                                                    ],
+                                                ],
                                         ],
 				],
 			],
-			'icon' => 'fa fa-money'
+			'icon' => 'fa fa-money',
+                        'badge'=>[
+                                    'type'=>'warning',
+                                    'value'=>'total_sales_payment',
+                                ],
 		],
 		[
 			'label' => 'Request Product',
