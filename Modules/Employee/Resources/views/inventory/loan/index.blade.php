@@ -171,7 +171,7 @@
                                         <th class="text-nowrap text-center">Name</th>
                                         <th class="text-nowrap text-center">Category</th>
                                         <th class="text-nowrap text-center">Code</th>
-                                        <th class="text-nowrap text-center">Qty</th>
+                                        <th class="text-nowrap text-center">Qty Loan</th>
                                         <th class="text-nowrap text-center">Borrower</th>
                                         <th class="text-nowrap text-center">Status</th>
                                         <th class="text-nowrap text-center">Action</th>
@@ -184,7 +184,7 @@
                                                 <td style="text-align: center;">{{$dt['name_asset_inventory']}}</td>
                                                 <td style="text-align: center;">{{$dt['name_category_asset_inventory']}}</td>
                                                 <td style="text-align: center;">{{$dt['code']}}</td>
-                                                <td style="text-align: center;">{{$dt['qty']}}</td>
+                                                <td style="text-align: center;">{{$dt['qty_logs']}}</td>
                                                 <td style="text-align: center;">{{$dt['user']['name']}}</td>
                                                 <td style="text-align: center;">{{$dt['status_asset_inventory']}}</td>
                                                 <td style="text-align: center;">
