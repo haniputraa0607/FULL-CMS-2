@@ -206,7 +206,8 @@
                                                               Rp
                                                             </button>
                                                         </span>
-                                        <input type="text" name="amount" id='amount' value="{{old('amount')}}" data-type="currency" placeholder="Masukkan besaran peminjaman" class="form-control" required />
+                                        <input type="text" disabled name="amount" id='amount' value="{{number_format($data['amount']??0,0,',',',')}}" data-type="currency" placeholder="Masukkan besaran peminjaman" class="form-control" required />
+                                        <input type="hidden" name="amount" id='amount' value="{{$data['amount']}}" data-type="currency" placeholder="Masukkan besaran peminjaman" class="form-control" required />
                                     </div>
                                 </div>
                                 <div class="form-group">

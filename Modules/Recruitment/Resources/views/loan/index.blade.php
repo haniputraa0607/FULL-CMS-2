@@ -282,7 +282,7 @@
                                     </label>
                                     <div class="col-md-3">
                                         <select required class="form-control" name="type" id="id_hairstylist_category_loan" data-placeholder="Select category loan">
-                                              <option value="Flat" >Flat</option>
+                                              <option value="CMS" >CMS</option>
                                         </select>
                                     </div>
                                 </div>
