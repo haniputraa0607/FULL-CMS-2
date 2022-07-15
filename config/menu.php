@@ -375,6 +375,10 @@ return [
                                                                     'label' => 'Loan',
                                                                     'required_features' => [],
                                                                     'type' => 'tree',
+                                                                    'badge'=>[
+                                                                                        'type'=>'warning',
+                                                                                        'value'=>'asset_inventory_loan_pending',
+                                                                                    ],
                                                                     'children' => [
                                                                             [
                                                                                 'label' => 'List Pending',
@@ -398,6 +402,10 @@ return [
                                                                     'label' => 'Return',
                                                                     'required_features' => [],
                                                                     'type' => 'tree',
+                                                                    'badge'=>[
+                                                                                        'type'=>'warning',
+                                                                                        'value'=>'asset_inventory_return_pending',
+                                                                                    ],
                                                                     'children' => [
                                                                             [
                                                                                 'label' => 'List Pending',
@@ -1752,7 +1760,7 @@ return [
 					'url' => 'recruitment/hair-stylist/default/potongan'
 				],
 				[
-					'label' => 'HS Custom Salary Cut',
+					'label' => 'Custom Salary Cut',
 					'required_features' => [426],
 					'type' => 'tree',
 					'children' => [
@@ -1779,6 +1787,10 @@ return [
                                                     ],
                                                 ],
                                         ],
+                                    'badge'=>[
+                                                'type'=>'warning',
+                                                'value'=>'total_sales_payment',
+                                            ],
 				],
 			],
 			'icon' => 'fa fa-money',

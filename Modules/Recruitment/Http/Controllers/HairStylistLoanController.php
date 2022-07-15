@@ -203,8 +203,8 @@ class HairStylistLoanController extends Controller
          $data = [ 
                     'title'             => 'Sales Payment Employee',
                     'sub_title'         => 'Detail Sales Payment Employee',
-                    'menu_active'       => 'employee-loan-sales-payment',
-                    'child_active'      => 'employee-loan-sales-payment',
+                    'menu_active'       => 'hs-loan-sales-payment',
+                    'child_active'      => 'hs-loan-sales-payment',
                 ];
          
         $list = MyHelper::post('recruitment/hairstylist/be/loan/sales/detail', ['id_hairstylist_sales_payment'=>$id])['result']??[];
