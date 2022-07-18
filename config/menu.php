@@ -1528,6 +1528,10 @@ return [
 					'required_features' => [347, 348, 349, 350, 353, 354, 355],
 					'type' => 'tree',
 					'icon' => 'fa fa-cut',
+                    'badge'=>[
+                        'type'=>'warning',
+                        'value'=>'candidate_list',
+                    ],
 					'active' => '\View::shared("menu_active") == "hair-stylist"',
 					'children' => [
 						[
@@ -1558,7 +1562,11 @@ return [
 							'label' => 'Candidate List',
 							'required_features' => [],
 							'active' => '\View::shared("submenu_active") == "hair-stylist-candidate"',
-							'url' => 'recruitment/hair-stylist/candidate'
+							'url' => 'recruitment/hair-stylist/candidate',
+                            'badge'=>[
+                                'type'=>'warning',
+                                'value'=>'candidate_list',
+                            ]
 						],
 						[
 							'label' => 'Setting Requirements',
@@ -2528,7 +2536,11 @@ return [
 							'label' => 'Student List',
 							'required_features' => [],
 							'active' => '\View::shared("submenu_active") == "academy-transaction-schedule"',
-							'url' => 'academy/transaction/user/schedule'
+							'url' => 'academy/transaction/user/schedule',
+                            'badge'=>[
+                                'type'=>'warning',
+                                'value'=>'academy_student_schedule',
+                            ]
 						],
 						[
 							'label' => 'Course',
@@ -2540,7 +2552,11 @@ return [
 							'label' => 'Day Off',
 							'required_features' => [],
 							'active' => '\View::shared("submenu_active") == "academy-transaction-day-off"',
-							'url' => 'academy/transaction/user/schedule/day-off'
+							'url' => 'academy/transaction/user/schedule/day-off',
+                            'badge'=>[
+                                'type'=>'warning',
+                                'value'=>'academy_student_day_off',
+                            ]
 						],
 						[
 							'label' => 'Installment Deadline Date',
@@ -2584,7 +2600,11 @@ return [
 							'url' => 'autoresponse/academy/payment-academy-installment-due-date'
 						],
 					],
-					'icon' => 'fa fa-building-o'
+					'icon' => 'fa fa-building-o',
+                    'badge'=>[
+                        'type'=>'warning',
+                        'value'=>'academy_student_notif',
+                    ]
 				],
 				[
 					'label' => 'Online Shop',

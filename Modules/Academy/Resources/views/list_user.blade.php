@@ -86,7 +86,12 @@
                 {
                     data: 'name',
                     render: function(value, type, row) {
-                        return `${row.name}`;
+                        var count = row.status_schedule_not_setting;
+                        if(count > 1){
+                            return `${row.name}`+' <div class="badge badge-warning">Unscheduled</div>';
+                        }else{
+                            return `${row.name}`;
+                        }
                     }
                 },
                 {
