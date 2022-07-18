@@ -78,8 +78,8 @@
                             <th>Action</th>
                             <th>Payment Status</th>
                             <th>Payment Type</th>
-                            <th>Transaction Date</th>
                             <th>Recipt Number</th>
+                            <th>Transaction Date</th>
                             <th>Outlet</th>
                             <th>Course Name</th>
                         </tr>
@@ -110,8 +110,12 @@
                                             Cicilan Bertahap
                                         @endif
                                     </td>
+                                    <td><a href="{{url('transaction/academy/detail/'.$res['id_transaction'])}}" target="_blank">{{$res['transaction_receipt_number']}}</a>
+                                        @if($res['status_schedule_not_setting'] == 1)
+                                            <div class="badge badge-warning">Unscheduled</div>
+                                        @endif
+                                    </td>
                                     <td>{{date('d M Y H:i', strtotime($res['transaction_date']))}}</td>
-                                    <td><a href="{{url('transaction/academy/detail/'.$res['id_transaction'])}}" target="_blank">{{$res['transaction_receipt_number']}}</a></td>
                                     <td>{{$res['outlet']['outlet_code']}} - {{$res['outlet']['outlet_name']}}</td>
                                     <td>{{$res['product_name']}}</td>
                                 </tr>
