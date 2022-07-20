@@ -164,6 +164,7 @@
                         <thead>
                         <tr>
                             <th class="text-nowrap text-center">Created At</th>
+                            <th class="text-nowrap text-center">Code</th>
                             <th class="text-nowrap text-center">Outlet</th>
                             <th class="text-nowrap text-center">User Delivery</th>
                             <th class="text-nowrap text-center">Status</th>
@@ -177,6 +178,7 @@
                                 @foreach($data as $delivery)
                                     <tr data-id="{{ $delivery['id_delivery_product'] }}">
                                         <td>{{date('d F Y H:i', strtotime($delivery['created_at']))}}</td>
+                                        <td>{{$delivery['code']}}</td>
                                         <td>{{$delivery['outlet_name']}}</td>
                                         <td>{{$delivery['name']}}</td>
                                         <td>

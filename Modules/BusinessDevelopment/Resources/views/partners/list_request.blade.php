@@ -42,12 +42,12 @@
                         let name    = $(this).data('name');
                         $(this).click(function() {
                             swal({
-                                    title: name+"\n\nAre you sure want to delete this request update?",
+                                    title: name+"\n\nAre you sure want to reject this request update?",
                                     text: "Your will not be able to recover this data!",
                                     type: "warning",
                                     showCancelButton: true,
                                     confirmButtonClass: "btn-danger",
-                                    confirmButtonText: "Yes, delete it!",
+                                    confirmButtonText: "Yes, reject it!",
                                     closeOnConfirm: false
                                 },
                                 function(){
@@ -59,15 +59,15 @@
                                         },
                                         success : function(response) {
                                             if (response.status == 'success') {
-                                                swal("Deleted!", "Request Update has been deleted.", "success")
+                                                swal("Rejected!", "Request Update has been reject.", "success")
                                                 SweetAlert.init()
                                                 location.href = "{{url('businessdev/partners/request-update')}}";
                                             }
                                             else if(response.status == "fail"){
-                                                swal("Error!", "Failed to delete partner.", "error")
+                                                swal("Error!", "Failed to reject request partner.", "error")
                                             }
                                             else {
-                                                swal("Error!", "Something went wrong. Failed to delete partner.", "error")
+                                                swal("Error!", "Something went wrong. Failed to reject request partner.", "error")
                                             }
                                         }
                                     });
@@ -145,6 +145,7 @@
                             <th class="text-nowrap text-center">Created At</th>
                             <th class="text-nowrap text-center">Name</th>
                             <th class="text-nowrap text-center">Email</th>
+                            <th class="text-nowrap text-center">Status</th>
                             @if(MyHelper::hasAccess([339,340,341], $grantedFeature))
                             <th class="text-nowrap text-center">Action</th>
                             @endif
@@ -158,11 +159,20 @@
                                     <td>{{$dt['original_data']['name']}}</td>
                                     <td>{{$dt['original_data']['email']}}</td>
                                     <td>
+                                        @if($dt['update_status']=='process')
+                                        <span class="badge" style="background-color: #e1e445; color: #ffffff">{{'Request'}}</span>
+                                        @elseif($dt['update_status']=='approve')
+                                        <span class="badge" style="background-color: #26C281; color: #ffffff">{{'Aprroved'}}</span>
+                                        @else
+                                        <span class="badge" style="background-color: #EF1E31; color: #ffffff">{{'Rejected'}}</span>
+                                        @endif
+                                    </td>
+                                    <td>
                                         @if(MyHelper::hasAccess([339,340], $grantedFeature))
                                         <a href="{{ url('businessdev/partners/request-update/detail/'.$dt['id_partners_log']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i>Edit</a>
                                         @endif
                                         @if(MyHelper::hasAccess([341], $grantedFeature))
-                                        <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $dt['id_partners_log'] }}" data-name="{{ $dt['name'] }}"><i class="fa fa-trash-o"></i> Delete</a>
+                                        <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $dt['id_partners_log'] }}" data-name="{{ $dt['name'] }}"  @if($dt['update_status']!='process') disabled @endif><i class="fa fa-trash-o"></i> Reject</a>
                                         @endif
                                     </td>
                                 </tr>

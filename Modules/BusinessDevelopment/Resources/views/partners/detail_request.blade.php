@@ -273,7 +273,9 @@
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-offset-4 col-md-8">
+                            @if ($result['update_status']=='process')
                             <button type="submit" class="btn blue">Approve</button>
+                            @endif
                         </div>
                     </div>
                 </div>

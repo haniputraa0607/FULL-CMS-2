@@ -126,7 +126,7 @@ $configs     		= session('configs');
                         <div class="row">
                             <div class="col-md-offset-4 col-md-9">
                                 <button type="submit" class="btn blue" id="checkBtn">Update</button>
-                                <a href="#modal_commission" data-toggle="modal" class="btn btn-success">Refresh Commission</a>
+                                <a href="#modal_commission" data-toggle="modal" class="btn btn-success" @if(isset($result['status'])&&($result['status']=='start' || $result['status']=='process')) disabled @endif>Refresh Commission @if(isset($result['status'])&&($result['status']=='start' || $result['status']=='process')) <i class="fa fa-question-circle tooltips" data-original-title="Tidak bisa melakukan proses refresh komisi karena ada proses refresh komisi yang sedang berjalan" data-container="body"></i> @endif </a>
                             </div>
                         </div>
 					</div>
@@ -146,6 +146,9 @@ $configs     		= session('configs');
                 </button>
             </div>
             <div class="modal-body" style="padding: 15px !important">
+                <div class="m-heading-1 border-green m-bordered">
+                    <p>This menu is used to refresh calculation of transactions in the selected date range.</p>
+                </div>
                 <form role="form" action="{{ url('setting/setting-global-commission/refresh') }}" method="post" enctype="multipart/form-data">
                     <div class="form-body">
                         <div class="row" style="margin-bottom:10px">
