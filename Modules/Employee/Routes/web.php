@@ -139,6 +139,10 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
                 Route::any('/', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@index']);
                 Route::post('/create', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@create']);
                 Route::get('/detail/{id}', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@detail']);
+                
+                Route::any('/sales', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@index_sales']);
+                Route::any('/sales/detail/{id}', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@detail_sales']);
+                Route::any('/sales/create', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeLoanController@create_sales']);
             });
             Route::group(['prefix' => 'default'], function()
             {
@@ -184,5 +188,23 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
                 
             });
 	});
-
+        Route::group(['prefix' => 'asset-inventory'], function()
+	{
+	    Route::any('/category', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeAssetInventoryController@index_category']);
+            Route::post('/category/create', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeAssetInventoryController@create_category']);
+            Route::any('/category/delete/{id}', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeAssetInventoryController@delete_category']);
+            Route::any('/', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeAssetInventoryController@index']);
+            Route::post('/create', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeAssetInventoryController@create']);
+            Route::any('/delete/{id}', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeAssetInventoryController@delete']);
+            Route::any('/loan/pending', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeAssetInventoryController@index_loan_pending']);
+            Route::any('/loan', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeAssetInventoryController@index_loan']);
+            Route::any('/loan/detail/{id}', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeAssetInventoryController@detail_loan']);
+            Route::post('/loan/approve', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeAssetInventoryController@approve_loan']);
+            
+            Route::any('/return/pending', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeAssetInventoryController@index_return_pending']);
+            Route::any('/return', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeAssetInventoryController@index_return']);
+            Route::any('/return/detail/{id}', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeAssetInventoryController@detail_return']);
+            Route::post('/return/approve', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeAssetInventoryController@approve_return']);
+            
+	});
 });

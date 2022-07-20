@@ -140,6 +140,10 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
 	    Route::any('/', ['middleware' => 'feature_control:428,429,430', 'uses' => 'HairStylistLoanController@index']);
 	    Route::post('/create', ['middleware' => 'feature_control:428,429,430', 'uses' => 'HairStylistLoanController@create']);
 	    Route::get('/detail/{id}', ['middleware' => 'feature_control:428,429,430', 'uses' => 'HairStylistLoanController@detail']);
+            
+            Route::any('/sales', ['middleware' => 'feature_control:428,429,430', 'uses' => 'HairStylistLoanController@index_sales']);
+            Route::any('/sales/detail/{id}', ['middleware' => 'feature_control:428,429,430', 'uses' => 'HairStylistLoanController@detail_sales']);
+            Route::any('/sales/create', ['middleware' => 'feature_control:428,429,430', 'uses' => 'HairStylistLoanController@create_sales']);
 	});
 
 	Route::group(['prefix' => 'group'], function()

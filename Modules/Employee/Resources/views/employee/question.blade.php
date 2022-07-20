@@ -58,7 +58,7 @@
                                                 @foreach($body as $b)
                                                 <tr>
                                                     @foreach($head as $ve)
-                                                    <td>{{$b[$ve]??''}}</td>
+                                                    <td style='text-align: center'>{{$b[$ve]??''}}</td>
                                                     @endforeach
                                                 </tr>    
                                                 @endforeach

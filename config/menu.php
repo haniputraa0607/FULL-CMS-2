@@ -241,6 +241,10 @@ return [
 					'icon' => 'fa fa-users',
                                         'required_features' => [472, 442, 464, 489,481],
 					'active' => '\View::shared("menu_active") == "employee',
+                                        'badge'=>[
+                                                'type'=>'warning',
+                                                'value'=>'employee',
+                                            ],
 					'children' => [
                                                 [
                                                     'label' => 'Recruitment',
@@ -335,6 +339,89 @@ return [
                                                                                 'required_features' => [],
                                                                                 'active' => '\View::shared("child_active") == "employee-loan"',
                                                                                 'url' => 'employee/income/loan'
+                                                                            ],
+                                                                            [
+                                                                                'label' => 'Sales Payment',
+                                                                                'required_features' => [],
+                                                                                'active' => '\View::shared("child_active") == "employee-loan-sales-payment"',
+                                                                                'url' => 'employee/income/loan/sales'
+                                                                            ],
+                                                                        ],
+                                                                ],
+                                                            ],
+						],
+                                                [
+                                                    'label' => 'Asset & Inventory',
+                                                    'required_features' => [],
+                                                    'type' => 'tree',
+                                                    'badge'=>[
+                                                        'type'=>'warning',
+                                                        'value'=>'asset_inventory',
+                                                    ],
+                                                    'children' => [
+                                                                [
+                                                                    'label' => 'Category Asset & Inventory',
+                                                                    'required_features' => [],
+                                                                    'active' => '\View::shared("submenu_active") == "category-asset-inventory"',
+                                                                    'url' => 'employee/asset-inventory/category'
+                                                                ],
+                                                                [
+                                                                    'label' => 'Asset & Inventory',
+                                                                    'required_features' => [],
+                                                                    'active' => '\View::shared("submenu_active") == "asset-inventory"',
+                                                                    'url' => 'employee/asset-inventory'
+                                                                ],
+                                                                [
+                                                                    'label' => 'Loan',
+                                                                    'required_features' => [],
+                                                                    'type' => 'tree',
+                                                                    'badge'=>[
+                                                                                        'type'=>'warning',
+                                                                                        'value'=>'asset_inventory_loan_pending',
+                                                                                    ],
+                                                                    'children' => [
+                                                                            [
+                                                                                'label' => 'List Pending',
+                                                                                'required_features' => [],
+                                                                                'active' => '\View::shared("child_active") == "asset-inventory-loan-pending"',
+                                                                                'url' => 'employee/asset-inventory/loan/pending',
+                                                                                'badge'=>[
+                                                                                        'type'=>'warning',
+                                                                                        'value'=>'asset_inventory_loan_pending',
+                                                                                    ],
+                                                                            ],
+                                                                            [
+                                                                                'label' => 'History Loan',
+                                                                                'required_features' => [],
+                                                                                'active' => '\View::shared("child_active") == "asset-inventory-loan"',
+                                                                                'url' => 'employee/asset-inventory/loan'
+                                                                            ],
+                                                                        ],
+                                                                ],
+                                                                [
+                                                                    'label' => 'Return',
+                                                                    'required_features' => [],
+                                                                    'type' => 'tree',
+                                                                    'badge'=>[
+                                                                                        'type'=>'warning',
+                                                                                        'value'=>'asset_inventory_return_pending',
+                                                                                    ],
+                                                                    'children' => [
+                                                                            [
+                                                                                'label' => 'List Pending',
+                                                                                'required_features' => [],
+                                                                                'active' => '\View::shared("child_active") == "asset-inventory-return-pending"',
+                                                                                'url' => 'employee/asset-inventory/return/pending',
+                                                                                'badge'=>[
+                                                                                        'type'=>'warning',
+                                                                                        'value'=>'asset_inventory_return_pending',
+                                                                                    ],
+                                                                            ],
+                                                                            [
+                                                                                'label' => 'History Return',
+                                                                                'required_features' => [],
+                                                                                'active' => '\View::shared("child_active") == "asset-inventory-return"',
+                                                                                'url' => 'employee/asset-inventory/return'
                                                                             ],
                                                                         ],
                                                                 ],
@@ -1449,6 +1536,10 @@ return [
 					'required_features' => [347, 348, 349, 350, 353, 354, 355],
 					'type' => 'tree',
 					'icon' => 'fa fa-cut',
+                    'badge'=>[
+                        'type'=>'warning',
+                        'value'=>'candidate_list',
+                    ],
 					'active' => '\View::shared("menu_active") == "hair-stylist"',
 					'children' => [
 						[
@@ -1479,7 +1570,11 @@ return [
 							'label' => 'Candidate List',
 							'required_features' => [],
 							'active' => '\View::shared("submenu_active") == "hair-stylist-candidate"',
-							'url' => 'recruitment/hair-stylist/candidate'
+							'url' => 'recruitment/hair-stylist/candidate',
+                            'badge'=>[
+                                'type'=>'warning',
+                                'value'=>'candidate_list',
+                            ]
 						],
 						[
 							'label' => 'Setting Requirements',
@@ -1673,7 +1768,7 @@ return [
 					'url' => 'recruitment/hair-stylist/default/potongan'
 				],
 				[
-					'label' => 'HS Custom Salary Cut',
+					'label' => 'Custom Salary Cut',
 					'required_features' => [426],
 					'type' => 'tree',
 					'children' => [
@@ -1689,10 +1784,28 @@ return [
                                                         'active' => '\View::shared("submenu_active") == "hs-loan"',
                                                         'url' => 'recruitment/hair-stylist/loan'
                                                 ],
+                                                [
+                                                    'label' => 'Sales Payment HS',
+                                                    'required_features' => [],
+                                                    'active' => '\View::shared("child_active") == "hs-loan-sales-payment"',
+                                                    'url' => 'recruitment/hair-stylist/loan/sales',
+                                                    'badge'=>[
+                                                        'type'=>'warning',
+                                                        'value'=>'total_sales_payment',
+                                                    ],
+                                                ],
                                         ],
+                                    'badge'=>[
+                                                'type'=>'warning',
+                                                'value'=>'total_sales_payment',
+                                            ],
 				],
 			],
-			'icon' => 'fa fa-money'
+			'icon' => 'fa fa-money',
+                        'badge'=>[
+                                    'type'=>'warning',
+                                    'value'=>'total_sales_payment',
+                                ],
 		],
 		[
 			'label' => 'Request Product',
@@ -2435,7 +2548,11 @@ return [
 							'label' => 'Student List',
 							'required_features' => [],
 							'active' => '\View::shared("submenu_active") == "academy-transaction-schedule"',
-							'url' => 'academy/transaction/user/schedule'
+							'url' => 'academy/transaction/user/schedule',
+                            'badge'=>[
+                                'type'=>'warning',
+                                'value'=>'academy_student_schedule',
+                            ]
 						],
 						[
 							'label' => 'Course',
@@ -2447,7 +2564,11 @@ return [
 							'label' => 'Day Off',
 							'required_features' => [],
 							'active' => '\View::shared("submenu_active") == "academy-transaction-day-off"',
-							'url' => 'academy/transaction/user/schedule/day-off'
+							'url' => 'academy/transaction/user/schedule/day-off',
+                            'badge'=>[
+                                'type'=>'warning',
+                                'value'=>'academy_student_day_off',
+                            ]
 						],
 						[
 							'label' => 'Installment Deadline Date',
@@ -2491,7 +2612,11 @@ return [
 							'url' => 'autoresponse/academy/payment-academy-installment-due-date'
 						],
 					],
-					'icon' => 'fa fa-building-o'
+					'icon' => 'fa fa-building-o',
+                    'badge'=>[
+                        'type'=>'warning',
+                        'value'=>'academy_student_notif',
+                    ]
 				],
 				[
 					'label' => 'Online Shop',

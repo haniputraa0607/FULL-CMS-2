@@ -29,7 +29,7 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js')}}"></script>
      <script>
-        $('.datepicker').datepicker({
+        $('.date-picker').datepicker({
             'format' : 'd-M-yyyy',
             'todayHighlight' : true,
             'autoclose' : true
@@ -278,7 +278,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai pengembalian" data-container="body"></i>
                                     </label>
                                     <div class="col-md-4 input-group">
-                                        <input type="text" class="form-control datepicker" name="effective_date" id="effective_date" placeholder="Effective Date Contract" required>
+                                        <input type="text" class="form-control date-picker" name="effective_date" id="effective_date" placeholder="Effective Date Contract" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -286,8 +286,8 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Type" data-container="body"></i>
                                     </label>
                                     <div class="col-md-4 input-group">
-                                        <select required class="form-control" name="type" id="id_employee_category_loan" data-placeholder="Select category loan">
-                                              <option value="Flat" >Flat</option>
+                                        <select hidden required class="form-control" name="type" id="id_employee_category_loan" data-placeholder="Select category loan">
+                                              <option value="CRM" >CRM</option>
                                         </select>
                                     </div>
                                 </div>
