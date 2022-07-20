@@ -409,7 +409,7 @@ $active_response = $active_response??['email', 'sms', 'push', 'inbox', 'whatsapp
 			if(nilai=='1'){
 				document.getElementById('div_inbox_subject').style.display = 'block';
 				document.getElementById('div_inbox_clickto').style.display = 'block';
-				document.getElementById('div_inbox_content').style.display = 'block';
+				document.getElementById('div_inbox_content').style.display = 'none';
 			} else {
 				document.getElementById('div_inbox_subject').style.display = 'none';
 				document.getElementById('div_inbox_content').style.display = 'none';
@@ -834,7 +834,7 @@ $active_response = $active_response??['email', 'sms', 'push', 'inbox', 'whatsapp
 											@if($data['autocrm_push_image'] == null)
 											<img src="https://vignette.wikia.nocookie.net/simpsons/images/6/60/No_Image_Available.png/revision/latest?cb=20170219125728" id="autocrm_push_image" />
 											@else
-											<img src="{{ env('STORAGE_URL_API')}}{{$data['autocrm_push_image']}}" id="autocrm_push_image" />
+											<img src="{{$data['url_autocrm_push_image']}}" id="autocrm_push_image" />
 											@endif
 										</div>
 
@@ -963,7 +963,7 @@ $active_response = $active_response??['email', 'sms', 'push', 'inbox', 'whatsapp
 									<input type="text" placeholder="https://" class="form-control" name="autocrm_inbox_link" id="autocrm_inbox_link" @if(isset($data['autocrm_inbox_link'])) value="{{$data['autocrm_inbox_link']}}" @endif>
 								</div>
 							</div>
-							<div class="form-group" id="div_inbox_content" style="margin-bottom:30px; @if($data['autocrm_inbox_toogle'] == 0) display:none; @endif">
+							<div class="form-group" id="div_inbox_content" style="margin-bottom:30px;display:none;">
 								<label for="multiple" class="control-label col-md-3">Content</label>
 								<div class="col-md-9">
 									<textarea name="autocrm_inbox_content" id="autocrm_inbox_content" class="form-control summernote">@if(isset($data['autocrm_inbox_content']) && $data['autocrm_inbox_content'] != ""){{$data['autocrm_inbox_content']}}@endif</textarea>
