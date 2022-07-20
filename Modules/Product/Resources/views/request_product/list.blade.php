@@ -164,6 +164,7 @@
                         <thead>
                         <tr>
                             <th class="text-nowrap text-center">Created At</th>
+                            <th class="text-nowrap text-center">Code</th>
                             <th class="text-nowrap text-center">Outlet</th>
                             <th class="text-nowrap text-center">User Request</th>
                             <th class="text-nowrap text-center">Status</th>
@@ -177,6 +178,7 @@
                                 @foreach($data as $request)
                                     <tr data-id="{{ $request['id_request_product'] }}">
                                         <td>{{date('d F Y H:i', strtotime($request['created_at']))}}</td>
+                                        <td>{{$request['code']}}</td>
                                         <td>{{$request['outlet_name']}}</td>
                                         <td>{{$request['name']}}</td>
                                         <td>

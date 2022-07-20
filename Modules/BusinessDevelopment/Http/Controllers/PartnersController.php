@@ -591,14 +591,10 @@ class PartnersController extends Controller
         ]);
         $post = $request->except('_token','old_name','old_phone','old_email','old_address');
         $post['request'] = 'approve';
+        $post['id_partners_log'] = $id;
         $result = MyHelper::post('partners/update', $post);
         if(isset($result['status']) && $result['status'] == 'success'){
-            $delete = $this->destroyRequestUpdate($id);
-            if(isset($delete['status']) && $delete['status'] == 'success'){
-                return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success approve request update partner']);
-            }else{
-                return redirect('businessdev/partners/request-update/detail/'.$id)->withErrors($result['messages'] ?? ['Failed approve request update partner']);
-            }
+            return redirect('businessdev/partners/detail/'.$request['id_partner'])->withSuccess(['Success approve request update partner']);
         }else{
             return redirect('businessdev/partners/request-update/detail/'.$id)->withErrors($result['messages'] ?? ['Failed approve request update partner']);
         }
