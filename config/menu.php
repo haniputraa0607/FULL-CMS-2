@@ -556,20 +556,76 @@ return [
                             'type' => 'tree',
 					        'active' => '\View::shared("submenu_active") == "employee-announcement',
                             'children' => [
-                                [
-                                    'label' => 'New Announcement',
-                                    'required_features' => [446],
-					                'active' => '\View::shared("child_active") == "employee-announcement-create"',
-                                    'url' => 'employee/announcement/create'
-                                ],
-                                [
-                                    'label' => 'Announcement List',
-                                    'required_features' => [464, 465, 467, 468],
-					                'active' => '\View::shared("child_active") == "employee-announcement-list"',
-                                    'url' => 'employee/announcement'
-                                ],
-                            ],
-                        ],
+                                                [
+                                                    'label' => 'New Announcement',
+                                                    'required_features' => [446],
+                                                                        'active' => '\View::shared("child_active") == "employee-announcement-create"',
+                                                    'url' => 'employee/announcement/create'
+                                                ],
+                                                [
+                                                    'label' => 'Announcement List',
+                                                    'required_features' => [464, 465, 467, 468],
+                                                                        'active' => '\View::shared("child_active") == "employee-announcement-list"',
+                                                    'url' => 'employee/announcement'
+                                                ],
+                                            ],
+                                        ],
+                                    [
+                                            'label' => 'Update Data ',
+                                            'required_features' => [],
+                                            'type' => 'tree',
+                                            'active' => '\View::shared("submenu_active") == "employee-perubahan-data',
+                                            'badge'=>[
+                                                    'type'=>'warning',
+                                                    'value'=>'request-employee-perubahan-data',
+                                                ],
+                                            'children' => [
+                                                        [
+                                                            'label' => 'List Request',
+                                                            'required_features' => [481],
+                                                            'active' => '\View::shared("child_active") == "employee-perubahan-data-pending"',
+                                                            'url' => 'employee/perubahan-data',
+                                                            'badge'=>[
+                                                                'type'=>'warning',
+                                                                'value'=>'request-employee-perubahan-data',
+                                                            ],
+                                                        ],
+                                                        [
+                                                            'label' => 'List History',
+                                                            'required_features' => [481],
+                                                            'active' => '\View::shared("child_active") == "employee-perubahan-data-history"',
+                                                            'url' => 'employee/perubahan-data/list'
+                                                        ],
+                                                    ],
+                                        ],
+                                            [
+                                            'label' => 'Reimbursement',
+                                            'required_features' => [],
+                                            'type' => 'tree',
+                                            'active' => '\View::shared("submenu_active") == "employee-reimbursement',
+                                            'badge'=>[
+                                                    'type'=>'warning',
+                                                    'value'=>'employee-reimbursement',
+                                                ],
+                                            'children' => [
+                                                        [
+                                                            'label' => 'List Request',
+                                                            'required_features' => [481],
+                                                            'active' => '\View::shared("child_active") == "employee-reimbursement-pending"',
+                                                            'url' => 'employee/reimbursement',
+                                                            'badge'=>[
+                                                                'type'=>'warning',
+                                                                'value'=>'employee-reimbursement',
+                                                            ],
+                                                        ],
+                                                        [
+                                                            'label' => 'List History',
+                                                            'required_features' => [481],
+                                                            'active' => '\View::shared("child_active") == "employee-reimbursement-history"',
+                                                            'url' => 'employee/reimbursement/list'
+                                                        ],
+                                                    ],
+                                        ],
 					]
 				],
 				[
@@ -1431,6 +1487,10 @@ return [
 					'label' => 'Partners',
 					'required_features' => [338],
 					'type' => 'tree',
+                                        'badge'=>[
+                                                'type'=>'warning',
+                                                'value'=>'partners',
+                                            ],
 					'children' => [
 						[
 							'label' => 'Partner List',
@@ -1442,13 +1502,21 @@ return [
 							'label' => 'Candidate List',
 							'required_features' => [],
 							'active' => '\View::shared("submenu_active") == "list-candidate-partners"',
-							'url' => 'businessdev/partners/candidate'
+							'url' => 'businessdev/partners/candidate',
+                                                        'badge'=>[
+                                                                    'type'=>'warning',
+                                                                    'value'=>'candidate-partners',
+                                                                ],
 						],
 						[
-							'label' => 'Request Data Partner List',
+							'label' => 'Request Data Partner',
 							'required_features' => [],
 							'active' => '\View::shared("submenu_active") == "list-request-update"',
-							'url' => 'businessdev/partners/request-update'
+							'url' => 'businessdev/partners/request-update',
+                                                        'badge'=>[
+                                                                    'type'=>'warning',
+                                                                    'value'=>'request-update-partners',
+                                                                ],
 						],
 						[
 							'label' => '[Response] Candidate Approved',
@@ -1463,6 +1531,10 @@ return [
 					'label' => 'Partner Locations',
 					'required_features' => [342],
 					'type' => 'tree',
+                                        'badge'=>[
+                                                'type'=>'warning',
+                                                'value'=>'locations',
+                                            ],
 					'children' => [
 						[
 							'label' => 'Location List',
@@ -1471,10 +1543,14 @@ return [
 							'url' => 'businessdev/locations'
 						],
 						[
-							'label' => 'Candidate Location List',
+							'label' => 'Candidate Location',
 							'required_features' => [],
 							'active' => '\View::shared("submenu_active") == "list-candidate-locations"',
-							'url' => 'businessdev/locations/candidate'
+							'url' => 'businessdev/locations/candidate',
+                                                        'badge'=>[
+                                                                    'type'=>'warning',
+                                                                    'value'=>'candidate-locations',
+                                                                ],
 						],
 						[
 							'label' => '[Response] Approved Candidate Location',
@@ -1489,6 +1565,10 @@ return [
 					'label' => 'Project',
 					'required_features' => [402],
 					'type' => 'tree',
+                                        'badge'=>[
+                                                'type'=>'warning',
+                                                'value'=>'projects',
+                                            ],
 					'children' => [
 						[
 							'label' => 'Project List',
@@ -1500,7 +1580,11 @@ return [
 							'label' => 'Ongoing Project',
 							'required_features' => [],
 							'active' => '\View::shared("submenu_active") == "list-process-project"',
-							'url' => 'project/process'
+							'url' => 'project/process',
+                                                        'badge'=>[
+                                                                'type'=>'warning',
+                                                                'value'=>'process-project',
+                                                            ],
 						],
 						[
 							'required_configs' => [40,121],
@@ -1536,10 +1620,10 @@ return [
 					'required_features' => [347, 348, 349, 350, 353, 354, 355],
 					'type' => 'tree',
 					'icon' => 'fa fa-cut',
-                    'badge'=>[
-                        'type'=>'warning',
-                        'value'=>'candidate_list',
-                    ],
+                                        'badge'=>[
+                                            'type'=>'warning',
+                                            'value'=>'candidate_list',
+                                        ],
 					'active' => '\View::shared("menu_active") == "hair-stylist"',
 					'children' => [
 						[
@@ -1571,10 +1655,10 @@ return [
 							'required_features' => [],
 							'active' => '\View::shared("submenu_active") == "hair-stylist-candidate"',
 							'url' => 'recruitment/hair-stylist/candidate',
-                            'badge'=>[
-                                'type'=>'warning',
-                                'value'=>'candidate_list',
-                            ]
+                                                        'badge'=>[
+                                                            'type'=>'warning',
+                                                            'value'=>'candidate_list',
+                                                        ]
 						],
 						[
 							'label' => 'Setting Requirements',
@@ -1918,7 +2002,11 @@ return [
 					'label' => 'List Request',
 					'required_features' => [428, 429, 430],
 					'active' => '\View::shared("submenu_active") == "hairstylist-update-data-list"',
-					'url' => 'recruitment/hair-stylist/update-data'
+					'url' => 'recruitment/hair-stylist/update-data',
+                                        'badge'=>[
+                                                'type'=>'warning',
+                                                'value'=>'hs-request-update-data',
+                                            ],
 				],
 				[
 					'type' => 'group',

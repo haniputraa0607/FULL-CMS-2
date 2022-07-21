@@ -51,7 +51,20 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
         Route::any('contact/delete/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@contact_delete']);
         
     });
-
+    Route::group(['prefix' => 'perubahan-data'], function(){
+        Route::any('', ['middleware' => 'feature_control:444', 'uses' => 'EmployeePerubahanDataController@index']);
+        Route::get('/detail/{id}', ['middleware' => 'feature_control:444', 'uses' => 'EmployeePerubahanDataController@detail']);
+        Route::post('/create', ['middleware' => 'feature_control:444', 'uses' => 'EmployeePerubahanDataController@create']);
+        Route::any('/list', ['middleware' => 'feature_control:444', 'uses' => 'EmployeePerubahanDataController@index_action']);
+       
+    });
+    Route::group(['prefix' => 'reimbursement'], function(){
+        Route::any('', ['middleware' => 'feature_control:444', 'uses' => 'EmployeeReimbursementController@index']);
+        Route::get('/detail/{id}', ['middleware' => 'feature_control:444', 'uses' => 'EmployeeReimbursementController@detail']);
+        Route::post('/create', ['middleware' => 'feature_control:444', 'uses' => 'EmployeeReimbursementController@create']);
+        Route::any('/list', ['middleware' => 'feature_control:444', 'uses' => 'EmployeeReimbursementController@index_action']);
+       
+    });
     Route::group(['prefix' => 'attendance'], function(){
         Route::get('/', ['uses' => 'EmployeeAttendanceController@list']);
         Route::post('/', ['uses' => 'EmployeeAttendanceController@filter']);
