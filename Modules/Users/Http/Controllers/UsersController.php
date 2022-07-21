@@ -439,40 +439,28 @@ class UsersController extends Controller
 		return view('users::index-admin-outlet', $data);
 	}
 	
-    public function index(Request $request, $page = 1)
+    public function index(Request $request)
     {
 		$post = $request->except('_token');
-		if(!empty(Session::get('form'))){
-			if(isset($post['take'])) $takes = $post['take'];
-			if(isset($post['order_field'])) $order_fields = $post['order_field'];
-			if(isset($post['order_method'])) $order_methods = $post['order_method'];
-			$sessionnya = Session::get('form');
 
-			if(isset($post) && !empty($post)){
-				$post = $post;
-				if(isset($post['conditions'])){
-					$con = $post['conditions'];
-					$post['conditions'] = $con;
-				} else {
-					$post['conditions'] = [];
-					if(isset($sessionnya['conditions'])){
-						$post['conditions'] = $sessionnya['conditions'];
-					}
-					// if(isset($sessionnya['rule'])){
-					// 	$post['rule'] = $sessionnya['rule'];
-					// }
-				}
-				Session::put('form',$post);
-			} else{
-				$post = $sessionnya;
-			}
-			if(isset($takes) && isset($order_fields) && isset($order_methods)){
-				$post['take'] = $takes;
-				$post['order_field'] = $order_fields;
-				$post['order_method'] = $order_methods;
-				Session::put('form',$post);
-			}
-		}
+        if(Session::has('form') && !empty($post) && !isset($post['filter'])){
+            $page = 1;
+            if(isset($post['page'])){
+                $page = $post['page'];
+            }
+
+            if(isset($post['order_field'])) $orderField = $post['order_field'];
+            if(isset($post['order_method'])) $orderMethod = $post['order_method'];
+            if(isset($post['take'])) $take = $post['take'];
+
+            $post = Session::get('form');
+            $post['page'] = $page;
+            if(isset($orderField)){
+                $post['order_field'] = $orderField;
+                $post['order_method'] = $orderMethod;
+                $post['take'] = $take;
+            }
+        }
 
 		if(!empty($post)){
 			if(isset($post['action']) && isset($post['users'])){
@@ -486,7 +474,6 @@ class UsersController extends Controller
 					$action = MyHelper::post('users/delete', ['phone' => $phone]);
 					if($action['status'] == 'success'){
 						unset($post['action']);
-						Session::put('form',$post);
 						return back()->withSuccess($action['result']);
 					} else{
 						return back()->withErrors($action['messages']);
@@ -497,7 +484,6 @@ class UsersController extends Controller
 					$action = MyHelper::post('users/phone/verified', ['phone' => $phone]);
 					if($action['status'] == 'success'){
 						unset($post['action']);
-						Session::put('form',$post);
 						return back()->withSuccess($action['result']);
 					} else{
 						return back()->withErrors($action['messages']);
@@ -508,7 +494,6 @@ class UsersController extends Controller
 					$action = MyHelper::post('users/phone/unverified', ['phone' => $phone]);
 					if($action['status'] == 'success'){
 						unset($post['action']);
-						Session::put('form',$post);
 						return back()->withSuccess($action['result']);
 					} else{
 						return back()->withErrors($action['messages']);
@@ -519,7 +504,6 @@ class UsersController extends Controller
 					$action = MyHelper::post('users/email/verified', ['phone' => $phone]);
 					if($action['status'] == 'success'){
 						unset($post['action']);
-						Session::put('form',$post);
 						return back()->withSuccess($action['result']);
 					} else{
 						return back()->withErrors($action['messages']);
@@ -530,15 +514,12 @@ class UsersController extends Controller
 					$action = MyHelper::post('users/email/unverified', ['phone' => $phone]);
 					if($action['status'] == 'success'){
 						unset($post['action']);
-						Session::put('form',$post);
 						return back()->withSuccess($action['result']);
 					} else{
 						return back()->withErrors($action['messages']);
 					}
 				}
 			}
-				
-			Session::put('form',$post);
 		}
 
 		$data = [ 'title'             => 'User',
@@ -549,34 +530,23 @@ class UsersController extends Controller
 		if(!isset($post['order_field'])) $post['order_field'] = 'id';
 		if(!isset($post['order_method'])) $post['order_method'] = 'desc';
 		if(!isset($post['take'])) $post['take'] = 10;
-		$post['skip'] = 0 + (($page-1) * $post['take']);
-		
-		
-		// print_r($post);exit;
+		$post['page'] = $post['page']??1;
+
 		$getUser = MyHelper::post('users/list', $post);
-		// print_r($getUser);exit;
-        if ($getUser['status'] == 'success') {
-            $data['content'] = $getUser['result'];
-            $data['total'] = $getUser['total'];
+        if (isset($getUser['status']) && $getUser['status'] == "success") {
+            $data['dataUser']          = $getUser['result']['data'];
+            $data['dataUserTotal']     = $getUser['result']['total'];
+            $data['dataUserPerPage']   = $getUser['result']['from'];
+            $data['dataUserUpTo']      = $getUser['result']['from'] + count($getUser['result']['data'])-1;
+            $data['dataUserPaginator'] = new LengthAwarePaginator($getUser['result']['data'], $getUser['result']['total'], $getUser['result']['per_page'], $getUser['result']['current_page'], ['path' => url()->current()]);
+        }else{
+            $data['dataUser']          = [];
+            $data['dataUserTotal']     = 0;
+            $data['dataUserPerPage']   = 0;
+            $data['dataUserUpTo']      = 0;
+            $data['dataUserPaginator'] = false;
         }
-        else {
-            $data['content'] = null;
-            $data['total'] = null;
-        }
-		
-		$data['begin'] = $post['skip'] + 1;
-		$data['last'] = $post['take'] + $post['skip'];
-			if($data['total'] <= $data['last']) $data['last'] = $data['total'];
-		$data['page'] = $page;
-		if($data['content'])
-			$data['jumlah'] = count($data['content']);
-		else $data['jumlah'] = 0;
-		foreach($post as $key => $row){
-		    if($key !== 'page'){
-                $data[$key] = $row;
-            }
-		}
-		
+
 		$getCity = MyHelper::get('city/list?log_save=0');
 		if($getCity['status'] == 'success') $data['city'] = $getCity['result']; else $data['city'] = [];
 		
@@ -601,12 +571,20 @@ class UsersController extends Controller
         $data['deals'] = MyHelper::post('deals/list-all', ['deals_type' => 'Deals'])['result']??[];
         $data['quest'] = MyHelper::get('quest/list-all')['result']??[];
         $data['subscription'] = MyHelper::post('subscription/list-all', ['subscription_type' => 'Subscription'])['result']??[];
-
-		$data['table_title'] = "User list order by ".$data['order_field'].", ".$data['order_method']."ending (".$data['begin']." to ".$data['jumlah']." From ".$data['total']." data)";
+        $data['order_field'] = $post['order_field'];
+        $data['order_method'] = $post['order_method'];
+        $data['take'] = $post['take'];
+        $data['page'] = $post['page'];
+		$data['table_title'] = "User list order by ".$data['order_field'].", ".$data['order_method']."ending (".$data['dataUserTotal']." data)";
 		
 		// print_r($data);exit;
 		// print_r(Session::get('form'));exit;
         $data['show'] = 1;
+
+        if($post){
+            Session::put('form',$post);
+        }
+
 		return view('users::index', $data);
     }
 	
