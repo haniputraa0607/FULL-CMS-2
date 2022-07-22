@@ -532,6 +532,18 @@ return [
 									'required_features' => [],
 									'url' => 'user/autoresponse/employee-request-time-off-rejected'
 								],
+								[
+									'label' => '[Response] Approved Request Overtime Employee',
+									'required_configs' => [],
+									'required_features' => [],
+									'url' => 'user/autoresponse/employee-request-overtime-approved'
+								],
+								[
+									'label' => '[Response] Rejected Request Overtime Employee',
+									'required_configs' => [],
+									'required_features' => [],
+									'url' => 'user/autoresponse/employee-request-overtime-rejected'
+								],
                             ],
 						],
 						[
@@ -1803,16 +1815,16 @@ return [
 							'url' => 'autoresponse/hairstylist-schedule/approve-hairstylist-schedule'
 						],
 						[
-							'label' => '[Response] Approved Request Time Off Hairstylist',
+							'label' => '[Response] Approved Request Overtime Hairstylist',
 							'required_configs' => [],
 							'required_features' => [],
-							'url' => 'user/autoresponse/hairstylist-request-time-off-approved'
+							'url' => 'user/autoresponse/hairstylist-request-overtime-approved'
 						],
 						[
-							'label' => '[Response] Rejected Request Time Off Hairstylist',
+							'label' => '[Response] Rejected Request Overtime Hairstylist',
 							'required_configs' => [],
 							'required_features' => [],
-							'url' => 'user/autoresponse/hairstylist-request-time-off-rejected'
+							'url' => 'user/autoresponse/hairstylist-request-overtime-rejected'
 						],
 					],
 					'icon' => 'fa fa-calendar'
