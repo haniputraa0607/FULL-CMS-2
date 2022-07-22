@@ -557,7 +557,8 @@
         function actionForm(identity, state) {
             if (state) {
                 $('.'+identity).show();
-                $('.'+identity+'Form').prop('required',true);
+                $('.'+identity+' :input').prop('required',true);
+                $('.'+identity+' :input').removeAttr('disabled');
 
                 // jika lokasi
                 if (identity == "featureLocation") {
@@ -566,8 +567,9 @@
             }
             else {
                 $('.'+identity).hide();
-                $('.'+identity+'Form').removeAttr('required');
-                $('.'+identity+'Form').val('');
+                $('.'+identity+' :input').prop('disabled',true);
+                $('.'+identity+' :input').removeAttr('required');
+                $('.'+identity+' :input').val('');
             }
         }
 
