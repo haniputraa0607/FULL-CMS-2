@@ -520,6 +520,18 @@ return [
 									'label' => '[Response] Reminder Clock Out',
 									'url' => 'user/autoresponse/reminder-employee-to-clock-out',
 								],
+								[
+									'label' => '[Response] Approved Request Time Off Employee',
+									'required_configs' => [],
+									'required_features' => [],
+									'url' => 'user/autoresponse/employee-request-time-off-approved'
+								],
+								[
+									'label' => '[Response] Rejected Request Time Off Employee',
+									'required_configs' => [],
+									'required_features' => [],
+									'url' => 'user/autoresponse/employee-request-time-off-rejected'
+								],
                             ],
 						],
 						[
@@ -1524,6 +1536,25 @@ return [
 							'required_features' => [],
 							'url' => 'user/autoresponse/updated-candidate-partner-to-partner'
 						],
+						[
+							'label' => '[Response] Request Update Data Partner',
+							'required_configs' => [],
+							'required_features' => [],
+							'url' => 'user/autoresponse/request-update-data-partner'
+						],
+						[
+							'label' => '[Response] Approved Request Update Data Partner',
+							'required_configs' => [],
+							'required_features' => [],
+							'url' => 'user/autoresponse/approved-request-update-data-partner'
+						],
+						[
+							'label' => '[Response] Rejected Request Update Data Partner',
+							'required_configs' => [],
+							'required_features' => [],
+							'url' => 'user/autoresponse/rejected-request-update-data-partner'
+						],
+						
 					],
 					'icon' => 'fa fa-users'
 				],
@@ -1770,6 +1801,18 @@ return [
 							'label' => '[Response] Approve Hairstylist Schedule',
 							'required_features' => [],
 							'url' => 'autoresponse/hairstylist-schedule/approve-hairstylist-schedule'
+						],
+						[
+							'label' => '[Response] Approved Request Time Off Hairstylist',
+							'required_configs' => [],
+							'required_features' => [],
+							'url' => 'user/autoresponse/hairstylist-request-time-off-approved'
+						],
+						[
+							'label' => '[Response] Rejected Request Time Off Hairstylist',
+							'required_configs' => [],
+							'required_features' => [],
+							'url' => 'user/autoresponse/hairstylist-request-time-off-rejected'
 						],
 					],
 					'icon' => 'fa fa-calendar'
