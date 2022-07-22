@@ -84,7 +84,6 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'user', '
     Route::any('detail/treatment/{phone}', 'UsersController@showTreatment');
     Route::any('autoresponse-franchise/{subject}', ['middleware' => 'feature_control:304', 'uses' =>'UsersController@autoResponse']);
     Route::any('autoresponse/{subject}', ['middleware' => 'feature_control:92', 'uses' =>'UsersController@autoResponse']);
-    Route::any('/{page}', ['middleware' => 'feature_control:2', 'uses' => 'UsersController@index']);
 	Route::any('activity/{page}', ['middleware' => 'feature_control:6', 'uses' => 'UsersController@activity']);
 });
 

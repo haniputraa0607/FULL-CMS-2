@@ -69,7 +69,7 @@ $configs     		= session('configs');
 
 	<div class="row" style="margin-top:20px">
 		<div class="col-md-12">
-			<form role="form" action="{{ url('user') }}" method="post">
+			<form role="form" action="{{ url('user') }}?filter=1" method="post">
 				@if(Session::has('form'))
 					<?php
 
@@ -263,7 +263,7 @@ $configs     		= session('configs');
 						<a href="{{ url('user/export') }}" class="btn yellow">Export User Data (.xls)</a>
 					</div>
 					<div class="table-scrollable">
-						<table class="table table-striped table-bordered table-hover">
+						<table class="table table-striped table-bordered table-hover nowrap">
 							<thead>
 							<tr>
 								<th scope="col" style="width:450px !important"> No </th>
@@ -294,8 +294,8 @@ $configs     		= session('configs');
 							<tbody>
 							<form action="{{ url('user') }}" method="post">
 								{{ csrf_field() }}
-								@if(!empty($content))
-									@foreach($content as $no => $data)
+								@if(!empty($dataUser))
+									@foreach($dataUser as $no => $data)
 
 										@if($data['phone_verified'] == 0)
 											<tr style="color:red">
@@ -306,7 +306,7 @@ $configs     		= session('configs');
 										@else
 											<tr>
 												@endif
-												<td> {{$no+1}}
+												<td> {{($page-1) * $take + $no + 1}}
 													<label class="mt-checkbox"><input type="checkbox" value="1" name="users[{{$data['phone']}}]" id="check{{$data['phone']}}" class="md-check" /> <span></span></label>
 												</td>
 												<td>
@@ -351,6 +351,11 @@ $configs     		= session('configs');
 							</tbody>
 						</table>
 					</div>
+					<div style="padding-right: 0px;">
+						@if ($dataUserPaginator)
+							{{ $dataUserPaginator->links() }}
+						@endif
+					</div>
 				</div>
 				<div class="col-md-12" style="padding-left:0px;padding-right:0px;margin-top:20px">
 					<div class="col-md-5" style="padding-left:0px;padding-right:0px;">
@@ -369,22 +374,8 @@ $configs     		= session('configs');
 					<div class="col-md-3" style="padding-left:0px;padding-right:0px;">
 						<button type="submit" class="btn yellow" data-toggle="confirmation" data-placement="top">Apply Bulk Action</button>
 					</div>
-					<div class="col-md-4" style="padding-left:0px;padding-right:0px;">
-						<div class="pull-right pagination" style="margin-top: 0px;margin-bottom: 0px;">
-							<ul class="pagination" style="margin-top: 0px;margin-bottom: 0px;">
-								@if($begin <= 1) <li class="page-first disabled"><a href="javascript:void(0)">«</a></li>
-								@else <li class="page-first"><a href="{{url('user')}}/{{$page-1}}">«</a></li>
-								@endif
-
-								@if($last == $total) <li class="page-last disabled"><a href="javascript:void(0)">»</a></li>
-								@else <li class="page-last"><a href="{{url('user')}}/{{$page+1}}">»</a></li>
-								@endif
-							</ul>
-						</div>
-					</div>
 				</div>
 				</form>
-
 			</div>
 		</div>
 	</div>
