@@ -170,6 +170,9 @@
                         <thead>
                         <tr>
                             <th class="text-nowrap text-center">Created At</th>
+                            @if($title=='Partners')
+                            <th class="text-nowrap text-center">Code</th>
+                            @endif
                             <th class="text-nowrap text-center">Name</th>
                             <th class="text-nowrap text-center">Phone</th>
                             <th class="text-nowrap text-center">Email</th>
@@ -188,6 +191,9 @@
                             @foreach($data as $dt)
                                 <tr data-id="{{ $dt['id_partner'] }}">
                                     <td>{{date('d F Y H:i', strtotime($dt['created_at']))}}</td>
+                                    @if($title=='Partners')
+                                    <td>{{$dt['code']}}</td>
+                                    @endif
                                     <td>{{$dt['name']}}</td>
                                     <td>{{$dt['phone']}}</td>
                                     <td>{{$dt['email']}}</td>

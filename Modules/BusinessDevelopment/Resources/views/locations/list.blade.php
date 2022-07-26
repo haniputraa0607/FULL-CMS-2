@@ -169,6 +169,9 @@
                         <thead>
                         <tr>
                             <th class="text-nowrap text-center">Created At</th>
+                            @if($title=='Locations')
+                            <th class="text-nowrap text-center">Code</th>
+                            @endif
                             <th class="text-nowrap text-center">Name Location</th>
                             <th class="text-nowrap text-center">Address</th>
                             <th class="text-nowrap text-center">Status</th>
@@ -182,7 +185,9 @@
                                 @foreach($data as $location)
                                     <tr data-id="{{ $location['id_location'] }}">
                                         <td>{{date('d F Y H:i', strtotime($location['created_at']))}}</td>
-                                        <td>{{$location['name']}}</td>
+                                        @if($title=='Locations')
+                                        <td>{{$location['code']}}</td>
+                                        @endif
                                         <td>{{$location['address']}}</td>
                                         <td>
                                             @if($location['status'] == 'Active')
