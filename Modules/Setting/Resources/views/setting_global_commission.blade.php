@@ -126,7 +126,7 @@ $configs     		= session('configs');
                         <div class="row">
                             <div class="col-md-offset-4 col-md-9">
                                 <button type="submit" class="btn blue" id="checkBtn">Update</button>
-                                <a href="#modal_commission" data-toggle="modal" class="btn btn-success" @if(isset($result['status'])&&($result['status']=='start' || $result['status']=='process')) disabled @endif>Refresh Commission @if(isset($result['status'])&&($result['status']=='start' || $result['status']=='process')) <i class="fa fa-question-circle tooltips" data-original-title="Tidak bisa melakukan proses refresh komisi karena ada proses refresh komisi yang sedang berjalan" data-container="body"></i> @endif </a>
+                                <a  @if(isset($result['status'])&&($result['status']=='start' || $result['status']=='process')) @else href="#modal_commission" data-toggle="modal" @endif class="btn btn-success" @if(isset($result['status'])&&($result['status']=='start' || $result['status']=='process')) disabled @endif>Refresh Commission @if(isset($result['status'])&&($result['status']=='start' || $result['status']=='process')) <i class="fa fa-question-circle tooltips" data-original-title="Tidak bisa melakukan proses refresh komisi karena ada proses refresh komisi yang sedang berjalan" data-container="body"></i> @endif </a>
                             </div>
                         </div>
 					</div>
