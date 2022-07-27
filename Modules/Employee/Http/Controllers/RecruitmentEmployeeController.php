@@ -143,7 +143,7 @@ class RecruitmentEmployeeController extends Controller
             $page = '?page='.$post['page'];
         }
         $post['status'] = $data['status'];
-        $list = MyHelper::post('employee/be/recruitment/candidate'.$page, $post);
+       $list = MyHelper::post('employee/be/recruitment/candidate'.$page, $post);
         if(($list['status']??'')=='success'){
             $data['data']          = $list['result']['data'];
             $data['data_total']     = $list['result']['total'];

@@ -251,6 +251,10 @@ return [
                             'required_features' => [],
                             'type' => 'tree',
                             'active' => '\View::shared("submenu_active") == "employee-recruitment',
+                            'badge'=>[
+                                'type'=>'warning',
+                                'value'=>'employee_candidate',
+                            ],
                             'children' => [
                                         [
                                             'label' => 'List Employee',
@@ -262,7 +266,11 @@ return [
                                             'label' => 'List Candidate',
                                             'required_features' => [481],
                                             'active' => '\View::shared("child_active") == "list-employee-recruitment-candidate"',
-                                            'url' => 'employee/recruitment/candidate'
+                                            'url' => 'employee/recruitment/candidate',
+                                            'badge'=>[
+                                                        'type'=>'warning',
+                                                        'value'=>'employee_candidate',
+                                                    ],
                                         ],
                                         [
                                             'label' => '[Response] Interview Invitation',
@@ -4137,6 +4145,18 @@ return [
 							'active' => '\View::shared("submenu_active") == "faq-sort"',
 							'url' => 'setting/faq/sort'
 						],
+                                                [
+                                                        'label' => 'List FAQ Employee',
+                                                        'required_features' => [88],
+                                                        'active' => '\View::shared("submenu_active") == "faq-list-employee"',
+                                                        'url' => 'setting/employee/faq'
+                                                ],
+                                                [
+                                                        'label' => 'List FAQ Employee Popular',
+                                                        'required_features' => [88],
+                                                        'active' => '\View::shared("submenu_active") == "faq-list-employee-popular"',
+                                                        'url' => 'setting/employee/faq/popular'
+                                                ],
 					],
 					'icon' => 'icon-question'
 				],

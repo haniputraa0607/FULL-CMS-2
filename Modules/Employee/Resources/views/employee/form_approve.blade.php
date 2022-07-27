@@ -63,7 +63,7 @@
 				</div>
 			</div>
                         <div class="form-group">
-				<label class="col-md-4 control-label">Notes<span class="required" aria-required="true"> * </span>
+				<label class="col-md-4 control-label">Notes
 				</label>
 				<div class="col-md-6">
 					<textarea required class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Approved']['process_notes'])) disabled @endif>@if(isset($dataDoc['Approved']['process_notes'])) {{$dataDoc['Approved']['process_notes']}}  @endif</textarea>
@@ -126,7 +126,7 @@
                                         </select>
 				</div>
 			</div>
-			<div class="form-group">
+<!--			<div class="form-group">
 				<label  class="control-label col-md-4">Auto Generate PIN
 					<i class="fa fa-question-circle tooltips" data-original-title="Jika di centang maka pin akan di generate otomatis oleh sistem" data-container="body"></i>
 				</label>
@@ -155,7 +155,7 @@
 						<b style="color: red;font-size: 12px;display: none" id="alert_password_app">Password des not match</b>
 					</div>
 				</div>
-			</div>
+			</div>-->
                         @endif
 		</div>
 		<input type="hidden" name="action_type" id="action_type_approve" value="Approved">

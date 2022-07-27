@@ -2,6 +2,20 @@
 
 Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'setting', 'namespace' => 'Modules\Setting\Http\Controllers'], function()
 {
+    Route::group(['prefix' => 'employee'], function(){
+        Route::get('faq', 'SettingEmployeeController@faqList');
+        Route::get('faq/popular', 'SettingEmployeeController@faqListPopular');
+        Route::get('faq/create', 'SettingEmployeeController@faqCreate');
+        Route::post('faq/save', 'SettingEmployeeController@faqStore');
+        Route::get('faq/edit/{slug}', 'SettingEmployeeController@faqEdit');
+        Route::post('faq/update/{slug}', 'SettingEmployeeController@faqUpdate');
+        Route::any('faq/delete/{slug}', 'SettingEmployeeController@faqDelete');
+        Route::any('faq/popular/{slug}', 'SettingEmployeeController@faqPopularCreate');
+        Route::any('faq/popular/delete/{slug}', 'SettingEmployeeController@faqPopularDelete');
+        Route::get('faq/sort', 'SettingEmployeeController@faqSort');
+        Route::post('faq/sort/update', 'SettingEmployeeController@faqSortUpdate');
+        Route::post('update/{slug}', 'SettingEmployeeController@settingUpdate');
+      });
 	Route::post('app_logo', 'SettingController@appLogoSave');
     Route::post('app_sidebar', 'SettingController@appSidebarSave');
     Route::post('app_navbar', 'SettingController@appNavbarSave');
