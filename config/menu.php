@@ -548,6 +548,54 @@ return [
 									'label' => '[Response] Reminder Clock Out',
 									'url' => 'user/autoresponse/reminder-employee-to-clock-out',
 								],
+                                [
+									'label' => '[Response] Attendance Pending',
+									'url' => 'user/autoresponse/employee-attendance-pending',
+								],
+                                [
+									'label' => '[Response] Attendance Pending Approve',
+									'url' => 'user/autoresponse/employee-attendance-pending-approve',
+								],
+                                [
+									'label' => '[Response] Attendance Pending Reject',
+									'url' => 'user/autoresponse/employee-attendance-pending-reject',
+								],
+                                [
+									'label' => '[Response] Attendance Request',
+									'url' => 'user/autoresponse/employee-attendance-request',
+								],
+								[
+									'label' => '[Response] Attendance Request Approve',
+									'url' => 'user/autoresponse/employee-attendance-request-approve',
+								],
+                                [
+									'label' => '[Response] Attendance Request Reject',
+									'url' => 'user/autoresponse/employee-attendance-request-reject',
+								],
+                                [
+									'label' => '[Response] Attendance Outlet Pending',
+									'url' => 'user/autoresponse/employee-attendance-outlet-pending',
+								],
+								[
+									'label' => '[Response] Attendance Outlet Pending Approve',
+									'url' => 'user/autoresponse/employee-attendance-outlet-pending-approve',
+								],
+                                [
+									'label' => '[Response] Attendance Outlet Pending Reject',
+									'url' => 'user/autoresponse/employee-attendance-outlet-pending-reject',
+								],
+                                [
+									'label' => '[Response] Attendance Outlet Request',
+									'url' => 'user/autoresponse/employee-attendance-outlet-request',
+								],
+								[
+									'label' => '[Response] Attendance Outlet Request Approve',
+									'url' => 'user/autoresponse/employee-attendance-outlet-request-approve',
+								],
+                                [
+									'label' => '[Response] Attendance Outlet Request Reject',
+									'url' => 'user/autoresponse/employee-attendance-outlet-request-reject',
+								],
 								[
 									'label' => '[Response] Approved Request Time Off Employee',
 									'required_configs' => [],
@@ -1571,6 +1619,12 @@ return [
                                                                 ],
 						],
 						[
+							'label' => '[Response] A New Candidate Partner',
+							'required_configs' => [40,121],
+							'required_features' => [],
+							'url' => 'user/autoresponse/create-a-new-candidate-partner'
+						],
+						[
 							'label' => '[Response] Candidate Approved',
 							'required_configs' => [40,121],
 							'required_features' => [],
@@ -1622,6 +1676,12 @@ return [
                                                                     'type'=>'warning',
                                                                     'value'=>'candidate-locations',
                                                                 ],
+						],
+						[
+							'label' => '[Response] A New Candidate Location',
+							'required_configs' => [40,121],
+							'required_features' => [],
+							'url' => 'user/autoresponse/create-a-new-candidate-location'
 						],
 						[
 							'label' => '[Response] Approved Candidate Location',
