@@ -147,7 +147,7 @@
                                             <a href="{{ url('setting/employee/faq/edit', $res['id_employee_faq']) }}" class="btn blue"><i class="fa fa-edit"></i></a>
                                         @endif
                                         @if(MyHelper::hasAccess([91], $grantedFeature))
-                                            <a data-toggle="confirmation" href="{{ url('setting/employee/faq/popular', $res['id_employee_faq']) }}" data-popout="true" class="btn yellow" data-id="{{ $res['id_employee_faq'] }}"><i class="fa fa-check"> popular</i></a>
+                                            <a data-toggle="confirmation" href="{{ url('setting/employee/faq/popular', $res['id_employee_faq']) }}" data-popout="true" class="btn yellow" data-id="{{ $res['id_employee_faq'] }}"><i class="fa fa-check"></i></a>
                                         @endif
                                         @if(MyHelper::hasAccess([91], $grantedFeature))
                                             <a data-toggle="confirmation" href="{{ url('setting/employee/faq/delete', $res['id_employee_faq']) }}" data-popout="true" class="btn red delete" data-id="{{ $res['id_employee_faq'] }}"><i class="fa fa-trash-o"></i></a>

@@ -208,6 +208,9 @@ class HairStylistLoanController extends Controller
                 ];
          
         $list = MyHelper::post('recruitment/hairstylist/be/loan/sales/detail', ['id_hairstylist_sales_payment'=>$id])['result']??[];
+		if(!$list){
+			return back()->withErrors(['Data Not Found']);
+		}
         $data['data'] = $list;
         $data['categorys'] = MyHelper::post('recruitment/hairstylist/be/loan/category/list', ['id_employee_sales_payment'=>$id])['result']??[];
         return view('recruitment::loan.detail',$data);
