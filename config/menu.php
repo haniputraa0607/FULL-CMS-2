@@ -605,6 +605,12 @@ return [
 									'url' => 'user/autoresponse/employee-attendance-outlet-request-reject',
 								],
 								[
+									'label' => '[Response] Request Time Off',
+									'required_configs' => [],
+									'required_features' => [],
+									'url' => 'user/autoresponse/employee-request-time-off'
+								],
+								[
 									'label' => '[Response] Approved Request Time Off Employee',
 									'required_configs' => [],
 									'required_features' => [],
@@ -617,6 +623,12 @@ return [
 									'url' => 'user/autoresponse/employee-request-time-off-rejected'
 								],
 								[
+									'label' => '[Response] Request Overtime',
+									'required_configs' => [],
+									'required_features' => [],
+									'url' => 'user/autoresponse/employee-request-overtime'
+								],
+								[
 									'label' => '[Response] Approved Request Overtime Employee',
 									'required_configs' => [],
 									'required_features' => [],
@@ -627,6 +639,24 @@ return [
 									'required_configs' => [],
 									'required_features' => [],
 									'url' => 'user/autoresponse/employee-request-overtime-rejected'
+								],
+								[
+									'label' => '[Response] Request Overtime to Another Employee',
+									'required_configs' => [],
+									'required_features' => [],
+									'url' => 'user/autoresponse/employee-request-overtime-assign-to-other-empolyee'
+								],
+								[
+									'label' => '[Response] Approved Request Overtime to Another Employee',
+									'required_configs' => [],
+									'required_features' => [],
+									'url' => 'user/autoresponse/employee-request-overtime-assign-to-other-empolyee-approved'
+								],
+								[
+									'label' => '[Response] Rejected Request Overtime to Another Employee',
+									'required_configs' => [],
+									'required_features' => [],
+									'url' => 'user/autoresponse/employee-request-overtime-assign-to-other-empolyee-rejeted'
 								],
                             ],
 						],
@@ -2206,10 +2236,6 @@ return [
                         'value'=>'hairstylist_request_update',
                     ],
 					'url' => 'recruitment/hair-stylist/update-data',
-                                        'badge'=>[
-                                                'type'=>'warning',
-                                                'value'=>'hs-request-update-data',
-                                            ],
 				],
 				[
 					'type' => 'group',
