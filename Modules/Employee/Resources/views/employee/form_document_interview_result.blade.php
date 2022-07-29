@@ -34,7 +34,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-md-4 control-label">Notes <span class="required" aria-required="true"> * </span>
+				<label class="col-md-4 control-label">Notes 
 				</label>
 				<div class="col-md-6">
 					<textarea class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Interview Result']['process_name_by'])) disabled @endif>@if(isset($dataDoc['Interview Result']['process_notes'])) {{$dataDoc['Interview Result']['process_notes']}}  @endif</textarea>
