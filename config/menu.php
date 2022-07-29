@@ -2236,10 +2236,6 @@ return [
                         'value'=>'hairstylist_request_update',
                     ],
 					'url' => 'recruitment/hair-stylist/update-data',
-                                        'badge'=>[
-                                                'type'=>'warning',
-                                                'value'=>'hs-request-update-data',
-                                            ],
 				],
 				[
 					'type' => 'group',
