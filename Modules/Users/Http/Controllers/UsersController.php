@@ -283,6 +283,66 @@ class UsersController extends Controller
             $data['click_notification'][] = [
                 'value' => 'employee_inbox','title' => 'Employee Inbox'
             ];
+        
+		}
+		
+        if($subject == 'employee-attendance-pending'){
+            $data['click_inbox'] = [
+				['value' => "No Action",'title' => 'No Action'],
+				['value' => 'approval','title' => 'List Approval'],
+				['value' => 'approval_attendance','title' => 'List Approval Attendance'],
+				['value' => 'approval_attendance_pending','title' => 'Detail Approval Attendance Pending'],
+			];
+			$data['click_notification'] = [
+				['value' => 'Home','title' => 'Home'],
+				['value' => 'approval','title' => 'List Approval'],
+				['value' => 'approval_attendance','title' => 'List Approval Attendance'],
+				['value' => 'approval_attendance_pending','title' => 'Detail Approval Attendance Pending'],
+			];
+        }
+
+        if($subject == 'employee-attendance-request'){
+            $data['click_inbox'] = [
+				['value' => "No Action",'title' => 'No Action'],
+				['value' => 'approval','title' => 'List Approval'],
+				['value' => 'approval_attendance','title' => 'List Approval Attendance'],
+				['value' => 'approval_attendance_request','title' => 'Detail Approval Attendance Pending'],
+			];
+			$data['click_notification'] = [
+				['value' => 'Home','title' => 'Home'],
+				['value' => 'approval','title' => 'List Approval'],
+				['value' => 'approval_attendance','title' => 'List Approval Attendance'],
+				['value' => 'approval_attendance_request','title' => 'Detail Approval Attendance Pending'],
+			];
+        }
+        if($subject == 'employee-attendance-outlet-pending'){
+            $data['click_inbox'] = [
+				['value' => "No Action",'title' => 'No Action'],
+				['value' => 'approval','title' => 'List Approval'],
+				['value' => 'approval_attendance_outlet','title' => 'List Approval Attendance Outlet'],
+				['value' => 'approval_attendance_outlet_pending','title' => 'Detail Approval Attendance Outlet Pending'],
+			];
+			$data['click_notification'] = [
+				['value' => 'Home','title' => 'Home'],
+				['value' => 'approval','title' => 'List Approval'],
+				['value' => 'approval_attendance_outlet','title' => 'List Approval Attendance Outlet'],
+				['value' => 'approval_attendance_outlet_pending','title' => 'Detail Approval Attendance Outlet Pending'],
+			];
+        }
+
+        if($subject == 'employee-attendance-outlet-request'){
+            $data['click_inbox'] = [
+				['value' => "No Action",'title' => 'No Action'],
+				['value' => 'approval','title' => 'List Approval'],
+				['value' => 'approval_attendance_outlet','title' => 'List Approval Attendance Outlet'],
+				['value' => 'approval_attendance_outlet_request','title' => 'Detail Approval Attendance Outlet Pending'],
+			];
+			$data['click_notification'] = [
+				['value' => 'Home','title' => 'Home'],
+				['value' => 'approval','title' => 'List Approval'],
+				['value' => 'approval_attendance_outlet','title' => 'List Approval Attendance Outlet'],
+				['value' => 'approval_attendance_outlet_request','title' => 'Detail Approval Attendance Outlet Pending'],
+			];
         }
 
         if ($subject == 'pin-create') {
