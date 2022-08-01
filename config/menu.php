@@ -611,13 +611,13 @@ return [
 									'url' => 'user/autoresponse/employee-request-time-off'
 								],
 								[
-									'label' => '[Response] Approved Request Time Off Employee',
+									'label' => '[Response] Approved Request Time Off',
 									'required_configs' => [],
 									'required_features' => [],
 									'url' => 'user/autoresponse/employee-request-time-off-approved'
 								],
 								[
-									'label' => '[Response] Rejected Request Time Off Employee',
+									'label' => '[Response] Rejected Request Time Off',
 									'required_configs' => [],
 									'required_features' => [],
 									'url' => 'user/autoresponse/employee-request-time-off-rejected'
@@ -629,31 +629,31 @@ return [
 									'url' => 'user/autoresponse/employee-request-overtime'
 								],
 								[
-									'label' => '[Response] Approved Request Overtime Employee',
+									'label' => '[Response] Approved Request Overtime',
 									'required_configs' => [],
 									'required_features' => [],
 									'url' => 'user/autoresponse/employee-request-overtime-approved'
 								],
 								[
-									'label' => '[Response] Rejected Request Overtime Employee',
+									'label' => '[Response] Rejected Request Overtime',
 									'required_configs' => [],
 									'required_features' => [],
 									'url' => 'user/autoresponse/employee-request-overtime-rejected'
 								],
 								[
-									'label' => '[Response] Request Overtime to Another Employee',
+									'label' => '[Response] Request Overtime to Another',
 									'required_configs' => [],
 									'required_features' => [],
 									'url' => 'user/autoresponse/employee-request-overtime-assign-to-other-empolyee'
 								],
 								[
-									'label' => '[Response] Approved Request Overtime to Another Employee',
+									'label' => '[Response] Approved Request Overtime to Another',
 									'required_configs' => [],
 									'required_features' => [],
 									'url' => 'user/autoresponse/employee-request-overtime-assign-to-other-empolyee-approved'
 								],
 								[
-									'label' => '[Response] Rejected Request Overtime to Another Employee',
+									'label' => '[Response] Rejected Request Overtime to Another',
 									'required_configs' => [],
 									'required_features' => [],
 									'url' => 'user/autoresponse/employee-request-overtime-assign-to-other-empolyee-rejeted'
@@ -1956,14 +1956,38 @@ return [
 							'required_features' => [],
 							'url' => 'autoresponse/hairstylist-schedule/approve-hairstylist-schedule'
 						],
+                        [
+                            'label' => '[Response] Request Time Off',
+                            'required_configs' => [],
+                            'required_features' => [],
+                            'url' => 'user/autoresponse/hairstylist-request-time-off'
+                        ],
+                        [
+                            'label' => '[Response] Approved Request Time Off',
+                            'required_configs' => [],
+                            'required_features' => [],
+                            'url' => 'user/autoresponse/hairstylist-request-time-off-approved'
+                        ],
+                        [
+                            'label' => '[Response] Rejected Request Time Off',
+                            'required_configs' => [],
+                            'required_features' => [],
+                            'url' => 'user/autoresponse/hairstylist-request-time-off-rejected'
+                        ],
+                        [
+                            'label' => '[Response] Request Overtime',
+                            'required_configs' => [],
+                            'required_features' => [],
+                            'url' => 'user/autoresponse/hairstylist-request-overtime'
+                        ],
 						[
-							'label' => '[Response] Approved Request Overtime Hairstylist',
+							'label' => '[Response] Approved Request Overtime',
 							'required_configs' => [],
 							'required_features' => [],
 							'url' => 'user/autoresponse/hairstylist-request-overtime-approved'
 						],
 						[
-							'label' => '[Response] Rejected Request Overtime Hairstylist',
+							'label' => '[Response] Rejected Request Overtime',
 							'required_configs' => [],
 							'required_features' => [],
 							'url' => 'user/autoresponse/hairstylist-request-overtime-rejected'
