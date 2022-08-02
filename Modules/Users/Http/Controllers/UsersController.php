@@ -278,10 +278,10 @@ class UsersController extends Controller
 
         if($subject == 'reminder-employee-to-clock-in' || $subject == 'reminder-employee-to-clock-out'){
             $data['click_inbox'][] = [
-                'value' => 'employee_inbox','title' => 'Employee Inbox'
+                'value' => 'attendance_employee_live','title' => 'Live Attendance'
             ];
             $data['click_notification'][] = [
-                'value' => 'employee_inbox','title' => 'Employee Inbox'
+                'value' => 'attendance_employee_live','title' => 'Live Attendance'
             ];
         
 		}
@@ -289,14 +289,12 @@ class UsersController extends Controller
         if($subject == 'employee-attendance-pending'){
             $data['click_inbox'] = [
 				['value' => "No Action",'title' => 'No Action'],
-				['value' => 'approval','title' => 'List Approval'],
-				['value' => 'approval_attendance','title' => 'List Approval Attendance'],
+				['value' => 'employee_approval','title' => 'List Approval'],
 				['value' => 'approval_attendance_pending','title' => 'Detail Approval Attendance Pending'],
 			];
 			$data['click_notification'] = [
 				['value' => 'Home','title' => 'Home'],
-				['value' => 'approval','title' => 'List Approval'],
-				['value' => 'approval_attendance','title' => 'List Approval Attendance'],
+				['value' => 'employee_approval','title' => 'List Approval'],
 				['value' => 'approval_attendance_pending','title' => 'Detail Approval Attendance Pending'],
 			];
         }
@@ -304,28 +302,24 @@ class UsersController extends Controller
         if($subject == 'employee-attendance-request'){
             $data['click_inbox'] = [
 				['value' => "No Action",'title' => 'No Action'],
-				['value' => 'approval','title' => 'List Approval'],
-				['value' => 'approval_attendance','title' => 'List Approval Attendance'],
+				['value' => 'employee_approval','title' => 'List Approval'],
 				['value' => 'approval_attendance_request','title' => 'Detail Approval Attendance Pending'],
 			];
 			$data['click_notification'] = [
 				['value' => 'Home','title' => 'Home'],
-				['value' => 'approval','title' => 'List Approval'],
-				['value' => 'approval_attendance','title' => 'List Approval Attendance'],
+				['value' => 'employee_approval','title' => 'List Approval'],
 				['value' => 'approval_attendance_request','title' => 'Detail Approval Attendance Pending'],
 			];
         }
         if($subject == 'employee-attendance-outlet-pending'){
             $data['click_inbox'] = [
 				['value' => "No Action",'title' => 'No Action'],
-				['value' => 'approval','title' => 'List Approval'],
-				['value' => 'approval_attendance_outlet','title' => 'List Approval Attendance Outlet'],
+				['value' => 'employee_approval','title' => 'List Approval'],
 				['value' => 'approval_attendance_outlet_pending','title' => 'Detail Approval Attendance Outlet Pending'],
 			];
 			$data['click_notification'] = [
 				['value' => 'Home','title' => 'Home'],
-				['value' => 'approval','title' => 'List Approval'],
-				['value' => 'approval_attendance_outlet','title' => 'List Approval Attendance Outlet'],
+				['value' => 'employee_approval','title' => 'List Approval'],
 				['value' => 'approval_attendance_outlet_pending','title' => 'Detail Approval Attendance Outlet Pending'],
 			];
         }
@@ -333,17 +327,120 @@ class UsersController extends Controller
         if($subject == 'employee-attendance-outlet-request'){
             $data['click_inbox'] = [
 				['value' => "No Action",'title' => 'No Action'],
-				['value' => 'approval','title' => 'List Approval'],
-				['value' => 'approval_attendance_outlet','title' => 'List Approval Attendance Outlet'],
+				['value' => 'employee_approval','title' => 'List Approval'],
 				['value' => 'approval_attendance_outlet_request','title' => 'Detail Approval Attendance Outlet Pending'],
 			];
 			$data['click_notification'] = [
 				['value' => 'Home','title' => 'Home'],
-				['value' => 'approval','title' => 'List Approval'],
-				['value' => 'approval_attendance_outlet','title' => 'List Approval Attendance Outlet'],
+				['value' => 'employee_approval','title' => 'List Approval'],
 				['value' => 'approval_attendance_outlet_request','title' => 'Detail Approval Attendance Outlet Pending'],
 			];
         }
+
+		if($subject == 'employee-attendance-pending-approve' || $subject == 'employee-attendance-pending-reject'){
+            $data['click_inbox'] = [
+				['value' => "No Action",'title' => 'No Action'],
+				['value' => 'attendance_employee_history','title' => 'History Attendance'],
+			];
+			$data['click_notification'] = [
+				['value' => 'Home','title' => 'Home'],
+				['value' => 'attendance_employee_history','title' => 'History Attendance'],
+			];
+        }
+
+		if($subject == 'employee-attendance-request-approve' || $subject == 'employee-attendance-request-reject'){
+            $data['click_inbox'] = [
+				['value' => "No Action",'title' => 'No Action'],
+				['value' => 'attendance_employee_request','title' => 'Request Attendance'],
+			];
+			$data['click_notification'] = [
+				['value' => 'Home','title' => 'Home'],
+				['value' => 'attendance_employee_request','title' => 'Request Attendance'],
+			];
+        }
+
+		if($subject == 'employee-attendance-outlet-pending-approve' || $subject == 'employee-attendance-outlet-pending-reject'){
+            $data['click_inbox'] = [
+				['value' => "No Action",'title' => 'No Action'],
+				['value' => 'attendance_outlet_history','title' => 'History Attendance Outlet'],
+			];
+			$data['click_notification'] = [
+				['value' => 'Home','title' => 'Home'],
+				['value' => 'attendance_outlet_history','title' => 'History Attendance Outlet'],
+			];
+        }
+
+		if($subject == 'employee-attendance-outlet-request-approve' || $subject == 'employee-attendance-outlet-request-reject'){
+            $data['click_inbox'] = [
+				['value' => "No Action",'title' => 'No Action'],
+				['value' => 'attendance_outlet_request','title' => 'Request Attendance Outlet'],
+			];
+			$data['click_notification'] = [
+				['value' => 'Home','title' => 'Home'],
+				['value' => 'attendance_outlet_request','title' => 'Request Attendance Outlet'],
+			];
+        }
+
+		if($subject == 'employee-request-time-off'){
+            $data['click_inbox'] = [
+				['value' => "No Action",'title' => 'No Action'],
+				['value' => 'employee_approval','title' => 'List Approval'],
+				['value' => 'approval_time_off','title' => 'Detail Approval Time Off'],
+			];
+			$data['click_notification'] = [
+				['value' => 'Home','title' => 'Home'],
+				['value' => 'employee_approval','title' => 'List Approval'],
+				['value' => 'approval_time_off','title' => 'Detail Approval Time Off'],
+			];
+        }
+
+		if($subject == 'employee-request-time-off-approved' || $subject == 'employee-request-time-off-rejected'){
+            $data['click_inbox'] = [
+				['value' => "No Action",'title' => 'No Action'],
+				['value' => 'timeoff_history','title' => 'List Time Off'],
+			];
+			$data['click_notification'] = [
+				['value' => 'Home','title' => 'Home'],
+				['value' => 'timeoff_history','title' => 'List Time Off'],
+			];
+        }
+
+		if($subject == 'employee-request-overtime'){
+            $data['click_inbox'] = [
+				['value' => "No Action",'title' => 'No Action'],
+				['value' => 'employee_approval','title' => 'List Approval'],
+				['value' => 'approval_overtime','title' => 'Detail Approval Overtime'],
+			];
+			$data['click_notification'] = [
+				['value' => 'Home','title' => 'Home'],
+				['value' => 'employee_approval','title' => 'List Approval'],
+				['value' => 'approval_overtime','title' => 'Detail Approval Overtime'],
+			];
+        }
+
+		if($subject == 'employee-request-overtime-approved' || $subject == 'employee-request-overtime-rejected'){
+            $data['click_inbox'] = [
+				['value' => "No Action",'title' => 'No Action'],
+				['value' => 'overtime_history','title' => 'List Overtime'],
+			];
+			$data['click_notification'] = [
+				['value' => 'Home','title' => 'Home'],
+				['value' => 'overtime_history','title' => 'List Overtime'],
+			];
+        }
+
+		if($subject == 'employee-request-overtime-assign-to-other-empolyee' || $subject == 'employee-request-overtime-assign-to-other-empolyee-approved' || $subject == 'employee-request-overtime-assign-to-other-empolyee-rejected'){
+            $data['click_inbox'] = [
+				['value' => "No Action",'title' => 'No Action'],
+				['value' => 'overtime_history','title' => 'List Overtime'],
+			];
+			$data['click_notification'] = [
+				['value' => 'Home','title' => 'Home'],
+				['value' => 'overtime_history','title' => 'List Overtime'],
+			];
+        }
+
+
 
         if ($subject == 'pin-create') {
 	        $data['click_notification'] = [
