@@ -18,8 +18,8 @@ class EmployeeTimeOffOvertimeController extends Controller
         $data = [
             'title'          	=> 'Employee',
             'sub_title'      	=> 'List Request Employee Time Off',
-            'menu_active'    	=> 'employee-schedule',
-            'submenu_active' 	=> 'employee-schedule',
+            'menu_active'    	=> 'employee',
+            'submenu_active' 	=> 'employee-timeoff-overtime',
             'child_active' 		=> 'employee-timeoff-list',
         ];
         
@@ -87,8 +87,8 @@ class EmployeeTimeOffOvertimeController extends Controller
             $data = [
                 'title'          	=> 'Employee',
                 'sub_title'      	=> 'Create Request Employee Time Off',
-                'menu_active'    	=> 'employee-schedule',
-                'submenu_active' 	=> 'employee-schedule',
+                'menu_active'    	=> 'employee',
+                'submenu_active' 	=> 'employee-timeoff-overtime',
                 'child_active' 		=> 'employee-timeoff-create',
             ];
             
@@ -124,8 +124,8 @@ class EmployeeTimeOffOvertimeController extends Controller
         $data = [
             'title'          	=> 'Employee',
             'sub_title'      	=> 'Detail Request Employee Time Off',
-            'menu_active'    	=> 'employee-schedule',
-            'submenu_active' 	=> 'employee-schedule',
+            'menu_active'    	=> 'employee',
+            'submenu_active' 	=> 'employee-timeoff-overtime',
             'child_active' 		=> 'employee-timeoff-list',
         ];
         $result = MyHelper::post('employee/timeoff/detail', ['id_employee_time_off' => $id]);
@@ -171,8 +171,8 @@ class EmployeeTimeOffOvertimeController extends Controller
             $data = [
                 'title'          	=> 'Recruitment',
                 'sub_title'      	=> 'Create Request Employee Overtime',
-                'menu_active'    	=> 'employee-schedule',
-                'submenu_active' 	=> 'employee-schedule',
+                'menu_active'    	=> 'employee',
+                'submenu_active' 	=> 'employee-timeoff-overtime',
                 'child_active' 		=> 'employee-overtime-create',
             ];
             
@@ -197,8 +197,8 @@ class EmployeeTimeOffOvertimeController extends Controller
         $data = [
             'title'          	=> 'Employee',
             'sub_title'      	=> 'List Request Employee Overtime',
-            'menu_active'    	=> 'employee-schedule',
-            'submenu_active' 	=> 'employee-schedule',
+            'menu_active'    	=> 'employee',
+            'submenu_active' 	=> 'employee-timeoff-overtime',
             'child_active' 		=> 'employee-overtime-list',
         ];
         
@@ -264,8 +264,8 @@ class EmployeeTimeOffOvertimeController extends Controller
         $data = [
             'title'          	=> 'Employee',
             'sub_title'      	=> 'Detail Request Employee Overtime',
-            'menu_active'    	=> 'employee-schedule',
-            'submenu_active' 	=> 'employee-schedule',
+            'menu_active'    	=> 'employee',
+            'submenu_active' 	=> 'employee-timeoff-overtime',
             'child_active' 		=> 'employee-overtime-list',
         ];
         $result = MyHelper::post('employee/overtime/detail', ['id_employee_overtime' => $id]);
