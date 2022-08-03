@@ -440,10 +440,6 @@ return [
                             'required_features' => [],
                             'type' => 'tree',
                             'required_features' => [472],
-                            'badge'=>[
-                                'type'=>'warning',
-                                'value'=>'employee_schedule',
-                            ],
 					        'active' => '\View::shared("submenu_active") == "employee-schedule',
 							'children' => [
                                 [
@@ -458,16 +454,29 @@ return [
 					                'active' => '\View::shared("child_active") == "employee-schedule-list"',
                                     'url' => 'employee/schedule'
                                 ],
-                                [
+                            ],
+						],
+						[
+							'label' => 'Attendance',
+                            'required_features' => [],
+                            'type' => 'tree',
+                            'required_features' => [472],
+                            'badge'=>[
+                                'type'=>'warning',
+                                'value'=>'employee_attendance',
+                            ],
+					        'active' => '\View::shared("submenu_active") == "employee-attendance',
+							'children' => [
+								[
                                     'label' => 'Attendance Setting',
                                     'required_features' => [],
 					                'active' => '\View::shared("child_active") == "employee-attendance-setting"',
                                     'url' => 'employee/attendance/setting'
                                 ],
                                 [
-                                    'label' => 'Attendance',
+                                    'label' => 'Attendance List',
                                     'required_features' => [489, 490],
-					                'active' => '\View::shared("child_active") == "employee-attendance"',
+					                'active' => '\View::shared("child_active") == "employee-attendance-list"',
                                     'url' => 'employee/attendance'
                                 ],
                                 [
@@ -490,10 +499,62 @@ return [
 					                'active' => '\View::shared("child_active") == "employee-attendance-request"',
                                     'url' => 'employee/attendance-request'
                                 ],
-                                [
-                                    'label' => 'Attendance Outlet',
+								[
+                                    'label' => 'Response',
+                                    'required_features' => [491],
+					                'active' => '\View::shared("child_active") == "employee-attendance-autoresponse"',
+									'children' => [
+										[
+											'label' => 'Reminder Clock In',
+											'url' => 'user/autoresponse/reminder-employee-to-clock-in',
+										],
+										[
+											'label' => 'Reminder Clock Out',
+											'url' => 'user/autoresponse/reminder-employee-to-clock-out',
+										],
+										[
+											'label' => 'Attendance Pending',
+											'url' => 'user/autoresponse/employee-attendance-pending',
+										],
+										[
+											'label' => 'Attendance Pending Approve',
+											'url' => 'user/autoresponse/employee-attendance-pending-approve',
+										],
+										[
+											'label' => 'Attendance Pending Reject',
+											'url' => 'user/autoresponse/employee-attendance-pending-reject',
+										],
+										[
+											'label' => 'Attendance Request',
+											'url' => 'user/autoresponse/employee-attendance-request',
+										],
+										[
+											'label' => 'Attendance Request Approve',
+											'url' => 'user/autoresponse/employee-attendance-request-approve',
+										],
+										[
+											'label' => 'Attendance Request Reject',
+											'url' => 'user/autoresponse/employee-attendance-request-reject',
+										],
+									],
+                                ],
+							],
+						],
+						[
+							'label' => 'Attendance Outlet',
+                            'required_features' => [],
+                            'type' => 'tree',
+                            'required_features' => [472],
+                            'badge'=>[
+                                'type'=>'warning',
+                                'value'=>'employee_attendance_outlet',
+                            ],
+					        'active' => '\View::shared("submenu_active") == "employee-attendance-outlet',
+							'children' => [
+								[
+                                    'label' => 'Attendance Outlet List',
                                     'required_features' => [492, 493],
-					                'active' => '\View::shared("child_active") == "employee-attendance-outlet"',
+					                'active' => '\View::shared("child_active") == "employee-attendance-outlet-list"',
                                     'url' => 'employee/attendance-outlet'
                                 ],
                                 [
@@ -515,15 +576,53 @@ return [
                                     ],
                                     'active' => '\View::shared("child_active") == "employee-attendance-outlet-request"',
                                     'url' => 'employee/attendance-outlet/request'
+                            	],
+								[
+                                    'label' => 'Response',
+                                    'required_features' => [491],
+					                'active' => '\View::shared("child_active") == "employee-attendance-autoresponse"',
+									'children' => [
+										[
+											'label' => 'Attendance Outlet Pending',
+											'url' => 'user/autoresponse/employee-attendance-outlet-pending',
+										],
+										[
+											'label' => 'Attendance Outlet Pending Approve',
+											'url' => 'user/autoresponse/employee-attendance-outlet-pending-approve',
+										],
+										[
+											'label' => 'Attendance Outlet Pending Reject',
+											'url' => 'user/autoresponse/employee-attendance-outlet-pending-reject',
+										],
+										[
+											'label' => 'Attendance Outlet Request',
+											'url' => 'user/autoresponse/employee-attendance-outlet-request',
+										],
+										[
+											'label' => 'Attendance Outlet Request Approve',
+											'url' => 'user/autoresponse/employee-attendance-outlet-request-approve',
+										],
+										[
+											'label' => 'Attendance Outlet Request Reject',
+											'url' => 'user/autoresponse/employee-attendance-outlet-request-reject',
+										],
+									],
+								],
+							],
+						],
+						[
+							'label' => 'Time Off & Overtime',
+                            'required_features' => [],
+                            'type' => 'tree',
+                            'required_features' => [472],
+                            'badge'=>[
+                                'type'=>'warning',
+                                'value'=>'employee_timeoff_overtime',
                             ],
-                                // [
-                                //     'label' => 'Create Request Time Off',
-                                //     'required_features' => [],
-                                //     'active' => '\View::shared("child_active") == "employee-timeoff-create"',
-                                //     'url' => 'employee/timeoff/create'
-                                // ],
-                                [
-                                    'label' => 'List Request Time Off',
+					        'active' => '\View::shared("submenu_active") == "employee-timeoff-overtime',
+							'children' => [
+								[
+                                    'label' => 'List Time Off',
                                     'required_features' => [],
                                     'badge'=>[
                                         'type'=>'warning',
@@ -532,14 +631,8 @@ return [
                                     'active' => '\View::shared("child_active") == "employee-timeoff-list"',
                                     'url' => 'employee/timeoff'
                                 ],
-                                // [
-                                //     'label' => 'Create Request Overtime',
-                                //     'required_features' => [],
-                                //     'active' => '\View::shared("child_active") == "employee-overtime-create"',
-                                //     'url' => 'employee/overtime/create'
-                                // ],
-                                [
-                                    'label' => 'List Request Overtime',
+								[
+                                    'label' => 'List Overtime',
                                     'required_features' => [],
                                     'badge'=>[
                                         'type'=>'warning',
@@ -548,117 +641,68 @@ return [
                                     'active' => '\View::shared("child_active") == "employee-overtime-list"',
                                     'url' => 'employee/overtime'
                                 ],
-                                [
-									'label' => '[Response] Reminder Clock In',
-									'url' => 'user/autoresponse/reminder-employee-to-clock-in',
-								],
-                                [
-									'label' => '[Response] Reminder Clock Out',
-									'url' => 'user/autoresponse/reminder-employee-to-clock-out',
-								],
-                                [
-									'label' => '[Response] Attendance Pending',
-									'url' => 'user/autoresponse/employee-attendance-pending',
-								],
-                                [
-									'label' => '[Response] Attendance Pending Approve',
-									'url' => 'user/autoresponse/employee-attendance-pending-approve',
-								],
-                                [
-									'label' => '[Response] Attendance Pending Reject',
-									'url' => 'user/autoresponse/employee-attendance-pending-reject',
-								],
-                                [
-									'label' => '[Response] Attendance Request',
-									'url' => 'user/autoresponse/employee-attendance-request',
-								],
 								[
-									'label' => '[Response] Attendance Request Approve',
-									'url' => 'user/autoresponse/employee-attendance-request-approve',
+                                    'label' => 'Response',
+                                    'required_features' => [491],
+					                'active' => '\View::shared("child_active") == "employee-attendance-autoresponse"',
+									'children' => [
+										[
+											'label' => 'Request Time Off',
+											'required_configs' => [],
+											'required_features' => [],
+											'url' => 'user/autoresponse/employee-request-time-off'
+										],
+										[
+											'label' => 'Approved Request Time Off',
+											'required_configs' => [],
+											'required_features' => [],
+											'url' => 'user/autoresponse/employee-request-time-off-approved'
+										],
+										[
+											'label' => 'Rejected Request Time Off',
+											'required_configs' => [],
+											'required_features' => [],
+											'url' => 'user/autoresponse/employee-request-time-off-rejected'
+										],
+										[
+											'label' => 'Request Overtime',
+											'required_configs' => [],
+											'required_features' => [],
+											'url' => 'user/autoresponse/employee-request-overtime'
+										],
+										[
+											'label' => 'Approved Request Overtime',
+											'required_configs' => [],
+											'required_features' => [],
+											'url' => 'user/autoresponse/employee-request-overtime-approved'
+										],
+										[
+											'label' => 'Rejected Request Overtime',
+											'required_configs' => [],
+											'required_features' => [],
+											'url' => 'user/autoresponse/employee-request-overtime-rejected'
+										],
+										[
+											'label' => 'Request Overtime to Another',
+											'required_configs' => [],
+											'required_features' => [],
+											'url' => 'user/autoresponse/employee-request-overtime-assign-to-other-empolyee'
+										],
+										[
+											'label' => 'Approved Request Overtime to Another',
+											'required_configs' => [],
+											'required_features' => [],
+											'url' => 'user/autoresponse/employee-request-overtime-assign-to-other-empolyee-approved'
+										],
+										[
+											'label' => 'Rejected Request Overtime to Another',
+											'required_configs' => [],
+											'required_features' => [],
+											'url' => 'user/autoresponse/employee-request-overtime-assign-to-other-empolyee-rejeted'
+										],
+									],
 								],
-                                [
-									'label' => '[Response] Attendance Request Reject',
-									'url' => 'user/autoresponse/employee-attendance-request-reject',
-								],
-                                [
-									'label' => '[Response] Attendance Outlet Pending',
-									'url' => 'user/autoresponse/employee-attendance-outlet-pending',
-								],
-								[
-									'label' => '[Response] Attendance Outlet Pending Approve',
-									'url' => 'user/autoresponse/employee-attendance-outlet-pending-approve',
-								],
-                                [
-									'label' => '[Response] Attendance Outlet Pending Reject',
-									'url' => 'user/autoresponse/employee-attendance-outlet-pending-reject',
-								],
-                                [
-									'label' => '[Response] Attendance Outlet Request',
-									'url' => 'user/autoresponse/employee-attendance-outlet-request',
-								],
-								[
-									'label' => '[Response] Attendance Outlet Request Approve',
-									'url' => 'user/autoresponse/employee-attendance-outlet-request-approve',
-								],
-                                [
-									'label' => '[Response] Attendance Outlet Request Reject',
-									'url' => 'user/autoresponse/employee-attendance-outlet-request-reject',
-								],
-								[
-									'label' => '[Response] Request Time Off',
-									'required_configs' => [],
-									'required_features' => [],
-									'url' => 'user/autoresponse/employee-request-time-off'
-								],
-								[
-									'label' => '[Response] Approved Request Time Off Employee',
-									'required_configs' => [],
-									'required_features' => [],
-									'url' => 'user/autoresponse/employee-request-time-off-approved'
-								],
-								[
-									'label' => '[Response] Rejected Request Time Off Employee',
-									'required_configs' => [],
-									'required_features' => [],
-									'url' => 'user/autoresponse/employee-request-time-off-rejected'
-								],
-								[
-									'label' => '[Response] Request Overtime',
-									'required_configs' => [],
-									'required_features' => [],
-									'url' => 'user/autoresponse/employee-request-overtime'
-								],
-								[
-									'label' => '[Response] Approved Request Overtime Employee',
-									'required_configs' => [],
-									'required_features' => [],
-									'url' => 'user/autoresponse/employee-request-overtime-approved'
-								],
-								[
-									'label' => '[Response] Rejected Request Overtime Employee',
-									'required_configs' => [],
-									'required_features' => [],
-									'url' => 'user/autoresponse/employee-request-overtime-rejected'
-								],
-								[
-									'label' => '[Response] Request Overtime to Another Employee',
-									'required_configs' => [],
-									'required_features' => [],
-									'url' => 'user/autoresponse/employee-request-overtime-assign-to-other-empolyee'
-								],
-								[
-									'label' => '[Response] Approved Request Overtime to Another Employee',
-									'required_configs' => [],
-									'required_features' => [],
-									'url' => 'user/autoresponse/employee-request-overtime-assign-to-other-empolyee-approved'
-								],
-								[
-									'label' => '[Response] Rejected Request Overtime to Another Employee',
-									'required_configs' => [],
-									'required_features' => [],
-									'url' => 'user/autoresponse/employee-request-overtime-assign-to-other-empolyee-rejeted'
-								],
-                            ],
+							],
 						],
 						[
 							'type' => 'tree',
@@ -1956,14 +2000,38 @@ return [
 							'required_features' => [],
 							'url' => 'autoresponse/hairstylist-schedule/approve-hairstylist-schedule'
 						],
+                        [
+                            'label' => '[Response] Request Time Off',
+                            'required_configs' => [],
+                            'required_features' => [],
+                            'url' => 'user/autoresponse/hairstylist-request-time-off'
+                        ],
+                        [
+                            'label' => '[Response] Approved Request Time Off',
+                            'required_configs' => [],
+                            'required_features' => [],
+                            'url' => 'user/autoresponse/hairstylist-request-time-off-approved'
+                        ],
+                        [
+                            'label' => '[Response] Rejected Request Time Off',
+                            'required_configs' => [],
+                            'required_features' => [],
+                            'url' => 'user/autoresponse/hairstylist-request-time-off-rejected'
+                        ],
+                        [
+                            'label' => '[Response] Request Overtime',
+                            'required_configs' => [],
+                            'required_features' => [],
+                            'url' => 'user/autoresponse/hairstylist-request-overtime'
+                        ],
 						[
-							'label' => '[Response] Approved Request Overtime Hairstylist',
+							'label' => '[Response] Approved Request Overtime',
 							'required_configs' => [],
 							'required_features' => [],
 							'url' => 'user/autoresponse/hairstylist-request-overtime-approved'
 						],
 						[
-							'label' => '[Response] Rejected Request Overtime Hairstylist',
+							'label' => '[Response] Rejected Request Overtime',
 							'required_configs' => [],
 							'required_features' => [],
 							'url' => 'user/autoresponse/hairstylist-request-overtime-rejected'
