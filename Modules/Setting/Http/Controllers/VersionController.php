@@ -47,13 +47,16 @@ class VersionController extends Controller
             $data['version'] = $version['result'];
         } else {
             $data['version'] = [
-            	'Android' 	=> [], 
-            	'IOS' 		=> [], 
-            	'OutletApp' => [],
-            	'MitraApp' 	=> [],
-            	'WebApp' 	=> []
+            	'Android' 	    => [], 
+            	'IOS' 		    => [], 
+            	'OutletApp'     => [],
+            	'MitraApp' 	    => [],
+            	'EmployeeAndrioid' 	=> [],
+            	'EmployeeIOS' 	=> [],
+            	'WebApp' 	    => []
             ];
         }
+        
         return view('setting::version.setting-version', $data);
     }
 }

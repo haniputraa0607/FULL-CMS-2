@@ -25,6 +25,10 @@
                 var textvalue = $('#display_text_web').val();
                 var textvaluebaru = textvalue+" "+param;
                 $('#display_text_web').val(textvaluebaru);
+            } else if (id == 'employee') {
+                var textvalue = $('#display_text_employee').val();
+                var textvaluebaru = textvalue+" "+param;
+                $('#display_text_employee').val(textvaluebaru);
             }
         }
     </script>
@@ -81,6 +85,12 @@
                     <li class="">
                         <a href="#tab_MitraAppsIOS" data-toggle="tab" aria-expanded="false"> Mitra Apps IOS Setting </a>
                     </li>
+                    <li class="">
+                        <a href="#tab_EmployeeAndroids" data-toggle="tab" aria-expanded="false"> Employee Apps Android Setting </a>
+                    </li>
+                    <li class="">
+                        <a href="#tab_EmployeeIOS" data-toggle="tab" aria-expanded="false"> Employee Apps IOS Setting </a>
+                    </li>
                     <li class="dropdown">
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> Display Setting
                             <i class="fa fa-angle-down"></i>
@@ -97,6 +107,9 @@
                             </li> --}}
                             <li>
                                 <a href="#tab_display_mitraapps" tabindex="-1" data-toggle="tab"> Mitra Apps </a>
+                            </li>
+                            <li>
+                                <a href="#tab_display_employeeapps" tabindex="-1" data-toggle="tab"> Employee Apps </a>
                             </li>
                         </ul>
                     </li>
@@ -558,6 +571,158 @@
                             </div>
                         </form>
                     </div>
+                    <div class="tab-pane fade" id="tab_EmployeeAndroids">
+                        <form class="form-horizontal" role="form" action="{{ url()->current() }}" method="post" enctype="multipart/form-data">
+                            <div class="portlet light">
+                                <div id="addEmployeeAndroid">
+                                    <div class="mt-repeater" id="EmployeeAndroid0">
+                                        <div class="mt-repeater-item mt-overflow">
+                                            <div class="mt-repeater-cell">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-1">
+                                                        <a href="javascript:;" data-repeater-delete="" class="btn btn-danger mt-repeater-delete mt-repeater-del-right mt-repeater-btn-inline" onclick="deleteCondition('EmployeeAndroid0')">
+                                                            <i class="fa fa-close"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" name="EmployeeAndroid[0][app_version]" required placeholder="Employee Apps Version">
+                                                            <span class="input-group-addon">
+                                                                <i style="color:#333" class="fa fa-question-circle tooltips" data-original-title="Versi Employee Apps terbaru" data-container="body"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="input-group">
+                                                            <select name="EmployeeAndroid[0][rules]" class="form-control" placeholder="Rules For Different Verion" required="">
+                                                                <option disabled selected value="">Rules For Different Verion</option>
+                                                                <option value="1">Allowed</option>
+                                                                <option value="0">Not Allowed</option>
+                                                            </select>
+                                                            <span class="input-group-addon">
+                                                                <i style="color:#333" class="fa fa-question-circle tooltips" data-original-title="Aturan jika versi aplikasi Employee Apps yang digunakan berbeda dengan versi aplikasi Employee Apps terbaru" data-container="body"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="javascript:;" class="btn btn-success mt-repeater-add" onclick="addVersion('EmployeeAndroid')">
+                                <i class="fa fa-plus"></i> Add New Version</a>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-icon right">
+                                    <label class="col-md-4 control-label">
+                                        Employee Apps Playstore Link
+                                        <!-- <span class="required" aria-required="true"> * </span>   -->
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Link untuk download aplikasi Employee Apps terbaru" data-container="body"></i>
+                                    </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" name="EmployeeAndroid[version_employeestore]" value="@if(isset($version['version_employeestore'])){{ $version['version_employeestore'] }}@endif">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-icon right">
+                                    <label class="col-md-4 control-label">
+                                        Jumlah Versi Disupport
+                                        <!-- <span class="required" aria-required="true"> * </span>   -->
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Jumlah maksimum versi aplikasi yang disupport" data-container="body"></i>
+                                    </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="number" value="@if(isset($version['version_max_employeeapp'])){{ $version['version_max_employeeapp'] }}@endif" class="form-control" name="EmployeeAndroid[version_max_employeeapp]" placeholder="Input Jumlah">
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                {{ csrf_field() }}
+                                <div class="row">
+                                    <div class="col-md-offset-4 col-md-8">
+                                        <button type="submit" class="btn green">Save</button>
+                                        <button type="button" class="btn default">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="tab_EmployeeIOS">
+                        <form class="form-horizontal" role="form" action="{{ url()->current() }}" method="post" enctype="multipart/form-data">
+                            <div class="portlet light">
+                                <div id="addEmployeeIOS">
+                                    <div class="mt-repeater" id="EmployeeIOS0">
+                                        <div class="mt-repeater-item mt-overflow">
+                                            <div class="mt-repeater-cell">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-1">
+                                                        <a href="javascript:;" data-repeater-delete="" class="btn btn-danger mt-repeater-delete mt-repeater-del-right mt-repeater-btn-inline" onclick="deleteCondition('EmployeeIOS0')">
+                                                            <i class="fa fa-close"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" name="EmployeeIOS[0][app_version]" required placeholder="Employee Apps IOS Version">
+                                                            <span class="input-group-addon">
+                                                                <i style="color:#333" class="fa fa-question-circle tooltips" data-original-title="Versi Employee IOS Apps terbaru" data-container="body"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="input-group">
+                                                            <select name="EmployeeIOS[0][rules]" class="form-control" placeholder="Rules For Different Verion" required="">
+                                                                <option disabled selected value="">Rules For Different Verion</option>
+                                                                <option value="1">Allowed</option>
+                                                                <option value="0">Not Allowed</option>
+                                                            </select>
+                                                            <span class="input-group-addon">
+                                                                <i style="color:#333" class="fa fa-question-circle tooltips" data-original-title="Aturan jika versi aplikasi Employee Apps IOS yang digunakan berbeda dengan versi aplikasi Employee Apps IOS terbaru" data-container="body"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="javascript:;" class="btn btn-success mt-repeater-add" onclick="addVersion('EmployeeIOS')">
+                                <i class="fa fa-plus"></i> Add New Version</a>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-icon right">
+                                    <label class="col-md-4 control-label">
+                                        Employee Apps Appstore Link
+                                        <!-- <span class="required" aria-required="true"> * </span>   -->
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Link untuk download aplikasi Employee Apps IOS terbaru" data-container="body"></i>
+                                    </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" name="EmployeeIOS[version_employee_appstore]" value="@if(isset($version['version_employee_appstore'])){{ $version['version_employee_appstore'] }}@endif">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-icon right">
+                                    <label class="col-md-4 control-label">
+                                        Jumlah Versi Disupport
+                                        <!-- <span class="required" aria-required="true"> * </span>   -->
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Jumlah maksimum versi aplikasi yang disupport" data-container="body"></i>
+                                    </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="number" value="@if(isset($version['version_max_employeeapp_ios'])){{ $version['version_max_employeeapp_ios'] }}@endif" class="form-control" name="EmployeeIOS[version_max_employeeapp_ios]" placeholder="Input Jumlah">
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                {{ csrf_field() }}
+                                <div class="row">
+                                    <div class="col-md-offset-4 col-md-8">
+                                        <button type="submit" class="btn green">Save</button>
+                                        <button type="button" class="btn default">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                     <div class="tab-pane fade" id="tab_display_androidios">
                         <form class="form-horizontal" role="form" action="{{ url()->current() }}" method="post" enctype="multipart/form-data">
                             <div class="portlet light">
@@ -894,6 +1059,90 @@
                             </div>
                         </form>
                     </div>
+                    <div class="tab-pane fade" id="tab_display_employeeapps">
+                        <form class="form-horizontal" role="form" action="{{ url()->current() }}" method="post" enctype="multipart/form-data">
+                            <div class="portlet light">
+                                <div class="portlet-body form">
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <div class="input-icon right">
+                                                <label class="col-md-4 control-label">
+                                                Image
+                                                <span class="required" aria-required="true"> * </span>
+                                                <!--<br>-->
+                                                <!-- <span class="required" aria-required="true"> (500*500) </span>  -->
+                                                <i class="fa fa-question-circle tooltips" data-original-title="Gambar dengan ukuran persegi ditampilkan pada aplikasi" data-container="body"></i>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                    <div class="fileinput-new thumbnail" style="width: 200px; height: 200px;">
+                                                    @if(isset($version['version_image_employee']))
+                                                    <img src="{{ env('STORAGE_URL_API')}}{{$version['version_image_employee']}}" alt="">
+                                                    @else
+                                                    <img src="https://www.placehold.it/500x500/EFEFEF/AAAAAA&amp;text=no+image" alt="">
+                                                    @endif
+                                                    </div>
+                                                    <div class="fileinput-preview fileinput-exists thumbnail" id="image_square" style="max-width: 200px; max-height: 200px;"></div>
+                                                    <div>
+                                                        <span class="btn default btn-file">
+                                                        <span class="fileinput-new"> Select image </span>
+                                                        <span class="fileinput-exists"> Change </span>
+                                                        <input type="file" id="field_image_square" class="file" accept="image/*" data-jenis="square" name="Display[version_image_employee]">
+
+                                                        </span>
+
+                                                        <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-icon right">
+                                                <label class="col-md-4 control-label">
+                                                    Text
+                                                    <span class="required" aria-required="true"> * </span>
+                                                    <i class="fa fa-question-circle tooltips" data-original-title="Kalimat yang akan ditampilkan pada aplikasi ketika versi aplikasi yang digunakan berbeda dengan versi terbaru" data-container="body"></i>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <textarea class="form-control" name="Display[version_text_alert_employee]" required id="display_text_employee">@if(isset($version['version_text_alert_employee'])){{ $version['version_text_alert_employee'] }}@endif</textarea>
+                                                <br>
+                                                You can use this variables to display version app :
+                                                <br><br>
+                                                <div class="row">
+                                                    <div class="col-md-3" style="margin-bottom:5px;">
+                                                        <span class="btn dark btn-xs btn-block btn-outline var" data-toggle="tooltip" title="Text will be replace '%version_app%' with the latest version for the device used" onClick="addTextReplace('employee', '%version_app%');">version app</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-icon right">
+                                                <label class="col-md-4 control-label">
+                                                    Button Text
+                                                    <span class="required" aria-required="true"> * </span>
+                                                    <i class="fa fa-question-circle tooltips" data-original-title="Teks pada button yang akan langsung menuju ke playstore / appstore" data-container="body"></i>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" name="Display[version_text_button_employee]" value="@if(isset($version['version_text_button_employee'])){{ $version['version_text_button_employee'] }}@endif" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                {{ csrf_field() }}
+                                <div class="row">
+                                    <div class="col-md-offset-4 col-md-8">
+                                        <button type="submit" class="btn green">Save</button>
+                                        <button type="button" class="btn default">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
             <script>
@@ -902,6 +1151,8 @@
                 var noOutletApp = 1;
                 var noMitraApp = 1;
                 var noMitraAppIOS = 1;
+                var noEmployeeAndroid = 1;
+                var noEmployeeIOS = 1;
                 var noWebApp = 1;
 
                 window.onload = function(event) {
@@ -910,6 +1161,8 @@
                     var outlet = JSON.parse('{!! json_encode($version["OutletApp"]) !!}');
                     var mitra = JSON.parse('{!! json_encode($version["MitraApp"]) !!}');
                     var mitraIos = JSON.parse('{!! json_encode($version["MitraAppIOS"]) !!}');
+                    var employee = JSON.parse('{!! json_encode($version["EmployeeAndroid"]) !!}');
+                    var employeeIos = JSON.parse('{!! json_encode($version["EmployeeIOS"]) !!}');
                     var web = JSON.parse('{!! json_encode($version["WebApp"]) !!}');
                     if (android.length != 0) {
                         android.forEach(function(entry) {
@@ -940,6 +1193,18 @@
                             $('#MitraAppIOS0').remove()
                             appendData('MitraAppIOS', 'Mitra Apps IOS', noMitraAppIOS, 'version_mitraapp_ios', entry.app_version, entry.rules);
                             noMitraAppIOS++;
+                        });
+                    } if (employee.length != 0) {
+                        employee.forEach(function(entry) {
+                            $('#EmployeeAndroid0').remove()
+                            appendData('EmployeeAndroid', 'Employee Apps', noEmployeeAndroid, 'version_employeeapp', entry.app_version, entry.rules);
+                            noEmployeeAndroid++;
+                        });
+                    } if (employeeIos.length != 0) {
+                        employeeIos.forEach(function(entry) {
+                            $('#EmployeeIOS0').remove()
+                            appendData('EmployeeIOS', 'Employee Apps IOS', noEmployeeIOS, 'version_employeeapp_ios', entry.app_version, entry.rules);
+                            noEmployeeIOS++;
                         });
                     } if (web.length != 0) {
                         web.forEach(function(entry) {
@@ -1013,6 +1278,12 @@
                     } if (item.app_type == "MitraAppIOS") {
                         appendDiv('MitraAppIOS', 'Mitra Apps IOS', noMitraAppIOS, 'version_mitraapp_ios')
                         noMitraAppIOS++;
+                    } if (item.app_type == "EmployeeAndroid") {
+                        appendDiv('EmployeeAndroid', 'Employee Apps', noEmployeeAndroid, 'version_employeeapp')
+                        noMitraApp++;
+                    } if (item.app_type == "EmployeeIOS") {
+                        appendDiv('EmployeeIOS', 'Employee Apps IOS', noEmployeeIOS, 'version_employeeapp_ios')
+                        noMitraAppIOS++;
                     } if (item.app_type == "WebApp") {
                         appendDiv('WebApp', 'Web Apps', noWebApp, 'version_webapp')
                         noWebApp++;
@@ -1034,6 +1305,12 @@
                         noMitraApp++;
                     } if (id == "MitraAppIOS") {
                         appendDiv('MitraAppIOS', 'Mitra Apps IOS', noMitraAppIOS, 'version_mitraapp_ios')
+                        noMitraAppIOS++;
+                    } if (id == "EmployeeAndroid") {
+                        appendDiv('EmployeeAndroid', 'Employee Apps', noEmployeeAndroid, 'version_employeeapp')
+                        noEmployeeAndroid++;
+                    } if (id == "EmployeeIOS") {
+                        appendDiv('EmployeeIOS', 'Employee Apps IOS', noEmployeeIOS, 'version_employeeapp_ios')
                         noMitraAppIOS++;
                     } if (id == "WebApp") {
                         appendDiv('WebApp', 'Web Apps', noWebApp, 'version_webapp')

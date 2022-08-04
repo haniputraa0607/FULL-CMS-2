@@ -63,8 +63,11 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'setting'
     Route::any('outletapp', 'SettingController@outletAppSetting');
     Route::post('outletapp/splash-screen', 'SettingController@splashScreenOutletApps');
 
-	Route::any('mitra-apps', 'SettingController@mitraAppsSetting');
+	Route::any('mitra-apps', 'SettingController@employeeAppsSetting');
     Route::post('mitra-apps/splash-screen', 'SettingController@splashScreenMitraApps');   
+
+	Route::any('employee-apps', 'SettingController@mitraAppsSetting');
+    Route::post('employee-apps/splash-screen', 'SettingController@splashScreenEmployeeApps');   
     
     //logo confirmation letter
     Route::any('/logo-confir', ['middleware' => 'feature_control:343', 'uses' => 'SettingController@confirmationLogoPDF']);
