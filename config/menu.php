@@ -272,6 +272,12 @@ return [
                                                         'value'=>'employee_candidate',
                                                     ],
                                         ],
+										[
+                                            'label' => 'Privacy Policy',
+                                            'required_features' => [481],
+                                            'active' => '\View::shared("child_active") == "employee-privacy-policy"',
+                                            'url' => 'employee/privacy-policy'
+                                        ],
                                         [
                                             'label' => '[Response] Interview Invitation',
                                             'required_features' => [481],

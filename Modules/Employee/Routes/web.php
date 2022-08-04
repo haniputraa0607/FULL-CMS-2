@@ -13,6 +13,8 @@
 
 Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee'], function()
 {
+    Route::any('/privacy-policy', ['middleware' => 'feature_control:481', 'uses' => 'EmployeeController@privacyPolicy']);
+
     Route::group(['prefix' => 'office-hours'], function(){
         Route::get('/', ['middleware' => 'feature_control:444', 'uses' => 'EmployeeController@officeHoursList']);
         Route::get('create', ['middleware' => 'feature_control:444', 'uses' => 'EmployeeController@officeHoursCreate']);

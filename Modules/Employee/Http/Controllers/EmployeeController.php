@@ -105,4 +105,44 @@ class EmployeeController extends Controller
             }
         }
     }
+
+    public function privacyPolicy(Request $request){
+        $post = $request->except('_token');
+        if(empty($post)){
+            $data = [
+                'title'          => 'Employee',
+                'menu_active'    => 'employeeem',
+                'submenu_active' => 'employee-privacy-policy',
+                'sub_title'       => 'Privacy Policy',
+                'subTitle'       => 'Privacy Policy',
+                'label'          => 'Privacy Policy',
+                'colLabel'       => 2,
+                'colInput'       => 10,
+                'key'            => 'value_text',
+                'value'    => null,
+            ];
+            
+            $result = MyHelper::get('employee/be/profile/privacy-policy')['result']??[];
+            if($result){
+                $data['id'] = $result['id_setting'];
+
+                if (is_null($data['key'])) {
+                    if (is_null($result['value'])) {
+                        $data['key'] = 'value_text';
+                    } else {
+                        $data['key'] = 'value';
+                    }
+                }
+                $data['value'] = $result[$data['key']];
+            }
+            return view('employee::privacy_policy', $data);
+        }else{
+            $update = MyHelper::post('employee/be/profile/privacy-policy/update', [$post['key'] => $post['value']]);
+            if (isset($update['status']) && $update['status'] == "success") {
+                return back()->withSuccess(['Success save data']);
+            }else{
+                return back()->withErrors(['Failed save data']);
+            }
+        }
+    }
 }
