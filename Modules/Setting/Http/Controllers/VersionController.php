@@ -25,9 +25,12 @@ class VersionController extends Controller
                 $post['Display']['version_image_outlet'] = MyHelper::encodeImage($post['Display']['version_image_outlet']);
             } elseif (isset($post['Display']['version_image_mitra'])) {
                 $post['Display']['version_image_mitra'] = MyHelper::encodeImage($post['Display']['version_image_mitra']);
+            } elseif (isset($post['Display']['version_image_employee'])) {
+                $post['Display']['version_image_employee'] = MyHelper::encodeImage($post['Display']['version_image_employee']);
             } elseif (isset($post['Display']['version_image_web'])) {
                 $post['Display']['version_image_web'] = MyHelper::encodeImage($post['Display']['version_image_web']);
             }
+            return $post;
             $save = MyHelper::post('version/update', $post);
             if (isset($save['status']) && $save['status'] == "success") {
                 return redirect('version')->withSuccess(['Version Setting has been updated.']);
