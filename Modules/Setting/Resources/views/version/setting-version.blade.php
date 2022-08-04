@@ -1280,10 +1280,10 @@
                         noMitraAppIOS++;
                     } if (item.app_type == "EmployeeAndroid") {
                         appendDiv('EmployeeAndroid', 'Employee Apps', noEmployeeAndroid, 'version_employeeapp')
-                        noMitraApp++;
+                        noEmployeeAndroid++;
                     } if (item.app_type == "EmployeeIOS") {
                         appendDiv('EmployeeIOS', 'Employee Apps IOS', noEmployeeIOS, 'version_employeeapp_ios')
-                        noMitraAppIOS++;
+                        noEmployeeIOS++;
                     } if (item.app_type == "WebApp") {
                         appendDiv('WebApp', 'Web Apps', noWebApp, 'version_webapp')
                         noWebApp++;
@@ -1311,7 +1311,7 @@
                         noEmployeeAndroid++;
                     } if (id == "EmployeeIOS") {
                         appendDiv('EmployeeIOS', 'Employee Apps IOS', noEmployeeIOS, 'version_employeeapp_ios')
-                        noMitraAppIOS++;
+                        noEmployeeIOS++;
                     } if (id == "WebApp") {
                         appendDiv('WebApp', 'Web Apps', noWebApp, 'version_webapp')
                         noWebApp++;
