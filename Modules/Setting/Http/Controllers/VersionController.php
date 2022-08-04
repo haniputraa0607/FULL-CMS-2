@@ -30,7 +30,7 @@ class VersionController extends Controller
             } elseif (isset($post['Display']['version_image_web'])) {
                 $post['Display']['version_image_web'] = MyHelper::encodeImage($post['Display']['version_image_web']);
             }
-            return $post;
+            
             $save = MyHelper::post('version/update', $post);
             if (isset($save['status']) && $save['status'] == "success") {
                 return redirect('version')->withSuccess(['Version Setting has been updated.']);
