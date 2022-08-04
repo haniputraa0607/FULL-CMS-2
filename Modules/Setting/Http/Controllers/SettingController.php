@@ -1652,4 +1652,37 @@ class SettingController extends Controller
             return view('setting::attendances_date', $data);
         }
     }
+
+    public function employeeAppsSetting(Request $request){
+        $post = $request->except('_token');
+        $data = [
+            'title'   		=> 'Employee Apps Setting',
+            'menu_active'    => 'setting-employee-apps',
+            'submenu_active' => 'setting-employee-apps'
+        ];
+        
+        $get = MyHelper::get('setting/employee-apps/splash-screen');
+        $data['result_splash_screen'] = [];
+        if(isset($get['status']) &&  $get['status']=='success'){
+            $data['result_splash_screen'] = $get['result'];
+        }
+
+        return view('setting::employee-apps', $data);
+    }
+
+    public function splashScreenEmployeeApps(Request $request){
+        $post = $request->except('_token');
+        if(isset($post['default_splash_screen_employee_apps'])){
+            $post['default_splash_screen_employee_apps'] = MyHelper::encodeImage($post['default_splash_screen_employee_apps']);
+        }
+
+        if(isset($post['default_splash_screen_employee_apps_duration'])){
+            if($post['default_splash_screen_employee_apps_duration']<1){
+                $post['default_splash_screen_employee_apps_duration']=1;
+            }
+        }
+
+        return $result = MyHelper::post('setting/employee-apps/splash-screen', $post);
+        return parent::redirect($result, 'Splash Screen has been updated.');
+    }
 }

@@ -3998,6 +3998,13 @@ return [
 					'icon' => 'fa fa-tablet'
 				],
 				[
+					'label' => 'Setting Employee Apps',
+					'required_features' => [346],
+					'active' => '\View::shared("menu_active") == "setting-employee-apps"',
+					'url' => 'setting/employee-apps',
+					'icon' => 'fa fa-mobile'
+				],
+				[
 					'label' => 'Setting Phone Number',
 					'required_features' => [210],
 					'required_configs' => [94],
