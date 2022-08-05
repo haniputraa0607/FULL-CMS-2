@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('configs', session('configs'));
                 $view->with('grantedFeature', session('granted_features'));
 
-                $badges = MyHelper::get('sidebar-badge')['result'] ?? [];
+                $badges = MyHelper::get('sidebar-badge?log_save=false')['result'] ?? [];
                 View::share('sidebar_badges', $badges);
                 View::share('total_inbox', 123);
             });
