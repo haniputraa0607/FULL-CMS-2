@@ -111,8 +111,9 @@ class EmployeeController extends Controller
         if(empty($post)){
             $data = [
                 'title'          => 'Employee',
-                'menu_active'    => 'employeeem',
-                'submenu_active' => 'employee-privacy-policy',
+                'menu_active'    => 'employee',
+                'submenu_active' => 'employee-recruitment',
+                'child_active'   => 'employee-privacy-policy',
                 'sub_title'       => 'Privacy Policy',
                 'subTitle'       => 'Privacy Policy',
                 'label'          => 'Privacy Policy',
