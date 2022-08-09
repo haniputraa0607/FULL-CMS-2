@@ -128,6 +128,8 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
 	});
 	Route::group(['prefix' => 'income'], function()
 	{
+	    Route::any('/payslip', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeIncomeController@index']);
+	    Route::any('/payslip/detail/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeIncomeController@detail']);
 	    Route::any('/setting-delivery', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeIncomeController@setting_delivery']);
             Route::group(['prefix' => 'role'], function()
                 {  
