@@ -196,6 +196,7 @@ $grantedFeature     = session('granted_features');
             <table class="table table-striped table-bordered table-hover" id="kt_datatable">
                         <thead>
                          <tr>
+                            <th class="text-nowrap text-center">Name</th>
                             <th class="text-nowrap text-center">Source</th>
                             <th class="text-nowrap text-center">Amount</th>
                             <th class="text-nowrap text-center">Type</th>
@@ -205,6 +206,7 @@ $grantedFeature     = session('granted_features');
                         @if(!empty($data['employee_income_details']))
                             @foreach($data['employee_income_details'] as $dt)
                                 <tr data-id="{{ $dt['id_employee_income_detail'] }}">
+                                    <td class="text-nowrap text-center">{{$dt['name_income']}}</td>
                                     <td class="text-nowrap text-center">{{$dt['source']}}</td>
                                     <td class="text-nowrap text-center">{{number_format($dt['amount']??0,0,',',',')}}</td>
                                     <td class="text-nowrap text-center">{{$dt['type']}}</td>
