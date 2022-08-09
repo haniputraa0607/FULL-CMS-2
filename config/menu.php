@@ -814,6 +814,10 @@ return [
                                                         ],
                                                     ],
                                         ],
+                                        [
+                                            'label' => 'Payslip',
+                                            'url' => 'employee/income/payslip',
+                                        ],
 					]
 				],
 				[

@@ -159,13 +159,13 @@
                         <div class="row">
                             <div class="col-sm-6"><div class="form-body">
                                       <div class="form-group">
-                                        <div class="col-md-4">Name Hs</div>
+                                        <div class="col-md-4">Name </div>
                                         <div class="col-md-6">
                                            : {{$data['name']??''}}
                                         </div>
                                        </div>
                                       <div class="form-group">
-                                        <div class="col-md-4">Code Hs</div>
+                                        <div class="col-md-4">Code </div>
                                         <div class="col-md-6">
                                            : {{$data['code']??''}}
                                         </div>
