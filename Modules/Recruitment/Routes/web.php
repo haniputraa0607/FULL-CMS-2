@@ -126,6 +126,12 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
 		Route::any('delete/{id}', ['middleware' => 'feature_control:372', 'uses' => 'AnnouncementController@delete']);
 	});
 
+	Route::group(['prefix' => 'income'], function()
+	{
+	    Route::any('/payslip', ['middleware' => 'feature_control:472', 'uses' => 'HairStylistIncomeController@index']);
+	    Route::any('/payslip/detail/{id}', ['middleware' => 'feature_control:472', 'uses' => 'HairStylistIncomeController@detail']);
+	    
+	});
 	Route::group(['prefix' => 'update-data'], function()
 	{
 	    Route::any('/', ['middleware' => 'feature_control:428,429,430', 'uses' => 'HairStylistUpdateDataController@list']);

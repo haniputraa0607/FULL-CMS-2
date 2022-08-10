@@ -148,14 +148,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Notes <span class="required" aria-required="true">*</span>
+                        <label for="example-search-input" class="control-label col-md-4">Notes 
                             <i class="fa fa-question-circle tooltips" data-original-title="Status pengajuan asset & inventory" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <textarea required class="form-control" name="notes" placeholder="Notes" >{{$result['notes']??''}}</textarea>
+                            <textarea  class="form-control" name="notes" placeholder="Notes" >{{$result['notes']??''}}</textarea>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Attachment <span class="required" aria-required="true">*</span>
+                        <label for="example-search-input" class="control-label col-md-4">Attachment 
                             <i class="fa fa-question-circle tooltips" data-original-title="file pengajuan asset & inventory" data-container="body"></i></label>
                         <div class="col-md-5">
                             @if($result['status_asset_inventory']=="Pending") 
@@ -168,7 +168,7 @@
                                                 <span class="input-group-addon btn default btn-file">
                                                 <span class="fileinput-new"> Select file </span>
                                                 <span class="fileinput-exists"> Change </span>
-                                                <input type="file" accept="image/png,image/jpg,image/jpeg,image/bmp" name="attachment" class="file" required> </span>
+                                                <input type="file" accept="image/png,image/jpg,image/jpeg,image/bmp" name="attachment" class="file" > </span>
                                                 <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
                                         </div>
                                 </div>
@@ -176,7 +176,7 @@
                     @if(empty($result['attachment']))
                                     <p style="margin-top: 2%">No file</p>
                             @else
-                                    <a style="margin-top: 2%" class="btn blue btn-xs" href="{{$result['attachment']}} "><i class="fa fa-download"></i></a>
+                                    <a style="margin-top: 2%" class="btn blue btn-xs" href="{{env('STORAGE_URL_API').$result['attachment']}} "><i class="fa fa-download"></i></a>
                             @endif
                      @endif
                         </div>
