@@ -1883,6 +1883,10 @@ return [
                                                             'value'=>'candidate_list',
                                                         ]
 						],
+                                                [
+                                                    'label' => 'Payslip',
+                                                    'url' => 'recruitment/hair-stylist/income/payslip',
+                                                ],
 						[
 							'label' => 'Setting Requirements',
 							'required_features' => [],
