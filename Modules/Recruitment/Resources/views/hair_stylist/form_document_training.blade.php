@@ -163,33 +163,35 @@ $idCategoryUse = [];
 								$j = 0;
 								$htmlTheory .= '<div id="cat_'.$ct['id_theory_category'].'" style="display: none">';
 								foreach ($ct['theory'] as $noTheo=>$theory){
-									$htmlTheory .= '<div class="form-group">';
-									$htmlTheory .= '<div class="col-md-6" style="margin-top: -2%">';
-									$htmlTheory .= '<p>'.$theory['theory_title'].'</p>';
-									$htmlTheory .= '</div>';
-									$htmlTheory .= '<div class="col-md-3">';
-									$htmlTheory .= '<div class="input-group">';
-									$htmlTheory .= '<input type="text" class="numeric form-control score_theory_'.$ct['id_theory_category'].'" id="score_'.$theory['id_theory'].'" name="data_document[theory]['.$theory['id_theory'].$noTheo.'][score]" placeholder="Score" onkeyup="conclusionScore('.$ct['id_theory_category'].')">';
-									$htmlTheory .= '<span class="input-group-addon">minimal '.$theory['minimum_score'].'</span>';
-									$htmlTheory .= '<input type="hidden" id="minimum_score_'.$theory['id_theory'].'" value="'.$theory['minimum_score'].'">';
-									$htmlTheory .= '</div>';
-									$htmlTheory .= '<p style="color: red;margin-top: -1%;display: none" id="error_text_'.$theory['id_theory'].'">Maximal score is 100</p>';
-									$htmlTheory .= '</div>';
-                                    $htmlTheory .= '<div class="col-md-3">';
-                                    $htmlTheory .= '<select class="form-control select2" id="passed_status_'.$theory['id_theory'].'" name="data_document[theory]['.$theory['id_theory'].$no.'][passed_status]">';
-                                    $htmlTheory .= '<option value="Passed">Passed<option>';
-                                    $htmlTheory .= '<option value="Not Passed">Not Passed<option>';
-                                    $htmlTheory .= '</select>';
-                                    $htmlTheory .= '</div>';
-									$htmlTheory .= '</div>';
-									$htmlTheory .= '<input type="hidden" name="data_document[theory]['.$theory['id_theory'].$noTheo.'][id_theory_category]" value="'.$ct['id_theory_category'].'">';
-									$htmlTheory .= '<input type="hidden" name="data_document[theory]['.$theory['id_theory'].$noTheo.'][id_theory]" value="'.$theory['id_theory'].'">';
-									$htmlTheory .= '<input type="hidden" name="data_document[theory]['.$theory['id_theory'].$noTheo.'][category_title]" value="'.$ct['theory_category_name'].'">';
-									$htmlTheory .= '<input type="hidden" name="data_document[theory]['.$theory['id_theory'].$noTheo.'][theory_title]" value="'.$theory['theory_title'].'">';
-									$htmlTheory .= '<input type="hidden" name="data_document[theory]['.$theory['id_theory'].$noTheo.'][minimum_score]" value="'.$theory['minimum_score'].'">';
+									if(!empty($ct['id_theory_category'])){
+										$htmlTheory .= '<div class="form-group">';
+										$htmlTheory .= '<div class="col-md-6" style="margin-top: -2%">';
+										$htmlTheory .= '<p>'.$theory['theory_title'].'</p>';
+										$htmlTheory .= '</div>';
+										$htmlTheory .= '<div class="col-md-3">';
+										$htmlTheory .= '<div class="input-group">';
+										$htmlTheory .= '<input type="text" class="numeric form-control score_theory_'.$ct['id_theory_category'].'" id="score_'.$theory['id_theory'].'" name="data_document[theory]['.$theory['id_theory'].$noTheo.'][score]" placeholder="Score" onkeyup="conclusionScore('.$ct['id_theory_category'].')">';
+										$htmlTheory .= '<span class="input-group-addon">minimal '.$theory['minimum_score'].'</span>';
+										$htmlTheory .= '<input type="hidden" id="minimum_score_'.$theory['id_theory'].'" value="'.$theory['minimum_score'].'">';
+										$htmlTheory .= '</div>';
+										$htmlTheory .= '<p style="color: red;margin-top: -1%;display: none" id="error_text_'.$theory['id_theory'].'">Maximal score is 100</p>';
+										$htmlTheory .= '</div>';
+										$htmlTheory .= '<div class="col-md-3">';
+										$htmlTheory .= '<select class="form-control select2" id="passed_status_'.$theory['id_theory'].'" name="data_document[theory]['.$theory['id_theory'].$noTheo.'][passed_status]">';
+										$htmlTheory .= '<option value="Passed">Passed<option>';
+										$htmlTheory .= '<option value="Not Passed">Not Passed<option>';
+										$htmlTheory .= '</select>';
+										$htmlTheory .= '</div>';
+										$htmlTheory .= '</div>';
+										$htmlTheory .= '<input type="hidden" name="data_document[theory]['.$theory['id_theory'].$noTheo.'][id_theory_category]" value="'.$ct['id_theory_category'].'">';
+										$htmlTheory .= '<input type="hidden" name="data_document[theory]['.$theory['id_theory'].$noTheo.'][id_theory]" value="'.$theory['id_theory'].'">';
+										$htmlTheory .= '<input type="hidden" name="data_document[theory]['.$theory['id_theory'].$noTheo.'][category_title]" value="'.$ct['theory_category_name'].'">';
+										$htmlTheory .= '<input type="hidden" name="data_document[theory]['.$theory['id_theory'].$noTheo.'][theory_title]" value="'.$theory['theory_title'].'">';
+										$htmlTheory .= '<input type="hidden" name="data_document[theory]['.$theory['id_theory'].$noTheo.'][minimum_score]" value="'.$theory['minimum_score'].'">';
 
-									$totalMinimumScore = $totalMinimumScore + $theory['minimum_score'];
-									$j++;
+										$totalMinimumScore = $totalMinimumScore + $theory['minimum_score'];
+										$j++;
+									}
 								}
 
 								if(!empty($j)){
