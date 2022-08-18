@@ -10,7 +10,7 @@
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption">
-                    <span class="caption-subject font-dark sbold uppercase font-yellow">List Incentive</span>
+                    <span class="caption-subject font-dark sbold uppercase font-yellow">List Lateness</span>
                     <br>
                     <br>
                     <span class="caption-subject font-dark">Empty value to use the default value.</span>
@@ -20,24 +20,24 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="table_insentif">
                         <div class="table-responsive">
-                          <form role="form" action="{{url('recruitment/hair-stylist/group/overtime/create')}}" method="post" enctype="multipart/form-data">
+                          <form role="form" action="{{url('recruitment/hair-stylist/group/late/create')}}" method="post" enctype="multipart/form-data">
                             <table class="table table-striped table-bordered table-hover" id="kt_datatable">
                                 <thead>
                                 <tr>
                                  
-                                        <th class="text-nowrap text-center"> Days </th>
+                                        <th class="text-nowrap text-center"> Range </th>
                                         <th class="text-nowrap text-center"> Value</th>
                                        
                                 </tr>
                                 </thead>
                                 <tbody>
-                                        @if(!empty($overtime))
-                                        @foreach($overtime as $key => $dt)
+                                        @if(!empty($late))
+                                        @foreach($late as $key => $dt)
                                             <tr style="text-align: center" >
-                                                <td style="text-align: center">{{$dt['days']??null}}</td>
+                                                <td style="text-align: center">{{$dt['range']??null}}</td>
                                                 <td style="text-align: center">
                                                     <input type="hidden" name="id_hairstylist_group[]" value="{{$id}}"/>
-                                                    <input type="hidden" name="id_hairstylist_group_default_overtimes[]" value="{{$dt['id_hairstylist_group_default_overtimes']}}"/>
+                                                    <input type="hidden" name="id_hairstylist_group_default_late[]" value="{{$dt['id_hairstylist_group_default_late']}}"/>
                                                     <input type="text" name="value[]" id='value' value="@if($dt['default']==1 && $dt['value'] != null){{number_format($dt['value']??null,0,',',',')}}@endif" data-type="currency" placeholder="{{number_format($dt['default_value']??0,0,',',',')}}" class="form-control" /></input></td>
                                                 
                                             </tr>

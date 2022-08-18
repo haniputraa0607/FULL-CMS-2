@@ -2163,6 +2163,12 @@ return [
 					'url' => 'recruitment/hair-stylist/default/potongan'
 				],
 				[
+					'label' => 'HS Lateness',
+					'required_features' => [531],
+					'active' => '\View::shared("submenu_active") == "default-hair-stylist-late"',
+					'url' => 'recruitment/hair-stylist/default/late'
+				],
+				[
 					'label' => 'Custom Salary Cut',
 					'required_features' => [426],
 					'type' => 'tree',
