@@ -146,24 +146,24 @@
 				</div>
 			</div>
 			<div class="portlet-body form">
-				<form role="form" class="form-horizontal" action="{{url('recruitment/hair-stylist/default/overtime/update')}}" method="POST" enctype="multipart/form-data">
+				<form role="form" class="form-horizontal" action="{{url('recruitment/hair-stylist/default/late/update')}}" method="POST" enctype="multipart/form-data">
 					{{ csrf_field() }}
 					<div class="form-body">
-						<input type="hidden" name="id_hairstylist_group_default_overtimes" value="{{$result['id_hairstylist_group_default_overtimes']}}">
+						<input type="hidden" name="id_hairstylist_group_default_late" value="{{$result['id_hairstylist_group_default_late']}}">
                                     <div class="form-group">
-                                        <label class="col-md-4 control-label">Days<span class="required" aria-required="true">*</span>
-                                            <i class="fa fa-question-circle tooltips" data-original-title="Jumlah hari jam kelebihan" data-container="body"></i>
+                                        <label class="col-md-4 control-label">Hours<span class="required" aria-required="true">*</span>
+                                            <i class="fa fa-question-circle tooltips" data-original-title="Jumlah Jam" data-container="body"></i>
                                         </label>
                                         <div class="col-md-3">
-                                            <input type="number" name="days" value="{{$result['days']}}" placeholder="Masukkan jam overtime" class="form-control" required />
+                                            <input type="number" name="hours" value="{{$result['hours']}}" placeholder="Masukkan waktu terlambat (menit)" class="form-control" required />
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
-                                            <i class="fa fa-question-circle tooltips" data-original-title="Besar overtime yang diterima oleh hairstylist" data-container="body"></i>
+                                            <i class="fa fa-question-circle tooltips" data-original-title="Besar potongan yang diterima oleh hairstylist" data-container="body"></i>
                                         </label>
                                         <div class="col-md-3">
-                                            <input type="text" value="{{number_format($result['value']??0,0,',',',')}}"  name="value" id='value' data-type="currency" placeholder="Masukkan besar overtime" class="form-control" required />
+                                            <input type="text" value="{{number_format($result['value']??0,0,',',',')}}"  name="value" id='value' data-type="currency" placeholder="Masukkan besar potongan keterlambatan" class="form-control" required />
                                         </div>
                                     </div>
                                               

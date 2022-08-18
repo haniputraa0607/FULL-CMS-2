@@ -222,6 +222,13 @@ class HairStylistGroupController extends Controller
                             array_push($val5,$value);
                         }  
                         $data['overtime'] = $val5;
+                       $late = MyHelper::post('recruitment/hairstylist/be/group/late',$post4)['result']??[];
+                         $val_late = array();
+                        foreach ($late as $value){
+                            $value['id_enkripsi'] = MyHelper::createSlug($value['id_hairstylist_group_default_late'],$id);
+                            array_push($val_late,$value);
+                        }  
+                        $data['late'] = $val_late;
                         $fixed_incentive = MyHelper::post('recruitment/hairstylist/be/group/fixed-incentive',$post4)['result']??[];
                         $data['fixed_incentive'] = $fixed_incentive;
                         $proteksi = MyHelper::post('recruitment/hairstylist/be/group/proteksi',$post4)['result']??[];
@@ -519,6 +526,21 @@ class HairStylistGroupController extends Controller
                  }
                  return redirect(url()->previous().'#overtime')->withSuccess(['Hair Stylist Group Overtime Update Success']);
                
+              }
+           public function create_late(Request $request)
+              {
+                 $post = $request->except('_token');
+                 $post['value'] = str_replace(',','', $post['value']??0);
+                 $data = array();
+                 foreach (array_filter($post['id_hairstylist_group_default_late']) as $key => $value) {
+                     $b = array(
+                         'id_hairstylist_group_default_late' => $value,
+                         'id_hairstylist_group' => $post['id_hairstylist_group'][$key],
+                         'value' => $post['value'][$key],
+                     );
+                   $query = MyHelper::post('recruitment/hairstylist/be/group/late/create', $b);
+                 }
+                 return redirect(url()->previous().'#late')->withSuccess(['Hair Stylist Group Late Update Success']);
               }
            public function create_potongan(Request $request)
               {
