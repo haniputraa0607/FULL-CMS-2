@@ -235,6 +235,30 @@ return [
 						],
 					],
 				],
+                                [
+					'label' => 'Reimbursement Employee',
+					'required_features' => [],
+					'url' => 'employee/reimbursement/manager',
+					'icon' => 'fa fa-users'
+				],
+                                [
+					'label' => 'Director Reimbursement',
+					'required_features' => [528],
+					'url' => 'employee/reimbursement',
+					'icon' => 'fa fa-user'
+				],
+                                [
+					'label' => 'HRGA Reimbursement',
+					'required_features' => [529],
+					'url' => 'employee/reimbursement',
+					'icon' => 'fa fa-user'
+				],
+                                [
+					'label' => 'Finance Reimbursement',
+					'required_features' => [530],
+					'url' => 'employee/reimbursement',
+					'icon' => 'fa fa-user'
+				],
 				[
 					'type' => 'tree',
 					'label' => 'Employee',

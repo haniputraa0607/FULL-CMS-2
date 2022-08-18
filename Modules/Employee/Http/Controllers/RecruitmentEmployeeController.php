@@ -101,6 +101,7 @@ class RecruitmentEmployeeController extends Controller
            $data['outlets'] = MyHelper::post('outlet/be/list',['office_only'=>1])['result'] ?? [];
            $data['bank'] = MyHelper::get('employee/be/recruitment/bank')['result'] ?? [];
            $data['cities'] = MyHelper::get('city/list')['result']??[];
+           $data['departments'] = MyHelper::post('users/department',$request->all())['result']??[];
           return view('employee::employee.detail', $data);
         }else{
             return redirect('employee/recruitment/candidate')->withErrors($store['messages']??['Failed get detail candidate']);
@@ -180,6 +181,7 @@ class RecruitmentEmployeeController extends Controller
             $data['outlets'] = MyHelper::post('outlet/be/list',['office_only'=>1])['result'] ?? [];
             $data['bank'] = MyHelper::get('employee/be/recruitment/bank')['result'] ?? [];
             $data['cities'] = MyHelper::get('city/list')['result']??[];
+            $data['departments'] = MyHelper::post('users/department',$request->all())['result']??[];
             return view('employee::employee.detail', $data);
         }else{
             return redirect('employee/recruitment/candidate')->withErrors($store['messages']??['Failed get detail candidate']);
@@ -268,5 +270,9 @@ class RecruitmentEmployeeController extends Controller
     public function CreateBusinessPartner(Request $request){
         $post = $request->except('_token');
         return $update = MyHelper::post('employee/be/recruitment/create-business-partner',$post);
+    }
+    public function manager(Request $request){
+        $post = $request->except('_token');
+        return $update = MyHelper::post('employee/be/recruitment/manager',$post)['result']??[];
     }
 }

@@ -246,7 +246,7 @@
                                                             <a  @if(in_array($data['status'], ['HRGA Approved','Fat Dept Approved','Approved','Successed'])) data-toggle="tab" href="#fat" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> 
                                                                 Finance Approval</a>
                                                     </li>
-                                                    <li @if($data['status'] == 'Fat Dept Approved') class="active" @endif>
+                                                    <li @if($data['status'] == 'Fat Dept Approved'||$data['status'] == 'Approved'||$data['status'] == 'Successed') class="active" @endif>
                                                             <a  @if(in_array($data['status'], ['Fat Dept Approved','Approved','Successed'])) data-toggle="tab" href="#approved" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> 
                                                                 Payment</a>
                                                     </li>
@@ -293,7 +293,7 @@
                                                             @endif
                                                            @endif
                                                     </div>
-                                                    <div class="tab-pane @if($data['status'] == 'HRGA Apporved') active @endif" id="fat">
+                                                    <div class="tab-pane @if($data['status'] == 'HRGA Approved') active @endif" id="fat">
                                                             @if(isset($dataDoc['Fat Dept Approved']))
                                                            @include('employee::reimbursement.form_finance')
                                                            @else
