@@ -89,8 +89,8 @@ function myFunction() {
                 digitsOptional: false,
             });
         }
-        $('.date-picker').datepicker({
-            'format' : 'd-M-yyyy',
+        $('.date_picker').datepicker({
+            'format' : 'yyyy-mm-d',
             'todayHighlight' : true,
             'autoclose' : true
         });
@@ -387,6 +387,32 @@ function myFunction() {
                 }
         }
         
+        function manager() {
+              var office = $('#id_outlet').val();
+              var department = $('#id_department').val();
+              if(office != "" && department != ""){
+                  var data = {
+                        "id_outlet": office,
+                        "id_department": department,
+                        "_token":"{{csrf_token()}}"
+                    };
+                    
+                  $.ajax({
+                    url: "{{url('employee/recruitment/manager')}}",
+                    type: 'post',
+                    data: data,
+                    dataType: 'json',
+                    success: function(data) {
+                        $('select[name="id_manager"]').empty();
+                        $.each(data,function(key, value){
+                            $('select[name="id_manager"]').append('<option value="'+value.id+'">'+ value.name +'</option>');
+                        });
+                    }
+                })
+              }else{
+                 $('select[name="id_manager"]').empty();
+              }
+        }
         function matchPassword(form_type) {
                 if(form_type == 'detail'){
                         var pin_1 = $('#pin1').val();

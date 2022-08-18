@@ -74,11 +74,11 @@ class EmployeeReimbursementController extends Controller
                     'submenu_active'   => 'employee-reimbursement',
                     'child_active'   => 'employee-reimbursement-pending',
                 ];
-       $data['data'] = MyHelper::post('employee/be/reimbursement/detail',['id_employee_reimbursement'=>$id])['result']??[];
+      $data['data'] = MyHelper::post('employee/be/reimbursement/detail',['id_employee_reimbursement'=>$id])['result']??[];
        if($data['data']){
         return view('employee::reimbursement.detail',$data);
        }
-       return redirect()->back()->withErrors(['Loan not found']);
+       return redirect()->back()->withErrors(['Reimbursement not found']);
     }
     public function create(Request $request)
     {
@@ -142,5 +142,105 @@ class EmployeeReimbursementController extends Controller
             Session::put($session,$post);
         }
         return view('employee::reimbursement.list', $data);
+    }
+    public function manager(Request $request){
+        $post = $request->all();
+        $url = $request->url();
+        $data = [
+                'title'          => 'Employee',
+                'sub_title'      => 'Employee Reimbursement Manager',
+            ];
+            $session = "filter-list-employee-reimbursement-manager";
+         if( ($post['rule']??false) && !isset($post['draw']) ){
+             session([$session => $post]);
+        }elseif($post['clear']??false){
+            session([$session => null]);
+        }
+        if(isset($post['reset']) && $post['reset'] == 1){
+            Session::forget($session);
+        }elseif(Session::has($session) && !empty($post) && !isset($post['filter'])){
+            $pageSession = 1;
+            if(isset($post['page'])){
+                $pageSession = $post['page'];
+            }
+            $post = Session::get($session);
+            $post['page'] = $pageSession;
+            
+        }
+        if(isset($post['rule'])){
+        	$data['rule'] = array_map('array_values', $post['rule']);
+        }
+        $page = '?page=1';
+        if(isset($post['page'])){
+            $page = '?page='.$post['page'];
+        }
+       $list = MyHelper::post('employee/be/reimbursement/manager'.$page, $post);
+        if(($list['status']??'')=='success'){
+            $data['data']          = $list['result']['data'];
+            $data['data_total']     = $list['result']['total'];
+            $data['data_per_page']   = $list['result']['from'];
+            $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;
+            $data['data_paginator'] = new LengthAwarePaginator($list['result']['data'], $list['result']['total'], $list['result']['per_page'], $list['result']['current_page'], ['path' => url()->current()]);
+        }else{
+            $data['data']          = [];
+            $data['data_total']     = 0;
+            $data['data_per_page']   = 0;
+            $data['data_up_to']      = 0;
+            $data['data_paginator'] = false;
+        }
+        if($post){
+            Session::put($session,$post);
+        }
+        return view('employee::reimbursement.manager', $data);
+    }
+    public function manager_detail($id)
+    {
+         $data = [ 
+                    'title'          => 'Employee',
+                    'sub_title'      => 'Detail Employee Reimbursement',
+                    'menu_active'    => 'employee',
+                    'submenu_active'   => 'employee-reimbursement',
+                    'child_active'   => 'employee-reimbursement-pending',
+                ];
+       $data['data'] = MyHelper::post('employee/be/reimbursement/detail',['id_employee_reimbursement'=>$id])['result']??[];
+       if($data['data']){
+        return view('employee::reimbursement.manager_detail',$data);
+       }
+       return redirect()->back()->withErrors(['Reimbursement not found']);
+    }
+    public function update(Request $request,$id) {
+        $post = $request->except('_token');
+        if($post['action_type'] == 'Approved'){
+            if(!empty($post['status_employee'])){
+                $post['status_employee'] = 1;
+                $post['start_date'] = date('Y-m-d', strtotime($post['start_date']));
+            }else{
+                $post['status_employee'] = 0;
+                if(!empty($post['start_date'])){
+                    $post['start_date'] = date('Y-m-d', strtotime($post['start_date']));
+                }
+                if(!empty($post['end_date'])){
+                    $post['end_date'] = date('Y-m-d', strtotime($post['end_date']));
+                }
+            }
+        }
+        
+        if(empty($post['action_type'])){
+            return back()->withErrors(['Action type can not be empty']);
+        }
+        $post['id_employee_reimbursement'] = $id;
+        $post['update_type'] = $post['action_type'];
+        if(!empty($post['data_document'])){
+            if(!empty($post['data_document']['attachment'])){
+                $post['data_document']['ext'] = pathinfo($post['data_document']['attachment']->getClientOriginalName(), PATHINFO_EXTENSION);
+                $post['data_document']['attachment'] = MyHelper::encodeImage($post['data_document']['attachment']);
+            }
+        }
+        $update = MyHelper::post('employee/be/reimbursement/update',$post);
+       if(isset($update['status']) && $update['status'] == 'success'){
+            return redirect()->back()->withSuccess(['Success update data to '.$post['update_type']??""]);
+        }else{
+            return redirect()->back()->withErrors($update['messages']??['Failed update data to approved']);
+        }
     }
 }

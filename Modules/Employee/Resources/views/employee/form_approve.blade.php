@@ -42,13 +42,13 @@
 				<div class="col-md-4">
 					@if(isset($dataDoc['Approved']))
                                                 @if($detail['status_employee']==0)
-                                                    <input type="text" class="date-picker form-control" value="{{date('d-F-Y', strtotime($detail['end_date']))}}" disabled>
+                                                    <input type="text" class="date_picker form-control" value="{{date('d-F-Y', strtotime($detail['end_date']))}}" disabled>
                                                 @endif 
 						
 					@else
 						<div class="input-icon right">
 							<div class="input-group">
-                                                            <input type="text" class="form-control datepicker" name="end_date" id="end_date" onchange='myFunction()' required autocomplete="off" placeholder="End Date Approved">
+                                                            <input type="text" class="form-control date_picker" name="end_date" id="end_date" onchange='myFunction()' required autocomplete="off" placeholder="End Date Approved">
 							<span class="input-group-btn">
                                                             <button class="btn default" type="button">
                                                                     <i class="fa fa-calendar"></i>
@@ -66,7 +66,7 @@
 				<label class="col-md-4 control-label">Notes
 				</label>
 				<div class="col-md-6">
-					<textarea required class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Approved']['process_notes'])) disabled @endif>@if(isset($dataDoc['Approved']['process_notes'])) {{$dataDoc['Approved']['process_notes']}}  @endif</textarea>
+					<textarea class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Approved']['process_notes'])) disabled @endif>@if(isset($dataDoc['Approved']['process_notes'])) {{$dataDoc['Approved']['process_notes']}}  @endif</textarea>
 				</div>
 			</div>
 			<div class="form-group">
@@ -104,7 +104,7 @@
                                     <i class="fa fa-question-circle tooltips" data-original-title="Kantor admin" data-container="body"></i>
 				</label>
 				<div class="col-md-6">
-                                    <select name="id_outlet" class="form-control input-sm select2" data-placeholder="Search Outlet" required>
+                                    <select onchange="manager()" id="id_outlet" name="id_outlet" class="form-control input-sm select2" data-placeholder="Search Office" required>
                                                 <option></option>
                                                 @foreach($outlets as $key => $val)
                                                     <option value="{{ $val['id_outlet'] }}">{{ $val['outlet_code'] }} - {{ $val['outlet_name'] }}</option>
@@ -123,6 +123,29 @@
                                             @foreach($roles as $key => $val)
                                                 <option value="{{ $val['id_role'] }}" >{{ $val['role_name'] }}</option>
                                             @endforeach
+                                        </select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label  class="control-label col-md-4">Department
+                                    <span class="required" aria-required="true"> * </span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Department dalam satu office" data-container="body"></i>
+				</label>
+				<div class="col-md-6">
+					<select onchange="manager()" id="id_department" name="id_department" class="form-control input-sm select2" data-placeholder="Search Department" required>
+                                            <option></option>
+                                            @foreach($departments as $key => $val)
+                                                <option value="{{ $val['id_department'] }}" >{{ $val['department_name'] }}</option>
+                                            @endforeach
+                                        </select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label  class="control-label col-md-4">Manager
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Manager dalam satu kantor sesuai department" data-container="body"></i>
+				</label>
+				<div class="col-md-6">
+					<select name="id_manager" id="id_manager" class="form-control input-sm select2" data-placeholder="Search Manager">
                                         </select>
 				</div>
 			</div>

@@ -41,6 +41,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
     });
      Route::group(['prefix' => 'recruitment'], function(){
         Route::any('', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@index']);
+        Route::post('/manager', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@manager']);
         Route::any('detail/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@detail']);
         Route::any('candidate', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@candidate']);
         Route::any('candidate/detail/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@detailcandidate']);
@@ -61,10 +62,13 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
        
     });
     Route::group(['prefix' => 'reimbursement'], function(){
-        Route::any('', ['middleware' => 'feature_control:444', 'uses' => 'EmployeeReimbursementController@index']);
-        Route::get('/detail/{id}', ['middleware' => 'feature_control:444', 'uses' => 'EmployeeReimbursementController@detail']);
-        Route::post('/create', ['middleware' => 'feature_control:444', 'uses' => 'EmployeeReimbursementController@create']);
-        Route::any('/list', ['middleware' => 'feature_control:444', 'uses' => 'EmployeeReimbursementController@index_action']);
+        Route::any('', ['middleware' => 'feature_control:515,528,529,530', 'uses' => 'EmployeeReimbursementController@index']);
+        Route::any('manager', ['uses' => 'EmployeeReimbursementController@manager']);
+        Route::get('manager/detail/{id}', ['uses' => 'EmployeeReimbursementController@manager_detail']);
+        Route::any('/update/{id}', [ 'uses' => 'EmployeeReimbursementController@update']);
+        Route::get('/detail/{id}', ['middleware' => 'feature_control:516,528,529,530', 'uses' => 'EmployeeReimbursementController@detail']);
+        Route::post('/create', ['middleware' => 'feature_control:517,530', 'uses' => 'EmployeeReimbursementController@create']);
+        Route::any('/list', ['middleware' => 'feature_control:515,528,529,530', 'uses' => 'EmployeeReimbursementController@index_action']);
        
     });
     Route::group(['prefix' => 'attendance'], function(){
