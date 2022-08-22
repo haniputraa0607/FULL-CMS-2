@@ -99,6 +99,7 @@
                 'id_user_hair_stylist' : val,
                 'month' : $('#month').val(),
                 'year' : $('#year').val(),
+                'type_date' : 'overtime'
             };
             listDate(data);
         }
@@ -108,6 +109,7 @@
                 'id_user_hair_stylist' : $('#list_hs').val(),
                 'month' : val,
                 'year' : $('#year').val(),
+                'type_date' : 'overtime'
             };
             listDate(data);
 
@@ -118,6 +120,7 @@
                 'id_user_hair_stylist' : $('#list_hs').val(),
                 'month' : $('#month').val(),
                 'year' : val,
+                'type_date' : 'overtime'
             };
             listDate(data);
         }
@@ -152,12 +155,36 @@
             var start = $("#list_date option:selected").attr('data-timestart');
             var end = $("#list_date option:selected").attr('data-timeend');
             var timezone = $("#list_date option:selected").attr('data-timezone');
+            var id = $("#list_date option:selected").attr('data-id');
             $('#timezone_start').remove();
             $('#timezone_end').remove();
             $('#time_start').remove();
-            $('#place_time_start').append('<input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_start" value="'+start+'" disabled><span class="input-group-addon" id="timezone_start">'+timezone+'</span>')
             $('#time_end').remove();
-            $('#place_time_end').append('<input type="text" id="time_end" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end" value="'+end+'" disabled><span class="input-group-addon" id="timezone_end">'+timezone+'</span>')
+            if(id!='null'){
+                $('#place_time_start').append('<input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_start" value="'+start+'" disabled><span class="input-group-addon" id="timezone_start">'+timezone+'</span>')
+                $('#place_time_end').append('<input type="text" id="time_end" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end" value="'+end+'" disabled><span class="input-group-addon" id="timezone_end">'+timezone+'</span>')
+                $('#time_to_take_over').show();
+                $('#radio-1').prop('required',true);
+                $('#radio-2').prop('required',true);
+                $('#duration').prop('disabled',false);
+                $('#duration_non').prop('disabled',true);
+                $('#duration').val('00:00');
+                document.getElementById('duration_non_shift').style.display = 'none';
+            }else{
+                $('#place_time_start').append('<input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_start" value="00:00" required><span class="input-group-addon" id="timezone_start">'+timezone+'</span>')
+                $('#place_time_end').append('<input type="text" id="time_end" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end" value="00:00" required><span class="input-group-addon" id="timezone_end">'+timezone+'</span>')
+                $('#time_to_take_over').hide();
+                $('#radio-1').prop('required',false);
+                $('#radio-2').prop('required',false);
+                $('#duration').prop('disabled',true);
+                $('#duration_non').prop('disabled',false);
+                $('input[name=time]').attr('checked', false);
+                $('#duration').val('00:00');
+                document.getElementById('cek_time').style.display = 'none';
+                document.getElementById('duration_after').style.display = 'none';
+                document.getElementById('duration_before').style.display = 'none';
+                document.getElementById('duration_non_shift').style.display = 'none';
+            }
             $('.timepicker').timepicker({
                 autoclose: true,
                 minuteStep: 1,
@@ -165,19 +192,123 @@
             });
         })
 
+        $('#place_time_start').on("change","#time_start",function(){
+            var id = $("#list_date option:selected").attr('data-id');
+            console.log(id);
+            if(id=='null'){
+                var value = $(this).val().split(":");
+                var time_end = $('#time_end').val().split(":");
+                var minute = parseInt(time_end[1]) - parseInt(value[1]);
+                var hold = 0;
+                if(minute<0){
+                    minute = parseInt(minute) + 60;
+                    hold = 1;   
+                }
+                if(minute<10){
+                    var str_min = '0'+minute;
+                    str_min = str_min.toString();
+                }else{
+                    var str_min = minute.toString();
+                }
+                var hour = parseInt(time_end[0]) - parseInt(value[0]) - parseInt(hold);
+                if(hour>=1){
+                    if(hour<10){
+                        var str_hour = '0'+hour;
+                        str_hour = str_hour.toString();
+                    }else{
+                        var str_hour = hour.toString();
+                    }
+                    var duration = str_hour+':'+str_min;
+                    duration = duration.toString();
+                    $('#duration').val(duration);
+                    $('#duration_non').val(duration);
+                    style = 'none'; 
+                }else if(hour==0){
+                    if(minute>0){
+                        var str_hour = '0'+hour;
+                        str_hour = str_hour.toString();
+                        var duration = str_hour+':'+str_min;
+                        duration = duration.toString();
+                        $('#duration').val(duration);
+                        $('#duration_non').val(duration);
+                        style = 'none';
+                    }else{
+                        style = 'block';
+                    } 
+                }else{
+                    style = 'block';
+                }
+                document.getElementById('duration_non_shift').style.display = style;
+            }
+        })
+
+        $('#place_time_end').on("change","#time_end",function(){
+            var id = $("#list_date option:selected").attr('data-id');
+            console.log(id);
+            if(id=='null'){
+                var value = $(this).val().split(":");
+                var time_start = $('#time_start').val().split(":");
+                var minute = parseInt(value[1]) - parseInt(time_start[1]);
+                var hold = 0;
+                if(minute<0){
+                    minute = parseInt(minute) + 60;
+                    hold = 1;   
+                }
+                if(minute<10){
+                    var str_min = '0'+minute;
+                    str_min = str_min.toString();
+                }else{
+                    var str_min = minute.toString();
+                }
+                var hour = parseInt(value[0]) - parseInt(time_start[0]) - parseInt(hold);
+                if(hour>=1){
+                    if(hour<10){
+                        var str_hour = '0'+hour;
+                        str_hour = str_hour.toString();
+                    }else{
+                        var str_hour = hour.toString();
+                    }
+                    var duration = str_hour+':'+str_min;
+                    duration = duration.toString();
+                    $('#duration').val(duration);
+                    $('#duration_non').val(duration);
+                    style = 'none'; 
+                }else if(hour==0){
+                    if(minute>0){
+                        var str_hour = '0'+hour;
+                        str_hour = str_hour.toString();
+                        var duration = str_hour+':'+str_min;
+                        duration = duration.toString();
+                        $('#duration').val(duration);
+                        $('#duration_non').val(duration);
+                        style = 'none';
+                    }else{
+                        style = 'block';
+                    } 
+                }else{
+                    style = 'block';
+                }
+                document.getElementById('duration_non_shift').style.display = style;
+            }
+        })
+
         function submitOvertime() {
             var data = $('#create-overtime').serialize();
     
-            var get_time = $('input[name=time]:checked').val();
-            if(get_time==undefined){
-                document.getElementById('cek_time').style.display = 'block';
-            }else{
-                document.getElementById('cek_time').style.display = 'none';
+            var id = $("#list_date option:selected").attr('data-id');
+            if(id!='null'){
+                var get_time = $('input[name=time]:checked').val();
+                if(get_time==undefined){
+                    document.getElementById('cek_time').style.display = 'block';
+                }else{
+                    document.getElementById('cek_time').style.display = 'none';
+                }
             }
             var check_after = $('#duration_after').css('display');
             var check_before = $('#duration_before').css('display');
+            var check_duration_non = $('#duration_non_shift').css('display');
 
-            if (!$('form#create-overtime')[0].checkValidity() || check_after == 'block' || check_before == 'block') {
+            if (!$('form#create-overtime')[0].checkValidity() || check_after == 'block' || check_before == 'block' || check_duration_non == 'block') {
                 toastr.warning("Incompleted Data. Please fill blank input.");
             }else{
                 $('form#create-overtime').submit();
@@ -388,7 +519,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="time_to_take_over">
                         <label for="example-search-input" class="control-label col-md-4">Time To Take Overtime<span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Permohonan lembur untuk sebelum atau setelah shift" data-container="body"></i></label>
                         <div class="col-md-6">
@@ -417,11 +548,13 @@
                         <div class="col-md-6">
                             <div class="col-md-3 input-group">
                                 <input type="text" data-placeholder="select duration" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="duration" value="00:00" data-show-meridian="false" readonly id="duration">
+                                <input type="hidden" data-placeholder="select duration" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" name="duration" value="00:00" data-show-meridian="false" readonly id="duration_non" disabled>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="duration_after">Maximal time for overtime after shift is 23:59</p>
                                     <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="duration_before">Maximal time for overtime before shift is 00:00</p>
+                                    <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="duration_non_shift">Invalid Duration</p>
                                 </div>
                             </div>
                         </div>

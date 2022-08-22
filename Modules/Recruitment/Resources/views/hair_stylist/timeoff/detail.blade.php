@@ -126,6 +126,7 @@
                 'id_user_hair_stylist' : $('#list_hs').val(),
                 'month' : val,
                 'year' : $('#year').val(),
+                'type_date' : 'timeoff'
             };
             listDate(data);
 
@@ -136,6 +137,7 @@
                 'id_user_hair_stylist' : $('#list_hs').val(),
                 'month' : $('#month').val(),
                 'year' : val,
+                'type_date' : 'timeoff'
             };
             listDate(data);
         }
