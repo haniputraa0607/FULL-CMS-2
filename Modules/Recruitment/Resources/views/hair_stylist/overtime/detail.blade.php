@@ -95,6 +95,7 @@
                         'date' : date,
                         'time_start' : $('input[type=text][name=time_start]').val(),
                         'time_end' : $('input[type=text][name=time_end]').val(),
+                        'shift' : $('#shift').val(),
                         'duration' : duration,
                         'approve' : true
                     };
@@ -201,6 +202,36 @@
             $('#time_start').remove();
             $('#time_end').remove();
             if(id=='null' || id==""){
+                $.ajax({
+                    type : "POST",
+                    url : "{{ url('recruitment/hair-stylist/overtime/list-shift') }}",
+                    data : {
+                        '_token' : '{{csrf_token()}}',
+                        'id_outlet' : {{$result['id_outlet']}},
+                        'date' : value,
+                    },
+                    success: function(result){
+                        if(result['status']=='success'){    
+                            $('#shift').empty();
+                            var list = '<option></option>';
+                            if(result['result'].length > 0){
+                                $.each(result['result'], function(i, index) {
+                                    list += '<option value="'+index.shift+'" data-timestart="'+index.start_shift+'" data-timeend="'+index.end_shift+'">'+index.shift+'</option>';
+                                });
+                            }
+                            $('#shift').append(list);
+                            $(".select2").select2({
+                                placeholder: "Search"
+                            });
+                            
+                        }else if(result['status']=='fail'){
+                            toastr.warning(result['messages']);
+                        }
+                    }
+                });
+                $('#section_shift').show();
+                $('#shift').prop('required',true);
+                $('#shift').prop('disabled',false);
                 $('#place_time_start').append('<input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_start" value="00:00" required><span class="input-group-addon" id="timezone_start">'+timezone+'</span>')
                 $('#place_time_end').append('<input type="text" id="time_end" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end" value="00:00" required><span class="input-group-addon" id="timezone_end">'+timezone+'</span>')
                 $('#time_to_take_over').hide();
@@ -215,6 +246,9 @@
                 document.getElementById('duration_before').style.display = 'none';
                 document.getElementById('duration_non_shift').style.display = 'none';
             }else{
+                $('#section_shift').hide();
+                $('#shift').prop('required',false);
+                $('#shift').prop('disabled',true);
                 $('#place_time_start').append('<input type="text" id="time_start" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_start" value="'+start+'" disabled><span class="input-group-addon" id="timezone_start">'+timezone+'</span>')
                 $('#place_time_end').append('<input type="text" id="time_end" data-placeholder="select time end" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end" value="'+end+'" disabled><span class="input-group-addon" id="timezone_end">'+timezone+'</span>');
                 $('#time_to_take_over').show();
@@ -231,6 +265,56 @@
                 showSeconds: false,
             });
         })
+
+        function changeShift(val){
+            var start = $("#shift option:selected").attr('data-timestart');
+            var end = $("#shift option:selected").attr('data-timeend');
+            $('#time_start').val(start);
+            $('#time_end').val(end);
+            start = start.split(":");
+            end = end.split(":");
+            var minute = parseInt(end[1]) - parseInt(start[1]);
+            var hold = 0;
+            if(minute<0){
+                minute = parseInt(minute) + 60;
+                hold = 1;   
+            }
+            if(minute<10){
+                var str_min = '0'+minute;
+                str_min = str_min.toString();
+            }else{
+                var str_min = minute.toString();
+            }
+            var hour = parseInt(end[0]) - parseInt(start[0]) - parseInt(hold);
+                if(hour>=1){
+                    if(hour<10){
+                        var str_hour = '0'+hour;
+                        str_hour = str_hour.toString();
+                    }else{
+                        var str_hour = hour.toString();
+                    }
+                    var duration = str_hour+':'+str_min;
+                    duration = duration.toString();
+                    $('#duration').val(duration);
+                    $('#duration_non').val(duration);
+                    style = 'none'; 
+                }else if(hour==0){
+                    if(minute>0){
+                        var str_hour = '0'+hour;
+                        str_hour = str_hour.toString();
+                        var duration = str_hour+':'+str_min;
+                        duration = duration.toString();
+                        $('#duration').val(duration);
+                        $('#duration_non').val(duration);
+                        style = 'none';
+                    }else{
+                        style = 'block';
+                    } 
+                }else{
+                    style = 'block';
+                }
+                document.getElementById('duration_non_shift').style.display = style;
+        }
 
         $('#place_time_start').on("change","#time_start",function(){
             var id = $("#list_date option:selected").attr('data-id');
@@ -540,6 +624,18 @@
                                 @endforeach
                             </select>
                             @endif
+                        </div>
+                    </div>
+                    <div class="form-group" id="section_shift" @if($result['not_schedule']==0) hidden @endif>
+                        <label for="example-search-input" class="control-label col-md-4">Shift <span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Shift yang akan digunakan untuk lembur" data-container="body"></i></label>
+                        <div class="col-md-3">
+                            <select class="form-control select2" name="shift" id="shift" onchange="changeShift(this.value)" @if($result['not_schedule']==0) disabled @else required @endif>
+                                <option value="" selected disabled>Select Shift</option>
+                                @foreach($result['shifts'] ?? [] as $s => $shift)
+                                    <option value="{{$shift['shift']}}" data-timestart="{{ $shift['start_shift'] }}" data-timeend="{{ $shift['end_shift'] }}" @if(isset($result['shift'])) @if($result['shift'] == $shift['shift']) selected @endif @endif> {{$shift['shift']}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
