@@ -2150,6 +2150,18 @@ return [
 					'active' => '\View::shared("submenu_active") == "default-hair-stylist-overtime"',
 					'url' => 'recruitment/hair-stylist/default/overtime'
 				],
+                                [
+					'label' => 'HS Overtime Day',
+					'required_features' => [425],
+					'active' => '\View::shared("submenu_active") == "default-hair-stylist-overtime-day"',
+					'url' => 'recruitment/hair-stylist/default/overtime-day'
+				],
+                                [
+					'label' => 'HS Proteksi Attendance',
+					'required_features' => [425],
+					'active' => '\View::shared("submenu_active") == "default-hair-stylist-proteksi-attendance"',
+					'url' => 'recruitment/hair-stylist/default/proteksi-attendance'
+				],
 				[
 					'label' => 'HS Incentive',
 					'required_features' => [425],

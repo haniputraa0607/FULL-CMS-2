@@ -175,7 +175,7 @@
                         <table class="table table-striped table-bordered table-hover" id="kt_datatable">
                                     <thead>
                                     <tr>
-                                        <th class="text-nowrap text-center">Days</th>
+                                        <th class="text-nowrap text-center">Hours</th>
                                         <th class="text-nowrap text-center">Value</th>
                                         <th class="text-nowrap text-center">Action</th>
                                     </tr>
@@ -184,7 +184,7 @@
                                     @if(!empty($data))
                                         @foreach($data as $dt)
                                             <tr data-id="{{ $dt['id_hairstylist_group_default_overtimes'] }}">
-                                                <td style="text-align: center;">{{$dt['days']}}</td>
+                                                <td style="text-align: center;">{{$dt['hours']}}</td>
                                                 <td style="text-align: center;">{{"Rp " . number_format($dt['value']??0,2,',','.')}}</td>
                                                 <td style="text-align: center;">
                                                    <a href="{{ url('recruitment/hair-stylist/default/overtime/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
@@ -208,11 +208,11 @@
                 <form class="form-horizontal" role="form" action="{{url('recruitment/hair-stylist/default/overtime/create')}}" method="post" enctype="multipart/form-data">
                             <div class="form-body">
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label">Days<span class="required" aria-required="true">*</span>
+                                    <label class="col-md-4 control-label">Hours<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Jumlah Jam" data-container="body"></i>
                                     </label>
                                     <div class="col-md-3">
-                                        <input type="number" name="days" value="{{old('days')}}" placeholder="Masukkan jumlah hari lembur" class="form-control" required />
+                                        <input type="number" name="hours" value="{{old('hours')}}" placeholder="Masukkan jumlah hari lembur" class="form-control" required />
                                     </div>
                                 </div>
                                 <div class="form-group">

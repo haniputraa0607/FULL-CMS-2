@@ -142,11 +142,11 @@
 			<div class="portlet-title">
 				<div class="caption font-blue ">
 					<i class="icon-settings font-blue "></i>
-					<span class="caption-subject bold uppercase">Update Default Overtime Hair Stylist</span>
+					<span class="caption-subject bold uppercase">Update Default Overtime Day Hair Stylist</span>
 				</div>
 			</div>
 			<div class="portlet-body form">
-				<form role="form" class="form-horizontal" action="{{url('recruitment/hair-stylist/default/overtime/update')}}" method="POST" enctype="multipart/form-data">
+				<form role="form" class="form-horizontal" action="{{url('recruitment/hair-stylist/default/overtime-day/update')}}" method="POST" enctype="multipart/form-data">
 					{{ csrf_field() }}
 					<div class="form-body">
 						<input type="hidden" name="id_hairstylist_group_default_overtimes" value="{{$result['id_hairstylist_group_default_overtimes']}}">
@@ -155,7 +155,7 @@
                                             <i class="fa fa-question-circle tooltips" data-original-title="Jumlah hari jam kelebihan" data-container="body"></i>
                                         </label>
                                         <div class="col-md-3">
-                                            <input type="number" name="hours" value="{{$result['hours']}}" placeholder="Masukkan jam overtime" class="form-control" required />
+                                            <input type="number" name="days" value="{{$result['days']}}" placeholder="Masukkan jam overtime" class="form-control" required />
                                         </div>
                                     </div>
                                     <div class="form-group">
