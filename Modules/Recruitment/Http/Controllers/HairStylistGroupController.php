@@ -307,7 +307,8 @@ class HairStylistGroupController extends Controller
                                   'menu_active'       => 'hair-stylist-group',
                                   'submenu_active'    => 'detail-hair-stylist-group-commission'
                                 ];
-                          $data['result']=$query['result'];
+                          $data['result'] = $query['result'];
+                          $data['result']['id_hairstylist_group_commission'] = $id;
                             return view('recruitment::group.update',$data);
                     } else{
                             return back()->withErrors($query['messages']);

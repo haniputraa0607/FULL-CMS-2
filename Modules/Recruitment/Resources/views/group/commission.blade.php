@@ -1,41 +1,163 @@
 @yield('filter_commission')
 <script>
-function myFunction() {
-  var id_percent     	=  $("input[name='percent']:checked").val();
-  var id_product     	=  $('#id_product').find(':selected').data('id');
-  if(id_product != 0){
-      if(id_percent == 'on'){
-         var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
-		 <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
-		<div class="col-md-6">\
-		  <input class="form-control" required type="number" id="commission_percent" name="commission_percent" min="1" max="99" placeholder="Enter Commission"/>\
-		</div></div>';
-      }else{
-         var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
-		 <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
-		<div class="col-md-6">\
-		  <input class="form-control" required type="number" id="commission_percent" name="commission_percent" min="0" max="'+id_product+'" placeholder="Enter Commission"/>\
-		</div></div>'; 
-                      
-      }
-  }else{
-      if(id_percent == 'on'){
-         var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
-		 <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
-		<div class="col-md-6">\
-		  <input class="form-control" required type="number" id="commission_percent" name="commission_percent" min="1" max="99" placeholder="Enter Commission"/>\
-		</div></div>';
-      }else{
-         var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
-		 <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
-		 <div class="col-md-6">\
-		  <input class="form-control" required type="number" id="commission_percent" name="commission_percent" placeholder="Enter Commission"/>\
-		</div></div>'; 
-                      
-      }
-  }
-  $('#id_commission').html(html);
-}
+    var noRule = 0;
+
+    var static = false;
+    
+    function addRule(){
+        var id_percent =  $("input[name='percent']:checked").val();
+        var id_product     	=  $('#id_product').find(':selected').data('id');
+
+        var percent = ``;
+        if(id_percent == 'on'){
+            percent = `max="100" min="1"`;
+        }else{
+            if(id_product != 0){
+                percent = `max="${id_product}" min="1"`
+            }
+        }
+        const template = `
+            <tr data-id="${noRule}">
+                <td>
+                    <select class="select2 form-control operator" name="dynamic_rule[${noRule}][operator]" required>
+                        <option value="" selected disabled></option>
+                        <option value="=">=</option>
+                        <option value="<"><</option>
+                        <option value="<="><=</option>
+                        <option value=">">></option>
+                        <option value=">=">>=</option>
+                        <option value="!=">!=</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="number" class="form-control qty" name="dynamic_rule[${noRule}][qty]" required>
+                </td>
+                <td>
+                    <input type="number" class="form-control value" name="dynamic_rule[${noRule}][value]" ${percent} required>
+                </td>
+                <td>
+                    <button type="button" onclick="deleteRule(${noRule})" data-toggle="confirmation" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+                </td>
+            </tr>
+        `;
+        $('#dynamic-rule tbody').append(template);
+        $(`tr[data-id=${noRule}] select`).select2();
+        noRule++;
+    }
+
+    function deleteRule(id) {
+        $(`#dynamic-rule tr[data-id=${id}]`).remove();
+    }
+
+    function changeType(val){
+        var id_percent =  $("input[name='percent']:checked").val();
+        var id_product     	=  $('#id_product').find(':selected').data('id');
+
+        if(val == 'Dynamic'){
+            $('#id_commission').hide();
+            $('#dynamic_commission').show();
+            $('#commission_percent').prop('required',false);
+            $('#commission_percent').prop('disabled',true);
+
+            
+            if(id_percent == 'on'){
+                for (let i = 0; i < noRule; i++) {
+                    $(`tr[data-id=${i}] input.value`).attr({"max":100,"min":1})
+                }
+            }else{
+                if(id_product != 0){
+                    for (let i = 0; i < noRule; i++) {
+                        $(`tr[data-id=${i}] input.value`).attr({"max":id_product,"min":1})
+                    }
+                }else{
+                    for (let i = 0; i < noRule; i++) {
+                        $(`tr[data-id=${i}] input.value`).removeAttr("max");
+                        $(`tr[data-id=${i}] input.value`).removeAttr("min");
+                    }
+                }  
+            }
+        }else{
+            $('#id_commission').show();
+            $('#dynamic_commission').hide();
+            $('#commission_percent').prop('required',true);
+            $('#commission_percent').prop('disabled',false);
+            if(id_product != 0){
+                if(id_percent == 'on'){
+                    var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
+                    <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
+                    <div class="col-md-4">\
+                    <input class="form-control" required type="number" id="commission_percent" name="commission_percent" min="1" max="100" placeholder="Enter Commission"/>\
+                    </div></div>';
+                }else{
+                    var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
+                    <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
+                    <div class="col-md-4">\
+                    <input class="form-control" required type="number" id="commission_percent" name="commission_percent" min="0" max="'+id_product+'" placeholder="Enter Commission"/>\
+                    </div></div>'; 
+                                
+                }
+            }else{
+                if(id_percent == 'on'){
+                    var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
+                    <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
+                    <div class="col-md-4">\
+                    <input class="form-control" required type="number" id="commission_percent" name="commission_percent" min="1" max="100" placeholder="Enter Commission"/>\
+                    </div></div>';
+                }else{
+                    var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
+                    <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
+                    <div class="col-md-4">\
+                    <input class="form-control" required type="number" id="commission_percent" name="commission_percent" placeholder="Enter Commission"/>\
+                    </div></div>'; 
+                                
+                }
+            }
+            if(static==false){
+                $('#id_commission').html(html);
+                static = true;
+            }
+        }
+    }
+
+    function myFunction() {
+        var id_percent     	=  $("input[name='percent']:checked").val();
+        var id_product     	=  $('#id_product').find(':selected').data('id');
+        
+        var type = $('select[name=type] option:selected').val()
+        if(type == 'Dynamic'){
+            if(id_percent == 'on'){
+                for (let i = 0; i < noRule; i++) {
+                    $(`tr[data-id=${i}] input.value`).attr({"max":100,"min":1})
+                }
+            }else{
+                if(id_product != 0){
+                    for (let i = 0; i < noRule; i++) {
+                        $(`tr[data-id=${i}] input.value`).attr({"max":id_product,"min":1})
+                    }
+                }else{
+                    for (let i = 0; i < noRule; i++) {
+                        $(`tr[data-id=${i}] input.value`).removeAttr("max");
+                        $(`tr[data-id=${i}] input.value`).removeAttr("min");
+                    }
+                }  
+            }
+        }else{
+            if(id_product != 0){
+                if(id_percent == 'on'){
+                    $('#commission_percent').attr({"max":100,"min":1});
+                }else{
+                    $('#commission_percent').attr({"max":id_product,"min":1});
+                }
+            }else{
+                if(id_percent == 'on'){
+                    $('#commission_percent').attr({"max":100,"min":1});
+                }else{
+                    $('#commission_percent').removeAttr("max");
+                    $('#commission_percent').removeAttr("min");
+                }
+            }
+        }
+    }
 </script>
 <div style="white-space: nowrap;">
     <div class="tab-pane">
@@ -72,7 +194,17 @@ function myFunction() {
                                             <tr style="text-align: center" data-id="{{ $dt['id_hairstylist_group_commission'] }}">
                                                     <td>{{$dt['product_name']}}</td>
                                                     <td><input disabled  type="checkbox" class="make-switch brand_visibility" data-size="small" data-on-color="info" data-on-text="Percent" data-off-color="default" data-off-text="Nominal" value="1" {{$dt['percent']?'checked':''}}></td>
-                                                    <td>@if($dt['percent']==0){{"Rp " . number_format($dt['commission_percent'],2,',','.')}} @else {{$dt['commission_percent']}} %  @endif</td>
+                                                    <td>
+                                                        @if ($dt['dynamic']==1)
+                                                            Dynamic
+                                                        @else
+                                                            @if($dt['percent']==0)
+                                                                {{"Rp " . number_format($dt['commission_percent'],2,',','.')}} 
+                                                            @else 
+                                                                {{$dt['commission_percent']}} %  
+                                                            @endif
+                                                        @endif
+                                                    </td>
                                                     <td><a href="{{ url('/recruitment/hair-stylist/group/commission/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a></td>
                                                 </tr>
                                             @endforeach
@@ -97,11 +229,11 @@ function myFunction() {
                                 
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Product<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Product" data-container="body"></i>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Pilih produk yang akan diatur komisinya" data-container="body"></i>
                                     </label>
                                     <div class="col-md-6">
                                              <select required name="id_product" id="id_product"  onchange="myFunction()" class="select2" >
-                                            <option value=""></option>
+                                            <option value="" selected disabled></option></option>
                                             @if(isset($product))
                                                 @foreach($product as $row)
                                                         <option value="{{$row['id_product']}}" data-id="{{$row['price']}}">{{$row['product_name']}}</option>
@@ -112,7 +244,7 @@ function myFunction() {
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Percent<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Percent" data-container="body"></i>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Nilai komisi dalam bentuk nominal atau persentase" data-container="body"></i>
                                     </label>
                                     <div class="col-md-5">
                                         <div class="input-icon right">
@@ -120,7 +252,40 @@ function myFunction() {
                                            </div>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="example-search-input" class="control-label col-md-4">Type</label>
+                                    <div class="col-md-5">
+                                        <select required name="type" id="type" class="select2 col-md-5" onchange="changeType(this.value)" >
+                                            <option value="" selected disabled></option>
+                                            <option value="Static" >Static</option>
+                                            <option value="Dynamic" >Dynamic</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div id="id_commission">
+                                </div>
+                                <div id="dynamic_commission" hidden>
+                                    <div class="form-group">
+                                        <div class="col-md-4"></div>
+                                        <div class="col-md-4">
+                                            <table id="dynamic-rule" class="table text-center">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Operator</th>
+                                                        <th>Quantity</th>
+                                                        <th>Commission</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                </tbody>
+                                            </table>
+                                            <div>
+                                                <button class="btn green" type="button" onclick="addRule()">Add Rule</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4"></div>
+                                    </div>
                                 </div>
                                 
                                 <div class="form-actions">
