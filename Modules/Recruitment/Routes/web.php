@@ -88,6 +88,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
 	    Route::post('delete/{id}', ['middleware' => 'feature_control:354', 'uses' => 'HairStylistTimeOffOvertimeController@deleteOvertime']);
 	    Route::get('detail/{id}', ['middleware' => 'feature_control:354', 'uses' => 'HairStylistTimeOffOvertimeController@detailOvertime']);
 	    Route::post('update/{id}', ['middleware' => 'feature_control:355', 'uses' => 'HairStylistTimeOffOvertimeController@updateOvertime']);
+	    Route::post('list-shift', ['middleware' => 'feature_control:355', 'uses' => 'HairStylistTimeOffOvertimeController@listShift']);
 	});
 
     Route::any('attendance-setting', ['uses' => 'HairstylistAttendanceController@setting']);
@@ -161,38 +162,38 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
 	    Route::post('commission/create', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@create_commission']);	    
 	    Route::post('commission/update', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@update_commission']);	    
 
-            Route::post('insentif/create', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@create_insentif']);	    
+        Route::post('insentif/create', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@create_insentif']);	    
 	    Route::post('insentif/update', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@update_insentif']);	    
 	    Route::get('insentif/detail/{id}', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@detail_insentif']);	    
 	    Route::any('insentif/delete/{id}', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@delete_insentif']);	    
-            Route::post('insentif/create-rumus-insentif', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@create_rumus_insentif']);
-            Route::any('insentif/delete-rumus-insentif/{id}', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@delete_rumus_insentif']);
+        Route::post('insentif/create-rumus-insentif', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@create_rumus_insentif']);
+        Route::any('insentif/delete-rumus-insentif/{id}', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@delete_rumus_insentif']);
 	    Route::post('overtime/create', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@create_overtime']);	    
 	    Route::post('late/create', ['middleware' => 'feature_control:533', 'uses' => 'HairStylistGroupController@create_late']);	    
 	    Route::post('overtime-day/create', ['middleware' => 'feature_control:533', 'uses' => 'HairStylistGroupController@create_overtime_day']);	    
 	    Route::post('proteksi-attendance/create', ['middleware' => 'feature_control:533', 'uses' => 'HairStylistGroupController@create_proteksi_attendance']);	    
 	    Route::post('fixed-incentive/create', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistFixedIncentiveController@create_fixed_incentive']);	    
-            Route::post('potongan/create', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@create_potongan']);	    
+        Route::post('potongan/create', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@create_potongan']);	    
 	    Route::post('potongan/update', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@update_potongan']);	    
 	    Route::get('potongan/detail/{id}', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@detail_potongan']);	    
 	    Route::any('potongan/delete/{id}', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@delete_potongan']);	    
 	    Route::post('potongan/create-rumus-potongan', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@create_rumus_potongan']);
-            Route::any('potongan/delete-rumus-potongan/{id}', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@delete_rumus_potongan']);
+        Route::any('potongan/delete-rumus-potongan/{id}', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@delete_rumus_potongan']);
 	    Route::post('invite_hs', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@invite_hs']);	    
 	    Route::any('commission/detail/{id}', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@detail_commission']);	 	    
 	    Route::any('commission/filter_commission', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@filter_commission']);	 	    
 	    Route::any('commission/filter_hs', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@filter_hs']);	 	    
 	    Route::any('commission/filter_insentif', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@filter_insentif']);	 	    
 	    Route::any('commission/filter_potongan', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@filter_potongan']);	 	    
+		Route::post('proteksi/create', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@create_proteksi']);	 	    
+		
+		Route::any('setting-date', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@setting_total_date']);	 	    
+		Route::any('setting-overtime', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@setting_overtime']);	 	    
+		Route::any('setting-proteksi', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@setting_proteksi']);	 	    
+		Route::any('setting-income', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@setting_income']);	 	    
+		Route::any('setting-income-middle', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@setting_income_middle']);	 	    
+		Route::any('setting-income-end', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@setting_income_end']);	 	    
 	    
-            Route::post('proteksi/create', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@create_proteksi']);	 	    
-            
-            Route::any('setting-date', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@setting_total_date']);	 	    
-            Route::any('setting-overtime', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@setting_overtime']);	 	    
-            Route::any('setting-proteksi', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@setting_proteksi']);	 	    
-            Route::any('setting-income', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@setting_income']);	 	    
-            Route::any('setting-income-middle', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@setting_income_middle']);	 	    
-            Route::any('setting-income-end', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@setting_income_end']);	 	    
 	});
 	Route::group(['prefix' => 'default'], function()
 	{
