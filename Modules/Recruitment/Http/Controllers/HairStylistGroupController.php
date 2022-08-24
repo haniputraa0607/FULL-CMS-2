@@ -228,6 +228,20 @@ class HairStylistGroupController extends Controller
                             $value['id_enkripsi'] = MyHelper::createSlug($value['id_hairstylist_group_default_late'],$id);
                             array_push($val_late,$value);
                         }  
+                        $overtime_day = MyHelper::post('recruitment/hairstylist/be/group/overtime-day',$post4)['result']??[];
+                         $val55 = array();
+                        foreach ($overtime_day as $value){
+                            $value['id_enkripsi'] = MyHelper::createSlug($value['id_hairstylist_group_default_overtime_day'],$id);
+                            array_push($val55,$value);
+                        }  
+                        $data['overtime_day'] = $val55;
+                       $proteksi_attendance = MyHelper::post('recruitment/hairstylist/be/group/proteksi-attendance',$post4)['result']??[];
+                         $val5s = array();
+                        foreach ($proteksi_attendance as $value){
+                            $value['id_enkripsi'] = MyHelper::createSlug($value['id_hairstylist_group_default_proteksi_attendance'],$id);
+                            array_push($val5s,$value);
+                        }  
+                        $data['proteksi_attendance'] = $val5s;
                         $data['late'] = $val_late;
                         $fixed_incentive = MyHelper::post('recruitment/hairstylist/be/group/fixed-incentive',$post4)['result']??[];
                         $data['fixed_incentive'] = $fixed_incentive;
@@ -543,6 +557,38 @@ class HairStylistGroupController extends Controller
                  }
                  return redirect(url()->previous().'#late')->withSuccess(['Hair Stylist Group Late Update Success']);
               }
+           public function create_overtime_day(Request $request)
+              {
+                 $post = $request->except('_token');
+                 $post['value'] = str_replace(',','', $post['value']??0);
+                 $data = array();
+                 foreach (array_filter($post['id_hairstylist_group_default_overtime_day']) as $key => $value) {
+                  $b = array(
+                         'id_hairstylist_group_default_overtime_day' => $value,
+                         'id_hairstylist_group' => $post['id_hairstylist_group'][$key],
+                         'value' => $post['value'][$key],
+                     );
+                   $query = MyHelper::post('recruitment/hairstylist/be/group/overtime-day/create', $b);
+                 }
+                 return redirect(url()->previous().'#overtime_day')->withSuccess(['Hair Stylist Group Overtime Day Update Success']);
+              }
+           public function create_proteksi_attendance(Request $request)
+              {
+                 $post = $request->except('_token');
+                 $post['value'] = str_replace(',','', $post['value']??0);
+                 $data = array();
+                 foreach (array_filter($post['id_hairstylist_group_default_proteksi_attendance']) as $key => $value) {
+                  $b = array(
+                         'id_hairstylist_group_default_proteksi_attendance' => $value,
+                         'id_hairstylist_group' => $post['id_hairstylist_group'][$key],
+                         'value' => str_replace(',','', $post['value'][$key]??null),
+                         'amount' => str_replace(',','', $post['amount'][$key]??null),
+                         'amount_day' => str_replace(',','', $post['amount_day'][$key]??null),
+                     );
+                   $query = MyHelper::post('recruitment/hairstylist/be/group/proteksi-attendance/create', $b);
+                 }
+                 return redirect(url()->previous().'#attendance')->withSuccess(['Hair Stylist Group Overtime Day Update Success']);
+              }
            public function create_potongan(Request $request)
               {
                  $post = $request->except('_token');
@@ -682,7 +728,7 @@ class HairStylistGroupController extends Controller
                  $post['value'] = str_replace(',','', $post['value']??0);
                  $query = MyHelper::post('recruitment/hairstylist/be/group/overtime/default/create', $post);
                         if(isset($query['status']) && $query['status'] == 'success'){
-                                return back()->withSuccess(['Hair Stylist Group Incentive Create Success']);
+                                return back()->withSuccess(['Hair Stylist Group Overtime Create Success']);
                         } else{
                                 return back()->withInput($request->input())->withErrors($query['messages']);
                         }
@@ -705,7 +751,7 @@ class HairStylistGroupController extends Controller
                  $post['value'] = str_replace(',','', $post['value']??0);
                  $query = MyHelper::post('recruitment/hairstylist/be/group/overtime/default/update', $post);
                         if(isset($query['status']) && $query['status'] == 'success'){
-                            return  redirect('recruitment/hair-stylist/default/overtime')->withSuccess(['Hair Stylist Group Incentive Update Success']);
+                            return  redirect('recruitment/hair-stylist/default/overtime')->withSuccess(['Hair Stylist Group Overtime Update Success']);
                         } else{
                                 return back()->withErrors($query['messages']);
                         }

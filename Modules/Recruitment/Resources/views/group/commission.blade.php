@@ -16,21 +16,27 @@
                 percent = `max="${id_product}" min="1"`
             }
         }
+
+        if(noRule==0){
+            var table = `
+                <thead>
+                    <tr>
+                        <th class="text-center col-md-2">Range</th>
+                        <th class="text-center col-md-2">Commision</th>
+                        <th class="text-center col-md-1"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            `;
+            $('#dynamic-rule').append(table);
+        }
+
         const template = `
             <tr data-id="${noRule}">
                 <td>
-                    <select class="select2 form-control operator" name="dynamic_rule[${noRule}][operator]" required>
-                        <option value="" selected disabled></option>
-                        <option value="=">=</option>
-                        <option value="<"><</option>
-                        <option value="<="><=</option>
-                        <option value=">">></option>
-                        <option value=">=">>=</option>
-                        <option value="!=">!=</option>
-                    </select>
-                </td>
-                <td>
-                    <input type="number" class="form-control qty" name="dynamic_rule[${noRule}][qty]" required>
+                    <input type="number" class="form-control qty" name="dynamic_rule[${noRule}][qty]" min="2" required>
                 </td>
                 <td>
                     <input type="number" class="form-control value" name="dynamic_rule[${noRule}][value]" ${percent} required>
@@ -62,19 +68,25 @@
             
             if(id_percent == 'on'){
                 for (let i = 0; i < noRule; i++) {
+                    $(`tr[data-id=${i}] input.qty`).prop('required',true);
+                    $(`tr[data-id=${i}] input.qty`).prop('disabled',false);
+                    $(`tr[data-id=${i}] input.value`).prop('required',true);
+                    $(`tr[data-id=${i}] input.value`).prop('disabled',false);
                     $(`tr[data-id=${i}] input.value`).attr({"max":100,"min":1})
                 }
             }else{
-                if(id_product != 0){
-                    for (let i = 0; i < noRule; i++) {
+                for (let i = 0; i < noRule; i++) {
+                    $(`tr[data-id=${i}] input.qty`).prop('required',true);
+                    $(`tr[data-id=${i}] input.qty`).prop('disabled',false);
+                    $(`tr[data-id=${i}] input.value`).prop('required',true);
+                    $(`tr[data-id=${i}] input.value`).prop('disabled',false);
+                    if(id_product != 0){
                         $(`tr[data-id=${i}] input.value`).attr({"max":id_product,"min":1})
-                    }
-                }else{
-                    for (let i = 0; i < noRule; i++) {
+                    }else{
                         $(`tr[data-id=${i}] input.value`).removeAttr("max");
                         $(`tr[data-id=${i}] input.value`).removeAttr("min");
                     }
-                }  
+                }
             }
         }else{
             $('#id_commission').show();
@@ -111,6 +123,12 @@
                     </div></div>'; 
                                 
                 }
+            }
+            for (let i = 0; i < noRule; i++) {
+                    $(`tr[data-id=${i}] input.qty`).prop('required',false);
+                    $(`tr[data-id=${i}] input.qty`).prop('disabled',true);
+                    $(`tr[data-id=${i}] input.value`).prop('required',false);
+                    $(`tr[data-id=${i}] input.value`).prop('disabled',true);
             }
             if(static==false){
                 $('#id_commission').html(html);
@@ -253,9 +271,11 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-search-input" class="control-label col-md-4">Type</label>
-                                    <div class="col-md-5">
-                                        <select required name="type" id="type" class="select2 col-md-5" onchange="changeType(this.value)" >
+                                    <label for="example-search-input" class="control-label col-md-4">Type<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Tipe komisi statis atau dinamis" data-container="body"></i>
+                                    </label>
+                                    <div class="col-md-2">
+                                        <select required name="type" id="type" class="select2" onchange="changeType(this.value)" >
                                             <option value="" selected disabled></option>
                                             <option value="Static" >Static</option>
                                             <option value="Dynamic" >Dynamic</option>
@@ -267,24 +287,14 @@
                                 <div id="dynamic_commission" hidden>
                                     <div class="form-group">
                                         <div class="col-md-4"></div>
-                                        <div class="col-md-4">
-                                            <table id="dynamic-rule" class="table text-center">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Operator</th>
-                                                        <th>Quantity</th>
-                                                        <th>Commission</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    
-                                                </tbody>
-                                            </table>
+                                        <div class="col-md-5">
                                             <div>
                                                 <button class="btn green" type="button" onclick="addRule()">Add Rule</button>
                                             </div>
+                                            <table id="dynamic-rule" class="table text-center">
+                                            </table>
                                         </div>
-                                        <div class="col-md-4"></div>
+                                        <div class="col-md-3"></div>
                                     </div>
                                 </div>
                                 
