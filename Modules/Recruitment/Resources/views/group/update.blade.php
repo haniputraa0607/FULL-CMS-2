@@ -140,15 +140,6 @@
                                         <button class="btn green" type="button" onclick="addRule()">Add Rule</button>
                                     </div>
                                     <table id="dynamic-rule" class="table text-center table-hover">
-                                        {{-- <thead>
-                                            <tr>
-                                                <th class="text-center col-md-2">Range</th>
-                                                <th class="text-center col-md-2">Commision</th>
-                                                <th class="text-center col-md-1"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody> --}}
                                     </table>
                                 </div>
                                 <div class="col-md-3"></div>
