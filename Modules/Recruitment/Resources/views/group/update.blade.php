@@ -111,71 +111,47 @@
                         <div id="dynamic_commission" @if ($result['dynamic']==0) hidden @endif>
                             <div class="form-group">
                                 <div class="col-md-4"></div>
-                                <div class="col-md-4">
-                                    <table id="dynamic-rule" class="table text-center">
+                                <div class="col-md-5">
+                                    @if (isset($result['dynamic_rule_list']) && !empty($result['dynamic_rule_list']))
+                                    <table class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th>Operator</th>
-                                                <th>Quantity</th>
-                                                <th>Commission</th>
+                                                <th class="text-center">Range</th>
+                                                <th class="text-center">Commision</th>  
+                                                <th class="text-center">Delete</th>  
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @if (isset($result['dynamic_rule']) && !empty($result['dynamic_rule']))
-                                                @foreach($result['dynamic_rule'] ?? [] as $key => $dynamic)
-                                                    <tr data-id="{{$key}}">
-                                                        <td>
-                                                            <select class="select2 form-control operator" name="dynamic_rule[{{$key}}][operator]" required>
-                                                                <option value="=" @if($dynamic['operator'] == '=') selected @endif>=</option>
-                                                                <option value="<" @if($dynamic['operator'] == '<') selected @endif><</option>
-                                                                <option value="<=" @if($dynamic['operator'] == '<=') selected @endif><=</option>
-                                                                <option value=">" @if($dynamic['operator'] == '>') selected @endif>></option>
-                                                                <option value=">=" @if($dynamic['operator'] == '>=') selected @endif>>=</option>
-                                                                <option value="!=" @if($dynamic['operator'] == '!=') selected @endif>!=</option>
-                                                            </select>
-                                                        </td>
-                                                        <td>
-                                                            <input type="number" class="form-control qty" name="dynamic_rule[{{$key}}][qty]" value="{{$dynamic['qty']}}" required>
-                                                        </td>
-                                                        <td>
-                                                            <input type="number" class="form-control value" name="dynamic_rule[{{$key}}][value]" value="{{$dynamic['value']}}" required>
-                                                        </td>
-                                                        <td>
-                                                            <button type="button" onclick="deleteRule({{$key}})" data-toggle="confirmation" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            @else
-                                                <tr data-id="0">
-                                                    <td>
-                                                        <select class="select2 form-control operator" name="dynamic_rule[0][operator]" @if($result['dynamic']==0) disabled @else required @endif>
-                                                            <option value="" selected disabled></option>
-                                                            <option value="=">=</option>
-                                                            <option value="<"><</option>
-                                                            <option value="<="><=</option>
-                                                            <option value=">">></option>
-                                                            <option value=">=">>=</option>
-                                                            <option value="!=">!=</option>
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <input type="number" class="form-control qty" name="dynamic_rule[0][qty]" @if($result['dynamic']==0) disabled @else required @endif>
-                                                    </td>
-                                                    <td>
-                                                        <input type="number" class="form-control value" name="dynamic_rule[0][value]" @if($result['dynamic']==0) disabled @else required @endif>
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" onclick="deleteRule(0)" data-toggle="confirmation" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+                                            @foreach($result['dynamic_rule_list'] ?? [] as $key => $dynamic)
+                                                <tr>
+                                                    <td class="text-center">{{ $dynamic['qty'] }}</td>
+                                                    <td class="text-center">{{ $dynamic['value'] }}</td>
+                                                    <td class="text-center">
+                                                        @if ($key<count($result['dynamic_rule_list'])-1)
+                                                            <a class="btn btn-sm red btn-primary" href="{{url()->current().'delete/'.$dynamic['id_hairstylist_group_commission_dynamic']}}"><i class="fa fa-trash-o"></i> Delete</a>
+                                                        @endif
                                                     </td>
                                                 </tr>
-                                                @endif
+                                            @endforeach
                                         </tbody>
                                     </table>
+                                    @endif
                                     <div>
                                         <button class="btn green" type="button" onclick="addRule()">Add Rule</button>
                                     </div>
+                                    <table id="dynamic-rule" class="table text-center table-hover">
+                                        {{-- <thead>
+                                            <tr>
+                                                <th class="text-center col-md-2">Range</th>
+                                                <th class="text-center col-md-2">Commision</th>
+                                                <th class="text-center col-md-1"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody> --}}
+                                    </table>
                                 </div>
-                                <div class="col-md-4"></div>
+                                <div class="col-md-3"></div>
                             </div>
                         </div>
 						<input type="hidden" name="id_product" value="{{$result['id_product']}}">
@@ -194,35 +170,57 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script type="text/javascript">
 
-        @if(!is_array($result['dynamic_rule']) || count($result['dynamic_rule']) <= 0)
-            var noRule = 1;
-                    @else
-            var noRule = {{count($result['dynamic_rule'])}};
-        @endif    
-        
+        var noRule = 0;
         var dynamic = {{ $result['dynamic'] }};
         
         function addRule(){
             var id_percent =  $("input[name='percent']:checked").val();
+            var price = {{ $result['product_price'] }};
+
             var percent = ``;
             if(id_percent == 'on'){
                 percent = `max="100" min="1"`;
+            }else{
+                if(price!=0){
+                    percent = `max="${price}" min="1"`;
+                }
             }
+
+            if(noRule==0){
+                var table = `
+                    <thead>
+                        <tr>
+                            <th class="text-center col-md-2">Range</th>
+                            <th class="text-center col-md-2">Commision</th>
+                            <th class="text-center col-md-1"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (isset($result['dynamic_rule']) && !empty($result['dynamic_rule']))
+                            @foreach($result['dynamic_rule'] ?? [] as $key => $dynamic)
+                                <tr data-id="{{$key}}">
+                                    <td>
+                                        <input type="number" class="form-control qty" name="dynamic_rule[{{$key}}][qty]" value="{{$dynamic['qty']}}" min="2" required>
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control value" name="dynamic_rule[{{$key}}][value]" value="{{$dynamic['value']}}" @if ($result['percent']==1) min="1" max="100" @else @if ($result['product_price']!=0) min="1" max="{{ $result['product_price'] }}" @endif @endif required>
+                                    </td>
+                                    <td>
+                                        <button type="button" onclick="deleteRule({{$key}})" data-toggle="confirmation" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
+                    </tbody>
+                `;
+                $('#dynamic-rule').append(table);
+                noRule = {{ count($result['dynamic_rule']) }};
+            }
+
             const template = `
                 <tr data-id="${noRule}">
                     <td>
-                        <select class="select2 form-control operator" name="dynamic_rule[${noRule}][operator]" required>
-                            <option value="" selected disabled></option>
-                            <option value="=">=</option>
-                            <option value="<"><</option>
-                            <option value="<="><=</option>
-                            <option value=">">></option>
-                            <option value=">=">>=</option>
-                            <option value="!=">!=</option>
-                        </select>
-                    </td>
-                    <td>
-                        <input type="number" class="form-control qty" name="dynamic_rule[${noRule}][qty]" required>
+                        <input type="number" class="form-control qty" name="dynamic_rule[${noRule}][qty]" min="2" required>
                     </td>
                     <td>
                         <input type="number" class="form-control value" name="dynamic_rule[${noRule}][value]" ${percent} required>
@@ -239,6 +237,7 @@
 
         function changeType(val) {
             var id_percent =  $("input[name='percent']:checked").val();
+            var price = {{ $result['product_price'] }};
 
             if(val == 'Dynamic'){
                 $('#id_commission').hide();
@@ -248,8 +247,6 @@
 
                 if(id_percent == 'on'){
                     for (let i = 0; i < noRule; i++) {
-                        $(`tr[data-id=${i}] select.operator`).prop('required',true);
-                        $(`tr[data-id=${i}] select.operator`).prop('disabled',false);
                         $(`tr[data-id=${i}] input.qty`).prop('required',true);
                         $(`tr[data-id=${i}] input.qty`).prop('disabled',false);
                         $(`tr[data-id=${i}] input.value`).prop('required',true);
@@ -258,14 +255,16 @@
                     }
                 }else{
                     for (let i = 0; i < noRule; i++) {
-                        $(`tr[data-id=${i}] select.operator`).prop('required',true);
-                        $(`tr[data-id=${i}] select.operator`).prop('disabled',false);
                         $(`tr[data-id=${i}] input.qty`).prop('required',true);
                         $(`tr[data-id=${i}] input.qty`).prop('disabled',false);
                         $(`tr[data-id=${i}] input.value`).prop('required',true);
                         $(`tr[data-id=${i}] input.value`).prop('disabled',false);
-                        $(`tr[data-id=${i}] input.value`).removeAttr("max");
-                        $(`tr[data-id=${i}] input.value`).removeAttr("min");
+                        if(price!=0){
+                            $(`tr[data-id=${i}] input.value`).attr({"max":price,"min":1})
+                        }else{
+                            $(`tr[data-id=${i}] input.value`).removeAttr("max");
+                            $(`tr[data-id=${i}] input.value`).removeAttr("min");
+                        }
                     }
                 }
             }else{
@@ -277,13 +276,15 @@
                 if(id_percent == 'on'){
                     $('#commission').attr({"max":100,"min":1})
                 }else{
-                    $('#commission').removeAttr("max");
-                    $('#commission').removeAttr("min");
+                    if(price!=0){
+                        $(`#commission`).attr({"max":price,"min":1})
+                    }else{
+                        $('#commission').removeAttr("max");
+                        $('#commission').removeAttr("min");
+                    }
                 }
 
                 for (let i = 0; i < noRule; i++) {
-                    $(`tr[data-id=${i}] select.operator`).prop('required',false);
-                    $(`tr[data-id=${i}] select.operator`).prop('disabled',true);
                     $(`tr[data-id=${i}] input.qty`).prop('required',false);
                     $(`tr[data-id=${i}] input.qty`).prop('disabled',true);
                     $(`tr[data-id=${i}] input.value`).prop('required',false);
@@ -298,6 +299,7 @@
 
         function myFunction() {
             var id_percent =  $("input[name='percent']:checked").val();
+            var price = {{ $result['product_price'] }};
             var type = $('select[name=type] option:selected').val()
 
             if(type == 'Dynamic'){
@@ -307,8 +309,12 @@
                     }
                 }else{
                     for (let i = 0; i < noRule; i++) {
-                        $(`tr[data-id=${i}] input.value`).removeAttr("max");
-                        $(`tr[data-id=${i}] input.value`).removeAttr("min");
+                        if(price!=0){
+                            $(`tr[data-id=${i}] input.value`).attr({"max":price,"min":1})
+                        }else{
+                            $(`tr[data-id=${i}] input.value`).removeAttr("max");
+                            $(`tr[data-id=${i}] input.value`).removeAttr("min");
+                        }
                     }
                 }
             }else{
@@ -318,11 +324,19 @@
                         <div class="col-md-5">\
                         <input class="form-control" required type="number" id="commission_percent" name="commission_percent" min="1" max="99" placeholder="Enter Commission Percent"/></div></div>';
                 }else{
-                    var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
-                            </label>\
-                            <div class="col-md-5">\
-                            <input class="form-control" required type="number" id="commission_percent" name="commission_percent"  placeholder="Enter Commission Nominal"/>\
-                            </div></div>'; 
+                    if(price!=0){
+                        var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
+                                </label>\
+                                <div class="col-md-5">\
+                                <input class="form-control" required type="number" id="commission_percent" name="commission_percent" min="1" max="'+price+'" placeholder="Enter Commission Nominal"/>\
+                                </div></div>'; 
+                    }else{
+                        var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-4">Commission<span class="required" aria-required="true">*</span>\
+                                </label>\
+                                <div class="col-md-5">\
+                                <input class="form-control" required type="number" id="commission_percent" name="commission_percent" placeholder="Enter Commission Nominal"/>\
+                                </div></div>'; 
+                    }
                 }
             }
 
