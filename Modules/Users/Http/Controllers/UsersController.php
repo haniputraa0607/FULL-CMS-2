@@ -769,7 +769,7 @@ class UsersController extends Controller
         $export = MyHelper::post('users/list', $post);
         // print_r($export);exit;
         if ($export['status'] == 'success') {
-            $data = $export['result'];
+            $data = $export['result']['data'];
             $x = 1;
             foreach ($data as $key => $row) {
                 unset($data[$key]['id']);
