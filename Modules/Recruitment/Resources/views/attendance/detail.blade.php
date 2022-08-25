@@ -61,7 +61,7 @@ function showDetail(dom) {
     html = data.attendance_logs.map(item => {
         return `
         <tr>
-            <td>${new Date(item.datetime).toLocaleString('id-ID',{hour:"2-digit",minute:"2-digit"})} ${item.time_zone}</td>
+            <td>${new Date(item.datetime.trim()).toLocaleString('id-ID',{hour:"2-digit",minute:"2-digit"})} ${item.time_zone}</td>
             <td>${item.type == 'clock_in' ? 'Clock In' : 'Clock Out'}</td>
             <td>${item.notes ? item.notes : '-'}</td>
             <td>${item.latitude && item.longitude ? `<a href="https://maps.google.com/maps?q=${item.latitude},${item.longitude}" target="_blank">Show Location</a>` : '<em class="text-muted">No data</em>'}</td>
@@ -73,6 +73,19 @@ function showDetail(dom) {
 
     $('#modal-detail').modal('show');
 }
+
+@if(\MyHelper::hasAccess([536], $grantedFeature))
+function updateAttendance(dom) {
+    const data = $(dom).data('data');
+    $('#modal-attendance [name=id_hairstylist_attendance]').val(data.id_hairstylist_attendance);
+    $('#modal-attendance [name=date_formated]').val(new Date(data.date).toLocaleString('id-ID',{day:"2-digit",month:"short",year:"numeric"}));
+    $('#modal-attendance [name=date]').val(data.date);
+    $('#modal-attendance [name=shift]').val(data.shift);
+    $('#modal-attendance [name=outlet]').val(data.outlet ? data.outlet.outlet_name : '-');
+
+    $('#modal-attendance').modal('show');
+}
+@endif
 
 function htmlEntities(str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&apos;').replace(/"/g, '&quot;');
@@ -134,7 +147,10 @@ $(document).ready(function() {
                 orderable: false,
                 render: (data, type, full) => {
                     return `
-                        <button onclick="showDetail(this)" data-data='${htmlEntities(JSON.stringify(full))}' class="btn btn-primary btn-sm">Detail</button>
+                        <button onclick="showDetail(this)" data-data='${htmlEntities(JSON.stringify(full))}' class="btn btn-primary btn-sm">Detail</button><br/>
+                        @if(\MyHelper::hasAccess([536], $grantedFeature))
+                        <button onclick="updateAttendance(this)" data-data='${htmlEntities(JSON.stringify(full))}' class="btn btn-warning btn-sm">Correction</button>
+                        @endif
                         @if(\MyHelper::hasAccess([525], $grantedFeature))
                         <form action="{{str_replace('detail', 'delete', url()->current())}}" method="post">
                         @csrf
@@ -275,4 +291,64 @@ $(document).ready(function() {
             </div>
         </div>
     </div>
+    <form action="{{url('recruitment/hair-stylist/attendance/correction')}}" method="POST">
+        <div class="modal fade" id="modal-attendance" tabindex="-1" role="basic" aria-hidden="true">
+            <div class="modal-dialog modal-xs">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Attendance Correction</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="id_hairstylist_attendance">
+                        <input type="hidden" name="id_user_hair_stylist" value="{{$id_user_hair_stylist}}">
+                        <input type="hidden" name="date" value="{{$id_user_hair_stylist}}">
+                        <div class="form-group row">
+                            <label class="col-md-3 control-label">Date</label>
+                            <div class="col-md-8">
+                                <input type="text" name="date_formated" class="form_datetime form-control"  disabled>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 control-label">Outlet</label>
+                            <div class="col-md-8">
+                                <input type="text" name="outlet" class="form_datetime form-control"  disabled>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 control-label">Shift</label>
+                            <div class="col-md-8">
+                                <input type="text" name="shift" class="form_datetime form-control"  disabled>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 control-label">Type</label>
+                            <div class="col-md-4">
+                                <select class="select2 form-control" name="type">
+                                    <option value="clock_in">Clock In</option>
+                                    <option value="clock_out">Clock Out</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 control-label">Time</label>
+                            <div class="col-md-4">
+                                <input type="time" name="time" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 control-label">Notes</label>
+                            <div class="col-md-8">
+                                <textarea name="notes" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        @csrf
+                        <button type="button" class="btn secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 @endsection

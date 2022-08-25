@@ -128,6 +128,7 @@ class HairstylistAttendanceController extends Controller
             'child_active'   => 'hairstylist-attendance-list',
             'filter_title'   => 'Filter Date',
             'filter_date'    => true,
+            'id_user_hair_stylist' => $id,
         ];
         $post = $request->all();
 
@@ -587,6 +588,15 @@ class HairstylistAttendanceController extends Controller
         $update = MyHelper::post('recruitment/hairstylist/be/attendance/delete', $request->all());
         if (($update['status'] ?? false) == 'success') {
             return back()->withSuccess([$update['result']['message'] ?? 'Success delete attendance']);
+        }
+        return back()->withErrors($update['messages'] ?? ['Something went wrong']);
+    }
+
+    public function correctAttendance(Request $request)
+    {
+        $update = MyHelper::post('recruitment/hairstylist/be/attendance/correction', $request->all());
+        if (($update['status'] ?? false) == 'success') {
+            return back()->withSuccess([$update['result']['message'] ?? 'Success update attendance']);
         }
         return back()->withErrors($update['messages'] ?? ['Something went wrong']);
     }
