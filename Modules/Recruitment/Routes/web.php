@@ -99,6 +99,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
 	    Route::get('detail/{id}', ['middleware' => 'feature_control:354', 'uses' => 'HairstylistAttendanceController@detail']);
 	    Route::post('detail/{id}', ['middleware' => 'feature_control:354', 'uses' => 'HairstylistAttendanceController@filter']);
 	    Route::post('delete/{id}', ['middleware' => 'feature_control:525', 'uses' => 'HairstylistAttendanceController@deleteAttendance']);
+	    Route::post('correction', ['middleware' => 'feature_control:525', 'uses' => 'HairstylistAttendanceController@correctAttendance']);
 	});
 
 	Route::group(['prefix' => 'attendance-pending'], function()
