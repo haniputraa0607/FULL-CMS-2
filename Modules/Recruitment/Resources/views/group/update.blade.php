@@ -127,8 +127,8 @@
                                                     <td class="text-center">{{ $dynamic['qty'] }}</td>
                                                     <td class="text-center">{{ $dynamic['value'] }}</td>
                                                     <td class="text-center">
-                                                        @if ($key<count($result['dynamic_rule_list'])-1)
-                                                            <a class="btn btn-sm red btn-primary" href="{{url()->current().'delete/'.$dynamic['id_hairstylist_group_commission_dynamic']}}"><i class="fa fa-trash-o"></i> Delete</a>
+                                                        @if (isset($dynamic['id_hairstylist_group_commission_dynamic']))
+                                                            <a class="btn btn-sm red btn-primary" href="{{url()->current().'/delete/'.$dynamic['id_hairstylist_group_commission_dynamic']}}"><i class="fa fa-trash-o"></i> Delete</a>
                                                         @endif
                                                     </td>
                                                 </tr>
@@ -191,7 +191,7 @@
                             @foreach($result['dynamic_rule'] ?? [] as $key => $dynamic)
                                 <tr data-id="{{$key}}">
                                     <td>
-                                        <input type="number" class="form-control qty" name="dynamic_rule[{{$key}}][qty]" value="{{$dynamic['qty']}}" min="2" required>
+                                        <input type="number" class="form-control qty" name="dynamic_rule[{{$key}}][qty]" value="{{$dynamic['qty']}}" min="1" required>
                                     </td>
                                     <td>
                                         <input type="number" class="form-control value" name="dynamic_rule[{{$key}}][value]" value="{{$dynamic['value']}}" @if ($result['percent']==1) min="1" max="100" @else @if ($result['product_price']!=0) min="1" max="{{ $result['product_price'] }}" @endif @endif required>
@@ -211,7 +211,7 @@
             const template = `
                 <tr data-id="${noRule}">
                     <td>
-                        <input type="number" class="form-control qty" name="dynamic_rule[${noRule}][qty]" min="2" required>
+                        <input type="number" class="form-control qty" name="dynamic_rule[${noRule}][qty]" min="1" required>
                     </td>
                     <td>
                         <input type="number" class="form-control value" name="dynamic_rule[${noRule}][value]" ${percent} required>

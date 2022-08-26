@@ -78,6 +78,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'setting'
     //global commission
     Route::any('/setting-global-commission', ['middleware' => 'feature_control:423', 'uses' => 'SettingController@settingGlobalCommission']);
     Route::post('/setting-global-commission/refresh', ['middleware' => 'feature_control:423', 'uses' => 'SettingController@settingGlobalCommissionRefresh']);
+    Route::any('/setting-global-commission/delete-commission/{id_commission}', ['middleware' => 'feature_control:423', 'uses' => 'SettingController@deleteCommission']);
     
     //salary formula
     Route::any('/setting-salary-formula', ['middleware' => 'feature_control:424', 'uses' => 'SettingController@salary_formula']);

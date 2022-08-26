@@ -1630,6 +1630,14 @@ class SettingController extends Controller
             return back()->withErrors($data['messages'] ?? ['Something when wrong. Please try again.'])->withInput();
         }
     }
+    public function deleteCommission($id_commission){
+        $delete = MyHelper::post('setting/global_commission_product_delete',['id_global_commission_product_dynamics'=>$id_commission]);
+        if(isset($delete['status']) && $delete['status'] == 'success'){
+            return back()->withSuccess(['Success to delete dynamic rule']);
+        }else{
+            return back()->withErrors($query['messages']??'Failed to delete dynamic rule');
+        }
+    }
     public function attendances_date(Request $request){
         $post = $request->except('_token');
         $data = [

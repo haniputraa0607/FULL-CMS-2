@@ -34,7 +34,6 @@
     <script type="text/javascript">
 
         $(document).ready(function(){
-            $('.select2').select2({placeholder: "Select data"});
             $('.summernote').summernote({
                 placeholder: 'Product Description',
                 tabsize: 2,
