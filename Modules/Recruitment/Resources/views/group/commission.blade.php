@@ -64,7 +64,7 @@
             $('#dynamic_commission').show();
             $('#commission_percent').prop('required',false);
             $('#commission_percent').prop('disabled',true);
-
+            static = false;
             
             if(id_percent == 'on'){
                 for (let i = 0; i < noRule; i++) {
