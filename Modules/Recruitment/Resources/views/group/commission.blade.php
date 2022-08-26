@@ -36,7 +36,7 @@
         const template = `
             <tr data-id="${noRule}">
                 <td>
-                    <input type="number" class="form-control qty" name="dynamic_rule[${noRule}][qty]" min="2" required>
+                    <input type="number" class="form-control qty" name="dynamic_rule[${noRule}][qty]" min="1" required>
                 </td>
                 <td>
                     <input type="number" class="form-control value" name="dynamic_rule[${noRule}][value]" ${percent} required>

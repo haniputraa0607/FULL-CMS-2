@@ -328,7 +328,18 @@ class HairStylistGroupController extends Controller
                             return back()->withErrors($query['messages']);
                     }
                    
-              }
+            }
+
+            public function deleteCommission($id, $id_commission){
+                $delete = MyHelper::post('recruitment/hairstylist/be/group/detail_commission/delete',['id_hairstylist_group_commission_dynamic'=>$id_commission]);
+                if(isset($delete['status']) && $delete['status'] == 'success'){
+                    return back()->withSuccess(['Success to delete dynamic rule']);
+                }else{
+                    return back()->withErrors($query['messages']??'Failed to delete dynamic rule');
+                }
+            }   
+
+
             public function filter_commission(Request $request)
             {
                  $post = $request->all();

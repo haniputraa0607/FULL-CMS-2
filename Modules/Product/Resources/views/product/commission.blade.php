@@ -4,8 +4,6 @@
 
  ?>
 
-
-
 <form role="form" class="form-horizontal" action="{{url('product/submitCommission')}}" method="POST" enctype="multipart/form-data">
     {{ csrf_field() }}
     <input type="hidden" name='product_code' id="product_code" value='{{$product_code}}'>
@@ -54,8 +52,8 @@
                                             <td class="text-center">{{ $dynamic['qty'] }}</td>
                                             <td class="text-center">{{ $dynamic['value'] }}</td>
                                             <td class="text-center">
-                                                @if ($key<count($commission['dynamic_rule_list'])-1)
-                                                    <a class="btn btn-sm red btn-primary" href="{{url()->current().'delete-commission/'.$dynamic['id_product_commission_default_dynamic']}}"><i class="fa fa-trash-o"></i> Delete</a>
+                                                @if (isset($dynamic['id_product_commission_default_dynamic']))
+                                                    <a class="btn btn-sm red btn-primary" href="{{url()->current().'/delete-commission/'.$dynamic['id_product_commission_default_dynamic']}}"><i class="fa fa-trash-o"></i> Delete</a>
                                                 @endif
                                             </td>
                                         </tr>
@@ -112,7 +110,7 @@
                         @foreach($commission['dynamic_rule'] ?? [] as $key => $dynamic)
                             <tr data-id="{{$key}}">
                                 <td>
-                                    <input type="number" class="form-control qty" name="dynamic_rule[{{$key}}][qty]" value="{{$dynamic['qty']}}" min="2" required>
+                                    <input type="number" class="form-control qty" name="dynamic_rule[{{$key}}][qty]" value="{{$dynamic['qty']}}" min="1" required>
                                 </td>
                                 <td>
                                     <input type="number" class="form-control value" name="dynamic_rule[{{$key}}][value]" value="{{$dynamic['value']}}" @if ($commission['percent']==1) min="1" max="100" @else @if ($product[0]['global_price'][0]['product_global_price']>0) min="1" max="{{ $product[0]['global_price'][0]['product_global_price'] }}" @endif @endif required>
@@ -133,7 +131,7 @@
         const template = `
             <tr data-id="${noRule}">
                 <td>
-                    <input type="number" class="form-control qty" name="dynamic_rule[${noRule}][qty]" min="2" required>
+                    <input type="number" class="form-control qty" name="dynamic_rule[${noRule}][qty]" min="1" required>
                 </td>
                 <td>
                     <input type="number" class="form-control value" name="dynamic_rule[${noRule}][value]" ${percent} required>
@@ -191,28 +189,24 @@
             $('#commission_percent').prop('disabled',false);
             if(global_price > 0){
                 if(id_percent == 'on'){
-                    var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-5">Commission<span class="required" aria-required="true">*</span>\
-                        <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
+                    var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-5">Commission</label>\
                         <div class="col-md-3">\
                         <input class="form-control" required type="number" id="commission_percent" name="commission" value"<?= $commission["commission"]??0 ?>"  min="1" max="100" placeholder="Enter Commission"/>\
                         </div></div>';
                 }else{
-                    var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-5">Commission<span class="required" aria-required="true">*</span>\
-                        <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
+                    var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-5">Commission</label>\
                         <div class="col-md-3">\
                         <input class="form-control" required type="number" id="commission_percent" name="commission" max="{{$product[0]['global_price'][0]['product_global_price']??0}}" value"<?= $commission["commission"]??0 ?>" placeholder="Enter Commission"/>\
                         </div></div>'; 
                 }
             }else{
                 if(id_percent == 'on'){
-                   var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-5">Commission<span class="required" aria-required="true">*</span>\
-                        <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
+                   var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-5">Commission</label>\
                         <div class="col-md-3">\
                         <input class="form-control" required type="number" id="commission_percent" name="commission" value"<?= $commission["commission"]??0 ?>"  min="1" max="100" placeholder="Enter Commission"/>\
                         </div></div>';
                 }else{
-                   var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-5">Commission<span class="required" aria-required="true">*</span>\
-                        <i class="fa fa-question-circle tooltips" data-original-title="komisi product" data-container="body"></i></label>\
+                   var html='<div class="form-group"><label for="example-search-input" class="control-label col-md-5">Commission</label>\
                         <div class="col-md-3">\
                         <input class="form-control" required type="number" id="commission_percent" name="commission" value"<?= $commission["commission"]??0 ?>" placeholder="Enter Commission"/>\
                         </div></div>'; 
@@ -230,7 +224,7 @@
 
     function myFunction() {
         var id_percent = $("input[name='percent']:checked").val();
-        var type = $('select[name=type] option:selected').val()
+        var type = $('select[name=type] option:selected').val();
 
         if(type == 'Dynamic'){
             if(id_percent == 'on'){

@@ -117,7 +117,15 @@ class ProductServiceController extends Controller
             $data['product_icount_use_ims'] = $data['product'][0]['product_icount_use_ims'] ?? [];
             $data['product_hairstylist_category'] = array_column($data['product'][0]['product_hs_category']??[], 'id_hairstylist_category');
             $data['hairstylist_category'] = MyHelper::get('hairstylist/be/category')['result']??[];
-            $data['commission'] = MyHelper::post('product/be/commission',['product_code' => $code])['result'] ?? [];
+            $commission = MyHelper::post('product/be/commission',['product_code' => $code])['result'] ?? [];
+            if($commission){
+                $data['commission'] = $commission;
+                $data['commission']['status'] = 1;
+            }else{
+                $data['commission'] = [
+                    'status' => 0,
+                ];
+            }
             $data['product_code'] = $code;
             return view('productservice::detail', $data);
         }
@@ -346,4 +354,13 @@ class ProductServiceController extends Controller
             return redirect('product-service/detail/'.$post['product_code'].'#commission')->witherrors(['Something went wrong. Please try again.']);
         }
     }
+
+    public function deleteCommission($id, $id_commission){
+        $delete = MyHelper::post('product/be/commission/delete',['id_product_commission_default_dynamic'=>$id_commission]);
+        if(isset($delete['status']) && $delete['status'] == 'success'){
+            return back()->withSuccess(['Success to delete dynamic rule']);
+        }else{
+            return back()->withErrors($query['messages']??'Failed to delete dynamic rule');
+        }
+    }   
 }

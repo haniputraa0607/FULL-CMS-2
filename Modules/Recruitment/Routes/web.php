@@ -182,6 +182,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitm
         Route::any('potongan/delete-rumus-potongan/{id}', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@delete_rumus_potongan']);
 	    Route::post('invite_hs', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@invite_hs']);	    
 	    Route::any('commission/detail/{id}', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@detail_commission']);	 	    
+	    Route::any('commission/detail/{id}/delete/{id_commission}', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@deleteCommission']);	 	    
 	    Route::any('commission/filter_commission', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@filter_commission']);	 	    
 	    Route::any('commission/filter_hs', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@filter_hs']);	 	    
 	    Route::any('commission/filter_insentif', ['middleware' => 'feature_control:396', 'uses' => 'HairStylistGroupController@filter_insentif']);	 	    
