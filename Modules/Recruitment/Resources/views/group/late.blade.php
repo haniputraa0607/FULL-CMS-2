@@ -26,7 +26,7 @@
                                 <tr>
                                  
                                         <th class="text-nowrap text-center"> Range </th>
-                                        <th class="text-nowrap text-center"> Value</th>
+                                        <th class="text-nowrap text-center"> Salary Cut</th>
                                        
                                 </tr>
                                 </thead>

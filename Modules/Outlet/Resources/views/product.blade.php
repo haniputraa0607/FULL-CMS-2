@@ -13,9 +13,9 @@
     <tbody>
         @foreach($out['product_detail'] ?? [] as $product)
         <tr>
-            <td>{{ $product['product']['product_name'] }}</td>
-            <td>{{ $product['product_detail_stock_status'] }}</td>
-            <td>{{ $product['product_detail_stock_item'] }}</td>
+            <td>{{ $product['product']['product_name']??'' }}</td>
+            <td>{{ $product['product_detail_stock_status']??'' }}</td>
+            <td>{{ $product['product_detail_stock_item']??'' }}</td>
         </tr>
         @endforeach
     </tbody>

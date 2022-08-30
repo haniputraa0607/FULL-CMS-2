@@ -216,7 +216,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
+                                    <label class="col-md-4 control-label">Incentive<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Besar insentif yang diterima oleh hairstylist" data-container="body"></i>
                                     </label>
                                     <div class="col-md-3">
