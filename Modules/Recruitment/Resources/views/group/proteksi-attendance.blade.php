@@ -27,6 +27,7 @@
                                         <th class="text-nowrap text-center"> Month </th>
                                         <th class="text-nowrap text-center"> Value</th>
                                         <th class="text-nowrap text-center"> Amount</th>
+                                        <th class="text-nowrap text-center"> Amount Proteksi</th>
                                         <th class="text-nowrap text-center"> Amount per Day</th>
                                        
                                 </tr>
@@ -44,6 +45,8 @@
                                                 
                                                 <td style="text-align: center">
                                                     <input type="text" name="amount[]" id='amount' value="@if($dt['amount_default']==1 && $dt['amount'] != null){{number_format($dt['amount']??null,0,',',',')}}@endif" data-type="currency" placeholder="{{number_format($dt['default_amount']??0,0,',',',')}}" class="form-control" /></input></td>
+                                                <td style="text-align: center">
+                                                    <input type="text" name="amount_proteksi[]" id='amount_proteksi' value="@if($dt['amount_proteksi_default']==1 && $dt['amount_proteksi'] != null){{number_format($dt['amount_proteksi']??null,0,',',',')}}@endif" data-type="currency" placeholder="{{number_format($dt['default_amount_proteksi']??0,0,',',',')}}" class="form-control" /></input></td>
                                                 
                                                 <td style="text-align: center">
                                                     <input type="text" name="amount_day[]" id='amount_day' value="@if($dt['amount_day_default']==1 && $dt['amount_day'] != null){{number_format($dt['amount_day']??null,0,',',',')}}@endif" data-type="currency" placeholder="{{number_format($dt['default_amount_day']??0,0,',',',')}}" class="form-control" /></input></td>

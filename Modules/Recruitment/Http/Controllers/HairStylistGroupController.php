@@ -595,6 +595,7 @@ class HairStylistGroupController extends Controller
                          'value' => str_replace(',','', $post['value'][$key]??null),
                          'amount' => str_replace(',','', $post['amount'][$key]??null),
                          'amount_day' => str_replace(',','', $post['amount_day'][$key]??null),
+                         'amount_proteksi' => str_replace(',','', $post['amount_proteksi'][$key]??null),
                      );
                    $query = MyHelper::post('recruitment/hairstylist/be/group/proteksi-attendance/create', $b);
                  }

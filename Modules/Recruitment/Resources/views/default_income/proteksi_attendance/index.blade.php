@@ -165,6 +165,7 @@
                                         <th class="text-nowrap text-center"> Month </th>
                                         <th class="text-nowrap text-center"> Value</th>
                                         <th class="text-nowrap text-center"> Amount</th>
+                                        <th class="text-nowrap text-center"> Amount Proteksi</th>
                                         <th class="text-nowrap text-center"> Amount per Day</th>
                                 </tr>
                                 </thead>
@@ -177,7 +178,9 @@
                                                     <input type="hidden" name="month[]" value="{{$dt['month']}}"/>
                                                     <input required min="1" max="28" type="text" name="value[]" id='value' value="@if($dt['value']){{number_format($dt['value']??null,0,',',',')}}@endif" data-type="currency" placeholder="Jumlah Hari" class="form-control" /></input></td>
                                                 <td style="text-align: center">
-                                                    <input required type="text" name="amount[]" id='value' value="@if($dt['value']){{number_format($dt['amount']??null,0,',',',')}}@endif" data-type="currency" placeholder="Jumlah Besaran Proteksi" class="form-control" /></input></td>
+                                                    <input required type="text" name="amount[]" id='value' value="@if($dt['amount']){{number_format($dt['amount']??null,0,',',',')}}@endif" data-type="currency" placeholder="Jumlah Besaran" class="form-control" /></input></td>
+                                                <td style="text-align: center">
+                                                    <input required type="text" name="amount_proteksi[]" id='value' value="@if($dt['amount_proteksi']){{number_format($dt['amount_proteksi']??null,0,',',',')}}@endif" data-type="currency" placeholder="Jumlah Besaran Proteksi" class="form-control" /></input></td>
                                                 <td style="text-align: center">
                                                     <input required type="text" name="amount_day[]" id='value' value="@if($dt['value']){{number_format($dt['amount_day']??null,0,',',',')}}@endif" data-type="currency" placeholder="Jumlah Besaran Perhari" class="form-control" /></input>
                                                 </td>
