@@ -63,6 +63,9 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
     });
     Route::group(['prefix' => 'reimbursement'], function(){
         Route::any('', ['middleware' => 'feature_control:515,528,529,530', 'uses' => 'EmployeeReimbursementController@index']);
+        Route::any('/director', ['middleware' => 'feature_control:515,528,529,530', 'uses' => 'EmployeeReimbursementController@director']);
+        Route::any('/hrga', ['middleware' => 'feature_control:515,528,529,530', 'uses' => 'EmployeeReimbursementController@hrga']);
+        Route::any('/finance', ['middleware' => 'feature_control:515,528,529,530', 'uses' => 'EmployeeReimbursementController@finance']);
         Route::any('manager', ['uses' => 'EmployeeReimbursementController@manager']);
         Route::get('manager/detail/{id}', ['uses' => 'EmployeeReimbursementController@manager_detail']);
         Route::any('/update/{id}', [ 'uses' => 'EmployeeReimbursementController@update']);

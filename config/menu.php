@@ -244,19 +244,19 @@ return [
                                 [
 					'label' => 'Director Reimbursement',
 					'required_features' => [528],
-					'url' => 'employee/reimbursement',
+					'url' => 'employee/reimbursement/director',
 					'icon' => 'fa fa-user'
 				],
                                 [
 					'label' => 'HRGA Reimbursement',
 					'required_features' => [529],
-					'url' => 'employee/reimbursement',
+					'url' => 'employee/reimbursement/hrga',
 					'icon' => 'fa fa-user'
 				],
                                 [
 					'label' => 'Finance Reimbursement',
 					'required_features' => [530],
-					'url' => 'employee/reimbursement',
+					'url' => 'employee/reimbursement/finance',
 					'icon' => 'fa fa-user'
 				],
 				[
