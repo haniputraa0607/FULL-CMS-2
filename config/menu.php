@@ -297,6 +297,22 @@ return [
                                                     ],
                                         ],
 										[
+                                            'label' => 'Create Request Employee',
+                                            'required_features' => [537],
+                                            'active' => '\View::shared("child_active") == "create-request-employee"',
+                                            'url' => 'employee/request/create'
+                                        ],
+                                        [
+                                            'label' => 'List Request Employee',
+                                            'required_features' => [538],
+                                            'active' => '\View::shared("child_active") == "list-request-employee"',
+                                            'url' => 'employee/request/list',
+                                            'badge'=>[
+                                                        'type'=>'warning',
+                                                        'value'=>'list_request_employee',
+                                                    ],
+                                        ],
+										[
                                             'label' => 'Privacy Policy',
                                             'required_features' => [481],
                                             'active' => '\View::shared("child_active") == "employee-privacy-policy"',

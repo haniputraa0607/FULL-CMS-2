@@ -231,4 +231,11 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
             Route::post('/return/approve', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeAssetInventoryController@approve_return']);
             
 	});
+
+    Route::group(['prefix' => 'request'], function(){
+        Route::get('/', ['middleware' => 'feature_control:538', 'uses' => 'RequestEmployeeController@officeHoursList']);
+        Route::any('create', ['middleware' => 'feature_control:537', 'uses' => 'RequestEmployeeController@createRequest']);
+        Route::any('detail/{id}', ['middleware' => 'feature_control:539', 'uses' => 'RequestEmployeeController@detailRequest']);
+        Route::any('reject/{id}', ['middleware' => 'feature_control:540', 'uses' => 'RequestEmployeeController@rejectRequest']);
+    });
 });
