@@ -244,19 +244,19 @@ return [
                                 [
 					'label' => 'Director Reimbursement',
 					'required_features' => [528],
-					'url' => 'employee/reimbursement',
+					'url' => 'employee/reimbursement/director',
 					'icon' => 'fa fa-user'
 				],
                                 [
 					'label' => 'HRGA Reimbursement',
 					'required_features' => [529],
-					'url' => 'employee/reimbursement',
+					'url' => 'employee/reimbursement/hrga',
 					'icon' => 'fa fa-user'
 				],
                                 [
 					'label' => 'Finance Reimbursement',
 					'required_features' => [530],
-					'url' => 'employee/reimbursement',
+					'url' => 'employee/reimbursement/finance',
 					'icon' => 'fa fa-user'
 				],
 				[
@@ -294,6 +294,22 @@ return [
                                             'badge'=>[
                                                         'type'=>'warning',
                                                         'value'=>'employee_candidate',
+                                                    ],
+                                        ],
+										[
+                                            'label' => 'Create Request Employee',
+                                            'required_features' => [537],
+                                            'active' => '\View::shared("child_active") == "create-request-employee"',
+                                            'url' => 'employee/request/create'
+                                        ],
+                                        [
+                                            'label' => 'List Request Employee',
+                                            'required_features' => [538],
+                                            'active' => '\View::shared("child_active") == "list-request-employee"',
+                                            'url' => 'employee/request/list',
+                                            'badge'=>[
+                                                        'type'=>'warning',
+                                                        'value'=>'list_request_employee',
                                                     ],
                                         ],
 										[

@@ -63,6 +63,9 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
     });
     Route::group(['prefix' => 'reimbursement'], function(){
         Route::any('', ['middleware' => 'feature_control:515,528,529,530', 'uses' => 'EmployeeReimbursementController@index']);
+        Route::any('/director', ['middleware' => 'feature_control:515,528,529,530', 'uses' => 'EmployeeReimbursementController@director']);
+        Route::any('/hrga', ['middleware' => 'feature_control:515,528,529,530', 'uses' => 'EmployeeReimbursementController@hrga']);
+        Route::any('/finance', ['middleware' => 'feature_control:515,528,529,530', 'uses' => 'EmployeeReimbursementController@finance']);
         Route::any('manager', ['uses' => 'EmployeeReimbursementController@manager']);
         Route::get('manager/detail/{id}', ['uses' => 'EmployeeReimbursementController@manager_detail']);
         Route::any('/update/{id}', [ 'uses' => 'EmployeeReimbursementController@update']);
@@ -228,4 +231,11 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
             Route::post('/return/approve', ['middleware' => 'feature_control:428,429,430', 'uses' => 'EmployeeAssetInventoryController@approve_return']);
             
 	});
+
+    Route::group(['prefix' => 'request'], function(){
+        Route::get('/', ['middleware' => 'feature_control:538', 'uses' => 'RequestEmployeeController@officeHoursList']);
+        Route::any('create', ['middleware' => 'feature_control:537', 'uses' => 'RequestEmployeeController@createRequest']);
+        Route::any('detail/{id}', ['middleware' => 'feature_control:539', 'uses' => 'RequestEmployeeController@detailRequest']);
+        Route::any('reject/{id}', ['middleware' => 'feature_control:540', 'uses' => 'RequestEmployeeController@rejectRequest']);
+    });
 });

@@ -61,10 +61,12 @@ class HairStylistProteksiAttendanceController extends Controller
                  foreach (array_filter($post['month']) as $key => $value) {
                  $post['amount'][$key] = str_replace(',','', $post['amount'][$key]??0);
                  $post['amount_day'][$key] = str_replace(',','', $post['amount_day'][$key]??0);
-                  $b = array(
+                 $post['amount_proteksi'][$key] = str_replace(',','', $post['amount_proteksi'][$key]??0);
+                 $b = array(
                          'value' => $post['value'][$key],
                          'amount' => $post['amount'][$key],
                          'amount_day' => $post['amount_day'][$key],
+                         'amount_proteksi' => $post['amount_proteksi'][$key],
                          'month' => $value
                      );
                  $query = MyHelper::post('recruitment/hairstylist/be/group/proteksi-attendance/default/create', $b);
