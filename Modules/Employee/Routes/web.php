@@ -233,9 +233,10 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
 	});
 
     Route::group(['prefix' => 'request'], function(){
-        Route::get('/', ['middleware' => 'feature_control:538', 'uses' => 'RequestEmployeeController@officeHoursList']);
+        Route::any('list', ['middleware' => 'feature_control:538', 'uses' => 'RequestEmployeeController@indexRequest']);
         Route::any('create', ['middleware' => 'feature_control:537', 'uses' => 'RequestEmployeeController@createRequest']);
         Route::any('detail/{id}', ['middleware' => 'feature_control:539', 'uses' => 'RequestEmployeeController@detailRequest']);
         Route::any('reject/{id}', ['middleware' => 'feature_control:540', 'uses' => 'RequestEmployeeController@rejectRequest']);
+        Route::any('delete/{id}', ['middleware' => 'feature_control:541', 'uses' => 'RequestEmployeeController@deleteRequest']);
     });
 });

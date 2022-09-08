@@ -42,7 +42,7 @@
                         let name    = $(this).data('name');
                         $(this).click(function() {
                             swal({
-                                    title: name+"\n\nAre you sure want to delete this request hair stylist?",
+                                    title: name+"\n\nAre you sure want to delete this request employee?",
                                     text: "Your will not be able to recover this data!",
                                     type: "warning",
                                     showCancelButton: true,
@@ -53,18 +53,18 @@
                                 function(){
                                     $.ajax({
                                         type : "POST",
-                                        url : "{{url('recruitment/hair-stylist/request/delete')}}/"+id,
+                                        url : "{{url('employee/request/delete')}}/"+id,
                                         data : {
                                             '_token' : '{{csrf_token()}}'
                                         },
                                         success : function(response) {
                                             if (response.status == 'success') {
-                                                swal("Deleted!", "Request Hair Stylist has been deleted.", "success")
+                                                swal("Deleted!", "Request employee has been deleted.", "success")
                                                 SweetAlert.init()
-                                                location.href = "{{url('recruitment/hair-stylist/request')}}";
+                                                location.href = "{{url('employee/request/list')}}";
                                             }
                                             else if(response.status == "fail"){
-                                                swal("Error!", "Failed to delete request hair stylist.", "error")
+                                                swal("Error!", "Failed to delete request employee.", "error")
                                             }
                                             else {
                                                 swal("Error!", "Something went wrong. Failed to delete partner.", "error")
@@ -111,8 +111,8 @@
         $date_start = '';
         $date_end = '';
 
-        if(Session::has('filter-list-req-hair-stylist')){
-            $search_param = Session::get('filter-list-req-hair-stylist');
+        if(Session::has('filter-list-req-employee')){
+            $search_param = Session::get('filter-list-req-employee');
             if(isset($search_param['rule'])){
                 $rule = $search_param['rule'];
             }
@@ -124,7 +124,7 @@
     ?>
 
     <form id="form-sorting" action="{{url()->current()}}?filter=1" method="POST">
-        @include('recruitment::request.filter')
+        @include('employee::request.filter')
     </form>
     <br>
   
@@ -132,7 +132,7 @@
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject font-blue sbold uppercase">List Request Hair Stylist</span></span>
+                <span class="caption-subject font-blue sbold uppercase">List Request Employee</span>
             </div>
         </div>
         <div class="portlet-body form">
@@ -142,7 +142,8 @@
                     <div class="col-md-3">
                         <select name="order" class="form-control select2" style="width: 100%">
                             <option value="created_at" @if(isset($order) && $order == 'created_at') selected @endif>Date</option>
-                            <option value="outlet_name" @if(isset($order) && $order == 'outlet_name') selected @endif>Outlet Name</option>
+                            <option value="outlet_name" @if(isset($order) && $order == 'outlet_name') selected @endif>Office Name</option>
+                            <option value="department_name" @if(isset($order) && $order == 'department_name') selected @endif>Department Name</option>
                             <option value="number_of_request" @if(isset($order) && $order == 'number_of_request') selected @endif>Number Of Request</option>
                         </select>
                     </div>
@@ -165,11 +166,12 @@
                         <thead>
                         <tr>
                             <th class="text-nowrap text-center">Created At</th>
-                            <th class="text-nowrap text-center">Outlet Name</th>
+                            <th class="text-nowrap text-center">Office Name</th>
+                            <th class="text-nowrap text-center">Department Name</th>
                             <th class="text-nowrap text-center">Number of Request</th>
                             <th class="text-nowrap text-center">Progress</th>
                             <th class="text-nowrap text-center">Status</th>
-                            @if(MyHelper::hasAccess([379,380,381,382], $grantedFeature))
+                            @if(MyHelper::hasAccess([538,539,540], $grantedFeature))
                             <th class="text-nowrap text-center">Action</th>
                             @endif
                         </tr>
@@ -177,13 +179,14 @@
                         <tbody>
                         @if(!empty($data))
                             @foreach($data as $dt)
-                                <tr data-id="{{ $dt['id_request_hair_stylist'] }}">
+                                <tr data-id="{{ $dt['id_request_employee'] }}">
                                     <td>{{date('d F Y H:i', strtotime($dt['created_at']))}}</td>
                                     <td>{{$dt['outlet_request']['outlet_name']}}</td>
+                                    <td>{{$dt['department_request']['department_name']}}</td>
                                     <td class="text-center">{{$dt['number_of_request']}}</td>
                                     <td class="text-center">{{$dt['count']}} / {{$dt['number_of_request']}}</td>
                                     <td>
-                                        @if($dt['status'] == 'Approve')
+                                        @if($dt['status'] == 'Approved')
                                         <span class="badge" style="background-color: #26C281; color: #ffffff">{{$dt['status']}}</span>
                                         @elseif($dt['status'] == 'Request')
                                         <span class="badge" style="background-color: #e1e445; color: #ffffff">{{$dt['status']}}</span>
@@ -194,11 +197,11 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if(MyHelper::hasAccess([380,381], $grantedFeature))
-                                        <a href="{{ url('recruitment/hair-stylist/request/detail/'.$dt['id_request_hair_stylist']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
+                                        @if(MyHelper::hasAccess([539,540], $grantedFeature))
+                                        <a href="{{ url('employee/request/detail/'.$dt['id_request_employee']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
                                         @endif
-                                        @if(MyHelper::hasAccess([382], $grantedFeature))
-                                        <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $dt['id_request_hair_stylist'] }}" data-name="{{ $dt['applicant_request']['name'] }}"><i class="fa fa-trash-o"></i> Delete</a>
+                                        @if(MyHelper::hasAccess([541], $grantedFeature))
+                                        <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $dt['id_request_employee'] }}" data-name="{{ $dt['applicant_request']['name'] }}"><i class="fa fa-trash-o"></i> Delete</a>
                                         @endif
                                     </td>
                                 </tr>
