@@ -277,7 +277,7 @@ return [
                             'active' => '\View::shared("submenu_active") == "employee-recruitment',
                             'badge'=>[
                                 'type'=>'warning',
-                                'value'=>'employee_candidate',
+                                'value'=>'employee_recruitment',
                             ],
                             'children' => [
                                         [
