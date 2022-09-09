@@ -149,6 +149,7 @@
                 'id_employee' : $('#list_hs').val(),
                 'month' : val,
                 'year' : $('#year').val(),
+                'type_request' : 'overtime'
             };
             listDate(data);
 
@@ -159,6 +160,7 @@
                 'id_employee' : $('#list_hs').val(),
                 'month' : $('#month').val(),
                 'year' : val,
+                'type_request' : 'overtime'
             };
             listDate(data);
         }
