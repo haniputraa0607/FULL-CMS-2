@@ -235,30 +235,6 @@ return [
 						],
 					],
 				],
-                                [
-					'label' => 'Reimbursement Employee',
-					'required_features' => [],
-					'url' => 'employee/reimbursement/manager',
-					'icon' => 'fa fa-users'
-				],
-                                [
-					'label' => 'Director Reimbursement',
-					'required_features' => [528],
-					'url' => 'employee/reimbursement/director',
-					'icon' => 'fa fa-user'
-				],
-                                [
-					'label' => 'HRGA Reimbursement',
-					'required_features' => [529],
-					'url' => 'employee/reimbursement/hrga',
-					'icon' => 'fa fa-user'
-				],
-                                [
-					'label' => 'Finance Reimbursement',
-					'required_features' => [530],
-					'url' => 'employee/reimbursement/finance',
-					'icon' => 'fa fa-user'
-				],
 				[
 					'type' => 'tree',
 					'label' => 'Employee',
@@ -851,6 +827,30 @@ return [
                                                             'required_features' => [481],
                                                             'active' => '\View::shared("child_active") == "employee-reimbursement-history"',
                                                             'url' => 'employee/reimbursement/list'
+                                                        ],
+                                                        [
+                                                                'label' => 'Reimbursement Employee',
+                                                                'required_features' => [],
+                                                                'url' => 'employee/reimbursement/manager',
+                                                                'active' => '\View::shared("child_active") == "employee-reimbursement-manager"',
+                                                        ],
+                                                        [
+                                                                'label' => 'Director Reimbursement',
+                                                                'required_features' => [528],
+                                                                'url' => 'employee/reimbursement/director',
+                                                                'active' => '\View::shared("child_active") == "employee-reimbursement-director"',
+                                                        ],
+                                                        [
+                                                                'label' => 'HRGA Reimbursement',
+                                                                'required_features' => [529],
+                                                                'url' => 'employee/reimbursement/hrga',
+                                                                'active' => '\View::shared("child_active") == "employee-reimbursement-hrga"',
+                                                        ],
+                                                        [
+                                                                'label' => 'Finance Reimbursement',
+                                                                'required_features' => [530],
+                                                                'url' => 'employee/reimbursement/finance',
+                                                                'active' => '\View::shared("child_active") == "employee-reimbursement-finance"',
                                                         ],
                                                     ],
                                         ],

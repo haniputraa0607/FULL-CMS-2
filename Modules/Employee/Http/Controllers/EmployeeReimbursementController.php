@@ -149,6 +149,9 @@ class EmployeeReimbursementController extends Controller
         $data = [
                 'title'          => 'Employee',
                 'sub_title'      => 'Employee Reimbursement Manager',
+                'menu_active'    => 'employee',
+                'submenu_active'   => 'employee-reimbursement',
+                'child_active'   => 'employee-reimbursement-manager',
             ];
             $session = "filter-list-employee-reimbursement-manager";
          if( ($post['rule']??false) && !isset($post['draw']) ){
@@ -249,7 +252,9 @@ class EmployeeReimbursementController extends Controller
         $data = [
                 'title'          => 'Employee',
                 'sub_title'      => 'Employee Reimbursement Pending',
-                'menu_active'    => 'employee-director',
+                'menu_active'    => 'employee',
+                'submenu_active'   => 'employee-reimbursement',
+                'child_active'   => 'employee-reimbursement-director',
             ];
             $session = "filter-list-employee-reimbursement";
          if( ($post['rule']??false) && !isset($post['draw']) ){
@@ -300,7 +305,9 @@ class EmployeeReimbursementController extends Controller
         $data = [
                 'title'          => 'Employee',
                 'sub_title'      => 'Employee Reimbursement Pending',
-                'menu_active'    => 'employee-hrga',
+                'menu_active'    => 'employee',
+                'submenu_active'   => 'employee-reimbursement',
+                'child_active'   => 'employee-reimbursement-hrga',
             ];
             $session = "filter-list-employee-reimbursement";
          if( ($post['rule']??false) && !isset($post['draw']) ){
@@ -351,7 +358,9 @@ class EmployeeReimbursementController extends Controller
         $data = [
                 'title'          => 'Employee',
                 'sub_title'      => 'Employee Reimbursement Pending',
-                'menu_active'    => 'employee-finance',
+                'menu_active'    => 'employee',
+                'submenu_active'   => 'employee-reimbursement',
+                'child_active'   => 'employee-reimbursement-finance',
             ];
             $session = "filter-list-employee-reimbursement";
          if( ($post['rule']??false) && !isset($post['draw']) ){
