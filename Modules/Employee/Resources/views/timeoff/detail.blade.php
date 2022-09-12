@@ -76,7 +76,8 @@
             var id_employee_time_off = {{$result['id_employee_time_off']}};
             var id_outlet = {{$result['outlet']['id_outlet']}};
             var id = {{$result['employee']['id']}};
-            var date = $('#list_date').val();
+            var start_date = $('#list_date_start').val();
+            var end_date = $('#list_date_end').val();
             var time_start = $('input[type=text][name=time_start]').val();
             var time_end = $('input[type=text][name=time_end]').val();
             var use_quota_time_off = null;
@@ -90,7 +91,8 @@
                 'id_employee_time_off' : id_employee_time_off,
                 'id_outlet' : id_outlet,
                 'id_employee' : id,
-                'date' : date,
+                'start_date' : start_date,
+                'end_date' : end_date,
                 'time_start' : time_start,
                 'time_end' : time_end,
                 'use_quota_time_off' : use_quota_time_off,
@@ -116,7 +118,7 @@
                                 location.href = "{{url('employee/timeoff/detail')}}/"+id_employee_time_off;
                             }
                             else if(response.status == "fail"){
-                                swal("Error!", "Failed to approve employee request time off.", "error")
+                                swal("Error!", response.messages, "error")
                             }
                             else {
                                 swal("Error!", "Something went wrong. Failed to approve employee request time off.", "error")
@@ -127,26 +129,28 @@
             );
         }
 
-        function selectMonth(val){
+        function selectMonthStart(val){
             var data = {
-                'id_employee' : $('#list_hs').val(),
+                'id_employee' : {{$result['employee']['id']}},
                 'month' : val,
-                'year' : $('#year').val(),
+                'year' : $('#year_start').val(),
+                'type_request' : 'time_off'
             };
-            listDate(data);
+            listDateStart(data);
 
         }
 
-        function selectYear(val){
+        function selectYearStart(val){
             var data = {
-                'id_user_hair_stylist' : $('#list_hs').val(),
-                'month' : $('#month').val(),
+                'id_employee' : {{$result['employee']['id']}},
+                'month' : $('#month_start').val(),
                 'year' : val,
+                'type_request' : 'time_off'
             };
-            listDate(data);
+            listDateStart(data);
         }
 
-        function listDate(data){
+        function listDateStart(data){
             data['_token'] = '{{csrf_token()}}';
             var list = '<option></option>';
             $.ajax({
@@ -156,26 +160,68 @@
                 success: function(result){
                     if(result['status']=='success'){    
                         var new_result = jQuery.parseJSON(JSON.stringify(result['result']));
-                        $('#list_date').empty();
+                        $('#list_date_start').empty();
                         $.each(new_result, function(i, index) {
                             list += '<option value="'+index.date+'" data-id="'+index.id_employee_schedule+'" data-timestart="'+index.time_start+'" data-timeend="'+index.time_end+'">'+index.date_format+'</option>';
                         });
-                        $('#list_date').append(list);
+                        $('#list_date_start').append(list);
                         $(".select2").select2({
                             placeholder: "Search"
                         });
                     }else if(result['status']=='fail'){
+                        $('#list_date_start').empty();
                         toastr.warning(result['messages']);
                     }
                 }
             });
         }
 
-        $('#list_date').on("change",function(){
-            var value = $(this).val();
-            var id = $("#list_date option:selected").attr('data-id');
-            var type = $('input[type=hidden][name=id_employee_schedule]').val(id);
-        });
+        function selectMonthEnd(val){
+            var data = {
+                'id_employee' : {{$result['employee']['id']}},
+                'month' : val,
+                'year' : $('#year_end').val(),
+                'type_request' : 'time_off'
+            };
+            listDateEnd(data);
+
+        }
+
+        function selectYearEnd(val){
+            var data = {
+                'id_employee' : {{$result['employee']['id']}},
+                'month' : $('#month_end').val(),
+                'year' : val,
+                'type_request' : 'time_off'
+            };
+            listDateEnd(data);
+        }
+
+        function listDateEnd(data){
+            data['_token'] = '{{csrf_token()}}';
+            var list = '<option></option>';
+            $.ajax({
+                type : "POST",
+                url : "{{ url('employee/timeoff/list-date') }}",
+                data : data,
+                success: function(result){
+                    if(result['status']=='success'){    
+                        var new_result = jQuery.parseJSON(JSON.stringify(result['result']));
+                        $('#list_date_end').empty();
+                        $.each(new_result, function(i, index) {
+                            list += '<option value="'+index.date+'" data-id="'+index.id_employee_schedule+'" data-timestart="'+index.time_start+'" data-timeend="'+index.time_end+'">'+index.date_format+'</option>';
+                        });
+                        $('#list_date_end').append(list);
+                        $(".select2").select2({
+                            placeholder: "Search"
+                        });
+                    }else if(result['status']=='fail'){
+                        $('#list_date_end').empty();
+                        toastr.warning(result['messages']);
+                    }
+                }
+            });
+        }
 
         function submitTimeOff(value) {
             var data = $('#update-time-off').serialize();
@@ -259,44 +305,88 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Month <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk bulan yang di pilih" data-container="body"></i></label>
+                        <label for="example-search-input" class="control-label col-md-4">Start Month <span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk bulan mulai cuti" data-container="body"></i></label>
                         <div class="col-md-3">
-                            <select class="form-control select2" name="month" id="month" required onchange="selectMonth(this.value)" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                            <select class="form-control select2" name="month" id="month_start" required onchange="selectMonthStart(this.value)" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
                                 <option value="" selected disabled>Select Month</option>
-                                <option value="1" @if(isset($result['month'])) @if($result['month'] == 1) selected @endif @endif>January</option>
-                                <option value="2" @if(isset($result['month'])) @if($result['month'] == 2) selected @endif @endif>February</option>
-                                <option value="3" @if(isset($result['month'])) @if($result['month'] == 3) selected @endif @endif>March</option>
-                                <option value="4" @if(isset($result['month'])) @if($result['month'] == 4) selected @endif @endif>April</option>
-                                <option value="5" @if(isset($result['month'])) @if($result['month'] == 5) selected @endif @endif>May</option>
-                                <option value="6" @if(isset($result['month'])) @if($result['month'] == 6) selected @endif @endif>June</option>
-                                <option value="7" @if(isset($result['month'])) @if($result['month'] == 7) selected @endif @endif>July</option>
-                                <option value="8" @if(isset($result['month'])) @if($result['month'] == 8) selected @endif @endif>August</option>
-                                <option value="9" @if(isset($result['month'])) @if($result['month'] == 9) selected @endif @endif>September</option>
-                                <option value="10" @if(isset($result['month'])) @if($result['month'] == 10) selected @endif @endif>October</option>
-                                <option value="11" @if(isset($result['month'])) @if($result['month'] == 11) selected @endif @endif>November</option>
-                                <option value="12" @if(isset($result['month'])) @if($result['month'] == 12) selected @endif @endif>December</option>
+                                <option value="1" @if(isset($result['month_start'])) @if($result['month_start'] == 1) selected @endif @endif>January</option>
+                                <option value="2" @if(isset($result['month_start'])) @if($result['month_start'] == 2) selected @endif @endif>February</option>
+                                <option value="3" @if(isset($result['month_start'])) @if($result['month_start'] == 3) selected @endif @endif>March</option>
+                                <option value="4" @if(isset($result['month_start'])) @if($result['month_start'] == 4) selected @endif @endif>April</option>
+                                <option value="5" @if(isset($result['month_start'])) @if($result['month_start'] == 5) selected @endif @endif>May</option>
+                                <option value="6" @if(isset($result['month_start'])) @if($result['month_start'] == 6) selected @endif @endif>June</option>
+                                <option value="7" @if(isset($result['month_start'])) @if($result['month_start'] == 7) selected @endif @endif>July</option>
+                                <option value="8" @if(isset($result['month_start'])) @if($result['month_start'] == 8) selected @endif @endif>August</option>
+                                <option value="9" @if(isset($result['month_start'])) @if($result['month_start'] == 9) selected @endif @endif>September</option>
+                                <option value="10" @if(isset($result['month_start'])) @if($result['month_start'] == 10) selected @endif @endif>October</option>
+                                <option value="11" @if(isset($result['month_start'])) @if($result['month_start'] == 11) selected @endif @endif>November</option>
+                                <option value="12" @if(isset($result['month_start'])) @if($result['month_start'] == 12) selected @endif @endif>December</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Year <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk tahun yang di pilih" data-container="body"></i></label>
+                        <label for="example-search-input" class="control-label col-md-4">Start Year <span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk tahun mulai cuti" data-container="body"></i></label>
                         <div class="col-md-2">
-                            <input class="form-control numberonly" type="text" maxlength="4" id="year" name="year" placeholder="Enter year" value="{{ $result['year'] }}" required onchange="selectYear(this.value)" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif/>
+                            <input class="form-control numberonly" type="text" maxlength="4" id="year_start" name="year" placeholder="Enter year" value="{{ $result['year_start'] }}" required onchange="selectYearStart(this.value)" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Select Date Time Off <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih tanggal karyawan akan izin" data-container="body"></i></label>
+                        <label for="example-search-input" class="control-label col-md-4">Start Date Time Off <span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih tanggal karyawan akan mulai cuti" data-container="body"></i></label>
                         <div class="col-md-3">
                             @if(isset($result['approve_by']) || isset($result['reject_at'])) 
-                            <input type="text" class="datepicker form-control" value="{{ date('d F Y', strtotime($result['date'])) }}" disabled>
+                            <input type="text" class="datepicker form-control" value="{{ date('d F Y', strtotime($result['start_date'])) }}" disabled>
                             @else
-                            <select class="form-control select2" name="date" required id="list_date">
+                            <select class="form-control select2" name="start_date" required id="list_date_start">
                                 <option value="" selected disabled>Select Date</option>
-                                @foreach($result['list_date'] ?? [] as $d => $date)
-                                    <option value="{{$date['date']}}" data-id="{{ $date['id_employee_schedule'] }}" data-timestart="{{ $date['time_start'] }}" data-timeend="{{ $date['time_end'] }}"  @if(isset($result['date'])) @if(date('Y-m-d', strtotime($result['date'])) == date('Y-m-d', strtotime($date['date']))) selected @endif @endif> {{$date['date_format']}}</option>
+                                @foreach($result['start_list_date'] ?? [] as $d => $date)
+                                    <option value="{{$date['date']}}" data-id="{{ $date['id_employee_schedule'] }}" data-timestart="{{ $date['time_start'] }}" data-timeend="{{ $date['time_end'] }}"  @if(isset($result['start_date'])) @if(date('Y-m-d', strtotime($result['start_date'])) == date('Y-m-d', strtotime($date['date']))) selected @endif @endif> {{$date['date_format']}}</option>
+                                @endforeach
+                            </select>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="example-search-input" class="control-label col-md-4">End Month <span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk bulan selesai cuti" data-container="body"></i></label>
+                        <div class="col-md-3">
+                            <select class="form-control select2" name="month" id="month_end" required onchange="selectMonthEnd(this.value)" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                                <option value="" selected disabled>Select Month</option>
+                                <option value="1" @if(isset($result['month_end'])) @if($result['month_end'] == 1) selected @endif @endif>January</option>
+                                <option value="2" @if(isset($result['month_end'])) @if($result['month_end'] == 2) selected @endif @endif>February</option>
+                                <option value="3" @if(isset($result['month_end'])) @if($result['month_end'] == 3) selected @endif @endif>March</option>
+                                <option value="4" @if(isset($result['month_end'])) @if($result['month_end'] == 4) selected @endif @endif>April</option>
+                                <option value="5" @if(isset($result['month_end'])) @if($result['month_end'] == 5) selected @endif @endif>May</option>
+                                <option value="6" @if(isset($result['month_end'])) @if($result['month_end'] == 6) selected @endif @endif>June</option>
+                                <option value="7" @if(isset($result['month_end'])) @if($result['month_end'] == 7) selected @endif @endif>July</option>
+                                <option value="8" @if(isset($result['month_end'])) @if($result['month_end'] == 8) selected @endif @endif>August</option>
+                                <option value="9" @if(isset($result['month_end'])) @if($result['month_end'] == 9) selected @endif @endif>September</option>
+                                <option value="10" @if(isset($result['month_end'])) @if($result['month_end'] == 10) selected @endif @endif>October</option>
+                                <option value="11" @if(isset($result['month_end'])) @if($result['month_end'] == 11) selected @endif @endif>November</option>
+                                <option value="12" @if(isset($result['month_end'])) @if($result['month_end'] == 12) selected @endif @endif>December</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="example-search-input" class="control-label col-md-4">End Year <span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk tahun selesai cuti" data-container="body"></i></label>
+                        <div class="col-md-2">
+                            <input class="form-control numberonly" type="text" maxlength="4" id="year_end" name="year" placeholder="Enter year" value="{{ $result['year_end'] }}" required onchange="selectYearEnd(this.value)" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="example-search-input" class="control-label col-md-4">End Date Time Off <span class="required" aria-required="true">*</span>
+                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih tanggal karyawan akan selesai cuti" data-container="body"></i></label>
+                        <div class="col-md-3">
+                            @if(isset($result['approve_by']) || isset($result['reject_at'])) 
+                            <input type="text" class="datepicker form-control" value="{{ date('d F Y', strtotime($result['end_date'])) }}" disabled>
+                            @else
+                            <select class="form-control select2" name="end_date" required id="list_date_end">
+                                <option value="" selected disabled>Select Date</option>
+                                @foreach($result['end_list_date'] ?? [] as $d => $date)
+                                    <option value="{{$date['date']}}" data-id="{{ $date['id_employee_schedule'] }}" data-timestart="{{ $date['time_start'] }}" data-timeend="{{ $date['time_end'] }}"  @if(isset($result['end_date'])) @if(date('Y-m-d', strtotime($result['end_date'])) == date('Y-m-d', strtotime($date['date']))) selected @endif @endif> {{$date['date_format']}}</option>
                                 @endforeach
                             </select>
                             @endif
@@ -325,7 +415,6 @@
                         </div>
                     </div>
                     @endif
-                    <input type="hidden" name="id_employee_schedule" value="">
                 </div>
                 <div class="form-actions">
                     {{ csrf_field() }}
