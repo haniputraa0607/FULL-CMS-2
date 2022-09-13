@@ -26,6 +26,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'product'
 	Route::any('delete', ['middleware' => 'feature_control:52', 'uses' => 'ProductController@delete']);
 	Route::any('detail/{product_code}', ['middleware' => 'feature_control:49', 'uses' => 'ProductController@detail']);
 	Route::any('detail/{product_code}/delete-commission/{id_commission}', ['middleware' => 'feature_control:49', 'uses' => 'ProductController@deleteCommission']);
+	Route::any('detail/{product_code}/delete-product-commission/{id_commission}', ['middleware' => 'feature_control:49', 'uses' => 'ProductController@deleteProductCommission']);
 	Route::any('submitCommission', ['middleware' => 'feature_control:49', 'uses' => 'ProductController@submitCommission']);
 	Route::post('export/{type}', ['middleware' => ['feature_control:57', 'config_control:11'], 'uses' => 'ProductController@export']);
 	Route::post('import/{type}', ['middleware' => ['feature_control:56', 'config_control:10'], 'uses' => 'ProductController@import']);

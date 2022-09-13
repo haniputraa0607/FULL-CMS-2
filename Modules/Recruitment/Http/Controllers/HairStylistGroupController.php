@@ -319,7 +319,8 @@ class HairStylistGroupController extends Controller
                                   'title'             => 'Hair Stylist Group',
                                   'sub_title'         => 'Detail Hair Stylist Group Commission',
                                   'menu_active'       => 'hair-stylist-group',
-                                  'submenu_active'    => 'detail-hair-stylist-group-commission'
+                                  'submenu_active'    => 'detail-hair-stylist-group-commission',
+                                  'url_group'        => MyHelper::createSlug($query['result']['id_hairstylist_group'],$query['result']['created_at']),
                                 ];
                           $data['result'] = $query['result'];
                           $data['result']['id_hairstylist_group_commission'] = $id;
@@ -337,7 +338,13 @@ class HairStylistGroupController extends Controller
                 }else{
                     return back()->withErrors($query['messages']??'Failed to delete dynamic rule');
                 }
-            }   
+            }
+            
+            public function deleteCommissionProduct($slug, $id){
+                $id_hs_group = MyHelper::explodeSlug($slug)[0]??'';
+                $delete = MyHelper::post('recruitment/hairstylist/be/group/commission/delete',['id_hairstylist_group_commission'=>$id]);
+                return $delete;
+            }
 
 
             public function filter_commission(Request $request)

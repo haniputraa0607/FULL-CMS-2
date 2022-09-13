@@ -71,15 +71,64 @@
             </div>
         </div>
     </div>
-                        
     <div class="form-actions" style="text-align:center;">
         {{ csrf_field() }}
         <button type="submit" class="btn blue" id="checkBtn">Update</button>
+        @if (isset($commission['id_product_commission_default']))
+            <a class="btn red sweetalert-delete" data-id="{{ $commission['id_product_commission_default'] }}" data-name="{{ $product[0]['product_name'] }}"><i class="fa fa-trash-o"></i> Delete</a>
+        @endif
     </div>
 </form>
         
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
+
+    var SweetAlert = function() {
+        return {
+            init: function() {
+                $(".sweetalert-delete").each(function() {
+                    var token  	= "{{ csrf_token() }}";
+                    let column 	= $(this).parents('tr');
+                    let id     	= $(this).data('id');
+                    let name    = $(this).data('name');
+                    $(this).click(function() {
+                        swal({
+                                title: name+"\n\nAre you sure want to delete this product commission?",
+                                text: "Your will not be able to recover this data!",
+                                type: "warning",
+                                showCancelButton: true,
+                                confirmButtonClass: "btn-danger",
+                                confirmButtonText: "Yes, delete it!",
+                                closeOnConfirm: false
+                            },
+                            function(){
+                                $.ajax({
+                                    type : "POST",
+                                    url : "{{url('product/detail')}}/"+"{{ $product[0]['product_code'] }}"+"/delete-product-commission/"+id,
+                                    data : {
+                                        '_token' : '{{csrf_token()}}'
+                                    },
+                                    success : function(response) {
+                                        if (response.status == 'success') {
+                                            swal("Deleted!", "Product commission has been deleted.", "success")
+                                            SweetAlert.init()
+                                            location.href = "{{url('product/detail')}}/"+"{{ $product[0]['product_code'] }}";
+                                        }
+                                        else if(response.status == "fail"){
+                                            swal("Error!", "Failed to delete product commission.", "error")
+                                        }
+                                        else {
+                                            swal("Error!", "Something went wrong. Failed to delete product commission.", "error")
+                                        }
+                                    }
+                                });
+                            });
+                    })
+                })
+            }
+        }
+    }();
+
     var global_price = {{$product[0]['global_price'][0]['product_global_price']??0}};
     var noRule = 0;
     var static = false;

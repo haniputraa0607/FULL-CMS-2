@@ -13,6 +13,7 @@
 	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/clockface/css/clockface.css') }}" rel="stylesheet" type="text/css" />
 	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}" rel="stylesheet" type="text/css" />
 	<link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/css/profile-2.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('page-plugin')
@@ -34,6 +35,7 @@
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/components-multi-select.min.js') }}" type="text/javascript"></script>
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/components-date-time-pickers.min.js') }}" type="text/javascript"></script>
 	<script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/ui-confirmations.min.js') }}" type="text/javascript"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
 	
 @endsection
 
@@ -152,6 +154,7 @@
 					<div class="form-actions" style="text-align:center;">
 						{{ csrf_field() }}
 						<button type="submit" class="btn blue" id="checkBtn">Update</button>
+                        <a class="btn red sweetalert-delete" data-id="{{ $result['id_hairstylist_group_commission'] }}" data-name="{{$result['product_name'].' ('.($result['name_brand']??'No Brand').')'}}"><i class="fa fa-trash-o"></i> Delete</a>
 					</div>
 				</form>
 			</div>
@@ -161,6 +164,55 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script type="text/javascript">
 
+        var SweetAlert = function() {
+            return {
+                init: function() {
+                    $(".sweetalert-delete").each(function() {
+                        var token  	= "{{ csrf_token() }}";
+                        var pathname = window.location.pathname; 
+                        let column 	= $(this).parents('tr');
+                        let id     	= $(this).data('id');
+                        let name    = $(this).data('name');
+                        let url_group = "{{url('recruitment/hair-stylist/group/detail')}}/"+"{{ $url_group }}";
+                        let url_ajax = url_group+"/delete-commission/"+id;
+                        $(this).click(function() {
+                            swal({
+                                    title: name+"\n\nAre you sure want to delete this product commission?",
+                                    text: "Your will not be able to recover this data!",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonClass: "btn-danger",
+                                    confirmButtonText: "Yes, delete it!",
+                                    closeOnConfirm: false
+                                },
+                                function(){
+                                    $.ajax({
+                                        type : "POST",
+                                        url : url_ajax,
+                                        data : {
+                                            '_token' : '{{csrf_token()}}'
+                                        },
+                                        success : function(response) {
+                                            if (response.status == 'success') {
+                                                swal("Deleted!", "Product commission has been deleted.", "success")
+                                                SweetAlert.init()
+                                                location.href = url_group;
+                                            }
+                                            else if(response.status == "fail"){
+                                                swal("Error!", "Failed to delete product commission.", "error")
+                                            }
+                                            else {
+                                                swal("Error!", "Something went wrong. Failed to delete product commission.", "error")
+                                            }
+                                        }
+                                    });
+                                });
+                        })
+                    })
+                }
+            }
+        }();
+        
         var noRule = 0;
         var dynamic = {{ $result['dynamic'] }};
         
@@ -336,11 +388,12 @@
         }
 
         $(document).ready(function () {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
+            SweetAlert.init();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
             });
+        });
         </script>
 @endsection 
