@@ -556,22 +556,25 @@ function myFunction() {
                     <a href="#hs-info" data-toggle="tab"> Info </a>
                 </li>
                 <li @if($detail['status'] == 'candidate') class="active" @endif>
-                        <a href="#candidate-status" data-toggle="tab"> Status Employee </a>
+                    <a href="#candidate-status" data-toggle="tab"> Status Employee </a>
                 </li>
                 <li >
-                        <a href="#contact" data-toggle="tab"> Emergency Contact </a>
+                    <a href="#contact" data-toggle="tab"> Emergency Contact </a>
                 </li>
                 <li >
-                        <a href="#family" data-toggle="tab"> Family </a>
+                    <a href="#family" data-toggle="tab"> Family </a>
                 </li>
                 <li >
-                        <a href="#education" data-toggle="tab"> Education </a>
+                    <a href="#education" data-toggle="tab"> Education </a>
                 </li>
                 <li >
-                        <a href="#job-experience" data-toggle="tab"> Job Experience</a>
+                    <a href="#job-experience" data-toggle="tab"> Job Experience</a>
                 </li>
                 <li >
-                        <a href="#question" data-toggle="tab"> Question</a>
+                    <a href="#question" data-toggle="tab"> Question</a>
+                </li>
+                <li >
+                    <a href="#custom-link" data-toggle="tab"> Custom Link</a>
                 </li>
             </ul>
         </div>
@@ -1319,10 +1322,13 @@ function myFunction() {
                         
                     </div>
                     <div class="tab-pane" id="question">
-			@include('employee::employee.question')
+			            @include('employee::employee.question')
                     </div>
                     <div class="tab-pane" id="contact">
-			@include('employee::employee.contact')
+			            @include('employee::employee.contact')
+                    </div>
+                    <div class="tab-pane" id="custom-link">
+			            @include('employee::employee.customlink')
                     </div>
 		</div>
     </div>

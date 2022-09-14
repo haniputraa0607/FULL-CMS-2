@@ -182,6 +182,7 @@ class RecruitmentEmployeeController extends Controller
             $data['bank'] = MyHelper::get('employee/be/recruitment/bank')['result'] ?? [];
             $data['cities'] = MyHelper::get('city/list')['result']??[];
             $data['departments'] = MyHelper::post('users/department',$request->all())['result']??[];
+            // return $data;
             return view('employee::employee.detail', $data);
         }else{
             return redirect('employee/recruitment/candidate')->withErrors($store['messages']??['Failed get detail candidate']);
@@ -274,5 +275,15 @@ class RecruitmentEmployeeController extends Controller
     public function manager(Request $request){
         $post = $request->except('_token');
         return $update = MyHelper::post('employee/be/recruitment/manager',$post)['result']??[];
+    }
+
+    public function deleteCustomLink($id){
+        return $update = MyHelper::post('employee/be/recruitment/delete-custom-link', ['id_employee_custom_link' => $id]);
+    }
+
+    public function addCustomLink(Request $request, $id_employee){
+        $post = $request->except('_token');
+        $post['id_employee'] = $id_employee;
+        return $update = MyHelper::post('employee/be/recruitment/add-custom-link', $post);
     }
 }
