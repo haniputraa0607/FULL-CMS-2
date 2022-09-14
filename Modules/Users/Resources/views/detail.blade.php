@@ -1328,7 +1328,19 @@
 													</label>
 												</div>
 											</div>
-
+                                                                                        <div class="form-group">
+												<label class="control-label">Outlet Account</label>
+												<div class="mt-radio-inline">
+													<label class="mt-radio">
+														<input type="radio" name="custom_name" id="custom_name1" value="1" @if($profile['custom_name'] == '1') checked @endif > Yes
+														<span></span>
+													</label>
+													<label class="mt-radio">
+														<input type="radio" name="custom_name" id="custom_name2" value="0" @if($profile['custom_name'] == '0') checked @endif> No
+														<span></span>
+													</label>
+												</div>
+											</div>
 											@if ($profile['level'] != 'Customer')
                                                 <div class="form-group" id="select_department">
                                                     <label class="control-label">Outlet</label>
