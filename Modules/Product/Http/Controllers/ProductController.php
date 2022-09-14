@@ -1773,5 +1773,10 @@ class ProductController extends Controller
         }else{
             return back()->withErrors($query['messages']??'Failed to delete dynamic rule');
         }
+    } 
+
+    public function deleteProductCommission($id, $id_default_commission){
+        $delete = MyHelper::post('product/be/commission/delete-product',['id_product_commission_default'=>$id_default_commission]);
+        return $delete;
     }   
 }

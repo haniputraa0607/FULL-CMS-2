@@ -1,9 +1,63 @@
 @yield('filter_commission')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     var noRule = 0;
 
     var static = false;
     
+    var SweetAlert = function() {
+        return {
+            init: function() {
+                $(".sweetalert-delete").each(function() {
+                    var token  	= "{{ csrf_token() }}";
+                    var pathname = window.location.pathname; 
+                    let column 	= $(this).parents('tr');
+                    let id     	= $(this).data('id');
+                    let name    = $(this).data('name');
+                    let url_current = "{{ url()->current() }}#status";
+                    console.log(url_current);
+                    $(this).click(function() {
+                        swal({
+                                title: name+"\n\nAre you sure want to delete this product commission?",
+                                text: "Your will not be able to recover this data!",
+                                type: "warning",
+                                showCancelButton: true,
+                                confirmButtonClass: "btn-danger",
+                                confirmButtonText: "Yes, delete it!",
+                                closeOnConfirm: false
+                            },
+                            function(){
+                                $.ajax({
+                                    type : "POST",
+                                    url : "{{ url()->current() }}/delete-commission/"+id,
+                                    data : {
+                                        '_token' : '{{csrf_token()}}'
+                                    },
+                                    success : function(response) {
+                                        if (response.status == 'success') {
+                                            swal("Deleted!", "Product commission has been deleted.", "success")
+                                            SweetAlert.init()
+                                            location.href = url_current;
+                                        }
+                                        else if(response.status == "fail"){
+                                            swal("Error!", "Failed to delete product commission.", "error")
+                                        }
+                                        else {
+                                            swal("Error!", "Something went wrong. Failed to delete product commission.", "error")
+                                        }
+                                    }
+                                });
+                            });
+                    })
+                })
+            }
+        }
+    }();
+    
+    jQuery(document).ready(function() {
+        SweetAlert.init()
+    });
+
     function addRule(){
         var id_percent =  $("input[name='percent']:checked").val();
         var id_product     	=  $('#id_product').find(':selected').data('id');
@@ -210,7 +264,7 @@
                                             @if(!empty($commission['data']))
                                             @foreach($commission['data'] as $dt)
                                             <tr style="text-align: center" data-id="{{ $dt['id_hairstylist_group_commission'] }}">
-                                                    <td>{{$dt['product_name']}}</td>
+                                                    <td>{{$dt['product_name'].' ('.($dt['name_brand']??'No Brand').')'}}</td>
                                                     <td><input disabled  type="checkbox" class="make-switch brand_visibility" data-size="small" data-on-color="info" data-on-text="Percent" data-off-color="default" data-off-text="Nominal" value="1" {{$dt['percent']?'checked':''}}></td>
                                                     <td>
                                                         @if ($dt['dynamic']==1)
@@ -223,7 +277,10 @@
                                                             @endif
                                                         @endif
                                                     </td>
-                                                    <td><a href="{{ url('/recruitment/hair-stylist/group/commission/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a></td>
+                                                    <td>
+                                                        <a href="{{ url('/recruitment/hair-stylist/group/commission/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
+                                                        <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $dt['id_hairstylist_group_commission'] }}" data-name="{{$dt['product_name'].' ('.($dt['name_brand']??'No Brand').')'}}"><i class="fa fa-trash-o"></i> Delete</a>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         @else
@@ -254,7 +311,7 @@
                                             <option value="" selected disabled></option></option>
                                             @if(isset($product))
                                                 @foreach($product as $row)
-                                                        <option value="{{$row['id_product']}}" data-id="{{$row['price']}}">{{$row['product_name']}}</option>
+                                                        <option value="{{$row['id_product']}}" data-id="{{$row['price']}}">{{ $row['product_name'].' ('.($row['brands'][0]['name_brand']??'No Brand').')' }}</option>
                                                 @endforeach
                                             @endif
                                         </select>

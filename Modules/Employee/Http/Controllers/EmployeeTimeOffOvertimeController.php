@@ -131,9 +131,12 @@ class EmployeeTimeOffOvertimeController extends Controller
         $result = MyHelper::post('employee/timeoff/detail', ['id_employee_time_off' => $id]);
         if(isset($result['status']) && $result['status'] == 'success'){
             $data['result'] = $result['result']['time_off'];
-            $data['result']['month'] = date('m', strtotime( $data['result']['date']));
-            $data['result']['year'] = date('Y', strtotime( $data['result']['date']));
-            $data['result']['list_date'] = MyHelper::post('employee/timeoff/list-date', ['id_employee' => $data['result']['employee']['id'],'month' => $data['result']['month'],'year' => $data['result']['year']])['result'] ?? [];
+            $data['result']['month_start'] = date('m', strtotime( $data['result']['start_date']));
+            $data['result']['year_start'] = date('Y', strtotime( $data['result']['start_date']));
+            $data['result']['start_list_date'] = MyHelper::post('employee/timeoff/list-date', ['id_employee' => $data['result']['employee']['id'],'month' => $data['result']['month_start'],'year' => $data['result']['year_start'],'type_request' => 'time_off'])['result'] ?? [];
+            $data['result']['month_end'] = date('m', strtotime( $data['result']['end_date']));
+            $data['result']['year_end'] = date('Y', strtotime( $data['result']['end_date']));
+            $data['result']['end_list_date'] = MyHelper::post('employee/timeoff/list-date', ['id_employee' => $data['result']['employee']['id'],'month' => $data['result']['month_end'],'year' => $data['result']['year_end'],'type_request' => 'time_off'])['result'] ?? [];
             // return $data;
             return view('employee::timeoff.detail', $data);
         }else{
@@ -274,7 +277,7 @@ class EmployeeTimeOffOvertimeController extends Controller
             $data['result'] = $result['result']['time_off'];
             $data['result']['month'] = date('m', strtotime( $data['result']['date']));
             $data['result']['year'] = date('Y', strtotime( $data['result']['date']));
-            $data['result']['list_date'] = MyHelper::post('employee/timeoff/list-date', ['id_employee' => $data['result']['employee']['id'],'month' => $data['result']['month'],'year' => $data['result']['year']])['result'] ?? [];
+            $data['result']['list_date'] = MyHelper::post('employee/timeoff/list-date', ['id_employee' => $data['result']['employee']['id'],'month' => $data['result']['month'],'year' => $data['result']['year'],'type_request' => 'overtime'])['result'] ?? [];
             $time = MyHelper::post('employee/timeoff/list-date', ['id_employee' => $data['result']['employee']['id'],'month' => $data['result']['month'],'year' => $data['result']['year'], 'date' => $data['result']['date'], 'type' => 'getDetail'])['result'] ?? [];
             // return $data;
             return view('employee::overtime.detail', $data);
