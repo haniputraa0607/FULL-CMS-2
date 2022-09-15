@@ -15,7 +15,6 @@
                     let id     	= $(this).data('id');
                     let name    = $(this).data('name');
                     let url_current = "{{ url()->current() }}#status";
-                    console.log(url_current);
                     $(this).click(function() {
                         swal({
                                 title: name+"\n\nAre you sure want to delete this product commission?",

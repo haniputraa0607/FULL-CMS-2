@@ -45,6 +45,8 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
         Route::any('detail/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@detail']);
         Route::any('candidate', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@candidate']);
         Route::any('candidate/detail/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@detailcandidate']);
+        Route::any('candidate/detail/{id}/add-custom-link', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@addCustomLink']);
+        Route::any('candidate/delete-custom-link/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@deleteCustomLink']);
         Route::any('update/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@update']);
         Route::post('complement/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@complement']);
         Route::any('reject/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@reject']);
