@@ -78,31 +78,31 @@
             <button class="btn green" type="button" onclick="addNewLink()">Add Custom Link</button>
         </div>
         <br>
-        <div style="white-space: nowrap;">
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered table-hover" id="div_costum_rule">
-                    <thead>
-                    <tr>
-                        <th class="text-nowrap text-center col-md-4">Title</th>
-                        <th class="text-nowrap text-center col-md-7">Link</th>
-                        <th class="text-nowrap text-center col-md-1">Delete</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        @if (!empty($detail['employee']['custom_links']))
-                            @foreach ($detail['employee']['custom_links'] ?? [] as $key => $custom_link)
-                                <tr data-id="{{ $custom_link['id_employee_custom_link'] }}">
-                                    <td>{{$custom_link['title']}}</td>
-                                    <td>{{$custom_link['link']}}</td>
-                                    <td class="text-center">
-                                        <a class="btn btn-danger btn" onclick="deleteRule({{ $custom_link['id_employee_custom_link'] }})">&nbsp;<i class="fa fa-trash"></i></a>    
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @endif
-                    </tbody>
-                </table>
-            </div>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover" id="div_costum_rule">
+                <thead>
+                <tr>
+                    <th class="text-nowrap text-center col-md-2">Title</th>
+                    <th class="text-nowrap text-center col-md-9">Link</th>
+                    <th class="text-nowrap text-center col-md-1">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                    @if (!empty($detail['employee']['custom_links']))
+                        @foreach ($detail['employee']['custom_links'] ?? [] as $key => $custom_link)
+                            <tr data-id="{{ $custom_link['id_employee_custom_link'] }}">
+                                <td>{{$custom_link['title']}}</td>
+                                <td style="word-break: break-all; !important">
+                                    <a href="{{ $custom_link['link']??'' }}" target="_blank">{{$custom_link['link']}}</a>
+                                </td>
+                                <td class="text-center">
+                                    <a class="btn btn-danger btn" onclick="deleteRule({{ $custom_link['id_employee_custom_link'] }})">&nbsp;<i class="fa fa-trash"></i></a>    
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
+                </tbody>
+            </table>
         </div>
 
     </div>
