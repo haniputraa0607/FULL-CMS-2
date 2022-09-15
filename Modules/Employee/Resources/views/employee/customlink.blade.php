@@ -1,45 +1,50 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
-    
-    // @if(!is_array($detail['employee']['custom_links']) || count($detail['employee']['custom_links']) <= 0)
-	//     var noLink = 1;
-	// @else
-	//     var noLink = {{count($detail['employee']['custom_links'])}};
-	// @endif
 
     function addNewLink(){
         $('#formNewCustomLink').modal('show');
-        $('#formNewCustomLink').trigger('reset');
-        $('#submit_new_link').click(function(){
-            var title = $('#custom_link_new_title').val();
-            var link = $('#custom_link_new_link').val();
-            if(title == '' || link == ''){
-                toastr.warning('Incompleted Data');
-            }else{
-                $.ajax({
-                    type : "POST",
-                    url : "{{url('employee/recruitment/candidate/detail')}}/"+"{{ $detail['id_employee'] }}/add-custom-link",
-                    data : {
-                        '_token'      : '{{csrf_token()}}',
-                        'id_employee' : {{ $detail['id_employee'] }},
-                        'title'       : title,
-                        'link'        : link,
-                    },
-                    success : function(response) {
-                        // if (response.status == 'success') {
-                        //     toastr.success('Success to delete custom link');
-                        //     $(`#div_costum_rule tr[data-id=${id}]`).remove();
-                        // }else {
-                        //     toastr.warning('Failed to delete custom link');
-                        // }
-                        // $('#custom_link_new_title').val('');
-                        // $('#custom_link_new_link').val('');
+    }
+
+    function submitModal(){
+        var title = $('#custom_link_new_title').val();
+        var link = $('#custom_link_new_link').val();
+        console.log([title,link]);
+        if(title == '' || link == ''){
+            toastr.warning('Incompleted Data');
+        }else{
+            $.ajax({
+                type : "POST",
+                url : "{{url('employee/recruitment/candidate/detail')}}/"+"{{ $detail['id_employee'] }}/add-custom-link",
+                data : {
+                    '_token'      : '{{csrf_token()}}',
+                    'id_employee' : {{ $detail['id_employee'] }},
+                    'title'       : title,
+                    'link'        : link,
+                },
+                success : function(response) {
+                    if (response.status == 'success') {
+                        var row = `
+                            <tr data-id="${response.result.id_employee_custom_link}">
+                                <td>${response.result.title}</td>
+                                <td>${response.result.link}</td>
+                                <td class="text-center">
+                                    <a class="btn btn-danger btn" onclick="deleteRule(${response.result.id_employee_custom_link})">&nbsp;<i class="fa fa-trash"></i></a>    
+                                </td>
+                            </tr>
+                        `;
+
+                        $('#div_costum_rule tbody').append(row);
+                        toastr.success('Success to add custom link');
+                    }else {
+                        toastr.warning('Failed to add custom link');
                     }
-                });
-                
-                $('#formNewCustomLink').modal('hide');
-            }
-        });
+                    $('#custom_link_new_title').val('');
+                    $('#custom_link_new_link').val('http://');
+                }
+            });
+            
+            $('#formNewCustomLink').modal('hide');
+        }
     }
 
     function deleteRule(id) {
@@ -117,7 +122,7 @@
             </div>
         </div>
         <div class="modal-body">
-            <form class="form-horizontal">
+            <form class="form-horizontal" action="javascript:submitModal()" method="post" role="form" id="modalCustomLink">
                 <div class="form-group">
                     <label for="example-search-input" class="control-label col-md-2">Title <span class="required" aria-required="true">*</span></label>
                     <div class="col-md-5">
@@ -127,13 +132,13 @@
                 <div class="form-group">
                     <label for="example-search-input" class="control-label col-md-2">Link <span class="required" aria-required="true">*</span></label>
                     <div class="col-md-10">
-                            <input class="form-control" type="text" id="custom_link_new_link" name="link" placeholder="Enter New Link Here" required/>
+                            <input class="form-control" type="url" id="custom_link_new_link" name="link" placeholder="https://example.com" value="http://" required/>
                     </div>
                 </div>    
             <div class="modal-footer form-actions">
                 {{ csrf_field() }}
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn blue" id="submit_new_link">Submit</button>
+                <button type="submit" class="btn blue" id="submit_new_link">Submit</button>
             </div>
             </form>
         </div>
