@@ -949,7 +949,7 @@ class UsersController extends Controller
 
 		$data['roles'] = MyHelper::get('users/role/list-all')['result'] ?? [];
         $data['outlets'] = MyHelper::get('outlet/be/list?log_save=0')['result'] ?? [];
-
+        
         if (empty(Session::get('secure')) || Session::get('secure_last_activity') < (time() - 900)) {
             $data = [ 'title'             => 'User',
                 'menu_active'       => 'user',
