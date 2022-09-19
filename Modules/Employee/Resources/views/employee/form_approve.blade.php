@@ -124,7 +124,7 @@
                                     <i class="fa fa-question-circle tooltips" data-original-title="Jabatan admin" data-container="body"></i>
 				</label>
 				<div class="col-md-6">
-					<select name="id_role" class="form-control input-sm select2" data-placeholder="Search Role" required>
+					<select name="id_role" id="id_role" class="form-control input-sm select2" data-placeholder="Search Role" required>
                                             <option></option>
                                             @foreach($roles as $key => $val)
                                                 <option value="{{ $val['id_role'] }}" >{{ $val['role_name'] }}</option>
@@ -133,25 +133,12 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label  class="control-label col-md-4">Department
-                                    <span class="required" aria-required="true"> * </span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Department dalam satu office" data-container="body"></i>
-				</label>
-				<div class="col-md-6">
-					<select onchange="manager()" id="id_department" name="id_department" class="form-control input-sm select2" data-placeholder="Search Department" required>
-                                            <option></option>
-                                            @foreach($departments as $key => $val)
-                                                <option value="{{ $val['id_department'] }}" >{{ $val['department_name'] }}</option>
-                                            @endforeach
-                                        </select>
-				</div>
-			</div>
-			<div class="form-group">
 				<label  class="control-label col-md-4">Manager
+				<span class="required" aria-required="true" id="required_manager"> * </span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Manager dalam satu kantor sesuai department" data-container="body"></i>
 				</label>
 				<div class="col-md-6">
-					<select name="id_manager" id="id_manager" class="form-control input-sm select2" data-placeholder="Search Manager">
+					<select name="id_manager" id="id_manager" class="form-control input-sm select2" data-placeholder="Search Manager" >
                                         </select>
 				</div>
 			</div>

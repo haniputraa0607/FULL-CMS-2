@@ -247,11 +247,20 @@ function myFunction() {
                 if(val == 'Permanent'){
                         $("#show_end").hide();
                         $('#end_date').prop('required', false);
+                        $("#required_manager").hide();
+                        $('#id_manager').prop('required', false);
                 }else{
                         $("#show_start").show();
                         $("#show_end").show();
                         $('#start_date').prop('required', true);
                         $('#end_date').prop('required', true);
+                        if(val == 'Contract'){
+                                $("#required_manager").hide();
+                                $('#id_manager').prop('required', false);
+                        }else{
+                                $("#required_manager").show();
+                                $('#id_manager').prop('required', true);
+                        }
                 }
         }
         function submitScore() {
@@ -396,11 +405,11 @@ function myFunction() {
         
         function manager() {
               var office = $('#id_outlet').val();
-              var department = $('#id_department').val();
-              if(office != "" && department != ""){
+              var role = $('#id_role').val();
+              if(office != "" && role != ""){
                   var data = {
                         "id_outlet": office,
-                        "id_department": department,
+                        "id_role": role,
                         "_token":"{{csrf_token()}}"
                     };
                     
@@ -1159,9 +1168,18 @@ function myFunction() {
                                                     <li @if($detail['status_approved'] == 'Contract') class="active" @endif>
                                                             <a  @if(in_array($detail['status_approved'], ['Contract','Approved','Success'])) data-toggle="tab" href="#approved" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Approve</a>
                                                     </li>
+                                                    @if ($detail['status_employee'] == 'Probation')
+                                                    <li @if($detail['status_approved'] == 'Approved') class="active" @endif>
+                                                        <a  @if(in_array($detail['status_approved'], ['Approved','Success'])) data-toggle="tab" href="#probation-value" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Probation Value</a>
+                                                    </li>
+                                                    <li @if($detail['status_approved'] == 'Probation Value' || $detail['status_approved'] == 'Success' ) class="active" @endif>
+                                                        <a  @if(in_array($detail['status_approved'], ['Probation Value','Success'])) data-toggle="tab" href="#bank" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Data Complement</a>
+                                                    </li>
+                                                    @else        
                                                     <li @if($detail['status_approved'] == 'Approved' ||$detail['status_approved'] == 'Success' ) class="active" @endif>
                                                             <a  @if(in_array($detail['status_approved'], ['Approved','Success'])) data-toggle="tab" href="#bank" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Data Complement</a>
                                                     </li>
+                                                    @endif
 
                                             </ul>
                                     </div>
@@ -1185,9 +1203,18 @@ function myFunction() {
                                                     <div class="tab-pane @if($detail['status_approved'] == 'Contract') active @endif" id="approved">
                                                             @include('employee::employee.form_approve')
                                                     </div>
+                                                    @if ($detail['status_employee'] == 'Probation')
+                                                    <div class="tab-pane @if($detail['status_approved'] == 'Approved') active @endif" id="probation-value">
+                                                        @include('employee::employee.form_probation_value')
+                                                    </div>
+                                                    <div class="tab-pane @if($detail['status_approved'] == 'Probation Value'||$detail['status_approved'] == 'Success') active @endif" id="bank">
+                                                        @include('employee::employee.form_document_bank')
+                                                    </div>
+                                                    @else
                                                     <div class="tab-pane @if($detail['status_approved'] == 'Approved'||$detail['status_approved'] == 'Success') active @endif" id="bank">
                                                             @include('employee::employee.form_document_bank')
                                                     </div>
+                                                    @endif
 
                                             </div>
                                     </div>
