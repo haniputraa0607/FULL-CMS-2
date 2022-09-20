@@ -58,7 +58,7 @@ $id_product = $product[0]['id_product'];
   <input type="hidden" name="type" value="product_special_price">
 </form>
 @if ($outletSpecialPricePaginator)
-	{{ $outletSpecialPricePaginator->fragment('outletpricesetting')->links() }}
+	{{ $outletSpecialPricePaginator->fragment('outletpricesetting')->appends(['type' => 'product_special_price'])->links() }}
 @endif
 @else
 	<h5><b>Don't Have Outlet Special Price</b></h5>
