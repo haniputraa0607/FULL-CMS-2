@@ -26,6 +26,14 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'hair-sty
         Route::post('update/{id}', 'HairStylistController@categoryDetail');
         Route::post('delete/{id}', 'HairStylistController@categoryDelete');
     });
+    Route::group(['prefix' => 'holiday'], function(){
+        Route::get('/', 'HairStylistHolidayController@index');
+        Route::post('/create', 'HairStylistHolidayController@create');
+        Route::post('/update', 'HairStylistHolidayController@update');
+        Route::get('/detail/{id}', 'HairStylistHolidayController@detail');
+        Route::get('/delete/{id}', 'HairStylistHolidayController@delete');
+        Route::get('/generate', 'HairStylistHolidayController@generate');
+    });
 });
 
 Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'recruitment/hair-stylist'], function()
