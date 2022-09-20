@@ -154,7 +154,7 @@ function myFunction() {
             banks('#banks');
             number('#phone_emergency_contact');
             SweetAlert.init()
-            @if($detail['status_employee']==1)
+            @if($detail['status_employee']=='Permanent')
                $("#show_end").hide();
                $('#end_date').prop('required', false);
             @endif
@@ -211,19 +211,6 @@ function myFunction() {
                         $('#pinapp2').prop('required', true);
                 }
         }
-        function changeStatusEmployee() {
-                if(document.getElementById('status_employee').checked){
-                        $("#show_start").hide();
-                        $("#show_end").hide();
-                        $('#start_date').prop('required', false);
-                        $('#end_date').prop('required', false);
-                }else{
-                        $("#show_start").show();
-                        $("#show_end").show();
-                        $('#start_date').prop('required', true);
-                        $('#end_date').prop('required', true);
-                }
-        }
         function submitScore() {
                 $("#list_data_training").hide();
                 $("#form_data_training").show();
@@ -256,15 +243,24 @@ function myFunction() {
                         $('#pinapp2').prop('required', true);
                 }
         }
-        function changeStatusEmployee() {
-                if(document.getElementById('status_employee').checked){
+        function changeStatusEmployee(val) {
+                if(val == 'Permanent'){
                         $("#show_end").hide();
                         $('#end_date').prop('required', false);
+                        $("#required_manager").hide();
+                        $('#id_manager').prop('required', false);
                 }else{
                         $("#show_start").show();
                         $("#show_end").show();
                         $('#start_date').prop('required', true);
                         $('#end_date').prop('required', true);
+                        if(val == 'Contract'){
+                                $("#required_manager").hide();
+                                $('#id_manager').prop('required', false);
+                        }else{
+                                $("#required_manager").show();
+                                $('#id_manager').prop('required', true);
+                        }
                 }
         }
         function submitScore() {
@@ -366,6 +362,26 @@ function myFunction() {
 
                 validationConclusion(id, 1);
         }
+
+        $('#start_date').on('change',function(){
+            var status_employee = $('#status_employee').val();
+            if(status_employee == 'Probation'){
+                var probation = {{ $detail['duration_probation'] }};
+                var start_date = $('#start_date').val();
+                var end_date = new Date(start_date);
+                end_date.setMonth(end_date.getMonth() + parseInt(probation));
+                end_date = end_date.toLocaleDateString();
+                end_date = end_date.split("/");
+                if(end_date[0]<10){
+                    end_date[0] = '0'+end_date[0];
+                }
+                if(end_date[1]<10){
+                    end_date[1] = '0'+end_date[1];
+                }
+                $('#end_date').val(end_date[2]+'-'+end_date[0]+'-'+end_date[1]);
+            }
+        });
+
         
         function validationConclusion(id, not_check = 0) {
                 var score = $('#conclusion_score_'+id).val();
@@ -389,11 +405,11 @@ function myFunction() {
         
         function manager() {
               var office = $('#id_outlet').val();
-              var department = $('#id_department').val();
-              if(office != "" && department != ""){
+              var role = $('#id_role').val();
+              if(office != "" && role != ""){
                   var data = {
                         "id_outlet": office,
-                        "id_department": department,
+                        "id_role": role,
                         "_token":"{{csrf_token()}}"
                     };
                     
@@ -595,17 +611,21 @@ function myFunction() {
                                                             @elseif($detail['status'] == 'inactive')
                                                                     <span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: #E7505A;padding: 5px 12px;color: #fff;">Inactive</span>
                                                             @else
-                                                                    <span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: #faf21e;padding: 5px 12px;color: #fff;">{{$detail['status_approved'] }}</span>
+                                                                    <span class="sbold badge badge-pill" style="font-size: 14px!important;height: 25px!important;background-color: #faf21e;padding: 5px 12px;color: #fff;">{{ $detail['status_approved'] ?? 'Not Set' }}</span>
                                                             @endif
                                                     </div>
                                             </div>
                                             <div class="form-group">
 							<label class="col-md-4 control-label">Status Contract</label>
 							<div class="col-md-6" style="margin-top: 0.7%">
-								@if($detail['status_employee']==1)
-									Karyawan Tetap
-								@else
-									Karyawan Kontrak
+								@if($detail['status_employee']=='Permanent')
+									Permanent Employees
+								@elseif($detail['status_employee']=='Contract')
+									Contract Employees
+                                                                @elseif($detail['status_employee']=='Probation')
+									Probation Employees
+                                                                @else
+                                                                        Not Set
 								@endif
 							</div>
 						</div>
@@ -621,14 +641,14 @@ function myFunction() {
 								@endif
 							</div>
 						</div>
-                                            @if($detail['status_employee']==1)
+                                            @if($detail['status_employee']=='Permanent')
                                             <div class="form-group">
-							<label class="col-md-4 control-label">Start Working</label>
-							<div class="col-md-6" style="margin-top: 0.7%">
-								{{date('d M Y ', strtotime($detail['start_date']))}}
-							</div>
-						</div>
-                                            @else
+                                                <label class="col-md-4 control-label">Start Working</label>
+                                                <div class="col-md-6" style="margin-top: 0.7%">
+                                                        {{date('d M Y ', strtotime($detail['start_date']))}}
+                                                </div>
+                                            </div>
+                                            @elseif($detail['status_employee']=='Contract')
                                             <div class="form-group">
 							<label class="col-md-4 control-label">Start Contract</label>
 							<div class="col-md-6" style="margin-top: 0.7%">
@@ -637,6 +657,19 @@ function myFunction() {
 						</div>
                                             <div class="form-group">
 							<label class="col-md-4 control-label">End Contract</label>
+							<div class="col-md-6" style="margin-top: 0.7%">
+								{{date('d M Y', strtotime($detail['end_date']))}}
+							</div>
+						</div>
+                                            @elseif($detail['status_employee']=='Probation')
+                                            <div class="form-group">
+							<label class="col-md-4 control-label">Start Probation</label>
+							<div class="col-md-6" style="margin-top: 0.7%">
+								{{date('d M Y', strtotime($detail['start_date']))}}
+							</div>
+						</div>
+                                            <div class="form-group">
+							<label class="col-md-4 control-label">End Probation</label>
 							<div class="col-md-6" style="margin-top: 0.7%">
 								{{date('d M Y', strtotime($detail['end_date']))}}
 							</div>
@@ -1135,9 +1168,18 @@ function myFunction() {
                                                     <li @if($detail['status_approved'] == 'Contract') class="active" @endif>
                                                             <a  @if(in_array($detail['status_approved'], ['Contract','Approved','Success'])) data-toggle="tab" href="#approved" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Approve</a>
                                                     </li>
+                                                    @if ($detail['status_employee'] == 'Probation')
+                                                    <li @if($detail['status_approved'] == 'Approved') class="active" @endif>
+                                                        <a  @if(in_array($detail['status_approved'], ['Approved','Success'])) data-toggle="tab" href="#probation-value" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Probation Value</a>
+                                                    </li>
+                                                    <li @if($detail['status_approved'] == 'Probation Value' || $detail['status_approved'] == 'Success' ) class="active" @endif>
+                                                        <a  @if(in_array($detail['status_approved'], ['Probation Value','Success'])) data-toggle="tab" href="#bank" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Data Complement</a>
+                                                    </li>
+                                                    @else        
                                                     <li @if($detail['status_approved'] == 'Approved' ||$detail['status_approved'] == 'Success' ) class="active" @endif>
                                                             <a  @if(in_array($detail['status_approved'], ['Approved','Success'])) data-toggle="tab" href="#bank" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Data Complement</a>
                                                     </li>
+                                                    @endif
 
                                             </ul>
                                     </div>
@@ -1161,9 +1203,18 @@ function myFunction() {
                                                     <div class="tab-pane @if($detail['status_approved'] == 'Contract') active @endif" id="approved">
                                                             @include('employee::employee.form_approve')
                                                     </div>
+                                                    @if ($detail['status_employee'] == 'Probation')
+                                                    <div class="tab-pane @if($detail['status_approved'] == 'Approved') active @endif" id="probation-value">
+                                                        @include('employee::employee.form_probation_value')
+                                                    </div>
+                                                    <div class="tab-pane @if($detail['status_approved'] == 'Probation Value'||$detail['status_approved'] == 'Success') active @endif" id="bank">
+                                                        @include('employee::employee.form_document_bank')
+                                                    </div>
+                                                    @else
                                                     <div class="tab-pane @if($detail['status_approved'] == 'Approved'||$detail['status_approved'] == 'Success') active @endif" id="bank">
                                                             @include('employee::employee.form_document_bank')
                                                     </div>
+                                                    @endif
 
                                             </div>
                                     </div>

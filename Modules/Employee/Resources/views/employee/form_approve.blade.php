@@ -2,67 +2,73 @@
 	<form class="form-horizontal" id="form_approve" role="form" action="{{url('employee/recruitment/update/'.$detail['id_employee'])}}" method="post" enctype="multipart/form-data">
 		<div class="form-body">
 			<div style="text-align: center"><h3>Approve Action</h3></div>
-                        <hr style="border-top: 2px dashed;">
-			
-                        <div class="form-group">
+			<hr style="border-top: 2px dashed;">
+
+			<div class="form-group">
 				<label  class="control-label col-md-4">Type Contract Employee
 					<i class="fa fa-question-circle tooltips" data-original-title="Jika di centang maka sebegai karyawan tetap, jika tidak maka sebagai karyawan kontrak" data-container="body"></i>
 				</label>
 				<div class="col-md-4">
-                                    <input type="checkbox" class="make-switch" id="status_employee" data-size="small" onchange="changeStatusEmployee()" data-on-color="success" data-on-text="Tetap" name="status_employee" data-off-color="default" data-off-text="Kontrak" @if($detail['status_employee']==1) checked @endif  @if(isset($dataDoc['Approved'])) disabled @endif>
-                                </div>
+					{{-- <input type="checkbox" class="make-switch" id="status_employee" data-size="small" onchange="changeStatusEmployee()" data-on-color="success" data-on-text="Tetap" name="status_employee" data-off-color="default" data-off-text="Kontrak" @if($detail['status_employee']==1) checked @endif  @if(isset($dataDoc['Approved'])) disabled @endif> --}}
+
+					<select onchange="changeStatusEmployee(this.value)" id="status_employee" name="status_employee" class="form-control input-sm select2" data-placeholder="Select Type Contract" required>
+						<option selected disabled></option>
+						<option value="Permanent" @if($detail['status_employee']=='Permanent') selected @endif>Permanent</option>
+						<option value="Contract" @if($detail['status_employee']=='Contract') selected @endif>Contract</option>
+						<option value="Probation" @if($detail['status_employee']=='Probation') selected @endif>Probation</option>
+					</select>
+				</div>
 			</div>
-                        <div class="form-group" id="show_start">
+			<div class="form-group" id="show_start">
 				<label class="col-md-4 control-label">Start Date <span class="required" aria-required="true"> * </span>
-				</label>
+					</label>
 				<div class="col-md-4" >
 					@if(isset($dataDoc['Approved']))
-                                                <input type="text" id="start" class="form_datetime form-control" value="{{date('d-F-Y', strtotime($detail['start_date']))}}" disabled>
-                                          @else
-						<div class="input-icon right">
-							<div class="input-group">
-                                                            <input type="text" class="form-control" disabled name="start_date" id="start_date" value="{{date('Y-m-d')}}"  required autocomplete="off" placeholder="Start Date Approved">
-                                                            <input type="hidden" class="form-control date-picker" name="start_date" value="{{date('Y-m-d')}}" required autocomplete="off" placeholder="Start Date Approved">
-                                                            <span class="input-group-btn">
-                                                                <button class="btn default" type="button">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                </button>
-                                                                <button class="btn default" type="button">
-                                                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai contract" data-container="body"></i>
-                                                                </button>
-                                                            </span> 
-							</div>
+					<input type="text" id="start" class="form_datetime form-control" value="{{date('d-F-Y', strtotime($detail['start_date']))}}" disabled>
+					@else
+					<div class="input-icon right">
+						<div class="input-group">
+							<input type="text" class="form-control date_picker" name="start_date" id="start_date" value="{{isset($detail['start_date']) ? date('Y-m-d', strtotime($detail['start_date'])) : '' }}" required autocomplete="off" placeholder="Start Date Approved">
+							<span class="input-group-btn">
+								<button class="btn default" type="button">
+										<i class="fa fa-calendar"></i>
+								</button>
+								<button class="btn default" type="button">
+										<i class="fa fa-question-circle tooltips" data-original-title="Tanggal mulai contract" data-container="body"></i>
+								</button>
+							</span> 
 						</div>
+					</div>
 					@endif
 				</div>
 			</div>
-                        <div class="form-group" id="show_end">
+			<div class="form-group" id="show_end">
 				<label class="col-md-4 control-label">End Date <span class="required" aria-required="true"> * </span>
 				</label>
 				<div class="col-md-4">
 					@if(isset($dataDoc['Approved']))
-                                                @if($detail['status_employee']==0)
-                                                    <input type="text" class="date_picker form-control" value="{{date('d-F-Y', strtotime($detail['end_date']))}}" disabled>
-                                                @endif 
+						@if($detail['status_employee']=='Contract' || $detail['status_employee']=='Probation')
+							<input type="text" class="date_picker form-control" value="{{date('d-F-Y', strtotime($detail['end_date']))}}" disabled>
+						@endif 
 						
 					@else
 						<div class="input-icon right">
 							<div class="input-group">
-                                                            <input type="text" class="form-control date_picker" name="end_date" id="end_date" onchange='myFunction()' required autocomplete="off" placeholder="End Date Approved">
-							<span class="input-group-btn">
-                                                            <button class="btn default" type="button">
-                                                                    <i class="fa fa-calendar"></i>
-                                                            </button>
-                                                            <button class="btn default" type="button">
-                                                                    <i class="fa fa-question-circle tooltips" data-original-title="Tanggal selesai contract" data-container="body"></i>
-                                                            </button>
-                                                        </span>
+								<input type="text" class="form-control date_picker" name="end_date" id="end_date" onchange='myFunction()' required autocomplete="off" placeholder="End Date Approved">
+								<span class="input-group-btn">
+									<button class="btn default" type="button">
+											<i class="fa fa-calendar"></i>
+									</button>
+									<button class="btn default" type="button">
+											<i class="fa fa-question-circle tooltips" data-original-title="Tanggal selesai contract" data-container="body"></i>
+									</button>
+								</span>
 							</div>
 						</div>
 					@endif
 				</div>
 			</div>
-                        <div class="form-group">
+			<div class="form-group">
 				<label class="col-md-4 control-label">Notes
 				</label>
 				<div class="col-md-6">
@@ -118,7 +124,7 @@
                                     <i class="fa fa-question-circle tooltips" data-original-title="Jabatan admin" data-container="body"></i>
 				</label>
 				<div class="col-md-6">
-					<select name="id_role" class="form-control input-sm select2" data-placeholder="Search Role" required>
+					<select name="id_role" id="id_role" class="form-control input-sm select2" data-placeholder="Search Role" required>
                                             <option></option>
                                             @foreach($roles as $key => $val)
                                                 <option value="{{ $val['id_role'] }}" >{{ $val['role_name'] }}</option>
@@ -127,25 +133,12 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label  class="control-label col-md-4">Department
-                                    <span class="required" aria-required="true"> * </span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Department dalam satu office" data-container="body"></i>
-				</label>
-				<div class="col-md-6">
-					<select onchange="manager()" id="id_department" name="id_department" class="form-control input-sm select2" data-placeholder="Search Department" required>
-                                            <option></option>
-                                            @foreach($departments as $key => $val)
-                                                <option value="{{ $val['id_department'] }}" >{{ $val['department_name'] }}</option>
-                                            @endforeach
-                                        </select>
-				</div>
-			</div>
-			<div class="form-group">
 				<label  class="control-label col-md-4">Manager
+				<span class="required" aria-required="true" id="required_manager"> * </span>
                                     <i class="fa fa-question-circle tooltips" data-original-title="Manager dalam satu kantor sesuai department" data-container="body"></i>
 				</label>
 				<div class="col-md-6">
-					<select name="id_manager" id="id_manager" class="form-control input-sm select2" data-placeholder="Search Manager">
+					<select name="id_manager" id="id_manager" class="form-control input-sm select2" data-placeholder="Search Manager" >
                                         </select>
 				</div>
 			</div>
