@@ -36,7 +36,7 @@ class Payrolls implements FromArray, WithTitle, WithHeadings, ShouldAutoSize, Wi
      */
     public function title(): string
     {
-        return "Payroll_".$this->request['start_date'].'-'.$this->request['end_date'];
+        return  $this->request['start_date'].'-'.$this->request['end_date'];
     }
 
     /**

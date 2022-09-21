@@ -11,6 +11,7 @@
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2-bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/icheck/skins/all.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('page-plugin')
@@ -28,8 +29,16 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/form-repeater.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/icheck/icheck.min.js') }}" type="text/javascript"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            $('.date_picker').datepicker({
+            'format' : 'yyyy-mm',
+            'todayHighlight' : true,
+            'autoclose' : true,
+            startView: "months", 
+            minViewMode: "months"
+        });
             $('#chkall').on('ifChanged', function(event) {
                 if(this.checked) {
                     $("#outlets > option").prop("selected", "selected");
@@ -86,24 +95,24 @@
                         <label class="col-md-2 control-label">Date Start :</label>
                         <div class="col-md-4">
                             <div class="input-group">
-                                <input type="date" class="form-control" name="start_date" value="{{date('Y-m-d')}}">
+                                <input type="text" class="date_picker form-control" name="start_date" required value="{{date('Y-m')}}">
                                 <span class="input-group-btn">
-                            <button class="btn default" type="button">
-                                <i class="fa fa-calendar"></i>
-                            </button>
-                        </span>
+                                    <button class="btn default" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                    </button>
+                                </span>
                             </div>
                         </div>
 
                         <label class="col-md-2 control-label">Date End :</label>
                         <div class="col-md-4">
                             <div class="input-group">
-                                <input type="date" class="form-control" name="end_date" value="{{date('Y-m-d')}}">
+                                <input type="text" class="date_picker form-control" name="end_date" required value="{{date('Y-m')}}">
                                 <span class="input-group-btn">
-                            <button class="btn default" type="button">
-                                <i class="fa fa-calendar"></i>
-                            </button>
-                        </span>
+                                    <button class="btn default" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                    </button>
+                                </span>
                             </div>
                         </div>
                     </div>
