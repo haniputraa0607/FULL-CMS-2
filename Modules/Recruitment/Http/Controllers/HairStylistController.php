@@ -452,7 +452,7 @@ class HairStylistController extends Controller
                 $data = new PayrollExport($dataExport); 
                 return Excel::download($data,'Payroll_'.date('YmdHis').'.xls');
             }else {
-                return back()->withErrors(['Something when wrong. Please try again.'])->withInput();
+                return back()->withErrors(['No transactions found in selected date range'])->withInput();
             }
         }
     }
