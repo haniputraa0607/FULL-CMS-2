@@ -85,6 +85,9 @@ class RecruitmentEmployeeController extends Controller
     }
     public function detail(Request $request,$id){
         $post = $request->all();
+        session([
+            'id_outlet'         => 1,
+          ]);
         $detail = MyHelper::post('employee/be/recruitment/detail',['id_employee' => $id]);
         if(isset($detail['status']) && $detail['status'] == 'success'){
             $data = [
@@ -290,10 +293,14 @@ class RecruitmentEmployeeController extends Controller
         $post['id_employee'] = $id;
         
         $update = MyHelper::post('employee/be/recruitment/evaluation',$post);
-        if(isset($update['status']) && $update['status'] == 'success'){
-            return redirect('employee/recruitment/detail/'.$id)->withSuccess(['Success update data']);
+        if($post['status_form'] == 'reject_hr' || $post['status_form'] == 'reject_director' || $post['status_form'] == 'approve_director'){
+            return $update;
         }else{
-            return redirect('employee/recruitment/detail/'.$id)->withErrors($update['messages']??['Failed update data']);
+            if(isset($update['status']) && $update['status'] == 'success'){
+                return redirect('employee/recruitment/detail/'.$id)->withSuccess(['Success update data']);
+            }else{
+                return redirect('employee/recruitment/detail/'.$id)->withErrors($update['messages']??['Failed update data']);
+            }
         }
     }
 }

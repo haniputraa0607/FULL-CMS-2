@@ -3,8 +3,8 @@ if(isset($deals['is_all_outlet'])){
     $is_all_outlet = $deals['is_all_outlet'];
 }else{
     $is_all_outlet = 0;
-}
-$brand_rule = $deals['brand_rule']??'and';
+}   
+$brand_rule = $deals['brand_rule']??'or';
 ?>
 @extends('layouts.main-closed')
 

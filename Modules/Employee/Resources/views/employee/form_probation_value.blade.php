@@ -2,11 +2,21 @@
 	$manager = false;
 	if($detail['id_manager'] == session('id_user')){
 		$manager = true;
+		if(isset($detail['employee']['form_evaluation']['status_form'])){
+			if($detail['employee']['form_evaluation']['status_form'] == 'approve_manager' || $detail['employee']['form_evaluation']['status_form'] == 'approve_hr' || $detail['employee']['form_evaluation']['status_form'] == 'approve_director' || $detail['employee']['form_evaluation']['status_form'] == 'reject_director'){
+				$manager = false;
+			}
+		}
 	}
 
 	$hrga = false;
-	if($detail['id_outlet'] == session('id_outlet') && MyHelper::hasAccess([529], $grantedFeature && isset($detail['employee']['form_evaluation'])) ){
+	if($detail['id_outlet'] == session('id_outlet') && MyHelper::hasAccess([529], $grantedFeature) && isset($detail['employee']['form_evaluation']) ){
 		$hrga = true;
+		if(isset($detail['employee']['form_evaluation']['status_form'])){
+			if($detail['employee']['form_evaluation']['status_form'] == 'approve_hr' || $detail['employee']['form_evaluation']['status_form'] == 'approve_director' || $detail['employee']['form_evaluation']['status_form'] == 'reject_hr'){
+				$hrga = false;
+			}
+		}
 	}
 	
 	$director = false;	
@@ -155,12 +165,17 @@
 					<span class="required" aria-required="true"> * </span>
 					<i class="fa fa-question-circle tooltips" data-original-title="Rekomendasi perbaruan status karyawan dalam perusahaan" data-container="body"></i>
 				</label>
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<select id="update_status" name="update_status" class="form-control input-sm select2" data-placeholder="Select Value" required @if(!$manager) disabled @endif>
 						<option selected disabled></option>
+						@if ($detail['status_employee']!='Permanent')
 						<option value="Permanent" @if(isset($detail['employee']['form_evaluation']['update_status']) && $detail['employee']['form_evaluation']['update_status'] == 'Permanent') selected @endif>Recommended to be a Permanent Employee</option>
+						@endif
 						<option value="Terminated "@if(isset($detail['employee']['form_evaluation']['update_status']) && $detail['employee']['form_evaluation']['update_status'] == 'Terminated') selected @endif>Recommended Not to be Continued as An Employee</option>
+						@if ($detail['status_employee']!='Permanent')
 						<option value="Extension"@if(isset($detail['employee']['form_evaluation']['update_status']) && $detail['employee']['form_evaluation']['update_status'] == 'Extension') selected @endif>Contract Extension</option>
+						@endif
+						<option value="Not Change" @if(isset($detail['employee']['form_evaluation']['update_status']) && $detail['employee']['form_evaluation']['update_status'] == 'Not Change') selected @endif>No Status Change</option>
 					</select>
 				</div>
 			</div>
@@ -173,8 +188,8 @@
 				</div>
 				<div class="col-md-2">
 					<select id="time_extension" name="time_extension" class="form-control input-sm select2" @if(!$manager) disabled @endif @if(isset($detail['employee']['form_evaluation']['update_status']) && $detail['employee']['form_evaluation']['update_status'] == 'Extension') required @endif>
-						<option value="Month" @if(!isset($detail['employee']['form_evaluation']['update_status'])) selected @elseif (isset($detail['employee']['form_evaluation']['update_status']) && $detail['employee']['form_evaluation']['update_status'] == 'Permanent') selected @endif>Months</option>
-						<option value="Year " @if(isset($detail['employee']['form_evaluation']['update_status']) && $detail['employee']['form_evaluation']['update_status'] == 'Permanent') selected @endif>Years</option>
+						<option value="Month" @if(!isset($detail['employee']['form_evaluation'])) selected @elseif (isset($detail['employee']['form_evaluation']['time_extension']) && $detail['employee']['form_evaluation']['time_extension'] == 'Month') selected @endif>Months</option>
+						<option value="Year" @if(isset($detail['employee']['form_evaluation']['time_extension']) && $detail['employee']['form_evaluation']['time_extension'] == 'Year') selected @endif>Years</option>
 					</select>
 				</div>
 			</div>
@@ -192,30 +207,37 @@
 			<div style="text-align: center"><h3>Request Update From HRGA</h3></div>
 			<hr style="border-top: 2px dashed;">  
 			<div class="form-group">
+				<input type="hidden" name="status_form" value="approve_hr">
 				<label  class="control-label col-md-4">Update Status Employee
 					<span class="required" aria-required="true"> * </span>
 					<i class="fa fa-question-circle tooltips" data-original-title="Rekomendasi perbaruan status karyawan dalam perusahaan" data-container="body"></i>
 				</label>
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<select id="update_status_hr" name="update_status" class="form-control input-sm select2" data-placeholder="Select Value" @if(!$hrga) disabled @endif>
 						<option selected disabled></option>
-						<option value="Permanent">Recommended to be a Permanent Employee</option>
-						<option value="Terminated ">Recommended Not to be Continued as An Employee</option>
-						<option value="Extension">Contract Extension</option>
+						@if ($detail['status_employee']!='Permanent')
+						<option value="Permanent" @if(isset($detail['employee']['form_evaluation']['update_status']) && $detail['employee']['form_evaluation']['update_status'] == 'Permanent') selected @endif>Recommended to be a Permanent Employee</option>
+						@endif
+						<option value="Terminated "@if(isset($detail['employee']['form_evaluation']['update_status']) && $detail['employee']['form_evaluation']['update_status'] == 'Terminated') selected @endif>Recommended Not to be Continued as An Employee</option>
+						@if ($detail['status_employee']!='Permanent')
+						<option value="Extension"@if(isset($detail['employee']['form_evaluation']['update_status']) && $detail['employee']['form_evaluation']['update_status'] == 'Extension') selected @endif>Contract Extension</option>
+						@endif
+						<option value="Not Change"@if(isset($detail['employee']['form_evaluation']['update_status']) && $detail['employee']['form_evaluation']['update_status'] == 'Not Change') selected @endif>No Status Change</option>
+
 					</select>
 				</div>
 			</div>
-			<div class="form-group" id="div_extension_hrga" hidden>
+			<div class="form-group" id="div_extension_hrga" @if(isset($detail['employee']['form_evaluation']['update_status']) && $detail['employee']['form_evaluation']['update_status'] == 'Extension') @else hidden @endif>
 				<label class="col-md-4 control-label">Contract Extension
 					<i class="fa fa-question-circle tooltips" data-original-title="Komentar dan saran untuk karyawan" data-container="body"></i>
 				</label>
 				<div class="col-md-2">
-					<input type="number" class="form-control" id="current_extension_hr" name="current_extension" placeholder="" @if(!$hrga) disabled @endif></input>
+					<input type="number" class="form-control" id="current_extension_hr" name="current_extension" placeholder="" value="{{ $detail['employee']['form_evaluation']['current_extension'] ?? '' }}" @if(!$hrga) disabled @endif @if(isset($detail['employee']['form_evaluation']['update_status']) && $detail['employee']['form_evaluation']['update_status'] == 'Extension') required @endif></input>
 				</div>
 				<div class="col-md-2">
-					<select id="time_extension_hr" name="time_extension_hr" class="form-control input-sm select2" @if(!$hrga) disabled @endif>
-						<option value="Month" selected>Months</option>
-						<option value="Year ">Years</option>
+					<select id="time_extension_hr" name="time_extension" class="form-control input-sm select2" @if(!$hrga) disabled @endif @if(isset($detail['employee']['form_evaluation']['update_status']) && $detail['employee']['form_evaluation']['update_status'] == 'Extension') required @endif>
+						<option value="Month" @if(!isset($detail['employee']['form_evaluation'])) selected @elseif (isset($detail['employee']['form_evaluation']['time_extension']) && $detail['employee']['form_evaluation']['time_extension'] == 'Month') selected @endif>Months</option>
+						<option value="Year" @if(isset($detail['employee']['form_evaluation']['time_extension']) && $detail['employee']['form_evaluation']['time_extension'] == 'Year') selected @endif>Years</option>
 					</select>
 				</div>
 			</div>
@@ -223,11 +245,14 @@
 		@if(in_array($detail['status'], ['active']))
 		<div class="row" style="text-align: center">
 			{{ csrf_field() }}
-                <button class="btn blue" @if(!$hrga) disabled @endif>Submit</button>
-				@if($director)
-				<a class="btn btn-danger">Reject</a>
-				<a class="btn btn-success">Approve</a>
-				@endif
+			@if($hrga)
+			<a class="btn btn-danger evaluation" data-name="{{ $detail['name'] }}" data-status="reject_hr">Reject</a>
+			@endif
+			<button class="btn blue" @if(!$hrga) disabled @endif>Submit</button>
+			@if($director)
+			<a class="btn btn-danger evaluation" data-name="{{ $detail['name'] }}" data-status="reject_director">Reject</a>
+			<a class="btn btn-success evaluation" data-name="{{ $detail['name'] }}" data-status="approve_director">Approve</a>
+			@endif
 		</div>
 		@endif
 	</form>           

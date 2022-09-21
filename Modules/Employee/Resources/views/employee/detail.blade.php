@@ -149,11 +149,83 @@ function myFunction() {
             }
         }();
 
+        var SweetAlertEvaluation = function() {
+            return {
+                init: function() {
+                    $(".evaluation").each(function() {
+                        var token  	= "{{ csrf_token() }}";
+                        let name    = $(this).data('name');
+                        let status    = $(this).data('status');
+                        if(status == 'reject_hr' || status == 'reject_director'){
+                            var title_s = name+"\n\nAre you sure want reject this evaluation ?";
+                            var type_s = "warning";
+                            var text_s = "You can recover this data!";
+                            var confirmButtonText_s = "Yes, reject it";
+                            var confirmButtonClass_s = "btn-danger";
+                        }else if(status == 'approve_director'){
+                            var title_s = name+"\n\nAre you sure want approve this evaluation ?";
+                            var type_s = "success";
+                            var text_s = "You will not be able to recover this data!";
+                            var confirmButtonText_s = "Yes, approve it";
+                            var confirmButtonClass_s = "btn-success";
+                        }
+                        $(this).click(function() {
+                            swal({
+                                    title: title_s,
+                                    text: text_s,
+                                    type: type_s,
+                                    showCancelButton: true,
+                                    confirmButtonClass: confirmButtonClass_s,
+                                    confirmButtonText: confirmButtonText_s,
+                                    closeOnConfirm: false
+                                },
+                                function(){
+                                   $.ajax({
+                                        type : "POST",
+                                        url : "{{url('employee/recruitment/evaluation/'.$detail['id_employee'])}}",
+                                        data : {
+                                            '_token' : '{{csrf_token()}}',
+                                            'status_form' : status
+                                        },
+                                        success : function(response) {
+                                            if (response.status == 'success') {
+                                                if(status == 'reject_hr' || status == 'reject_director'){
+                                                    swal("Rejected!", "Evaluation has been rejected.", "success")
+                                                }else if(status == 'approve_director'){
+                                                    swal("Approved!", "Evaluation has been approved.", "success")
+                                                }
+                                                SweetAlert.init()
+                                                location.href = "{{url('employee/recruitment/detail/'.$detail['id_employee'])}}"
+                                            }
+                                            else if(response.status == "fail"){
+                                                if(status == 'reject_hr' || status == 'reject_director'){
+                                                    swal("Error!", "Failed to reject evaluation.", "error")
+                                                }else if(status == 'approve_director'){
+                                                    swal("Error!", "Failed to approve evaluation.", "error")
+                                                }
+                                            }
+                                            else {
+                                                if(status == 'reject_hr' || status == 'reject_director'){
+                                                    swal("Error!", "Something went wrong. Failed to reject evaluation.", "error")
+                                                }else if(status == 'approve_director'){
+                                                    swal("Error!", "Failed to approve evaluation.", "error")
+                                                }
+                                            }
+                                        }
+                                    });
+                                });
+                        })
+                    })
+                }
+            }
+        }();
+
         jQuery(document).ready(function() {
             npwp('#npwp');
             banks('#banks');
             number('#phone_emergency_contact');
             SweetAlert.init()
+            SweetAlertEvaluation.init()
             @if($detail['status_employee']=='Permanent')
                $("#show_end").hide();
                $('#end_date').prop('required', false);
