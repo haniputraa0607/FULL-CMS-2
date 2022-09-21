@@ -85,9 +85,6 @@ class RecruitmentEmployeeController extends Controller
     }
     public function detail(Request $request,$id){
         $post = $request->all();
-        session([
-            'id_outlet'         => 1,
-          ]);
         $detail = MyHelper::post('employee/be/recruitment/detail',['id_employee' => $id]);
         if(isset($detail['status']) && $detail['status'] == 'success'){
             $data = [
