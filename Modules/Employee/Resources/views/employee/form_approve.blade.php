@@ -9,9 +9,7 @@
 					<i class="fa fa-question-circle tooltips" data-original-title="Jika di centang maka sebegai karyawan tetap, jika tidak maka sebagai karyawan kontrak" data-container="body"></i>
 				</label>
 				<div class="col-md-4">
-					{{-- <input type="checkbox" class="make-switch" id="status_employee" data-size="small" onchange="changeStatusEmployee()" data-on-color="success" data-on-text="Tetap" name="status_employee" data-off-color="default" data-off-text="Kontrak" @if($detail['status_employee']==1) checked @endif  @if(isset($dataDoc['Approved'])) disabled @endif> --}}
-
-					<select onchange="changeStatusEmployee(this.value)" id="status_employee" name="status_employee" class="form-control input-sm select2" data-placeholder="Select Type Contract" required>
+					<select onchange="changeStatusEmployee(this.value)" id="status_employee" name="status_employee" class="form-control input-sm select2" data-placeholder="Select Type Contract" required @if(isset($dataDoc['Approved'])) disabled @endif>
 						<option selected disabled></option>
 						<option value="Permanent" @if($detail['status_employee']=='Permanent') selected @endif>Permanent</option>
 						<option value="Contract" @if($detail['status_employee']=='Contract') selected @endif>Contract</option>
@@ -124,7 +122,7 @@
                                     <i class="fa fa-question-circle tooltips" data-original-title="Jabatan admin" data-container="body"></i>
 				</label>
 				<div class="col-md-6">
-					<select name="id_role" id="id_role" class="form-control input-sm select2" data-placeholder="Search Role" required>
+					<select onchange="manager()" name="id_role" id="id_role" class="form-control input-sm select2" data-placeholder="Search Role" required>
                                             <option></option>
                                             @foreach($roles as $key => $val)
                                                 <option value="{{ $val['id_role'] }}" >{{ $val['role_name'] }}</option>
@@ -142,36 +140,6 @@
                                         </select>
 				</div>
 			</div>
-<!--			<div class="form-group">
-				<label  class="control-label col-md-4">Auto Generate PIN
-					<i class="fa fa-question-circle tooltips" data-original-title="Jika di centang maka pin akan di generate otomatis oleh sistem" data-container="body"></i>
-				</label>
-				<div class="col-md-6">
-					<label class="mt-checkbox mt-checkbox-outline">
-						<input type="checkbox" name="auto_generate_pin" id="auto_generate_pin" class="same checkbox-product-price" onclick="changeAutoGeneratePinApprove()"/>
-						<span></span>
-					</label>
-				</div>
-			</div>
-			<div id="div_password">
-				<div class="form-group">
-					<label for="example-search-input" class="control-label col-md-4">PIN 
-						<i class="fa fa-question-circle tooltips" data-original-title="Masukkan pin yang akan digunakan untuk login" data-container="body"></i>
-					</label>
-					<div class="col-md-6">
-						<input class="form-control" maxlength="6" type="password" onkeyup="matchPassword('app')" name="pin" id="pinapp1" placeholder="Enter PIN" required autocomplete="new-password"/>
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="example-search-input" class="control-label col-md-4">Re-type PIN 
-						<i class="fa fa-question-circle tooltips" data-original-title="Ketik ulang pin yang akan digunakan untuk login" data-container="body"></i>
-					</label>
-					<div class="col-md-6">
-						<input class="form-control" maxlength="6" onkeyup="matchPassword('app')" type="password" name="pin2" id="pinapp2" placeholder="Re-type PIN" required autocomplete="new-password"/>
-						<b style="color: red;font-size: 12px;display: none" id="alert_password_app">Password des not match</b>
-					</div>
-				</div>
-			</div>-->
                         @endif
 		</div>
 		<input type="hidden" name="action_type" id="action_type_approve" value="Approved">

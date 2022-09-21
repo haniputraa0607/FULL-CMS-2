@@ -149,11 +149,83 @@ function myFunction() {
             }
         }();
 
+        var SweetAlertEvaluation = function() {
+            return {
+                init: function() {
+                    $(".evaluation").each(function() {
+                        var token  	= "{{ csrf_token() }}";
+                        let name    = $(this).data('name');
+                        let status    = $(this).data('status');
+                        if(status == 'reject_hr' || status == 'reject_director'){
+                            var title_s = name+"\n\nAre you sure want reject this evaluation ?";
+                            var type_s = "warning";
+                            var text_s = "You can recover this data!";
+                            var confirmButtonText_s = "Yes, reject it";
+                            var confirmButtonClass_s = "btn-danger";
+                        }else if(status == 'approve_director'){
+                            var title_s = name+"\n\nAre you sure want approve this evaluation ?";
+                            var type_s = "success";
+                            var text_s = "You will not be able to recover this data!";
+                            var confirmButtonText_s = "Yes, approve it";
+                            var confirmButtonClass_s = "btn-success";
+                        }
+                        $(this).click(function() {
+                            swal({
+                                    title: title_s,
+                                    text: text_s,
+                                    type: type_s,
+                                    showCancelButton: true,
+                                    confirmButtonClass: confirmButtonClass_s,
+                                    confirmButtonText: confirmButtonText_s,
+                                    closeOnConfirm: false
+                                },
+                                function(){
+                                   $.ajax({
+                                        type : "POST",
+                                        url : "{{url('employee/recruitment/evaluation/'.$detail['id_employee'])}}",
+                                        data : {
+                                            '_token' : '{{csrf_token()}}',
+                                            'status_form' : status
+                                        },
+                                        success : function(response) {
+                                            if (response.status == 'success') {
+                                                if(status == 'reject_hr' || status == 'reject_director'){
+                                                    swal("Rejected!", "Evaluation has been rejected.", "success")
+                                                }else if(status == 'approve_director'){
+                                                    swal("Approved!", "Evaluation has been approved.", "success")
+                                                }
+                                                SweetAlert.init()
+                                                location.href = "{{url('employee/recruitment/detail/'.$detail['id_employee'])}}"
+                                            }
+                                            else if(response.status == "fail"){
+                                                if(status == 'reject_hr' || status == 'reject_director'){
+                                                    swal("Error!", "Failed to reject evaluation.", "error")
+                                                }else if(status == 'approve_director'){
+                                                    swal("Error!", "Failed to approve evaluation.", "error")
+                                                }
+                                            }
+                                            else {
+                                                if(status == 'reject_hr' || status == 'reject_director'){
+                                                    swal("Error!", "Something went wrong. Failed to reject evaluation.", "error")
+                                                }else if(status == 'approve_director'){
+                                                    swal("Error!", "Failed to approve evaluation.", "error")
+                                                }
+                                            }
+                                        }
+                                    });
+                                });
+                        })
+                    })
+                }
+            }
+        }();
+
         jQuery(document).ready(function() {
             npwp('#npwp');
             banks('#banks');
             number('#phone_emergency_contact');
             SweetAlert.init()
+            SweetAlertEvaluation.init()
             @if($detail['status_employee']=='Permanent')
                $("#show_end").hide();
                $('#end_date').prop('required', false);
@@ -243,6 +315,33 @@ function myFunction() {
                         $('#pinapp2').prop('required', true);
                 }
         }
+
+        $("#update_status").change(function() {
+                var update_status = $("#update_status option:selected").val();
+                if(update_status == 'Extension'){
+                        $('#div_extension_manager').show();
+                        $('#current_extension').prop('required', true);
+                        $('#time_extension').prop('required', true);
+                }else{
+                        $('#div_extension_manager').hide();
+                        $('#current_extension').prop('required', false);
+                        $('#time_extension').prop('required', false);
+                }
+        })
+
+        $("#update_status_hr").change(function() {
+                var update_status = $("#update_status_hr option:selected").val();
+                if(update_status == 'Extension'){
+                        $('#div_extension_hrga').show();
+                        $('#current_extension_hr').prop('required', true);
+                        $('#time_extension_hr').prop('required', true);
+                }else{
+                        $('#div_extension_hrga').hide();
+                        $('#current_extension_hr').prop('required', false);
+                        $('#time_extension_hr').prop('required', false);
+                }
+        })
+
         function changeStatusEmployee(val) {
                 if(val == 'Permanent'){
                         $("#show_end").hide();
@@ -1168,18 +1267,12 @@ function myFunction() {
                                                     <li @if($detail['status_approved'] == 'Contract') class="active" @endif>
                                                             <a  @if(in_array($detail['status_approved'], ['Contract','Approved','Success'])) data-toggle="tab" href="#approved" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Approve</a>
                                                     </li>
-                                                    @if ($detail['status_employee'] == 'Probation')
                                                     <li @if($detail['status_approved'] == 'Approved') class="active" @endif>
-                                                        <a  @if(in_array($detail['status_approved'], ['Approved','Success'])) data-toggle="tab" href="#probation-value" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Probation Value</a>
+                                                        <a  @if(in_array($detail['status_approved'], ['Approved','Probation Value','Success'])) data-toggle="tab" href="#bank" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Data Complement</a>
                                                     </li>
-                                                    <li @if($detail['status_approved'] == 'Probation Value' || $detail['status_approved'] == 'Success' ) class="active" @endif>
-                                                        <a  @if(in_array($detail['status_approved'], ['Probation Value','Success'])) data-toggle="tab" href="#bank" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Data Complement</a>
+                                                    <li @if($detail['status_approved'] == 'Success') class="active" @endif>
+                                                        <a  @if(in_array($detail['status_approved'], ['Approved','Probation Value','Success'])) data-toggle="tab" href="#probation-value" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Form Evaluation</a>
                                                     </li>
-                                                    @else        
-                                                    <li @if($detail['status_approved'] == 'Approved' ||$detail['status_approved'] == 'Success' ) class="active" @endif>
-                                                            <a  @if(in_array($detail['status_approved'], ['Approved','Success'])) data-toggle="tab" href="#bank" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Data Complement</a>
-                                                    </li>
-                                                    @endif
 
                                             </ul>
                                     </div>
@@ -1203,18 +1296,12 @@ function myFunction() {
                                                     <div class="tab-pane @if($detail['status_approved'] == 'Contract') active @endif" id="approved">
                                                             @include('employee::employee.form_approve')
                                                     </div>
-                                                    @if ($detail['status_employee'] == 'Probation')
-                                                    <div class="tab-pane @if($detail['status_approved'] == 'Approved') active @endif" id="probation-value">
-                                                        @include('employee::employee.form_probation_value')
-                                                    </div>
-                                                    <div class="tab-pane @if($detail['status_approved'] == 'Probation Value'||$detail['status_approved'] == 'Success') active @endif" id="bank">
+                                                    <div class="tab-pane @if($detail['status_approved'] == 'Approved') active @endif" id="bank">
                                                         @include('employee::employee.form_document_bank')
                                                     </div>
-                                                    @else
-                                                    <div class="tab-pane @if($detail['status_approved'] == 'Approved'||$detail['status_approved'] == 'Success') active @endif" id="bank">
-                                                            @include('employee::employee.form_document_bank')
+                                                    <div class="tab-pane @if($detail['status_approved'] == 'Success') active @endif" id="probation-value">
+                                                        @include('employee::employee.form_probation_value')
                                                     </div>
-                                                    @endif
 
                                             </div>
                                     </div>

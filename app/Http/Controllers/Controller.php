@@ -104,6 +104,7 @@ class Controller extends BaseController
 	            	'configs'  			=> $configs,
 	            	'level'             => $userData['level'],
 	            	'id_user'           => $userData['id'],
+	            	'id_outlet'         => $userData['id_outlet'],
 	            	'phone'           	=> $userData['phone'],
 	            	'name'           	=> $userData['name'],
 	            	'email'           	=> $userData['email'],
