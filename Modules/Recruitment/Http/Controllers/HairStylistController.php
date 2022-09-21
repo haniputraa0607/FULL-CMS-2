@@ -446,7 +446,7 @@ class HairStylistController extends Controller
             $data['outlets'] = MyHelper::get('outlet/be/list/simple')['result']??[];
             return view('recruitment::hair_stylist.export_payroll', $data);
         }else{
-            $data = MyHelper::post('hairstylist/be/export-payroll',$post);
+           $data = MyHelper::post('hairstylist/be/export-payroll',$post);
             if (isset($data['status']) && $data['status'] == "success") {
                 $dataExport = $data['result'];
                 $data = new PayrollExport($dataExport); 

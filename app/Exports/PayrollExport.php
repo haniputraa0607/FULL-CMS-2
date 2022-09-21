@@ -20,7 +20,11 @@ class PayrollExport implements WithMultipleSheets
     public function sheets(): array
     {
         $sheets = [];
-        $sheets['Payroll'] = new Payrolls($this->request);
+//        $sheets['Payroll'] = new Payrolls($this->request);
+        foreach ($this->request as $key => $value) {
+            // sheet title maksimal 31 caracter
+            $sheets[] = new Payrolls($value);
+        }
         return $sheets;
     }
 }
