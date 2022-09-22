@@ -168,11 +168,11 @@
 				<div class="col-md-6">
 					<select id="update_status" name="update_status" class="form-control input-sm select2" data-placeholder="Select Value" required @if(!$manager) disabled @endif>
 						<option selected disabled></option>
-						@if ($detail['status_employee']!='Permanent')
+						@if ($detail['status_employee']!='Permanent' || !$manager)
 						<option value="Permanent" @if(isset($detail['employee']['form_evaluation']['update_status']) && $detail['employee']['form_evaluation']['update_status'] == 'Permanent') selected @endif>Recommended to be a Permanent Employee</option>
 						@endif
 						<option value="Terminated "@if(isset($detail['employee']['form_evaluation']['update_status']) && $detail['employee']['form_evaluation']['update_status'] == 'Terminated') selected @endif>Recommended Not to be Continued as An Employee</option>
-						@if ($detail['status_employee']!='Permanent')
+						@if ($detail['status_employee']!='Permanent' || !$manager)
 						<option value="Extension"@if(isset($detail['employee']['form_evaluation']['update_status']) && $detail['employee']['form_evaluation']['update_status'] == 'Extension') selected @endif>Contract Extension</option>
 						@endif
 						<option value="Not Change" @if(isset($detail['employee']['form_evaluation']['update_status']) && $detail['employee']['form_evaluation']['update_status'] == 'Not Change') selected @endif>No Status Change</option>
@@ -215,11 +215,11 @@
 				<div class="col-md-6">
 					<select id="update_status_hr" name="update_status" class="form-control input-sm select2" data-placeholder="Select Value" @if(!$hrga) disabled @endif>
 						<option selected disabled></option>
-						@if ($detail['status_employee']!='Permanent')
+						@if ($detail['status_employee']!='Permanent' || !$manager)
 						<option value="Permanent" @if(isset($detail['employee']['form_evaluation']['update_status']) && $detail['employee']['form_evaluation']['update_status'] == 'Permanent') selected @endif>Recommended to be a Permanent Employee</option>
 						@endif
 						<option value="Terminated "@if(isset($detail['employee']['form_evaluation']['update_status']) && $detail['employee']['form_evaluation']['update_status'] == 'Terminated') selected @endif>Recommended Not to be Continued as An Employee</option>
-						@if ($detail['status_employee']!='Permanent')
+						@if ($detail['status_employee']!='Permanent' || !$manager)
 						<option value="Extension"@if(isset($detail['employee']['form_evaluation']['update_status']) && $detail['employee']['form_evaluation']['update_status'] == 'Extension') selected @endif>Contract Extension</option>
 						@endif
 						<option value="Not Change"@if(isset($detail['employee']['form_evaluation']['update_status']) && $detail['employee']['form_evaluation']['update_status'] == 'Not Change') selected @endif>No Status Change</option>

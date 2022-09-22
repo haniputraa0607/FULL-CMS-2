@@ -26,7 +26,9 @@
                         var row = `
                             <tr data-id="${response.result.id_employee_custom_link}">
                                 <td>${response.result.title}</td>
-                                <td>${response.result.link}</td>
+                                <td>
+                                    <a href="${response.result.link}" target="_blank">${response.result.link}</a>
+                                </td>
                                 <td class="text-center">
                                     <a class="btn btn-danger btn" onclick="deleteRule(${response.result.id_employee_custom_link})">&nbsp;<i class="fa fa-trash"></i></a>    
                                 </td>
