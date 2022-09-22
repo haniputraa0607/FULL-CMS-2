@@ -41,12 +41,12 @@
     
 <script>
   $(document).ready(function () {
-       var vals = <?php echo json_encode($mid['value_text']); ?>;
+       var vals = <?php echo json_encode($mid['value_text']??[]); ?>;
         vals.forEach(function(e){
         $('#code').find('option[value="'+e+'"]').attr("selected", "selected");
         $('#code').trigger('change');
         });
-        var valss = <?php echo json_encode($end['value_text']); ?>;
+        var valss = <?php echo json_encode($end['value_text']??[]); ?>;
         valss.forEach(function(e){
         $('#code_end').find('option[value="'+e+'"]').attr("selected", "selected");
         $('#code_end').trigger('change');
