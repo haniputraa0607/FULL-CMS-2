@@ -2154,7 +2154,7 @@ return [
 			'type' => 'tree',
 			'children' => [
 				[
-					'label' => 'Setting Income',
+					'label' => 'Setting Cut Off Date',
 					'required_features' => [425],
 					'active' => '\View::shared("submenu_active") == "setting-hs-income"',
 					'url' => 'recruitment/hair-stylist/group/setting-income'
