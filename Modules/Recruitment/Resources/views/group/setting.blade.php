@@ -379,13 +379,13 @@
 					<div class="form-body">
                                                 <div id="id_commission">
                                                      <div class="form-group">
-                                                    <label for="example-search-input" class="control-label col-md-4">Total Days<span class="required" aria-required="true">*</span>
+                                                    <label for="example-search-input" class="control-label col-md-4">Total Date<span class="required" aria-required="true">*</span>
                                                         <i class="fa fa-question-circle tooltips" data-original-title="Menu ini digunakan untuk menentukan total tanggal dalam menentukan besaran dinamyc incentive/salary cut" data-container="body"></i></label>
                                                     <div class="col-md-4 input-group">
                                                             <input type="number" name="value" min="1" max="31" value="{{$date['value']??0}}" placeholder="Masukkan jumlah hari (days)" class="form-control" required />
                                                             <span class="input-group-btn">
                                                                 <button class="btn default" type="button">
-                                                                  days
+                                                                  date
                                                                 </button>
                                                             </span>
                                                         </div>     

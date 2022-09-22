@@ -1923,12 +1923,6 @@ return [
                                                             'value'=>'candidate_list',
                                                         ]
 						],
-						[
-							'label' => 'Holiday List',
-							'required_features' => [],
-							'active' => '\View::shared("submenu_active") == "hs-holiday"',
-							'url' => 'hair-stylist/holiday'
-						],
                                                 [
                                                     'label' => 'Payslip',
                                                     'url' => 'recruitment/hair-stylist/income/payslip',
@@ -2000,6 +1994,12 @@ return [
 							'required_features' => [],
 							'active' => '\View::shared("child_active") == "hairstylist-schedule-list"',
 							'url' => 'recruitment/hair-stylist/schedule'
+						],
+						[
+							'label' => 'Hs Holiday List',
+							'required_features' => [],
+							'active' => '\View::shared("submenu_active") == "hs-holiday"',
+							'url' => 'hair-stylist/holiday'
 						],
 						[
 							'label' => 'Attendance Setting',
