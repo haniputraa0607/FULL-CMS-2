@@ -157,13 +157,13 @@
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">Setting Income</span>
+                <span class="caption-subject sbold uppercase font-blue">Setting Cut Off Date</span>
             </div>
         </div>
         <div class="tabbable-line tabbable-full-width">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="#incentive" data-toggle="tab">Incentive & Salary Cut</a>
+                    <a href="#incentive" data-toggle="tab">Cut Off Date</a>
                 </li>
                 <li>
                     <a href="#overtime" data-toggle="tab">Overtime</a>
@@ -181,7 +181,7 @@
                             <div class="portlet-title">
                                     <div class="caption font-blue ">
                                             <i class="icon-settings font-blue "></i>
-                                            <span class="caption-subject bold uppercase">This menu is used to set a middle calculation income hairstylist</span>
+                                            <span class="caption-subject bold uppercase">This menu is used to set a middle calculation Cut Off hairstylist</span>
                                     </div>
                             </div>
                             <div class="portlet-body form">
@@ -370,7 +370,7 @@
 			<div class="portlet-title">
 				<div class="caption font-blue ">
 					<i class="icon-settings font-blue "></i>
-					<span class="caption-subject bold uppercase">This menu is used to set a overtime minutes</span>
+					<span class="caption-subject bold uppercase">This menu is used to set a Total Date</span>
 				</div>
 			</div>
 			<div class="portlet-body form">
