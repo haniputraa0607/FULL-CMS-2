@@ -825,7 +825,7 @@ function myFunction() {
                                                             @if(empty($detail['surat_perjanjian']))
                                                                     -
                                                             @else
-                                                                    <a href="{{url('recruitment/hair-stylist/detail/download-file-contract', $detail['id_employee'])}}">{{$detail['code']}}.docx</a>
+								    <a href="{{ $detail['surat_perjanjian'] }}">{{$detail['code']}}.docx</a>
                                                             @endif
                                                     </div>
                                             </div>
@@ -1669,11 +1669,11 @@ function myFunction() {
                             <div class="col-md-6">
                                 <select id="update_status_modal" name="update_status" class="form-control input-sm select2" data-placeholder="Select Value" required >
                                     <option selected disabled></option>
-                                    @if ($detail['status_employee']!='Permanent' || !$manager[$form_eval['id_employee_form_evaluation']])
+                                    @if ($detail['status_employee']!='Permanent')
                                     <option value="Permanent">Recommended to be a Permanent Employee</option>
                                     @endif
                                     <option value="Terminated ">Recommended Not to be Continued as An Employee</option>
-                                    @if ($detail['status_employee']!='Permanent' || !$manager[$form_eval['id_employee_form_evaluation']])
+                                    @if ($detail['status_employee']!='Permanent')
                                     <option value="Extension">Contract Extension</option>
                                     @endif
                                     <option value="Not Change">No Status Change</option>
