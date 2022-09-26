@@ -84,9 +84,9 @@
             <table class="table table-striped table-bordered table-hover" id="div_costum_rule">
                 <thead>
                 <tr>
-                    <th class="text-nowrap text-center col-md-2">Title</th>
-                    <th class="text-nowrap text-center col-md-9">Link</th>
-                    <th class="text-nowrap text-center col-md-1">Delete</th>
+                    <th class="text-center col-md-2">Title</th>
+                    <th class="text-center col-md-9">Link</th>
+                    <th class="text-center col-md-1">Delete</th>
                 </tr>
                 </thead>
                 <tbody>

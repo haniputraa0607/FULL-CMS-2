@@ -19,7 +19,6 @@ $totalTheories = 0;
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" type="text/css" />
-
 @endsection
 
 @section('page-script')
@@ -155,7 +154,8 @@ function myFunction() {
                     $(".evaluation").each(function() {
                         var token  	= "{{ csrf_token() }}";
                         let name    = $(this).data('name');
-                        let status    = $(this).data('status');
+                        let status  = $(this).data('status');
+                        let id      = $(this).data('id');
                         if(status == 'reject_hr' || status == 'reject_director'){
                             var title_s = name+"\n\nAre you sure want reject this evaluation ?";
                             var type_s = "warning";
@@ -182,7 +182,7 @@ function myFunction() {
                                 function(){
                                    $.ajax({
                                         type : "POST",
-                                        url : "{{url('employee/recruitment/evaluation/'.$detail['id_employee'])}}",
+                                        url : "{{ url('employee/recruitment/evaluation/') }}/"+id,
                                         data : {
                                             '_token' : '{{csrf_token()}}',
                                             'status_form' : status
@@ -213,13 +213,47 @@ function myFunction() {
                                             }
                                         }
                                     });
-                                });
+                            });
                         })
                     })
                 }
             }
         }();
 
+        function deleteFormEval(id,status) {
+            if(status == 1){
+                $.ajax({
+                    type : "POST",
+                    url : "{{url('employee/recruitment/evaluation/delete')}}/"+id,
+                    data : {
+                        '_token' : '{{csrf_token()}}'
+                    },
+                    success : function(response) {
+                        if (response.status == 'success') {
+                            toastr.success('Success to delete form evaluation');
+                            $(`#table_form_eval table tr[data-id=${id}]`).remove();
+                        }else {
+                            toastr.warning('Failed to delete form evaluation');
+                        }
+                    }
+                });
+            }
+        }
+
+        function editFormEval(id,status) {
+            if(status == 1){
+                $('#table_form_eval').hide();
+                $('#new_form_eval').hide();
+                $(`#form_eval_${id}`).show();
+            }
+        }
+
+        function BackFormEval(id) {
+            $('#new_form_eval').show();
+            $('#table_form_eval').show();
+            $(`#form_eval_${id}`).hide();
+        }
+        
         jQuery(document).ready(function() {
             npwp('#npwp');
             banks('#banks');
@@ -316,30 +350,41 @@ function myFunction() {
                 }
         }
 
-        $("#update_status").change(function() {
-                var update_status = $("#update_status option:selected").val();
-                if(update_status == 'Extension'){
-                        $('#div_extension_manager').show();
-                        $('#current_extension').prop('required', true);
-                        $('#time_extension').prop('required', true);
+        function changeUpdateStatus(type,val,id){
+            if(type=='hr'){
+                if(val == 'Extension'){
+                    $(`#div_extension_hrga_${id}`).show();
+                    $(`#current_extension_hr_${id}`).prop('required', true);
+                    $(`#time_extension_hr_${id}`).prop('required', true);
                 }else{
-                        $('#div_extension_manager').hide();
-                        $('#current_extension').prop('required', false);
-                        $('#time_extension').prop('required', false);
+                    $(`#div_extension_hrga_${id}`).hide();
+                    $(`#current_extension_hr_${id}`).prop('required', false);
+                    $(`#time_extension_hr_${id}`).prop('required', false);
                 }
-        })
+            }else{
+                if(update_status == 'Extension'){
+                    $(`#div_extension_manager_${id}`).show();
+                    $(`#current_extension_${id}`).prop('required', true);
+                    $(`#time_extension_${id}`).prop('required', true);
+                }else{
+                    $(`#div_extension_manager_${id}`).hide();
+                    $(`#current_extension_${id}`).prop('required', false);
+                    $(`#time_extension_${id}`).prop('required', false);
+                }
+            }
+        }
 
-        $("#update_status_hr").change(function() {
-                var update_status = $("#update_status_hr option:selected").val();
-                if(update_status == 'Extension'){
-                        $('#div_extension_hrga').show();
-                        $('#current_extension_hr').prop('required', true);
-                        $('#time_extension_hr').prop('required', true);
-                }else{
-                        $('#div_extension_hrga').hide();
-                        $('#current_extension_hr').prop('required', false);
-                        $('#time_extension_hr').prop('required', false);
-                }
+        $("#update_status_modal").change(function() {
+            var update_status_modal = $("#update_status_modal option:selected").val();
+            if(update_status_modal == 'Extension'){
+                    $('#div_modal_extension_manager').show();
+                    $('#current_extension_modal').prop('required', true);
+                    $('#time_extension_modal').prop('required', true);
+            }else{
+                    $('#div_modal_extension_manager').hide();
+                    $('#current_extension_modal').prop('required', false);
+                    $('#time_extension_modal').prop('required', false);
+            }
         })
 
         function changeStatusEmployee(val) {
@@ -1469,6 +1514,195 @@ function myFunction() {
 			            @include('employee::employee.customlink')
                     </div>
 		</div>
+    </div>
+
+    <div class="modal fade bd-example-modal-sm" id="NewFormEvaluation" tabindex="-1" role="dialog" aria-labelledby="NewFormEvaluationLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <div class="col-md-5">
+                    <h4 class="modal-title" id="newCustomLink">New Form Evaluation</h4>
+                </div>
+                <div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" action="{{url('employee/recruitment/new-evaluation/'.$detail['id_employee'])}}" method="post" role="form" id="modalCustomLink">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <input type="hidden" name="status_form" value="approve_manager">
+                            <label  class="control-label col-md-6">Work Productivity
+                                <span class="required" aria-required="true"> * </span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Produktifitas karyawan dalam berkeja di masa percobaan" data-container="body"></i>
+                            </label>
+                            <div class="col-md-4">
+                                <select id="work_productivity" name="work_productivity" class="form-control input-sm select2" data-placeholder="Select Value" required >
+                                    <option selected disabled></option>
+                                    <option value="Perfect">Perfect</option>
+                                    <option value="Good">Good</option>
+                                    <option value="Enough">Enough</option>
+                                    <option value="Bad">Bad</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="control-label col-md-6">Work Quality
+                                <span class="required" aria-required="true"> * </span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Kualitas karyawan dalam berkeja di masa percobaan" data-container="body"></i>
+                            </label>
+                            <div class="col-md-4">
+                                <select id="work_quality" name="work_quality" class="form-control input-sm select2" data-placeholder="Select Value" required >
+                                    <option selected disabled></option>
+                                    <option value="Perfect">Perfect</option>
+                                    <option value="Good">Good</option>
+                                    <option value="Enough">Enough</option>
+                                    <option value="Bad">Bad</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="control-label col-md-6">Knowledge of Work and Task
+                                <span class="required" aria-required="true"> * </span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Pengetahuan karyawan tentang pekerjaan dan tugas di masa percobaan" data-container="body"></i>
+                            </label>
+                            <div class="col-md-4">
+                                <select id="knwolege_task" name="knwolege_task" class="form-control input-sm select2" data-placeholder="Select Value" required >
+                                    <option selected disabled></option>
+                                    <option value="Perfect">Perfect</option>
+                                    <option value="Good">Good</option>
+                                    <option value="Enough">Enough</option>
+                                    <option value="Bad">Bad</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="control-label col-md-6">Relationship With Superiors
+                                <span class="required" aria-required="true"> * </span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Hubungan karyawan dengan atasan di masa percobaan" data-container="body"></i>
+                            </label>
+                            <div class="col-md-4">
+                                <select id="relationship" name="relationship" class="form-control input-sm select2" data-placeholder="Select Value" required >
+                                    <option selected disabled></option>
+                                    <option value="Perfect">Perfect</option>
+                                    <option value="Good">Good</option>
+                                    <option value="Enough">Enough</option>
+                                    <option value="Bad">Bad</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="control-label col-md-6">Cooperation with Others
+                                <span class="required" aria-required="true"> * </span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Kerjasama karyawan dengan orang lain di masa percobaan" data-container="body"></i>
+                            </label>
+                            <div class="col-md-4">
+                                <select id="cooperation" name="cooperation" class="form-control input-sm select2" data-placeholder="Select Value" required >
+                                    <option selected disabled></option>
+                                    <option value="Perfect">Perfect</option>
+                                    <option value="Good">Good</option>
+                                    <option value="Enough">Enough</option>
+                                    <option value="Bad">Bad</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="control-label col-md-6">Presence and Discipline
+                                <span class="required" aria-required="true"> * </span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Kehadiran dan kedisiplinan karyawan di masa percobaan" data-container="body"></i>
+                            </label>
+                            <div class="col-md-4">
+                                <select id="discipline" name="discipline" class="form-control input-sm select2" data-placeholder="Select Value" required >
+                                    <option selected disabled></option>
+                                    <option value="Perfect">Perfect</option>
+                                    <option value="Good">Good</option>
+                                    <option value="Enough">Enough</option>
+                                    <option value="Bad">Bad</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="control-label col-md-6">Initiative and Creativity
+                                <span class="required" aria-required="true"> * </span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Inisiatif dan kreatifitas karyawan di masa percobaan" data-container="body"></i>
+                            </label>
+                            <div class="col-md-4">
+                                <select id="initiative" name="initiative" class="form-control input-sm select2" data-placeholder="Select Value" required >
+                                    <option selected disabled></option>
+                                    <option value="Perfect">Perfect</option>
+                                    <option value="Good">Good</option>
+                                    <option value="Enough">Enough</option>
+                                    <option value="Bad">Bad</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="control-label col-md-6">Expandable capacity
+                                <span class="required" aria-required="true"> * </span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Kapasitas karyawan yang dapat dikembangkan ke depan (kepemimpinan, kemampuan untuk melaksanakan tugas yang lebih kompleks, dan lain-lain)" data-container="body"></i>
+                            </label>
+                            <div class="col-md-4">
+                                <select id="expandable" name="expandable" class="form-control input-sm select2" data-placeholder="Select Value" required >
+                                    <option selected disabled></option>
+                                    <option value="Perfect">Perfect</option>
+                                    <option value="Good">Good</option>
+                                    <option value="Enough">Enough</option>
+                                    <option value="Bad">Bad</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-6 control-label">Comments and Suggestions
+                                <i class="fa fa-question-circle tooltips" data-original-title="Komentar dan saran untuk karyawan" data-container="body"></i>
+                            </label>
+                            <div class="col-md-6">
+                                <textarea class="form-control" name="comment" placeholder="Comments and Suggestions" ></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="control-label col-md-6">Update Status Employee
+                                <span class="required" aria-required="true"> * </span>
+                                <i class="fa fa-question-circle tooltips" data-original-title="Rekomendasi perbaruan status karyawan dalam perusahaan" data-container="body"></i>
+                            </label>
+                            <div class="col-md-6">
+                                <select id="update_status_modal" name="update_status" class="form-control input-sm select2" data-placeholder="Select Value" required >
+                                    <option selected disabled></option>
+                                    @if ($detail['status_employee']!='Permanent' || !$manager[$form_eval['id_employee_form_evaluation']])
+                                    <option value="Permanent">Recommended to be a Permanent Employee</option>
+                                    @endif
+                                    <option value="Terminated ">Recommended Not to be Continued as An Employee</option>
+                                    @if ($detail['status_employee']!='Permanent' || !$manager[$form_eval['id_employee_form_evaluation']])
+                                    <option value="Extension">Contract Extension</option>
+                                    @endif
+                                    <option value="Not Change">No Status Change</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="div_modal_extension_manager" hidden>
+                            <label class="col-md-6 control-label">Contract Extension
+                                <i class="fa fa-question-circle tooltips" data-original-title="Komentar dan saran untuk karyawan" data-container="body"></i>
+                            </label>
+                            <div class="col-md-2">
+                                <input type="number" class="form-control" id="current_extension_modal" name="current_extension" placeholder="" ></input>
+                            </div>
+                            <div class="col-md-3">
+                                <select id="time_extension_modal" name="time_extension" class="form-control input-sm select2">
+                                    <option value="Month" selected >Months</option>
+                                    <option value="Year">Years</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>   
+                <div class="modal-footer form-actions">
+                    {{ csrf_field() }}
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn blue" id="submit_new_link">Submit</button>
+                </div>
+                </form>
+            </div>
+        </div>
     </div>
 
 @endsection

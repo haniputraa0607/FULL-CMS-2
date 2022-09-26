@@ -287,17 +287,34 @@ class RecruitmentEmployeeController extends Controller
 
     public function employeeEvaluation(Request $request, $id){
         $post = $request->except('_token');
-        $post['id_employee'] = $id;
-        
+        $post['id_employee_form_evaluation'] = $id;
+
         $update = MyHelper::post('employee/be/recruitment/evaluation',$post);
         if($post['status_form'] == 'reject_hr' || $post['status_form'] == 'reject_director' || $post['status_form'] == 'approve_director'){
             return $update;
         }else{
             if(isset($update['status']) && $update['status'] == 'success'){
-                return redirect('employee/recruitment/detail/'.$id)->withSuccess(['Success update data']);
+                return redirect()->back()->withSuccess(['Success update data']);
             }else{
-                return redirect('employee/recruitment/detail/'.$id)->withErrors($update['messages']??['Failed update data']);
+                return redirect()->back()->withErrors($update['messages']??['Failed update data']);
             }
         }
+    }
+
+    public function employeeEvaluationDelete($id){
+        return $update = MyHelper::post('employee/be/recruitment/evaluation/delete', ['id_employee_form_evaluation' => $id]);
+    }
+
+    public function employeeEvaluationNew(Request $request, $id){
+        $post = $request->except('_token');
+        $post['id_employee'] = $id;
+
+        $update = MyHelper::post('employee/be/recruitment/evaluation',$post);
+        if(isset($update['status']) && $update['status'] == 'success'){
+            return redirect()->back()->withSuccess(['Success update data']);
+        }else{
+            return redirect()->back()->withErrors($update['messages']??['Failed update data']);
+        }
+        
     }
 }
