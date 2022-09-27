@@ -64,11 +64,11 @@
 									Approved By Director
 								@endif
 							</td>
-							<td>
+							<td class="text-center">
 								@if(isset($table_eval['directory']))
 								<a href="{{ $table_eval['directory'] }}">Form Evaluation</a>
 								@else
-								File Not Found
+								-
 								@endif
 							</td>
 							<td>
@@ -288,7 +288,9 @@
 					@if(in_array($detail['status'], ['active']))
 					<div class="row" style="text-align: center">
 						{{ csrf_field() }}
-									<button class="btn blue" @if(!$manager[$form_eval['id_employee_form_evaluation']]) disabled @endif>Submit</button>
+						@if($manager[$form_eval['id_employee_form_evaluation']])
+						<button class="btn blue" @if(!$manager[$form_eval['id_employee_form_evaluation']]) disabled @endif>Submit</button>
+						@endif
 					</div>
 					@endif
 				</form>
@@ -338,8 +340,8 @@
 						{{ csrf_field() }}
 						@if($hrga[$form_eval['id_employee_form_evaluation']])
 						<a class="btn btn-danger evaluation" data-id="{{ $form_eval['id_employee_form_evaluation'] }}" data-name="{{ $detail['name'] }}" data-status="reject_hr">Reject</a>
-						@endif
 						<button class="btn blue" @if(!$hrga[$form_eval['id_employee_form_evaluation']]) disabled @endif>Submit</button>
+						@endif
 						@if($director[$form_eval['id_employee_form_evaluation']])
 						<a class="btn btn-danger evaluation" data-id="{{ $form_eval['id_employee_form_evaluation'] }}" data-name="{{ $detail['name'] }}" data-status="reject_director">Reject</a>
 						<a class="btn btn-success evaluation" data-id="{{ $form_eval['id_employee_form_evaluation'] }}" data-name="{{ $detail['name'] }}" data-status="approve_director">Approve</a>
