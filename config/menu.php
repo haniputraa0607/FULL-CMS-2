@@ -695,6 +695,16 @@ return [
                                     'url' => 'employee/overtime'
                                 ],
 								[
+                                    'label' => 'List Change Shift',
+                                    'required_features' => [543],
+                                    'badge'=>[
+                                        'type'=>'warning',
+                                        'value'=>'employee_changeshift',
+                                    ],
+                                    'active' => '\View::shared("child_active") == "employee-changeshift-list"',
+                                    'url' => 'employee/changeshift'
+                                ],
+								[
                                     'label' => 'Response',
                                     'required_features' => [491],
 					                'active' => '\View::shared("child_active") == "employee-attendance-autoresponse"',

@@ -138,6 +138,15 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
 	    Route::get('detail/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@detailOvertime']);
 	    Route::post('update/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@updateOvertime']);
 	});
+
+	Route::group(['prefix' => 'changeshift'], function()
+	{
+	    Route::any('/', ['middleware' => 'feature_control:543', 'uses' => 'EmployeeChangeShiftController@listChangeShift']);
+	    Route::post('delete/{id}', ['middleware' => 'feature_control:545', 'uses' => 'EmployeeChangeShiftController@deleteChangeShift']);
+	    Route::get('detail/{id}', ['middleware' => 'feature_control:544', 'uses' => 'EmployeeChangeShiftController@detailChangeShift']);
+	    Route::post('update/{id}', ['middleware' => 'feature_control:545', 'uses' => 'EmployeeChangeShiftController@updateChangeShift']);
+	    Route::post('list-date', ['middleware' => 'feature_control:545', 'uses' => 'EmployeeChangeShiftController@listDate']);
+	});
 	Route::group(['prefix' => 'income'], function()
 	{
 	    Route::any('/payslip', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeIncomeController@index']);
