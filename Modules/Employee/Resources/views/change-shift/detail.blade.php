@@ -75,28 +75,19 @@
         
         function approvedTimeOff () {
             var id_employee_change_shift = {{$result['id_employee_change_shift']}};
-            var id_outlet = {{$result['user']['outlet']['id_outlet']}};
-            var id = {{$result['user']['id']}};
-            var start_date = $('#list_date_start').val();
-            var end_date = $('#list_date_end').val();
-            var time_start = $('input[type=text][name=time_start]').val();
-            var time_end = $('input[type=text][name=time_end]').val();
-            var use_quota_time_off = null;
-            if ($('.check_quota').is(":checked"))
-            {
-                use_quota_time_off = 1;
-            }
+            var id_user = {{$result['user']['id']}};
+            var change_shift_date = $('#list_date_start').val();
+            var id_employee_office_hour_shift = $('#list_shift').val();
+            var reason = $('#reason').val();
+           
 
             var data = {
                 '_token' : '{{csrf_token()}}',
                 'id_employee_change_shift' : id_employee_change_shift,
-                'id_outlet' : id_outlet,
-                'id_employee' : id,
-                'start_date' : start_date,
-                'end_date' : end_date,
-                'time_start' : time_start,
-                'time_end' : time_end,
-                'use_quota_time_off' : use_quota_time_off,
+                'id_user' : id_user,
+                'change_shift_date' : change_shift_date,
+                'id_employee_office_hour_shift' : id_employee_office_hour_shift,
+                'reason' : reason,
                 'approve' : true
             };
             swal({
@@ -111,12 +102,12 @@
                 function(){
                     $.ajax({
                         type : "POST",
-                        url : "{{url('employee/timeoff/update')}}/"+id_employee_change_shift,
+                        url : "{{url('employee/changeshift/update')}}/"+id_employee_change_shift,
                         data : data,
                         success : function(response) {
                             if (response.status == 'success') {
                                 swal("Sent!", "Employee request change shift has been approved", "success")
-                                location.href = "{{url('employee/timeoff/detail')}}/"+id_employee_change_shift;
+                                location.href = "{{url('employee/changeshift/detail')}}/"+id_employee_change_shift;
                             }
                             else if(response.status == "fail"){
                                 swal("Error!", response.messages, "error")
@@ -152,30 +143,40 @@
         function listDateStart(data){
             data['_token'] = '{{csrf_token()}}';
             var list = '<option></option>';
+            var list_shift = '<option></option>';
             $.ajax({
                 type : "POST",
                 url : "{{ url('employee/changeshift/list-date') }}",
                 data : data,
                 success: function(result){
                     if(result['status']=='success'){    
-                        var new_result = jQuery.parseJSON(JSON.stringify(result['result']));
+                        var new_result = jQuery.parseJSON(JSON.stringify(result['result']['list_dates']));
                         $('#list_date_start').empty();
                         $.each(new_result, function(i, index) {
                             list += '<option value="'+index.date+'" data-id="'+index.id_employee_schedule+'" >'+index.date_format+'</option>';
                         });
+
+                        var new_shifts = jQuery.parseJSON(JSON.stringify(result['result']['shifts']));
+                        $('#list_shift').empty();
+                        $.each(new_shifts, function(i, index) {
+                            list_shift += '<option value="'+index.id_employee_office_hour_shift+'" >'+index.shift_name+'</option>';
+                        });
+
                         $('#list_date_start').append(list);
+                        $('#list_shift').append(list_shift);
                         $(".select2").select2({
                             placeholder: "Search"
                         });
                     }else if(result['status']=='fail'){
                         $('#list_date_start').empty();
+                        $('#list_shift').empty();
                         toastr.warning(result['messages']);
                     }
                 }
             });
         }
 
-        function submitTimeOff(value) {
+        function submitChangeShift(value) {
             var data = $('#update-change-shift').serialize();
         
             if (!$('form#update-change-shift')[0].checkValidity()) {
@@ -315,7 +316,7 @@
                         <label for="example-search-input" class="control-label col-md-4">Reason <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Alasan ganti shift" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <textarea name="reason" class="form-control" placeholder="Enter reason here" >{{ $result['reason'] }}</textarea>
+                            <textarea name="reason" id="reason" class="form-control" placeholder="Enter reason here" @if($result['status']!='Pending') disabled @endif>{{ $result['reason'] }}</textarea>
                         </div>
                     </div>
                     @if (isset($result['approve']))
@@ -332,11 +333,9 @@
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            @if (empty($result['reject_at']))
-                                @if(empty($result['approve']))
-                                <a onclick="submitTimeOff('submit')" class="btn blue" @if($result['status'] != 'Pending') disabled @endif>Submit</a>
-                                <a onclick="submitTimeOff('approve')" id="approve" class="btn green approve">Approve</a>
-                                @endif
+                            @if ($result['status'] == 'Pending')
+                                <a onclick="submitChangeShift('submit')" class="btn blue">Submit</a>
+                                <a onclick="submitChangeShift('approve')" id="approve" class="btn green approve">Approve</a>
                             @endif
                         </div>
                     </div>
