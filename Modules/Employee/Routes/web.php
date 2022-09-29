@@ -49,7 +49,9 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
         Route::any('candidate/delete-custom-link/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@deleteCustomLink']);
         Route::any('update/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@update']);
         Route::post('complement/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@complement']);
+        Route::post('new-evaluation/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@employeeEvaluationNew']);
         Route::post('evaluation/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@employeeEvaluation']);
+        Route::post('evaluation/delete/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@employeeEvaluationDelete']);
         Route::any('reject/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@reject']);
         Route::any('create-business-partner', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@CreateBusinessPartner']);
 //        Route::any('create', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@create']);
@@ -135,6 +137,15 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
 	    Route::post('delete/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@deleteOvertime']);
 	    Route::get('detail/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@detailOvertime']);
 	    Route::post('update/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@updateOvertime']);
+	});
+
+	Route::group(['prefix' => 'changeshift'], function()
+	{
+	    Route::any('/', ['middleware' => 'feature_control:543', 'uses' => 'EmployeeChangeShiftController@listChangeShift']);
+	    Route::post('delete/{id}', ['middleware' => 'feature_control:545', 'uses' => 'EmployeeChangeShiftController@deleteChangeShift']);
+	    Route::get('detail/{id}', ['middleware' => 'feature_control:544', 'uses' => 'EmployeeChangeShiftController@detailChangeShift']);
+	    Route::post('update/{id}', ['middleware' => 'feature_control:545', 'uses' => 'EmployeeChangeShiftController@updateChangeShift']);
+	    Route::post('list-date', ['middleware' => 'feature_control:545', 'uses' => 'EmployeeChangeShiftController@listDate']);
 	});
 	Route::group(['prefix' => 'income'], function()
 	{

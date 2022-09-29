@@ -294,11 +294,42 @@ return [
                                             'active' => '\View::shared("child_active") == "employee-privacy-policy"',
                                             'url' => 'employee/privacy-policy'
                                         ],
-                                        [
-                                            'label' => '[Response] Interview Invitation',
-                                            'required_features' => [481],
-                                            'url' => 'autoresponse/employee/interview-invitation-employee'
-                                        ],
+										[
+											'label' => 'Response',
+											'required_features' => [481],
+											'active' => '\View::shared("child_active") == "employee-recruitment-autoresponse"',
+											'children' => [
+												[
+													'label' => 'Interview Invitation',
+													'url' => 'autoresponse/employee/interview-invitation-employee',
+												],
+												[
+													'label' => 'Make An Evaluation Form For Employees',
+													'url' => 'user/autoresponse/make-an-evaluation-form-for-employees',
+												],
+												[
+													'label' => 'Manager Has been Approve An Evaluation Form',
+													'url' => 'user/autoresponse/manager-has-been-approve-an-evaluation-form',
+												],
+												[
+													'label' => 'HRGA Has been Reject An Evaluation Form',
+													'url' => 'user/autoresponse/hrga-has-been-reject-an-evaluation-form',
+												],
+												[
+													'label' => 'HRGA Has been Approve An Evaluation Form',
+													'url' => 'user/autoresponse/hrga-has-been-approve-an-evaluation-form',
+												],
+												
+												[
+													'label' => 'Director Has been Reject An Evaluation Form',
+													'url' => 'user/autoresponse/director-has-been-reject-an-evaluation-form',
+												],
+												[
+													'label' => 'Director Has been Approve An Evaluation Form',
+													'url' => 'user/autoresponse/director-has-been-approve-an-evaluation-form',
+												],
+											],
+										],
                                     ],
                                 ],
                                 [
@@ -662,6 +693,16 @@ return [
                                     ],
                                     'active' => '\View::shared("child_active") == "employee-overtime-list"',
                                     'url' => 'employee/overtime'
+                                ],
+								[
+                                    'label' => 'List Change Shift',
+                                    'required_features' => [543],
+                                    'badge'=>[
+                                        'type'=>'warning',
+                                        'value'=>'employee_changeshift',
+                                    ],
+                                    'active' => '\View::shared("child_active") == "employee-changeshift-list"',
+                                    'url' => 'employee/changeshift'
                                 ],
 								[
                                     'label' => 'Response',
