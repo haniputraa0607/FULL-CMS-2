@@ -100,8 +100,9 @@ class EmployeeChangeShiftController extends Controller
             $data['result'] = $result['result']['change_shift'];
             $data['result']['month_change'] = date('m', strtotime( $data['result']['change_shift_date']));
             $data['result']['year_change'] = date('Y', strtotime( $data['result']['change_shift_date']));
-            $data['result']['change_list_date'] = MyHelper::post('employee/change-shift/list-date', ['id_employee' => $data['result']['user']['id'],'month' => $data['result']['month_change'],'year' => $data['result']['year_change']])['result'] ?? [];
-            $data['result']['list_shift'] = MyHelper::post('employee/change-shift/list-shift', ['id_employee' => $data['result']['user']['id']])['result'] ?? [];
+            $list = MyHelper::post('employee/change-shift/list-date', ['id_employee' => $data['result']['user']['id'],'month' => $data['result']['month_change'],'year' => $data['result']['year_change']])['result'] ?? [];
+            $data['result']['change_list_date'] = $list['list_dates'];
+            $data['result']['list_shift'] = $list['shifts'];
             // return $data;
             return view('employee::change-shift.detail', $data);
         }else{
