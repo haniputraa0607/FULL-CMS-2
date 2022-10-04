@@ -2406,6 +2406,57 @@ return [
 			'icon' => 'fa fa-truck'
 		],
 		[
+			'label' => 'Design Request',
+			'required_features' => [548],
+			'type' => 'tree',
+            'badge'=>[
+                'type'=>'warning',
+                'value'=>'design_request',
+            ],
+			'children' => [
+				[
+					'label' => 'Create Design  Request',
+					'required_features' => [547],
+					'active' => '\View::shared("submenu_active") == "create-design-request"',
+					'url' => 'employee/design-request/create'
+				],
+				[
+					'label' => 'List Design  Request',
+					'required_features' => [548],
+                    'badge'=>[
+                        'type'=>'warning',
+                        'value'=>'design_request',
+                    ],
+					'active' => '\View::shared("submenu_active") == "list-design-request"',
+					'url' => 'employee/design-request'
+				],
+				[
+					'type' => 'group',
+					'required_configs' => [40],
+					'required_features' => [120,122],
+					'children' => [
+						[
+							'label' => '[Response] Create Design Request',
+							'url' => 'user/autoresponse/create-design-request'
+						],
+						[
+							'label' => '[Response] Approve Design Request',
+							'url' => 'user/autoresponse/approve-design-request'
+						],
+						[
+							'label' => '[Response] Reject Design Request',
+							'url' => 'user/autoresponse/reject-design-request'
+						],
+						[
+							'label' => '[Response] FInished Design Request',
+							'url' => 'user/autoresponse/finished-design-request'
+						],
+					],
+				],
+			],
+			'icon' => 'fa fa-paint-brush'
+		],
+		[
 			'label' => 'Request Update Data',
 			'required_features' => [],
 			'type' => 'tree',
