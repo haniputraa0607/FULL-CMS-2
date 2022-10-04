@@ -1093,6 +1093,7 @@ class ProductController extends Controller
 
         $data['update_price'] = 1;
         $data['admin_list'] = 1;
+        $data['outlet_id'] = $key;
         if(isset($page)){
             $product = MyHelper::post('product/be/list?page='.$page, $data);
         }else{
