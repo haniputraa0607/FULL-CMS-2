@@ -17,10 +17,12 @@
             var operator = "conditions["+index+"][operator]";
             var operator_value = document.getElementsByName(operator)[0];
             for(i = operator_value.options.length - 1 ; i >= 0 ; i--) operator_value.remove(i);
-            operator_value.options[operator_value.options.length] = new Option('Request', 'Request');
-            operator_value.options[operator_value.options.length] = new Option('Approve', 'Approve');
+            operator_value.options[operator_value.options.length] = new Option('Pending', 'Pending');
+            operator_value.options[operator_value.options.length] = new Option('Approved', 'Approved');
             operator_value.options[operator_value.options.length] = new Option('Rejected', 'Rejected');
-            operator_value.options[operator_value.options.length] = new Option('Done Approved', 'Done Approved');
+            operator_value.options[operator_value.options.length] = new Option('Finished', 'Finished');
+            operator_value.options[operator_value.options.length] = new Option('Done Finished', 'Done Finished');
+            operator_value.options[operator_value.options.length] = new Option('Provided', 'Provided');
             var parameter = "conditions["+index+"][parameter]";
             document.getElementsByName(parameter)[0].type = 'hidden';
             document.getElementsByName(parameter)[0].value = '';
@@ -61,19 +63,19 @@
                                           </div>
                                           <div class="col-md-4">
                                               <select name="subject" class="form-control input-sm select2" placeholder="Search Subject" onChange="changeSubject(this.name)" style="width:100%">
-                                                  <option value="outlet_name" @if ($con['subject'] == 'outlet_name') selected @endif>Outlet Name</option>
-                                                  <option value="department_name" @if ($con['subject'] == 'department_name') selected @endif>Department Name</option>
-                                                  <option value="number_of_request" @if ($con['subject'] == 'number_of_request') selected @endif>Number of Request</option>
+                                                  <option value="request_name" @if ($con['subject'] == 'request_name') selected @endif>Request Name</option>
+                                                  <option value="title" @if ($con['subject'] == 'title') selected @endif>Title</option>
                                                   <option value="status" @if ($con['subject'] == 'status') selected @endif>Status</option>
                                               </select>
                                           </div>
                                           <div class="col-md-4">
                                               <select name="operator" class="form-control input-sm select2" placeholder="Search Operator" id="test" style="width:100%">                
                                               @if($con['subject'] == 'status')
-                                                <option value="Request" @if ($con['operator'] == 'Request') selected @endif>Request</option>
-                                                <option value="Approve" @if ($con['operator'] == 'Approve') selected @endif>Approve</option>
+                                                <option value="Pending" @if ($con['operator'] == 'Pending') selected @endif>Pending</option>
+                                                <option value="Approved" @if ($con['operator'] == 'Approved') selected @endif>Approved</option>
                                                 <option value="Rejected" @if ($con['operator'] == 'Rejected') selected @endif>Rejected</option>
-                                                <option value="Done Approved" @if ($con['operator'] == 'Done Approved') selected @endif>Done Approved</option>
+                                                <option value="Finished" @if ($con['operator'] == 'Finished') selected @endif>Finished</option>
+                                                <option value="Provided" @if ($con['operator'] == 'Provided') selected @endif>Provided</option>
                                               @else
                                                   <option value="=" @if ($con['operator'] == '=') selected @endif>=</option>
                                                   <option value="like" @if ($con['operator'] == 'like') selected @endif>like</option>
@@ -103,9 +105,8 @@
                                           <div class="col-md-4">
                                               <select name="subject" class="form-control input-sm select2" placeholder="Search Subject" onChange="changeSubject(this.name)" style="width:100%">
                                                   <option value="" selected disabled>Search Subject</option>
-                                                  <option value="outlet_name">Outlet Name</option>
-                                                  <option value="department_name">Department Name</option>
-                                                  <option value="number_of_request">Number of Request</option>
+                                                  <option value="request_name">Request Name</option>
+                                                  <option value="title">Title</option>
                                                   <option value="status">Status</option>
                                               </select>
                                           </div>
@@ -135,9 +136,8 @@
                                   <div class="col-md-4">
                                       <select name="subject" class="form-control input-sm select2" placeholder="Search Subject" onChange="changeSubject(this.name)" style="width:100%">
                                           <option value="" selected disabled>Search Subject</option>
-                                          <option value="outlet_name">Outlet Name</option>
-                                          <option value="department_name">Department Name</option>
-                                          <option value="number_of_request">Number of Request</option>
+                                          <option value="request_name">Request Name</option>
+                                          <option value="title">Title</option>
                                           <option value="status">Status</option>
                                       </select>
                                   </div>
