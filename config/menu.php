@@ -2839,7 +2839,7 @@ return [
 					'label' => 'Outlet Product Price',
 					'required_features' => [62],
 					'active' => '\View::shared("menu_active") == "product-price"',
-					'url' => 'product/price',
+					'url' => 'product/price/0',
 					'icon' => 'fa fa-tag'
 				],
 				[
