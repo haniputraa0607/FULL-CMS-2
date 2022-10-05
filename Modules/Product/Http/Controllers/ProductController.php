@@ -1779,5 +1779,45 @@ class ProductController extends Controller
     public function deleteProductCommission($id, $id_default_commission){
         $delete = MyHelper::post('product/be/commission/delete-product',['id_product_commission_default'=>$id_default_commission]);
         return $delete;
-    }   
+    }
+    public function setting_haircut_service(Request $request){
+            $post = $request->except('_token');
+            $data = [
+                'title'          => 'Product',
+                'sub_title'      => 'Setting Haircut Service',
+                'menu_active'    => 'product',
+                'submenu_active' => 'setting-haircut-service',
+            ];
+           if($post){
+                $query = MyHelper::post('setting/haircut-service-create', $post);
+                  if(isset($query['status']) && $query['status'] == 'success'){
+                          return back()->withSuccess(['Update Setting Success']);
+                  } else{
+                          return back()->withInput($request->input())->withErrors($query['messages']);
+                  }
+           }
+            $data['product'] =  MyHelper::get('product/be/setting_service')['result']??[];
+            $data['result'] =  MyHelper::get('setting/haircut-service')['value']??null;
+            return view('product::setting_haircut_service', $data);
+        }
+        public function setting_other_service(Request $request){
+            $post = $request->except('_token');
+            $data = [
+                'title'          => 'Product',
+                'sub_title'      => 'Setting Other Service',
+                'menu_active'    => 'product',
+                'submenu_active' => 'setting-other-service',
+            ];
+           if($post){
+                $query = MyHelper::post('setting/other-service-create', $post);
+                  if(isset($query['status']) && $query['status'] == 'success'){
+                          return back()->withSuccess(['Update Setting Success']);
+                  } else{
+                          return back()->withInput($request->input())->withErrors($query['messages']);
+                  }
+           }
+             $data['product'] =  MyHelper::get('product/be/setting_service')['result']??[];
+            $data['result'] =  MyHelper::get('setting/other-service')['value']??null;
+            return view('product::setting_other_service', $data);
+        }
 }

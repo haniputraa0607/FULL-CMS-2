@@ -6,7 +6,7 @@
                         <div class="form-group">
 				<label  class="control-label col-md-4">Bank Name</label>
 				<div class="col-md-6">
-                                    <select name="id_bank_name" class="form-control input-sm select2" data-placeholder="Search Bank Name" required>
+                                    <select name="id_bank_name" class="form-control input-sm select2" data-placeholder="Search Bank Name" >
                                                 <option></option>
                                                 @foreach($bank as $key => $val)
                                                     <option value="{{ $val['id_bank_name'] }}" @if($val['id_bank_name']==$detail['id_bank_name']) selected @endif>{{ $val['bank_name'] }}</option>
@@ -17,37 +17,49 @@
                         <div class="form-group">
 				<label class="col-md-4 control-label">Bank Account name</label>
 				<div class="col-md-6">
-					<input class="form-control" maxlength="200" type="text" name="bank_account_name" value="{{$detail['bank_account_name']??''}}" placeholder="Bank Account Name" required/>
+					<input class="form-control" maxlength="200" type="text" name="bank_account_name" value="{{$detail['bank_account_name']??''}}" placeholder="Bank Account Name" />
 				</div>
 			</div>
                         <div class="form-group">
 				<label class="col-md-4 control-label">Bank Account Number</label>
 				<div class="col-md-6">
-					<input class="form-control" maxlength="200" id="banks" type="text" name="bank_account_number" value="{{$detail['bank_account_number']??''}}" placeholder="Bank Account Number" required/>
+					<input class="form-control" maxlength="200" id="banks" type="text" name="bank_account_number" value="{{$detail['bank_account_number']??''}}" placeholder="Bank Account Number" />
 				</div>
 			</div>
                         <div class="form-group">
 				<label class="col-md-4 control-label">NPWP</label>
 				<div class="col-md-6">
-					<input class="form-control" id="npwp" maxlength="200" type="text" name="npwp" value="{{$detail['npwp']??''}}" placeholder="NPWP" required/>
+					<input class="form-control" id="npwp" maxlength="200" type="text" name="npwp" value="{{$detail['npwp']??''}}" placeholder="NPWP" />
 				</div>
 			</div>
                         <div class="form-group">
 				<label class="col-md-4 control-label">NPWP Name</label>
 				<div class="col-md-6">
-					<input class="form-control" maxlength="200" type="text" name="npwp_name" value="{{$detail['npwp_name']??''}}" placeholder="NPWP Name" required/>
+					<input class="form-control" maxlength="200" type="text" name="npwp_name" value="{{$detail['npwp_name']??''}}" placeholder="NPWP Name" />
 				</div>
 			</div>
                         <div class="form-group">
 				<label class="col-md-4 control-label">NPWP Address</label>
 				<div class="col-md-6">
-					<input class="form-control" maxlength="200" type="text" name="npwp_address" value="{{$detail['npwp_address']??''}}" placeholder="NPWP Address" required/>
+					<input class="form-control" maxlength="200" type="text" name="npwp_address" value="{{$detail['npwp_address']??''}}" placeholder="NPWP Address" />
+				</div>
+			</div>
+                        <div class="form-group">
+				<label class="col-md-4 control-label">Bpjs Kesehatan</label>
+				<div class="col-md-6">
+					<input class="form-control" min="15" max='18' type="text" id='bpjs_kesehatan' name="bpjs_kesehatan" value="{{$detail['bpjs_kesehatan']??''}}" placeholder="Nomor BPJS Kesehatan" />
+				</div>
+			</div>
+                        <div class="form-group">
+				<label class="col-md-4 control-label">Bpjs Ketenagakerjaan</label>
+				<div class="col-md-6">
+					<input class="form-control" min="11" max='12' type="text" id='bpjs_ketenagakerjaan' name="bpjs_ketenagakerjaan" value="{{$detail['bpjs_ketenagakerjaan']??''}}" placeholder="Nomor BPJS Ketenagakerjaan" />
 				</div>
 			</div>
                         <div class="form-group">
 				<label class="col-md-4 control-label">Contact Person</label>
 				<div class="col-md-6">
-					<input class="form-control" maxlength="200" type="text" name="contact_person" value="{{$detail['contact_person']??''}}" placeholder="Contact Person" required/>
+					<input class="form-control" maxlength="200" type="text" name="contact_person" value="{{$detail['contact_person']??''}}" placeholder="Contact Person" />
 				</div>
 			</div>
                         <div class="form-group">
@@ -59,8 +71,7 @@
                         <div class="form-group">
 				<label class="col-md-4 control-label">Type</label>
 				<div class="col-md-6">
-					<select name="type" class="form-control input-sm select2" data-placeholder="Search Type" required>
-                                            <option></option>
+					<select name="type" class="form-control input-sm select2" data-placeholder="Search Type" >
                                             <option value="0" @if($detail['type']==0) selected @endif>NIK</option>
                                             <option value="1" @if($detail['type']==1) selected @endif>NPWP</option>
                                             <option value="2" @if($detail['type']==2) selected @endif>Others</option>
@@ -73,7 +84,7 @@
 					<textarea class="form-control" name="notes" placeholder="Notes" >{{$detail['notes']}}</textarea>
 				</div>
 			</div>
-                        <input class="form-control" maxlength="200" type="hidden" name="form" value="1" placeholder="Contact Person" required/>
+                        <input class="form-control" maxlength="200" type="hidden" name="form" value="1" placeholder="Contact Person" />
 				
                         
 		</div>

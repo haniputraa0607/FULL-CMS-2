@@ -5,6 +5,10 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'product'
 	/**
 	 * product
 	 */
+	Route::any('/setting-haircut-service', ['middleware' => 'feature_control:48', 'uses' => 'ProductController@setting_haircut_service']);
+	Route::any('/setting-other-service', ['middleware' => 'feature_control:48', 'uses' => 'ProductController@setting_other_service']);
+        
+        
 	Route::get('/', ['middleware' => 'feature_control:48', 'uses' => 'ProductController@listProduct']);
 	Route::any('/image/add', ['middleware' => 'feature_control:54', 'uses' => 'ProductController@addImage']);
 	Route::any('/image/detail', ['middleware' => 'feature_control:53', 'uses' => 'ProductController@addImageDetail']);

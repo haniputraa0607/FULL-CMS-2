@@ -88,6 +88,36 @@ function myFunction() {
                 digitsOptional: false,
             });
         }
+        function bpjs_kesehatan(id){
+            $(id).inputmask("remove");
+            $(id).inputmask({
+                mask: "999999999999999999",
+                removeMaskOnSubmit: true,
+                placeholder:"",
+                prefix: "",
+                //digits: 0,
+                // groupSeparator: '.',
+                rightAlign: false,
+                greedy: false,
+                autoGroup: true,
+                digitsOptional: false,
+            });
+        }
+        function bpjs_ketenagakerjaan(id){
+            $(id).inputmask("remove");
+            $(id).inputmask({
+                mask: "999999999999",
+                removeMaskOnSubmit: true,
+                placeholder:"",
+                prefix: "",
+                //digits: 0,
+                // groupSeparator: '.',
+                rightAlign: false,
+                greedy: false,
+                autoGroup: true,
+                digitsOptional: false,
+            });
+        }
         $('.date_picker').datepicker({
             'format' : 'yyyy-mm-d',
             'todayHighlight' : true,
@@ -258,6 +288,8 @@ function myFunction() {
             npwp('#npwp');
             banks('#banks');
             number('#phone_emergency_contact');
+            bpjs_kesehatan('#bpjs_kesehatan');
+            bpjs_ketenagakerjaan('#bpjs_ketenagakerjaan');
             SweetAlert.init()
             SweetAlertEvaluation.init()
             @if($detail['status_employee']=='Permanent')
