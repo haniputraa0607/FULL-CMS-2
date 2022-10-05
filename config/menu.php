@@ -1255,6 +1255,25 @@ return [
 							],
 						],
 						[
+							'label' => 'Setting Product',
+							'required_features' => [],
+							'type' => 'tree',
+							'children' => [
+								[
+									'label' => 'Haircut Service',
+									'required_features' => [],
+                                                                        'active' => '\View::shared("submenu_active") == "setting-haircut-service"',
+									'url' => 'product/setting-haircut-service'
+								],
+								[
+									'label' => 'Other Service',
+									'required_features' => [],
+									'active' => '\View::shared("submenu_active") == "setting-other-service"',
+									'url' => 'product/setting-other-service'
+								],
+							],
+						],
+                                                [
 							'label' => 'Image Product',
 							'required_features' => [51],
 							'type' => 'tree',
