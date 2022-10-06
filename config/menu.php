@@ -895,6 +895,35 @@ return [
                                                         ],
                                                     ],
                                         ],
+                        [
+                                            'label' => 'Cash Advance',
+                                            'required_features' => [],
+                                            'type' => 'tree',
+                                            'active' => '\View::shared("submenu_active") == "employee-cash-advance',
+                                            'badge'=>[
+                                                    'type'=>'warning',
+                                                    'value'=>'employee-cash-advance',
+                                                ],
+                                            'children' => [
+                                                        [
+                                                            'label' => 'List Request',
+                                                            'required_features' => [481],
+                                                            'active' => '\View::shared("child_active") == "employee-cash-advance-pending"',
+                                                            'url' => 'employee/cash-advance',
+                                                            'badge'=>[
+                                                                'type'=>'warning',
+                                                                'value'=>'employee-cash-advance',
+                                                            ],
+                                                        ],
+                                                        [
+                                                            'label' => 'List History',
+                                                            'required_features' => [481],
+                                                            'active' => '\View::shared("child_active") == "employee-cash-advance-history"',
+                                                            'url' => 'employee/cash-advance/list'
+                                                        ],
+                                                        
+                                                    ],
+                                        ],
                                         [
                                             'label' => 'Payslip',
                                             'url' => 'employee/income/payslip',
