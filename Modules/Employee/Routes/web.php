@@ -49,9 +49,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
         Route::any('candidate/delete-custom-link/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@deleteCustomLink']);
         Route::any('update/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@update']);
         Route::post('complement/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@complement']);
-        Route::post('new-evaluation/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@employeeEvaluationNew']);
         Route::post('evaluation/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@employeeEvaluation']);
-        Route::post('evaluation/delete/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@employeeEvaluationDelete']);
         Route::any('reject/{id}', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@reject']);
         Route::any('create-business-partner', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@CreateBusinessPartner']);
 //        Route::any('create', ['middleware' => 'feature_control:444', 'uses' => 'RecruitmentEmployeeController@create']);
@@ -77,6 +75,14 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
         Route::get('/detail/{id}', ['middleware' => 'feature_control:516,528,529,530', 'uses' => 'EmployeeReimbursementController@detail']);
         Route::post('/create', ['middleware' => 'feature_control:517,530', 'uses' => 'EmployeeReimbursementController@create']);
         Route::any('/list', ['middleware' => 'feature_control:515,528,529,530', 'uses' => 'EmployeeReimbursementController@index_action']);
+       
+    });
+    Route::group(['prefix' => 'cash-advance'], function(){
+        Route::any('', [ 'uses' => 'EmployeeCashAdvanceController@index']);
+        Route::any('/update/{id}', [ 'uses' => 'EmployeeCashAdvanceController@update']);
+        Route::get('/detail/{id}', ['uses' => 'EmployeeCashAdvanceController@detail']);
+        Route::post('/create', ['uses' => 'EmployeeCashAdvanceController@create']);
+        Route::any('/list', [ 'uses' => 'EmployeeCashAdvanceController@index_action']);
        
     });
     Route::group(['prefix' => 'attendance'], function(){
@@ -137,15 +143,6 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
 	    Route::post('delete/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@deleteOvertime']);
 	    Route::get('detail/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@detailOvertime']);
 	    Route::post('update/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@updateOvertime']);
-	});
-
-	Route::group(['prefix' => 'changeshift'], function()
-	{
-	    Route::any('/', ['middleware' => 'feature_control:543', 'uses' => 'EmployeeChangeShiftController@listChangeShift']);
-	    Route::post('delete/{id}', ['middleware' => 'feature_control:545', 'uses' => 'EmployeeChangeShiftController@deleteChangeShift']);
-	    Route::get('detail/{id}', ['middleware' => 'feature_control:544', 'uses' => 'EmployeeChangeShiftController@detailChangeShift']);
-	    Route::post('update/{id}', ['middleware' => 'feature_control:545', 'uses' => 'EmployeeChangeShiftController@updateChangeShift']);
-	    Route::post('list-date', ['middleware' => 'feature_control:545', 'uses' => 'EmployeeChangeShiftController@listDate']);
 	});
 	Route::group(['prefix' => 'income'], function()
 	{
@@ -253,13 +250,4 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
         Route::any('reject/{id}', ['middleware' => 'feature_control:540', 'uses' => 'RequestEmployeeController@rejectRequest']);
         Route::any('delete/{id}', ['middleware' => 'feature_control:541', 'uses' => 'RequestEmployeeController@deleteRequest']);
     });
-
-    Route::group(['prefix' => 'design-request'], function(){
-        Route::any('/', ['middleware' => 'feature_control:548', 'uses' => 'DesignRequestController@listDesignRequest']);
-        Route::any('create', ['middleware' => 'feature_control:547', 'uses' => 'DesignRequestController@createDesignRequest']);
-        Route::any('reject/{id}', ['middleware' => 'feature_control:550', 'uses' => 'DesignRequestController@rejectDesignRequest']);
-        Route::any('detail/{id}', ['middleware' => 'feature_control:549', 'uses' => 'DesignRequestController@detailDesignRequest']);
-    });
-
-
 });
