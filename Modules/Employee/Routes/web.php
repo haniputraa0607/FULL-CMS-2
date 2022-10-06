@@ -144,6 +144,15 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
 	    Route::get('detail/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@detailOvertime']);
 	    Route::post('update/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@updateOvertime']);
 	});
+
+    Route::group(['prefix' => 'changeshift'], function()
+	{
+	    Route::any('/', ['middleware' => 'feature_control:543', 'uses' => 'EmployeeChangeShiftController@listChangeShift']);
+	    Route::post('delete/{id}', ['middleware' => 'feature_control:545', 'uses' => 'EmployeeChangeShiftController@deleteChangeShift']);
+	    Route::get('detail/{id}', ['middleware' => 'feature_control:544', 'uses' => 'EmployeeChangeShiftController@detailChangeShift']);
+	    Route::post('update/{id}', ['middleware' => 'feature_control:545', 'uses' => 'EmployeeChangeShiftController@updateChangeShift']);
+	    Route::post('list-date', ['middleware' => 'feature_control:545', 'uses' => 'EmployeeChangeShiftController@listDate']);
+	});
 	Route::group(['prefix' => 'income'], function()
 	{
 	    Route::any('/payslip', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeIncomeController@index']);
@@ -249,5 +258,12 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
         Route::any('detail/{id}', ['middleware' => 'feature_control:539', 'uses' => 'RequestEmployeeController@detailRequest']);
         Route::any('reject/{id}', ['middleware' => 'feature_control:540', 'uses' => 'RequestEmployeeController@rejectRequest']);
         Route::any('delete/{id}', ['middleware' => 'feature_control:541', 'uses' => 'RequestEmployeeController@deleteRequest']);
+    });
+
+    Route::group(['prefix' => 'design-request'], function(){
+        Route::any('/', ['middleware' => 'feature_control:548', 'uses' => 'DesignRequestController@listDesignRequest']);
+        Route::any('create', ['middleware' => 'feature_control:547', 'uses' => 'DesignRequestController@createDesignRequest']);
+        Route::any('reject/{id}', ['middleware' => 'feature_control:550', 'uses' => 'DesignRequestController@rejectDesignRequest']);
+        Route::any('detail/{id}', ['middleware' => 'feature_control:549', 'uses' => 'DesignRequestController@detailDesignRequest']);
     });
 });
