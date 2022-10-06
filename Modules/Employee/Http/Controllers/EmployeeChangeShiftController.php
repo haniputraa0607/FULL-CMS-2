@@ -90,7 +90,7 @@ class EmployeeChangeShiftController extends Controller
     {
         $data = [
             'title'          	=> 'Employee',
-            'sub_title'      	=> 'Detail Request Employee Time Off',
+            'sub_title'      	=> 'Detail Request Employee Change Shift',
             'menu_active'    	=> 'employee',
             'submenu_active' 	=> 'employee-timeoff-overtime',
             'child_active' 		=> 'employee-changeshift-list',
@@ -101,12 +101,12 @@ class EmployeeChangeShiftController extends Controller
             $data['result']['month_change'] = date('m', strtotime( $data['result']['change_shift_date']));
             $data['result']['year_change'] = date('Y', strtotime( $data['result']['change_shift_date']));
             $list = MyHelper::post('employee/change-shift/list-date', ['id_employee' => $data['result']['user']['id'],'month' => $data['result']['month_change'],'year' => $data['result']['year_change']])['result'] ?? [];
-            $data['result']['change_list_date'] = $list['list_dates'];
-            $data['result']['list_shift'] = $list['shifts'];
+            $data['result']['change_list_date'] = $list['list_dates']??[];
+            $data['result']['list_shift'] = $list['shifts']??[];
             // return $data;
             return view('employee::change-shift.detail', $data);
         }else{
-            return redirect('employee/timeoff')->withErrors($result['messages'] ?? ['Failed get detail employee request time off']);
+            return redirect('employee/timeoff')->withErrors($result['messages'] ?? ['Failed get detail employee request change shift']);
         }
     }
 

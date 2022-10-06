@@ -304,12 +304,16 @@
                         <label for="example-search-input" class="control-label col-md-4">Shift <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Shift yang dipilih" data-container="body"></i></label>
                         <div class="col-md-5">
+                            @if($result['status'] != 'Pending') 
+                            <input class="form-control" type="text" placeholder="Outlet name" value="{{ $result['office_hour_shift']['shift_name'] }}" disabled/>
+                            @else
                             <select class="form-control select2" name="id_employee_office_hour_shift" required id="list_shift" @if($result['status']!='Pending') disabled @endif>
                                 <option value="" selected disabled>Select Shift</option>
                                 @foreach($result['list_shift'] ?? [] as $d => $shift)
                                     <option value="{{$shift['id_employee_office_hour_shift']}}" @if(isset($result['id_employee_office_hour_shift'])) @if($result['id_employee_office_hour_shift'] == $shift['id_employee_office_hour_shift']) selected @endif @endif> {{$shift['shift_name']}}</option>
                                 @endforeach
                             </select>
+                            @endif
                         </div>
                     </div>
                     <div class="form-group">
