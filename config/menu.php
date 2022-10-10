@@ -2485,19 +2485,23 @@ return [
 					'children' => [
 						[
 							'label' => '[Response] Create Design Request',
-							'url' => 'user/autoresponse/create-design-request'
+							'url' => 'user/autoresponse/a-new-design-request-created'
 						],
 						[
 							'label' => '[Response] Approve Design Request',
-							'url' => 'user/autoresponse/approve-design-request'
+							'url' => 'user/autoresponse/a-design-request-has-been-approved'
 						],
 						[
 							'label' => '[Response] Reject Design Request',
-							'url' => 'user/autoresponse/reject-design-request'
+							'url' => 'user/autoresponse/a-design-request-has-been-rejected'
 						],
 						[
-							'label' => '[Response] FInished Design Request',
-							'url' => 'user/autoresponse/finished-design-request'
+							'label' => '[Response] Finished Design Request',
+							'url' => 'user/autoresponse/a-design-request-has-been-finished'
+						],
+						[
+							'label' => '[Response] Finished Design Provided',
+							'url' => 'user/autoresponse/a-design-request-has-been-provided'
 						],
 					],
 				],
