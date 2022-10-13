@@ -83,7 +83,7 @@ $grantedFeature     = session('granted_features');
                          <tr>
                             <th class="text-nowrap text-center">Name</th>
                             <th class="text-nowrap text-center">Email</th>
-                            <th class="text-nowrap text-center">Title</th>
+                            <th class="text-nowrap text-center">Name Product Icount</th>
                             <th class="text-nowrap text-center">Price</th>
                             <th class="text-nowrap text-center">Notes</th>
                             <th class="text-nowrap text-center">Status</th>
@@ -99,7 +99,7 @@ $grantedFeature     = session('granted_features');
                                 <tr data-id="{{ $dt['id_employee_cash_advance'] }}">
                                     <td>{{$dt['user_name']}}</td>
                                     <td>{{$dt['email']}}</td>
-                                    <td>{{$dt['title']}}</td>
+                                    <td>{{$dt['name']}}</td>
                                     <td>{{number_format($dt['price']??0,0,',',',')}}</td>
                                     <td>{{$dt['notes']}}</td>
                                     <td>{{$dt['status']}}</td>

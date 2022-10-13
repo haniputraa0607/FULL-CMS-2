@@ -1,23 +1,32 @@
 <div style="margin-top: -4%">
-	<form class="form-horizontal" id="form_psychological" role="form" action="{{url('employee/reimbursement/update/'.$data['id_employee_cash_advance'])}}" method="post" enctype="multipart/form-data">
+	<form class="form-horizontal" id="form_psychological" role="form" action="{{url('employee/cash-advance/update/'.$data['id_employee_cash_advance'])}}" method="post" enctype="multipart/form-data">
 		<div class="form-body">
 			<div style="text-align: center"><h3>Manager Approval</h3></div>
 			<hr style="border-top: 2px dashed;">
-			<div class="form-group">
-				<label class="col-md-4 control-label">Notes 
+			@if(isset($dataDoc['Manager Approval']['name']))
+                        <div class="form-group">
+				<label class=" col-md-2 control-label">Approved 
 				</label>
 				<div class="col-md-6">
-					<textarea class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Manager Approved']['process_notes'])) disabled @endif>@if(isset($dataDoc['Manager Approved']['process_notes'])) {{$dataDoc['Manager Approved']['process_notes']}}  @endif</textarea>
+                                    <input class="form-control" value="{{$dataDoc['Manager Approval']['name']??''}}" disabled>
+				</div>
+			</div>
+                        @endif
+                        <div class="form-group">
+				<label class=" col-md-2 control-label">Notes 
+				</label>
+				<div class="col-md-6">
+					<textarea class="form-control" name="data_document[process_notes]" placeholder="Notes" @if(isset($dataDoc['Manager Approval']['process_notes'])) disabled @endif>@if(isset($dataDoc['Manager Approval']['process_notes'])) {{$dataDoc['Manager Approval']['process_notes']}}  @endif</textarea>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-md-4 control-label">Attachment</label>
+				<label class=" col-md-2 control-label">Attachment</label>
 				<div class="col-md-6">
-                                            @if(isset($dataDoc['Manager Approved']['attachment']))
-						@if(empty($dataDoc['Manager Approved']['attachment']))
+                                            @if(isset($dataDoc['Manager Approval']['attachment']))
+						@if(empty($dataDoc['Manager Approval']['attachment']))
 							<p style="margin-top: 2%">No file</p>
 						@else
-							<a style="margin-top: 2%" class="btn blue btn-xs" href="{{$dataDoc['Manager Approved']['attachment'] }} "><i class="fa fa-download"></i></a>
+							<a style="margin-top: 2%" class="btn blue btn-xs" href="{{env('STORAGE_URL_API').$dataDoc['Manager Approval']['attachment'] }} "><i class="fa fa-download"></i></a>
 						@endif
 					@else
 						<div class="fileinput fileinput-new" data-provides="fileinput">
@@ -36,13 +45,14 @@
 					@endif
 				</div>
 			</div>
-			<input type="hidden" name="data_document[document_type]" value="Manager Approved">
+			<input type="hidden" name="data_document[document_type]" value="Manager Approval">
 		</div>
-		<input type="hidden" name="action_type" id="action_type_psychological" value="Manager Approved">
-		@if(!isset($dataDoc['Manager Approved']))
+		<input type="hidden" name="action_type" id="action_type_psychological" value="Manager Approval">
+		@if(!isset($dataDoc['Manager Approval']))
 		<div class="row" style="text-align: center">
 			{{ csrf_field() }}
 			@if(in_array($data['status'], ['Pending']))
+                           <a class="btn red save" data-name="{{ $data['name'] }}" data-status="Rejected" data-form="approve">Reject</a>
                            <button class="btn blue">Submit</button>
                         @endif
 		</div>
