@@ -65,8 +65,13 @@ class RecruitmentEmployeeController extends Controller
         }
         $post['status'] = $data['status'];
         $list = MyHelper::post('employee/be/recruitment'.$page, $post);
+        $vas = array();
+        foreach ($list['result']['data']??[] as $value){
+            $value['id_enkripsi'] = MyHelper::createSlug($value['id_employee'],date('Y-m-d H:i:s'));
+            array_push($vas,$value);
+        }
         if(($list['status']??'')=='success'){
-            $data['data']          = $list['result']['data'];
+            $data['data']          = $vas;
             $data['data_total']     = $list['result']['total'];
             $data['data_per_page']   = $list['result']['from'];
             $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;
@@ -85,6 +90,7 @@ class RecruitmentEmployeeController extends Controller
     }
     public function detail(Request $request,$id){
         $post = $request->all();
+        $id = MyHelper::explodeSlug($id)[0]??'';
         $detail = MyHelper::post('employee/be/recruitment/detail',['id_employee' => $id]);
         if(isset($detail['status']) && $detail['status'] == 'success'){
             $data = [
@@ -145,8 +151,13 @@ class RecruitmentEmployeeController extends Controller
         }
         $post['status'] = $data['status'];
        $list = MyHelper::post('employee/be/recruitment/candidate'.$page, $post);
+       $vas = array();
+       foreach ($list['result']['data']??[] as $value){
+            $value['id_enkripsi'] = MyHelper::createSlug($value['id_employee'],date('Y-m-d H:i:s'));
+            array_push($vas,$value);
+        }
         if(($list['status']??'')=='success'){
-            $data['data']          = $list['result']['data'];
+            $data['data']          = $vas;
             $data['data_total']     = $list['result']['total'];
             $data['data_per_page']   = $list['result']['from'];
             $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;
@@ -165,6 +176,7 @@ class RecruitmentEmployeeController extends Controller
     }
     public function detailcandidate(Request $request,$id){
         $post = $request->all();
+        $id = MyHelper::explodeSlug($id)[0]??'';
         $detail = MyHelper::post('employee/be/recruitment/detail',['id_employee' => $id]);
         if(isset($detail['status']) && $detail['status'] == 'success'){
             $data = [
@@ -190,6 +202,7 @@ class RecruitmentEmployeeController extends Controller
     }
      public function update(Request $request, $id){
         $post = $request->except('_token');
+        $id = MyHelper::explodeSlug($id)[0]??'';
         if($post['action_type'] == 'Approved'){
             if($post['status_employee'] == 'Permanent'){
                 $post['start_date'] = date('Y-m-d', strtotime($post['start_date']));
@@ -226,6 +239,7 @@ class RecruitmentEmployeeController extends Controller
     }
     public function reject(Request $request, $id){
         $post = $request->except('_token');
+        $id = MyHelper::explodeSlug($id)[0]??'';
         $post['id_employee'] = $id;
         $update = MyHelper::post('employee/be/recruitment/reject',$post);
         return $update;
@@ -239,6 +253,7 @@ class RecruitmentEmployeeController extends Controller
                 $post['is_tax'] = 0;
             }
         }
+        $id = MyHelper::explodeSlug($id)[0]??'';
         $post['id_employee'] = $id;
         $update = MyHelper::post('employee/be/recruitment/complement',$post);
         if(isset($update['status']) && $update['status'] == 'success'){

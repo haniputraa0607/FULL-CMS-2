@@ -47,8 +47,13 @@ class EmployeeCashAdvanceController extends Controller
             $page = '?page='.$post['page'];
         }
        $list = MyHelper::post('employee/be/cash-advance'.$page, $post);
+       $vas = array();
+       foreach ($list['result']['data']??[] as $value){
+            $value['id_enkripsi'] = MyHelper::createSlug($value['id_employee_cash_advance'],date('Y-m-d H:i:s'));
+            array_push($vas,$value);
+        }
         if(($list['status']??'')=='success'){
-            $data['data']          = $list['result']['data'];
+            $data['data']          = $vas;
             $data['data_total']     = $list['result']['total'];
             $data['data_per_page']   = $list['result']['from'];
             $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;
@@ -74,8 +79,11 @@ class EmployeeCashAdvanceController extends Controller
                     'submenu_active'   => 'employee-cash-advance',
                     'child_active'   => 'employee-cash-advance-pending',
                 ];
+         $id = MyHelper::explodeSlug($id)[0]??'';
       $data['data'] = MyHelper::post('employee/be/cash-advance/detail',['id_employee_cash_advance'=>$id])['result']??[];
-      $data['data']['value_detail'] = json_decode($data['data']['value_detail']??[]);
+      if(isset($data['data']['value_detail'])){
+          $data['data']['value_detail'] = json_decode($data['data']['value_detail']??null);
+      }
       if($data['data']){
         return view('employee::cash_advance.detail',$data);
        }
@@ -126,8 +134,13 @@ class EmployeeCashAdvanceController extends Controller
             $page = '?page='.$post['page'];
         }
        $list = MyHelper::post('employee/be/cash-advance/list'.$page, $post);
+       $vas = array();
+       foreach ($list['result']['data']??[] as $value){
+            $value['id_enkripsi'] = MyHelper::createSlug($value['id_employee_cash_advance'],date('Y-m-d H:i:s'));
+            array_push($vas,$value);
+        }
         if(($list['status']??'')=='success'){
-            $data['data']          = $list['result']['data'];
+            $data['data']          = $vas;
             $data['data_total']     = $list['result']['total'];
             $data['data_per_page']   = $list['result']['from'];
             $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;
@@ -179,8 +192,13 @@ class EmployeeCashAdvanceController extends Controller
             $page = '?page='.$post['page'];
         }
        $list = MyHelper::post('employee/be/cash-advance/manager'.$page, $post);
+        $vas = array();
+       foreach ($list['result']['data']??[] as $value){
+            $value['id_enkripsi'] = MyHelper::createSlug($value['id_employee_cash_advance'],date('Y-m-d H:i:s'));
+            array_push($vas,$value);
+        }
         if(($list['status']??'')=='success'){
-            $data['data']          = $list['result']['data'];
+            $data['data']          = $vas;
             $data['data_total']     = $list['result']['total'];
             $data['data_per_page']   = $list['result']['from'];
             $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;
@@ -206,6 +224,7 @@ class EmployeeCashAdvanceController extends Controller
                     'submenu_active'   => 'employee-cash-advance',
                     'child_active'   => 'employee-cash-advance-pending',
                 ];
+           $id = MyHelper::explodeSlug($id)[0]??'';
        $data['data'] = MyHelper::post('employee/be/cash-advance/detail',['id_employee_cash_advance'=>$id])['result']??[];
        if($data['data']){
         return view('employee::cash_advance.manager_detail',$data);
@@ -213,6 +232,7 @@ class EmployeeCashAdvanceController extends Controller
        return redirect()->back()->withErrors(['Cash Advance not found']);
     }
     public function update(Request $request,$id) {
+        $id = MyHelper::explodeSlug($id)[0]??'';
         $post = $request->except('_token');
         if(empty($post['action_type'])){
             return back()->withErrors(['Action type can not be empty']);
@@ -281,8 +301,13 @@ class EmployeeCashAdvanceController extends Controller
             $page = '?page='.$post['page'];
         }
        $list = MyHelper::post('employee/be/cash_advance'.$page, $post);
+         $vas = array();
+       foreach ($list['result']['data']??[] as $value){
+            $value['id_enkripsi'] = MyHelper::createSlug($value['id_employee_cash_advance'],date('Y-m-d H:i:s'));
+            array_push($vas,$value);
+        }
         if(($list['status']??'')=='success'){
-            $data['data']          = $list['result']['data'];
+            $data['data']          = $vas;
             $data['data_total']     = $list['result']['total'];
             $data['data_per_page']   = $list['result']['from'];
             $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;
@@ -334,8 +359,13 @@ class EmployeeCashAdvanceController extends Controller
             $page = '?page='.$post['page'];
         }
        $list = MyHelper::post('employee/be/cash-advance'.$page, $post);
+         $vas = array();
+       foreach ($list['result']['data']??[] as $value){
+            $value['id_enkripsi'] = MyHelper::createSlug($value['id_employee_cash_advance'],date('Y-m-d H:i:s'));
+            array_push($vas,$value);
+        }
         if(($list['status']??'')=='success'){
-            $data['data']          = $list['result']['data'];
+            $data['data']          = $vas;
             $data['data_total']     = $list['result']['total'];
             $data['data_per_page']   = $list['result']['from'];
             $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;
@@ -354,6 +384,7 @@ class EmployeeCashAdvanceController extends Controller
     }
      public function reject(Request $request, $id){
         $post = $request->except('_token');
+        $id = MyHelper::explodeSlug($id)[0]??'';
         $post['id_employee_cash_advance'] = $id;
         $update = MyHelper::post('employee/be/cash-advance/reject',$post);
         if(isset($post['status']) && $post['status'] == 'success'){
@@ -363,6 +394,7 @@ class EmployeeCashAdvanceController extends Controller
         }
     }
      public function icount(Request $request, $id){
+         $id = MyHelper::explodeSlug($id)[0]??'';
         $post = $request->except('_token');
         $post['id_employee_cash_advance'] = $id;
         $post = MyHelper::post('employee/be/cash-advance/icount',$post);

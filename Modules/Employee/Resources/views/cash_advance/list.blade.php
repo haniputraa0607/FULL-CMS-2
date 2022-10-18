@@ -103,7 +103,7 @@ $grantedFeature     = session('granted_features');
                                     <td>{{$dt['status']}}</td>
                                     <td><a style="margin-top: 2%" class="btn blue btn-xs" href="{{env('STORAGE_URL_API').$dt['attachment']}}"><i class="fa fa-download"></i></a></td>
                                     <td align="center"> 
-                                        <a href="{{ url('/employee/cash-advance/detail/'.$dt['id_employee_cash_advance']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
+                                        <a href="{{ url('/employee/cash-advance/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
                                        
                                     </td>
                                 </tr>
