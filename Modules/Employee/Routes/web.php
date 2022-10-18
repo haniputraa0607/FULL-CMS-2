@@ -62,6 +62,8 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
         Route::get('/detail/{id}', ['middleware' => 'feature_control:444', 'uses' => 'EmployeePerubahanDataController@detail']);
         Route::post('/create', ['middleware' => 'feature_control:444', 'uses' => 'EmployeePerubahanDataController@create']);
         Route::any('/list', ['middleware' => 'feature_control:444', 'uses' => 'EmployeePerubahanDataController@index_action']);
+        Route::any('/category', ['middleware' => 'feature_control:444', 'uses' => 'EmployeePerubahanDataController@category']);
+        Route::any('/category/delete/{id}', ['middleware' => 'feature_control:444', 'uses' => 'EmployeePerubahanDataController@category_delete']);
        
     });
     Route::group(['prefix' => 'reimbursement'], function(){

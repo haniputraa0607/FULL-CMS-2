@@ -841,6 +841,12 @@ return [
                                                             'active' => '\View::shared("child_active") == "employee-perubahan-data-history"',
                                                             'url' => 'employee/perubahan-data/list'
                                                         ],
+                                                        [
+                                                            'label' => 'Category File',
+                                                            'required_features' => [481],
+                                                            'active' => '\View::shared("child_active") == "employee-perubahan-data-category"',
+                                                            'url' => 'employee/perubahan-data/category'
+                                                        ],
                                                     ],
                                         ],
                                             [

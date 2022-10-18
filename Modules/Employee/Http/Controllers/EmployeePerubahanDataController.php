@@ -157,4 +157,45 @@ class EmployeePerubahanDataController extends Controller
         }
         return view('employee::perubahan-data.list', $data);
     }
+     public function category(Request $request)
+    {
+         $post = $request->except('_token');
+         if($post){
+            $list = json_decode(MyHelper::get('setting/category-employee-file')['value_text']??null);
+            $list[] = $post['name'];
+            $query = MyHelper::post('setting/category-employee-file-create',['value_text'=>$list]);
+            if(isset($query['status']) && $query['status'] == 'success'){
+                    return redirect('employee/perubahan-data/category')->withSuccess(['Category File Create Success']);
+            } else{
+                    return redirect('employee/perubahan-data/category')->withInput($request->input())->withErrors($query['messages']);
+            }
+        }
+         $data = [
+                'title'          => 'Employee',
+                'sub_title'      => 'History Employee Perubahan Data',
+                'menu_active'    => 'employee',
+                'submenu_active' => 'employee-perubahan-data',
+                'child_active'   => 'employee-perubahan-data-category',
+            ];
+       $list = MyHelper::get('setting/category-employee-file')['value_text']??null;
+        $data['data'] = json_decode($list);
+        return view('employee::perubahan-data.category',$data);
+    }
+    public function category_delete($id)
+    {
+        $list = json_decode(MyHelper::get('setting/category-employee-file')['value_text']??null);
+        $post = array();
+        foreach ($list as $value) {
+            if($value != $id){
+                $post[] = $value;
+            }
+        }
+        $query = MyHelper::post('setting/category-employee-file-create',['value_text'=>$post]);
+        if(isset($query['status']) && $query['status'] == 'success'){
+                return redirect('employee/perubahan-data/category')->withSuccess(['Category File Delete Success']);
+        } else{
+                return redirect('employee/perubahan-data/category')->withInput($request->input())->withErrors($query['messages']);
+        }
+       
+    }
 }
