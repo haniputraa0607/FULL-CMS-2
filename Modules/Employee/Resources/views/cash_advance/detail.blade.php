@@ -257,7 +257,7 @@
                     <a href="#info" data-toggle="tab"> Info </a>
                 </li>
                 <li>
-                    <a href="#status" data-toggle="tab"> Status Reimbursement</a>
+                    <a href="#status" data-toggle="tab"> Status Cash Advance</a>
                 </li>
                
             </ul>
@@ -324,7 +324,7 @@
                                                             <a  @if(in_array($data['status'], ['Rejected','Finance Approval','Approve','Success'])) data-toggle="tab" href="#approved" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> 
                                                                 Realisasi</a>
                                                     </li>
-                                                    <li class="active">
+                                                    <li @if($data['status']== 'Rejected'||$data['status']== 'Realisasi'||$data['status']== 'Approve'||$data['status']== 'Success') class="active" @endif >
                                                             <a  @if(in_array($data['status'], ['Rejected','Realisasi','Approve','Success'])) data-toggle="tab" href="#realisasi" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> 
                                                                 Icount Callback</a>
                                                     </li>
@@ -377,7 +377,7 @@
                                                            @include('employee::cash_advance.form_approved')
                                                            
                                                     </div>
-                                                    <div class="tab-pane active" id="realisasi">
+                                                    <div class="tab-pane @if($data['status']== 'Rejected'||$data['status']== 'Realisasi'||$data['status']== 'Approve'||$data['status']== 'Success') active @endif " id="realisasi">
                                                            @include('employee::cash_advance.callback')
                                                            
                                                     </div>

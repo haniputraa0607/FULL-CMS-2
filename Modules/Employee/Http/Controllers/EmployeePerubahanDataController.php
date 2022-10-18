@@ -47,9 +47,14 @@ class EmployeePerubahanDataController extends Controller
         if(isset($post['page'])){
             $page = '?page='.$post['page'];
         }
-       $list = MyHelper::post('employee/be/profile/perubahan-data'.$page, $post);
+      $list = MyHelper::post('employee/be/profile/perubahan-data'.$page, $post);
+       $vas = array();
+       foreach ($list['result']['data']??[] as $value){
+            $value['id_enkripsi'] = MyHelper::createSlug($value['id_employee_perubahan_data'],date('Y-m-d H:i:s'));
+            array_push($vas,$value);
+        }
         if(($list['status']??'')=='success'){
-            $data['data']          = $list['result']['data'];
+            $data['data']          = $vas;
             $data['data_total']     = $list['result']['total'];
             $data['data_per_page']   = $list['result']['from'];
             $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;
@@ -68,6 +73,7 @@ class EmployeePerubahanDataController extends Controller
     }
     public function detail($id)
     {
+        $id = MyHelper::explodeSlug($id)[0]??'';
          $data = [ 
                     'title'          => 'Employee',
                     'sub_title'      => 'Detail Employee Perubahan Data',
@@ -128,8 +134,13 @@ class EmployeePerubahanDataController extends Controller
             $page = '?page='.$post['page'];
         }
        $list = MyHelper::post('employee/be/profile/perubahan-data/list'.$page, $post);
+       $vas = array();
+       foreach ($list['result']['data']??[] as $value){
+            $value['id_enkripsi'] = MyHelper::createSlug($value['id_employee_perubahan_data'],date('Y-m-d H:i:s'));
+            array_push($vas,$value);
+        }
         if(($list['status']??'')=='success'){
-            $data['data']          = $list['result']['data'];
+            $data['data']          = $vas;
             $data['data_total']     = $list['result']['total'];
             $data['data_per_page']   = $list['result']['from'];
             $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;

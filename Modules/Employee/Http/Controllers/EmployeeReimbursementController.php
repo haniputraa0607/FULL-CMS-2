@@ -47,8 +47,13 @@ class EmployeeReimbursementController extends Controller
             $page = '?page='.$post['page'];
         }
        $list = MyHelper::post('employee/be/reimbursement'.$page, $post);
+       $vas = array();
+       foreach ($list['result']['data']??[] as $value){
+            $value['id_enkripsi'] = MyHelper::createSlug($value['id_employee_reimbursement'],date('Y-m-d H:i:s'));
+            array_push($vas,$value);
+        }
         if(($list['status']??'')=='success'){
-            $data['data']          = $list['result']['data'];
+            $data['data']          = $vas;
             $data['data_total']     = $list['result']['total'];
             $data['data_per_page']   = $list['result']['from'];
             $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;
@@ -67,6 +72,7 @@ class EmployeeReimbursementController extends Controller
     }
     public function detail($id)
     {
+        $id = MyHelper::explodeSlug($id)[0]??'';
          $data = [ 
                     'title'          => 'Employee',
                     'sub_title'      => 'Detail Employee Reimbursement',
@@ -125,8 +131,13 @@ class EmployeeReimbursementController extends Controller
             $page = '?page='.$post['page'];
         }
        $list = MyHelper::post('employee/be/reimbursement/list'.$page, $post);
+       $vas = array();
+       foreach ($list['result']['data']??[] as $value){
+            $value['id_enkripsi'] = MyHelper::createSlug($value['id_employee_reimbursement'],date('Y-m-d H:i:s'));
+            array_push($vas,$value);
+        }
         if(($list['status']??'')=='success'){
-            $data['data']          = $list['result']['data'];
+            $data['data']          = $vas;
             $data['data_total']     = $list['result']['total'];
             $data['data_per_page']   = $list['result']['from'];
             $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;
@@ -178,8 +189,13 @@ class EmployeeReimbursementController extends Controller
             $page = '?page='.$post['page'];
         }
        $list = MyHelper::post('employee/be/reimbursement/manager'.$page, $post);
+       $vas = array();
+       foreach ($list['result']['data']??[] as $value){
+            $value['id_enkripsi'] = MyHelper::createSlug($value['id_employee_reimbursement'],date('Y-m-d H:i:s'));
+            array_push($vas,$value);
+        }
         if(($list['status']??'')=='success'){
-            $data['data']          = $list['result']['data'];
+            $data['data']          = $vas;
             $data['data_total']     = $list['result']['total'];
             $data['data_per_page']   = $list['result']['from'];
             $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;
@@ -205,6 +221,7 @@ class EmployeeReimbursementController extends Controller
                     'submenu_active'   => 'employee-reimbursement',
                     'child_active'   => 'employee-reimbursement-pending',
                 ];
+         $id = MyHelper::explodeSlug($id)[0]??'';
        $data['data'] = MyHelper::post('employee/be/reimbursement/detail',['id_employee_reimbursement'=>$id])['result']??[];
        if($data['data']){
         return view('employee::reimbursement.manager_detail',$data);
@@ -231,6 +248,7 @@ class EmployeeReimbursementController extends Controller
         if(empty($post['action_type'])){
             return back()->withErrors(['Action type can not be empty']);
         }
+        $id = MyHelper::explodeSlug($id)[0]??'';
         $post['id_employee_reimbursement'] = $id;
         $post['update_type'] = $post['action_type'];
         if(!empty($post['data_document'])){
@@ -281,8 +299,13 @@ class EmployeeReimbursementController extends Controller
             $page = '?page='.$post['page'];
         }
        $list = MyHelper::post('employee/be/reimbursement'.$page, $post);
+       $vas = array();
+       foreach ($list['result']['data']??[] as $value){
+            $value['id_enkripsi'] = MyHelper::createSlug($value['id_employee_reimbursement'],date('Y-m-d H:i:s'));
+            array_push($vas,$value);
+        }
         if(($list['status']??'')=='success'){
-            $data['data']          = $list['result']['data'];
+            $data['data']          = $vas;
             $data['data_total']     = $list['result']['total'];
             $data['data_per_page']   = $list['result']['from'];
             $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;
@@ -334,8 +357,13 @@ class EmployeeReimbursementController extends Controller
             $page = '?page='.$post['page'];
         }
        $list = MyHelper::post('employee/be/reimbursement'.$page, $post);
+       $vas = array();
+       foreach ($list['result']['data']??[] as $value){
+            $value['id_enkripsi'] = MyHelper::createSlug($value['id_employee_reimbursement'],date('Y-m-d H:i:s'));
+            array_push($vas,$value);
+        }
         if(($list['status']??'')=='success'){
-            $data['data']          = $list['result']['data'];
+            $data['data']          = $vas;
             $data['data_total']     = $list['result']['total'];
             $data['data_per_page']   = $list['result']['from'];
             $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;
@@ -387,8 +415,13 @@ class EmployeeReimbursementController extends Controller
             $page = '?page='.$post['page'];
         }
        $list = MyHelper::post('employee/be/reimbursement'.$page, $post);
+       $vas = array();
+       foreach ($list['result']['data']??[] as $value){
+            $value['id_enkripsi'] = MyHelper::createSlug($value['id_employee_reimbursement'],date('Y-m-d H:i:s'));
+            array_push($vas,$value);
+        }
         if(($list['status']??'')=='success'){
-            $data['data']          = $list['result']['data'];
+            $data['data']          = $vas;
             $data['data_total']     = $list['result']['total'];
             $data['data_per_page']   = $list['result']['from'];
             $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;

@@ -88,9 +88,7 @@ $grantedFeature     = session('granted_features');
                             <th class="text-nowrap text-center">Data</th>
                             <th class="text-nowrap text-center">Notes</th>
                             <th class="text-nowrap text-center">Status</th>
-                            @if(MyHelper::hasAccess([339,340,341], $grantedFeature))
                             <th class="text-nowrap text-center">Action</th>
-                            @endif
                         </tr>
                         </thead>
                         <tbody class="text-center">
@@ -105,7 +103,7 @@ $grantedFeature     = session('granted_features');
                                     <td>{{$dt['notes']}}</td>
                                     <td>{{$dt['status']}}</td>
                                     <td align="center"> 
-                                        <a href="{{ url('/employee/perubahan-data/detail/'.$dt['id_employee_perubahan_data']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
+                                        <a href="{{ url('/employee/perubahan-data/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
                                        
                                     </td>
                                 </tr>
