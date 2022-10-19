@@ -474,8 +474,13 @@ class EmployeeReimbursementController extends Controller
         }
        $list = MyHelper::post('employee/be/reimbursement/list_dropdown'.$page, $post);
        $data['product'] = MyHelper::post('employee/be/reimbursement/dropdown'.$page, $post)['result']??[];
+       $vas = array();
+       foreach ($list['result']['data']??[] as $value){
+            $value['id_enkripsi'] = MyHelper::createSlug($value['id_employee_reimbursement_product_icount'],date('Y-m-d H:i:s'));
+            array_push($vas,$value);
+        }
         if(($list['status']??'')=='success'){
-            $data['data']          = $list['result']['data'];
+            $data['data']          = $vas;
             $data['data_total']     = $list['result']['total'];
             $data['data_per_page']   = $list['result']['from'];
             $data['data_up_to']      = $list['result']['from'] + count($list['result']['data'])-1;
@@ -490,7 +495,91 @@ class EmployeeReimbursementController extends Controller
         if($post){
             Session::put($session,$post);
         }
+        $data['textreplace']  = array(
+                            array(
+                                'keyword'=>'value',
+                                'message'=>'Value'
+                            ), 
+                            array(
+                                'keyword'=>'fixed_nominal',
+                                'message'=>''
+                            ), 
+                            array(
+                                'keyword'=>'proteksi',
+                                'message'=>''
+                            ), 
+                            array(
+                                'keyword'=>'+',
+                                'message'=>'Added'
+                            ), 
+                            array(
+                                'keyword'=>'-',
+                                'message'=>'Subtraction'
+                            ), 
+                            array(
+                                'keyword'=>'*',
+                                'message'=>'Multiplication'
+                            ), 
+                            array(
+                                'keyword'=>'/',
+                                'message'=>'Distribution'
+                            ), 
+                        );
         return view('employee::reimbursement.setting', $data);
+    }
+    public function setting_detail($id){
+        $data = [
+                'title'          => 'Employee',
+                'sub_title'      => 'Employee Reimbursement Product Icount',
+                'menu_active'    => 'employee',
+                'submenu_active'   => 'employee-reimbursement',
+                'child_active'   => 'employee-reimbursement-product-icount',
+            ];
+       
+        $id = MyHelper::explodeSlug($id)[0]??'';   
+       $data['data'] = MyHelper::post('employee/be/reimbursement/dropdown/detail',['id_employee_reimbursement_product_icount'=>$id] )['result']??[];
+       $data['product'] = MyHelper::post('employee/be/reimbursement/dropdown', [])['result']??[];
+      
+        $data['textreplace']  = array(
+                            array(
+                                'keyword'=>'value',
+                                'message'=>'Value'
+                            ), 
+                            array(
+                                'keyword'=>'fixed_nominal',
+                                'message'=>''
+                            ), 
+                            array(
+                                'keyword'=>'proteksi',
+                                'message'=>''
+                            ), 
+                            array(
+                                'keyword'=>'+',
+                                'message'=>'Added'
+                            ), 
+                            array(
+                                'keyword'=>'-',
+                                'message'=>'Subtraction'
+                            ), 
+                            array(
+                                'keyword'=>'*',
+                                'message'=>'Multiplication'
+                            ), 
+                            array(
+                                'keyword'=>'/',
+                                'message'=>'Distribution'
+                            ), 
+                        );
+        return view('employee::reimbursement.setting_detail', $data);
+    }
+    public function setting_update(Request $request){
+        $post = $request->all();
+        $post = MyHelper::post('employee/be/reimbursement/dropdown/update', $post);
+        if(isset($post['status']) && $post['status'] == 'success'){
+            return redirect()->back()->withSuccess(['Success update data ']);
+        }else{
+            return redirect()->back()->withErrors($post['messages']??['Failed update data']);
+        }
     }
     public function setting_create(Request $request){
         $post = $request->all();
@@ -502,11 +591,64 @@ class EmployeeReimbursementController extends Controller
         }
     }
     public function delete_create($id){
+        $id = MyHelper::explodeSlug($id)[0]??'';
         $post = MyHelper::post('employee/be/reimbursement/dropdown/delete', ['id_employee_reimbursement_product_icount'=>$id]);
         if(isset($post['status']) && $post['status'] == 'success'){
             return redirect()->back()->withSuccess(['Success delete data ']);
         }else{
             return redirect()->back()->withErrors($post['messages']??['Failed delete data']);
         }
+    }
+    public function global(Request $request)
+    {
+         $post = $request->except('_token');
+         if($post){
+             $post['value'] = str_replace(',','', $post['value']??0);
+           $query = MyHelper::post('setting/balance-global-reimbursement-create',$post);
+            if(isset($query['status']) && $query['status'] == 'success'){
+                    return redirect('employee/reimbursement/setting/balance')->withSuccess(['Category File Create Success']);
+            } else{
+                    return redirect('employee/reimbursement/setting/balance')->withInput($request->input())->withErrors($query['messages']);
+            }
+        }
+         $data = [
+                'title'          => 'Employee',
+                'sub_title'      => 'Global Balance Reimbursement',
+                'menu_active'    => 'employee',
+                'submenu_active' => 'employee-reimbursement',
+                'child_active'   => 'employee-reimbursement-global',
+            ];
+        $data['data'] = MyHelper::get('setting/balance-global-reimbursement');
+        $data['textreplace']  = array(
+                            array(
+                                'keyword'=>'value',
+                                'message'=>'Value'
+                            ), 
+                            array(
+                                'keyword'=>'fixed_nominal',
+                                'message'=>''
+                            ), 
+                            array(
+                                'keyword'=>'proteksi',
+                                'message'=>''
+                            ), 
+                            array(
+                                'keyword'=>'+',
+                                'message'=>'Added'
+                            ), 
+                            array(
+                                'keyword'=>'-',
+                                'message'=>'Subtraction'
+                            ), 
+                            array(
+                                'keyword'=>'*',
+                                'message'=>'Multiplication'
+                            ), 
+                            array(
+                                'keyword'=>'/',
+                                'message'=>'Distribution'
+                            ), 
+                        );
+        return view('employee::reimbursement.balance',$data);
     }
 }
