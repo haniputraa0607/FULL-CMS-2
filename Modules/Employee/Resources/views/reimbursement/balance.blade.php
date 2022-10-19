@@ -1,3 +1,4 @@
+@include('recruitment::default_income.filter')
 <?php
     use App\Lib\MyHelper;
     $grantedFeature     = session('granted_features');
@@ -40,16 +41,7 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
     
 <script>
-    function changeType() {
-			if( $("#type").val()== "Single"){
-				$("#formulas").hide();
-			}else{
-				$("#formulas").show();
-				$('#formula').prop('required', true);
-			}
-		}
   $(document).ready(function () {
-      $("#formulas").hide();
         $("input[data-type='currency']").on({
             keyup: function() {
               formatCurrency($(this));
@@ -120,8 +112,14 @@
           input[0].setSelectionRange(caret_pos, caret_pos);
         }
     })
+    function addFormula(param){
+		var textvalue = $('#formula').val();
+		var textvaluebaru = textvalue+" "+param;
+		$('#formula').val(textvaluebaru);
+        }
     </script>
     
+    @yield('child-script')
 @endsection
 
 @section('content')
@@ -151,92 +149,39 @@
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">Product Icount Cash Advance</span>
+                <span class="caption-subject sbold uppercase font-blue">Setting Global Balance Reimbursement</span>
             </div>
         </div>
         <div class="tabbable-line tabbable-full-width">
-            <ul class="nav nav-tabs">
-                <li class="active">
-                    <a href="#overview" data-toggle="tab"> List Product Icount Cash Advance</a>
-                </li>
-                <li>
-                    <a href="#create" data-toggle="tab">Create Product Icount Cash Advance</a>
-                </li>
-            </ul>
             <div class="tab-content">
-            <div class="tab-pane active" id="overview">
-                <div class="portlet-body form">
-                    @yield('filter')
-                    
-                <div class="portlet light bordered">
-                    <div class="portlet-title">
-                        <div class="caption">
-                            <span class="caption-subject font-blue sbold uppercase">{{ $sub_title }}</span>
-                        </div>
-                    </div>
-                    <div class="portlet-body form">
-                        <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover" id="kt_datatable">
-                                    <thead>
-                                    <tr>
-                                        <th class="text-nowrap text-center">Name</th>
-                                        <th class="text-nowrap text-center">Product Icount</th>
-                                        <th class="text-nowrap text-center">Code</th>
-                                        <th class="text-nowrap text-center">Company Name</th>
-                                        <th class="text-nowrap text-center">Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @if(!empty($data))
-                                        @foreach($data as $dt)
-                                            <tr data-id="{{ $dt['id_employee_cash_advance_product_icount'] }}">
-                                                <td style="text-align: center;">{{$dt['name']}}</td>
-                                                <td style="text-align: center;">{{$dt['name_icount']}}</td>
-                                                <td style="text-align: center;">{{$dt['code']}}</td>
-                                                <td style="text-align: center;">{{$dt['company_type']}}</td>
-                                                <td style="text-align: center;">
-                                                   <a class="btn btn-sm red btn-primary" href="{{url('/employee/cash-advance/setting/delete/'.$dt['id_employee_cash_advance_product_icount'])}}"><i class="fa fa-trash-o"></i> Delete</a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @else
-                                        <tr>
-                                            <td colspan="10" style="text-align: center">Data Not Available</td>
-                                        </tr>
-                                    @endif
-                                    </tbody>
-                                </table>
-                    </div>
-                    </div>
-                </div>
-                </div>
-            </div>
-            <div class="tab-pane" id="create">
-                <form class="form-horizontal" role="form" action="{{url('employee/cash-advance/setting/create')}}" method="post" enctype="multipart/form-data">
+            <div class="tab-pane active" id="create">
+                <form class="form-horizontal" role="form" action="{{url('employee/reimbursement/setting/balance')}}" method="post" enctype="multipart/form-data">
                             <div class="form-body">
-                               <div class="form-group">
-                                    <label class="col-md-4 control-label">Product Icount<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Product icount yang dapat digunakan pada cash_advance employee" data-container="body"></i>
+                              
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Besaran maksimal reimbursement employee" data-container="body"></i>
                                     </label>
-                                    <div class="col-md-5">
-                                        <select  class="form-control select2" name="id_product_icount" id="id_product_icount" data-placeholder="Select Product Icount" required>
-                                                <option ></option>
-                                                @foreach($product as $va)
-                                                <option value="{{$va['id_product_icount']}}">{{$va['name']}}</option>
+                                    <div class="col-md-3">
+                                        <input type="text" name="value" id='value' value="{{number_format($data['value']??0,0,',',',')}}" data-type="currency" placeholder="Masukkan value" class="form-control" required />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Formula<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Rumus balance yang digunakan dalam perhitungan batas maksimal pemberian reimbursement" data-container="body"></i>
+                                    </label>
+                                    <div class="col-md-6">
+                                          <textarea name="value_text" id="formula" class="form-control" placeholder="Masukkan rumus perhitungan reimbursement">{{$data['value_text']??''  }}</textarea>
+                                          <br>
+                                          <div class="row">
+                                                @foreach($textreplace as $key=>$row)
+                                                        <div class="col-md-4" style="margin-bottom:5px;">
+                                                                <span class="btn dark btn-xs btn-block btn-outline var" data-toggle="tooltip" title="{{ $row['message'] }}" onClick="addFormula('{{ $row['keyword'] }}');">{{ str_replace('_',' ',$row['keyword']) }}</span>
+                                                        </div>
                                                 @endforeach
-                                        </select>
+                                        </div>
                                     </div>
                                 </div>
-                               <div class="form-group">
-                                    <label class="col-md-4 control-label">Name<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama yang akan keluar pada aplikasi" datroduct icount yang dapat digunakan pada cash_advance employee"a-container="body"></i>
-                                    </label>
-                                    <div class="col-md-5">
-                                        <input class="form-control" name="name" id="name"  data-placeholder="Select Name" required>
-
-                                    </div>
-                                </div>
-                                
                                 <div class="form-actions">
                                     {{ csrf_field() }}
                                     <div class="row">

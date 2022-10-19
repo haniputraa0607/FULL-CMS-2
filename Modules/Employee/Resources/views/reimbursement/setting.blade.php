@@ -48,6 +48,18 @@
 				$('#formula').prop('required', true);
 			}
 		}
+    function types() {
+        if($("#type").val() == 'year'){
+                $("#change-type").show();
+        }else{
+                $("#change-type").hide();
+        }
+    }
+    function addFormula(param){
+		var textvalue = $('#formula').val();
+		var textvaluebaru = textvalue+" "+param;
+		$('#formula').val(textvaluebaru);
+        }
   $(document).ready(function () {
       $("#formulas").hide();
         $("input[data-type='currency']").on({
@@ -59,7 +71,7 @@
             }
         });
         
-
+        types();
         function formatNumber(n) {
           // format number 1000000 to 1,234,567
           return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -180,8 +192,14 @@
                                     <thead>
                                     <tr>
                                         <th class="text-nowrap text-center">Name</th>
+                                        <th class="text-nowrap text-center">Product Icount</th>
                                         <th class="text-nowrap text-center">Code</th>
                                         <th class="text-nowrap text-center">Company Name</th>
+                                        <th class="text-nowrap text-center">Value</th>
+                                        <th class="text-nowrap text-center">Text</th>
+                                        <th class="text-nowrap text-center">Type</th>
+                                        <th class="text-nowrap text-center">Max Date</th>
+                                        <th class="text-nowrap text-center">Month</th>
                                         <th class="text-nowrap text-center">Action</th>
                                     </tr>
                                     </thead>
@@ -190,10 +208,17 @@
                                         @foreach($data as $dt)
                                             <tr data-id="{{ $dt['id_employee_reimbursement_product_icount'] }}">
                                                 <td style="text-align: center;">{{$dt['name']}}</td>
+                                                <td style="text-align: center;">{{$dt['name_icount']}}</td>
                                                 <td style="text-align: center;">{{$dt['code']}}</td>
                                                 <td style="text-align: center;">{{$dt['company_type']}}</td>
+                                                <td style="text-align: center;">{{number_format($dt['value']??0,0,',',',')}}</td>
+                                                <td style="text-align: center;">{{$dt['value_text']}}</td>
+                                                <td style="text-align: center;">{{$dt['type']}}</td>
+                                                <td style="text-align: center;">{{$dt['max_approve_date']}}</td>
+                                                <td style="text-align: center;">{{$dt['month']}}</td>
                                                 <td style="text-align: center;">
-                                                   <a class="btn btn-sm red btn-primary" href="{{url('/employee/reimbursement/setting/delete/'.$dt['id_employee_reimbursement_product_icount'])}}"><i class="fa fa-trash-o"></i> Delete</a>
+                                                   <a href="{{ url('employee/reimbursement/setting/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
+                                                     <a class="btn btn-sm red btn-primary" href="{{url('employee/reimbursement/setting/delete/'.$dt['id_enkripsi'])}}"><i class="fa fa-trash-o"></i> Delete</a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -225,7 +250,67 @@
                                         </select>
                                     </div>
                                 </div>
-                                
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Name<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama yang akan keluar pada aplikasi" datroduct icount yang dapat digunakan pada cash_advance employee"a-container="body"></i>
+                                    </label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" name="name" id="name"  placeholder="Select Name" required>
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Max Approve Date<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama yang akan keluar pada aplikasi" datroduct icount yang dapat digunakan pada cash_advance employee"a-container="body"></i>
+                                    </label>
+                                    <div class="col-md-5">
+                                        <input type="number" min="1" max="28" class="form-control" name="max_approve_date" id="max_approve_date"  placeholder="Input Max Approve Date" required>
+
+                                    </div>
+                                </div>
+                                 <div class="form-group">
+                                    <label class="col-md-4 control-label">Type<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Besaran maksimal reimbursement employee" data-container="body"></i>
+                                    </label>
+                                    <div class="col-md-3">
+                                        <select onchange="types()" name="type" id='type' placeholder="Masukkan Type" class="form-control" required>
+                                            <option value="month">Monthly</option>
+                                            <option value="year">Yearly</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="change-type">
+                                    <label class="col-md-4 control-label">Month<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Bulan untuk reset nilai dari batas maksimal reimbursememt" data-container="body"></i>
+                                    </label>
+                                    <div class="col-md-3">
+                                        <input type="number" min="1" max="12" name="month" id='month'   placeholder="Masukkan bulan untuk reset nilai" class="form-control" />
+                                     </div>
+                                </div>
+                                 <div class="form-group">
+                                    <label class="col-md-4 control-label">Value
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Besaran maksimal reimbursement employee, jika kosong akan menggunakan nilai global" data-container="body"></i>
+                                    </label>
+                                    <div class="col-md-3">
+                                        <input type="text" name="value" id='value'   data-type="currency" placeholder="Masukkan value" class="form-control" required />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Formula
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Rumus balance yang digunakan dalam perhitungan batas maksimal pemberian reimbursement, jika kosong akan menggunakan formula global" data-container="body"></i>
+                                    </label>
+                                    <div class="col-md-6">
+                                          <textarea name="value_text" id="formula" class="form-control" placeholder="Masukkan rumus perhitungan reimbursement"></textarea>
+                                          <br>
+                                          <div class="row">
+                                                @foreach($textreplace as $key=>$row)
+                                                        <div class="col-md-4" style="margin-bottom:5px;">
+                                                                <span class="btn dark btn-xs btn-block btn-outline var" data-toggle="tooltip" title="{{ $row['message'] }}" onClick="addFormula('{{ $row['keyword'] }}');">{{ str_replace('_',' ',$row['keyword']) }}</span>
+                                                        </div>
+                                                @endforeach
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-actions">
                                     {{ csrf_field() }}
                                     <div class="row">

@@ -48,6 +48,18 @@
 				$('#formula').prop('required', true);
 			}
 		}
+    function types() {
+        if($("#type").val() == 'year'){
+                $("#change-type").show();
+        }else{
+                $("#change-type").hide();
+        }
+    }
+    function addFormula(param){
+		var textvalue = $('#formula').val();
+		var textvaluebaru = textvalue+" "+param;
+		$('#formula').val(textvaluebaru);
+        }
   $(document).ready(function () {
       $("#formulas").hide();
         $("input[data-type='currency']").on({
@@ -59,7 +71,7 @@
             }
         });
         
-
+        types();
         function formatNumber(n) {
           // format number 1000000 to 1,234,567
           return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -151,92 +163,88 @@
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">Product Icount Cash Advance</span>
+                <span class="caption-subject sbold uppercase font-blue">Product Icount Reimbursement</span>
             </div>
         </div>
-        <div class="tabbable-line tabbable-full-width">
-            <ul class="nav nav-tabs">
-                <li class="active">
-                    <a href="#overview" data-toggle="tab"> List Product Icount Cash Advance</a>
-                </li>
-                <li>
-                    <a href="#create" data-toggle="tab">Create Product Icount Cash Advance</a>
-                </li>
-            </ul>
             <div class="tab-content">
-            <div class="tab-pane active" id="overview">
-                <div class="portlet-body form">
-                    @yield('filter')
-                    
-                <div class="portlet light bordered">
-                    <div class="portlet-title">
-                        <div class="caption">
-                            <span class="caption-subject font-blue sbold uppercase">{{ $sub_title }}</span>
-                        </div>
-                    </div>
-                    <div class="portlet-body form">
-                        <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover" id="kt_datatable">
-                                    <thead>
-                                    <tr>
-                                        <th class="text-nowrap text-center">Name</th>
-                                        <th class="text-nowrap text-center">Product Icount</th>
-                                        <th class="text-nowrap text-center">Code</th>
-                                        <th class="text-nowrap text-center">Company Name</th>
-                                        <th class="text-nowrap text-center">Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @if(!empty($data))
-                                        @foreach($data as $dt)
-                                            <tr data-id="{{ $dt['id_employee_cash_advance_product_icount'] }}">
-                                                <td style="text-align: center;">{{$dt['name']}}</td>
-                                                <td style="text-align: center;">{{$dt['name_icount']}}</td>
-                                                <td style="text-align: center;">{{$dt['code']}}</td>
-                                                <td style="text-align: center;">{{$dt['company_type']}}</td>
-                                                <td style="text-align: center;">
-                                                   <a class="btn btn-sm red btn-primary" href="{{url('/employee/cash-advance/setting/delete/'.$dt['id_employee_cash_advance_product_icount'])}}"><i class="fa fa-trash-o"></i> Delete</a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @else
-                                        <tr>
-                                            <td colspan="10" style="text-align: center">Data Not Available</td>
-                                        </tr>
-                                    @endif
-                                    </tbody>
-                                </table>
-                    </div>
-                    </div>
-                </div>
-                </div>
-            </div>
-            <div class="tab-pane" id="create">
-                <form class="form-horizontal" role="form" action="{{url('employee/cash-advance/setting/create')}}" method="post" enctype="multipart/form-data">
+            <div class="tab-pane active" >
+                <form class="form-horizontal" role="form" action="{{url('employee/reimbursement/setting/update')}}" method="post" enctype="multipart/form-data">
                             <div class="form-body">
                                <div class="form-group">
                                     <label class="col-md-4 control-label">Product Icount<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Product icount yang dapat digunakan pada cash_advance employee" data-container="body"></i>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Product icount yang dapat digunakan pada reimbursement employee" data-container="body"></i>
                                     </label>
                                     <div class="col-md-5">
                                         <select  class="form-control select2" name="id_product_icount" id="id_product_icount" data-placeholder="Select Product Icount" required>
-                                                <option ></option>
+                                                <option value="{{$data['id_product_icount']}}">{{$data['name_icount']}}</option>
                                                 @foreach($product as $va)
                                                 <option value="{{$va['id_product_icount']}}">{{$va['name']}}</option>
                                                 @endforeach
                                         </select>
                                     </div>
                                 </div>
-                               <div class="form-group">
+                                <div class="form-group">
                                     <label class="col-md-4 control-label">Name<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Nama yang akan keluar pada aplikasi" datroduct icount yang dapat digunakan pada cash_advance employee"a-container="body"></i>
                                     </label>
                                     <div class="col-md-5">
-                                        <input class="form-control" name="name" id="name"  data-placeholder="Select Name" required>
+                                        <input class="form-control" name="name" value="{{$data['name']}}" id="name"  placeholder="Select Name" required>
+                                        <input class="form-control" type='hidden' name="id_employee_reimbursement_product_icount" value="{{$data['id_employee_reimbursement_product_icount']}}" id="id_employee_reimbursement_product_icount"  placeholder="Select Name" required>
 
                                     </div>
                                 </div>
-                                
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Max Approve Date<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama yang akan keluar pada aplikasi" datroduct icount yang dapat digunakan pada cash_advance employee"a-container="body"></i>
+                                    </label>
+                                    <div class="col-md-5">
+                                        <input type="number" min="1" value="{{$data['max_approve_date']}}"  max="28" class="form-control" name="max_approve_date" id="max_approve_date"  placeholder="Input Max Approve Date" required>
+
+                                    </div>
+                                </div>
+                                 <div class="form-group">
+                                    <label class="col-md-4 control-label">Type<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Besaran maksimal reimbursement employee" data-container="body"></i>
+                                    </label>
+                                    <div class="col-md-3">
+                                        <select onchange="types()" name="type" id='type' placeholder="Masukkan Type" class="form-control" required>
+                                            <option @if($data['type']=="month") selected @endif value="month">Monthly</option>
+                                            <option @if($data['type']=="year") selected @endif value="year">Yearly</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="change-type">
+                                    <label class="col-md-4 control-label">Month<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Bulan untuk reset nilai dari batas maksimal reimbursememt" data-container="body"></i>
+                                    </label>
+                                    <div class="col-md-3">
+                                        <input type="number" value="{{$data['month']??''}}" min="1" max="12" name="month" id='month'   placeholder="Masukkan bulan untuk reset nilai" class="form-control" />
+                                     </div>
+                                </div>
+                                 <div class="form-group">
+                                    <label class="col-md-4 control-label">Value
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Besaran maksimal reimbursement employee, jika kosong akan menggunakan nilai global" data-container="body"></i>
+                                    </label>
+                                    <div class="col-md-3">
+                                        <input type="text" name="value" value="{{number_format($data['value']??0,0,',',',')}}" id='value'   data-type="currency" placeholder="Masukkan value" class="form-control" required />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Formula
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Rumus balance yang digunakan dalam perhitungan batas maksimal pemberian reimbursement, jika kosong akan menggunakan formula global" data-container="body"></i>
+                                    </label>
+                                    <div class="col-md-6">
+                                          <textarea name="value_text" id="formula" class="form-control" placeholder="Masukkan rumus perhitungan reimbursement">{{$data['value_text']??''}}</textarea>
+                                          <br>
+                                          <div class="row">
+                                                @foreach($textreplace as $key=>$row)
+                                                        <div class="col-md-4" style="margin-bottom:5px;">
+                                                                <span class="btn dark btn-xs btn-block btn-outline var" data-toggle="tooltip" title="{{ $row['message'] }}" onClick="addFormula('{{ $row['keyword'] }}');">{{ str_replace('_',' ',$row['keyword']) }}</span>
+                                                        </div>
+                                                @endforeach
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-actions">
                                     {{ csrf_field() }}
                                     <div class="row">
@@ -248,7 +256,6 @@
                             </div>
                         </form>
             </div>
-        </div>
         </div>
     </div>
 @endsection
