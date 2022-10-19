@@ -440,6 +440,17 @@ class UsersController extends Controller
 			];
         }
 
+		if($subject == 'product-request-approved-by-finance' || $subject == 'product-request-rejected-by-finance'){
+            $data['click_inbox'] = [
+				['value' => "No Action",'title' => 'No Action'],
+				['value' => 'request_product','title' => 'List Request Product'],
+			];
+			$data['click_notification'] = [
+				['value' => 'Home','title' => 'Home'],
+				['value' => 'request_product','title' => 'List Request Product'],
+			];
+        }
+
 
 
         if ($subject == 'pin-create') {
