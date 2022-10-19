@@ -841,6 +841,12 @@ return [
                                                             'active' => '\View::shared("child_active") == "employee-perubahan-data-history"',
                                                             'url' => 'employee/perubahan-data/list'
                                                         ],
+                                                        [
+                                                            'label' => 'Category File',
+                                                            'required_features' => [481],
+                                                            'active' => '\View::shared("child_active") == "employee-perubahan-data-category"',
+                                                            'url' => 'employee/perubahan-data/category'
+                                                        ],
                                                     ],
                                         ],
                                             [
@@ -868,6 +874,12 @@ return [
                                                             'required_features' => [481],
                                                             'active' => '\View::shared("child_active") == "employee-reimbursement-history"',
                                                             'url' => 'employee/reimbursement/list'
+                                                        ],
+                                                        [
+                                                            'label' => 'Setting Product Icount',
+                                                            'required_features' => [481],
+                                                            'active' => '\View::shared("child_active") == "employee-reimbursement-product-icount"',
+                                                            'url' => 'employee/reimbursement/setting'
                                                         ],
                                                         [
                                                                 'label' => 'Reimbursement Employee',
@@ -921,7 +933,30 @@ return [
                                                             'active' => '\View::shared("child_active") == "employee-cash-advance-history"',
                                                             'url' => 'employee/cash-advance/list'
                                                         ],
-                                                        
+                                                        [
+                                                            'label' => 'Setting Product Icount',
+                                                            'required_features' => [481],
+                                                            'active' => '\View::shared("child_active") == "employee-cash-advance-product-icount"',
+                                                            'url' => 'employee/cash-advance/setting'
+                                                        ],
+                                                        [
+                                                                'label' => 'Manager Cash Advance',
+                                                                'required_features' => [],
+                                                                'url' => 'employee/cash-advance/manager',
+                                                                'active' => '\View::shared("child_active") == "employee-cash-advance-manager"',
+                                                        ],
+                                                        [
+                                                                'label' => 'Director/HRGA Cash Advance',
+                                                                'required_features' => [528,529],
+                                                                'url' => 'employee/cash-advance/director-hrga',
+                                                                'active' => '\View::shared("child_active") == "employee-cash-advance-director-hrga"',
+                                                        ],
+                                                        [
+                                                                'label' => 'Finance Cash Advance',
+                                                                'required_features' => [530],
+                                                                'url' => 'employee/cash-advance/finance',
+                                                                'active' => '\View::shared("child_active") == "employee-cash-advance-finance"',
+                                                        ],
                                                     ],
                                         ],
                                         [

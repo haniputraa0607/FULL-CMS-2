@@ -157,10 +157,10 @@ $grantedFeature     = session('granted_features');
                                     <td>{{$dt['status_approved']}}</td>
                                     <td> 
                                         @if($dt['status']=='Process')
-                                        <a href="{{ url('employee/recruitment/detail/'.$dt['id_employee']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
-                                        <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $dt['id_employee'] }}" data-name="{{ $dt['name'] }}"><i class="fa fa-trash-o"></i> Reject</a>
+                                        <a href="{{ url('employee/recruitment/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
+                                        <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $dt['id_enkripsi'] }}" data-name="{{ $dt['name'] }}"><i class="fa fa-trash-o"></i> Reject</a>
                                         @else
-                                        <a href="{{ url('employee/recruitment/detail/'.$dt['id_employee']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
+                                        <a href="{{ url('employee/recruitment/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
                                         @endif
                                     </td>
                                 </tr>

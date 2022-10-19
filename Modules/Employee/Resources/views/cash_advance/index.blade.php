@@ -83,14 +83,12 @@ $grantedFeature     = session('granted_features');
                          <tr>
                             <th class="text-nowrap text-center">Name</th>
                             <th class="text-nowrap text-center">Email</th>
-                            <th class="text-nowrap text-center">Title</th>
+                            <th class="text-nowrap text-center">Name Product Icount</th>
                             <th class="text-nowrap text-center">Price</th>
                             <th class="text-nowrap text-center">Notes</th>
                             <th class="text-nowrap text-center">Status</th>
                             <th class="text-nowrap text-center">Attachment</th>
-                            @if(MyHelper::hasAccess([339,340,341], $grantedFeature))
                             <th class="text-nowrap text-center">Action</th>
-                            @endif
                         </tr>
                         </thead>
                         <tbody class="text-center">
@@ -99,13 +97,13 @@ $grantedFeature     = session('granted_features');
                                 <tr data-id="{{ $dt['id_employee_cash_advance'] }}">
                                     <td>{{$dt['user_name']}}</td>
                                     <td>{{$dt['email']}}</td>
-                                    <td>{{$dt['title']}}</td>
+                                    <td>{{$dt['name']}}</td>
                                     <td>{{number_format($dt['price']??0,0,',',',')}}</td>
                                     <td>{{$dt['notes']}}</td>
                                     <td>{{$dt['status']}}</td>
                                     <td><a style="margin-top: 2%" class="btn blue btn-xs" href="{{env('STORAGE_URL_API').$dt['attachment']}}"><i class="fa fa-download"></i></a></td>
                                     <td align="center"> 
-                                        <a href="{{ url('/employee/cash-advance/detail/'.$dt['id_employee_cash_advance']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Proses</a>
+                                        <a href="{{ url('/employee/cash-advance/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Proses</a>
                                        
                                     </td>
                                 </tr>

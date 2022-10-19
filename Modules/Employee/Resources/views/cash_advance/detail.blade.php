@@ -126,7 +126,85 @@
           caret_pos = updated_len - original_len + caret_pos;
           input[0].setSelectionRange(caret_pos, caret_pos);
         }
+       
     })
+     var SweetAlert = function() {
+            return {
+                init: function() {
+                    $(".save").each(function() {
+                        var token  	= "{{ csrf_token() }}";
+                        let column 	= $(this).parents('tr');
+                        let name    = $(this).data('name');
+						let status    = $(this).data('status');
+						let form    = $(this).data('form');
+                        $(this).click(function() {
+                            swal({
+                                    title: name+"\n\nAre you sure want change to status "+status.toLowerCase()+" ?",
+                                    text: "Your will not be able to recover this data!",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonClass: "btn-info",
+                                    confirmButtonText: "Yes, save it!",
+                                    closeOnConfirm: false
+                                },
+                                function(){
+                                   $.ajax({
+                                        type : "POST",
+                                        url : "{{url('employee/cash-advance/reject/'.$data['id_employee_cash_advance'])}}",
+                                        data : {
+                                            '_token' : '{{csrf_token()}}'
+                                        },
+                                        success : function(response) {
+                                            if (response.status == 'success') {
+                                                swal("Deleted!", "Employee Cash Advance has been rejected.", "success")
+                                                SweetAlert.init()
+                                                location.href = "{{url('employee/cash-advance/detail/'.$data['id_employee_cash_advance'])}}"
+                                            }
+                                            else if(response.status == "fail"){
+                                                swal("Error!", "Failed to reject cash advance.", "error")
+                                            }
+                                            else {
+                                                swal("Error!", "Something went wrong. Failed to reject cash advance.", "error")
+                                            }
+                                        }
+                                    });
+                                });
+                        })
+                    })
+                }
+            }
+        }();
+     var SweetAlertSubmit = function() {
+            return {
+                init: function() {
+                    $(".icount").each(function() {
+                        var token  	= "{{ csrf_token() }}";
+                        let column 	= $(this).parents('tr');
+                        let name    = $(this).data('name');
+						let status    = $(this).data('status');
+						let form    = $(this).data('form');
+                        $(this).click(function() {
+                            swal({
+                                    title: name+"\n\nAre you sure want to request to Icount ?",
+                                    text: "Your will not be able to recover this data!",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonClass: "btn-info",
+                                    confirmButtonText: "Yes, save it!",
+                                    closeOnConfirm: false
+                                },
+                                function(){
+                                    location.href = "{{url('employee/cash-advance/icount/'.$data['id_employee_cash_advance'])}}"
+                                });
+                        })
+                    })
+                }
+            }
+        }();
+        jQuery(document).ready(function() {
+            SweetAlert.init()
+            SweetAlertSubmit.init()
+        });
     function addFormula(param){
 		var textvalue = $('#formula').val();
 		var textvaluebaru = textvalue+" "+param;
@@ -163,7 +241,7 @@
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">Detail Reimbursement</span>
+                <span class="caption-subject sbold uppercase font-blue">Detail Cash Advance</span>
             </div>
         </div>
         <div class="portlet light bordered">
@@ -179,7 +257,7 @@
                     <a href="#info" data-toggle="tab"> Info </a>
                 </li>
                 <li>
-                    <a href="#status" data-toggle="tab"> Status Reimbursement</a>
+                    <a href="#status" data-toggle="tab"> Status Cash Advance</a>
                 </li>
                
             </ul>
@@ -204,9 +282,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label">Title</label>
+                                    <label class="col-md-4 control-label">Name Product Icount</label>
                                     <div class="col-md-4 input-group">
-                                        <input class="form-control" name="id_user" id="key" value="{{$data['title']??''}}" data-placeholder="Select Employee" disabled="">
+                                        <input class="form-control" name="id_user" id="key" value="{{$data['name']??''}}" data-placeholder="Select Employee" disabled="">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -231,20 +309,24 @@
                                     <div class="col-md-4">
                                             <ul class="ver-inline-menu tabbable margin-bottom-10">
                                                     <li @if($data['status'] == 'Pending') class="active" @endif>
-                                                            <a @if(in_array($data['status'], ['Pending','Manager Approved','HRGA/Direktur Approval','Finance Approval','Approved','Successed'])) data-toggle="tab" href="#manager" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> 
+                                                            <a @if(in_array($data['status'], ['Rejected','Pending','Manager Approval','HRGA/Direktur Approval','Finance Approval','Approve','Success'])) data-toggle="tab" href="#manager" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> 
                                                                 Manager Approval</a>
                                                     </li>
-                                                    <li @if($data['status'] == 'Manager Approved') class="active" @endif>
-                                                            <a @if(in_array($data['status'], ['Manager Approved','HRGA/Direktur Approval','Finance Approval','Approved','Successed'])) data-toggle="tab" href="#director" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> 
+                                                    <li @if($data['status'] == 'Manager Approval') class="active" @endif>
+                                                            <a @if(in_array($data['status'], ['Rejected','Manager Approval','HRGA/Direktur Approval','Finance Approval','Approve','Success'])) data-toggle="tab" href="#director" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> 
                                                                 Director/HRGA Approval</a>
                                                     </li>
                                                     <li @if($data['status'] == 'HRGA/Direktur Approval') class="active" @endif>
-                                                            <a  @if(in_array($data['status'], ['HRGA/Direktur Approval','Finance Approval','Approved','Successed'])) data-toggle="tab" href="#fat" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> 
+                                                            <a  @if(in_array($data['status'], ['Rejected','HRGA/Direktur Approval','Finance Approval','Approve','Success'])) data-toggle="tab" href="#fat" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> 
                                                                 Finance Approval</a>
                                                     </li>
                                                     <li @if($data['status'] == 'Finance Approval') class="active" @endif>
-                                                            <a  @if(in_array($data['status'], ['Finance Approval','Approved','Successed'])) data-toggle="tab" href="#approved" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> 
+                                                            <a  @if(in_array($data['status'], ['Rejected','Finance Approval','Approve','Success'])) data-toggle="tab" href="#approved" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> 
                                                                 Realisasi</a>
+                                                    </li>
+                                                    <li @if($data['status']== 'Rejected'||$data['status']== 'Realisasi'||$data['status']== 'Approve'||$data['status']== 'Success') class="active" @endif >
+                                                            <a  @if(in_array($data['status'], ['Rejected','Realisasi','Approve','Success'])) data-toggle="tab" href="#realisasi" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> 
+                                                                Icount Callback</a>
                                                     </li>
 
                                             </ul>
@@ -257,23 +339,46 @@
                                     <div class="col-md-8">
                                             <div class="tab-content">
                                                     <div class="tab-pane @if($data['status'] == 'Pending') active @endif" id="manager">
-                                                               @include('employee::cash_advance.form_manager')
-                                                            
+                                                              
+                                                            @if(isset($dataDoc['Manager Approval']))
+                                                                 @include('employee::cash_advance.form_manager')
+                                                            @else
+                                                            @if($data['id_manager']==session('id_user')||session('level')=="Super Admin")
+                                                                 @include('employee::cash_advance.form_manager')
+                                                            @else
+                                                                Hanya Atasan Employee yang dapat merubah data 
+                                                            @endif
+                                                           @endif
                                                     </div>
-                                                <div class="tab-pane @if($data['status'] == 'Manager Approved') active @endif" id="director">
+                                                <div class="tab-pane @if($data['status'] == 'Manager Approval') active @endif" id="director">
+                                                            @if(isset($dataDoc['Director Approved']))
                                                             @include('employee::cash_advance.form_director')
+                                                           @else
+                                                            @if(MyHelper::hasAccess([528,529], $grantedFeature)||session('level')=="Super Admin")
+                                                            @include('employee::cash_advance.form_director')
+                                                            @else
+                                                            Hanya hak akses Director atau HRGA yang dapat merubah data 
+                                                            @endif
+                                                           @endif
+                                                    </div>
+                                                    <div class="tab-pane @if($data['status'] == 'HRGA/Direktur Approval') active @endif" id="fat">
+                                                           @if(isset($dataDoc['Director Approved']))
+                                                            @include('employee::cash_advance.form_finance')
+                                                           @else
+                                                            @if(MyHelper::hasAccess([530], $grantedFeature)||session('level')=="Super Admin")
+                                                            @include('employee::cash_advance.form_finance')
+                                                            @else
+                                                            Hanya hak akses Finance yang dapat merubah data 
+                                                            @endif
+                                                           @endif
                                                            
                                                     </div>
-                                                    <div class="tab-pane @if($data['status'] == 'Director Approved') active @endif" id="hrga">
-                                                           @include('employee::cash_advance.form_hrga')
-                                                            
-                                                    </div>
-                                                    <div class="tab-pane @if($data['status'] == 'HRGA Apporved') active @endif" id="fat">
-                                                           @include('employee::cash_advance.form_finance')
-                                                           
-                                                    </div>
-                                                    <div class="tab-pane @if($data['status'] == 'Finance Approval'||$data['status'] == 'Approved'||$data['status'] == 'Successed') active @endif" id="approved">
+                                                    <div class="tab-pane @if($data['status'] == 'Finance Approval') active @endif" id="approved">
                                                            @include('employee::cash_advance.form_approved')
+                                                           
+                                                    </div>
+                                                    <div class="tab-pane @if($data['status']== 'Rejected'||$data['status']== 'Realisasi'||$data['status']== 'Approve'||$data['status']== 'Success') active @endif " id="realisasi">
+                                                           @include('employee::cash_advance.callback')
                                                            
                                                     </div>
 

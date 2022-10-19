@@ -88,24 +88,22 @@ $grantedFeature     = session('granted_features');
                             <th class="text-nowrap text-center">Notes</th>
                             <th class="text-nowrap text-center">Status</th>
                             <th class="text-nowrap text-center">Attachment</th>
-                            @if(MyHelper::hasAccess([339,340,341], $grantedFeature))
                             <th class="text-nowrap text-center">Action</th>
-                            @endif
                         </tr>
                         </thead>
                         <tbody class="text-center">
                         @if(!empty($data))
                             @foreach($data as $dt)
-                                <tr data-id="{{ $dt['id_employee_reimbursement'] }}">
+                                <tr data-id="{{ $dt['id_employee_cash_advance'] }}">
                                     <td>{{$dt['user_name']}}</td>
                                     <td>{{$dt['email']}}</td>
-                                    <td>{{$dt['name_product']}}</td>
+                                    <td>{{$dt['name']}}</td>
                                     <td>{{number_format($dt['price']??0,0,',',',')}}</td>
                                     <td>{{$dt['notes']}}</td>
                                     <td>{{$dt['status']}}</td>
                                     <td><a style="margin-top: 2%" class="btn blue btn-xs" href="{{env('STORAGE_URL_API').$dt['attachment']}}"><i class="fa fa-download"></i></a></td>
                                     <td align="center"> 
-                                        <a href="{{ url('/employee/reimbursement/detail/'.$dt['id_employee_reimbursement']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
+                                        <a href="{{ url('/employee/cash-advance/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
                                        
                                     </td>
                                 </tr>

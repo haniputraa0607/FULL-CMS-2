@@ -62,6 +62,8 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
         Route::get('/detail/{id}', ['middleware' => 'feature_control:444', 'uses' => 'EmployeePerubahanDataController@detail']);
         Route::post('/create', ['middleware' => 'feature_control:444', 'uses' => 'EmployeePerubahanDataController@create']);
         Route::any('/list', ['middleware' => 'feature_control:444', 'uses' => 'EmployeePerubahanDataController@index_action']);
+        Route::any('/category', ['middleware' => 'feature_control:444', 'uses' => 'EmployeePerubahanDataController@category']);
+        Route::any('/category/delete/{id}', ['middleware' => 'feature_control:444', 'uses' => 'EmployeePerubahanDataController@category_delete']);
        
     });
     Route::group(['prefix' => 'reimbursement'], function(){
@@ -75,6 +77,9 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
         Route::get('/detail/{id}', ['middleware' => 'feature_control:516,528,529,530', 'uses' => 'EmployeeReimbursementController@detail']);
         Route::post('/create', ['middleware' => 'feature_control:517,530', 'uses' => 'EmployeeReimbursementController@create']);
         Route::any('/list', ['middleware' => 'feature_control:515,528,529,530', 'uses' => 'EmployeeReimbursementController@index_action']);
+        Route::any('/setting', [ 'uses' => 'EmployeeReimbursementController@setting']);
+        Route::post('/setting/create', [ 'uses' => 'EmployeeReimbursementController@setting_create']);
+        Route::get('/setting/delete/{id}', ['uses' => 'EmployeeReimbursementController@delete_create']);
        
     });
     Route::group(['prefix' => 'cash-advance'], function(){
@@ -82,8 +87,16 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
         Route::any('/update/{id}', [ 'uses' => 'EmployeeCashAdvanceController@update']);
         Route::get('/detail/{id}', ['uses' => 'EmployeeCashAdvanceController@detail']);
         Route::post('/create', ['uses' => 'EmployeeCashAdvanceController@create']);
+        Route::post('/reject/{id}', ['uses' => 'EmployeeCashAdvanceController@reject']);
+        Route::any('/icount/{id}', ['uses' => 'EmployeeCashAdvanceController@icount']);
         Route::any('/list', [ 'uses' => 'EmployeeCashAdvanceController@index_action']);
-       
+        Route::any('/setting', ['uses' => 'EmployeeCashAdvanceController@setting']);
+        Route::post('/setting/create', ['uses' => 'EmployeeCashAdvanceController@setting_create']);
+        Route::get('/setting/delete/{id}', ['uses' => 'EmployeeCashAdvanceController@delete_create']);
+        Route::any('/director-hrga', ['middleware' => 'feature_control:528,529', 'uses' => 'EmployeeCashAdvanceController@director_hrga']);
+        Route::any('/finance', ['middleware' => 'feature_control:530', 'uses' => 'EmployeeCashAdvanceController@finance']);
+        Route::any('manager', ['uses' => 'EmployeeCashAdvanceController@manager']);
+        Route::get('manager/detail/{id}', ['uses' => 'EmployeeCashAdvanceController@manager_detail']);
     });
     Route::group(['prefix' => 'attendance'], function(){
         Route::get('/', ['uses' => 'EmployeeAttendanceController@list']);
