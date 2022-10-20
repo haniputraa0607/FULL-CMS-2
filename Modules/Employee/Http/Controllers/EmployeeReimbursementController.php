@@ -606,9 +606,9 @@ class EmployeeReimbursementController extends Controller
              $post['value'] = str_replace(',','', $post['value']??0);
            $query = MyHelper::post('setting/balance-global-reimbursement-create',$post);
             if(isset($query['status']) && $query['status'] == 'success'){
-                    return redirect('employee/reimbursement/setting/balance')->withSuccess(['Category File Create Success']);
+                    return redirect('employee/reimbursement/setting/global')->withSuccess(['Category File Create Success']);
             } else{
-                    return redirect('employee/reimbursement/setting/balance')->withInput($request->input())->withErrors($query['messages']);
+                    return redirect('employee/reimbursement/setting/global')->withInput($request->input())->withErrors($query['messages']);
             }
         }
          $data = [
