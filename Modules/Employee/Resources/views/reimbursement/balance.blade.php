@@ -155,7 +155,7 @@
         <div class="tabbable-line tabbable-full-width">
             <div class="tab-content">
             <div class="tab-pane active" id="create">
-                <form class="form-horizontal" role="form" action="{{url('employee/reimbursement/setting/balance')}}" method="post" enctype="multipart/form-data">
+                <form class="form-horizontal" role="form" action="{{url('employee/reimbursement/setting/global')}}" method="post" enctype="multipart/form-data">
                             <div class="form-body">
                               
                                 <div class="form-group">
