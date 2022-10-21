@@ -882,12 +882,6 @@ return [
                                                             'url' => 'employee/reimbursement/setting'
                                                         ],
                                                         [
-                                                            'label' => 'Setting Global Balance',
-                                                            'required_features' => [481],
-                                                            'active' => '\View::shared("child_active") == "employee-reimbursement-global"',
-                                                            'url' => 'employee/reimbursement/setting/global'
-                                                        ],
-                                                        [
                                                                 'label' => 'Reimbursement Employee',
                                                                 'required_features' => [],
                                                                 'url' => 'employee/reimbursement/manager',

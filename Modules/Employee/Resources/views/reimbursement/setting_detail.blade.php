@@ -51,8 +51,10 @@
     function types() {
         if($("#type").val() == 'year'){
                 $("#change-type").show();
+                $('#month').prop('required', true);
         }else{
                 $("#change-type").hide();
+                $('#month').prop('required', false);
         }
     }
     function addFormula(param){
@@ -218,15 +220,28 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Bulan untuk reset nilai dari batas maksimal reimbursememt" data-container="body"></i>
                                     </label>
                                     <div class="col-md-3">
-                                        <input type="number" value="{{$data['month']??''}}" min="1" max="12" name="month" id='month'   placeholder="Masukkan bulan untuk reset nilai" class="form-control" />
+                                        <select   name="month" id='month' placeholder="Masukkan month" class="form-control">
+                                            <option @if($data['month']=="01") selected @endif value="01">Januari</option>
+                                            <option @if($data['month']=="02") selected @endif value="02">Februari</option>
+                                            <option @if($data['month']=="03") selected @endif value="03">Maret</option>
+                                            <option @if($data['month']=="04") selected @endif value="04">April</option>
+                                            <option @if($data['month']=="05") selected @endif value="05">Mei</option>
+                                            <option @if($data['month']=="06") selected @endif value="06">Juni</option>
+                                            <option @if($data['month']=="07") selected @endif value="07">Juli</option>
+                                            <option @if($data['month']=="08") selected @endif value="08">Agustus</option>
+                                            <option @if($data['month']=="09") selected @endif value="09">September</option>
+                                            <option @if($data['month']=="10") selected @endif value="10">Oktober</option>
+                                            <option @if($data['month']=="11") selected @endif value="11">November</option>
+                                            <option @if($data['month']=="12") selected @endif value="12">Desember</option>
+                                        </select>
                                      </div>
                                 </div>
-                                 <div class="form-group">
-                                    <label class="col-md-4 control-label">Value
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Besaran maksimal reimbursement employee, jika kosong akan menggunakan nilai global" data-container="body"></i>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Reset Date<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Tanggal reset besaran reimbursement" data-container="body"></i>
                                     </label>
                                     <div class="col-md-3">
-                                        <input type="text" name="value" value="{{number_format($data['value']??0,0,',',',')}}" id='value'   data-type="currency" placeholder="Masukkan value" class="form-control" required />
+                                        <input type="text" min="1" max="28" value="{{$data['reset_date']}}"  name="reset_date" id='reset_date'   data-type="currency" placeholder="Masukkan tanggal" class="form-control" required />
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -234,7 +249,7 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Rumus balance yang digunakan dalam perhitungan batas maksimal pemberian reimbursement, jika kosong akan menggunakan formula global" data-container="body"></i>
                                     </label>
                                     <div class="col-md-6">
-                                          <textarea name="value_text" id="formula" class="form-control" placeholder="Masukkan rumus perhitungan reimbursement">{{$data['value_text']??''}}</textarea>
+                                          <textarea required name="value_text" id="formula" class="form-control" placeholder="Masukkan rumus perhitungan reimbursement">{{$data['value_text']??''}}</textarea>
                                           <br>
                                           <div class="row">
                                                 @foreach($textreplace as $key=>$row)

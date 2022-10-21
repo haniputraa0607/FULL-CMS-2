@@ -51,8 +51,10 @@
     function types() {
         if($("#type").val() == 'year'){
                 $("#change-type").show();
+                $('#month').prop('required', true);
         }else{
                 $("#change-type").hide();
+                $('#month').prop('required', false);
         }
     }
     function addFormula(param){
@@ -195,7 +197,7 @@
                                         <th class="text-nowrap text-center">Product Icount</th>
                                         <th class="text-nowrap text-center">Code</th>
                                         <th class="text-nowrap text-center">Company Name</th>
-                                        <th class="text-nowrap text-center">Value</th>
+                                        <th class="text-nowrap text-center">Reset Date</th>
                                         <th class="text-nowrap text-center">Text</th>
                                         <th class="text-nowrap text-center">Type</th>
                                         <th class="text-nowrap text-center">Max Date</th>
@@ -211,7 +213,7 @@
                                                 <td style="text-align: center;">{{$dt['name_icount']}}</td>
                                                 <td style="text-align: center;">{{$dt['code']}}</td>
                                                 <td style="text-align: center;">{{$dt['company_type']}}</td>
-                                                <td style="text-align: center;">{{number_format($dt['value']??0,0,',',',')}}</td>
+                                                <td style="text-align: center;">{{$dt['reset_date']}}</td>
                                                 <td style="text-align: center;">{{$dt['value_text']}}</td>
                                                 <td style="text-align: center;">{{$dt['type']}}</td>
                                                 <td style="text-align: center;">{{$dt['max_approve_date']}}</td>
@@ -284,23 +286,36 @@
                                         <i class="fa fa-question-circle tooltips" data-original-title="Bulan untuk reset nilai dari batas maksimal reimbursememt" data-container="body"></i>
                                     </label>
                                     <div class="col-md-3">
-                                        <input type="number" min="1" max="12" name="month" id='month'   placeholder="Masukkan bulan untuk reset nilai" class="form-control" />
+                                        <select   name="month" id='month' placeholder="Masukkan month" class="form-control">
+                                            <option value="01">Januari</option>
+                                            <option value="02">Februari</option>
+                                            <option value="03">Maret</option>
+                                            <option value="04">April</option>
+                                            <option value="05">Mei</option>
+                                            <option value="06">Juni</option>
+                                            <option value="07">Juli</option>
+                                            <option value="08">Agustus</option>
+                                            <option value="09">September</option>
+                                            <option value="10">Oktober</option>
+                                            <option value="11">November</option>
+                                            <option value="12">Desember</option>
+                                        </select>
                                      </div>
                                 </div>
                                  <div class="form-group">
-                                    <label class="col-md-4 control-label">Value
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Besaran maksimal reimbursement employee, jika kosong akan menggunakan nilai global" data-container="body"></i>
+                                    <label class="col-md-4 control-label">Reset Date<span class="required" aria-required="true">*</span>
+                                        <i min="1" max="28" class="fa fa-question-circle tooltips" data-original-title="Tanggal reset besaran reimbursement" data-container="body"></i>
                                     </label>
                                     <div class="col-md-3">
-                                        <input type="text" name="value" id='value'   data-type="currency" placeholder="Masukkan value" class="form-control" required />
+                                        <input type="text" name="reset_date" id='reset_date'   data-type="currency" placeholder="Masukkan tanggal" class="form-control" required />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label">Formula
+                                    <label class="col-md-4 control-label">Formula<span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Rumus balance yang digunakan dalam perhitungan batas maksimal pemberian reimbursement, jika kosong akan menggunakan formula global" data-container="body"></i>
                                     </label>
                                     <div class="col-md-6">
-                                          <textarea name="value_text" id="formula" class="form-control" placeholder="Masukkan rumus perhitungan reimbursement"></textarea>
+                                          <textarea required name="value_text" id="formula" class="form-control" placeholder="Masukkan rumus perhitungan reimbursement"></textarea>
                                           <br>
                                           <div class="row">
                                                 @foreach($textreplace as $key=>$row)
