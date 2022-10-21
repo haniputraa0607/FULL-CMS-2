@@ -497,32 +497,12 @@ class EmployeeReimbursementController extends Controller
         }
         $data['textreplace']  = array(
                             array(
-                                'keyword'=>'value',
-                                'message'=>'Value'
-                            ), 
-                            array(
-                                'keyword'=>'fixed_nominal',
-                                'message'=>''
-                            ), 
-                            array(
-                                'keyword'=>'proteksi',
-                                'message'=>''
-                            ), 
-                            array(
-                                'keyword'=>'+',
-                                'message'=>'Added'
-                            ), 
-                            array(
-                                'keyword'=>'-',
-                                'message'=>'Subtraction'
+                                'keyword'=>'basic_salary',
+                                'message'=>'Besaran gaji pokok yang diterima setiap bulan'
                             ), 
                             array(
                                 'keyword'=>'*',
                                 'message'=>'Multiplication'
-                            ), 
-                            array(
-                                'keyword'=>'/',
-                                'message'=>'Distribution'
                             ), 
                         );
         return view('employee::reimbursement.setting', $data);
@@ -539,35 +519,14 @@ class EmployeeReimbursementController extends Controller
         $id = MyHelper::explodeSlug($id)[0]??'';   
        $data['data'] = MyHelper::post('employee/be/reimbursement/dropdown/detail',['id_employee_reimbursement_product_icount'=>$id] )['result']??[];
        $data['product'] = MyHelper::post('employee/be/reimbursement/dropdown', [])['result']??[];
-      
-        $data['textreplace']  = array(
+       $data['textreplace']  = array(
                             array(
-                                'keyword'=>'value',
-                                'message'=>'Value'
-                            ), 
-                            array(
-                                'keyword'=>'fixed_nominal',
-                                'message'=>''
-                            ), 
-                            array(
-                                'keyword'=>'proteksi',
-                                'message'=>''
-                            ), 
-                            array(
-                                'keyword'=>'+',
-                                'message'=>'Added'
-                            ), 
-                            array(
-                                'keyword'=>'-',
-                                'message'=>'Subtraction'
+                                'keyword'=>'basic_salary',
+                                'message'=>'Besaran gaji pokok yang diterima setiap bulan.'
                             ), 
                             array(
                                 'keyword'=>'*',
                                 'message'=>'Multiplication'
-                            ), 
-                            array(
-                                'keyword'=>'/',
-                                'message'=>'Distribution'
                             ), 
                         );
         return view('employee::reimbursement.setting_detail', $data);
@@ -621,32 +580,12 @@ class EmployeeReimbursementController extends Controller
         $data['data'] = MyHelper::get('setting/balance-global-reimbursement');
         $data['textreplace']  = array(
                             array(
-                                'keyword'=>'value',
-                                'message'=>'Value'
-                            ), 
-                            array(
-                                'keyword'=>'fixed_nominal',
-                                'message'=>''
-                            ), 
-                            array(
-                                'keyword'=>'proteksi',
-                                'message'=>''
-                            ), 
-                            array(
-                                'keyword'=>'+',
-                                'message'=>'Added'
-                            ), 
-                            array(
-                                'keyword'=>'-',
-                                'message'=>'Subtraction'
+                                'keyword'=>'basic_salary',
+                                'message'=>'Besaran gaji pokok yang diterima setiap bulan.'
                             ), 
                             array(
                                 'keyword'=>'*',
                                 'message'=>'Multiplication'
-                            ), 
-                            array(
-                                'keyword'=>'/',
-                                'message'=>'Distribution'
                             ), 
                         );
         return view('employee::reimbursement.balance',$data);
