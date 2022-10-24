@@ -176,6 +176,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
 	    Route::any('/setting-delivery', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeIncomeController@setting_delivery']);
             Route::group(['prefix' => 'role'], function()
                 {  
+                    Route::post('reimbursement/create', ['middleware' => 'feature_control:396', 'uses' => 'EmployeeRoleController@reimbursement_create']);	  	    
                     Route::post('basic-salary/create', ['middleware' => 'feature_control:396', 'uses' => 'EmployeeRoleController@create_basic']);	  	    
                     Route::any('detail/{id}', ['middleware' => 'feature_control:396', 'uses' => 'EmployeeRoleController@detail']);	  	    
                     Route::any('/', ['middleware' => 'feature_control:393', 'uses' => 'EmployeeRoleController@index']);	    	    

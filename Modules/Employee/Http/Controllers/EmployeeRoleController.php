@@ -155,6 +155,19 @@ class EmployeeRoleController extends Controller
                             ), 
                         );
                         $data['textreplace'] = $textreplace;
+                        $reimbursement = MyHelper::post('employee/role/reimbursement',$post4)['result']??[];
+                        $data['reimbursement'] = $reimbursement;
+                        $textreplaces = array(
+                            array(
+                                'keyword'=>'*',
+                                'message'=>'Multiplication',
+                            ), 
+                            array(
+                                'keyword'=>'basic_salary',
+                                'message'=>'Besaran gaji pokok yang diterima setiap bulan.'
+                            ),  
+                        );
+                        $data['textreplaces'] = $textreplaces;
                         return view('employee::income.role.detail',$data);
                 } else{
                         return back()->withErrors($query['messages']);
@@ -169,5 +182,25 @@ class EmployeeRoleController extends Controller
                   return redirect(url()->previous().'#basic')->withErrors($query['messages']);
           }
          return redirect(url()->previous().'#basic')->withSuccess(['Employee Basic Salary Update Success']);
+    }
+    public function reimbursement_create(Request $request)
+    {
+       {
+               $post = $request->except('_token');
+                 $post['value'] = str_replace(',','', $post['value']??0);
+                 $data = array();
+                 foreach (array_filter($post['id_employee_reimbursement_product_icount']) as $key => $value) {
+                     $b = array(
+                         'id_employee_reimbursement_product_icount' => $value,
+                         'id_role' => $post['id_role'][$key],
+                         'value_text' => $post['value_text'][$key],
+                     );
+                     $query = MyHelper::post('employee/role/reimbursement-create', $b);
+                        if(isset($query['status']) && $query['status'] != 'success'){
+                                return redirect(url()->previous().'#reimbursement')->withErrors($query['messages']);
+                        }
+                 }
+                   return redirect(url()->previous().'#reimbursement')->withSuccess(['Employee Reimbursement Update Success']);
+              }
     }
 }
