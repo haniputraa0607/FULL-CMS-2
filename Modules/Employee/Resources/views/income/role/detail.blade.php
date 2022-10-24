@@ -167,6 +167,9 @@
                 <li>
                     <a href="#potongan" data-toggle="tab">Cuts Salary</a>
                 </li>
+                <li>
+                    <a href="#reimbursement" data-toggle="tab">Reimbursement</a>
+                </li>
             </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="basic">
@@ -183,6 +186,9 @@
             </div>
             <div class="tab-pane" id="potongan">
                 @include('employee::income.role.potongan')
+            </div>
+            <div class="tab-pane" id="reimbursement">
+                @include('employee::income.role.reimbursement')
             </div>
         </div>
     </div>
