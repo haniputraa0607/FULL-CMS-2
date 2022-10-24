@@ -480,7 +480,7 @@ class PromoCampaignController extends Controller
         }else{
             if (isset($actions['status']) && $actions['status'] == "success") {
                 $link = $actions['result']['export_url'];
-                $filename = "Promo Code_".$actions['result']['campaign_name'].'_'.strtotime(date('Ymdhis')).'.xlsx';
+                $filename = urlencode("Promo Code_".$actions['result']['campaign_name'].'_'.strtotime(date('Ymdhis')).'.xlsx');
                 $tempImage = tempnam(sys_get_temp_dir(), $filename);
                 copy($link, $tempImage);
 
