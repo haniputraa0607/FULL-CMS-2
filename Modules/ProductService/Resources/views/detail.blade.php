@@ -380,7 +380,7 @@
 			input = input ? parseInt( input, 10 ) : 0;
 
 			$(this).val( function() {
-				return ( input === 0 ) ? "" : input.toLocaleString( "id" );
+				return input.toLocaleString( "id" );
 			});
 		});
 
@@ -400,7 +400,7 @@
 			input = input ? parseInt( input, 10 ) : 0;
 
 			$this.val( function() {
-				return ( input === 0 ) ? "" : input.toLocaleString( "id" );
+				return input.toLocaleString( "id" );
 			});
 		}
 
