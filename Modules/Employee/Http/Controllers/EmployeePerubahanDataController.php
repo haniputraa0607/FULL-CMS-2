@@ -165,17 +165,17 @@ class EmployeePerubahanDataController extends Controller
             $list[] = $post['name'];
             $query = MyHelper::post('setting/category-employee-file-create',['value_text'=>$list]);
             if(isset($query['status']) && $query['status'] == 'success'){
-                    return redirect('employee/perubahan-data/category')->withSuccess(['Category File Create Success']);
+                    return redirect('employee/input-data/category')->withSuccess(['Category File Create Success']);
             } else{
-                    return redirect('employee/perubahan-data/category')->withInput($request->input())->withErrors($query['messages']);
+                    return redirect('employee/input-data/category')->withInput($request->input())->withErrors($query['messages']);
             }
         }
          $data = [
                 'title'          => 'Employee',
-                'sub_title'      => 'History Employee Perubahan Data',
+                'sub_title'      => 'Category Employee Input File',
                 'menu_active'    => 'employee',
-                'submenu_active' => 'employee-perubahan-data',
-                'child_active'   => 'employee-perubahan-data-category',
+                'submenu_active' => 'employee-input-data',
+                'child_active'   => 'employee-input-data-category',
             ];
        $list = MyHelper::get('setting/category-employee-file')['value_text']??null;
         $data['data'] = json_decode($list);
@@ -191,6 +191,55 @@ class EmployeePerubahanDataController extends Controller
             }
         }
         $query = MyHelper::post('setting/category-employee-file-create',['value_text'=>$post]);
+        if(isset($query['status']) && $query['status'] == 'success'){
+                return redirect('employee/input-data/category')->withSuccess(['Category File Delete Success']);
+        } else{
+                return redirect('employee/input-data/category')->withInput($request->input())->withErrors($query['messages']);
+        }
+       
+    }
+
+    public function categoryUpdateData(Request $request)
+    {
+        $post = $request->except('_token');
+        if($post){
+            $list = MyHelper::get('employee/be/profile/perubahan-data/category')['value_text']??null;
+            $list = (array)json_decode($list??'',true);
+            $list[$post['key']] = [
+                'key' => $post['key'],
+                'name' => $post['name'],
+            ];
+            $query = MyHelper::post('employee/be/profile/perubahan-data/category/create',['value_text'=>$list]);
+            if(isset($query['status']) && $query['status'] == 'success'){
+                    return redirect('employee/perubahan-data/category')->withSuccess(['Category File Create Success']);
+            } else{
+                    return redirect('employee/perubahan-data/category')->withInput($request->input())->withErrors($query['messages']);
+            }
+        }
+        $data = [
+            'title'          => 'Employee',
+            'sub_title'      => 'Category Employee Update Data',
+            'menu_active'    => 'employee',
+            'submenu_active' => 'employee-perubahan-data',
+            'child_active'   => 'employee-perubahan-data-category',
+        ];
+        $list = MyHelper::get('employee/be/profile/perubahan-data/category')['value_text']??null;
+        $data['data'] = (array)json_decode($list??'',true);
+        $data['columns'] = MyHelper::get('employee/be/profile/perubahan-data/users-column')['result'] ?? null;
+        return view('employee::perubahan-data.category',$data);
+    }
+
+    public function deleteCategoryUpdateData($id)
+    {
+        $list = MyHelper::get('employee/be/profile/perubahan-data/category')['value_text']??null;
+        $list = (array)json_decode($list??'',true);
+        $post = array();
+        foreach ($list as $key => $value) {
+            if($key != $id){
+                $post[$key] = $value;
+            }
+        }
+        $query = MyHelper::post('employee/be/profile/perubahan-data/category/create',['value_text'=>$post]);
         if(isset($query['status']) && $query['status'] == 'success'){
                 return redirect('employee/perubahan-data/category')->withSuccess(['Category File Delete Success']);
         } else{

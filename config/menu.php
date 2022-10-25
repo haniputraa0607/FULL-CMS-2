@@ -842,7 +842,7 @@ return [
                                                             'url' => 'employee/perubahan-data/list'
                                                         ],
                                                         [
-                                                            'label' => 'Category File',
+                                                            'label' => 'Category Update Data',
                                                             'required_features' => [481],
                                                             'active' => '\View::shared("child_active") == "employee-perubahan-data-category"',
                                                             'url' => 'employee/perubahan-data/category'
@@ -963,6 +963,12 @@ return [
                                             'label' => 'Payslip',
                                             'url' => 'employee/income/payslip',
                                         ],
+										[
+											'label' => 'Category File',
+											'required_features' => [481],
+											'active' => '\View::shared("child_active") == "employee-input-data-category"',
+											'url' => 'employee/input-data/category'
+										],
 					]
 				],
 				[

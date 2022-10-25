@@ -1,6 +1,18 @@
 <?php
     use App\Lib\MyHelper;
     $grantedFeature     = session('granted_features');
+
+    $input_data = false;
+    if($submenu_active=='employee-input-data'){
+        $tool = "Nama category file yang di upload oleh employee";
+        $ph = 'Masukkan Nama Category File';
+        $input_data = true;
+    }else{
+        $tool = "Nama category update data yang digunakan employee";
+        $ph = 'Masukkan Nama Category Update Data';
+        $input_data = false;
+    }
+
  ?>
 @extends('layouts.main')
 
@@ -147,7 +159,7 @@
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
-                <span class="caption-subject sbold uppercase font-blue">Default Overtime Salary Employee</span>
+                <span class="caption-subject sbold uppercase font-blue">{{ $sub_title }}</span>
             </div>
         </div>
         <div class="tabbable-line tabbable-full-width">
@@ -175,15 +187,22 @@
                         <table class="table table-striped table-bordered table-hover" id="kt_datatable">
                                     <thead>
                                     <tr>
+                                        @if (!$input_data)
+                                        <th class="text-nowrap text-center">Key</th>
+                                        @endif
                                         <th class="text-nowrap text-center">Name</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @if(!empty($data))
-                                        @foreach($data as $dt)
+                                        @foreach($data as $key => $dt)
                                             <tr >
-                                                <td style="text-align: center;">{{$dt}}</td><td style="text-align: center;">
-                                                    <a class="btn btn-sm red btn-primary" href="{{url('employee/perubahan-data/category/delete/'.$dt)}}"><i class="fa fa-trash-o"></i> Delete</a>
+                                                @if (!$input_data)
+                                                    <td style="text-align: center;">  @if ($input_data) {{$dt}} @else {{$dt['key']}} @endif</td>
+                                                @endif
+                                                <td style="text-align: center;">  @if ($input_data) {{$dt}} @else {{$dt['name']}} @endif</td>
+                                                <td style="text-align: center;">    
+                                                    <a class="btn btn-sm red btn-primary" @if ($input_data) href="{{url('employee/input-data/category/delete/'.$dt)}}" @else href="{{url('employee/perubahan-data/category/delete/'.$key)}}" @endif ><i class="fa fa-trash-o"></i> Delete</a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -200,14 +219,31 @@
                 </div>
             </div>
             <div class="tab-pane" id="create">
-                <form class="form-horizontal" role="form" action="{{url('employee/perubahan-data/category')}}" method="post" enctype="multipart/form-data">
+                <form class="form-horizontal" role="form" @if ($input_data) action="{{url('employee/input-data/category')}}" @else action="{{url('employee/perubahan-data/category')}}" @endif method="post" enctype="multipart/form-data">
                             <div class="form-body">
+                                @if (!$input_data)
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label">Name<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama category file yang di upload oleh employee" data-container="body"></i>
+                                    <label class="col-md-4 control-label">Key<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Nama kolom yang akan diubah employee" data-container="body"></i>
                                     </label>
                                     <div class="col-md-5 input-group">
-                                        <input type="text" name="name" id='name' value="{{old('name')}}"  placeholder="Masukkan Nama Category File" class="form-control" required />
+                                        <select class="form-control select2" name="key" @if (!$input_data) required @endif>
+                                            <option value="" selected disabled></option>
+                                            @if(!empty($columns))
+                                                @foreach($columns as $column)
+                                                    <option value="{{ $column }}">{{ $column }}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                                </div>
+                                @endif
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Name<span class="required" aria-required="true">*</span>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="{{ $tool }}" data-container="body"></i>
+                                    </label>
+                                    <div class="col-md-5 input-group">
+                                        <input type="text" name="name" id='name' value="{{old('name')}}"  placeholder="{{ $ph }}" class="form-control" required />
                                     </div>
                                 </div>
                                 <div class="form-actions">
