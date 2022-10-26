@@ -180,6 +180,7 @@
                                         <th class="text-nowrap text-center">Category</th>
                                         <th class="text-nowrap text-center">Code</th>
                                         <th class="text-nowrap text-center">Qty</th>
+                                        <th class="text-nowrap text-center">Available</th>
                                         <th class="text-nowrap text-center">Action</th>
                                     </tr>
                                     </thead>
@@ -191,6 +192,7 @@
                                                 <td style="text-align: center;">{{$dt['name_category_asset_inventory']}}</td>
                                                 <td style="text-align: center;">{{$dt['code']}}</td>
                                                 <td style="text-align: center;">{{$dt['qty']}}</td>
+                                                <td style="text-align: center;">{{$dt['available']}}</td>
                                                 <td style="text-align: center;">
                                                    <a href="{{ url('employee/asset-inventory/delete/'.$dt['id_enkripsi']) }}" class="btn btn-sm red text-nowrap"><i class="fa fa-trash"></i> Delete</a>
                                                    

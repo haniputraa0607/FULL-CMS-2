@@ -119,7 +119,7 @@
                         <label for="example-search-input" class="control-label col-md-4">Quantity
                             <i class="fa fa-question-circle tooltips" data-original-title="Jumlah asset & inventory yang dipinjam" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <input class="form-control" type="text" id="input-code" name="code" value="{{$result['name_asset_inventory']}}" readonly/>
+                            <input class="form-control" type="text" id="input-code" name="code" value="{{$result['qty_logs']}}" readonly/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -134,6 +134,18 @@
                             <i class="fa fa-question-circle tooltips" data-original-title="Tanggal penerimaan pengajuan peminjaman asset & inventory" data-container="body"></i></label>
                         <div class="col-md-5">
                             <input class="form-control" type="text" id="input-code" name="code" value="{{$result['date_return']??''}}" readonly/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="example-search-input" class="control-label col-md-4">Attachment Employee
+                            <i class="fa fa-question-circle tooltips" data-original-title="file pengajuan asset & inventory" data-container="body"></i></label>
+                        <div class="col-md-5">
+                           
+                    @if(empty($result['attachment']))
+                                    <p style="margin-top: 2%">No file</p>
+                            @else
+                                    <a style="margin-top: 2%" class="btn blue btn-xs" href="{{env('STORAGE_URL_API').$result['attachment']}} "><i class="fa fa-download"></i></a>
+                            @endif
                         </div>
                     </div>
                     <div class="form-group">
@@ -155,8 +167,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Attachment 
-                            <i class="fa fa-question-circle tooltips" data-original-title="file pengajuan asset & inventory" data-container="body"></i></label>
+                        <label for="example-search-input" class="control-label col-md-4">Attachment Approve 
+                           <i class="fa fa-question-circle tooltips" data-original-title="file pengajuan asset & inventory yang di upload oleh admin" data-container="body"></i></label>
                         <div class="col-md-5">
                             @if($result['status_asset_inventory']=="Pending") 
                     <div class="fileinput fileinput-new" data-provides="fileinput">
@@ -176,7 +188,7 @@
                     @if(empty($result['attachment']))
                                     <p style="margin-top: 2%">No file</p>
                             @else
-                                    <a style="margin-top: 2%" class="btn blue btn-xs" href="{{env('STORAGE_URL_API').$result['attachment']}} "><i class="fa fa-download"></i></a>
+                                    <a style="margin-top: 2%" class="btn blue btn-xs" href="{{env('STORAGE_URL_API').$result['attachment_logs']}} "><i class="fa fa-download"></i></a>
                             @endif
                      @endif
                         </div>
