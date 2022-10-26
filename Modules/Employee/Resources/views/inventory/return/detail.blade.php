@@ -185,7 +185,7 @@
                                         </div>
                                 </div>
                     @else
-                    @if(empty($result['attachment']))
+                    @if(empty($result['attachment_logs']))
                                     <p style="margin-top: 2%">No file</p>
                             @else
                                     <a style="margin-top: 2%" class="btn blue btn-xs" href="{{env('STORAGE_URL_API').$result['attachment_logs']}} "><i class="fa fa-download"></i></a>
