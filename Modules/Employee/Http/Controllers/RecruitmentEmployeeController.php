@@ -177,7 +177,7 @@ class RecruitmentEmployeeController extends Controller
     public function detailcandidate(Request $request,$id){
         $post = $request->all();
         $id = MyHelper::explodeSlug($id)[0]??'';
-        $detail = MyHelper::post('employee/be/recruitment/detail',['id_employee' => $id]);
+       $detail = MyHelper::post('employee/be/recruitment/detail',['id_employee' => $id]);
         if(isset($detail['status']) && $detail['status'] == 'success'){
             $data = [
                 'title'          => 'Recruitment',
@@ -194,7 +194,7 @@ class RecruitmentEmployeeController extends Controller
             $data['bank'] = MyHelper::get('employee/be/recruitment/bank')['result'] ?? [];
             $data['cities'] = MyHelper::get('city/list')['result']??[];
             $data['departments'] = MyHelper::post('users/department',$request->all())['result']??[];
-            // return $data;
+            
             return view('employee::employee.detail', $data);
         }else{
             return redirect('employee/recruitment/candidate')->withErrors($store['messages']??['Failed get detail candidate']);
@@ -202,7 +202,7 @@ class RecruitmentEmployeeController extends Controller
     }
      public function update(Request $request, $id){
         $post = $request->except('_token');
-        $id = MyHelper::explodeSlug($id)[0]??'';
+        $ids =  MyHelper::createSlug($id,date('Y-m-d H:i:s'));
         if($post['action_type'] == 'Approved'){
             if($post['status_employee'] == 'Permanent'){
                 $post['start_date'] = date('Y-m-d', strtotime($post['start_date']));
@@ -217,7 +217,7 @@ class RecruitmentEmployeeController extends Controller
         }
         
         if(empty($post['action_type'])){
-            return redirect('employee/recruitment/candidate/detail/'.$id)->withErrors(['Action type can not be empty']);
+            return redirect('employee/recruitment/candidate/detail/'.$ids)->withErrors(['Action type can not be empty']);
         }
         $post['id_employee'] = $id;
         $post['update_type'] = $post['action_type'];
@@ -227,14 +227,14 @@ class RecruitmentEmployeeController extends Controller
                 $post['data_document']['attachment'] = MyHelper::encodeImage($post['data_document']['attachment']);
             }
         }
-       $update = MyHelper::post('employee/be/recruitment/update',$post);
+      $update = MyHelper::post('employee/be/recruitment/update',$post);
        
         if(isset($update['status']) && $update['status'] == 'success' && $post['update_type'] == 'approve'){
-            return redirect('employee/recruitment/candidate/detail/'.$id)->withSuccess(['Success update data to approved']);
+            return redirect('employee/recruitment/candidate/detail/'.$ids)->withSuccess(['Success update data to approved']);
         }elseif(isset($update['status']) && $update['status'] == 'success'){
-            return redirect('employee/recruitment/candidate/detail/'.$id.($post['action_type'] == "reject" ? '#hs-info': '#candidate-status'))->withSuccess(['Success update data to '.$post['update_type']??""]);
+            return redirect('employee/recruitment/candidate/detail/'.$ids.($post['action_type'] == "reject" ? '#hs-info': '#candidate-status'))->withSuccess(['Success update data to '.$post['update_type']??""]);
         }else{
-            return redirect('employee/recruitment/candidate/detail/'.$id)->withErrors($update['messages']??['Failed update data to approved']);
+            return redirect('employee/recruitment/candidate/detail/'.$ids)->withErrors($update['messages']??['Failed update data to approved']);
         }
     }
     public function reject(Request $request, $id){
