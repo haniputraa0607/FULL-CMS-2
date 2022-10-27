@@ -232,7 +232,7 @@ class EmployeeCashAdvanceController extends Controller
        return redirect()->back()->withErrors(['Cash Advance not found']);
     }
     public function update(Request $request,$id) {
-        $id = MyHelper::explodeSlug($id)[0]??'';
+//        $id = MyHelper::explodeSlug($id)[0]??'';
         $post = $request->except('_token');
         if(empty($post['action_type'])){
             return back()->withErrors(['Action type can not be empty']);
@@ -259,7 +259,7 @@ class EmployeeCashAdvanceController extends Controller
                 $post['data_document']['attachment'] = MyHelper::encodeImage($post['data_document']['attachment']);
             }
         }
-     return $update = MyHelper::post('employee/be/cash-advance/update',$post);
+       $update = MyHelper::post('employee/be/cash-advance/update',$post);
        if(isset($update['status']) && $update['status'] == 'success'){
             return redirect()->back()->withSuccess(['Success update data to '.$post['update_type']??""]);
         }else{
