@@ -84,7 +84,7 @@ class HairStylistLateController extends Controller
               }
             public function default_update_late(Request $request)
               {
-                 $post = $request->except('_token');
+                $post = $request->except('_token');
                  $post['value'] = str_replace(',','', $post['value']??0);
                  $query = MyHelper::post('recruitment/hairstylist/be/group/late/default/update', $post);
                         if(isset($query['status']) && $query['status'] == 'success'){
@@ -105,7 +105,7 @@ class HairStylistLateController extends Controller
                                    'menu_active'       => 'default-hair-stylist',
                                    'submenu_active'    => 'default-hair-stylist-late'
                                ];
-                        $data['result']=$query['result'];
+                       $data['result']=$query['result'];
                             return view('recruitment::default_income.late.update',$data);
                     } else{
                             return back()->withErrors($query['messages']);

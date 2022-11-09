@@ -105,7 +105,7 @@
 			<div class="form-group">
 				<label  class="control-label col-md-4">Office
                                     <span class="required" aria-required="true"> * </span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Kantor admin" data-container="body"></i>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Kantor tempat employee ditugaskan" data-container="body"></i>
 				</label>
 				<div class="col-md-6">
                                     <select onchange="manager()" id="id_outlet" name="id_outlet" class="form-control input-sm select2" data-placeholder="Search Office" required>
@@ -119,7 +119,7 @@
 			<div class="form-group">
 				<label  class="control-label col-md-4">Role
                                     <span class="required" aria-required="true"> * </span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Jabatan admin" data-container="body"></i>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Jabatan employee" data-container="body"></i>
 				</label>
 				<div class="col-md-6">
 					<select onchange="manager()" name="id_role" id="id_role" class="form-control input-sm select2" data-placeholder="Search Role" required>
@@ -133,7 +133,7 @@
 			<div class="form-group">
 				<label  class="control-label col-md-4">Manager
 				<span class="required" aria-required="true" id="required_manager"> * </span>
-                                    <i class="fa fa-question-circle tooltips" data-original-title="Manager dalam satu kantor sesuai department" data-container="body"></i>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Manager dalam satu kantor sesuai jabatan atau role dari employee" data-container="body"></i>
 				</label>
 				<div class="col-md-6">
 					<select name="id_manager" id="id_manager" class="form-control input-sm select2" data-placeholder="Search Manager" >
