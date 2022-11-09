@@ -151,11 +151,11 @@
 					<div class="form-body">
 						<input type="hidden" name="id_hairstylist_group_default_late" value="{{$result['id_hairstylist_group_default_late']}}">
                                     <div class="form-group">
-                                        <label class="col-md-4 control-label">Hours<span class="required" aria-required="true">*</span>
+                                        <label class="col-md-4 control-label">Range<span class="required" aria-required="true">*</span>
                                             <i class="fa fa-question-circle tooltips" data-original-title="Jumlah Jam" data-container="body"></i>
                                         </label>
                                         <div class="col-md-3">
-                                            <input type="number" name="hours" value="{{$result['hours']}}" placeholder="Masukkan waktu terlambat (menit)" class="form-control" required />
+                                            <input type="number" name="range" value="{{$result['range']}}" placeholder="Masukkan waktu terlambat (menit)" class="form-control" required />
                                         </div>
                                     </div>
                                     <div class="form-group">
