@@ -90,10 +90,7 @@ class RecruitmentEmployeeController extends Controller
     }
     public function detail(Request $request,$id){
         $post = $request->all();
-        $id = MyHelper::explodeSlug($id)[0]??'';
-        $detail = MyHelper::post('employee/be/recruitment/detail',['id_employee' => $id]);
-        if(isset($detail['status']) && $detail['status'] == 'success'){
-            $data = [
+        $data = [
                 'title'          => 'Employee',
                 'sub_title'      => 'Detail Employee',
                 'menu_active'    => 'employee',
@@ -102,6 +99,10 @@ class RecruitmentEmployeeController extends Controller
                 'url_back'      => 'employee/recruitment',
                 'page_type'     => 'candidate'
             ];
+        $data['id_enkripsi'] = $id;
+        $id = MyHelper::explodeSlug($id)[0]??'';
+        $detail = MyHelper::post('employee/be/recruitment/detail',['id_employee' => $id]);
+        if(isset($detail['status']) && $detail['status'] == 'success'){
            $data['detail'] = $detail['result'];
            $data['roles'] = MyHelper::get('users/role/list-all')['result'] ?? [];
            $data['outlets'] = MyHelper::post('outlet/be/list',['office_only'=>1])['result'] ?? [];
@@ -176,10 +177,7 @@ class RecruitmentEmployeeController extends Controller
     }
     public function detailcandidate(Request $request,$id){
         $post = $request->all();
-        $id = MyHelper::explodeSlug($id)[0]??'';
-       $detail = MyHelper::post('employee/be/recruitment/detail',['id_employee' => $id]);
-        if(isset($detail['status']) && $detail['status'] == 'success'){
-            $data = [
+         $data = [
                 'title'          => 'Recruitment',
                 'sub_title'      => 'Candidate Employee',
                 'menu_active'    => 'employee',
@@ -188,6 +186,11 @@ class RecruitmentEmployeeController extends Controller
                 'url_back'      => 'employee/recruitment/candidate',
                 'page_type'     => 'candidate'
             ];
+        $data['id_enkripsi'] = $id;
+        $id = MyHelper::explodeSlug($id)[0]??'';
+       $detail = MyHelper::post('employee/be/recruitment/detail',['id_employee' => $id]);
+        if(isset($detail['status']) && $detail['status'] == 'success'){
+           
             $data['detail'] = $detail['result'];
             $data['roles'] = MyHelper::get('users/role/list-all')['result'] ?? [];
             $data['outlets'] = MyHelper::post('outlet/be/list',['office_only'=>1])['result'] ?? [];
@@ -253,8 +256,8 @@ class RecruitmentEmployeeController extends Controller
                 $post['is_tax'] = 0;
             }
         }
-        $id = MyHelper::explodeSlug($id)[0]??'';
-        $post['id_employee'] = $id;
+        $ids = MyHelper::explodeSlug($id)[0]??'';
+        $post['id_employee'] = $ids;
         $update = MyHelper::post('employee/be/recruitment/complement',$post);
         if(isset($update['status']) && $update['status'] == 'success'){
             return redirect('employee/recruitment/detail/'.$id)->withSuccess(['Success update data']);
