@@ -773,7 +773,7 @@ function myFunction() {
 
 		<div class="tab-content">
                     <div class="tab-pane @if($detail['status'] != 'candidate') active @endif form" id="hs-info">
-                            <form class="form-horizontal" id="form-submit" role="form" action="{{url('employee/recruitment/complement/'.$detail['id_employee'])}}" method="post" enctype="multipart/form-data">
+                            <form class="form-horizontal" id="form-submit" role="form" action="{{url('employee/recruitment/complement/'.$id_enkripsi)}}" method="post" enctype="multipart/form-data">
                                     <div class="form-body">
                                             <div class="form-group">
                                                     <label class="col-md-4 control-label">Status</label>
