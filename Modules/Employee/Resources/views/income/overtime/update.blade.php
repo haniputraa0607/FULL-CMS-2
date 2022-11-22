@@ -165,7 +165,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
-                                            <i class="fa fa-question-circle tooltips" data-original-title="Besar overtime yang diterima oleh hairstylist" data-container="body"></i>
+                                            <i class="fa fa-question-circle tooltips" data-original-title="Besar overtime yang diterima oleh employee" data-container="body"></i>
                                         </label>
                                         <div class="col-md-5 input-group">
                                             <span class="input-group-btn">

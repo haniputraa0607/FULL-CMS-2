@@ -236,7 +236,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Value<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Besar insentif yang diterima oleh hairstylist" data-container="body"></i>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Besar insentif yang diterima oleh employee" data-container="body"></i>
                                     </label>
                                     <div class="col-md-4 input-group">
                                         <span class="input-group-btn">
@@ -249,7 +249,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Formula<span class="required" aria-required="true">*</span>
-                                        <i class="fa fa-question-circle tooltips" data-original-title="Rumus insentif yang digunakan dalam perhitungan pendapatan hairstylist (value * frekuensi)" data-container="body"></i>
+                                        <i class="fa fa-question-circle tooltips" data-original-title="Rumus insentif yang digunakan dalam perhitungan pendapatan employee (value * frekuensi)" data-container="body"></i>
                                     </label>
                                     <div class="col-md-6 input-group">
                                           <textarea name="formula" id="formula" class="form-control" placeholder="Enter rumus insentif">{{old('formula')}}</textarea>
