@@ -82,7 +82,7 @@
                                                   Rp
                                                 </button>
                                             </span>
-                                            <input type="text" name="value[]" id='value' value="@if($fixed['detail'][0]['default']==1 && $fixed['detail'][0]['value'] != null){{number_format($fixed['detail'][0]['value']??null,0,',',',')}}@endif" data-type="currency" placeholder="{{number_format($fixed['detail'][0]['default_value']??0,0,',',',')}}" class="form-control" required />
+                                            <input type="text" name="value[]" id='value' value="@if($fixed['detail'][0]['default']??''==1 && $fixed['detail'][0]['value']??'' != null){{number_format($fixed['detail'][0]['value']??null,0,',',',')}}@endif" data-type="currency" placeholder="{{number_format($fixed['detail'][0]['default_value']??0,0,',',',')}}" class="form-control" required />
                                         </div>
                                     </div>
                                     <div class="form-actions">
