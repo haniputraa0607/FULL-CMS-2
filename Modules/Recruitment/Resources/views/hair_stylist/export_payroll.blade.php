@@ -39,12 +39,12 @@
                         let id    = $(this).data('id');
                         $(this).click(function() {
                             swal({
-                                    title: name+"\n\nAre you sure want change to status "+status.toLowerCase()+" ?",
+                                    title: name+"\n\nAre you sure want delete data ?",
                                     text: "Your will not be able to recover this data!",
                                     type: "warning",
                                     showCancelButton: true,
                                     confirmButtonClass: "btn-info",
-                                    confirmButtonText: "Yes, save it!",
+                                    confirmButtonText: "Yes, delete it!",
                                     closeOnConfirm: false
                                 },
                                 function(){
@@ -55,9 +55,37 @@
                 }
             }
         }();
-
+        var Download = function() {
+            return {
+                init: function() {
+                    $(".download").each(function() {
+                        var token  	= "{{ csrf_token() }}";
+                        let url         = $(this).data('url');
+                        $(this).click(function() {
+                            swal({
+                                    title: "Download Excel?",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonClass: "btn-info",
+                                    confirmButtonText: "Yes, download it!",
+                                    closeOnConfirm: false
+                                },
+                                function(){
+                                    var link = document.createElement("a");
+                                    link.href = url;
+                                    document.body.appendChild(link);
+                                    link.click();
+                                    document.body.removeChild(link);
+                                    delete link;
+                                });
+                        })
+                    })
+                }
+            }
+        }();
         $(document).ready(function() {
              SweetAlert.init()
+             Download.init()
             $('.date_picker').datepicker({
             'format' : 'yyyy-mm',
             'todayHighlight' : true,
@@ -202,10 +230,10 @@
                             <td>{{ $val['status_export'] }}</td>
                             <td>
                                 @if($val['status_export'] == "Ready")
-                                    <a class="btn btn-sm btn-success" download target="_blank" href="{{env('STORAGE_URL_API').$val['url_export']}}"><i class="fa fa-download"></i></a>
+                                    <a class="btn btn-sm btn-success download" data-url="{{env('STORAGE_URL_API').$val['url_export']}}"><i class="fa fa-download"></i></a>
                                     <a class="btn red save" data-id="{{ $val['id_export_payroll_queue'] }}" data-status="Rejected" data-form="approve"><i class="fa fa-trash-o"></i></a>
                                 @else
-                                    <a class="btn btn-sm btn-info"  href="{{url('hair-stylist/payroll/filter')}}"><i class="fa fa-refresh"></i></a>
+                                    <a class="btn btn-sm btn-info download"  data-url="{{url('hair-stylist/payroll/filter')}}"><i class="fa fa-refresh"></i></a>
                                     <a class="btn red save" data-id="{{ $val['id_export_payroll_queue'] }}" data-status="Rejected" data-form="approve"><i class="fa fa-trash-o"></i></a>
                                 @endif
                             </td>
