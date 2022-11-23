@@ -202,7 +202,7 @@
                             <td>{{ $val['status_export'] }}</td>
                             <td>
                                 @if($val['status_export'] == "Ready")
-                                    <a class="btn btn-sm btn-success" target="_blank" href="{{env('STORAGE_URL_API').$val['url_export']}}"><i class="fa fa-download"></i></a>
+                                    <a class="btn btn-sm btn-success" download target="_blank" href="{{env('STORAGE_URL_API').$val['url_export']}}"><i class="fa fa-download"></i></a>
                                     <a class="btn red save" data-id="{{ $val['id_export_payroll_queue'] }}" data-status="Rejected" data-form="approve"><i class="fa fa-trash-o"></i></a>
                                 @else
                                     <a class="btn btn-sm btn-info"  href="{{url('hair-stylist/payroll/filter')}}"><i class="fa fa-refresh"></i></a>
