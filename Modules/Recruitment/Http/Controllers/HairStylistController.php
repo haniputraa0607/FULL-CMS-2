@@ -444,19 +444,38 @@ class HairStylistController extends Controller
             ];
 
             $data['outlets'] = MyHelper::get('outlet/be/list/simple')['result']??[];
+            $getList = MyHelper::get('hairstylist/be/export-payroll/list');
+            if (isset($getList['status']) && $getList['status'] == "success") {
+                $data['data']          = $getList['result']['data'];
+                $data['dataTotal']     = $getList['result']['total'];
+                $data['dataPerPage']   = $getList['result']['from'];
+                $data['dataUpTo']      = $getList['result']['from'] + count($getList['result']['data'])-1;
+                $data['dataPaginator'] = new LengthAwarePaginator($getList['result']['data'], $getList['result']['total'], $getList['result']['per_page'], $getList['result']['current_page'], ['path' => url()->current()]);
+            }else{
+                $data['data']          = [];
+                $data['dataTotal']     = 0;
+                $data['dataPerPage']   = 0;
+                $data['dataUpTo']      = 0;
+                $data['dataPaginator'] = false;
+            }
             return view('recruitment::hair_stylist.export_payroll', $data);
         }else{
            $data = MyHelper::post('hairstylist/be/export-payroll',$post);
             if (isset($data['status']) && $data['status'] == "success") {
-                $dataExport = $data['result'];
-                $data = new PayrollExport($dataExport); 
-                return Excel::download($data,'Payroll_'.date('YmdHis').'.xls');
+                 return back()->withSuccess(['Queue Export Payroll Success']);
             }else {
                 return back()->withErrors(['No transactions found in selected date range'])->withInput();
             }
         }
     }
-
+    public function deletePayroll($id){
+        $data = MyHelper::get('hairstylist/be/export-payroll/delete/'.$id);
+         if (isset($data['status']) && $data['status'] == "success") {
+              return back()->withSuccess(['Delete data Success']);
+         }else {
+             return back()->withErrors(['Failed delete data']);
+         }
+    }
     public function CreateBusinessPartner(Request $request){
         $post = $request->except('_token');
         return $update = MyHelper::post('recruitment/hairstylist/be/create-business-partner',$post);
