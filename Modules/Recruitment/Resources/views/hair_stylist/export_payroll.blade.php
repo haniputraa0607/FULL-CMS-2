@@ -31,7 +31,33 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/icheck/icheck.min.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <script type="text/javascript">
+         var SweetAlert = function() {
+            return {
+                init: function() {
+                    $(".save").each(function() {
+                        var token  	= "{{ csrf_token() }}";
+                        let id    = $(this).data('id');
+                        $(this).click(function() {
+                            swal({
+                                    title: name+"\n\nAre you sure want change to status "+status.toLowerCase()+" ?",
+                                    text: "Your will not be able to recover this data!",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonClass: "btn-info",
+                                    confirmButtonText: "Yes, save it!",
+                                    closeOnConfirm: false
+                                },
+                                function(){
+                                    window.location.href = "{{url('hair-stylist/payroll/delete')}}/"+id;
+                                });
+                        })
+                    })
+                }
+            }
+        }();
+
         $(document).ready(function() {
+             SweetAlert.init()
             $('.date_picker').datepicker({
             'format' : 'yyyy-mm',
             'todayHighlight' : true,
@@ -140,6 +166,61 @@
                     <button type="submit" class="btn blue">Export</button>
                 </div>
             </form>
+        </div>
+    </div>
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption font-blue ">
+                <i class="icon-settings font-blue "></i>
+                <span class="caption-subject bold uppercase">Data</span>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div style="overflow-x: scroll; white-space: nowrap; overflow-y: hidden;">
+            <table class="table table-striped table-bordered table-hover" id="hslist">
+                <thead>
+                <tr>
+                    <th scope="col" width="10%" style="text-align: center"> Outlet </th>
+                    <th scope="col" width="10%" style="text-align: center"> Start Date </th>
+                    <th scope="col" width="10%" style="text-align: center"> End Date </th>
+                    <th scope="col" width="10%" style="text-align: center"> Status </th>
+                    <th scope="col" width="10%" style="text-align: center"> Action </th>
+                </tr>
+                </thead>
+                <tbody>
+                @if(!empty($data))
+                    @foreach($data as $val)
+                        <tr style="text-align: center">
+                            <td>
+                            @foreach(json_decode($val['name_outlet']) as $va)
+                            {{$va}}
+                            <br>
+                            @endforeach
+                            </td>
+                            <td>{{ date('M Y', strtotime($val['start_date'])) }}</td>
+                            <td>{{ date('M Y', strtotime($val['end_date'])) }}</td>
+                            <td>{{ $val['status_export'] }}</td>
+                            <td>
+                                @if($val['status_export'] == "Ready")
+                                    <a class="btn btn-sm btn-success" target="_blank" href="{{env('STORAGE_URL_API').$val['url_export']}}"><i class="fa fa-download"></i></a>
+                                    <a class="btn red save" data-id="{{ $val['id_export_payroll_queue'] }}" data-status="Rejected" data-form="approve"><i class="fa fa-trash-o"></i></a>
+                                @else
+                                    <a class="btn btn-sm btn-info"  href="{{url('hair-stylist/payroll/filter')}}"><i class="fa fa-refresh"></i></a>
+                                    <a class="btn red save" data-id="{{ $val['id_export_payroll_queue'] }}" data-status="Rejected" data-form="approve"><i class="fa fa-trash-o"></i></a>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                @else
+                    <tr><td colspan="5" style="text-align: center">Data Not Available</td></tr>
+                @endif
+                </tbody>
+            </table>
+        </div>
+        <br>
+        @if ($dataPaginator)
+            {{ $dataPaginator->links() }}
+        @endif
         </div>
     </div>
 @endsection
