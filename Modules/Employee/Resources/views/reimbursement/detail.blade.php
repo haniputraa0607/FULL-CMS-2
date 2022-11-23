@@ -299,7 +299,7 @@
                                                             @endif
                                                            @endif
                                                     </div>
-                                                    <div class="tab-pane @if($data['status'] == 'HRGA Apporved') active @endif" id="fat">
+                                                    <div class="tab-pane @if($data['status'] == 'HRGA Approved') active @endif" id="fat">
                                                            @if(session('level') == 'Super Admin')
                                                             @include('employee::reimbursement.form_finance')
                                                            @elseif(isset($dataDoc['Fat Dept Approved']))
