@@ -132,7 +132,6 @@
                     <tr>
                         <th>Student Name</th>
                         <th>Student Phone</th>
-                        <th>Student Email</th>
                         <th>Final Score</th>
                         <th>Next Meet Date</th>
                         <th>Action</th>
@@ -144,7 +143,6 @@
                             <tr>
                                 <td>{{$data['name']}}</td>
                                 <td>{{$data['phone']}}</td>
-                                <td>{{$data['email']}}</td>
                                 <td>{{$data['final_score']}}</td>
                                 <td>
                                     @if(!empty($data['next_meeting']['schedule_date']))

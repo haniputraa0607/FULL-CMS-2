@@ -101,12 +101,6 @@
                     }
                 },
                 {
-                    data: 'email',
-                    render: function(value, type, row) {
-                        return `${row.email}`;
-                    }
-                },
-                {
                     data: 'last_date_transaction',
                     render: function(value, type, row) {
                         var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -173,7 +167,6 @@
                     <th>Actions</th>
                     <th>Name</th>
                     <th>Phone</th>
-                    <th>Email</th>
                     <th>Last Date Transaction</th>
                 </tr>
                 </thead>
