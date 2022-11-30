@@ -900,6 +900,7 @@
             </div>
         </div>
 
+        @if ( $deals_type == "Deals" || $deals_type == "WelcomeVoucher" )
         {{-- Total Deals User --}}
         <div class="form-group">
             <div class="input-icon right">
@@ -918,6 +919,7 @@
                 <p style="color: red;display: none" id="label_total_nol">Invalid value, minimum value for total deals user is 1</p>
             </div>
         </div>
+        @endif
 
     </div>
 @else
