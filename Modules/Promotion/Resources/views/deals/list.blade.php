@@ -194,7 +194,7 @@ $configs    		= session('configs');
                                 		<li>{{ $brand['name_brand'] ?? '' }}</li>
                                 	@endforeach
                                 	</ul>
-                                <td>
+                                </td>
                                 @endif
                                 <td class="middle-center">
 	                                @if ( empty($value['step_complete']) )

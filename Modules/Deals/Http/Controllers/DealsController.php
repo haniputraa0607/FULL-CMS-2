@@ -93,7 +93,7 @@ class DealsController extends Controller
             }
         }
 
-        if (isset($post['user_limit']) || isset($post['total_deals_user'])) {
+        if (isset($post['user_limit']) && isset($post['total_deals_user'])) {
             if($post['user_limit'] != 0){
                 if($post['user_limit'] < $post['total_deals_user']){
                     return back()->withErrors(['Total Deals User cant be bigger than User Limit'])->withInput();
@@ -1029,7 +1029,7 @@ class DealsController extends Controller
             }
         }
 
-        if (isset($post['user_limit']) || isset($post['total_deals_user'])) {
+        if (isset($post['user_limit']) && isset($post['total_deals_user'])) {
             if($post['user_limit'] != 0){
                 if($post['user_limit'] < $post['total_deals_user']){
                     return back()->withErrors(['Total Deals User cant be bigger than User Limit'])->withInput();
