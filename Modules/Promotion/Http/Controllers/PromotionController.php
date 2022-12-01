@@ -96,7 +96,7 @@ class PromotionController extends Controller
         $data['deals'] = MyHelper::post('deals/list-all', ['deals_type' => 'Deals'])['result']??[];
         $data['quest'] = MyHelper::get('quest/list-all')['result']??[];
         $data['subscription'] = MyHelper::post('subscription/list-all', ['subscription_type' => 'Subscription'])['result']??[];
-				return 1;
+
         return view('promotion::create-step-1',$data);
     }
 
