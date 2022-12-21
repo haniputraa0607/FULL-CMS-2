@@ -225,9 +225,9 @@
                         </form>
                     </div>
                     <div class="tab-pane " id="status">
-                            <br>
-                            <br>
-                            <div class="row">
+                        <br>
+                        <br>
+                        <div class="row">
                                     <div class="col-md-3">
                                             <ul class="ver-inline-menu tabbable margin-bottom-10">
                                                     <li @if($data['status'] == 'Pending') class="active" @endif>

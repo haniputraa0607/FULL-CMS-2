@@ -1,8 +1,6 @@
 <?php
     use App\Lib\MyHelper;
     $grantedFeature     = session('granted_features');
-    
-    
  ?>
  @extends('layouts.main')
 
@@ -285,151 +283,233 @@
                 <span class="caption-subject font-dark sbold uppercase font-blue">{{ $sub_title }}</span>
             </div>
         </div>
-        <div class="portlet-body form">
-            <form class="form-horizontal" role="form" action="{{ url('employee/timeoff/update') }}/{{ $result['id_employee_time_off'] }}" method="post" enctype="multipart/form-data" id="update-time-off">
-                <div class="form-body">
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Select Office <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih nama kantor karyawan yang akan mengajukan izin" data-container="body"></i></label>
-                        <div class="col-md-5">
-                            <input class="form-control" type="text" placeholder="Outlet name" value="{{ $result['outlet']['outlet_name'] }}" readonly required/>
-                            <input class="form-control" type="hidden" name="id_outlet" value="{{ $result['outlet']['id_outlet'] }}" readonly/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Select Employee <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih nama karyawan yang akan dibuat permohonan izin" data-container="body"></i></label>
-                        <div class="col-md-5">
-                            <input class="form-control" type="text" placeholder="Employee name" value="{{ $result['employee']['name'] }}" readonly required/>
-                            <input class="form-control" type="hidden" name="id_employee" id="list_hs"  value="{{ $result['employee']['id'] }}" readonly/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Start Month <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk bulan mulai cuti" data-container="body"></i></label>
-                        <div class="col-md-3">
-                            <select class="form-control select2" name="month" id="month_start" required onchange="selectMonthStart(this.value)" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
-                                <option value="" selected disabled>Select Month</option>
-                                <option value="1" @if(isset($result['month_start'])) @if($result['month_start'] == 1) selected @endif @endif>January</option>
-                                <option value="2" @if(isset($result['month_start'])) @if($result['month_start'] == 2) selected @endif @endif>February</option>
-                                <option value="3" @if(isset($result['month_start'])) @if($result['month_start'] == 3) selected @endif @endif>March</option>
-                                <option value="4" @if(isset($result['month_start'])) @if($result['month_start'] == 4) selected @endif @endif>April</option>
-                                <option value="5" @if(isset($result['month_start'])) @if($result['month_start'] == 5) selected @endif @endif>May</option>
-                                <option value="6" @if(isset($result['month_start'])) @if($result['month_start'] == 6) selected @endif @endif>June</option>
-                                <option value="7" @if(isset($result['month_start'])) @if($result['month_start'] == 7) selected @endif @endif>July</option>
-                                <option value="8" @if(isset($result['month_start'])) @if($result['month_start'] == 8) selected @endif @endif>August</option>
-                                <option value="9" @if(isset($result['month_start'])) @if($result['month_start'] == 9) selected @endif @endif>September</option>
-                                <option value="10" @if(isset($result['month_start'])) @if($result['month_start'] == 10) selected @endif @endif>October</option>
-                                <option value="11" @if(isset($result['month_start'])) @if($result['month_start'] == 11) selected @endif @endif>November</option>
-                                <option value="12" @if(isset($result['month_start'])) @if($result['month_start'] == 12) selected @endif @endif>December</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Start Year <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk tahun mulai cuti" data-container="body"></i></label>
-                        <div class="col-md-2">
-                            <input class="form-control numberonly" type="text" maxlength="4" id="year_start" name="year" placeholder="Enter year" value="{{ $result['year_start'] }}" required onchange="selectYearStart(this.value)" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Start Date Time Off <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih tanggal karyawan akan mulai cuti" data-container="body"></i></label>
-                        <div class="col-md-3">
-                            @if(isset($result['approve_by']) || isset($result['reject_at'])) 
-                            <input type="text" class="datepicker form-control" value="{{ date('d F Y', strtotime($result['start_date'])) }}" disabled>
-                            @else
-                            <select class="form-control select2" name="start_date" required id="list_date_start">
-                                <option value="" selected disabled>Select Date</option>
-                                @foreach($result['start_list_date'] ?? [] as $d => $date)
-                                    <option value="{{$date['date']}}" data-id="{{ $date['id_employee_schedule'] }}" data-timestart="{{ $date['time_start'] }}" data-timeend="{{ $date['time_end'] }}"  @if(isset($result['start_date'])) @if(date('Y-m-d', strtotime($result['start_date'])) == date('Y-m-d', strtotime($date['date']))) selected @endif @endif> {{$date['date_format']}}</option>
-                                @endforeach
-                            </select>
+        <div class="tabbable-line boxless tabbable-reversed">
+        	<ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#info" data-toggle="tab"> Info </a>
+                </li>
+                <li>
+                    <a href="#status" data-toggle="tab"> Status Time Off</a>
+                </li>
+               
+            </ul>
+        </div>
+        <div class="tab-content">
+            <div class="tab-pane active" id="info">
+                <div class="portlet-body form">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Select Office <span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Pilih nama kantor karyawan yang akan mengajukan izin" data-container="body"></i></label>
+                                <div class="col-md-5">
+                                    <input class="form-control" type="text" placeholder="Outlet name" value="{{ $result['outlet']['outlet_name'] }}" readonly required/>
+                                    <input class="form-control" type="hidden" name="id_outlet" value="{{ $result['outlet']['id_outlet'] }}" readonly/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Select Employee <span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Pilih nama karyawan yang akan dibuat permohonan izin" data-container="body"></i></label>
+                                <div class="col-md-5">
+                                    <input class="form-control" type="text" placeholder="Employee name" value="{{ $result['employee']['name'] }}" readonly required/>
+                                    <input class="form-control" type="hidden" name="id_employee" id="list_hs"  value="{{ $result['employee']['id'] }}" readonly/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Start Date Time Off <span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Pilih tanggal karyawan akan mulai cuti" data-container="body"></i></label>
+                                <div class="col-md-3">
+                                    <input type="text" class="datepicker form-control" value="{{ date('d F Y', strtotime($result['start_date'])) }}" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">End Date Time Off <span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Pilih tanggal karyawan akan selesai cuti" data-container="body"></i></label>
+                                <div class="col-md-3">
+                                    <input type="text" class="datepicker form-control" value="{{ date('d F Y', strtotime($result['end_date'])) }}" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Requested By <span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Permohonan dibuat oleh user ini" data-container="body"></i></label>
+                                <div class="col-md-5">
+                                    <input class="form-control" type="text" placeholder="Enter request by" value="{{ $result['request']['name'] }}" required readonly/>
+                                </div>
+                            </div>
+                            @if (isset($result['approve']))
+                            <div class="form-group">
+                                <label for="example-search-input" class="control-label col-md-4">Approved By <span class="required" aria-required="true">*</span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Permohonan disetujui oleh user ini" data-container="body"></i></label>
+                                <div class="col-md-5">
+                                    <input class="form-control" type="text" placeholder="Enter request by" value="{{ $result['approve']['name'] }}" required readonly/>
+                                </div>
+                            </div>
                             @endif
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">End Month <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk bulan selesai cuti" data-container="body"></i></label>
-                        <div class="col-md-3">
-                            <select class="form-control select2" name="month" id="month_end" required onchange="selectMonthEnd(this.value)" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
-                                <option value="" selected disabled>Select Month</option>
-                                <option value="1" @if(isset($result['month_end'])) @if($result['month_end'] == 1) selected @endif @endif>January</option>
-                                <option value="2" @if(isset($result['month_end'])) @if($result['month_end'] == 2) selected @endif @endif>February</option>
-                                <option value="3" @if(isset($result['month_end'])) @if($result['month_end'] == 3) selected @endif @endif>March</option>
-                                <option value="4" @if(isset($result['month_end'])) @if($result['month_end'] == 4) selected @endif @endif>April</option>
-                                <option value="5" @if(isset($result['month_end'])) @if($result['month_end'] == 5) selected @endif @endif>May</option>
-                                <option value="6" @if(isset($result['month_end'])) @if($result['month_end'] == 6) selected @endif @endif>June</option>
-                                <option value="7" @if(isset($result['month_end'])) @if($result['month_end'] == 7) selected @endif @endif>July</option>
-                                <option value="8" @if(isset($result['month_end'])) @if($result['month_end'] == 8) selected @endif @endif>August</option>
-                                <option value="9" @if(isset($result['month_end'])) @if($result['month_end'] == 9) selected @endif @endif>September</option>
-                                <option value="10" @if(isset($result['month_end'])) @if($result['month_end'] == 10) selected @endif @endif>October</option>
-                                <option value="11" @if(isset($result['month_end'])) @if($result['month_end'] == 11) selected @endif @endif>November</option>
-                                <option value="12" @if(isset($result['month_end'])) @if($result['month_end'] == 12) selected @endif @endif>December</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">End Year <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk tahun selesai cuti" data-container="body"></i></label>
-                        <div class="col-md-2">
-                            <input class="form-control numberonly" type="text" maxlength="4" id="year_end" name="year" placeholder="Enter year" value="{{ $result['year_end'] }}" required onchange="selectYearEnd(this.value)" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">End Date Time Off <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Pilih tanggal karyawan akan selesai cuti" data-container="body"></i></label>
-                        <div class="col-md-3">
-                            @if(isset($result['approve_by']) || isset($result['reject_at'])) 
-                            <input type="text" class="datepicker form-control" value="{{ date('d F Y', strtotime($result['end_date'])) }}" disabled>
-                            @else
-                            <select class="form-control select2" name="end_date" required id="list_date_end">
-                                <option value="" selected disabled>Select Date</option>
-                                @foreach($result['end_list_date'] ?? [] as $d => $date)
-                                    <option value="{{$date['date']}}" data-id="{{ $date['id_employee_schedule'] }}" data-timestart="{{ $date['time_start'] }}" data-timeend="{{ $date['time_end'] }}"  @if(isset($result['end_date'])) @if(date('Y-m-d', strtotime($result['end_date'])) == date('Y-m-d', strtotime($date['date']))) selected @endif @endif> {{$date['date_format']}}</option>
-                                @endforeach
-                            </select>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Requested By <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Permohonan dibuat oleh user ini" data-container="body"></i></label>
-                        <div class="col-md-5">
-                            <input class="form-control" type="text" placeholder="Enter request by" value="{{ $result['request']['name'] }}" required readonly/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Uses Quota Time Off<span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Memakai jatah cuti atau tidak" data-container="body"></i></label>
-                        <div class="col-md-3">
-                            <input type="checkbox" class="make-switch check_quota" data-size="small" data-on-color="info" data-on-text="Yes" data-off-color="default" name='use_quota_time_off' data-off-text="No" @if($result['use_quota_time_off'] == 1) checked @endif @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
-                        </div>
-                    </div>
-                    @if (isset($result['approve']))
-                    <div class="form-group">
-                        <label for="example-search-input" class="control-label col-md-4">Approved By <span class="required" aria-required="true">*</span>
-                            <i class="fa fa-question-circle tooltips" data-original-title="Permohonan disetujui oleh user ini" data-container="body"></i></label>
-                        <div class="col-md-5">
-                            <input class="form-control" type="text" placeholder="Enter request by" value="{{ $result['approve']['name'] }}" required readonly/>
-                        </div>
-                    </div>
-                    @endif
+                    </form>
                 </div>
-                <div class="form-actions">
-                    {{ csrf_field() }}
+            </div>
+            <div class="tab-pane" id="status">
+                <div class="portlet-body form">
+                    <br>
+                    <br>
                     <div class="row">
-                        <div class="col-md-12 text-center">
-                            @if (empty($result['reject_at']))
-                                @if(empty($result['approve']))
-                                <a onclick="submitTimeOff('submit')" class="btn blue" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>Submit</a>
-                                <a onclick="submitTimeOff('approve')" id="approve" class="btn green approve">Approve</a>
-                                @endif
-                            @endif
+                        <div class="col-md-3">
+                            <ul class="ver-inline-menu tabbable margin-bottom-10">
+                                <li @if($result['status'] == 'Pending') class="active" @endif>
+                                    <a @if(in_array($result['status'], ['Pending','Manager Approved','Director Approved','HRGA Approved','Fat Dept Approved','Approved','Successed'])) data-toggle="tab" href="#manager" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Manager Approval</a>
+                                </li>
+                                <li @if($result['status'] == 'Manager Approved') class="active" @endif>
+                                    <a @if(in_array($result['status'], ['Manager Approved','Director Approved','HRGA Approved','Fat Dept Approved','Approved','Successed'])) data-toggle="tab" href="#director" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Director Approval</a>
+                                </li>
+                                <li @if($result['status'] == 'Director Approved') class="active" @endif>
+                                    <a  @if(in_array($result['status'], ['Director Approved','HRGA Approved','Fat Dept Approved','Approved','Successed'])) data-toggle="tab" href="#hrga" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> HRGA Approval </a>
+                                </li>
+                                <li @if($result['status'] == 'HRGA Approved') class="active" @endif>
+                                    <a  @if(in_array($result['status'], ['HRGA Approved','Fat Dept Approved','Approved','Successed'])) data-toggle="tab" href="#fat" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Finance Approval</a>
+                                </li>
+                                <li @if($result['status'] == 'Fat Dept Approved') class="active" @endif>
+                                    <a  @if(in_array($result['status'], ['Fat Dept Approved','Approved','Successed'])) data-toggle="tab" href="#approved" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> Payment</a>
+                                </li>
+                            </ul>
+                        </div>
+                        @foreach($result['documents'] ?? [] as $doc)
+                        <?php
+                            $dataDoc[$doc['type']] = $doc;
+                        ?>
+                        @endforeach
+                        <div class="col-md-9">
+                            <div class="tab-content">
+                                <div class="tab-pane @if($result['status'] == 'Pending') active @endif" id="manager">
+                                    <form class="form-horizontal" role="form" action="{{ url('employee/timeoff/update') }}/{{ $result['id_employee_time_off'] }}" method="post" enctype="multipart/form-data" id="update-time-off">
+                                        <div class="form-body">
+                                            <input class="form-control" type="hidden" name="id_outlet" value="{{ $result['outlet']['id_outlet'] }}" readonly/>
+                                            <input class="form-control" type="hidden" name="id_employee" id="list_hs"  value="{{ $result['employee']['id'] }}" readonly/>
+                                            <div class="form-group">
+                                                <label for="example-search-input" class="control-label col-md-4">Start Month <span class="required" aria-required="true">*</span>
+                                                    <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk bulan mulai cuti" data-container="body"></i></label>
+                                                <div class="col-md-3">
+                                                    <select class="form-control select2" name="month" id="month_start" required onchange="selectMonthStart(this.value)" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                                                        <option value="" selected disabled>Select Month</option>
+                                                        <option value="1" @if(isset($result['month_start'])) @if($result['month_start'] == 1) selected @endif @endif>January</option>
+                                                        <option value="2" @if(isset($result['month_start'])) @if($result['month_start'] == 2) selected @endif @endif>February</option>
+                                                        <option value="3" @if(isset($result['month_start'])) @if($result['month_start'] == 3) selected @endif @endif>March</option>
+                                                        <option value="4" @if(isset($result['month_start'])) @if($result['month_start'] == 4) selected @endif @endif>April</option>
+                                                        <option value="5" @if(isset($result['month_start'])) @if($result['month_start'] == 5) selected @endif @endif>May</option>
+                                                        <option value="6" @if(isset($result['month_start'])) @if($result['month_start'] == 6) selected @endif @endif>June</option>
+                                                        <option value="7" @if(isset($result['month_start'])) @if($result['month_start'] == 7) selected @endif @endif>July</option>
+                                                        <option value="8" @if(isset($result['month_start'])) @if($result['month_start'] == 8) selected @endif @endif>August</option>
+                                                        <option value="9" @if(isset($result['month_start'])) @if($result['month_start'] == 9) selected @endif @endif>September</option>
+                                                        <option value="10" @if(isset($result['month_start'])) @if($result['month_start'] == 10) selected @endif @endif>October</option>
+                                                        <option value="11" @if(isset($result['month_start'])) @if($result['month_start'] == 11) selected @endif @endif>November</option>
+                                                        <option value="12" @if(isset($result['month_start'])) @if($result['month_start'] == 12) selected @endif @endif>December</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="example-search-input" class="control-label col-md-4">Start Year <span class="required" aria-required="true">*</span>
+                                                    <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk tahun mulai cuti" data-container="body"></i></label>
+                                                <div class="col-md-2">
+                                                    <input class="form-control numberonly" type="text" maxlength="4" id="year_start" name="year" placeholder="Enter year" value="{{ $result['year_start'] }}" required onchange="selectYearStart(this.value)" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="example-search-input" class="control-label col-md-4">Start Date Time Off <span class="required" aria-required="true">*</span>
+                                                    <i class="fa fa-question-circle tooltips" data-original-title="Pilih tanggal karyawan akan mulai cuti" data-container="body"></i></label>
+                                                <div class="col-md-5">
+                                                    @if(isset($result['approve_by']) || isset($result['reject_at'])) 
+                                                    <input type="text" class="datepicker form-control" value="{{ date('d F Y', strtotime($result['start_date'])) }}" disabled>
+                                                    @else
+                                                    <select class="form-control select2" name="start_date" required id="list_date_start">
+                                                        <option value="" selected disabled>Select Date</option>
+                                                        @foreach($result['start_list_date'] ?? [] as $d => $date)
+                                                            <option value="{{$date['date']}}" data-id="{{ $date['id_employee_schedule'] }}" data-timestart="{{ $date['time_start'] }}" data-timeend="{{ $date['time_end'] }}"  @if(isset($result['start_date'])) @if(date('Y-m-d', strtotime($result['start_date'])) == date('Y-m-d', strtotime($date['date']))) selected @endif @endif> {{$date['date_format']}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="example-search-input" class="control-label col-md-4">End Month <span class="required" aria-required="true">*</span>
+                                                    <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk bulan selesai cuti" data-container="body"></i></label>
+                                                <div class="col-md-3">
+                                                    <select class="form-control select2" name="month" id="month_end" required onchange="selectMonthEnd(this.value)" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                                                        <option value="" selected disabled>Select Month</option>
+                                                        <option value="1" @if(isset($result['month_end'])) @if($result['month_end'] == 1) selected @endif @endif>January</option>
+                                                        <option value="2" @if(isset($result['month_end'])) @if($result['month_end'] == 2) selected @endif @endif>February</option>
+                                                        <option value="3" @if(isset($result['month_end'])) @if($result['month_end'] == 3) selected @endif @endif>March</option>
+                                                        <option value="4" @if(isset($result['month_end'])) @if($result['month_end'] == 4) selected @endif @endif>April</option>
+                                                        <option value="5" @if(isset($result['month_end'])) @if($result['month_end'] == 5) selected @endif @endif>May</option>
+                                                        <option value="6" @if(isset($result['month_end'])) @if($result['month_end'] == 6) selected @endif @endif>June</option>
+                                                        <option value="7" @if(isset($result['month_end'])) @if($result['month_end'] == 7) selected @endif @endif>July</option>
+                                                        <option value="8" @if(isset($result['month_end'])) @if($result['month_end'] == 8) selected @endif @endif>August</option>
+                                                        <option value="9" @if(isset($result['month_end'])) @if($result['month_end'] == 9) selected @endif @endif>September</option>
+                                                        <option value="10" @if(isset($result['month_end'])) @if($result['month_end'] == 10) selected @endif @endif>October</option>
+                                                        <option value="11" @if(isset($result['month_end'])) @if($result['month_end'] == 11) selected @endif @endif>November</option>
+                                                        <option value="12" @if(isset($result['month_end'])) @if($result['month_end'] == 12) selected @endif @endif>December</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="example-search-input" class="control-label col-md-4">End Year <span class="required" aria-required="true">*</span>
+                                                    <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk tahun selesai cuti" data-container="body"></i></label>
+                                                <div class="col-md-2">
+                                                    <input class="form-control numberonly" type="text" maxlength="4" id="year_end" name="year" placeholder="Enter year" value="{{ $result['year_end'] }}" required onchange="selectYearEnd(this.value)" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="example-search-input" class="control-label col-md-4">End Date Time Off <span class="required" aria-required="true">*</span>
+                                                    <i class="fa fa-question-circle tooltips" data-original-title="Pilih tanggal karyawan akan selesai cuti" data-container="body"></i></label>
+                                                <div class="col-md-4">
+                                                    @if(isset($result['approve_by']) || isset($result['reject_at'])) 
+                                                    <input type="text" class="datepicker form-control" value="{{ date('d F Y', strtotime($result['end_date'])) }}" disabled>
+                                                    @else
+                                                    <select class="form-control select2" name="end_date" required id="list_date_end">
+                                                        <option value="" selected disabled>Select Date</option>
+                                                        @foreach($result['end_list_date'] ?? [] as $d => $date)
+                                                            <option value="{{$date['date']}}" data-id="{{ $date['id_employee_schedule'] }}" data-timestart="{{ $date['time_start'] }}" data-timeend="{{ $date['time_end'] }}"  @if(isset($result['end_date'])) @if(date('Y-m-d', strtotime($result['end_date'])) == date('Y-m-d', strtotime($date['date']))) selected @endif @endif> {{$date['date_format']}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="example-search-input" class="control-label col-md-4">Uses Quota Time Off<span class="required" aria-required="true">*</span>
+                                                    <i class="fa fa-question-circle tooltips" data-original-title="Memakai jatah cuti atau tidak" data-container="body"></i></label>
+                                                <div class="col-md-3">
+                                                    <input type="checkbox" class="make-switch check_quota" data-size="small" data-on-color="info" data-on-text="Yes" data-off-color="default" name='use_quota_time_off' data-off-text="No" @if($result['use_quota_time_off'] == 1) checked @endif @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                                                </div>
+                                            </div>
+                                            @if (isset($result['approve']))
+                                            <div class="form-group">
+                                                <label for="example-search-input" class="control-label col-md-4">Approved By <span class="required" aria-required="true">*</span>
+                                                    <i class="fa fa-question-circle tooltips" data-original-title="Permohonan disetujui oleh user ini" data-container="body"></i></label>
+                                                <div class="col-md-5">
+                                                    <input class="form-control" type="text" placeholder="Enter request by" value="{{ $result['approve']['name'] }}" required readonly/>
+                                                </div>
+                                            </div>
+                                            @endif
+                                        </div>
+                                        <div class="form-actions">
+                                            {{ csrf_field() }}
+                                            <div class="row">
+                                                <div class="col-md-12 text-center">
+                                                    @if (empty($result['reject_at']))
+                                                        @if(empty($result['approve']))
+                                                        <a onclick="submitTimeOff('submit')" class="btn blue" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>Submit</a>
+                                                        <a onclick="submitTimeOff('approve')" id="approve" class="btn green approve">Approve</a>
+                                                        @endif
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
     
