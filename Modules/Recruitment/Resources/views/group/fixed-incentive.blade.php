@@ -61,6 +61,7 @@
                            
                         </div>
                            @else
+							   @if(!empty($fixed['detail']))
                             <form class="form-horizontal" role="form" action="{{url('recruitment/hair-stylist/group/fixed-incentive/create')}}" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="id_hairstylist_group_default_fixed_incentive_detail[]" value="{{$fixed['detail'][0]['id_hairstylist_group_default_fixed_incentive_detail']??''}}">
                                 <input type="hidden" name="id_hairstylist_group[]" value="{{$id}}"/>
@@ -83,6 +84,7 @@
                                     </div>
                                 </div>
                             </form>
+							@endif
                            @endif
                     </div>
                     
