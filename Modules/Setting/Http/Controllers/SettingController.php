@@ -1690,7 +1690,7 @@ class SettingController extends Controller
             }
         }
 
-        return $result = MyHelper::post('setting/employee-apps/splash-screen', $post);
+        $result = MyHelper::post('setting/employee-apps/splash-screen', $post);
         return parent::redirect($result, 'Splash Screen has been updated.');
     }
 }

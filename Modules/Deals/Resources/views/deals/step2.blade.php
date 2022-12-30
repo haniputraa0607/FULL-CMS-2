@@ -167,7 +167,10 @@
             $date_end   = null;
         }
         $brands = array_column($result['brands'], 'id_brand');
-        $services = array_column($result['deals_services'], 'service');
+		$services = [];
+		if (!empty($result['deals_services']) || !empty($result['deals_promotion_services'])) {
+			$selected_service = array_column($result['deals_services']??$result['deals_promotion_services'], 'service');
+		}
         $is_all_product_bill = $result['deals_promotion_discount_bill_rules']['is_all_product'] ?? $result['deals_discount_bill_rules']['is_all_product'] ?? 1;
 	@endphp
     

@@ -261,7 +261,9 @@
                                     <div class="col-md-9">
                                             <div class="tab-content">
                                                     <div class="tab-pane @if($data['status'] == 'Pending') active @endif" id="manager">
-                                                            @if(isset($dataDoc['Manager Approved']))
+                                                            @if(session('level') == 'Super Admin')
+                                                            @include('employee::reimbursement.form_manager')
+                                                            @elseif(isset($dataDoc['Manager Approved']))
                                                                 @include('employee::reimbursement.form_manager')
                                                             @else
                                                             @if($data['id_manager']==session('id_user'))
@@ -272,8 +274,10 @@
                                                            @endif
                                                     </div>
                                                 <div class="tab-pane @if($data['status'] == 'Manager Approved') active @endif" id="director">
-                                                           @if(isset($dataDoc['Director Approved']))
-                                                           @include('employee::reimbursement.form_director')
+                                                           @if(session('level') == 'Super Admin')
+                                                            @include('employee::reimbursement.form_director')
+                                                           @elseif(isset($dataDoc['Director Approved']))
+                                                            @include('employee::reimbursement.form_director')
                                                            @else
                                                             @if(MyHelper::hasAccess([528], $grantedFeature))
                                                             @include('employee::reimbursement.form_director')
@@ -283,8 +287,10 @@
                                                            @endif
                                                     </div>
                                                     <div class="tab-pane @if($data['status'] == 'Director Approved') active @endif" id="hrga">
-                                                           @if(isset($dataDoc['HRGA Approved']))
-                                                           @include('employee::reimbursement.form_hrga')
+                                                           @if(session('level') == 'Super Admin')
+                                                            @include('employee::reimbursement.form_hrga')
+                                                           @elseif(isset($dataDoc['HRGA Approved']))
+                                                            @include('employee::reimbursement.form_hrga')
                                                            @else
                                                             @if(MyHelper::hasAccess([529], $grantedFeature))
                                                             @include('employee::reimbursement.form_hrga')
@@ -293,9 +299,11 @@
                                                             @endif
                                                            @endif
                                                     </div>
-                                                    <div class="tab-pane @if($data['status'] == 'HRGA Apporved') active @endif" id="fat">
-                                                            @if(isset($dataDoc['Fat Dept Approved']))
-                                                           @include('employee::reimbursement.form_finance')
+                                                    <div class="tab-pane @if($data['status'] == 'HRGA Approved') active @endif" id="fat">
+                                                           @if(session('level') == 'Super Admin')
+                                                            @include('employee::reimbursement.form_finance')
+                                                           @elseif(isset($dataDoc['Fat Dept Approved']))
+                                                            @include('employee::reimbursement.form_finance')
                                                            @else
                                                             @if(MyHelper::hasAccess([530], $grantedFeature))
                                                             @include('employee::reimbursement.form_finance')
@@ -305,8 +313,10 @@
                                                            @endif
                                                     </div>
                                                     <div class="tab-pane @if($data['status'] == 'Fat Dept Approved'||$data['status'] == 'Approved'||$data['status'] == 'Successed') active @endif" id="approved">
-                                                            @if(isset($dataDoc['Approved']))
-                                                           @include('employee::reimbursement.form_approved')
+                                                           @if(session('level') == 'Super Admin')
+                                                            @include('employee::reimbursement.form_approved')
+                                                           @elseif(isset($dataDoc['Approved']))
+                                                            @include('employee::reimbursement.form_approved')
                                                            @else
                                                             @if(MyHelper::hasAccess([530], $grantedFeature))
                                                             @include('employee::reimbursement.form_approved')

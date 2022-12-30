@@ -248,7 +248,6 @@ class EmployeeReimbursementController extends Controller
         if(empty($post['action_type'])){
             return back()->withErrors(['Action type can not be empty']);
         }
-        $id = MyHelper::explodeSlug($id)[0]??'';
         $post['id_employee_reimbursement'] = $id;
         $post['update_type'] = $post['action_type'];
         if(!empty($post['data_document'])){
