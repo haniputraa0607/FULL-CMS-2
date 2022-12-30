@@ -188,6 +188,7 @@
                                         @if($title=='Locations')
                                         <td>{{$location['code']}}</td>
                                         @endif
+                                        <td>{{$location['name']}}</td>
                                         <td>{{$location['address']}}</td>
                                         <td>
                                             @if($location['status'] == 'Active')
