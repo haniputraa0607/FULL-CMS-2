@@ -253,8 +253,9 @@
                             $implode_date = date($data['detail']['schedule_year'].'-'.$data['detail']['schedule_month'].'-01');
 							$scheduleDate = date('Y-m-d', strtotime($implode_date ?? date('Y-m-d')));
 							$thisMonth = date('m', strtotime($scheduleDate));
+                            $thisYear = date('Y', strtotime($scheduleDate));
                             $update = false;
-                            if($thisMonth >= date('m')){
+                            if($thisMonth >= date('m') || ($thisMonth < date('m') && $thisYear > date('Y'))){
                                 $update = true;
                             } 
 							$thisMonthYear = date('Y', strtotime($scheduleDate));
