@@ -221,18 +221,55 @@
             });
         }
 
-        function submitTimeOff(value) {
-            var data = $('#update-time-off').serialize();
+        function submitTimeOff(value,form) {
+            var data = $(`#${form}`).serialize();
         
-            if (!$('form#update-time-off')[0].checkValidity()) {
+            if (!$(`form#${form}`)[0].checkValidity()) {
                 toastr.warning("Incompleted Data. Please fill blank input.");
             }else{
                 if(value=='submit'){
-                    $('form#update-time-off').submit();
+                    $(`form#${form}`).submit();
                 }else if(value=='approve'){
                     approvedTimeOff();
                 }
             }
+        }
+
+        function rejectTimeOff(value){
+            var id_employee_time_off = {{$result['id_employee_time_off']}};
+            swal({
+                    title: "Reject?",
+                    text: "This employee request time off will be reject",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-success",
+                    confirmButtonText: "Yes, Approve this request!",
+                    closeOnConfirm: false
+                },
+                function(){
+                    $.ajax({
+                        type : "POST",
+                        url : "{{url('employee/timeoff/reject')}}/"+id_employee_time_off,
+                        data : {
+                                '_token' : '{{csrf_token()}}',
+                                'id_employee_time_off' : id_employee_time_off,
+                                'type' : value,
+                            },
+                        success : function(response) {
+                            if (response.status == 'success') {
+                                swal("Sent!", "Employee request time off has been reject", "success")
+                                location.href = "{{url('employee/timeoff/detail')}}/"+id_employee_time_off;
+                            }
+                            else if(response.status == "fail"){
+                                swal("Error!", response.messages, "error")
+                            }
+                            else {
+                                swal("Error!", "Something went wrong. Failed to reject employee request time off.", "error")
+                            }
+                        }
+                    });
+                }
+            );
         }
     
         $(document).ready(function() {
@@ -381,15 +418,16 @@
                         <div class="col-md-9">
                             <div class="tab-content">
                                 <div class="tab-pane @if($result['status'] == 'Pending') active @endif" id="manager">
-                                    <form class="form-horizontal" role="form" action="{{ url('employee/timeoff/update') }}/{{ $result['id_employee_time_off'] }}" method="post" enctype="multipart/form-data" id="update-time-off">
+                                    <form class="form-horizontal" role="form" action="{{ url('employee/timeoff/update') }}/{{ $result['id_employee_time_off'] }}" method="post" enctype="multipart/form-data" id="update-time-off-1">
                                         <div class="form-body">
                                             <input class="form-control" type="hidden" name="id_outlet" value="{{ $result['outlet']['id_outlet'] }}" readonly/>
                                             <input class="form-control" type="hidden" name="id_employee" id="list_hs"  value="{{ $result['employee']['id'] }}" readonly/>
+                                            <input class="form-control" type="hidden" name="type" id="type"  value="Manager Approved" readonly/>
                                             <div class="form-group">
                                                 <label for="example-search-input" class="control-label col-md-4">Start Month <span class="required" aria-required="true">*</span>
                                                     <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk bulan mulai cuti" data-container="body"></i></label>
                                                 <div class="col-md-3">
-                                                    <select class="form-control select2" name="month" id="month_start" required onchange="selectMonthStart(this.value)" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                                                    <select class="form-control select2" name="month" id="month_start" required onchange="selectMonthStart(this.value)" @if($result['status'] != 'Pending') disabled @endif>
                                                         <option value="" selected disabled>Select Month</option>
                                                         <option value="1" @if(isset($result['month_start'])) @if($result['month_start'] == 1) selected @endif @endif>January</option>
                                                         <option value="2" @if(isset($result['month_start'])) @if($result['month_start'] == 2) selected @endif @endif>February</option>
@@ -410,14 +448,14 @@
                                                 <label for="example-search-input" class="control-label col-md-4">Start Year <span class="required" aria-required="true">*</span>
                                                     <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk tahun mulai cuti" data-container="body"></i></label>
                                                 <div class="col-md-2">
-                                                    <input class="form-control numberonly" type="text" maxlength="4" id="year_start" name="year" placeholder="Enter year" value="{{ $result['year_start'] }}" required onchange="selectYearStart(this.value)" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif/>
+                                                    <input class="form-control numberonly" type="text" maxlength="4" id="year_start" name="year" placeholder="Enter year" value="{{ $result['year_start'] }}" required onchange="selectYearStart(this.value)" @if($result['status'] != 'Pending') disabled @endif/>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="example-search-input" class="control-label col-md-4">Start Date Time Off <span class="required" aria-required="true">*</span>
                                                     <i class="fa fa-question-circle tooltips" data-original-title="Pilih tanggal karyawan akan mulai cuti" data-container="body"></i></label>
-                                                <div class="col-md-5">
-                                                    @if(isset($result['approve_by']) || isset($result['reject_at'])) 
+                                                <div class="col-md-4">
+                                                    @if($result['status'] != 'Pending')
                                                     <input type="text" class="datepicker form-control" value="{{ date('d F Y', strtotime($result['start_date'])) }}" disabled>
                                                     @else
                                                     <select class="form-control select2" name="start_date" required id="list_date_start">
@@ -433,7 +471,7 @@
                                                 <label for="example-search-input" class="control-label col-md-4">End Month <span class="required" aria-required="true">*</span>
                                                     <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk bulan selesai cuti" data-container="body"></i></label>
                                                 <div class="col-md-3">
-                                                    <select class="form-control select2" name="month" id="month_end" required onchange="selectMonthEnd(this.value)" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                                                    <select class="form-control select2" name="month" id="month_end" required onchange="selectMonthEnd(this.value)" @if($result['status'] != 'Pending') disabled @endif>
                                                         <option value="" selected disabled>Select Month</option>
                                                         <option value="1" @if(isset($result['month_end'])) @if($result['month_end'] == 1) selected @endif @endif>January</option>
                                                         <option value="2" @if(isset($result['month_end'])) @if($result['month_end'] == 2) selected @endif @endif>February</option>
@@ -454,14 +492,14 @@
                                                 <label for="example-search-input" class="control-label col-md-4">End Year <span class="required" aria-required="true">*</span>
                                                     <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk tahun selesai cuti" data-container="body"></i></label>
                                                 <div class="col-md-2">
-                                                    <input class="form-control numberonly" type="text" maxlength="4" id="year_end" name="year" placeholder="Enter year" value="{{ $result['year_end'] }}" required onchange="selectYearEnd(this.value)" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif/>
+                                                    <input class="form-control numberonly" type="text" maxlength="4" id="year_end" name="year" placeholder="Enter year" value="{{ $result['year_end'] }}" required onchange="selectYearEnd(this.value)" @if($result['status'] != 'Pending') disabled @endif/>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="example-search-input" class="control-label col-md-4">End Date Time Off <span class="required" aria-required="true">*</span>
                                                     <i class="fa fa-question-circle tooltips" data-original-title="Pilih tanggal karyawan akan selesai cuti" data-container="body"></i></label>
                                                 <div class="col-md-4">
-                                                    @if(isset($result['approve_by']) || isset($result['reject_at'])) 
+                                                    @if($result['status'] != 'Pending')
                                                     <input type="text" class="datepicker form-control" value="{{ date('d F Y', strtotime($result['end_date'])) }}" disabled>
                                                     @else
                                                     <select class="form-control select2" name="end_date" required id="list_date_end">
@@ -477,7 +515,43 @@
                                                 <label for="example-search-input" class="control-label col-md-4">Uses Quota Time Off<span class="required" aria-required="true">*</span>
                                                     <i class="fa fa-question-circle tooltips" data-original-title="Memakai jatah cuti atau tidak" data-container="body"></i></label>
                                                 <div class="col-md-3">
-                                                    <input type="checkbox" class="make-switch check_quota" data-size="small" data-on-color="info" data-on-text="Yes" data-off-color="default" name='use_quota_time_off' data-off-text="No" @if($result['use_quota_time_off'] == 1) checked @endif @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>
+                                                    <input type="checkbox" class="make-switch check_quota" data-size="small" data-on-color="info" data-on-text="Yes" data-off-color="default" name='use_quota_time_off' data-off-text="No" @if($result['use_quota_time_off'] == 1) checked @endif @if($result['status'] != 'Pending') disabled @endif>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="example-search-input" class="control-label col-md-4">Notes
+                                                    <i class="fa fa-question-circle tooltips" data-original-title="Catatan dari manager" data-container="body"></i></label>
+                                                <div class="col-md-5">
+                                                    <textarea class="form-control" name="notes" placeholder="Notes" @if($result['status'] != 'Pending') disabled @endif>@if(isset($dataDoc['Manager Approved']['notes'])) {{$dataDoc['Manager Approved']['notes']}}  @endif</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="example-search-input" class="control-label col-md-4">Attachment
+                                                    <i class="fa fa-question-circle tooltips" data-original-title="Dokumen dari manager" data-container="body"></i></label>
+                                                <div class="col-md-5">
+                                                    @if($result['status'] != 'Pending')
+                                                        <label for="example-search-input" class="control-label">
+                                                        @if(empty($dataDoc['Manager Approved']['attachment']))
+                                                            No Attachment
+                                                        @else
+                                                            <a href="{{$dataDoc['Manager Approved']['attachment'] }} ">Link Download Attachment</a>
+                                                        @endif
+                                                        </label>
+                                                    @else
+                                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                            <div class="input-group input-large">
+                                                                <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                                                    <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                                                    <span class="fileinput-filename"> </span>
+                                                                </div>
+                                                                <span class="input-group-addon btn default btn-file">
+                                                                <span class="fileinput-new"> Select file </span>
+                                                                <span class="fileinput-exists"> Change </span>
+                                                                <input type="file" accept=".pdf, application/pdf, application/x-pdf,application/acrobat, applications/vnd.pdf, text/pdf, text/x-pdf" name="attachment"> </span>
+                                                                <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                                                            </div>
+                                                        </div>
+                                                    @endif
                                                 </div>
                                             </div>
                                             @if (isset($result['approve']))
@@ -494,11 +568,121 @@
                                             {{ csrf_field() }}
                                             <div class="row">
                                                 <div class="col-md-12 text-center">
-                                                    @if (empty($result['reject_at']))
-                                                        @if(empty($result['approve']))
-                                                        <a onclick="submitTimeOff('submit')" class="btn blue" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>Submit</a>
-                                                        <a onclick="submitTimeOff('approve')" id="approve" class="btn green approve">Approve</a>
+                                                    @if($result['status'] == 'Pending')
+                                                        <a onclick="submitTimeOff('submit','update-time-off-1')" class="btn blue" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>Submit</a>
+                                                        <a onclick="rejectTimeOff('Manager Approved')" id="approve" class="btn red reject">Reject</a>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="tab-pane @if($result['status'] == 'Manager Approved') active @endif" id="director">
+                                    <form class="form-horizontal" role="form" action="{{ url('employee/timeoff/update') }}/{{ $result['id_employee_time_off'] }}" method="post" enctype="multipart/form-data" id="update-time-off-2">
+                                        <div class="form-body">
+                                            <input class="form-control" type="hidden" name="id_outlet" value="{{ $result['outlet']['id_outlet'] }}" readonly/>
+                                            <input class="form-control" type="hidden" name="id_employee" id="list_hs"  value="{{ $result['employee']['id'] }}" readonly/>
+                                            <input class="form-control" type="hidden" name="type" id="type"  value="Director Approved" readonly/>
+                                            <div class="form-group">
+                                                <label for="example-search-input" class="control-label col-md-4">Notes
+                                                    <i class="fa fa-question-circle tooltips" data-original-title="Catatan dari direktur" data-container="body"></i></label>
+                                                <div class="col-md-5">
+                                                    <textarea class="form-control" name="notes" placeholder="Notes" @if($result['status'] != 'Manager Approved') disabled @endif>@if(isset($dataDoc['Director Approved']['notes'])) {{$dataDoc['Director Approved']['notes']}}  @endif</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="example-search-input" class="control-label col-md-4">Attachment
+                                                    <i class="fa fa-question-circle tooltips" data-original-title="Dokumen dari direktur" data-container="body"></i></label>
+                                                <div class="col-md-5">
+                                                    @if($result['status'] != 'Manager Approved')
+                                                        <label for="example-search-input" class="control-label">
+                                                        @if(empty($dataDoc['Director Approved']['attachment']))
+                                                            No Attachment
+                                                        @else
+                                                            <a href="{{$dataDoc['Director Approved']['attachment'] }} ">Link Download Attachment</a>
                                                         @endif
+                                                        </label>
+                                                    @else
+                                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                            <div class="input-group input-large">
+                                                                <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                                                    <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                                                    <span class="fileinput-filename"> </span>
+                                                                </div>
+                                                                <span class="input-group-addon btn default btn-file">
+                                                                <span class="fileinput-new"> Select file </span>
+                                                                <span class="fileinput-exists"> Change </span>
+                                                                <input type="file" accept=".pdf, application/pdf, application/x-pdf,application/acrobat, applications/vnd.pdf, text/pdf, text/x-pdf" name="attachment"> </span>
+                                                                <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-actions">
+                                            {{ csrf_field() }}
+                                            <div class="row">
+                                                <div class="col-md-12 text-center">
+                                                    @if($result['status'] == 'Manager Approved')
+                                                        <a onclick="submitTimeOff('submit','update-time-off-2')" class="btn blue" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>Submit</a>
+                                                        <a onclick="rejectTimeOff('Director Approved')" id="approve" class="btn red reject">Reject</a>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="tab-pane @if($result['status'] == 'Director Approved') active @endif" id="hrga">
+                                    <form class="form-horizontal" role="form" action="{{ url('employee/timeoff/update') }}/{{ $result['id_employee_time_off'] }}" method="post" enctype="multipart/form-data" id="update-time-off-3">
+                                        <div class="form-body">
+                                            <input class="form-control" type="hidden" name="id_outlet" value="{{ $result['outlet']['id_outlet'] }}" readonly/>
+                                            <input class="form-control" type="hidden" name="id_employee" id="list_hs"  value="{{ $result['employee']['id'] }}" readonly/>
+                                            <input class="form-control" type="hidden" name="type" id="type"  value="HRGA Approved" readonly/>
+                                            <div class="form-group">
+                                                <label for="example-search-input" class="control-label col-md-4">Notes
+                                                    <i class="fa fa-question-circle tooltips" data-original-title="Catatan dari hrga" data-container="body"></i></label>
+                                                <div class="col-md-5">
+                                                    <textarea class="form-control" name="notes" placeholder="Notes" @if($result['status'] != 'Director Approved') disabled @endif>@if(isset($dataDoc['HRGA Approved']['notes'])) {{$dataDoc['HRGA Approved']['notes']}}  @endif</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="example-search-input" class="control-label col-md-4">Attachment
+                                                    <i class="fa fa-question-circle tooltips" data-original-title="Dokumen dari hrga" data-container="body"></i></label>
+                                                <div class="col-md-5">
+                                                    @if($result['status'] != 'Director Approved')
+                                                        <label for="example-search-input" class="control-label">
+                                                        @if(empty($dataDoc['HRGA Approved']['attachment']))
+                                                            No Attachment
+                                                        @else
+                                                            <a href="{{$dataDoc['HRGA Approved']['attachment'] }} ">Link Download Attachment</a>
+                                                        @endif
+                                                        </label>
+                                                    @else
+                                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                            <div class="input-group input-large">
+                                                                <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                                                    <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                                                    <span class="fileinput-filename"> </span>
+                                                                </div>
+                                                                <span class="input-group-addon btn default btn-file">
+                                                                <span class="fileinput-new"> Select file </span>
+                                                                <span class="fileinput-exists"> Change </span>
+                                                                <input type="file" accept=".pdf, application/pdf, application/x-pdf,application/acrobat, applications/vnd.pdf, text/pdf, text/x-pdf" name="attachment"> </span>
+                                                                <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-actions">
+                                            {{ csrf_field() }}
+                                            <div class="row">
+                                                <div class="col-md-12 text-center">
+                                                    @if($result['status'] == 'Director Approved')
+                                                        <a onclick="submitTimeOff('submit','update-time-off-3')" class="btn blue" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>Submit</a>
+                                                        <a onclick="rejectTimeOff('HRGA Approved')" id="approve" class="btn red reject">Reject</a>
                                                     @endif
                                                 </div>
                                             </div>

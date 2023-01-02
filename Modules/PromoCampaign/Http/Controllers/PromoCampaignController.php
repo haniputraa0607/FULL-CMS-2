@@ -152,7 +152,7 @@ class PromoCampaignController extends Controller
             return $this->ajaxPromoCampaign($post);
         }
 
-        return $result = MyHelper::post('promo-campaign/detail', $post);
+        $result = MyHelper::post('promo-campaign/detail', $post);
 
         if ( ($result['status']=='success')??false) {
             $result['result']['id_promo_campaign'] = MyHelper::createSlug($result['result']['id_promo_campaign'],$result['result']['created_at']);
