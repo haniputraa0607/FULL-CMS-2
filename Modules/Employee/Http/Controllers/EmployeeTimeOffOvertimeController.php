@@ -148,15 +148,25 @@ class EmployeeTimeOffOvertimeController extends Controller
     {
         $post = $request->except('_token');
         $post['id_employee_time_off'] = $id;
+        if (isset($post["attachment"])) {
+            $post['attachment'] = MyHelper::encodeImage($post['attachment']);
+        }
         $update = MyHelper::post('employee/timeoff/update', $post);
         if(isset($post['approve'])){
             return $update;
         }
         if(isset($update['status']) && $update['status'] == 'success'){
-            return redirect('employee/timeoff/detail/'.$id)->withSuccess(['Success udpated employee request time off']);
+            return redirect('employee/timeoff/detail/'.$id)->withSuccess(['Success updated employee request time off']);
         }else{
             return redirect('employee/timeoff/detail/'.$id)->withErrors($result['messages'] ?? ['Failed updated employee request time off']);
         }
+    }
+
+    public function rejectTimeOff(Request $request, $id)
+    {
+        $post = $request->except('_token');
+        $result = MyHelper::post("employee/timeoff/reject", $post);
+        return $result;
     }
 
     public function deleteTimeOff($id)
@@ -296,7 +306,7 @@ class EmployeeTimeOffOvertimeController extends Controller
             return $update;
         }
         if(isset($update['status']) && $update['status'] == 'success'){
-            return redirect('employee/overtime/detail/'.$id)->withSuccess(['Success udpated employee request overtime']);
+            return redirect('employee/overtime/detail/'.$id)->withSuccess(['Success updated employee request overtime']);
         }else{
             return redirect('employee/overtime/detail/'.$id)->withErrors($result['messages'] ?? ['Failed updated employee request overtime']);
         }
