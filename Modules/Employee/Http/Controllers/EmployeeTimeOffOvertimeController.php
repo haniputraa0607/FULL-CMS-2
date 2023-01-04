@@ -300,7 +300,10 @@ class EmployeeTimeOffOvertimeController extends Controller
     {
         $post = $request->except('_token');
         $post['id_employee_overtime'] = $id;
-        return $update = MyHelper::post('employee/overtime/update', $post);
+        if (isset($post["attachment"])) {
+            $post['attachment'] = MyHelper::encodeImage($post['attachment']);
+        }
+        $update = MyHelper::post('employee/overtime/update', $post);
 
         if(isset($post['approve'])){
             return $update;
@@ -310,6 +313,13 @@ class EmployeeTimeOffOvertimeController extends Controller
         }else{
             return redirect('employee/overtime/detail/'.$id)->withErrors($result['messages'] ?? ['Failed updated employee request overtime']);
         }
+    }
+
+    public function rejectOvertime(Request $request, $id)
+    {
+        $post = $request->except('_token');
+        $result = MyHelper::post("employee/overtime/reject", $post);
+        return $result;
     }
 
     public function deleteOvertime($id)
