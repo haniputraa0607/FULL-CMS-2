@@ -164,6 +164,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
 	    Route::any('/', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@listOvertime']);
 	    Route::any('create', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@createOvertime']);
 	    Route::post('delete/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@deleteOvertime']);
+	    Route::post('reject/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@rejectOvertime']);
 	    Route::get('detail/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@detailOvertime']);
 	    Route::post('update/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@updateOvertime']);
 	});
