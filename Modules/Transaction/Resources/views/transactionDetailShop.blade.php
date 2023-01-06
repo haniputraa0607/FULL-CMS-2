@@ -447,6 +447,9 @@ $configs = session('configs');
         ];
 
         ?>
+        @if (!empty($manual_refund['refund_date']))
+            <div class="alert text-black" style="background-color:yellow;width: 35%;text-align: center;margin-bottom: -40px;margin-left: -20px;font-size: 25px"><b>REFUNDED</b></div>
+        @endif
         <div class="kotak-biasa" style="background-color: {{$color[$data['status']]??'#F8CB00'}};padding: 15px;margin-top: 10px;box-shadow: 0 0.7px 3.3px #eeeeee;">
             <div class="container">
                 <div class="row text-center">
@@ -570,4 +573,38 @@ $configs = session('configs');
             </div>
         </div>
     </div>
+    @if (!empty($manual_refund['refund_date']))
+        <br>
+        <h3 style="text-align: center">Manual Refund Detail</h3>
+        <hr style="border-top: 2px dashed black;">
+        <br>
+        <div class="row">
+            <div class="col-md-2">Confirmed By</div>
+            <div class="col-md-6">: {{$manual_refund['validator_name']}} ({{$manual_refund['validator_phone']}}) </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">Confirm At</div>
+            <div class="col-md-6">: {{date('d F Y H:i', strtotime($manual_refund['confirm_at']))}}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">Date Refund</div>
+            <div class="col-md-6">: {{date('d F Y H:i', strtotime($manual_refund['refund_date']))}}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">Note</div>
+            <div class="col-md-6">: {{$manual_refund['note']}}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">Image</div>
+            <div class="col-md-6">:
+                @if(!empty($manual_refund['images']))
+                    @foreach($manual_refund['images'] as $url)
+                        <a href="{{$url}}" target="_blank">{{$url}}</a><br>
+                    @endforeach
+                @else
+                    -
+                @endif
+            </div>
+        </div>
+    @endif
 @endsection
