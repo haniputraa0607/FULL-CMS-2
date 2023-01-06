@@ -134,6 +134,7 @@ class TransactionShopController extends Controller
 
     	if (isset($check['status']) && $check['status'] == 'success') {
     		$data['data'] = $check['result'];
+            $data['manual_refund'] = MyHelper::post('transaction/manual-refund/detail', ['id_transaction' => $id])['result']??[];
     	} elseif (isset($check['status']) && $check['status'] == 'fail') {
             return redirect('transaction/shop')->withErrors(['Data failed']);
         } else {
