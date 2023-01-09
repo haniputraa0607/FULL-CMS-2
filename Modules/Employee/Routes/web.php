@@ -283,6 +283,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
         Route::any('detail/{id}', ['middleware' => 'feature_control:539', 'uses' => 'RequestEmployeeController@detailRequest']);
         Route::any('reject/{id}', ['middleware' => 'feature_control:540', 'uses' => 'RequestEmployeeController@rejectRequest']);
         Route::any('delete/{id}', ['middleware' => 'feature_control:541', 'uses' => 'RequestEmployeeController@deleteRequest']);
+        Route::any('finished/{id}', ['middleware' => 'feature_control:541', 'uses' => 'RequestEmployeeController@finishRequest']);
     });
 
     Route::group(['prefix' => 'design-request'], function(){
