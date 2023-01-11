@@ -156,9 +156,9 @@
                                         },
                                         success : function(response) {
                                             if (response.status == 'success') {
-                                                swal("Deleted!", "Employee Cash Advance has been rejected.", "success")
+                                                swal("Rejected!", "Employee Cash Advance has been rejected.", "success")
                                                 SweetAlert.init()
-                                                location.href = "{{url('employee/cash-advance/detail/'.$data['id_employee_cash_advance'])}}"
+                                                location.href = "{{url('employee/cash-advance/detail/'.$data['id_enkripsi'])}}"
                                             }
                                             else if(response.status == "fail"){
                                                 swal("Error!", "Failed to reject cash advance.", "error")
@@ -194,7 +194,7 @@
                                     closeOnConfirm: false
                                 },
                                 function(){
-                                    location.href = "{{url('employee/cash-advance/icount/'.$data['id_employee_cash_advance'])}}"
+                                    location.href = "{{url('employee/cash-advance/icount/'.$data['id_enkripsi'])}}"
                                 });
                         })
                     })
