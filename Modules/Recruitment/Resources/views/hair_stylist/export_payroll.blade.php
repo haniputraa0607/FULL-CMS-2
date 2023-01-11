@@ -30,6 +30,7 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/pages/scripts/form-repeater.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/icheck/icheck.min.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+    
     <script type="text/javascript">
          var SweetAlert = function() {
             return {
@@ -104,6 +105,17 @@
             });
         });
 
+    </script>
+    <script>
+    function myFunction(id) {
+        id = 'myDIV'+id;
+      var x = document.getElementById(id);
+      if (x.style.display === "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+    }
     </script>
 @endsection
 
@@ -209,6 +221,7 @@
                 <thead>
                 <tr>
                     <th scope="col" width="10%" style="text-align: center"> Outlet </th>
+                    <th scope="col" width="10%" style="text-align: center"> Show </th>
                     <th scope="col" width="10%" style="text-align: center"> Start Date </th>
                     <th scope="col" width="10%" style="text-align: center"> End Date </th>
                     <th scope="col" width="10%" style="text-align: center"> Status </th>
@@ -220,11 +233,23 @@
                     @foreach($data as $val)
                         <tr style="text-align: center">
                             <td>
+                            @php 
+                                $count = count(json_decode($val['name_outlet']));
+                                $i = 1;
+                            @endphp
                             @foreach(json_decode($val['name_outlet']) as $va)
+                            @if($i==4)
+                            <div style="display:none" id="myDIV{{ $val['id_export_payroll_queue'] }}">
+                            @endif
                             {{$va}}
+                            @if($i<=4&&$i==$count)
+                            </div>
+                            @endif
                             <br>
+                            @php $i++; @endphp
                             @endforeach
                             </td>
+                            <td><button class="btn btn-sm btn-info" onclick="myFunction({{ $val['id_export_payroll_queue'] }})">Show</div></button></td>
                             <td>{{ date('M Y', strtotime($val['start_date'])) }}</td>
                             <td>{{ date('M Y', strtotime($val['end_date'])) }}</td>
                             <td>{{ $val['status_export'] }}</td>

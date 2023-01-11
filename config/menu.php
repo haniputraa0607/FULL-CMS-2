@@ -905,6 +905,30 @@ return [
                                                                 'url' => 'employee/reimbursement/finance',
                                                                 'active' => '\View::shared("child_active") == "employee-reimbursement-finance"',
                                                         ],
+                                                        [
+                                                                'label' => 'Response',
+                                                                'required_features' => [481],
+                                                                'active' => '\View::shared("child_active") == "employee-reimbursement-autoresponse"',
+                                                                'children' => [
+                                                                       
+                                                                        [
+                                                                                'label' => 'Employee Reimbursement Create',
+                                                                                'url' => 'user/autoresponse/employee-reimbursement-create',
+                                                                        ],
+                                                                        [
+                                                                                'label' => 'Employee Reimbursement Update',
+                                                                                'url' => 'user/autoresponse/employee-reimbursement-update',
+                                                                        ],
+                                                                        [
+                                                                                'label' => 'Employee Reimbursement Approved',
+                                                                                'url' => 'user/autoresponse/employee-reimbursement-approved',
+                                                                        ],
+                                                                        [
+                                                                                'label' => 'Employee Reimbursement Rejected',
+                                                                                'url' => 'user/autoresponse/employee-reimbursement-rejected',
+                                                                        ],
+                                                                ],
+                                                        ],
                                                     ],
                                         ],
                         [
@@ -956,6 +980,30 @@ return [
                                                                 'required_features' => [530],
                                                                 'url' => 'employee/cash-advance/finance',
                                                                 'active' => '\View::shared("child_active") == "employee-cash-advance-finance"',
+                                                        ],
+                                                        [
+                                                                'label' => 'Response',
+                                                                'required_features' => [481],
+                                                                'active' => '\View::shared("child_active") == "employee-cash-advance-autoresponse"',
+                                                                'children' => [
+                                                                       
+                                                                        [
+                                                                                'label' => 'Employee Cash Advance Create',
+                                                                                'url' => 'user/autoresponse/employee-cash-advance-create',
+                                                                        ],
+                                                                        [
+                                                                                'label' => 'Employee Cash Advance Update',
+                                                                                'url' => 'user/autoresponse/employee-cash-advance-update',
+                                                                        ],
+                                                                        [
+                                                                                'label' => 'Employee Cash Advance Approved',
+                                                                                'url' => 'user/autoresponse/employee-cash-advance-approved',
+                                                                        ],
+                                                                        [
+                                                                                'label' => 'Employee Cash Advance Rejected',
+                                                                                'url' => 'user/autoresponse/employee-cash-advance-rejected',
+                                                                        ],
+                                                                ],
                                                         ],
                                                     ],
                                         ],

@@ -72,6 +72,7 @@ class EmployeeReimbursementController extends Controller
     }
     public function detail($id)
     {
+        $ids = $id;
         $id = MyHelper::explodeSlug($id)[0]??'';
          $data = [ 
                     'title'          => 'Employee',
@@ -82,7 +83,8 @@ class EmployeeReimbursementController extends Controller
                 ];
       $data['data'] = MyHelper::post('employee/be/reimbursement/detail',['id_employee_reimbursement'=>$id])['result']??[];
        if($data['data']){
-        return view('employee::reimbursement.detail',$data);
+           $data['data']['id_enkripsi']=$ids;
+           return view('employee::reimbursement.detail',$data);
        }
        return redirect()->back()->withErrors(['Reimbursement not found']);
     }
@@ -588,5 +590,11 @@ class EmployeeReimbursementController extends Controller
                             ), 
                         );
         return view('employee::reimbursement.balance',$data);
+    }
+    public function reject(Request $request, $id){
+        $post = $request->except('_token');
+        $post['id_employee_reimbursement'] = $id;
+       $update = MyHelper::post('employee/be/reimbursement/reject',$post);
+       return $update;
     }
 }

@@ -127,6 +127,55 @@
           input[0].setSelectionRange(caret_pos, caret_pos);
         }
     })
+    var SweetAlert = function() {
+            return {
+                init: function() {
+                    $(".save").each(function() {
+                        var token  	= "{{ csrf_token() }}";
+                        let column 	= $(this).parents('tr');
+                        let name    = $(this).data('name');
+						let status    = $(this).data('status');
+						let form    = $(this).data('form');
+                        $(this).click(function() {
+                            swal({
+                                    title: name+"\n\nAre you sure want change to status "+status.toLowerCase()+" ?",
+                                    text: "Your will not be able to recover this data!",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonClass: "btn-info",
+                                    confirmButtonText: "Yes, save it!",
+                                    closeOnConfirm: false
+                                },
+                                function(){
+                                   $.ajax({
+                                        type : "POST",
+                                        url : "{{url('employee/reimbursement/reject/'.$data['id_employee_reimbursement'])}}",
+                                        data : {
+                                            '_token' : '{{csrf_token()}}'
+                                        },
+                                        success : function(response) {
+                                            if (response.status == 'success') {
+                                                swal("Rejected!", "Employee Reimbursement has been rejected.", "success")
+                                                SweetAlert.init()
+                                                location.href = "{{url('employee/reimbursement/detail/'.$data['id_enkripsi'])}}"
+                                            }
+                                            else if(response.status == "fail"){
+                                                swal("Error!", "Failed to reject reimbursement.", "error")
+                                            }
+                                            else {
+                                                swal("Error!", "Something went wrong. Failed to reject cash advance.", "error")
+                                            }
+                                        }
+                                    });
+                                });
+                        })
+                    })
+                }
+            }
+        }();
+        jQuery(document).ready(function() {
+            SweetAlert.init()
+        });
     function addFormula(param){
 		var textvalue = $('#formula').val();
 		var textvaluebaru = textvalue+" "+param;
@@ -246,7 +295,7 @@
                                                             <a  @if(in_array($data['status'], ['HRGA Approved','Fat Dept Approved','Approved','Successed'])) data-toggle="tab" href="#fat" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> 
                                                                 Finance Approval</a>
                                                     </li>
-                                                    <li @if($data['status'] == 'Fat Dept Approved') class="active" @endif>
+                                                    <li @if(in_array($data['status'], ['Fat Dept Approved','Approved','Successed'])) class="active" @endif>
                                                             <a  @if(in_array($data['status'], ['Fat Dept Approved','Approved','Successed'])) data-toggle="tab" href="#approved" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> 
                                                                 Payment</a>
                                                     </li>
