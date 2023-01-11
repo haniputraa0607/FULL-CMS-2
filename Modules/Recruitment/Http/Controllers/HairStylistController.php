@@ -12,6 +12,7 @@ use App\Lib\MyHelper;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Excel;
 use App\Exports\PayrollExport;
+use App\Imports\FirstSheetOnlyImport;
 
 class HairStylistController extends Controller
 {
@@ -490,5 +491,22 @@ class HairStylistController extends Controller
         }else{
             return redirect('recruitment/hair-stylist/detail/'.$post['id_user_hair_stylist'].'#bank-account')->withErrors($update['messages']??['Failed get data']);
         }
+    }
+
+    public function updateByExcel(Request $request){
+        $path = $request->file('import_file')->getRealPath();
+        $data = \Excel::toCollection(new FirstSheetOnlyImport(),$request->file('import_file'));
+        if(!empty($data)){
+            $post['data'] = $data[0] ?? [];
+            $update = MyHelper::post('recruitment/hairstylist/be/update-file', $post);
+            if (isset($update['status']) && $update['status'] == "success") {
+                return back()->withSuccess(['Update data Success']);
+            }else {
+                return back()->withErrors(['Failed update data']);
+            }
+        }else{
+            return back()->withErrors(['Failed update data']);
+        }
+        
     }
 }
