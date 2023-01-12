@@ -87,7 +87,6 @@ class EmployeeCashAdvanceController extends Controller
       }
       if($data['data']){
         $data['data']['id_enkripsi'] = $ids;
-        return $data;
         return view('employee::cash_advance.detail',$data);
        }
        return redirect()->back()->withErrors(['Cash Advance not found']);
