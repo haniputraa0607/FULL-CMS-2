@@ -202,4 +202,10 @@ class RequestEmployeeController extends Controller
         }
         return view('employee::request.list', $data);
     }
+
+    public function finishRequest($id)
+    {
+        $result = MyHelper::post("employee/request/finish", ['id_request_employee' => $id]);
+        return $result;
+    }
 }

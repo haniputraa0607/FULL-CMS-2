@@ -192,6 +192,8 @@
                                         <span class="badge" style="background-color: #e1e445; color: #ffffff">{{$dt['status']}}</span>
                                         @elseif($dt['status'] == 'Done Approved')
                                         <span class="badge" style="background-color: #11407e; color: #ffffff">{{$dt['status']}}</span>
+                                        @elseif($dt['status'] == 'Finished')
+                                        <span class="badge" style="background-color: #03d6f2; color: #ffffff">{{$dt['status']}}</span>
                                         @else
                                         <span class="badge" style="background-color: #EF1E31; color: #ffffff">{{$dt['status']}}</span>
                                         @endif
