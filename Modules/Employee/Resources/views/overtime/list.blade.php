@@ -177,7 +177,7 @@
                             <th class="text-nowrap text-center">Outlet</th>
                             <th class="text-nowrap text-center">Request By</th>
                             <th class="text-nowrap text-center">Status</th>
-                            @if(MyHelper::hasAccess([343,344,345], $grantedFeature))
+                            @if(MyHelper::hasAccess([512], $grantedFeature))
                             <th class="text-nowrap text-center">Action</th>
                             @endif
                         </tr>
@@ -200,10 +200,10 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if(MyHelper::hasAccess([343,344], $grantedFeature))
+                                            @if(MyHelper::hasAccess([512], $grantedFeature))
                                             <a href="{{ url('employee/overtime/detail/'.$req_time_off['id_employee_overtime']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>
                                             @endif
-                                            @if(MyHelper::hasAccess([345], $grantedFeature))
+                                            @if(MyHelper::hasAccess([513], $grantedFeature))
                                             <a class="btn btn-sm red sweetalert-delete btn-primary" data-id="{{ $req_time_off['id_employee_overtime'] }}" data-name="{{ $req_time_off['name'] }}"><i class="fa fa-times"></i> Cancel</a>
                                             @endif
                                         </td>

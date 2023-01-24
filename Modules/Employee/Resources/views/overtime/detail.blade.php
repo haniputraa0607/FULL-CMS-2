@@ -2,6 +2,14 @@
     use App\Lib\MyHelper;
     $grantedFeature     = session('granted_features');
     
+    $this_user = 0;
+    if($result['employee']['employee']['id_manager'] == session('id_user')){
+		$this_user = 1;
+	}
+
+    if($result['employee']['id_outlet'] == session('id_outlet') && MyHelper::hasAccess([529], $grantedFeature) ){
+        $this_user = 2;
+	}
     
  ?>
  @extends('layouts.main')
@@ -626,7 +634,7 @@
                                                 <label for="example-search-input" class="control-label col-md-4">Month <span class="required" aria-required="true">*</span>
                                                     <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk bulan yang di pilih" data-container="body"></i></label>
                                                 <div class="col-md-3">
-                                                    <select class="form-control select2" name="month" id="month" required onchange="selectMonth(this.value)" @if($result['status'] != 'Pending' || (isset($result['approve_by']) || isset($result['reject_at']))) disabled @endif>
+                                                    <select class="form-control select2" name="month" id="month" required onchange="selectMonth(this.value)" @if($result['status'] != 'Pending' || (isset($result['approve_by']) || isset($result['reject_at'])) || $this_user != 1) disabled @endif>
                                                         <option value="" selected disabled>Select Month</option>
                                                         <option value="1" @if(isset($result['month'])) @if($result['month'] == 1) selected @endif @endif>January</option>
                                                         <option value="2" @if(isset($result['month'])) @if($result['month'] == 2) selected @endif @endif>February</option>
@@ -647,14 +655,14 @@
                                                 <label for="example-search-input" class="control-label col-md-4">Year <span class="required" aria-required="true">*</span>
                                                     <i class="fa fa-question-circle tooltips" data-original-title="Jadwal untuk tahun yang di pilih" data-container="body"></i></label>
                                                 <div class="col-md-2">
-                                                    <input class="form-control numberonly" type="text" maxlength="4" id="year" name="year" placeholder="Enter year" value="{{ $result['year'] }}" required onchange="selectYear(this.value)" @if($result['status'] != 'Pending' || (isset($result['approve_by']) || isset($result['reject_at']))) disabled @endif/>
+                                                    <input class="form-control numberonly" type="text" maxlength="4" id="year" name="year" placeholder="Enter year" value="{{ $result['year'] }}" required onchange="selectYear(this.value)" @if($result['status'] != 'Pending' || (isset($result['approve_by']) || isset($result['reject_at'])) || $this_user != 1) disabled @endif/>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="example-search-input" class="control-label col-md-4">Select Date Overtime <span class="required" aria-required="true">*</span>
                                                     <i class="fa fa-question-circle tooltips" data-original-title="Pilih tanggal karyawan akan lembur" data-container="body"></i></label>
                                                 <div class="col-md-4">
-                                                    @if($result['status'] != 'Pending' || (isset($result['approve_by']) || isset($result['reject_at'])))
+                                                    @if($result['status'] != 'Pending' || (isset($result['approve_by']) || isset($result['reject_at'])) || $this_user != 1)
                                                     <input type="text" class="datepicker form-control" value="{{ date('d F Y', strtotime($result['date'])) }}" disabled>
                                                     @else
                                                     <select class="form-control select2" name="date" required id="list_date">
@@ -694,14 +702,14 @@
                                                 <div class="col-md-6">
                                                     <div class="md-radio-inline">
                                                         <div class="md-radio">
-                                                            <input type="radio" id="radio14" name="time" class="md-radiobtn" value="before" @if($result['time']=='before') checked @endif required @if($result['status'] != 'Pending' || (isset($result['approve_by']) || isset($result['reject_at']))) disabled @endif>
+                                                            <input type="radio" id="radio14" name="time" class="md-radiobtn" value="before" @if($result['time']=='before') checked @endif required @if($result['status'] != 'Pending' || (isset($result['approve_by']) || isset($result['reject_at'])) || $this_user != 1) disabled @endif>
                                                             <label for="radio14">
                                                                 <span></span>
                                                                 <span class="check"></span>
                                                                 <span class="box"></span> Before Shift </label>
                                                         </div>
                                                         <div class="md-radio">
-                                                            <input type="radio" id="radio16" name="time" class="md-radiobtn" value="after" @if($result['time']=='after') checked @endif required @if($result['status'] != 'Pending' || (isset($result['approve_by']) || isset($result['reject_at']))) disabled @endif>
+                                                            <input type="radio" id="radio16" name="time" class="md-radiobtn" value="after" @if($result['time']=='after') checked @endif required @if($result['status'] != 'Pending' || (isset($result['approve_by']) || isset($result['reject_at'])) || $this_user != 1) disabled @endif>
                                                             <label for="radio16">
                                                                 <span></span>
                                                                 <span class="check"></span>
@@ -716,7 +724,7 @@
                                                     <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu mulai lembur untuk karyawan" data-container="body"></i></label>
                                                 <div class="col-md-3">
                                                     <div class="col-md-12 input-group">
-                                                        <input type="text" id="time_start_overtime" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_start_overtime" value="{{ $result['start_overtime'] }}" @if($result['time']=='after') disabled @endif @if($result['status'] != 'Pending' || (isset($result['approve_by']) || isset($result['reject_at']))) disabled @endif>
+                                                        <input type="text" id="time_start_overtime" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_start_overtime" value="{{ $result['start_overtime'] }}" @if($result['time']=='after') disabled @endif @if($result['status'] != 'Pending' || (isset($result['approve_by']) || isset($result['reject_at'])) || $this_user != 1) disabled @endif>
                                                         <span class="input-group-addon">{{ $result['time_zone'] }}</span>
                                                     </div>
                                                     <div class="row">
@@ -731,7 +739,7 @@
                                                     <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu selesai lembur untuk karyawan" data-container="body"></i></label>
                                                 <div class="col-md-3">
                                                     <div class="col-md-12 input-group">
-                                                        <input type="text" id="time_end_overtime" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end_overtime" value="{{ $result['end_overtime'] }}" @if($result['time']=='before') disabled @endif @if($result['status'] != 'Pending' || (isset($result['approve_by']) || isset($result['reject_at']))) disabled @endif>
+                                                        <input type="text" id="time_end_overtime" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="time_end_overtime" value="{{ $result['end_overtime'] }}" @if($result['time']=='before') disabled @endif @if($result['status'] != 'Pending' || (isset($result['approve_by']) || isset($result['reject_at'])) || $this_user != 1) disabled @endif>
                                                         <span class="input-group-addon">{{ $result['time_zone'] }}</span>
                                                     </div>
                                                     <div class="row">
@@ -746,7 +754,7 @@
                                                     <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu mulai istirahat lembur untuk karyawan" data-container="body"></i></label>
                                                 <div class="col-md-3">
                                                     <div class="input-group">
-                                                        <input type="text" id="time_start_rest" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="rest_before" value="{{ $result['rest_before'] ?? '00:00' }}" @if($result['status'] != 'Pending' || (isset($result['approve_by']) || isset($result['reject_at']))) disabled @endif>
+                                                        <input type="text" id="time_start_rest" data-placeholder="select time start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="rest_before" value="{{ $result['rest_before'] ?? '00:00' }}" @if($result['status'] != 'Pending' || (isset($result['approve_by']) || isset($result['reject_at'])) || $this_user != 1) disabled @endif>
                                                         <span class="input-group-addon">{{ $result['time_zone'] }}</span>
                                                     </div>
                                                     <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="cek_start_rest">Start rest overtime cant smaller than start overtime</p>
@@ -757,7 +765,7 @@
                                                     <i class="fa fa-question-circle tooltips" data-original-title="Pilih waktu selesai istirahat lembur untuk karyawan" data-container="body"></i></label>
                                                 <div class="col-md-3">
                                                     <div class="input-group">
-                                                        <input type="text" id="time_end_rest" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="rest_after" value="{{ $result['rest_after'] ?? '00:00'}}" @if($result['status'] != 'Pending' || (isset($result['approve_by']) || isset($result['reject_at']))) disabled @endif>
+                                                        <input type="text" id="time_end_rest" data-placeholder="select end start" class="form-control mt-repeater-input-inline kelas-open timepicker timepicker-no-seconds" data-show-meridian="false" name="rest_after" value="{{ $result['rest_after'] ?? '00:00'}}" @if($result['status'] != 'Pending' || (isset($result['approve_by']) || isset($result['reject_at'])) || $this_user != 1) disabled @endif>
                                                         <span class="input-group-addon">{{ $result['time_zone'] }}</span>
                                                     </div>
                                                     <p class="mt-1 mb-1" style="color: red; display: none; margin-top: 8px; margin-bottom: 8px" id="cek_end_rest">End rest overtime cant bigger than end overtime</p>
@@ -774,14 +782,14 @@
                                                 <label for="example-search-input" class="control-label col-md-4">Notes
                                                     <i class="fa fa-question-circle tooltips" data-original-title="Catatan dari manager" data-container="body"></i></label>
                                                 <div class="col-md-5">
-                                                    <textarea class="form-control" name="notes" placeholder="Notes" @if($result['status'] != 'Pending' || (isset($result['approve_by']) || isset($result['reject_at']))) disabled @endif>@if(isset($dataDoc['Manager Approved']['notes'])) {{$dataDoc['Manager Approved']['notes']}}  @endif</textarea>
+                                                    <textarea class="form-control" name="notes" placeholder="Notes" @if($result['status'] != 'Pending' || (isset($result['approve_by']) || isset($result['reject_at'])) || $this_user != 1) disabled @endif>@if(isset($dataDoc['Manager Approved']['notes'])) {{$dataDoc['Manager Approved']['notes']}}  @endif</textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="example-search-input" class="control-label col-md-4">Attachment
                                                     <i class="fa fa-question-circle tooltips" data-original-title="Dokumen dari manager" data-container="body"></i></label>
                                                 <div class="col-md-5">
-                                                    @if($result['status'] != 'Pending' || (isset($result['approve_by']) || isset($result['reject_at'])))
+                                                    @if($result['status'] != 'Pending' || (isset($result['approve_by']) || isset($result['reject_at'])) || $this_user != 1)
                                                         <label for="example-search-input" class="control-label">
                                                         @if(empty($dataDoc['Manager Approved']['attachment']))
                                                             No Attachment

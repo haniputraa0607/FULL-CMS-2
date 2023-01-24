@@ -149,24 +149,24 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
 
     Route::group(['prefix' => 'timeoff'], function()
 	{
-	    Route::any('/', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@listTimeOff']);
-	    Route::any('create', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@createTimeOff']);
-	    Route::post('list-employee', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@listEmployee']);
-	    Route::post('list-date', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@listDate']);
-	    Route::post('delete/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@deleteTimeOff']);
-	    Route::post('reject/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@rejectTimeOff']);
-	    Route::get('detail/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@detailTimeOff']);
-	    Route::post('update/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@updateTimeOff']);
+	    Route::any('/', ['middleware' => 'feature_control:507', 'uses' => 'EmployeeTimeOffOvertimeController@listTimeOff']);
+	    Route::any('create', ['middleware' => 'feature_control:507', 'uses' => 'EmployeeTimeOffOvertimeController@createTimeOff']);
+	    Route::post('list-employee', ['middleware' => 'feature_control:508', 'uses' => 'EmployeeTimeOffOvertimeController@listEmployee']);
+	    Route::post('list-date', ['middleware' => 'feature_control:508', 'uses' => 'EmployeeTimeOffOvertimeController@listDate']);
+	    Route::post('delete/{id}', ['middleware' => 'feature_control:509', 'uses' => 'EmployeeTimeOffOvertimeController@deleteTimeOff']);
+	    Route::post('reject/{id}', ['middleware' => 'feature_control:509', 'uses' => 'EmployeeTimeOffOvertimeController@rejectTimeOff']);
+	    Route::get('detail/{id}', ['middleware' => 'feature_control:508', 'uses' => 'EmployeeTimeOffOvertimeController@detailTimeOff']);
+	    Route::post('update/{id}', ['middleware' => 'feature_control:509', 'uses' => 'EmployeeTimeOffOvertimeController@updateTimeOff']);
 	});
 
 	Route::group(['prefix' => 'overtime'], function()
 	{
-	    Route::any('/', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@listOvertime']);
-	    Route::any('create', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@createOvertime']);
-	    Route::post('delete/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@deleteOvertime']);
-	    Route::post('reject/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@rejectOvertime']);
-	    Route::get('detail/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@detailOvertime']);
-	    Route::post('update/{id}', ['middleware' => 'feature_control:472', 'uses' => 'EmployeeTimeOffOvertimeController@updateOvertime']);
+	    Route::any('/', ['middleware' => 'feature_control:511', 'uses' => 'EmployeeTimeOffOvertimeController@listOvertime']);
+	    Route::any('create', ['middleware' => 'feature_control:511', 'uses' => 'EmployeeTimeOffOvertimeController@createOvertime']);
+	    Route::post('delete/{id}', ['middleware' => 'feature_control:513', 'uses' => 'EmployeeTimeOffOvertimeController@deleteOvertime']);
+	    Route::post('reject/{id}', ['middleware' => 'feature_control:513', 'uses' => 'EmployeeTimeOffOvertimeController@rejectOvertime']);
+	    Route::get('detail/{id}', ['middleware' => 'feature_control:512', 'uses' => 'EmployeeTimeOffOvertimeController@detailOvertime']);
+	    Route::post('update/{id}', ['middleware' => 'feature_control:513', 'uses' => 'EmployeeTimeOffOvertimeController@updateOvertime']);
 	});
 
     Route::group(['prefix' => 'changeshift'], function()

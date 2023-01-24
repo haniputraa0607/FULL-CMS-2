@@ -133,7 +133,7 @@
     $(document).ready(function() {
         SweetAlertReject.init();
         SweetAlertFinished.init();
-        @if ($result['status']=='Approved' || $result['status']=='Done Approved' || $result['status']=='Finished')
+        @if ($result['status']=='Approved' || $result['status']=='Done Approved' || $result['status']=='Director Approved' || $result['status']=='Finished')
         actionForm('approved', true);
         $('#real_approved_employee').show();
         @else    
@@ -288,7 +288,7 @@
                         <label for="example-search-input" class="control-label col-md-4">Number of Request <span class="required" aria-required="true">*</span>
                             <i class="fa fa-question-circle tooltips" data-original-title="Jumlah employee yang diminta oleh office" data-container="body"></i></label>
                         <div class="col-md-5">
-                            <input class="form-control approvedFormTop" type="text" id="number_of_request" name="number_of_request" value="{{$result['number_of_request']}}" @if ($result['status']=='Approved'  || $result['status']=='Done Approved' || $result['status']=='Finished') readonly @endif/>
+                            <input class="form-control approvedFormTop" type="text" id="number_of_request" name="number_of_request" value="{{$result['number_of_request']}}" @if ($result['status']=='Approved'  || $result['status']=='Done Approved' || $result['status'] == 'Director Approved' || $result['status']=='Finished') readonly @endif/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -303,14 +303,16 @@
                             <i class="fa fa-question-circle tooltips" data-original-title="Status Permintaan" data-container="body"></i></label>
                         <div class="col-md-5">
                             @if(MyHelper::hasAccess([542], $grantedFeature))
-                            <input type="checkbox" class="make-switch" data-size="small" data-on-color="info" data-on-text="Approved" name="status" data-off-color="default" data-off-text="@if ($result['status']=='Rejected') Rejected @else Request @endif" id="status" @if ($result['status']=='Approved'  || $result['status']=='Done Approved' || $result['status']=='Finished') checked readonly @endif>
+                            <input type="checkbox" class="make-switch" data-size="small" data-on-color="info" data-on-text="Approved" name="status" data-off-color="default" data-off-text="@if ($result['status']=='Rejected') Rejected @else Request @endif" id="status" @if ($result['status']=='Approved'  || $result['status']=='Done Approved' || $result['status'] == 'Director Approved' || $result['status']=='Finished') checked readonly @endif>
                             @else
                                 @if($result['status'] == 'Approved')
                                 <span class="badge" style="background-color: #26C281; color: #ffffff">{{$result['status']}}</span>
                                 @elseif($result['status'] == 'Request')
                                 <span class="badge" style="background-color: #e1e445; color: #ffffff">{{$result['status']}}</span>
                                 @elseif($result['status'] == 'Done Approved')
-                                <span class="badge" style="background-color: #11407e; color: #ffffff">{{$result['status']}}</span>
+                                <span class="badge" style="background-color: #133b6f; color: #ffffff">{{$result['status']}}</span>
+                                @elseif($result['status'] == 'Director Approved')
+                                <span class="badge" style="background-color: #036a3c; color: #ffffff">{{$result['status']}}</span>
                                 @elseif($result['status'] == 'Finished')
                                 <span class="badge" style="background-color: #03d6f2; color: #ffffff">{{$result['status']}}</span>
                                 @else
@@ -330,7 +332,7 @@
                         </div>
                         <div id="approved_employee"></div>
                     </div>
-                    @if ($result['status']=='Approved'  || $result['status']=='Done Approved' || $result['status']=='Finished')  
+                    @if ($result['status']=='Approved'  || $result['status']=='Done Approved' || $result['status'] == 'Director Approved' || $result['status']=='Finished')  
                     <div id="real_approved_employee">
                         @for($i=0;$i<$result['number_of_request'];$i++)
                         <div class="form-group">
@@ -366,11 +368,19 @@
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            @if(MyHelper::hasAccess([542], $grantedFeature))
-                                @if ($result['status']!='Finished')
-                                    <button type="submit" class="btn blue">Submit</button>
+                            @if(MyHelper::hasAccess([542], $grantedFeature) || MyHelper::hasAccess([528], $grantedFeature))
+                                @if (MyHelper::hasAccess([528], $grantedFeature) && $result['status']!='Done Approved')
+                                    <input type="hidden" name="status" value="Director Approved">
+                                    <button type="submit" class="btn blue">Director Approve</button>
                                     @if ($result['status']!='Rejected')
                                     <a class="btn red sweetalert-reject" data-id="{{ $result['id_request_employee'] }}" data-name="{{ $result['applicant_request']['name'] }}">Reject</a>
+                                    @endif  
+                                @else
+                                    @if ($result['status']!='Finished')
+                                        <button type="submit" class="btn blue">Submit</button>
+                                        @if ($result['status']!='Rejected')
+                                        <a class="btn red sweetalert-reject" data-id="{{ $result['id_request_employee'] }}" data-name="{{ $result['applicant_request']['name'] }}">Reject</a>
+                                        @endif
                                     @endif
                                 @endif
                             @else
@@ -382,7 +392,7 @@
                                 @endif
                             @endif
 
-                            @if ($result['status']=='Done Approved' && $result['id_user'] == session('id_user'))
+                            @if ($result['status']=='Director Approved' && $result['id_user'] == session('id_user'))
                                 <a class="btn green sweetalert-finished" data-id="{{ $result['id_request_employee'] }}" data-name="{{ $result['applicant_request']['name'] }}">Request Done</a>
                             @endif
                         </div>
