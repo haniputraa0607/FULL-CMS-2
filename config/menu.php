@@ -667,7 +667,7 @@ return [
 							'label' => 'Time Off & Overtime',
                             'required_features' => [],
                             'type' => 'tree',
-                            'required_features' => [472],
+                            'required_features' => [],
                             'badge'=>[
                                 'type'=>'warning',
                                 'value'=>'employee_timeoff_overtime',
@@ -676,7 +676,7 @@ return [
 							'children' => [
 								[
                                     'label' => 'List Time Off',
-                                    'required_features' => [],
+                                    'required_features' => [507],
                                     'badge'=>[
                                         'type'=>'warning',
                                         'value'=>'employee_time_off',
@@ -686,7 +686,7 @@ return [
                                 ],
 								[
                                     'label' => 'List Overtime',
-                                    'required_features' => [],
+                                    'required_features' => [511],
                                     'badge'=>[
                                         'type'=>'warning',
                                         'value'=>'employee_overtime',
