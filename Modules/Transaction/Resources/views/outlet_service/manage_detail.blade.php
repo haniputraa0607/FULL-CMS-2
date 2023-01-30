@@ -66,7 +66,6 @@
 				let time = serviceObj.data('time') ?? null;
 				let hs = serviceObj.data('hs') ?? null;
 				let idTrxProduct = serviceObj.data('id_trx_product') ?? null;
-
 				$('#update-service-section').show();
 
 				$('#update-service-section [name="schedule_date"]').datepicker({dateFormat: "dd MM yyyy"});
@@ -78,6 +77,11 @@
 	        	$('#update-service-section [name="id_transaction_product"]').val(idTrxProduct);
 
 				$('.update-service-input').prop('required', true);
+				if(serviceObj.data('serviceStatus')){
+					$('.service-reject').hide();
+				}else{
+					$('.service-reject').show();
+				}
 			}
 		}
 
@@ -170,7 +174,6 @@
 							if(result.status == 'success' && result.result.length > 0){
 								var res = result.result;
 								for(var i = 0;i<res.length;i++){
-									console.log(time+'|'+hs_time);
 									if(res[i].available_status === true) {
 										html += '<option value="' + res[i].id_user_hair_stylist + '">' + res[i].nickname + ' - ' + res[i].name + '</option>';
 									}else if(res[i].available_status === false && hs == res[i].id_user_hair_stylist && date == hs_date && time == hs_time){
@@ -264,6 +267,7 @@
 																	$statusColor = '#c9c9c7';
 																	if(isset($s['detail']['transaction_product_service']['service_status']) && $s['detail']['transaction_product_service']['service_status'] == 'In Progress'){
 																		$serviceStatus = 'In Progress';
+                                                                        $oneIsCompleted = 1;
 																		$statusColor = '#ffc107';
 																	}
 																	if ($s['detail']['transaction_product_completed_at']) {
@@ -430,6 +434,7 @@
 		                                                	data-hs="{{ $s['detail']['transaction_product_service']['id_user_hair_stylist'] }}"
 		                                                	data-id_trx_product="{{ $s['detail']['id_transaction_product'] }}"
 															data-id_product="{{ $s['detail']['id_product'] }}"
+															data-service-status="{{$s['detail']['transaction_product_service']['service_status']}}"
 		                                                	{{ $disabled }}
 		                                                >{{ $s['product_name'] . ' (' . $s['order_id'] . ')' . $status }}</option>
 		                                            @endforeach
@@ -484,7 +489,7 @@
 				                                    	<input type="hidden" name="update_type" value="service">
 				                                    	<input type="hidden" name="id_transaction_product" value="">
 				                                        <button type="submit" class="btn blue" name='submit_type' value="update">Update</button>
-				                                        <button type="submit" class="btn red" name='submit_type' value="reject">Reject</button>
+				                                        <button type="submit" class="btn red service-reject" name='submit_type' value="reject">Reject</button>
 				                                    </div>
 				                                </div>
 				                            </div>
