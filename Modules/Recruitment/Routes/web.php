@@ -18,7 +18,9 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'hair-sty
     Route::get('payroll/filter', ['uses' => 'HairStylistController@exportPayroll']);
     Route::get('payroll/delete/{id}', ['uses' => 'HairStylistController@deletePayroll']);
     Route::post('payroll/export', ['uses' => 'HairStylistController@exportPayroll']);
-
+    
+    Route::any('generate/commission', ['uses' => 'HairStylistController@generateCommission']);
+    
     Route::group(['prefix' => 'category'], function(){
         Route::get('create', ['uses' => 'HairStylistController@categoryCreate']);
         Route::post('create', ['uses' => 'HairStylistController@categoryCreate']);
