@@ -541,7 +541,7 @@ class HairStylistController extends Controller
             if (isset($data['status']) && $data['status'] == "success") {
                  return back()->withSuccess(['Queue Generate Payslip Success']);
             }else {
-                return back()->withErrors(['No selected date range'])->withInput();
+               return back()->withErrors($data['messages']??['No selected date range'])->withInput();
             }
         }
     }
