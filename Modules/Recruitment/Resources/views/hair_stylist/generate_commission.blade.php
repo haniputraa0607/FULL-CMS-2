@@ -88,11 +88,11 @@
              SweetAlert.init()
              Download.init()
             $('.date_picker').datepicker({
-            'format' : 'yyyy-mm',
+            'format' : 'yyyy-mm-dd',
             'todayHighlight' : true,
             'autoclose' : true,
-            startView: "months", 
-            minViewMode: "months"
+//            startView: "months", 
+//            minViewMode: "months"
         });
             $('#chkall').on('ifChanged', function(event) {
                 if(this.checked) {
@@ -161,7 +161,7 @@
                         <label class="col-md-2 control-label">Date Start :</label>
                         <div class="col-md-6">
                             <div class="input-group">
-                                <input type="text" class="date_picker form-control" name="start_date" required value="{{date('Y-m')}}">
+                                <input type="text" class="date_picker form-control" name="start_date" required value="{{date('Y-m-d')}}">
                                 <span class="input-group-btn">
                                     <button class="btn default" type="button">
                                             <i class="fa fa-calendar"></i>
@@ -174,7 +174,7 @@
                         <label class="col-md-2 control-label">Date End :</label>
                         <div class="col-md-6">
                             <div class="input-group">
-                                <input type="text" class="date_picker form-control" name="end_date" required value="{{date('Y-m')}}">
+                                <input type="text" class="date_picker form-control" name="end_date" required value="{{date('Y-m-d')}}">
                                 <span class="input-group-btn">
                                     <button class="btn default" type="button">
                                             <i class="fa fa-calendar"></i>
