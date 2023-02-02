@@ -510,7 +510,7 @@ class HairStylistController extends Controller
         
     }
     public function generateCommission(Request $request){
-        $post = $request->except('_token');
+       $post = $request->except('_token');
 
         if(empty($post)){
             $data = [
@@ -537,12 +537,15 @@ class HairStylistController extends Controller
             $data['ready'] = MyHelper::get('hairstylist/be/generated-product-comission/status')['result']['status']??null;
            return view('recruitment::hair_stylist.generate_commission', $data);
         }else{
-           $data = MyHelper::post('hairstylist/be/generated-product-comission',$post);
-            if (isset($data['status']) && $data['status'] == "success") {
-                 return back()->withSuccess(['Queue Generate Payslip Success']);
-            }else {
-               return back()->withErrors($data['messages']??['No selected date range'])->withInput();
+            if(strtotime($post['start_date']??0)<=strtotime($post['end_date']??0)){
+              $data = MyHelper::post('hairstylist/be/generated-product-comission',$post);
+                if (isset($data['status']) && $data['status'] == "success") {
+                     return back()->withSuccess(['Queue Generate Payslip Success']);
+                }else {
+                   return back()->withErrors($data['messages']??['No selected date range'])->withInput();
+                }  
             }
+           return back()->withErrors(['No selected date range'])->withInput();
         }
     }
 }
