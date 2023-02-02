@@ -327,7 +327,7 @@
                                         <span class="input-group-addon btn default btn-file">
                                                     <span class="fileinput-new"> Select file </span>
                                                     <span class="fileinput-exists"> Change </span>
-                                                    <input type="file" class="file" name="design_path" id="design_path" @if($disabled || !$user_approve) disabled @endif>
+                                                    <input type="file" accept="image/*, .pdf, application/pdf, application/x-pdf,application/acrobat, applications/vnd.pdf, text/pdf, text/x-pdf" class="file" name="design_path" id="design_path" @if($disabled || !$user_approve) disabled @endif>
                                                 </span>
                                         <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
                                     </div>

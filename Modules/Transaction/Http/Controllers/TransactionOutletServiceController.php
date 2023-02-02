@@ -278,4 +278,14 @@ class TransactionOutletServiceController extends Controller
         $res = MyHelper::post('product/be/available-hs', $post);
         return $res;
     }
+
+    public function cancelCashPayment(Request $request, $id){
+        $post = $request->except('_token');
+        $post = [
+            'id_transaction' => $id
+        ];
+
+        $update = MyHelper::post('transaction/outlet-service/cancel-cash', $post);
+        return $update;
+    }
 }

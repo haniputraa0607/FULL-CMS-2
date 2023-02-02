@@ -126,9 +126,6 @@ class DesignRequestController extends Controller
                 return redirect('recruitment/design-request')->withErrors($result['messages'] ?? ['Failed get detail design request']);
             }
         }else{
-            $request->validate([
-                "design_path" => "max:2000",
-            ]);
             if(isset($post['design_path'])){
                 $post['original_name_design_path'] = $post['design_path']->getClientOriginalName();
                 $post['design_path'] = MyHelper::encodeImage($post['design_path']);
