@@ -220,7 +220,7 @@
                             <td>{{ date('d M Y', strtotime($val['created_at'])) }}</td>
                             <td>
                                 @if($val['status'] == "Running")
-                                    <a class="btn btn-sm btn-info"  href="{{url('hair-stylist/payroll/filter')}}"><i class="fa fa-refresh"></i></a>
+                                    <a class="btn btn-sm btn-info"  href="{{url('hair-stylist/generate/commission')}}"><i class="fa fa-refresh"></i></a>
                                    @endif
                             </td>
                         </tr>
