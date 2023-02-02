@@ -509,4 +509,40 @@ class HairStylistController extends Controller
         }
         
     }
+    public function generateCommission(Request $request){
+        $post = $request->except('_token');
+
+        if(empty($post)){
+            $data = [
+                'title'          => 'Transaction',
+                'sub_title'      => 'Generate Commission',
+                'menu_active'    => 'hair-stylist-generate-commission',
+                'submenu_active' => 'hair-stylist-generate-commission',
+            ];
+
+            $getList = MyHelper::get('hairstylist/be/generated-product-comission/list');
+            if (isset($getList['status']) && $getList['status'] == "success") {
+                $data['data']          = $getList['result']['data'];
+                $data['dataTotal']     = $getList['result']['total'];
+                $data['dataPerPage']   = $getList['result']['from'];
+                $data['dataUpTo']      = $getList['result']['from'] + count($getList['result']['data'])-1;
+                $data['dataPaginator'] = new LengthAwarePaginator($getList['result']['data'], $getList['result']['total'], $getList['result']['per_page'], $getList['result']['current_page'], ['path' => url()->current()]);
+            }else{
+                $data['data']          = [];
+                $data['dataTotal']     = 0;
+                $data['dataPerPage']   = 0;
+                $data['dataUpTo']      = 0;
+                $data['dataPaginator'] = false;
+            }
+            $data['ready'] = MyHelper::get('hairstylist/be/generated-product-comission/status')['result']['status']??null;
+           return view('recruitment::hair_stylist.generate_commission', $data);
+        }else{
+           $data = MyHelper::post('hairstylist/be/generated-product-comission',$post);
+            if (isset($data['status']) && $data['status'] == "success") {
+                 return back()->withSuccess(['Queue Generate Payslip Success']);
+            }else {
+                return back()->withErrors(['No selected date range'])->withInput();
+            }
+        }
+    }
 }
