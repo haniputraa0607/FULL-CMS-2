@@ -461,12 +461,16 @@ class HairStylistController extends Controller
             }
             return view('recruitment::hair_stylist.export_payroll', $data);
         }else{
-           $data = MyHelper::post('hairstylist/be/export-payroll',$post);
-            if (isset($data['status']) && $data['status'] == "success") {
-                 return back()->withSuccess(['Queue Export Payroll Success']);
-            }else {
-                return back()->withErrors(['No transactions found in selected date range'])->withInput();
+          
+            if(strtotime($post['start_date']??0)<=strtotime($post['end_date']??0)){
+               $data = MyHelper::post('hairstylist/be/export-payroll',$post);
+                if (isset($data['status']) && $data['status'] == "success") {
+                     return back()->withSuccess(['Queue Export Payroll Success']);
+                }else {
+                    return back()->withErrors(['No transactions found in selected date range'])->withInput();
+                }
             }
+           return back()->withErrors(['No selected date range'])->withInput();
         }
     }
     public function deletePayroll($id){

@@ -88,11 +88,11 @@
              SweetAlert.init()
              Download.init()
             $('.date_picker').datepicker({
-            'format' : 'yyyy-mm',
+            'format' : 'dd-M-yyyy',
             'todayHighlight' : true,
             'autoclose' : true,
-            startView: "months", 
-            minViewMode: "months"
+//            startView: "months", 
+//            minViewMode: "months"
         });
             $('#chkall').on('ifChanged', function(event) {
                 if(this.checked) {
@@ -161,7 +161,7 @@
                         <label class="col-md-2 control-label">Date Start :</label>
                         <div class="col-md-4">
                             <div class="input-group">
-                                <input type="text" class="date_picker form-control" name="start_date" required value="{{date('Y-m')}}">
+                                <input type="text" class="date_picker form-control" name="start_date" required value="{{date('d-M-Y')}}">
                                 <span class="input-group-btn">
                                     <button class="btn default" type="button">
                                             <i class="fa fa-calendar"></i>
@@ -173,7 +173,7 @@
                         <label class="col-md-2 control-label">Date End :</label>
                         <div class="col-md-4">
                             <div class="input-group">
-                                <input type="text" class="date_picker form-control" name="end_date" required value="{{date('Y-m')}}">
+                                <input type="text" class="date_picker form-control" name="end_date" required value="{{date('d-M-Y')}}">
                                 <span class="input-group-btn">
                                     <button class="btn default" type="button">
                                             <i class="fa fa-calendar"></i>
@@ -264,8 +264,8 @@
                             @endforeach
                             </td>
                             <td><button class="btn btn-sm btn-info" onclick="myFunction({{ $val['id_export_payroll_queue'] }})">Show</div></button></td>
-                            <td>{{ date('M Y', strtotime($val['start_date'])) }}</td>
-                            <td>{{ date('M Y', strtotime($val['end_date'])) }}</td>
+                            <td>{{ date('d M Y', strtotime($val['start_date'])) }}</td>
+                            <td>{{ date('d M Y', strtotime($val['end_date'])) }}</td>
                             <td>{{ $val['status_export'] }}</td>
                             <td>{{ $val['type_export'] }}</td>
                             <td>
