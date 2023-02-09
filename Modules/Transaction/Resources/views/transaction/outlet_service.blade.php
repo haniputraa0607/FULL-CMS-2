@@ -12,6 +12,7 @@
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/select2/css/select2-bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('page-script')
@@ -21,6 +22,7 @@
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/datatables/datatables.min.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') }}" type="text/javascript"></script>
     <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js')}}"></script>
+    <script src="{{ env('STORAGE_URL_VIEW') }}{{('assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}" type="text/javascript"></script>
     @yield('filter_script')
     <script type="text/javascript">
         // range date trx, receipt, order id, outlet, customer
@@ -120,6 +122,7 @@
             },
         };
 
+
         $('#table-outlet_service').dataTable({
             ajax: {
                 url : "{{url()->current()}}",
@@ -199,6 +202,21 @@
                         return `${row.transaction_payment_status}`;
                     }
                 },
+                {
+                    data : 'trasaction_payment_type',
+                    className: "text-center",
+                    render: function(value, type, row) {
+                    	if (value == 'Cash' && row.transaction_payment_status != 'Cancelled' && row.service_status === null) {
+                            const buttons = [
+                                `<a class="btn red btn-sm" id="sweetalert-reject"  onClick="cancelPayment(${row.id_transaction},'${row.name}','${row.transaction_receipt_number}')">Cancel Payment</a>`
+                            ];
+
+                            return buttons.join('');
+                        } else {
+                            return '-';
+                        }
+                    }
+                }
             ],
             searching: false,
             drawCallback: function( oSettings ) {
@@ -207,6 +225,46 @@
             order: [[ 1, "desc" ]]
         });
 		
+        function cancelPayment(id,name,receipt){
+            swal({
+                title: "Are you sure want to cancel this cash payment ?",
+                text: "Please input receipt number name to continue!",
+                type: "input",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes, cancel it!",
+                closeOnConfirm: false
+                },
+                function(inputValue){
+                    if(inputValue==receipt){
+                        $.ajax({
+                            type : "POST",
+                            url : "{{url('transaction/outlet-service/cancel-cash')}}/"+id,
+                            data : {
+                                '_token' : '{{csrf_token()}}'
+                            },
+                            success : function(response) {
+                                if (response.status == 'success') {
+                                    swal("Canceled!", "Hair Stylist transaction cash payment has been canceled.", "success")
+                                    location.href = "{{url('transaction/outlet-service')}}";
+                                }
+                                else if(response.status == "fail"){
+                                    swal("Error!", "Failed to cancel transaction cash payment.")
+                                }
+                                else {
+                                    swal("Error!", "Something went wrong. Failed to cancel transaction cash payment.")
+                                }
+                            }
+                        })
+                    }else if(inputValue==''){
+                        swal("Error!", "You need to input receipt number.")
+
+                    }else{
+                        swal("Error!", "Receipt number doesnt match")
+                    }
+                }
+            );
+        }
 
         $('#table-outlet_service').on('click', '.confirm-btn', function() {
             $('#modal-confirm :input').val(null);
@@ -314,6 +372,7 @@
                   <th>Tax</th>
                   <th>MDR</th>
                   <th>Payment Status</th>
+                  <th>Cancel Cash Payment</th>
               </tr>
             </thead>
             <tbody>

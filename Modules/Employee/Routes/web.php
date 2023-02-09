@@ -89,7 +89,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'employee
         Route::post('/setting/update', [ 'uses' => 'EmployeeReimbursementController@setting_update']);
         Route::get('/setting/delete/{id}', ['uses' => 'EmployeeReimbursementController@delete_create']);
         Route::any('/setting/global', [ 'uses' => 'EmployeeReimbursementController@global']);
-        
+        Route::post('/reject/{id}', ['uses' => 'EmployeeReimbursementController@reject']);
     });
     Route::group(['prefix' => 'cash-advance'], function(){
         Route::any('', [ 'uses' => 'EmployeeCashAdvanceController@index']);

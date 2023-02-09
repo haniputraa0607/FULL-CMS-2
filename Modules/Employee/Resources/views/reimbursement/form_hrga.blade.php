@@ -43,6 +43,7 @@
 		<div class="row" style="text-align: center">
 			{{ csrf_field() }}
 			@if(in_array($data['status'], ['Director Approved'])&&MyHelper::hasAccess([529], $grantedFeature))
+                        <a class="btn red save" data-name="{{ $data['name_product'] }}" data-status="Rejected" data-form="approve">Reject</a>
                            <button class="btn blue">Submit</button>
                         @endif
 		</div>

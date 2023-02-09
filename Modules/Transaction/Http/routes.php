@@ -124,6 +124,7 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'transact
     	Route::get('/', [ 'uses' => 'TransactionOutletServiceController@listOutletService']);
     	Route::post('/', [ 'uses' => 'TransactionOutletServiceController@filter']);
     	Route::get('detail/{id_transaction}', [ 'uses' => 'TransactionOutletServiceController@detailOutletService']);
+    	Route::post('cancel-cash/{id_transaction}', [ 'uses' => 'TransactionOutletServiceController@cancelCashPayment']);
     	Route::get('manage', ['middleware' => 'feature_control:397', 'uses' => 'TransactionOutletServiceController@manageList']);
     	Route::post('manage', ['middleware' => 'feature_control:397', 'uses' => 'TransactionOutletServiceController@manageFilter']);
     	Route::get('manage/detail/{id_transaction}', ['middleware' => 'feature_control:398', 'uses' => 'TransactionOutletServiceController@manageDetail']);

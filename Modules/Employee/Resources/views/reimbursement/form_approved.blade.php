@@ -32,11 +32,11 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Status</label>
                                     <div class="col-md-4 input-group">
-                                        <select W required class="form-control" name="status" id="status" data-placeholder="Select action" disabled>
+                                        <select required class="form-control" name="status" id="status" data-placeholder="Select action" disabled>
                                               <option>Pilih Action</option>
                                               <option value="Approved" @if($data['status']=="Approved") selected @endif>Approved</option>
-                                              <option value="Success" @if($data['status']=="Success") selected @endif>Approved</option>
-                                              <option value="Reject" @if($data['status']=="Reject") selected @endif>Reject</option>
+                                              <option value="Success" @if($data['status']=="Successed") selected @endif>Successed</option>
+                                              <option value="Reject" @if($data['status']=="Rejected") selected @endif>Rejected</option>
                                         </select>
                                     </div>
                                 </div>
@@ -72,6 +72,7 @@
                                     {{ csrf_field() }}
                                     <div class="row">
                                         <div class="col-md-offset-4 col-md-8">
+                                            <a class="btn red save" data-name="{{ $data['name_product'] }}" data-status="Rejected" data-form="approve">Reject</a>
                                             <button type="submit" class="btn blue">Submit</button>
                                         </div>
                                     </div>

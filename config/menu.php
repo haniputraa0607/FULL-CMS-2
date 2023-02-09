@@ -3363,6 +3363,12 @@ return [
 					'icon' => 'fa fa-ship'
 				],
                                 [
+                                        'label' => 'Generate Commission',
+                                        'required_features' => [69],
+                                        'url' => 'hair-stylist/generate/commission',
+                                        'icon' => 'fa fa-refresh'
+                                ],
+                                [
 					'label' => 'Export Payroll',
 					'required_features' => [69],
 					'url' => 'hair-stylist/payroll/filter',

@@ -79,12 +79,14 @@ class EmployeeCashAdvanceController extends Controller
                     'submenu_active'   => 'employee-cash-advance',
                     'child_active'   => 'employee-cash-advance-pending',
                 ];
+         $ids = $id;
          $id = MyHelper::explodeSlug($id)[0]??'';
       $data['data'] = MyHelper::post('employee/be/cash-advance/detail',['id_employee_cash_advance'=>$id])['result']??[];
       if(isset($data['data']['value_detail'])){
           $data['data']['value_detail'] = json_decode($data['data']['value_detail']??null);
       }
       if($data['data']){
+        $data['data']['id_enkripsi'] = $ids;
         return view('employee::cash_advance.detail',$data);
        }
        return redirect()->back()->withErrors(['Cash Advance not found']);
@@ -384,14 +386,9 @@ class EmployeeCashAdvanceController extends Controller
     }
      public function reject(Request $request, $id){
         $post = $request->except('_token');
-        $id = MyHelper::explodeSlug($id)[0]??'';
         $post['id_employee_cash_advance'] = $id;
-        $update = MyHelper::post('employee/be/cash-advance/reject',$post);
-        if(isset($post['status']) && $post['status'] == 'success'){
-            return redirect()->back()->withSuccess(['Success reject cash advance']);
-        }else{
-            return redirect()->back()->withErrors($post['messages']??['Failed delete data']);
-        }
+       $update = MyHelper::post('employee/be/cash-advance/reject',$post);
+       return $update;
     }
      public function icount(Request $request, $id){
          $id = MyHelper::explodeSlug($id)[0]??'';
