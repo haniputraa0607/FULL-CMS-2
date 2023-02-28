@@ -59,11 +59,9 @@
 			let serviceObj = $('select[name=id_transaction_product_service] option:selected');
 			let service = serviceObj.val();
 			$('#schedule_date').val('');
-			$('#schedule_time').val('');
 
 			if (service != '') {
 				let date = serviceObj.data('date') ?? null;
-				let time = serviceObj.data('time') ?? null;
 				let hs = serviceObj.data('hs') ?? null;
 				let idTrxProduct = serviceObj.data('id_trx_product') ?? null;
 
@@ -72,12 +70,13 @@
 				$('#update-service-section [name="schedule_date"]').datepicker({dateFormat: "dd MM yyyy"});
 				$('#update-service-section [name="schedule_date"]').datepicker("setDate", $.datepicker.parseDate( "yy-mm-dd", date ));
 
-				$('#update-service-section [name="schedule_time"]').timepicker('setTime', time);
 	        	$('#update-service-section select[name="id_user_hair_stylist"]').val(hs);
 
 	        	$('#update-service-section [name="id_transaction_product"]').val(idTrxProduct);
 
 				$('.update-service-input').prop('required', true);
+	        	$('#update-service-section select[name="id_user_hair_stylist"]').prop('required', false);
+
 			}
 		}
 
@@ -145,13 +144,11 @@
 
 			if (service != '') {
 				var date = $('#schedule_date').val();
-				var time = $('#schedule_time').val();
 				var id_product = serviceObj.data('id_product') ?? null;
 				var hs = serviceObj.data('hs') ?? null;
 				var hs_date = serviceObj.data('datefull') ?? null;
-				var hs_time = serviceObj.data('time') ?? null;
 
-				if(date !== "" && time !== ""){
+				if(date !== ""){
 					let token  = "{{ csrf_token() }}";
 
 					$.ajax({
@@ -162,7 +159,6 @@
 							"id_outlet": "{{$data['outlet']['id_outlet']??null}}",
 							"id_product" : id_product,
 							"booking_date": date,
-							"booking_time" : time
 						},
 						success : function(result) {
 							$('#id_user_hair_stylist').empty();
@@ -170,10 +166,9 @@
 							if(result.status == 'success' && result.result.length > 0){
 								var res = result.result;
 								for(var i = 0;i<res.length;i++){
-									console.log(time+'|'+hs_time);
 									if(res[i].available_status === true) {
 										html += '<option value="' + res[i].id_user_hair_stylist + '">' + res[i].nickname + ' - ' + res[i].name + '</option>';
-									}else if(res[i].available_status === false && hs == res[i].id_user_hair_stylist && date == hs_date && time == hs_time){
+									}else if(res[i].available_status === false && hs == res[i].id_user_hair_stylist && date == hs_date){
 										html += '<option value="' + res[i].id_user_hair_stylist + '" selected>' + res[i].nickname + ' - ' + res[i].name + '</option>';
 									}
 								}
@@ -294,13 +289,6 @@
 							                            </div>
 
 							                            <div class="form-group">
-							                                <label class="control-label col-md-4">Schedule Time </label>
-							                                <div class="col-md-5">
-											                    <span class="form-control border-0 text-bold">{{ $s['schedule_time'] }} {{ $s['schedule_time_zone'] }}</span>
-							                                </div>
-							                            </div>
-
-							                            <div class="form-group">
 							                                <label class="control-label col-md-4">Service Name </label>
 							                                <div class="col-md-5">
 											                    <span class="form-control border-0 text-bold">{{ $s['product_name'] }}</span>
@@ -410,7 +398,7 @@
 		                                            <option value="" selected disabled>Select Service</option>
 		                                            @foreach($data['service'] ?? [] as $s)
 		                                            	@php
-		                                            		$disabled = ($s['detail']['reject_at'] || $s['detail']['transaction_product_completed_at']) ? 'disabled' : null;
+		                                            		$disabled = ($s['detail']['reject_at'] || $s['detail']['transaction_product_completed_at'] || isset($s['service_status'])) ? 'disabled' : null;
 		                                            		$status = null;
 					                                		if ($s['detail']['transaction_product_service']['is_conflict']) {
 					                                			$status =  ' (Conflict)';
@@ -422,11 +410,14 @@
 					                                		if ($s['detail']['transaction_product_completed_at']) {
 					                                			$status =  ' (Completed)';
 					                                		}
+
+															if (isset($s['service_status'])) {
+					                                			$status =  ' ('.$s['service_status'].')';
+					                                		}
 		                                            	@endphp
 		                                                <option value="{{$s['detail']['transaction_product_service']['id_transaction_product_service']}}"
 															data-datefull="{{ date('d F Y', strtotime($s['detail']['transaction_product_service']['schedule_date'])) }}"
 		                                                	data-date="{{ $s['detail']['transaction_product_service']['schedule_date'] }}"
-		                                                	data-time="{{ $s['schedule_time'] }}"
 		                                                	data-hs="{{ $s['detail']['transaction_product_service']['id_user_hair_stylist'] }}"
 		                                                	data-id_trx_product="{{ $s['detail']['id_transaction_product'] }}"
 															data-id_product="{{ $s['detail']['id_product'] }}"
@@ -452,17 +443,10 @@
 				                                </div>
 				                            </div>
 				                            <div class="form-group">
-				                                <label for="example-search-input" class="control-label col-md-4">Schedule Time <span class="required" aria-required="true">*</span>
-				                                	<i class="fa fa-question-circle tooltips" data-original-title="Waktu layanan dapat dimulai" data-container="body"></i></label>
-				                                <div class="col-md-2">
-							                    	<input type="text" data-placeholder="select time end" onchange="availableHS()" id="schedule_time" class="form-control mt-repeater-input-inline kelas-close timepicker timepicker-no-seconds update-service-input" name="schedule_time" data-show-meridian="false" readonly>
-				                                </div>
-				                            </div>
-				                            <div class="form-group">
 			                                    <label for="example-search-input" class="control-label col-md-4">Hair Stylist <span class="required" aria-required="true">*</span>
 			                                    	<i class="fa fa-question-circle tooltips" data-original-title="Pilih Hair Stylist yang akan melakukan layanan" data-container="body"></i></label>
 			                                    <div class="col-md-5">
-			                                        <select class="form-control select2 update-service-input" name="id_user_hair_stylist" id="id_user_hair_stylist" required style="width: 100%">
+			                                        <select class="form-control select2 update-service-input" name="id_user_hair_stylist" id="id_user_hair_stylist"  style="width: 100%">
 			                                            <option value="" selected disabled>Select Hair Stylist</option>
 			                                            @foreach($data['list_hs'] ?? [] as $h)
 			                                                <option value="{{ $h['id_user_hair_stylist'] }}">{{ $h['nickname'] . ' - ' . $h['fullname'] }}</option>
