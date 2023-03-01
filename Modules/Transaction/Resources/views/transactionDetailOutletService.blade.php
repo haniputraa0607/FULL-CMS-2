@@ -653,31 +653,34 @@
 	                @endif
 	                @if(!empty($data['product_service_transaction']))
 		                @foreach ($data['product_service_transaction'] as $trx)
-		                    <div class="col-2 text-14px WorkSans text-grey-light">
-		                        <div class="round-grey bg-grey" style="background: #aaaaaa;"></div>
-		                    </div>
-		                    <div class="col-10 text-13-3px WorkSans-SemiBold text-grey-light" style="margin-left: -30px;margin-bottom: 10px;">{{$trx['brand']}}</div>
-		                    @foreach ($trx['product'] as $prod)
-		                        <div class="col-2 text-13-3px WorkSans-SemiBold text-grey-light space-text"><b>{{$prod['transaction_product_qty']}}x</b></div>
-		                        <div class="col-7 text-13-3px WorkSans-SemiBold text-grey-light space-text" style="margin-left: -30px;margin-right: 20px;"><b>{{$prod['product']['product_name']}}</b></div>
-		                        <div class="col-3 text-13-3px text-right WorkSans-SemiBold text-black space-text">{{$prod['transaction_product_subtotal']}}</div>
-		                        @if($prod['transaction_product_note'])
-		                            <div class="col-2 text-13px WorkSans-Regular text-black"></div>
-		                            <div class="col-7 text-13px WorkSans-Regular text-medium-grey" style="margin-left: -30px;margin-right: 20px;">{{$prod['transaction_product_note']}}</div>
-		                            <div class="col-3 text-13px text-right WorkSans-Regular text-black"></div>
-		                        @endif
-		                        @if($prod['transaction_product_discount'])
-		                            <div class="col-2 text-13-3px WorkSans-SemiBold text-grey-light space-text"></div>
-		                            <div class="col-7 text-13-3px WorkSans-SemiBold text-grey-light space-text" style="margin-left: -30px;margin-right: 20px;">Diskon (Promo)</div>
-		                            <div class="col-3 text-13-3px text-right WorkSans-Medium space-text" style="color:#a6ba35;">- {{number_format($prod['transaction_product_discount'], 0, ',', '.')}}</div>
-		                        @endif
-
+                            @foreach ($trx['product'] as $prod)
+                                <div class="col-2 text-14px WorkSans text-grey-light">
+                                    <div class="round-grey bg-grey" style="background: #aaaaaa;"></div>
+                                </div>
+                                <div class="col-10 text-13-3px WorkSans-SemiBold text-grey-light" style="margin-left: -30px;margin-bottom: 10px;">{{$trx['brand']}} {{ $prod['schedule_date'] }}</div>
+                                @foreach ($prod['service'] as $serv)
+                                    <div class="col-2 text-13-3px WorkSans-SemiBold text-grey-light space-text"><b>{{$serv['transaction_product_qty']}}x</b></div>
+                                    <div class="col-7 text-13-3px WorkSans-SemiBold text-grey-light space-text" style="margin-left: -30px;margin-right: 20px;"><b>{{$serv['product']['product_name']}}</b></div>
+                                    <div class="col-3 text-13-3px text-right WorkSans-SemiBold text-black space-text">{{$serv['transaction_product_subtotal']}}</div>
+                                    @if($serv['transaction_product_service_note'])
+                                        @foreach ($serv['transaction_product_service_note'] as $service_note)
+                                        <div class="col-2 text-13px WorkSans-Regular text-black"></div>
+                                        <div class="col-7 text-13px WorkSans-Regular text-medium-grey" style="margin-left: -30px;margin-right: 20px;">{{$service_note}}</div>
+                                        <div class="col-3 text-13px text-right WorkSans-Regular text-black"></div>
+                                        @endforeach
+                                    @endif
+                                    @if($serv['transaction_product_discount'])
+                                        <div class="col-2 text-13-3px WorkSans-SemiBold text-grey-light space-text"></div>
+                                        <div class="col-7 text-13-3px WorkSans-SemiBold text-grey-light space-text" style="margin-left: -30px;margin-right: 20px;">Diskon (Promo)</div>
+                                        <div class="col-3 text-13-3px text-right WorkSans-Medium space-text" style="color:#a6ba35;">- {{number_format($prod['transaction_product_discount'], 0, ',', '.')}}</div>
+                                    @endif
+                                @endforeach
+                                @if ($prod != end($trx['product']))
+                                    <div class="col-12">
+                                        <hr style="border-top: 1px solid #eeeeee;">
+                                    </div>
+                                @endif
 		                    @endforeach
-		                    @if ($trx != end($data['product_service_transaction']))
-		                        <div class="col-12">
-		                            <hr style="border-top: 1px solid #eeeeee;">
-		                        </div>
-		                    @endif
 		                @endforeach
 		                <div class="col-12">
 		                    <hr style="border-top: 1px solid #eeeeee;">

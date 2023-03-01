@@ -170,6 +170,7 @@
 							$('#id_user_hair_stylist').empty();
 							var html = '<option value="" selected="selected" disabled>Select Hair Stylist</option>';
 							if(result.status == 'success' && result.result.length > 0){
+								console.log(html);
 								var res = result.result;
 								for(var i = 0;i<res.length;i++){
 									if(res[i].available_status === true) {
@@ -180,6 +181,7 @@
 								}
 								$("#id_user_hair_stylist").append(html);
 							}
+							console.log(12);
 						}
 					});
 				}
