@@ -64,7 +64,6 @@
 				let date = serviceObj.data('date') ?? null;
 				let hs = serviceObj.data('hs') ?? null;
 				let idTrxProduct = serviceObj.data('id_trx_product') ?? null;
-
 				$('#update-service-section').show();
 
 				$('#update-service-section [name="schedule_date"]').datepicker({dateFormat: "dd MM yyyy"});
@@ -75,8 +74,15 @@
 	        	$('#update-service-section [name="id_transaction_product"]').val(idTrxProduct);
 
 				$('.update-service-input').prop('required', true);
-	        	$('#update-service-section select[name="id_user_hair_stylist"]').prop('required', false);
 
+	        	$('#update-service-section select[name="id_user_hair_stylist"]').prop('required', false);
+				
+				if(serviceObj.data('serviceStatus')){
+					$('.service-reject').hide();
+				}else{
+					$('.service-reject').show();
+				}
+				
 			}
 		}
 
@@ -259,6 +265,7 @@
 																	$statusColor = '#c9c9c7';
 																	if(isset($s['detail']['transaction_product_service']['service_status']) && $s['detail']['transaction_product_service']['service_status'] == 'In Progress'){
 																		$serviceStatus = 'In Progress';
+                                                                        $oneIsCompleted = 1;
 																		$statusColor = '#ffc107';
 																	}
 																	if ($s['detail']['transaction_product_completed_at']) {
@@ -421,6 +428,7 @@
 		                                                	data-hs="{{ $s['detail']['transaction_product_service']['id_user_hair_stylist'] }}"
 		                                                	data-id_trx_product="{{ $s['detail']['id_transaction_product'] }}"
 															data-id_product="{{ $s['detail']['id_product'] }}"
+															data-service-status="{{$s['detail']['transaction_product_service']['service_status']}}"
 		                                                	{{ $disabled }}
 		                                                >{{ $s['product_name'] . ' (' . $s['order_id'] . ')' . $status }}</option>
 		                                            @endforeach
@@ -468,7 +476,7 @@
 				                                    	<input type="hidden" name="update_type" value="service">
 				                                    	<input type="hidden" name="id_transaction_product" value="">
 				                                        <button type="submit" class="btn blue" name='submit_type' value="update">Update</button>
-				                                        <button type="submit" class="btn red" name='submit_type' value="reject">Reject</button>
+				                                        <button type="submit" class="btn red service-reject" name='submit_type' value="reject">Reject</button>
 				                                    </div>
 				                                </div>
 				                            </div>

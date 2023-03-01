@@ -155,11 +155,11 @@
             </div>
         </div>
         <div class="portlet-body">
-            <form class="form-horizontal" role="form" action="{{url('hair-stylist/payroll/export')}}" method="post">
+            <form class="form-horizontal" role="form" action="{{url('hair-stylist/generate/commission')}}" method="post">
                 <div class="form-body">
                     <div class="form-group">
                         <label class="col-md-2 control-label">Date Start :</label>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="input-group">
                                 <input type="text" class="date_picker form-control" name="start_date" required value="{{date('d-M-Y')}}">
                                 <span class="input-group-btn">
@@ -169,9 +169,10 @@
                                 </span>
                             </div>
                         </div>
-
+                    </div>
+                    <div class="form-group">
                         <label class="col-md-2 control-label">Date End :</label>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="input-group">
                                 <input type="text" class="date_picker form-control" name="end_date" required value="{{date('d-M-Y')}}">
                                 <span class="input-group-btn">
@@ -182,41 +183,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">Outlet <span class="required" aria-required="true"> * </span>
-                        </label>
-                        <div class="col-md-6">
-                            <div class="input-icon right">
-                                <select  class="form-control select2" multiple name="id_outlet[]" id="outlets" data-placeholder="Select Outlet" required>
-                                    @foreach($outlets as $outlet)
-                                        <option value="{{$outlet['id_outlet']}}">{{$outlet['outlet_code']}} - {{$outlet['outlet_name']}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="icheck-list">
-                                <label><input type="checkbox" class="icheck" id="chkall"> All Outlet</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">Type Export <span class="required" aria-required="true"> * </span>
-                        </label>
-                        <div class="col-md-6">
-                            <div class="input-icon right">
-                                <select  class="form-control select2" name="type_export" id="type_export" data-placeholder="Select Type" required>
-                                    <option value="">Select Type</option>
-                                    <option value="Combine">Combine</option>
-                                    <option value="Separated">Separated</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 {{ csrf_field() }}
                 <div class="row" style="text-align: center">
-                    <button type="submit" class="btn blue">Export</button>
+                    <button type="submit" class="btn blue" @if($ready) disabled @endif>Generate</button>
                 </div>
             </form>
         </div>
@@ -233,12 +203,10 @@
             <table class="table table-striped table-bordered table-hover" id="hslist">
                 <thead>
                 <tr>
-                    <th scope="col" width="10%" style="text-align: center"> Outlet </th>
-                    <th scope="col" width="10%" style="text-align: center"> Show </th>
                     <th scope="col" width="10%" style="text-align: center"> Start Date </th>
                     <th scope="col" width="10%" style="text-align: center"> End Date </th>
                     <th scope="col" width="10%" style="text-align: center"> Status </th>
-                    <th scope="col" width="10%" style="text-align: center"> Type </th>
+                    <th scope="col" width="10%" style="text-align: center"> Created </th>
                     <th scope="col" width="10%" style="text-align: center"> Action </th>
                 </tr>
                 </thead>
@@ -246,41 +214,19 @@
                 @if(!empty($data))
                     @foreach($data as $val)
                         <tr style="text-align: center">
-                            <td>
-                            @php 
-                                $count = count(json_decode($val['name_outlet']));
-                                $i = 1;
-                            @endphp
-                            @foreach(json_decode($val['name_outlet']) as $va)
-                            @if($i==4)
-                            <div style="display:none" id="myDIV{{ $val['id_export_payroll_queue'] }}">
-                            @endif
-                            {{$va}}
-                            @if($i<=4&&$i==$count)
-                            </div>
-                            @endif
-                            <br>
-                            @php $i++; @endphp
-                            @endforeach
-                            </td>
-                            <td><button class="btn btn-sm btn-info" onclick="myFunction({{ $val['id_export_payroll_queue'] }})">Show</div></button></td>
                             <td>{{ date('d M Y', strtotime($val['start_date'])) }}</td>
                             <td>{{ date('d M Y', strtotime($val['end_date'])) }}</td>
-                            <td>{{ $val['status_export'] }}</td>
-                            <td>{{ $val['type_export'] }}</td>
+                            <td>{{ $val['status'] }}</td>
+                            <td>{{ date('d M Y', strtotime($val['created_at'])) }}</td>
                             <td>
-                                @if($val['status_export'] == "Ready")
-                                    <a class="btn btn-sm btn-success download" data-url="{{env('STORAGE_URL_API').$val['url_export']}}"><i class="fa fa-download"></i></a>
-                                    <a class="btn red save" data-id="{{ $val['id_export_payroll_queue'] }}" data-status="Rejected" data-form="approve"><i class="fa fa-trash-o"></i></a>
-                                @else
-                                    <a class="btn btn-sm btn-info"  href="{{url('hair-stylist/payroll/filter')}}"><i class="fa fa-refresh"></i></a>
-                                    <a class="btn red save" data-id="{{ $val['id_export_payroll_queue'] }}" data-status="Rejected" data-form="approve"><i class="fa fa-trash-o"></i></a>
-                                @endif
+                                @if($val['status'] == "Running")
+                                    <a class="btn btn-sm btn-info"  href="{{url('hair-stylist/generate/commission')}}"><i class="fa fa-refresh"></i></a>
+                                   @endif
                             </td>
                         </tr>
                     @endforeach
                 @else
-                    <tr><td colspan="5" style="text-align: center">Data Not Available</td></tr>
+                    <tr><td colspan="4" style="text-align: center">Data Not Available</td></tr>
                 @endif
                 </tbody>
             </table>
