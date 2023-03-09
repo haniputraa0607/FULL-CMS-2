@@ -672,7 +672,7 @@
                                     @if($serv['transaction_product_discount'])
                                         <div class="col-2 text-13-3px WorkSans-SemiBold text-grey-light space-text"></div>
                                         <div class="col-7 text-13-3px WorkSans-SemiBold text-grey-light space-text" style="margin-left: -30px;margin-right: 20px;">Diskon (Promo)</div>
-                                        <div class="col-3 text-13-3px text-right WorkSans-Medium space-text" style="color:#a6ba35;">- {{number_format($prod['transaction_product_discount'], 0, ',', '.')}}</div>
+                                        <div class="col-3 text-13-3px text-right WorkSans-Medium space-text" style="color:#a6ba35;">- {{number_format($serv['transaction_product_discount'], 0, ',', '.')}}</div>
                                     @endif
                                 @endforeach
                                 @if ($prod != end($trx['product']))
