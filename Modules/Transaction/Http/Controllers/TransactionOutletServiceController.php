@@ -275,7 +275,7 @@ class TransactionOutletServiceController extends Controller
 
     public function availableHS(Request $request){
         $post = $request->except('_token');
-        $res = MyHelper::post('product/be/available-hs', $post);
+        $res = MyHelper::post('product/be/available-hsV2', $post);
         return $res;
     }
 
