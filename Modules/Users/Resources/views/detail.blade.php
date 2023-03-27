@@ -758,7 +758,7 @@
 																		<tr>
 																			<td>{{ date('d F Y H:i', strtotime($res['transaction_date'])) }}</td>
 																			<td>{{ $res['outlet_name']['outlet_name'] }}</td>
-																			<td><span class="badge bg-{{$res['transaction_pickup']['pickup_by'] == 'Customer' ? 'green-jungle':'blue'}}">{{$res['transaction_pickup']['pickup_by'] == 'Customer' ? 'Pickup Order':'Delivery'}}</span></td>
+																			<td><span class="badge bg-{{$res['transaction_pickup']['pickup_by']??null == 'Customer' ? 'green-jungle':'blue'}}">{{$res['transaction_pickup']['pickup_by']??null == 'Customer' ? 'Pickup Order':'Delivery'}}</span></td>
 																			<td>{{ $res['transaction_receipt_number'] }}</td>
 																			<td>Rp {{ number_format($res['transaction_grandtotal']) }}</td>
 																			<td>
@@ -854,10 +854,12 @@
 																						<td> {{ date('H:i:s', strtotime($balance['created_at'])) }} </td>
 																						@if ($balance['source'] != 'voucher' && $balance['source'] != 'Complete Profile' && $balance['source'] != 'Point Injection')
 																							<td>
+																							@if(isset($balance['detail_trx']))
 																							<a href="{{ url('transaction/detail/'.$balance['detail_trx']['id_transaction'].'/'.$balance['detail_trx']['trasaction_type']) }}">
 
 																							    {{ $balance['detail_trx']['transaction_receipt_number'] }}
 																							</a>
+																							@endif
 																							</td>
 																						@else
                                                                                             @if($balance['source'] == 'Point Injection' && MyHelper::hasAccess([245], $grantedFeature))
@@ -1004,7 +1006,7 @@
 																			    @endif
 																	        </td>
 																			<td>{{ $vou['deals_voucher']['voucher_code'] }}</td>
-																			<td>{{ $vou['outlet']['outlet_code'] }} - {{ $vou['outlet']['outlet_name'] }}</td>
+																			<td>{{ $vou['outlet']['outlet_code']??null }} - {{ $vou['outlet']['outlet_name']??null }}</td>
 																			<td>@if($vou['claimed_at']) {{ date('d F Y H:i', strtotime($vou['claimed_at'])) }} @endif</td>
 																			<td>@if($vou['redeemed_at']) {{ date('d F Y H:i', strtotime($vou['redeemed_at'])) }} @endif</td>
 																			<td>@if($vou['voucher_expired_at']) {{ date('d F Y H:i', strtotime($vou['voucher_expired_at'])) }} @endif</td>
@@ -1051,7 +1053,7 @@
 																			    @endif
 																	        </td>
 																			<td>{{ $vou['deals_voucher']['voucher_code'] }}</td>
-																			<td>{{ $vou['outlet']['outlet_code'] }} - {{ $vou['outlet']['outlet_name'] }}</td>
+																			<td>{{ $vou['outlet']['outlet_code']??null }} - {{ $vou['outlet']['outlet_name']??null }}</td>
 																			<td>@if($vou['claimed_at']) {{ date('d F Y H:i', strtotime($vou['claimed_at'])) }} @endif</td>
 																			<td>@if($vou['redeemed_at']) {{ date('d F Y H:i', strtotime($vou['redeemed_at'])) }} @endif</td>
 																			<td>@if($vou['used_at']) {{ date('d F Y H:i', strtotime($vou['used_at'])) }} @endif</td>
@@ -1098,7 +1100,7 @@
 																			    @endif
 																	        </td>
 																			<td>{{ $vou['deals_voucher']['voucher_code'] }}</td>
-																			<td>{{ $vou['outlet']['outlet_code'] }} - {{ $vou['outlet']['outlet_name'] }}</td>
+																			<td>{{ $vou['outlet']['outlet_code']??null }} - {{ $vou['outlet']['outlet_name']??null }}</td>
 																			<td>@if($vou['claimed_at']) {{ date('d F Y H:i', strtotime($vou['claimed_at'])) }} @endif</td>
 																			<td>@if($vou['redeemed_at']) {{ date('d F Y H:i', strtotime($vou['redeemed_at'])) }} @endif</td>
 																			<td>@if($vou['voucher_expired_at']) {{ date('d F Y H:i', strtotime($vou['voucher_expired_at'])) }} @endif</td>
