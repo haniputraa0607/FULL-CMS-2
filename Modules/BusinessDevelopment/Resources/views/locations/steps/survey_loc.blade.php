@@ -44,8 +44,8 @@
                     <div class="tab-pane @if($result['status']=='Candidate' || $surv == true) active @endif" id="form_survey">
                         <form class="form-horizontal" role="form" action="javascript:formSurveyModal()" method="post" enctype="multipart/form-data">
                             <div class="form-body">
-                                <input type="hidden" name="id_partner" value="{{$result['location_partner']['id_partner']}}">
-                                <input type="hidden" name="id_location" value="{{$result['id_location']}}">
+                                <input type="hidden" name="id_partner" value="{{$result['location_partner']['id_partner']??null}}">
+                                <input type="hidden" name="id_location" value="{{$result['id_location']??null}}">
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Step <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Step yang sedang dilakukan" data-container="body"></i></label>
