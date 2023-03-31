@@ -540,8 +540,8 @@
                     <div id="modal-brand-form-survey">
                         <div id="form-survey-available">
                             <div class="form-body">
-                                <input type="hidden" name="id_partner" value="{{$result['location_partner']['id_partner']}}">
-                                <input type="hidden" name="id_location" value="{{$result['id_location']}}">
+                                <input type="hidden" name="id_partner" value="{{$result['location_partner']['id_partner']??null}}">
+                                <input type="hidden" name="id_location" value="{{$result['id_location']??null}}">
                                 <input type="hidden" name='follow_up' id="followUpModal" value="Survey Location">
                                 <input type="hidden" name='note' id="noteModal" value="">
                                 <input type="hidden" name='id_brand' id="idbrandModal" value="">
