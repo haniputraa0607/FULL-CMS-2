@@ -49,7 +49,7 @@
                     <div class="tab-pane @if($result['status']=='Candidate' || $result['status']=='Active') active @endif" id="form_confir">
                         <form class="form-horizontal" role="form" action="{{url('businessdev/partners/create-follow-up')}}" method="post" enctype="multipart/form-data">
                             <div class="form-body">
-                                <input type="hidden" name="id_partner" value="{{$result['id_partner']}}">
+                                <input type="hidden" name="id_partner" value="{{$result['id_partner']??null}}">
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Step <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Pilih step" data-container="body"></i></label>

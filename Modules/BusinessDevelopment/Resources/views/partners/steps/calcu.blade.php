@@ -59,14 +59,14 @@
                                 <tr>
                                     <td>Contractor Price</td>
                                     <td></td>
-                                    <td>{{number_format($result['first_location']['renovation_cost'], 0, ',', '.')}}</td>
-                                    @php $total_payment += $result['first_location']['renovation_cost'] @endphp
+                                    <td>{{number_format($result['first_location']['renovation_cost']??0, 0, ',', '.')}}</td>
+                                    @php $total_payment += $result['first_location']['renovation_cost']??0 @endphp
                                 </tr>
                                 <tr>
                                     <td>Partnership Fee</td>
                                     <td></td>
-                                    <td>{{number_format($result['first_location']['partnership_fee'], 0, ',', '.')}}</td>
-                                    @php $total_payment += $result['first_location']['partnership_fee'] @endphp
+                                    <td>{{number_format($result['first_location']['partnership_fee']??0, 0, ',', '.')}}</td>
+                                    @php $total_payment += $result['first_location']['partnership_fee']??0 @endphp
                                 </tr>
                                 <tr>
                                     <th colspan="3">Rent</th>
@@ -74,23 +74,23 @@
                                 <tr>
                                     <td>Location Large</td>
                                     <td></td>
-                                    <td>{{number_format($result['first_location']['location_large'], 0, ',', '.')}}</td>
+                                    <td>{{number_format($result['first_location']['location_large']??0, 0, ',', '.')}}</td>
                                 </tr>
                                 <tr>
                                     <td>Rental Price</td>
                                     <td></td>
-                                    <td>{{number_format($result['first_location']['rental_price'], 0, ',', '.')}}</td>
-                                    @php $total_payment += $result['first_location']['rental_price'] @endphp
+                                    <td>{{number_format($result['first_location']['rental_price']??0, 0, ',', '.')}}</td>
+                                    @php $total_payment += $result['first_location']['rental_price']??0 @endphp
                                 </tr>
                                 <tr>
                                     <td>Service Charge</td>
                                     <td></td>
-                                    <td>{{number_format($result['first_location']['service_charge'], 0, ',', '.')}}</td>
+                                    <td>{{number_format($result['first_location']['service_charge']??0, 0, ',', '.')}}</td>
                                 </tr>
                                 <tr>
                                     <td>Promotion Levy</td>
                                     <td></td>
-                                    <td>{{number_format($result['first_location']['promotion_levy'], 0, ',', '.')}}</td>
+                                    <td>{{number_format($result['first_location']['promotion_levy']??0, 0, ',', '.')}}</td>
                                 </tr>
                                 <tr>
                                     <th colspan="3">Sale</th>
@@ -98,13 +98,13 @@
                                 <tr>
                                     <td>Income</td>
                                     <td></td>
-                                    <td>{{number_format($result['first_location']['income'], 0, ',', '.')}}</td>
+                                    <td>{{number_format($result['first_location']['income']??0, 0, ',', '.')}}</td>
                                 </tr>
                             </tbody>
                         </table>
                         <form class="form-horizontal" role="form" action="{{url('businessdev/partners/create-follow-up')}}" method="post" enctype="multipart/form-data">
                             <div class="form-body">
-                                <input type="hidden" name="id_partner" value="{{$result['id_partner']}}">
+                                <input type="hidden" name="id_partner" value="{{$result['id_partner']??null}}">
                                 <div class="form-group">
                                     <label for="example-search-input" class="control-label col-md-4">Step <span class="required" aria-required="true">*</span>
                                         <i class="fa fa-question-circle tooltips" data-original-title="Step yang sedang dilakukan" data-container="body"></i></label>
