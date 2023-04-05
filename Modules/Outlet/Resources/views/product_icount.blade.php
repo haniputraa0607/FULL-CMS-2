@@ -1,4 +1,14 @@
-@php $out = $outlet[0]; @endphp
+@php 
+    $out = $outlet[0]; 
+    $company_type = '';
+    if(isset($out['location_outlet']['company_type'])){
+        if($out['location_outlet']['company_type'] == 'PT IMA'){
+            $company_type = 'ima';
+        }elseif($out['location_outlet']['company_type'] == 'PT IMS'){
+            $company_type = 'ims';
+        }
+    }
+@endphp
 <div style="padding:10px 0" class="text-right">
     <a href="#modal_export" data-toggle="modal" class="btn btn-success">Export</a>
     <a href="#modal_stock_adjustment" data-toggle="modal" class="btn btn-primary">Stock Adjustment</a>
@@ -17,6 +27,7 @@
     </thead>
     <tbody>
         @foreach($out['product_icount_outlet_stocks'] ?? [] as $outlet_stock)
+        @if ($outlet_stock['product_icount']['company_type'] == $company_type)
         <tr data-id="{{ $outlet_stock['id_product_icount'] }}_{{ $outlet_stock['unit'] }}">
             <td>{{ $outlet_stock['product_icount']['name'] }}</td>
             <td class="text-center unit">{{ $outlet_stock['unit'] }}</td>
@@ -26,6 +37,7 @@
             <td class="text-center"><a href="javascript:conversion({{ $outlet_stock['id_product_icount'] }},'{{ $outlet_stock['product_icount']['name'] }}','{{ $outlet_stock['id_product_icount'] }}_{{ $outlet_stock['unit'] }}')" data-conv="{{ $outlet_stock['conversion'] }}" data-info="{{ $outlet_stock['info_conversion'] }}" class="btn btn-sm blue link">Convert</a></td>
             @endif
         </tr>
+        @endif
         @endforeach
     </tbody>
 </table>
