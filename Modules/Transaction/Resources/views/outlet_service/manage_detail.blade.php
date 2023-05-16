@@ -181,7 +181,6 @@
 								}
 								$("#id_user_hair_stylist").append(html);
 							}
-							console.log(12);
 						}
 					});
 				}
@@ -383,7 +382,7 @@
 	            </div>
 
 	            <div class="tab-pane" id="update">
-	            	@if (empty($data['need_manual_void']) && $oneIsCompleted == 0)
+	            	@if ((empty($data['service']) && empty($data['need_manual_void'])) || (!empty($data['service']) && empty($data['need_manual_void']) && $oneIsCompleted == 0))
 		            	<div class="text-right">
 	        				<a data-toggle="modal" href="#reject-transaction" class="btn red" style="margin-bottom: 15px">Reject Transaction</a>
 		            	</div>
