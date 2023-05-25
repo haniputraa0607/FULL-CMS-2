@@ -506,7 +506,7 @@
                                     <td>{{ $value['product_code'] }}</td>
                                     <td>{{ $value['product_name'] }}</td>
                                     <td>
-                                        <a href="{{ url('report/product/detail') }}/{{ $value['id_product'] }}/{{ $date_start }}/{{ $date_end }}" data-popout="true" class="btn btn-sm blue"><i class="fa fa-search"></i></a>
+                                        <a href="{{ url('report/product/detail') }}/{{ $value['slug'] }}/{{ $date_start }}/{{ $date_end }}" data-popout="true" class="btn btn-sm blue"><i class="fa fa-search"></i></a>
                                     </td>
                                 </tr>
                                 @endif
