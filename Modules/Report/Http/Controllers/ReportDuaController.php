@@ -425,6 +425,11 @@ class ReportDuaController extends Controller
         foreach ($product as $key => $value) {
             $data[$key] = $value;
         }
+        
+        $data['dataProduct'] = array_map(function($prod){
+            $prod['slug'] = MyHelper::createSlug($prod['id_product'],'');
+            return $prod;
+        },$data['dataProduct']);
 
         /* OUTLET */
         $data['outlet'] = parent::getData(MyHelper::get('outlet/be/list'));
