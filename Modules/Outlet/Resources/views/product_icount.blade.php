@@ -12,6 +12,7 @@
 <div style="padding:10px 0" class="text-right">
     <a href="#modal_export" data-toggle="modal" class="btn btn-success">Export</a>
     <a href="#modal_stock_adjustment" data-toggle="modal" class="btn btn-primary">Stock Adjustment</a>
+    <a href="#modal_refresh_check" data-toggle="modal" class="btn btn-info">Refresh Check Stock</a>
 </div>
 <table class="table datatable">
     <thead>
@@ -120,6 +121,57 @@
             </div>
             <div class="modal-body" style="padding: 15px !important">
                 <form role="form" action="{{ url('outlet/detail') }}/{{ $outlet[0]['outlet_code'] }}/report-product-log" method="post" enctype="multipart/form-data">
+                    <div class="form-body">
+                        <div class="row" style="margin-bottom:10px">
+                            <label class="col-md-4 text-right" style="padding-top:5px">From Date</label>
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                    <input type="text" id="start_date" class="datepicker form-control" name="start_date" required>
+                                    <span class="input-group-btn">
+                                        <button class="btn default" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:10px">
+                            <label class="col-md-4 text-right" style="padding-top:5px">To Date</label>
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                    <input type="text" id="start_date" class="datepicker form-control" name="end_date" required>
+                                    <span class="input-group-btn">
+                                        <button class="btn default" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                {{ csrf_field() }}
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-sm" id="modal_refresh_check" role="dialog" aria-labelledby="refreshStock" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Refresh Check Stock Report</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 15px !important">
+                <form role="form" action="{{ url()->current() }}/refresh-report-stock" method="post" enctype="multipart/form-data">
                     <div class="form-body">
                         <div class="row" style="margin-bottom:10px">
                             <label class="col-md-4 text-right" style="padding-top:5px">From Date</label>
