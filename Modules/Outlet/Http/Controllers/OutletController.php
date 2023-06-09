@@ -1516,4 +1516,14 @@ class OutletController extends Controller
             return back()->withErrors(['Something when wrong. Failed to refresh product.'])->withInput();
         }
     }
+
+    public function refreshReportStock(Request $request, $outlet_code){
+        $post = $request->except('_token');
+        return $refresh = MyHelper::post('outlet/stock/refresh', ['start_date' => date('Y-m-d', strtotime($post['start_date'])),'end_date' => date('Y-m-d', strtotime($post['end_date'])),'outlet_code' => $outlet_code]);
+        if (isset($refresh['status']) && $refresh['status'] == "success") {
+            return back()->withSuccess(['Success to refresh check stock']);
+        }else {
+            return back()->withErrors(['Something when wrong. Failed to refresh check stock.'])->withInput();
+        }
+    }
 }
