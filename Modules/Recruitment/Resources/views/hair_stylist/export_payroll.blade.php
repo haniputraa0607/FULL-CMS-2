@@ -280,7 +280,7 @@
                         </tr>
                     @endforeach
                 @else
-                    <tr><td colspan="5" style="text-align: center">Data Not Available</td></tr>
+                    <tr><td colspan="7" style="text-align: center">Data Not Available</td></tr>
                 @endif
                 </tbody>
             </table>

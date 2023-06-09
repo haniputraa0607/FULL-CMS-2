@@ -15,6 +15,8 @@ Route::group(['middleware' => ['web', 'validate_session'], 'prefix' => 'hair-sty
 {
     Route::get('commission/filter', ['uses' => 'HairStylistController@exportCommission']);
     Route::post('commission/export', ['uses' => 'HairStylistController@exportCommission']);
+    Route::get('commission/delete/{id}', ['uses' => 'HairStylistController@deleteCommission']);
+    
     Route::get('payroll/filter', ['uses' => 'HairStylistController@exportPayroll']);
     Route::get('payroll/delete/{id}', ['uses' => 'HairStylistController@deletePayroll']);
     Route::post('payroll/export', ['uses' => 'HairStylistController@exportPayroll']);
