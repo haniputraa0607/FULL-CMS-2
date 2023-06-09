@@ -325,9 +325,7 @@ class HairStylistController extends Controller
         }
     }
 
-    public function exportCommission(Request $request){
-        $post = $request->except('_token');
-
+    public function exportCommission_old(Request $request){
         if(empty($post)){
             $data = [
                 'title'          => 'Transaction',
@@ -352,7 +350,52 @@ class HairStylistController extends Controller
             }
         }
     }
+    public function exportCommission(Request $request){
+        $post = $request->except('_token');
+        if(empty($post)){
+             $data = [
+                'title'          => 'Transaction',
+                'sub_title'      => 'Export Commission',
+                'menu_active'    => 'hair-stylist-export-commission',
+                'submenu_active' => 'hair-stylist-export-commission',
+            ];
 
+            $data['outlets'] = MyHelper::get('outlet/be/list/simple')['result']??[];
+            $getList = MyHelper::get('hairstylist/be/export-commission/list');
+            if (isset($getList['status']) && $getList['status'] == "success") {
+                $data['data']          = $getList['result']['data'];
+                $data['dataTotal']     = $getList['result']['total'];
+                $data['dataPerPage']   = $getList['result']['from'];
+                $data['dataUpTo']      = $getList['result']['from'] + count($getList['result']['data'])-1;
+                $data['dataPaginator'] = new LengthAwarePaginator($getList['result']['data'], $getList['result']['total'], $getList['result']['per_page'], $getList['result']['current_page'], ['path' => url()->current()]);
+            }else{
+                $data['data']          = [];
+                $data['dataTotal']     = 0;
+                $data['dataPerPage']   = 0;
+                $data['dataUpTo']      = 0;
+                $data['dataPaginator'] = false;
+            }
+            return view('recruitment::hair_stylist.export_commission', $data);
+        }else{
+            if(strtotime($post['start_date']??0)<=strtotime($post['end_date']??0)){
+               $data = MyHelper::post('hairstylist/be/export-commission',$post);
+                if (isset($data['status']) && $data['status'] == "success") {
+                     return back()->withSuccess(['Queue Export Commission Success']);
+                }else {
+                    return back()->withErrors(['No transactions found in selected date range'])->withInput();
+                }
+            }
+           return back()->withErrors(['No selected date range'])->withInput();
+        }
+    }
+    public function deleteCommission($id){
+        $data = MyHelper::get('hairstylist/be/export-commission/delete/'.$id);
+         if (isset($data['status']) && $data['status'] == "success") {
+              return back()->withSuccess(['Delete data Success']);
+         }else {
+             return back()->withErrors(['Failed delete data']);
+         }
+    }
     public function categoryCreate(Request $request){
         $post = $request->except('_token');
 
