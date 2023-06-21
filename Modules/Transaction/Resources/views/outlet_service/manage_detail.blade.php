@@ -104,8 +104,13 @@
 		}
 
         $(document).ready(function() {
-        	changeTriggerService();
-        	changeTriggerProduct();
+			<?php if(!empty($data['service'])){ ?>
+				changeTriggerService();
+			<?php } ?>
+			<?php if(!empty($data['product'])){ ?>
+				changeTriggerProduct();
+			<?php } ?>
+			
 
 	        $('.datepicker').datepicker({
 	            'format' : 'dd MM yyyy',
