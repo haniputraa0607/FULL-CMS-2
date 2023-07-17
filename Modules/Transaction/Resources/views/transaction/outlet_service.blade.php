@@ -167,13 +167,13 @@
                 {
                     data: 'name',
                     render: function(value, type, row) {
-                        return `${row.name}`;
+                        return `${row.user.name}`;
                     }
                 },
                 {
                     data: 'phone',
                     render: function(value, type, row) {
-                        return `${row.phone}`;
+                        return `${row.user.phone}`;
                     }
                 },
                 {
