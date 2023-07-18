@@ -160,7 +160,7 @@
                 {
                     data: 'outlet_name',
                     render: function(value, type, row) {
-                        return row.outlet_code + ' - ' + value;
+                        return row.outlet.outlet_code + ' - ' + row.outlet.outlet_name;
                     }
                 },
                 {data: 'transaction_receipt_number'},
