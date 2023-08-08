@@ -163,7 +163,16 @@
                         return row.outlet.outlet_code + ' - ' + row.outlet.outlet_name;
                     }
                 },
-                {data: 'transaction_receipt_number'},
+                {
+                    data: 'transaction_receipt_number',
+                    render: function(value, type, row) {
+                        if(row.reject_at){
+                            return `${value}`+' (Refunded)';
+                        }else{
+                            return `${value}`;
+                        }
+                    }
+                },
                 {
                     data: 'name',
                     render: function(value, type, row) {
