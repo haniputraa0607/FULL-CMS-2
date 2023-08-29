@@ -646,7 +646,7 @@
     var count_product_service_use_ima = {{(empty($product_icount_use_ima) ? 1: count($product_icount_use_ima))}}
     var count_product_service_use_ims = {{(empty($product_icount_use_ims) ? 1: count($product_icount_use_ims))}}
     function addProductServiceUse(company) {
-        var html_select = '';
+        var html_select = ``;
         var delete_pro = '';
         var i_company = '';
         if(company == 'ima'){
@@ -654,7 +654,7 @@
             <?php
                 foreach($product_uses_ima as $row){
                 ?>
-                html_select += "<option value='<?php echo $row['id_product_icount']; ?>' data-units='<?php echo $row['units']; ?>' ><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>";
+                html_select += `<option value='<?php echo $row['id_product_icount']; ?>' data-units='<?php echo $row['units']; ?>' ><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>`;
                 <?php
                 }
                 ?>
@@ -665,7 +665,7 @@
             <?php
                 foreach($product_uses_ims as $row){
                 ?>
-                html_select += "<option value='<?php echo $row['id_product_icount']; ?>' data-units='<?php echo $row['units']; ?>' ><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>";
+                html_select += `<option value='<?php echo $row['id_product_icount']; ?>' data-units='<?php echo $row['units']; ?>' ><?php echo $row['code']; ?> - <?php echo $row['name']; ?></option>`;
                 <?php
                 }
             ?>
