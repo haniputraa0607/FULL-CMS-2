@@ -215,7 +215,7 @@
                     data : 'trasaction_payment_type',
                     className: "text-center",
                     render: function(value, type, row) {
-                    	if (value == 'Cash' && row.transaction_payment_status != 'Cancelled' && row.transaction_outlet_service.completed_at === null) {
+                    	if (value == 'Cash' && row.transaction_payment_status != 'Cancelled' && row.transaction_outlet_service.completed_at === null && row.cancel_cash == true) {
                             const buttons = [
                                 `<a class="btn red btn-sm" id="sweetalert-reject"  onClick="cancelPayment(${row.id_transaction},'${row.name}','${row.transaction_receipt_number}')">Cancel Payment</a>`
                             ];
