@@ -149,7 +149,7 @@
 				<form role="form" class="form-horizontal" action="{{url('recruitment/hair-stylist/default/overtime-day/update')}}" method="POST" enctype="multipart/form-data">
 					{{ csrf_field() }}
 					<div class="form-body">
-						<input type="hidden" name="id_hairstylist_group_default_overtimes" value="{{$result['id_hairstylist_group_default_overtimes']}}">
+						<input type="hidden" name="id_hairstylist_group_default_overtime_day" value="{{$result['id_hairstylist_group_default_overtime_day']}}">
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">Days<span class="required" aria-required="true">*</span>
                                             <i class="fa fa-question-circle tooltips" data-original-title="Jumlah hari jam kelebihan" data-container="body"></i>

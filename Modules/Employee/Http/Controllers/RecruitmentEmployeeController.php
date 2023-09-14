@@ -267,6 +267,7 @@ class RecruitmentEmployeeController extends Controller
     }
     public function contact_create(Request $request,$id){
         $post = $request->except('_token');
+        $id = MyHelper::createSlug($id,date('Y-m-d H:i:s'));
         $update = MyHelper::post('employee/be/profile/emergency/create',$post);
         if(isset($update['status']) && $update['status'] == 'success'){
             return redirect('employee/recruitment/detail/'.$id.'#contact')->withSuccess(['Success create contact data']);

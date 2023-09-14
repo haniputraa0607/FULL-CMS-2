@@ -187,8 +187,8 @@
                                                 <td style="text-align: center;">{{$dt['days']}}</td>
                                                 <td style="text-align: center;">{{"Rp " . number_format($dt['value']??0,2,',','.')}}</td>
                                                 <td style="text-align: center;">
-                                                   <a href="{{ url('recruitment/hair-stylist/default/overtime/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
-                                                   <a class="btn btn-sm red btn-primary" href="{{url('recruitment/hair-stylist/default/overtime/delete/'.$dt['id_enkripsi'])}}"><i class="fa fa-trash-o"></i> Delete</a>
+                                                   <a href="{{ url('recruitment/hair-stylist/default/overtime-day/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-search"></i> Detail</a>
+                                                   <a class="btn btn-sm red btn-primary" href="{{url('recruitment/hair-stylist/default/overtime-day/delete/'.$dt['id_enkripsi'])}}"><i class="fa fa-trash-o"></i> Delete</a>
                                                 </td>
                                             </tr>
                                         @endforeach
