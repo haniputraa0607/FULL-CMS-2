@@ -449,6 +449,17 @@
 								</div>
 							</div>
 						</div>
+                                            <div class="form-group">
+							<div class="input-icon right">
+								<label class="col-md-2 control-label">
+									Description
+									<i class="fa fa-question-circle tooltips" data-original-title="Deskripsi dari pengumuman" data-container="body"></i>
+								</label>
+							</div>
+							<div class="col-md-10">
+								<textarea placeholder="Announcement Description" class="form-control" name="description" id="description" autocomplete="off" required>{{ $ann['description'] ?? null }}</textarea>
+							</div>
+						</div>
 					</div>
 					<div class="form-actions">
 						{{ csrf_field() }}
