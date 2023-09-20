@@ -165,10 +165,10 @@
         <div class="tabbable-line tabbable-full-width">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="#overview" data-toggle="tab">Category File</a>
+                    <a href="#overview" data-toggle="tab">Category Perubahan Data</a>
                 </li>
                 <li>
-                    <a href="#create" data-toggle="tab">Create Category File</a>
+                    <a href="#create" data-toggle="tab">Create Category Perubahan Data</a>
                 </li>
             </ul>
             <div class="tab-content">

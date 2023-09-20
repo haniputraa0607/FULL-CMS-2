@@ -18,7 +18,7 @@ class EmployeeAnnouncementController extends Controller
             'menu_active'    	=> 'employee',
             'submenu_active' 	=> 'employee-announcement',
             'child_active' 		=> 'employee-announcement-create',
-            'filter_title'   	=> 'Filter Employee',
+            'filter_title'   	=> 'Rules Condition Announcement',
             'hide_search_button'=> 1,
             'without_form'		=> 1
         ];
@@ -139,7 +139,7 @@ class EmployeeAnnouncementController extends Controller
             'menu_active'    	=> 'employee',
             'submenu_active' 	=> 'employee-announcement',
             'child_active' 		=> 'employee-announcement-list',
-            'filter_title'   	=> 'Filter Employee',
+            'filter_title'   	=> 'Rules Condition Announcement',
             'hide_search_button'=> 1,
             'without_form'		=> 1,
             'hide_record_total' => 1
