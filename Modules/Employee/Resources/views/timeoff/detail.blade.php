@@ -569,7 +569,10 @@
                                             {{ csrf_field() }}
                                             <div class="row">
                                                 <div class="col-md-12 text-center">
-                                                    @if($result['status'] == 'Pending' && (!isset($result['approve_by']) && !isset($result['reject_at'])) && $this_user == 1)
+                                                    @if(session('level') == 'Super Admin')
+                                                         <a onclick="submitTimeOff('submit','update-time-off-1')" class="btn blue" @if(isset($result['approve_by']) || isset($result['reject_at']) || $this_user != 1) disabled @endif>Submit</a>
+                                                        <a onclick="rejectTimeOff('Manager Approved')" id="approve" class="btn red reject">Reject</a>
+                                                    @elseif($result['status'] == 'Pending' && (!isset($result['approve_by']) && !isset($result['reject_at'])) && $this_user == 1)
                                                         <a onclick="submitTimeOff('submit','update-time-off-1')" class="btn blue" @if(isset($result['approve_by']) || isset($result['reject_at']) || $this_user != 1) disabled @endif>Submit</a>
                                                         <a onclick="rejectTimeOff('Manager Approved')" id="approve" class="btn red reject">Reject</a>
                                                     @endif
@@ -625,7 +628,10 @@
                                             {{ csrf_field() }}
                                             <div class="row">
                                                 <div class="col-md-12 text-center">
-                                                    @if($result['status'] == 'Manager Approved' && (!isset($result['approve_by']) && !isset($result['reject_at'])) && $this_user == 2)
+                                                     @if(session('level') == 'Super Admin')
+                                                      <a onclick="submitTimeOff('submit','update-time-off-2')" class="btn blue" @if(isset($result['approve_by']) || isset($result['reject_at']) || $this_user != 2) disabled @endif>Submit</a>
+                                                        <a onclick="rejectTimeOff('HRGA Approved')" id="approve" class="btn red reject">Reject</a>
+                                                     @elseif($result['status'] == 'Manager Approved' && (!isset($result['approve_by']) && !isset($result['reject_at'])) && $this_user == 2)
                                                         <a onclick="submitTimeOff('submit','update-time-off-2')" class="btn blue" @if(isset($result['approve_by']) || isset($result['reject_at']) || $this_user != 2) disabled @endif>Submit</a>
                                                         <a onclick="rejectTimeOff('HRGA Approved')" id="approve" class="btn red reject">Reject</a>
                                                     @endif
