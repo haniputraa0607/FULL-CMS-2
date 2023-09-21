@@ -887,9 +887,20 @@
                                             {{ csrf_field() }}
                                             <div class="row">
                                                 <div class="col-md-12 text-center">
-                                                    @if($result['status'] == 'Manager Approved' && (!isset($result['approve_by']) && !isset($result['reject_at'])) && $this_user == 2)
+<!--                                                    @if($result['status'] == 'Manager Approved' && (!isset($result['approve_by']) && !isset($result['reject_at'])) && $this_user == 2)
                                                         <a onclick="submitOvertime('submit','update-overtime-2')" class="btn blue" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>Submit</a>
                                                         <a onclick="rejectOvertime('HRGA Approved')" class="btn red reject">Reject</a>
+                                                    @endif-->
+                                                    @if(session('level') == 'Super Admin')
+                                                        <a onclick="submitOvertime('submit','update-overtime-2')" class="btn blue" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>Submit</a>
+                                                        <a onclick="rejectOvertime('HRGA Approved')" class="btn red reject">Reject</a>
+                                                    @else
+                                                        @if(MyHelper::hasAccess([529], $grantedFeature))
+                                                            <a onclick="submitOvertime('submit','update-overtime-2')" class="btn blue" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>Submit</a>
+                                                            <a onclick="rejectOvertime('HRGA Approved')" class="btn red reject">Reject</a>
+                                                        @else
+                                                            Hanya hak akses HRGA yang dapat merubah data 
+                                                        @endif
                                                     @endif
                                                 </div>
                                             </div>
