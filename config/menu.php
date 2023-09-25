@@ -861,7 +861,7 @@ return [
                                             'children' => [
                                                         [
                                                             'label' => 'List Request',
-                                                            'required_features' => [481],
+                                                            'required_features' => [515],
                                                             'active' => '\View::shared("child_active") == "employee-reimbursement-pending"',
                                                             'url' => 'employee/reimbursement',
                                                             'badge'=>[
@@ -871,13 +871,13 @@ return [
                                                         ],
                                                         [
                                                             'label' => 'List History',
-                                                            'required_features' => [481],
+                                                            'required_features' => [515],
                                                             'active' => '\View::shared("child_active") == "employee-reimbursement-history"',
                                                             'url' => 'employee/reimbursement/list'
                                                         ],
                                                         [
                                                             'label' => 'Setting Product Icount',
-                                                            'required_features' => [481],
+                                                            'required_features' => [515],
                                                             'active' => '\View::shared("child_active") == "employee-reimbursement-product-icount"',
                                                             'url' => 'employee/reimbursement/setting'
                                                         ],
@@ -907,7 +907,7 @@ return [
                                                         ],
                                                         [
                                                                 'label' => 'Response',
-                                                                'required_features' => [481],
+                                                                'required_features' => [515],
                                                                 'active' => '\View::shared("child_active") == "employee-reimbursement-autoresponse"',
                                                                 'children' => [
                                                                        
@@ -943,7 +943,7 @@ return [
                                             'children' => [
                                                         [
                                                             'label' => 'List Request',
-                                                            'required_features' => [481],
+                                                            'required_features' => [553],
                                                             'active' => '\View::shared("child_active") == "employee-cash-advance-pending"',
                                                             'url' => 'employee/cash-advance',
                                                             'badge'=>[
@@ -953,13 +953,13 @@ return [
                                                         ],
                                                         [
                                                             'label' => 'List History',
-                                                            'required_features' => [481],
+                                                            'required_features' => [553],
                                                             'active' => '\View::shared("child_active") == "employee-cash-advance-history"',
                                                             'url' => 'employee/cash-advance/list'
                                                         ],
                                                         [
                                                             'label' => 'Setting Product Icount',
-                                                            'required_features' => [481],
+                                                            'required_features' => [553],
                                                             'active' => '\View::shared("child_active") == "employee-cash-advance-product-icount"',
                                                             'url' => 'employee/cash-advance/setting'
                                                         ],
@@ -983,7 +983,7 @@ return [
                                                         ],
                                                         [
                                                                 'label' => 'Response',
-                                                                'required_features' => [481],
+                                                                'required_features' => [553],
                                                                 'active' => '\View::shared("child_active") == "employee-cash-advance-autoresponse"',
                                                                 'children' => [
                                                                        
