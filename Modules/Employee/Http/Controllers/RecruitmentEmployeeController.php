@@ -111,7 +111,7 @@ class RecruitmentEmployeeController extends Controller
            $data['departments'] = MyHelper::post('users/department',$request->all())['result']??[];
           return view('employee::employee.detail', $data);
         }else{
-            return redirect('employee/recruitment/candidate')->withErrors($store['messages']??['Failed get detail candidate']);
+            return redirect('employee/recruitment')->withErrors($store['messages']??['Failed get detail candidate']);
         }
     }
     public function candidate(Request $request){
