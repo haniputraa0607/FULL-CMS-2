@@ -142,6 +142,7 @@ $grantedFeature     = session('granted_features');
                             <th class="text-nowrap text-center">Phone</th>
                             <th class="text-nowrap text-center">Email</th>
                             <th class="text-nowrap text-center">Manager</th>
+                            <th class="text-nowrap text-center">Role</th>
                             @if(MyHelper::hasAccess([339,340,341], $grantedFeature))
                             <th class="text-nowrap text-center">Action</th>
                             @endif
@@ -155,6 +156,7 @@ $grantedFeature     = session('granted_features');
                                     <td>{{$dt['phone']}}</td>
                                     <td>{{$dt['email']}}</td>
                                     <td>{{$dt['manager_name']}}</td>
+                                    <td>{{$dt['role_name']??null}}</td>
                                     <td> 
                                         @if($dt['status']=='Process')
                                         <a href="{{ url('employee/recruitment/detail/'.$dt['id_enkripsi']) }}" class="btn btn-sm blue text-nowrap"><i class="fa fa-pencil"></i> Edit</a>

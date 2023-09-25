@@ -882,7 +882,7 @@ return [
                                                             'url' => 'employee/reimbursement/setting'
                                                         ],
                                                         [
-                                                                'label' => 'Reimbursement Employee',
+                                                                'label' => 'Manager Reimbursement',
                                                                 'required_features' => [],
                                                                 'url' => 'employee/reimbursement/manager',
                                                                 'active' => '\View::shared("child_active") == "employee-reimbursement-manager"',
