@@ -140,6 +140,45 @@
                                         </select>
 				</div>
 			</div>
+                        @else
+                        <div class="form-group">
+				<label  class="control-label col-md-4">Office
+                                    <span class="required" aria-required="true"> * </span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Kantor tempat employee ditugaskan" data-container="body"></i>
+				</label>
+				<div class="col-md-6">
+                                    <select onchange="manager()" disabled id="id_outlet" name="id_outlet" class="form-control input-sm select2" data-placeholder="Search Office" required>
+                                                <option></option>
+                                                @foreach($outlets as $key => $val)
+                                                    <option value="{{ $val['id_outlet'] }}" @if($detail['id_outlet']==$val['id_outlet']) selected @endif>{{ $val['outlet_code'] }} - {{ $val['outlet_name'] }}</option>
+                                                @endforeach
+                                            </select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label  class="control-label col-md-4">Role
+                                    <span class="required" aria-required="true"> * </span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Jabatan employee" data-container="body"></i>
+				</label>
+				<div class="col-md-6">
+					<select onchange="manager()" disabled name="id_role" id="id_role" class="form-control input-sm select2" data-placeholder="Search Role" required>
+                                            <option></option>
+                                            @foreach($roles as $key => $val)
+                                                <option value="{{ $val['id_role'] }}" @if($detail['id_role']==$val['id_role']) selected @endif >{{ $val['role_name'] }}</option>
+                                            @endforeach
+                                        </select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label  class="control-label col-md-4">Manager
+				<span class="required" aria-required="true" id="required_manager"> * </span>
+                                    <i class="fa fa-question-circle tooltips" data-original-title="Manager dalam satu kantor sesuai jabatan atau role dari employee" data-container="body"></i>
+				</label>
+				<div class="col-md-6">
+				    <input type="text" id="start" class="form-control" value="{{$detail['manager_name']??null}}" disabled>
+
+				</div>
+			</div>
                         @endif
 		</div>
 		<input type="hidden" name="action_type" id="action_type_approve" value="Approved">

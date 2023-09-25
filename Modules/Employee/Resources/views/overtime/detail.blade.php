@@ -829,9 +829,15 @@
                                             {{ csrf_field() }}
                                             <div class="row">
                                                 <div class="col-md-12 text-center">
-                                                    @if($result['status'] == 'Pending' && (!isset($result['approve_by']) && !isset($result['reject_at'])))
-                                                        <a onclick="submitOvertime('submit','update-overtime-1')" class="btn blue" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>Submit</a>
+                                                   
+                                                    @if(session('level') == 'Super Admin')
+                                                          <a onclick="submitOvertime('submit','update-overtime-1')" class="btn blue" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>Submit</a>
                                                         <a onclick="rejectOvertime('Manager Approved')" class="btn red reject">Reject</a>
+                                                    @else
+                                                        @if(MyHelper::hasAccess([529], $grantedFeature))
+                                                              <a onclick="submitOvertime('submit','update-overtime-1')" class="btn blue" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>Submit</a>
+                                                        <a onclick="rejectOvertime('Manager Approved')" class="btn red reject">Reject</a>
+                                                        @endif
                                                     @endif
                                                 </div>
                                             </div>
