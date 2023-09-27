@@ -830,7 +830,7 @@
                                             <div class="row">
                                                 <div class="col-md-12 text-center">
                                                    
-                                                    @if(session('level') == 'Super Admin')
+<!--                                                    @if(session('level') == 'Super Admin')
                                                           <a onclick="submitOvertime('submit','update-overtime-1')" class="btn blue" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>Submit</a>
                                                         <a onclick="rejectOvertime('Manager Approved')" class="btn red reject">Reject</a>
                                                     @else
@@ -838,6 +838,15 @@
                                                               <a onclick="submitOvertime('submit','update-overtime-1')" class="btn blue" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>Submit</a>
                                                         <a onclick="rejectOvertime('Manager Approved')" class="btn red reject">Reject</a>
                                                         @endif
+                                                    @endif-->
+                                                    @if(session('level') == 'Super Admin')
+                                                          <a onclick="submitOvertime('submit','update-overtime-1')" class="btn blue" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>Submit</a>
+                                                        <a onclick="rejectOvertime('Manager Approved')" class="btn red reject">Reject</a>
+                                                    @elseif($result['status'] == 'Pending' && (!isset($result['approve_by']) && !isset($result['reject_at'])) && $this_user == 1)
+                                                        <a onclick="submitOvertime('submit','update-overtime-1')" class="btn blue" @if(isset($result['approve_by']) || isset($result['reject_at'])) disabled @endif>Submit</a>
+                                                        <a onclick="rejectOvertime('Manager Approved')" class="btn red reject">Reject</a>
+                                                    @else
+                                                        Hanya Manager yang dapat merubah data
                                                     @endif
                                                 </div>
                                             </div>
