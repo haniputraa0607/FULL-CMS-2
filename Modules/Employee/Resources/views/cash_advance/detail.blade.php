@@ -309,19 +309,19 @@
                                     <div class="col-md-4">
                                             <ul class="ver-inline-menu tabbable margin-bottom-10">
                                                     <li @if($data['status'] == 'Pending') class="active" @endif>
-                                                            <a @if(in_array($data['status'], ['Rejected','Pending','Manager Approval','HRGA/Direktur Approval','Finance Approval','Approve','Success'])) data-toggle="tab" href="#manager" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> 
+                                                            <a @if(in_array($data['status'], ['Rejected','Pending','Manager Approval','HRGA/Direktur Approval','Finance Approval','Realisasi','Approve','Success'])) data-toggle="tab" href="#manager" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> 
                                                                 Manager Approval</a>
                                                     </li>
                                                     <li @if($data['status'] == 'Manager Approval') class="active" @endif>
-                                                            <a @if(in_array($data['status'], ['Rejected','Manager Approval','HRGA/Direktur Approval','Finance Approval','Approve','Success'])) data-toggle="tab" href="#director" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> 
+                                                            <a @if(in_array($data['status'], ['Rejected','Manager Approval','HRGA/Direktur Approval','Realisasi','Finance Approval','Approve','Success'])) data-toggle="tab" href="#director" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> 
                                                                 Director/HRGA Approval</a>
                                                     </li>
                                                     <li @if($data['status'] == 'HRGA/Direktur Approval') class="active" @endif>
-                                                            <a  @if(in_array($data['status'], ['Rejected','HRGA/Direktur Approval','Finance Approval','Approve','Success'])) data-toggle="tab" href="#fat" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> 
+                                                            <a  @if(in_array($data['status'], ['Rejected','HRGA/Direktur Approval','Realisasi','Finance Approval','Approve','Success'])) data-toggle="tab" href="#fat" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> 
                                                                 Finance Approval</a>
                                                     </li>
                                                     <li @if($data['status'] == 'Finance Approval') class="active" @endif>
-                                                            <a  @if(in_array($data['status'], ['Rejected','Finance Approval','Approve','Success'])) data-toggle="tab" href="#approved" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> 
+                                                            <a  @if(in_array($data['status'], ['Rejected','Finance Approval','Realisasi','Approve','Success'])) data-toggle="tab" href="#approved" @else style="opacity: 0.4 !important;pointer-events: none;" @endif><i class="fa fa-cog"></i> 
                                                                 Realisasi</a>
                                                     </li>
                                                     <li @if($data['status']== 'Rejected'||$data['status']== 'Realisasi'||$data['status']== 'Approve'||$data['status']== 'Success') class="active" @endif >
