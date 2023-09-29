@@ -396,9 +396,9 @@ class EmployeeCashAdvanceController extends Controller
         $post['id_employee_cash_advance'] = $id;
         $post = MyHelper::post('employee/be/cash-advance/icount',$post);
         if(isset($post['status']) && $post['status'] == 'success'){
-            return redirect('employee/cash-advance/detail/'.$id.'#approved')->withSuccess(['Success icount update']);
+            return back()->withSuccess(['Success icount update']);
         }else{
-            return redirect('employee/cash-advance/detail/'.$id.'#approved')->withErrors($post['messages']??['Failed request icount']);
+            return back()->withErrors($post['messages']??['Failed request icount']);
         }
     }
     public function setting(Request $request){
