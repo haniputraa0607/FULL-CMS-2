@@ -374,7 +374,15 @@
                                                            
                                                     </div>
                                                     <div class="tab-pane @if($data['status'] == 'Finance Approval') active @endif" id="approved">
-                                                           @include('employee::cash_advance.form_approved')
+                                                          @if(isset($dataDoc['Director Approved']))
+                                                            @include('employee::cash_advance.form_approved')
+                                                           @else
+                                                            @if(MyHelper::hasAccess([555], $grantedFeature)||session('level')=="Super Admin")
+                                                            @include('employee::cash_advance.form_approved')
+                                                            @else
+                                                            Tidak ada akses untuk approval
+                                                            @endif
+                                                           @endif
                                                            
                                                     </div>
                                                     <div class="tab-pane @if($data['status']== 'Rejected'||$data['status']== 'Realisasi'||$data['status']== 'Approve'||$data['status']== 'Success') active @endif " id="realisasi">
