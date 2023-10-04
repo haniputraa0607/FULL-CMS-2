@@ -302,7 +302,7 @@ class EmployeeCashAdvanceController extends Controller
         if(isset($post['page'])){
             $page = '?page='.$post['page'];
         }
-       $list = MyHelper::post('employee/be/cash_advance'.$page, $post);
+       $list = MyHelper::post('employee/be/cash-advance'.$page, $post);
          $vas = array();
        foreach ($list['result']['data']??[] as $value){
             $value['id_enkripsi'] = MyHelper::createSlug($value['id_employee_cash_advance'],date('Y-m-d H:i:s'));
