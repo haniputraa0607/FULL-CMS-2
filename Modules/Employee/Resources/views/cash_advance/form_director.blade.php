@@ -49,7 +49,7 @@
 		@if(!isset($dataDoc['HRGA/Direktur Approval']))
 		<div class="row" style="text-align: center">
 			{{ csrf_field() }}
-			@if(in_array($data['status'], ['Manager Approval'])&&MyHelper::hasAccess([528], $grantedFeature))
+			@if(in_array($data['status'], ['Manager Approval'])&&MyHelper::hasAccess([528,529], $grantedFeature))
                            <a class="btn red save" data-name="{{ $data['name'] }}" data-status="Rejected" data-form="approve">Reject</a>
                            <button class="btn blue">Submit</button>
                         @endif
