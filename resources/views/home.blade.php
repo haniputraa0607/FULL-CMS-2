@@ -59,6 +59,138 @@
 				"scrollY": 150,
         });
 	</script>
+            <script type="text/javascript">
+    $(document).ready(function () {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        var datas = '';
+        var datass = '';
+        $.ajax({
+                type: "get",
+                url: "{{ url('home/user') }}",
+                dataType: 'json',
+                cache: false,
+                success: function(data) {
+                    $.each(data.dashboard_card, function( key, value ) {
+                         if(value.card_name == "Total Transaction Count"){
+                            icon = '<i class="fa fa-check-square"></i>';    
+                            }else if(value.card_name == "Total Transaction Value"){
+                             icon = '<i class="fa fa-check-square"></i>';
+                            }else if(value.card_name == "Average Transaction"){
+                             icon = '<i class="fa fa-money"></i>';    
+                            }else if(value.card_name == "Average per Day"){
+                             icon = '<i class="fa fa-balance-scale"></i>';
+                            }else if(value.card_name == "New Customer"){
+                             icon = '<i class="fa fa-user-plus"></i>';
+                            }else if(value.card_name == "Total IOS Customer"){
+                             icon = '<i class="fa fa-apple"></i>';
+                            }else if(value.card_name == "Total Android Customer"){
+                                 icon = '<i class="fa fa-android"></i>';
+                            }else if(value.card_name == "Total Male Customer"){
+                                 icon = '<i class="fa fa-male"></i>';
+                            }else if(value.card_name == "Total Female Customer"){
+                                 icon = '<i class="fa fa-female"></i>';
+                            }else if(value.card_name == "Total Customer Not Verified"){
+                                 icon = '<i class="fa fa-times-circle"></i>';
+                            }else if(value.card_name == 'Total Customer' || value.card_name == 'Total User'){
+                                 icon = '<i class="fa fa-users"></i>';
+                            }else if(value.card_name == "Total Customer Subscribed"){
+                                 icon = '<i class="fa fa-lock"></i>';
+                            }else if(value.card_name == "Total Customer Unsubscribed"){
+                                 icon = '<i class="<i class="fa fa-unlock"></i>"></i>';
+                            }else{
+                                 icon = '<i class="fa fa-balance-scale"></i>';
+                            }
+                        datas += '<div class="col-md-4" style="margin-top:20px">\n\
+                                    <div class="dashboard-stat grey">\n\
+                                        <div class="visual">\n\
+                                            '+icon+'\n\
+                                        </div>\n\
+                                        <div class="details">\n\
+                                            <div class="number">\n\
+                                                <span data-counter="counterup" data-value="'+value.value+'">'+value.value+'</span>\n\
+                                            </div>\n\
+                                            <div class="desc">'+value.card_name+'</div>\n\
+                                        </div>\n\
+                                        <a class="more" href="'+value.url+'">'+value.text+'<i class="m-icon-swapright m-icon-white"></i></a>\n\
+                                    </div>\n\
+                                   </div>'
+                    });
+                    if(datas){
+                     $('#user').html(datas)
+                    }
+                 $('#users').html(data.section_title)
+                },
+                error: function(data) {
+                    console.log('gagal')
+                }
+            });
+        
+        $.ajax({
+                type: "get",
+                url: "{{ url('home/transaction') }}",
+                dataType: 'json',
+                cache: false,
+                success: function(data) {
+                    $.each(data.dashboard_card, function( key, value ) {
+                         if(value.card_name == "Total Transaction Count"){
+                            icon = '<i class="fa fa-check-square"></i>';    
+                            }else if(value.card_name == "Total Transaction Value"){
+                             icon = '<i class="fa fa-check-square"></i>';
+                            }else if(value.card_name == "Average Transaction"){
+                             icon = '<i class="fa fa-money"></i>';    
+                            }else if(value.card_name == "Average per Day"){
+                             icon = '<i class="fa fa-balance-scale"></i>';
+                            }else if(value.card_name == "New Customer"){
+                             icon = '<i class="fa fa-user-plus"></i>';
+                            }else if(value.card_name == "Total IOS Customer"){
+                             icon = '<i class="fa fa-apple"></i>';
+                            }else if(value.card_name == "Total Android Customer"){
+                                 icon = '<i class="fa fa-android"></i>';
+                            }else if(value.card_name == "Total Male Customer"){
+                                 icon = '<i class="fa fa-male"></i>';
+                            }else if(value.card_name == "Total Female Customer"){
+                                 icon = '<i class="fa fa-female"></i>';
+                            }else if(value.card_name == "Total Customer Not Verified"){
+                                 icon = '<i class="fa fa-times-circle"></i>';
+                            }else if(value.card_name == 'Total Customer' || value.card_name == 'Total User'){
+                                 icon = '<i class="fa fa-users"></i>';
+                            }else if(value.card_name == "Total Customer Subscribed"){
+                                 icon = '<i class="fa fa-lock"></i>';
+                            }else if(value.card_name == "Total Customer Unsubscribed"){
+                                 icon = '<i class="<i class="fa fa-unlock"></i>"></i>';
+                            }else{
+                                 icon = '<i class="fa fa-balance-scale"></i>';
+                            }
+                        datass += '<div class="col-md-4" style="margin-top:20px">\n\
+                                    <div class="dashboard-stat grey">\n\
+                                        <div class="visual">\n\
+                                            '+icon+'\n\
+                                        </div>\n\
+                                        <div class="details">\n\
+                                            <div class="number">\n\
+                                                <span data-counter="counterup" data-value="'+value.value+'">'+value.value+'</span>\n\
+                                            </div>\n\
+                                            <div class="desc">'+value.card_name+'</div>\n\
+                                        </div>\n\
+                                        <a class="more" href="'+value.url+'">'+value.text+'<i class="m-icon-swapright m-icon-white"></i></a>\n\
+                                    </div>\n\
+                                   </div>'
+                    });
+                    if(datass){
+                     $('#transaction').html(datass)
+                    }
+                 $('#transactions').html(data.section_title)
+                },
+                error: function(data) {
+                    console.log('gagal')
+                }
+            });
+    });
+</script>
 @endsection
 
 @section('content')
@@ -165,199 +297,38 @@
 					</div>
 				</div>
 			</div>
-
-			@if(isset($dashboard['dashboard']) && !empty($dashboard['dashboard']))
-				@foreach ($dashboard['dashboard'] as $item)
-					<div class="portlet box blue">
-						<div class="portlet-title">
-							<div class="caption">
-								<i class="glyphicon glyphicon-stats"></i>
-								<span class="caption-subject bold">
-									{{$item['section_title']}}
-								</span>
-							</div>
+                            <div class="portlet box blue">
+                                    <div class="portlet-title">
+                                            <div class="caption">
+                                                    <i class="glyphicon glyphicon-stats"></i>
+                                                    <span class="caption-subject bold">
+                                                        <div id="transactions"></div>
+                                                    </span>
+                                            </div>
+                                    </div>
+                                    <div class="portlet-body">
+                                            <div class="row">
+                                                <div id="transaction"></div>
+                                            </div>
+                                    </div>
+                            </div>
+                            <div class="portlet box blue">
+                                    <div class="portlet-title">
+                                            <div class="caption">
+                                                    <i class="glyphicon glyphicon-stats"></i>
+                                                    <span class="caption-subject bold">
+                                                        <div id="users"></div>
+                                                    </span>
+                                            </div>
+                                    </div>
+                                    <div class="portlet-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+						 <div id="user"></div>	
 						</div>
-						<div class="portlet-body">
-							<div class="row">
-								<div class="col-md-12">
-									@foreach ($item['dashboard_card'] as $card)
-										@if(strpos($card['card_name'], 'Top 10') !== false)
-										<div class="col-lg-12 col-xs-12 col-sm-12" style="margin-bottom:0;margin-top:20px">
-											<div class="portlet light bordered">
-												<div class="portlet-title">
-													<div class="caption">
-														<i class="icon-share font-red-sunglo hide"></i>
-														<span class="caption-subject font-dark bold uppercase">{{$card['card_name']}}</span>
-													</div>
-												</div>
-												<div class="portlet-body">
-													@if(strpos($card['card_name'], 'Table') !== false)
-														<table class="table table-striped table-bordered table-hover order-column sample" style="margin-bottom:0">
-															@if (!empty($card['value']))
-																<thead>
-																	<tr>
-																		@php $head = array_keys($card['value'][0]); @endphp
-																		@foreach(array_keys($card['value'][0]) as $header)
-																			@if($header != 'id')
-																				<th> {{ ucfirst(str_replace('_', ' ', $header)) }} </th>
-																			@endif
-																		@endforeach
-																		<th>action</th>
-																	</tr>
-																</thead>
-																<tbody>
-																	@foreach($card['value'] as $value)
-																		<tr>
-																			@foreach($value as $q => $v)
-																				@if($q != 'id')
-																					@if(is_numeric($v) && substr($v, 0, 1) != '0')
-																					<td>{{ number_format($v,0,',','.') }}</td>
-																					@else
-																					<td>{{ $v }}</td>
-																					@endif
-																				@endif
-																			@endforeach
-																			<td>
-																				<a class="btn btn-block yellow btn-xs"
-																					@if(strpos($card['card_name'], 'User') !== false || strpos($card['card_name'], 'Customer') !== false)
-																						href="{{ url('report/customer/detail/'.$value[$head[1]].'/transactions') }}">
-																					@elseif(strpos($card['card_name'], 'Product') !== false)
-																						href="{{ url('report/product/detail/'.$value[$head[1]].'/'.$card['url']) }}">
-																					@elseif(strpos($card['card_name'], 'Outlet') !== false)
-																						href="{{ url('report/outlet/detail/'.$value[$head[1]].'/'.$card['url']) }}">
-																					@endif
-																					<i class="icon-pencil"></i>
-																					Detail
-																				</a>
-																			</td>
-																		</tr>
-																	@endforeach
-																</tbody>
-															@endif
-														</table>
-													@else
-														<div id="chart-{{$card['id_dashboard_card']}}" class="chartdiv"></div>
-														@if(!empty($card['value']))
-														<script type="text/javascript">
-															<?php
-																$header = array_keys($card['value'][0]);
-															?>
-															<?php $dataGraphic =  json_encode($card['value']); ?>
-															var chart = AmCharts.makeChart("chart-{{$card['id_dashboard_card']}}", {
-															"type": "serial",
-															"theme": "light",
-															"marginRight": 70,
-															"dataProvider": {!! $dataGraphic !!},
-															"startDuration": 1,
-															"graphs": [{
-																"balloonText": "<b>[[category]]: [[value]]</b>",
-																"fillAlphas": 0.9,
-																"lineAlpha": 0.2,
-																"type": "column",
-																"valueField": "{{end($header)}}",
-																"autoColor": true
-															}],
-															"chartCursor": {
-																"categoryBalloonEnabled": false,
-																"cursorAlpha": 0,
-																"zoomable": false
-															},
-															"categoryField": "{{$header[0]}}",
-															"categoryAxis": {
-																"gridPosition": "start",
-																"labelRotation": 45
-															},
-															"export": {
-																"enabled": true
-															}
-
-															});
-														</script>
-														@endif
-													@endif
-												</div>
-											</div>
-										</div>
-										@else
-											<div class="col-md-4" style="margin-top:20px">
-												<div class="dashboard-stat grey">
-													<div class="visual">
-														@if($card['card_name'] == 'Total Transaction Count')
-															<i class="fa fa-check-square"></i>
-														@elseif($card['card_name'] == 'Total Transaction Value')
-															<i class="fa fa-money"></i>
-														@elseif($card['card_name'] == 'Average Transaction')
-															<i class="fa fa-balance-scale"></i>
-														@elseif($card['card_name'] == 'Average Transaction per Day')
-															<i class="fa fa-calculator"></i>
-														@elseif($card['card_name'] == 'New Customer')
-															<i class="fa fa-user-plus"></i>
-														@elseif($card['card_name'] == 'Total IOS Customer')
-															<i class="fa fa-apple"></i>
-														@elseif($card['card_name'] == 'Total Android Customer')
-															<i class="fa fa-android"></i>
-														@elseif($card['card_name'] == 'Total Male Customer')
-															<i class="fa fa-male"></i>
-														@elseif($card['card_name'] == 'Total Female Customer')
-															<i class="fa fa-female"></i>
-														@elseif($card['card_name'] == 'Total Customer Not Verified')
-															<i class="fa fa-times-circle"></i>
-														@elseif($card['card_name'] == 'Total Customer' || $card['card_name'] == 'Total User')
-															<i class="fa fa-users"></i>
-														@elseif($card['card_name'] == 'Total Customer Subscribed')
-															<i class="fa fa-lock"></i>
-														@elseif($card['card_name'] == 'Total Customer Unsubscribed')
-															<i class="fa fa-unlock"></i>
-														@elseif(strpos($card['card_name'], 'Admin') !== false)
-															<i class="fa fa-user-secret"></i>
-														@else
-															<i class="fa fa-check-square"></i>
-														@endif
-													</div>
-													<div class="details">
-														<div class="number">
-															<span data-counter="counterup" data-value="{{$card['value']}}">{{number_format($card['value'], 0, '.', ',')}}</span> </div>
-														<div class="desc">
-															{{$card['card_name']}}
-														</div>
-													</div>
-
-													@if(strpos($card['card_name'], 'Customer') !== false || strpos($card['card_name'], 'Admin') !== false || strpos($card['card_name'], 'User') !== false)
-														<a class="more" href="{{url('report/customer/summary/?'.$card['url'])}}">
-															@if(strpos($card['card_name'], 'New') !== false )
-																Register Within {{$dashboard['daterange']}}
-															@else
-																@if(strpos($dashboard['daterange'], 'days') !== false || strpos($dashboard['daterange'], 'months') !== false || strpos($dashboard['daterange'], 'time') !== false)
-																	{{ str_replace('Total', '', $card['card_name']) }} (All Time)
-																@else
-																	{{ str_replace('Total', '', $card['card_name']) }} (Until {{$dashboard['daterange']}})
-																@endif
-															@endif
-															<i class="m-icon-swapright m-icon-white"></i>
-														</a>
-													@else
-														<a class="more"
-															@if(strpos($card['card_name'], 'Transaction') !== false )
-																href="{{url('report/global/?'.$card['url'])}}">
-																@if(strpos($dashboard['daterange'], 'months') !== false || strpos($dashboard['daterange'], 'days') !== false)
-																	Last {{$dashboard['daterange']}}
-																@else
-																	{{$dashboard['daterange']}}
-																@endif
-															@endif
-															<i class="m-icon-swapright m-icon-white"></i>
-														</a>
-													@endif
-												</div>
-											</div>
-										@endif
-									@endforeach
-								</div>
-							</div>
-						</div>
-					</div>
-				@endforeach
-		@endif
+                                            </div>
+                                    </div>
+                            </div>
 
 	</div>
 	<script>
@@ -372,6 +343,8 @@
 		window.location.href = lokasine;
 	}
 	</script>
+        
+
 	@endif
 
 @endsection

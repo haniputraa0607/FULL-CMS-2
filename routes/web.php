@@ -27,6 +27,8 @@ Route::group(['middleware' => 'web'], function(){
   Route::post('login', 'Controller@login');
   Route::group(['middleware' => 'validate_session'], function(){
     Route::get('home', 'Controller@getHome');
+    Route::get('home/user', 'Controller@getHomeUser');
+    Route::get('home/transaction', 'Controller@getHomeTransaction');
     Route::any('debugger', 'Controller@debugger');
     Route::any('fire/{path}', 'Controller@proxyAPI')->where(['path' => ".*"]);
     Route::get('home/{year}', 'Controller@getHome');

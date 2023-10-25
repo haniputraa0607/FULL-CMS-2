@@ -176,8 +176,7 @@ class Controller extends BaseController
 			}
 			$data['month'] = $month;
 			$data['year'] = $year;
-
-			if($month == null) $data['month'] = date('m');
+                        if($month == null) $data['month'] = date('m');
 
 			$dashboard = MyHelper::post('setting/dashboard', $data);
 			// dd($data);
@@ -192,10 +191,37 @@ class Controller extends BaseController
 			else{
 				$data['dashboard'] = "";
 			}
+            Session::put('home_page',$data);
             return view('home', $data);
         }
     }
+    function getHomeUser(Request $request, $year = null, $month = null){
+        $data = session('home_page');
+                    if($month == null) $data['month'] = date('m');
 
+                    $dashboard = MyHelper::post('setting/dashboard/user', $data);
+                    if(isset($dashboard['status']) && $dashboard['status'] == 'success'){
+                            $data = $dashboard['result'];
+                    }
+                    else{
+                            $data = "";
+                    }
+        return $data;
+    }
+    function getHomeTransaction(Request $request, $year = null, $month = null){
+        $data = session('home_page');
+                    if($month == null) $data['month'] = date('m');
+
+                    $dashboard = MyHelper::post('setting/dashboard/transaction', $data);
+                    // dd($data);
+                    if(isset($dashboard['status']) && $dashboard['status'] == 'success'){
+                            $data = $dashboard['result'];
+                    }
+                    else{
+                            $data = "";
+                    }
+        return $data;
+    }
 	function getProfile(Request $request){
 		if(empty(Session::get('secure'))){
 			$data = [ 'title'             => 'User',
