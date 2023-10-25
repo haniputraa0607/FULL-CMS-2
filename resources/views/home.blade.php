@@ -111,7 +111,7 @@
                                         </div>\n\
                                         <div class="details">\n\
                                             <div class="number">\n\
-                                                <span data-counter="counterup" data-value="'+value.value+'">'+value.value+'</span>\n\
+                                                <span data-counter="counterup" data-value="'+value.value+'">'+value.value_text+'</span>\n\
                                             </div>\n\
                                             <div class="desc">'+value.card_name+'</div>\n\
                                         </div>\n\
@@ -172,7 +172,7 @@
                                         </div>\n\
                                         <div class="details">\n\
                                             <div class="number">\n\
-                                                <span data-counter="counterup" data-value="'+value.value+'">'+value.value+'</span>\n\
+                                                <span data-counter="counterup" data-value="'+value.value+'">'+value.value_text+'</span>\n\
                                             </div>\n\
                                             <div class="desc">'+value.card_name+'</div>\n\
                                         </div>\n\
