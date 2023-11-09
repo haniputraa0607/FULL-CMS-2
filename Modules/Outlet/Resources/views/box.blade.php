@@ -1,6 +1,6 @@
 <form class="form-horizontal" id="form-outlet-box" role="form" action="{{ url('outlet/box/save') }}" method="post">
   <div class="form-body">
-  	@if(false)
+  	@if(true)
 	  <div class="form-group">
 		  <div class="col-md-4">
 			  <a class="btn btn-primary" onclick="addOutletBox()">&nbsp;<i class="fa fa-plus-circle"></i> Add Outlet Box </a>
@@ -12,7 +12,7 @@
 	  	<ul>
 	  		<li><b>%box_code%</b>: will be replaced with box code</li>
 	  		<li><b>%status%</b>: will be replaced with on/off status. on=1; off=0</li>
-	  	</ul>
+	  	</ul>$
 	  	Leave the box url empty to use the default url. default url: {{$default_box_url ?? 'Not Set'}}
 	  </div>
 	  <br>
